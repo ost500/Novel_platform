@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Userl;
 class NovelController extends Controller
 {
     /**
@@ -14,8 +13,6 @@ class NovelController extends Controller
     public function index(Request $request)
     {
         //
-       
-
     }
 
     /**
