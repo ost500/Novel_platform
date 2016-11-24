@@ -6,6 +6,15 @@ use Illuminate\Http\Request;
 class NovelController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -13,6 +22,8 @@ class NovelController extends Controller
     public function index(Request $request)
     {
         //
+       $user_novels= $request->user()->novels()->get();
+        dd($user_novels);
     }
 
     /**
