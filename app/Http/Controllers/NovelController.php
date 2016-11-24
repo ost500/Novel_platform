@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Novel;
 use Illuminate\Http\Request;
 class NovelController extends Controller
 {
@@ -22,8 +23,10 @@ class NovelController extends Controller
     public function index(Request $request)
     {
         //
-       $user_novels= $request->user()->novels()->get();
-        dd($user_novels);
+         $user_novels= $request->user()->novel()->get();
+        // $novel_group= $request->user()->novel_groups()->where('id',$user_novels->novel_group_id)->first();
+        return \Response::json($user_novels);
+       // dd($user_novels);
     }
 
     /**
@@ -56,6 +59,8 @@ class NovelController extends Controller
     public function show($id)
     {
         //
+        $novel=Novel::find($id);
+        return \Response::json($novel);
     }
 
     /**
