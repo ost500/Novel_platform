@@ -26,4 +26,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function novel_groups()
+    {
+        return $this->hasMany(NovelGroup::class);
+    }
 }
