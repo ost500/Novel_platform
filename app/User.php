@@ -31,4 +31,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(NovelGroup::class);
     }
+    public function novel()
+    {
+        return $this->hasMany(Novel::class);
+    }
 }
