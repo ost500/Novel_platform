@@ -10,4 +10,8 @@ class NovelGroup extends Model
     {
         return $this->hasMany(Novel::class);
     }
+    public function users()
+    {
+        return $this->belongsTo(User::class, 'id');
+    }
 }
