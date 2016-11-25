@@ -24,8 +24,8 @@ class NovelGroupController extends Controller
     public function index(Request $request)
     {
         //
-        $user_novel_groups= $request->user()->novel_groups()->get();
-        return \Response::json($user_novel_groups);
+        $novel_groups= $request->user()->novel_groups()->get();
+        return \Response::json($novel_groups);
     }
 
     /**
@@ -47,6 +47,7 @@ class NovelGroupController extends Controller
     public function store(Request $request)
     {
         //
+        $request->user()->novel_groups()->create($request->all());
     }
 
     /**
@@ -83,6 +84,7 @@ class NovelGroupController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $request->user()->novel_groups()->update($request->all())->where('id',$id);
     }
 
     /**
@@ -94,5 +96,7 @@ class NovelGroupController extends Controller
     public function destroy($id)
     {
         //
+        $novel_group=NovelGroup::find($id);
+        $novel_group->delete();
     }
 }

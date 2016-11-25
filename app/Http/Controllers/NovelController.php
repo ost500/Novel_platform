@@ -23,7 +23,7 @@ class NovelController extends Controller
     public function index(Request $request)
     {
         //
-         $user_novels= $request->user()->novel()->get();
+         $user_novels= $request->user()->novel_groups()->with('novels')->get();
         // $novel_group= $request->user()->novel_groups()->where('id',$user_novels->novel_group_id)->first();
         return \Response::json($user_novels);
        // dd($user_novels);
@@ -48,6 +48,7 @@ class NovelController extends Controller
     public function store(Request $request)
     {
         //
+        $request->user()->novel()->create($request->all());
     }
 
     /**
@@ -84,6 +85,7 @@ class NovelController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $request->user()->novel()->update($request->all())->where('id',$id);
     }
 
     /**
@@ -95,5 +97,7 @@ class NovelController extends Controller
     public function destroy($id)
     {
         //
+        $novel=Novel::find($id);
+        $novel->delete();
     }
 }
