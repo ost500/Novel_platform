@@ -20,6 +20,8 @@
 
     <!-- Scripts -->
     <script src="/plugins/pace/pace.min.js"></script>
+    <script src="/js/vue.js"></script>
+    <script src="/js/vue-resource.min.js"></script>
 
 
     <script>
@@ -413,6 +415,7 @@
 
 <script src="/js/ui-modals.js"></script>
 <script src="/js/ui-alerts.js"></script>
+
 
 
 </body>

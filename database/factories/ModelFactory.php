@@ -53,4 +53,16 @@ $factory->define(App\Novel::class, function (Faker\Generator $faker) {
     ];
 });
 
+$factory->define(App\Comment::class, function (Faker\Generator $faker) {
+    $userIds = App\User::pluck('id')->toArray();
+    $novelIds = App\Novel::pluck('id')->toArray();
+
+    return [
+        'user_id' => $faker->randomElement($userIds),
+        'novel_id' => $faker->randomElement($novelIds),
+        'parent_id' => 0,
+        'comment' => $faker->sentence,
+    ];
+});
+
 
