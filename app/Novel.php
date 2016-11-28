@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Novel whereContent($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Novel whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Novel whereUpdatedAt($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Comment[] $comments
  */
 class Novel extends Model
 {
@@ -35,5 +36,9 @@ class Novel extends Model
     public function novel_groups()
     {
         return $this->belongsTo(NovelGroup::class, 'id');
+    }
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 }

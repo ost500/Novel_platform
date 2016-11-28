@@ -39,7 +39,8 @@
                                             <td>
                                                 <table class="table-no-border" style="width:100%;">
                                                     <tr>
-                                                        <td><h4><a href="novel_inning_list.php">@{{ novel_group.title }}</a>
+                                                        <td><h4>
+                                                                <a href="novel_inning_list.php">@{{ novel_group.title }}</a>
                                                             </h4>
                                                         </td>
                                                     </tr>
@@ -61,94 +62,53 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <script>
-                                    var app4 = new Vue({
-                                        el: '#novel_list',
-                                        data: {
-                                            novel_groups: []
-                                        },
-                                        mounted: function () {
-                                            this.$http.get('{{ route('novels.index') }}')
-                                                    .then(function (response) {
-                                                        this.novel_groups = response.data;
-                                                    });
-                                        }
-                                    })
-                                </script>
+
+                                <div id="comment_list">
+                                    <div class="padding-top-10">
+                                        <h4>댓글 3</h4></div>
 
 
-                                <div class="padding-top-10"><h4>댓글 3</h4></div>
-
-
-                                <div class="novel-review">
-                                    <div class="review-write pad-all">
+                                    <div class="novel-review">
+                                        <div class="review-write pad-all">
                                         <textarea id="demo-textarea-input" rows="4" class="form-control inline"
                                                   style="width:50%" placeholder="댓글"></textarea>
-                                        <button class="btn btn-primary inline"
-                                                style="width:100px;height:83px; vertical-align:top;">등록
-                                        </button>
-                                    </div>
+                                            <button class="btn btn-primary inline"
+                                                    style="width:100px;height:83px; vertical-align:top;">등록
+                                            </button>
+                                        </div>
 
-                                    <div class="review">
-                                        <div>
-                                            <span class="nick">닉네임</span> 2016-11-10 00:00:00
-                                            <button class="btn btn-xs btn-pink">N</button>
+                                        <div v-for="my_comment in my_comments">
+                                            <div class="review">
+                                                <div>
+                                                    <span class="nick">@{{ my_comment.users.name }}</span> @{{ my_comment.created_at }}
+                                                    <button class="btn btn-xs btn-pink">N</button>
+                                                </div>
+                                                <div class="content">
+                                                    <span class="inning">8회</span> @{{ my_comment.comment }}
+                                                </div>
+                                                <div class="button">
+                                                    <button class="btn btn-xs btn-mint">답변</button>
+                                                    <button class="btn btn-xs btn-danger">신고</button>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="content">
-                                            <span class="inning">8회</span> 둘이 당췌 먼 사연인지는 모르지만 유부녀가 바에서 꽐라될때까지 술마신거나 속마음
-                                            터놓지도 못하는거나 답답합니다 고구마철이라고 고구마 두시는건지
+                                        <div class="review reply">
+                                            <div>
+                                                <span class="nick">닉네임</span> 2016-11-10 00:00:00
+                                                <button class="btn btn-xs btn-pink">N</button>
+                                            </div>
+                                            <div class="content">
+                                                <span class="inning">8회</span> 둘이 당췌 먼 사연인지는 모르지만 유부녀가 바에서 꽐라될때까지 술마신거나
+                                                속마음
+                                                터놓지도 못하는거나 답답합니다 고구마철이라고 고구마 두시는건지
+                                            </div>
+                                            <div class="button">
+                                                <button class="btn btn-xs btn-mint">답변</button>
+                                                <button class="btn btn-xs btn-danger">신고</button>
+                                            </div>
                                         </div>
-                                        <div class="button">
-                                            <button class="btn btn-xs btn-mint">답변</button>
-                                            <button class="btn btn-xs btn-danger">신고</button>
-                                        </div>
-                                    </div>
 
-                                    <div class="review reply">
-                                        <div>
-                                            <span class="nick">닉네임</span> 2016-11-10 00:00:00
-                                            <button class="btn btn-xs btn-pink">N</button>
-                                        </div>
-                                        <div class="content">
-                                            <span class="inning">8회</span> 둘이 당췌 먼 사연인지는 모르지만 유부녀가 바에서 꽐라될때까지 술마신거나 속마음
-                                            터놓지도 못하는거나 답답합니다 고구마철이라고 고구마 두시는건지
-                                        </div>
-                                        <div class="button">
-                                            <button class="btn btn-xs btn-mint">답변</button>
-                                            <button class="btn btn-xs btn-danger">신고</button>
-                                        </div>
                                     </div>
-
-                                    <div class="review">
-                                        <div>
-                                            <span class="nick">닉네임</span> 2016-11-10 00:00:00
-                                            <button class="btn btn-xs btn-pink">N</button>
-                                        </div>
-                                        <div class="content">
-                                            <span class="inning">8회</span> 둘이 당췌 먼 사연인지는 모르지만 유부녀가 바에서 꽐라될때까지 술마신거나 속마음
-                                            터놓지도 못하는거나 답답합니다 고구마철이라고 고구마 두시는건지
-                                        </div>
-                                        <div class="button">
-                                            <button class="btn btn-xs btn-mint">답변</button>
-                                            <button class="btn btn-xs btn-danger">신고</button>
-                                        </div>
-                                    </div>
-
-                                    <div class="review reply">
-                                        <div>
-                                            <span class="nick">닉네임</span> 2016-11-10 00:00:00
-                                            <button class="btn btn-xs btn-pink">N</button>
-                                        </div>
-                                        <div class="content">
-                                            <span class="inning">8회</span> 둘이 당췌 먼 사연인지는 모르지만 유부녀가 바에서 꽐라될때까지 술마신거나 속마음
-                                            터놓지도 못하는거나 답답합니다 고구마철이라고 고구마 두시는건지
-                                        </div>
-                                        <div class="button">
-                                            <button class="btn btn-xs btn-mint">답변</button>
-                                            <button class="btn btn-xs btn-danger">신고</button>
-                                        </div>
-                                    </div>
-
                                 </div>
                             </div>
                         </div>
@@ -161,5 +121,44 @@
 
 
     </div>
+
+    <script>
+        var app4 = new Vue({
+            el: '#novel_list',
+            data: {
+                novel_groups: [],
+                my_comments: [],
+            },
+            mounted: function () {
+                this.$http.get('{{ route('novels.index') }}')
+                        .then(function (response) {
+                            this.novel_groups = response.data;
+                        });
+                this.$http.get('{{ route('comments.index') }}')
+                        .then(function (response) {
+                            this.my_comments = response.data;
+                        });
+
+            }
+        });
+        var app5 = new Vue({
+            el: '#comment_list',
+            data: {
+                novel_groups: [],
+                my_comments: [],
+            },
+            mounted: function () {
+                this.$http.get('{{ route('novels.index') }}')
+                        .then(function (response) {
+                            this.novel_groups = response.data;
+                        });
+                this.$http.get('{{ route('comments.index') }}')
+                        .then(function (response) {
+                            this.my_comments = response.data;
+                        });
+
+            }
+        })
+    </script>
 
 @endsection

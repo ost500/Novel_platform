@@ -55,8 +55,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(NovelGroup::class);
     }
-    public function novel()
+    public function novels()
     {
         return $this->hasMany(Novel::class);
+    }
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 }
