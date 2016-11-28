@@ -39,8 +39,16 @@ $factory->define(App\Novel::class, function (Faker\Generator $faker) {
     return [
         'user_id' => $faker->randomElement($userIds),
         'novel_group_id' => $faker->randomElement($novel_groupIds),
+        'nickname' => $faker->word,
         'title' => $faker->sentence,
-        'content' => $faker->paragraph,
+        'description' => $faker->paragraph,
+        'keyword1' => $faker->word,
+        'keyword2' => $faker->word,
+        'keyword3' => $faker->word,
+        'keyword4' => $faker->word,
+        'keyword5' => $faker->word,
+        'keyword6' => $faker->word,
+        'keyword7' => $faker->word,
     ];
 });
 
