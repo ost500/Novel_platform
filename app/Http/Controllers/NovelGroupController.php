@@ -3,17 +3,29 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\NovelGroup;
 class NovelGroupController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        $novel_groups= $request->user()->novel_groups()->get();
+        return \Response::json($novel_groups);
     }
 
     /**
@@ -35,6 +47,7 @@ class NovelGroupController extends Controller
     public function store(Request $request)
     {
         //
+        $request->user()->novel_groups()->create($request->all());
     }
 
     /**
@@ -46,6 +59,8 @@ class NovelGroupController extends Controller
     public function show($id)
     {
         //
+        $novel_group=NovelGroup::find($id);
+        return \Response::json($novel_group);
     }
 
     /**
@@ -69,6 +84,7 @@ class NovelGroupController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $request->user()->novel_groups()->update($request->all())->where('id',$id);
     }
 
     /**
@@ -80,5 +96,7 @@ class NovelGroupController extends Controller
     public function destroy($id)
     {
         //
+        $novel_group=NovelGroup::find($id);
+        $novel_group->delete();
     }
 }
