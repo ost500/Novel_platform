@@ -47,11 +47,7 @@ class DatabaseSeeder extends Seeder
             $user->novel_groups()->save(factory(App\NovelGroup::class)->make());
         });
 
-        $faker = new Faker\Generator;
-
         $novel_groups = App\NovelGroup::get();
-        $userIds = App\User::pluck('id')->toArray();
-
 
         // novel table
         App\Novel::truncate();

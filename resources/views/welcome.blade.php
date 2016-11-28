@@ -9,7 +9,8 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
         <!-- Styles -->
         <style>
             html, body {
@@ -64,7 +65,7 @@
             }
         </style>
     </head>
-    <body>
+    <body ng-app="myApp">
         <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
                 <div class="top-right links">
@@ -73,7 +74,7 @@
                 </div>
             @endif
 
-            <div class="content">
+            <div ng-controller="myCtrl" class="content">
                 <div class="title m-b-md">
                     Laravel
                 </div>
@@ -85,7 +86,29 @@
                     <a href="https://forge.laravel.com">Forge</a>
                     <a href="https://github.com/laravel/laravel">GitHub</a>
                 </div>
+
+                First Name: <input type="text" ng-model="firstName"><br>
+                Last Name: <input type="text" ng-model="lastName"><br>
+                <br>
+                <?php echo "Full Name: {{firstName + " . "  lastName}}" ?>
             </div>
         </div>
+
+        <script>
+            var app = angular.module("myApp", ["ngRoute"]);
+            app.config(function($routeProvider) {
+                $routeProvider
+                        .when("/banana", {
+                            template : "<h1>Banana</h1><p>Bananas contain around 75% water.</p>"
+                        })
+                        .when("/tomato", {
+                            template : "<h1>Tomato</h1><p>Tomatoes contain around 95% water.</p>"
+                        })
+                        .otherwise({
+                            template : "<h1>None</h1><p>Nothing has been selected,</p>"
+                        });
+            });
+
+        </script>
     </body>
 </html>
