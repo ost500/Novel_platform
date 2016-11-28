@@ -27,11 +27,11 @@ class Comment extends Model
 {
     public function users()
     {
-        return $this->belongsTo(User::class, 'id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function novel_groups()
+    public function novels()
     {
-        return $this->belongsTo(Novel::class, 'id');
+        return $this->belongsTo(Novel::class, 'novel_id', 'id');
     }
 }
