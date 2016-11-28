@@ -30,33 +30,51 @@
                                         <button class="btn btn-primary">작품추가</button>
                                     </a>
                                 </div>
-                                <table class="table table-bordered">
-                                    <tbody>
-                                    <tr>
-                                        <td class="text-center col-md-2"><a href="novel_inning_list.php">표지이미지</a></td>
-                                        <td>
-                                            <table class="table-no-border" style="width:100%;">
-                                                <tr>
-                                                    <td><h4><a href="novel_inning_list.php">꼬마 아가씨의 첫사랑 - 윤사라</a></h4>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>등록된 회차수 : 2화, 마지막 업로드 일자 : 2016-11-10</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="padding-top-10 text-right">
-                                                        <button class="btn btn-primary">댓글 1,000</button>
-                                                        <button class="btn btn-info">리뷰 1,000</button>
-                                                        <button class="btn btn-success">수정</button>
-                                                        <button class="btn btn-mint">비밀</button>
-                                                        <button class="btn btn-warning">삭제</button>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                                <div id="novel_list">
+                                    <table class="table table-bordered" v-for="novel_group in novel_groups">
+                                        <tbody>
+                                        <tr>
+                                            <td class="text-center col-md-2"><a href="novel_inning_list.php">표지이미지</a>
+                                            </td>
+                                            <td>
+                                                <table class="table-no-border" style="width:100%;">
+                                                    <tr>
+                                                        <td><h4><a href="novel_inning_list.php">@{{ novel_group.title }}</a>
+                                                            </h4>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>등록된 회차수 : 2화, 마지막 업로드 일자 : 2016-11-10</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="padding-top-10 text-right">
+                                                            <button class="btn btn-primary">댓글 1,000</button>
+                                                            <button class="btn btn-info">리뷰 1,000</button>
+                                                            <button class="btn btn-success">수정</button>
+                                                            <button class="btn btn-mint">비밀</button>
+                                                            <button class="btn btn-warning">삭제</button>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <script>
+                                    var app4 = new Vue({
+                                        el: '#novel_list',
+                                        data: {
+                                            novel_groups: []
+                                        },
+                                        mounted: function () {
+                                            this.$http.get('{{ route('novels.index') }}')
+                                                    .then(function (response) {
+                                                        this.novel_groups = response.data;
+                                                    });
+                                        }
+                                    })
+                                </script>
 
 
                                 <div class="padding-top-10"><h4>댓글 3</h4></div>

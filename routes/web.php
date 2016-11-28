@@ -22,4 +22,4 @@ Route::resource('novelgroups', 'NovelGroupController');
 Route::resource('novels', 'NovelController');
 
 
-Route::get('/author/index', 'PageController\AuthorPageController@index');
+Route::get('/author/index', ['as' => 'author_index', 'uses' => 'PageController\AuthorPageController@index']);
