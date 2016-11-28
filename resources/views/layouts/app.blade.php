@@ -13,13 +13,13 @@
     <!-- Styles -->
     <link href="/css/app.css" rel="stylesheet">
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;subset=latin" rel="stylesheet">
-    <link href="css/bootstrap.css" rel="stylesheet">
-    <link href="css/nifty.css" rel="stylesheet">
-    <link href="plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <link href="plugins/pace/pace.min.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/nifty.css" rel="stylesheet">
+    <link href="/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/plugins/pace/pace.min.css" rel="stylesheet">
 
     <!-- Scripts -->
-    <script src="plugins/pace/pace.min.js"></script>
+    <script src="/plugins/pace/pace.min.js"></script>
 
 
     <script>
@@ -37,7 +37,7 @@
 
             <div class="navbar-header">
                 <a href="index.html" class="navbar-brand">
-                    <img src="img/logo.png" alt="Nifty Logo" class="brand-icon">
+                    <img src="/img/logo.png" alt="Nifty Logo" class="brand-icon">
                     <div class="brand-title">
                         <span class="brand-text">로고</span>
                     </div>
@@ -224,8 +224,8 @@
 
     </div>
 
-    @yield('content')
 
+    @yield('content')
 </div>
 
 
@@ -401,18 +401,18 @@
 <!--End Small Bootstrap Modal-->
 
 
-<script src="js/jquery-2.1.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/nifty.min.js"></script>
+<script src="/js/jquery-2.1.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/nifty.min.js"></script>
 
 <!--������� �ʿ�-->
-<script src="plugins/bootstrap-select/bootstrap-select.min.js"></script>
-<script src="plugins/bootbox/bootbox.min.js"></script>
+<script src="/plugins/bootstrap-select/bootstrap-select.min.js"></script>
+<script src="/plugins/bootbox/bootbox.min.js"></script>
 <!--������� �ʿ�-->
 
 
-<script src="js/ui-modals.js"></script>
-<script src="js/ui-alerts.js"></script>
+<script src="/js/ui-modals.js"></script>
+<script src="/js/ui-alerts.js"></script>
 
 
 </body>

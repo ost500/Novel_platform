@@ -20,3 +20,6 @@ Auth::routes();
 Route::get('/home', 'HomeController@index');
 Route::resource('novelgroups', 'NovelGroupController');
 Route::resource('novels', 'NovelController');
+
+
+Route::get('/author/index', 'PageController\AuthorPageController@index');
