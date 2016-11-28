@@ -14,6 +14,10 @@
     <link href="/css/app.css" rel="stylesheet">
 
     <!-- Scripts -->
+    <script src="/js/jquery-1.8.3.min.js"></script>
+    <script src="/js/jquery.menu.js"></script>
+    <script src="/js/common.js"></script>
+    <script src="/js/wrest.js"></script>
     <script>
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
