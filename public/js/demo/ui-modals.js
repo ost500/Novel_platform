@@ -207,7 +207,7 @@
 	});
 
 
-	$('.novel-user-nick-form').on('click', function(){
+	$('.novels-user-nick-form').on('click', function(){
 		bootbox.dialog({
 			title: "필명관리",
 			message:'<div class="row"> ' + '<div class="col-md-12"> ' +

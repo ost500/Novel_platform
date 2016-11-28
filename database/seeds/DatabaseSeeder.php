@@ -49,7 +49,7 @@ class DatabaseSeeder extends Seeder
 
         $novel_groups = App\NovelGroup::get();
 
-        // novel table
+        // novels table
         App\Novel::truncate();
         foreach ($novel_groups as $novel_group) {
             $new_novel = $novel_group->novels()->save(factory(App\Novel::class)->make());
