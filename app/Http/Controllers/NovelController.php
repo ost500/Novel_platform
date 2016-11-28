@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Novel;
 use Illuminate\Http\Request;
 class NovelController extends Controller
@@ -37,8 +36,6 @@ class NovelController extends Controller
     public function create()
     {
         //
-       return view('novels.create');
-
     }
 
     /**
@@ -50,7 +47,6 @@ class NovelController extends Controller
     public function store(Request $request)
     {
         //
-        $request->user()->novel()->create($request->all());
     }
 
     /**
@@ -87,7 +83,6 @@ class NovelController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $request->user()->novel()->update($request->all())->where('id',$id);
     }
 
     /**

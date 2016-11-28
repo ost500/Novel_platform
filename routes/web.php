@@ -23,3 +23,5 @@ Route::resource('novels', 'NovelController');
 
 
 Route::get('/author/index', 'PageController\AuthorPageController@index');
+Route::get('/author/create', 'PageController\AuthorPageController@create');
+Route::get('/author/{id}/edit', 'PageController\AuthorPageController@edit');

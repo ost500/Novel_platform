@@ -25,8 +25,20 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Novel whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Novel whereUpdatedAt($value)
  */
+
+
 class Novel extends Model
 {
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'title', 'content',
+    ];
+
     public function users()
     {
         return $this->belongsTo(User::class, 'id');
