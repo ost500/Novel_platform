@@ -24,4 +24,6 @@ Route::resource('comments', 'CommentController');
 
 
 Route::get('/author/index', ['as' => 'author_index', 'uses' => 'PageController\AuthorPageController@index']);
+Route::get('/author/novelgroup/{id}', ['as' => 'author_novel_group', 'uses' => 'PageController\AuthorPageController@novel_gorup']);
+Route::get('/author/profile/', ['as' => 'author_profile', 'uses' => 'PageController\AuthorPageController@profile']);
 
