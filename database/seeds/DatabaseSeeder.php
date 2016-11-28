@@ -62,6 +62,21 @@ class DatabaseSeeder extends Seeder
 
         }
 
+        $this->command->info('novel table seeded');
+
+        // comment table
+        $novels = App\Novel::get();
+
+        App\Comment::truncate();
+        foreach ($novels as $novel) {
+            $new_comment = $novel->comments()->save(factory(App\Comment::class)->make());
+            $new_child_comment = $novel->comments()->save(factory(App\Comment::class)->make());
+            $new_child_comment->parent_id = $new_comment->id;
+            $new_child_comment->save();
+
+            $novel->comments()->save(factory(App\Comment::class)->make());
+        }
+
         $this->command->info('comments table seeded');
     }
 }
