@@ -60,12 +60,24 @@ class NovelGroupController extends Controller
                 ->withInput();
         }
         $input=$request->all();
-        $cover_photo = $request->file('cover_photo');
-        $filename = $cover_photo->getClientOriginalName();
-        //set original name for database
-        $input['cover_photo']=$filename;
-        // dd($input);
-        $request->user()->novel_groups()->create($input);
+        //if validation is passed then insert the record
+
+        //upload the picture
+        if($request->hasFile('cover_photo')) {
+
+            $cover_photo = $request->file('cover_photo');
+            $filename = $cover_photo->getClientOriginalName();
+            //set original name for database
+            $input['cover_photo'] = $filename;
+            //Insert the record
+            $novel_group= $request->user()->novel_groups()->create($input);
+            //upload file to destination path
+            $destinationPath = public_path('/img/novel_covers/');
+            $cover_photo ->move($destinationPath,$novel_group->id.'_'.$filename);
+        }else {
+            $request->user()->novel_groups()->create($input);
+        }
+
         return redirect('novelgroups');
     }
 
@@ -121,9 +133,13 @@ class NovelGroupController extends Controller
 
         if($request->hasFile('cover_photo')) {
             $cover_photo = $request->file('cover_photo');
-            $filename = $cover_photo->getClientOriginalName();
+            $filename = $id."_".$cover_photo->getClientOriginalName();
+            $db_filename =$cover_photo->getClientOriginalName();
             //set original name for database
-            $input['cover_photo'] = $filename;
+            $input['cover_photo'] = $db_filename;
+            //upload file to destination path
+            $destinationPath = public_path('/img/novel_covers/');
+            $cover_photo ->move($destinationPath, $filename);
         }
 
         NovelGroup::where('id',$id)->update($input);
