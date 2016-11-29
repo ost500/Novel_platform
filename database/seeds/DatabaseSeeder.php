@@ -83,7 +83,7 @@ class DatabaseSeeder extends Seeder
 
         //Faq table
         App\Faq::truncate();
-        factory(App\Faq::class, 10)->create();
+        factory(App\Faq::class, 20)->create();
 
         $this->command->info('faqs table seeded');
     }

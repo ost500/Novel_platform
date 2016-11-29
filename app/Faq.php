@@ -12,6 +12,6 @@ class Faq extends Model
      * @var array
      */
     protected $fillable = [
-       'title', 'description',
+       'faq_category','title', 'description',
     ];
 }

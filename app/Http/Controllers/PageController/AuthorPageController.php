@@ -28,6 +28,10 @@ class AuthorPageController extends Controller
     public function faq_index()
     {
         $faqs= Faq::get();
+        $faqs_reader= Faq::where('faq_category','1')->get();
+        $faq_author= Faq::where('faq_category','2')->get();
+        $faqs_others= Faq::where('faq_category','3')->get();
+
         return view('author.novel_faq', compact('faqs'));
     }
 
