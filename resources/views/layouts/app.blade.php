@@ -204,7 +204,7 @@
 
 
                                     <ul class="collapse">
-                                        <li><a href="novel_user.php">작가정보관리</a></li>
+                                        <li><a href="{{ route("author.profile") }}">작가정보관리</a></li>
                                         <li><a href="novel_user_nick.php">필명관리</a></li>
                                     </ul>
                                 </li>

@@ -22,6 +22,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Comment whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Comment whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property integer $parent_id
+ * @property-read \App\Novel $novels
+ * @method static \Illuminate\Database\Query\Builder|\App\Comment whereParentId($value)
  */
 class Comment extends Model
 {
