@@ -22,6 +22,7 @@
     <script src="/plugins/pace/pace.min.js"></script>
     <script src="/js/vue.js"></script>
     <script src="/js/vue-resource.min.js"></script>
+    <script src="/js/jquery-2.1.1.min.js"></script>
 
 
     <script>
@@ -86,6 +87,9 @@
     </header>
 
     <div class="boxed">
+
+        @yield('content')
+
         <nav id="mainnav-container">
             <div id="mainnav">
 
@@ -93,6 +97,8 @@
                     <ul class="list-unstyled">
                     </ul>
                 </div>
+
+
 
                 <div id="mainnav-menu-wrap">
                     <div class="nano">
@@ -114,8 +120,8 @@
                                     </a>
 
                                     <ul class="collapse">
-                                        <li><a href="index.php">작품목록</a></li>
-                                        <li><a href="novel_write.php">작품등록</a></li>
+                                        <li><a href="{{ route('author_index') }}">작품목록</a></li>
+                                        <li><a href="{{ url('/author/create') }}">작품등록</a></li>
 
                                     </ul>
                                 </li>
@@ -171,7 +177,7 @@
                                 <li class="list-divider"></li>
 
                                 <li>
-                                    <a href="novel_request_list.php">
+                                    <a href="{{ url('/author/novel_request_list') }}">
                                         <i class="fa fa-send"></i>
 						<span class="menu-title">
 							<strong>1:1문의</strong>
@@ -182,7 +188,7 @@
                                 <li class="list-divider"></li>
 
                                 <li>
-                                    <a href="novel_faq.php">
+                                    <a href="{{ url('/author/novel_faq') }}">
                                         <i class="fa fa-send"></i>
 						<span class="menu-title">
 							<strong>FAQ</strong>
@@ -204,8 +210,8 @@
 
 
                                     <ul class="collapse">
-                                        <li><a href="novel_user.php">작가정보관리</a></li>
-                                        <li><a href="novel_user_nick.php">필명관리</a></li>
+                                        <li><a href="{{ route("author.profile") }}">작가정보관리</a></li>
+                                        <li><a href="{{ route("author.nickname") }}">필명관리</a></li>
                                     </ul>
                                 </li>
 
@@ -223,11 +229,10 @@
         </nav>
 
 
-
     </div>
 
 
-    @yield('content')
+
 </div>
 
 
@@ -403,7 +408,7 @@
 <!--End Small Bootstrap Modal-->
 
 
-<script src="/js/jquery-2.1.1.min.js"></script>
+
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/nifty.min.js"></script>
 
@@ -415,7 +420,6 @@
 
 <script src="/js/ui-modals.js"></script>
 <script src="/js/ui-alerts.js"></script>
-
 
 
 </body>

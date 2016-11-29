@@ -49,7 +49,7 @@ class DatabaseSeeder extends Seeder
 
         $novel_groups = App\NovelGroup::get();
 
-        // novel table
+        // novels table
         App\Novel::truncate();
         foreach ($novel_groups as $novel_group) {
             $new_novel = $novel_group->novels()->save(factory(App\Novel::class)->make());
@@ -80,5 +80,20 @@ class DatabaseSeeder extends Seeder
         }
 
         $this->command->info('comments table seeded');
+
+        $this->call(NickNameSeeder::class);
+
+        //MenToMen QuestionAnswer table
+        App\MenToMenQuestionAnswers::truncate();
+        factory(App\MenToMenQuestionAnswers::class, 10)->create();
+
+        $this->command->info('MenToMenQuestionAnswers table seeded');
+
+        //Faq table
+        App\Faq::truncate();
+        factory(App\Faq::class, 20)->create();
+
+        $this->command->info('faqs table seeded');
+
     }
 }

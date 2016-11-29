@@ -23,6 +23,15 @@ use Illuminate\Database\Eloquent\Model;
  */
 class NovelGroup extends Model
 {
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'nickname', 'title', 'description','keyword1','keyword2','keyword3','keyword4','keyword5','keyword6','keyword7','novel_group_id','cover_photo',
+    ];
+
     public function novels()
     {
         return $this->hasMany(Novel::class);
