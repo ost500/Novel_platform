@@ -3,10 +3,33 @@
 namespace App\Http\Controllers;
 
 use App\Faq;
+use Validator;
 use Illuminate\Http\Request;
 
 class FaqController extends Controller
 {
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        //
+        $faqs= Faq::get();
+        return \Response::json($faqs);
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -30,7 +53,7 @@ class FaqController extends Controller
         //if validation is passed then insert the record
         Faq::create($input);
         //redirect to faqs
-        return redirect('faqs');
+        return redirect('/author/faq_index');
     }
 
     /**
@@ -52,7 +75,7 @@ class FaqController extends Controller
         ]);
         //if validation fails then redirect to create page
         if ($validator->fails()) {
-            return redirect('author/create')
+            return redirect('author/faq_edit')
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -60,7 +83,7 @@ class FaqController extends Controller
         //if validation is passed then insert the record
         Faq::where('id',$id)->update($input);
         //redirect to faqs
-        return redirect('faqs');
+        return redirect('/author/faq_index');
 
     }
 

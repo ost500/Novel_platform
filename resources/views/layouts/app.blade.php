@@ -177,7 +177,7 @@
                                 <li class="list-divider"></li>
 
                                 <li>
-                                    <a href="novel_request_list.php">
+                                    <a href="{{ url('/author/novel_request_list') }}">
                                         <i class="fa fa-send"></i>
 						<span class="menu-title">
 							<strong>1:1문의</strong>
@@ -188,7 +188,7 @@
                                 <li class="list-divider"></li>
 
                                 <li>
-                                    <a href="novel_faq.php">
+                                    <a href="{{ url('/author/novel_faq') }}">
                                         <i class="fa fa-send"></i>
 						<span class="menu-title">
 							<strong>FAQ</strong>

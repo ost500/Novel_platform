@@ -82,5 +82,18 @@ class DatabaseSeeder extends Seeder
         $this->command->info('comments table seeded');
 
         $this->call(NickNameSeeder::class);
+
+        //MenToMen QuestionAnswer table
+        App\MenToMenQuestionAnswers::truncate();
+        factory(App\MenToMenQuestionAnswers::class, 10)->create();
+
+        $this->command->info('MenToMenQuestionAnswers table seeded');
+
+        //Faq table
+        App\Faq::truncate();
+        factory(App\Faq::class, 20)->create();
+
+        $this->command->info('faqs table seeded');
+
     }
 }

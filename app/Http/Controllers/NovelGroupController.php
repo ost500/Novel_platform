@@ -121,10 +121,13 @@ class NovelGroupController extends Controller
             'nickname' => 'required|max:255',
             'title' => 'required',
             'description' => 'required',
+            'cover_photo' => 'dimensions:max_width=900,max_height=900',
+            'cover_photo' => 'mimes:jpeg,png',
         ]);
+
         //if validation fails then redirect to create page
         if ($validator->fails()) {
-            return redirect('author/create')
+            return redirect('author/edit')
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -133,6 +136,9 @@ class NovelGroupController extends Controller
 
         if($request->hasFile('cover_photo')) {
             $cover_photo = $request->file('cover_photo');
+            $size=$cover_photo->getSize();
+            if($size > 1000000){ return redirect('novelgroups'); }
+
             $filename = $id."_".$cover_photo->getClientOriginalName();
             $db_filename =$cover_photo->getClientOriginalName();
             //set original name for database

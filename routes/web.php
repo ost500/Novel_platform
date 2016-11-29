@@ -35,5 +35,12 @@ Route::get('/author/profile/', ['as' => 'author.profile', 'uses' => 'PageControl
 Route::get('/author/nickname/', ['as' => 'author.nickname', 'uses' => 'PageController\AuthorPageController@nickname']);
 
 
+
+Route::get('/author/novel_memo', 'PageController\AuthorPageController@memo_index');
+
+Route::get('/author/novel_request_list', 'PageController\AuthorPageController@men_to_men_index');
+Route::get('/author/novel_request_view/{id}', 'PageController\AuthorPageController@men_to_men_show');
+
+Route::get('/author/novel_faq', 'PageController\AuthorPageController@faq_index');
 Route::get('/author/faq_create', 'PageController\AuthorPageController@faq_create');
 Route::get('/author/faq_edit', 'PageController\AuthorPageController@faq_edit');

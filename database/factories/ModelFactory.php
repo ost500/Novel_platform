@@ -78,4 +78,22 @@ $factory->define(App\NickName::class, function (Faker\Generator $faker) {
     ];
 });
 
+$factory->define(App\Faq::class, function (Faker\Generator $faker) {
+    return [
+        'faq_category' => $faker->randomElement(['1','2','3']),
+        'title' => $faker->sentence,
+        'description' => $faker->paragraph,
+    ];
+});
+
+$factory->define(App\MenToMenQuestionAnswers::class, function (Faker\Generator $faker) {
+    $userIds = App\User::pluck('id')->toArray();
+    return [
+        'user_id' => $faker->randomElement($userIds),
+        'title' => $faker->sentence,
+        'question' => $faker->paragraph,
+        'answer' => $faker->randomElement([$faker->paragraph,' ']),
+        'status' =>$faker->randomElement(['0','1']),
+    ];
+});
 
