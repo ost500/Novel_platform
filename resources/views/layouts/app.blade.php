@@ -160,7 +160,7 @@
                                 <li class="list-divider"></li>
 
                                 <li>
-                                    <a href="novel_memo.php">
+                                    <a href="{{ url('/author/novel_memo') }}">
                                         <i class="fa fa-envelope"></i>
 						<span class="menu-title">
 							<strong>쪽지함</strong>

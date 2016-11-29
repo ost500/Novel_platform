@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\PageController;
+use App\Mailbox;
 use App\MenToMenQuestionAnswer;
 use App\NovelGroup;
 use App\Faq;
@@ -24,6 +25,13 @@ class AuthorPageController extends Controller
     {
         $novel_group=NovelGroup::find($id);
         return view('author.edit', compact('novel_group'));
+    }
+
+    public function mailbox_index(Request $request)
+    {
+
+        $novel_mail_messages= Mailbox::where('to',\Auth::user()->email)->with('users')->get();
+        return view('author.novel_memo', compact('novel_mail_messages'));
     }
 
     public function men_to_men_index(Request $request)
