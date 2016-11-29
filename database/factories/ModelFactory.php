@@ -20,6 +20,10 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
+        'phone_num' => $faker->phoneNumber,
+        'bank' => "기업은행",
+        'account_holder' => $faker->name,
+        'account_number' => $faker->bankAccountNumber
     ];
 });
 
@@ -64,6 +68,16 @@ $factory->define(App\Comment::class, function (Faker\Generator $faker) {
         'comment' => $faker->sentence,
     ];
 });
+
+$factory->define(App\NickName::class, function (Faker\Generator $faker) {
+    $userIds = App\User::pluck('id')->toArray();
+
+    return [
+        'user_id' => $faker->randomElement($userIds),
+        'nickname' => $faker->name,
+    ];
+});
+
 
 
 $factory->define(App\Mailbox::class, function (Faker\Generator $faker) {

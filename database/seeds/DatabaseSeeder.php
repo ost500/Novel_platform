@@ -1,5 +1,7 @@
 <?php
 
+use App\Faq;
+use App\MenToMenQuestionAnswer;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -87,6 +89,8 @@ class DatabaseSeeder extends Seeder
 
         $this->command->info('Mails table seeded');
 
+        $this->call(NickNameSeeder::class);
+
         //MenToMen QuestionAnswer table
         App\MenToMenQuestionAnswer::truncate();
         factory(App\MenToMenQuestionAnswer::class, 10)->create();
@@ -94,8 +98,8 @@ class DatabaseSeeder extends Seeder
         $this->command->info('MenToMenQuestionAnswers table seeded');
 
         //Faq table
-        App\Faq::truncate();
-        factory(App\Faq::class, 20)->create();
+        Faq::truncate();
+        factory(Faq::class, 20)->create();
 
         $this->command->info('faqs table seeded');
 

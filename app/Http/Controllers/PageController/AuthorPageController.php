@@ -6,19 +6,45 @@ use App\MenToMenQuestionAnswer;
 use App\NovelGroup;
 use App\Faq;
 use App\Http\Controllers\Controller;
+use Auth;
+
 use Illuminate\Http\Request;
 
 class AuthorPageController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
     public function index()
     {
-        return view('author.index');
+        $novel_groups = Auth::user()->novel_groups;
+        return view('author.index', compact('novel_groups'));
+    }
+
+    public function novel_gorup($id)
+    {
+        $novel_group = NovelGroup::find($id);
+        $novels = $novel_group->novels;
+        return view('author.novel_group', compact('novels'));
+    }
+
+    public function profile()
+    {
+        return view('author.profile');
     }
 
     public function create()
     {
 
         return view('author.create');
+    }
+
+    public function create_inning()
+    {
+        return view('author.novel_inning_write');
     }
 
     public function edit($id)
@@ -67,5 +93,10 @@ class AuthorPageController extends Controller
     {
         $faq=Faq::find($id);
         return view('author.faq_edit', compact('faq'));
+    }
+
+    public function nickname()
+    {
+        return view('author.nick_name');
     }
 }

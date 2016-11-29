@@ -28,6 +28,15 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Query\Builder|\App\User whereRememberToken($value)
  * @method static \Illuminate\Database\Query\Builder|\App\User whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\User whereUpdatedAt($value)
+ * @property string $phone_num
+ * @property string $bank
+ * @property string $account_holder
+ * @property string $account_number
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Comment[] $comments
+ * @method static \Illuminate\Database\Query\Builder|\App\User wherePhoneNum($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereBank($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereAccountHolder($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereAccountNumber($value)
  */
 class User extends Authenticatable
 {
@@ -62,6 +71,10 @@ class User extends Authenticatable
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+    public function nicknames()
+    {
+        return $this->hasMany(NickName::class);
     }
     public function question_answers()
     {
