@@ -86,7 +86,7 @@ $factory->define(App\Faq::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\MenToMenQuestionAnswers::class, function (Faker\Generator $faker) {
+$factory->define(App\MenToMenQuestionAnswer::class, function (Faker\Generator $faker) {
     $userIds = App\User::pluck('id')->toArray();
     return [
         'user_id' => $faker->randomElement($userIds),
