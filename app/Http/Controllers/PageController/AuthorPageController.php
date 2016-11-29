@@ -41,6 +41,11 @@ class AuthorPageController extends Controller
         return view('author.create');
     }
 
+    public function create_inning()
+    {
+        return view('author.novel_inning_write');
+    }
+
     public function edit($id)
     {
         $novel_group=NovelGroup::find($id);
