@@ -4,6 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Faq
+ *
+ * @mixin \Eloquent
+ */
 class Faq extends Model
 {
     /**
