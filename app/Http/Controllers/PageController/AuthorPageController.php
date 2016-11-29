@@ -25,10 +25,11 @@ class AuthorPageController extends Controller
         return view('author.edit', compact('novel_group'));
     }
 
-   /* public function faqs()
+    public function faq_index()
     {
-        return view('author.faqs');
-    }*/
+        $faqs= Faq::get();
+        return view('author.novel_faq', compact('faqs'));
+    }
 
     public function faq_create()
     {

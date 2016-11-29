@@ -80,5 +80,11 @@ class DatabaseSeeder extends Seeder
         }
 
         $this->command->info('comments table seeded');
+
+        //Faq table
+        App\Faq::truncate();
+        factory(App\Faq::class, 10)->create();
+
+        $this->command->info('faqs table seeded');
     }
 }

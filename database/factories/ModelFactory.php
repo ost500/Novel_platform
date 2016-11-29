@@ -65,4 +65,11 @@ $factory->define(App\Comment::class, function (Faker\Generator $faker) {
     ];
 });
 
+$factory->define(App\Faq::class, function (Faker\Generator $faker) {
+    return [
+        'title' => $faker->sentence,
+        'description' => $faker->paragraph,
+    ];
+});
+
 
