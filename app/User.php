@@ -32,7 +32,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property string $bank
  * @property string $account_holder
  * @property string $account_number
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Novel[] $novels
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Comment[] $comments
  * @method static \Illuminate\Database\Query\Builder|\App\User wherePhoneNum($value)
  * @method static \Illuminate\Database\Query\Builder|\App\User whereBank($value)
