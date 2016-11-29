@@ -115,7 +115,7 @@
 
                                     <ul class="collapse">
                                         <li><a href="{{ route('author_index') }}">작품목록</a></li>
-                                        <li><a href="novel_write.php">작품등록</a></li>
+                                        <li><a href="{{ url('/author/create') }}">작품등록</a></li>
 
                                     </ul>
                                 </li>

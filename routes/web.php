@@ -21,11 +21,17 @@ Route::get('/home', 'HomeController@index');
 Route::resource('novelgroups', 'NovelGroupController');
 Route::resource('novels', 'NovelController');
 Route::resource('comments', 'CommentController');
+Route::resource('faqs', 'FaqController');
 Route::resource('users', 'UserController', ['except' => ['update']]);
 Route::put('users/update', ['as' => 'users.update', 'uses' => 'UserController@update']);
 
-
+Route::get('/author/index', 'PageController\AuthorPageController@index');
+Route::get('/author/create', 'PageController\AuthorPageController@create');
+Route::get('/author/{id}/edit', 'PageController\AuthorPageController@edit');
 Route::get('/author/index', ['as' => 'author_index', 'uses' => 'PageController\AuthorPageController@index']);
 Route::get('/author/novelgroup/{id}', ['as' => 'author_novel_group', 'uses' => 'PageController\AuthorPageController@novel_gorup']);
 Route::get('/author/profile/', ['as' => 'author.profile', 'uses' => 'PageController\AuthorPageController@profile']);
 
+
+Route::get('/author/faq_create', 'PageController\AuthorPageController@faq_create');
+Route::get('/author/faq_edit', 'PageController\AuthorPageController@faq_edit');

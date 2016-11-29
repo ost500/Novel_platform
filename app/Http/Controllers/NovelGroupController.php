@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\NovelGroup;
+use Validator;
 class NovelGroupController extends Controller
 {
     /**
@@ -47,7 +48,37 @@ class NovelGroupController extends Controller
     public function store(Request $request)
     {
         //
-        $request->user()->novel_groups()->create($request->all());
+        $validator = Validator::make($request->all(), [
+            'nickname' => 'required|max:255',
+            'title' => 'required',
+            'description' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect('author/create')
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $input=$request->all();
+        //if validation is passed then insert the record
+
+        //upload the picture
+        if($request->hasFile('cover_photo')) {
+
+            $cover_photo = $request->file('cover_photo');
+            $filename = $cover_photo->getClientOriginalName();
+            //set original name for database
+            $input['cover_photo'] = $filename;
+            //Insert the record
+            $novel_group= $request->user()->novel_groups()->create($input);
+            //upload file to destination path
+            $destinationPath = public_path('/img/novel_covers/');
+            $cover_photo ->move($destinationPath,$novel_group->id.'_'.$filename);
+        }else {
+            $request->user()->novel_groups()->create($input);
+        }
+
+        return redirect('novelgroups');
     }
 
     /**
@@ -84,7 +115,37 @@ class NovelGroupController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $request->user()->novel_groups()->update($request->all())->where('id',$id);
+        $input=$request->except('_token','_method');
+        //Validate the request
+        $validator = Validator::make($request->all(), [
+            'nickname' => 'required|max:255',
+            'title' => 'required',
+            'description' => 'required',
+        ]);
+        //if validation fails then redirect to create page
+        if ($validator->fails()) {
+            return redirect('author/create')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        //if validation is passed then insert the record
+
+        if($request->hasFile('cover_photo')) {
+            $cover_photo = $request->file('cover_photo');
+            $filename = $id."_".$cover_photo->getClientOriginalName();
+            $db_filename =$cover_photo->getClientOriginalName();
+            //set original name for database
+            $input['cover_photo'] = $db_filename;
+            //upload file to destination path
+            $destinationPath = public_path('/img/novel_covers/');
+            $cover_photo ->move($destinationPath, $filename);
+        }
+
+        NovelGroup::where('id',$id)->update($input);
+        //redirect to novels
+        return redirect('novelgroups');
+
     }
 
     /**
