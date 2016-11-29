@@ -17,8 +17,6 @@
 
         <div id="page-content">
 
-
-
             <div class="row">
                 <div class="col-sm-12">
 
@@ -34,7 +32,7 @@
                             </div>
                         @endif
 
-                        <form class="panel-body form-horizontal form-padding"  action="/"  method="post" enctype="multipart/form-data" >
+                        <form class="panel-body form-horizontal form-padding"  action="/faqs"  method="post"  >
                             {!! csrf_field() !!}
 
                             <div class="form-group">
