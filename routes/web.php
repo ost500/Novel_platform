@@ -28,6 +28,11 @@ Route::get('/author/create', 'PageController\AuthorPageController@create');
 Route::get('/author/{id}/edit', 'PageController\AuthorPageController@edit');
 Route::get('/author/index', ['as' => 'author_index', 'uses' => 'PageController\AuthorPageController@index']);
 
+Route::get('/author/novel_memo', 'PageController\AuthorPageController@memo_index');
+
+Route::get('/author/novel_request_list', 'PageController\AuthorPageController@men_to_men_index');
+Route::get('/author/novel_request_view/{id}', 'PageController\AuthorPageController@men_to_men_show');
+
 Route::get('/author/novel_faq', 'PageController\AuthorPageController@faq_index');
 Route::get('/author/faq_create', 'PageController\AuthorPageController@faq_create');
 Route::get('/author/faq_edit', 'PageController\AuthorPageController@faq_edit');

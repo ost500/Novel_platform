@@ -73,4 +73,14 @@ $factory->define(App\Faq::class, function (Faker\Generator $faker) {
     ];
 });
 
+$factory->define(App\MenToMenQuestionAnswers::class, function (Faker\Generator $faker) {
+    $userIds = App\User::pluck('id')->toArray();
+    return [
+        'user_id' => $faker->randomElement($userIds),
+        'title' => $faker->sentence,
+        'question' => $faker->paragraph,
+        'answer' => $faker->randomElement([$faker->paragraph,' ']),
+        'status' =>$faker->randomElement(['0','1']),
+    ];
+});
 

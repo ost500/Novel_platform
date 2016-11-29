@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Controllers\PageController;
+use App\MenToMenQuestionAnswer;
 use App\NovelGroup;
 use App\Faq;
 use App\Http\Controllers\Controller;
-//use Illuminate\Http\Request;
+use Illuminate\Http\Request;
 
 class AuthorPageController extends Controller
 {
@@ -25,13 +26,27 @@ class AuthorPageController extends Controller
         return view('author.edit', compact('novel_group'));
     }
 
+    public function men_to_men_index(Request $request)
+    {
+        $men_to_men_requests= $request->user()->question_answers()->get();
+        return view('author.novel_request_list', compact('men_to_men_requests'));
+    }
+    public function men_to_men_show(Request $request, $id)
+    {
+        $men_to_men_request= MenToMenQuestionAnswer::where('id',$id)->with('users')->first();
+        $men_to_men_requests= $request->user()->question_answers()->get();
+        return view('author.novel_request_view', compact('men_to_men_request','men_to_men_requests'));
+    }
+
+    public function memo_index()
+    {
+        $memos= Memo::get();
+        return view('author.novel_memo', compact('memos'));
+    }
+
     public function faq_index()
     {
         $faqs= Faq::get();
-        $faqs_reader= Faq::where('faq_category','1')->get();
-        $faq_author= Faq::where('faq_category','2')->get();
-        $faqs_others= Faq::where('faq_category','3')->get();
-
         return view('author.novel_faq', compact('faqs'));
     }
 
