@@ -60,4 +60,9 @@ class AuthorPageController extends Controller
         $faq=Faq::find($id);
         return view('author.faq_edit', compact('faq'));
     }
+
+    public function nickname()
+    {
+        return view('author.nick_name');
+    }
 }

@@ -69,4 +69,13 @@ $factory->define(App\Comment::class, function (Faker\Generator $faker) {
     ];
 });
 
+$factory->define(App\NickName::class, function (Faker\Generator $faker) {
+    $userIds = App\User::pluck('id')->toArray();
+
+    return [
+        'user_id' => $faker->randomElement($userIds),
+        'nickname' => $faker->name,
+    ];
+});
+
 

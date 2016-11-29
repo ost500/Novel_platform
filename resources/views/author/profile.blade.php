@@ -140,7 +140,16 @@
 
                     this.$http.put(action, this.profile)
                             .then(function (response) {
-                                alert('성공');
+                                $.niftyNoty({
+                                    type: 'purple',
+                                    icon : 'fa fa-check',
+                                    //message : "Hello " + name + ".<br> You've chosen <strong>" + answer + "</strong>",
+                                    message : "저장 되었습니다.",
+                                    //container : 'floating',
+                                    container : 'page',
+                                    timer : 4000
+                                });
+
                             })
                             .catch(function (data, status, request) {
                                 var errors = data.data;
@@ -149,6 +158,10 @@
                 }
             }
         });
+
+
+
+
     </script>
 
 @endsection

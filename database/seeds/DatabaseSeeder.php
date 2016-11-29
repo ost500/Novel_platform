@@ -80,5 +80,7 @@ class DatabaseSeeder extends Seeder
         }
 
         $this->command->info('comments table seeded');
+
+        $this->call(NickNameSeeder::class);
     }
 }
