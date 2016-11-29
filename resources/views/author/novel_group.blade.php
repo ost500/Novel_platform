@@ -25,27 +25,28 @@
                         <div class="panel-body">
                             <div class="table-responsive">
                                 <div class="padding-bottom-5">
-                                    <a href="../../../public/novel_inning_write.php">
-                                        <button class="btn btn-primary">챕터추가</button>
+                                    <a href="novel_inning_write.blade.php">
+                                        <a href="{{route('author.inning')}}">
+                                            <button class="btn btn-primary">챕터추가</button>
+                                        </a>
                                     </a>
                                 </div>
                                 <table class="table table-bordered">
                                     <tbody>
                                     @foreach($novels as $novel)
-                                    <tr>
-                                        <td class="text-center col-md-1">2회</td>
-                                        <td class="col-md-8">{{ $novel->title }}</td>
-                                        <td class="text-center">
-                                            <button class="btn btn-primary">유료화</button>
-                                            <button class="btn btn-info">공개</button>
-                                            <a href="../../../public/novel_inning_write.php">
-                                                <button class="btn btn-success">수정</button>
-                                            </a>
-                                            <button class="btn btn-warning">삭제</button>
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            <td class="text-center col-md-1">2회</td>
+                                            <td class="col-md-8">{{ $novel->title }}</td>
+                                            <td class="text-center">
+                                                <button class="btn btn-primary">유료화</button>
+                                                <button class="btn btn-info">공개</button>
+                                                <a href="novel_inning_write.blade.php">
+                                                    <button class="btn btn-success">수정</button>
+                                                </a>
+                                                <button class="btn btn-warning">삭제</button>
+                                            </td>
+                                        </tr>
                                     @endforeach
-
 
 
                                     <tr>
@@ -56,7 +57,7 @@
                                         <td class="text-center">
                                             <button class="btn btn-primary">유료화</button>
                                             <button class="btn btn-info">공개</button>
-                                            <a href="../../../public/novel_inning_write.php">
+                                            <a href="novel_inning_write.blade.php">
                                                 <button class="btn btn-success">수정</button>
                                             </a>
                                             <button class="btn btn-warning">삭제</button>

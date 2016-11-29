@@ -33,7 +33,7 @@ Route::get('/author/index', ['as' => 'author_index', 'uses' => 'PageController\A
 Route::get('/author/novelgroup/{id}', ['as' => 'author_novel_group', 'uses' => 'PageController\AuthorPageController@novel_gorup']);
 Route::get('/author/profile/', ['as' => 'author.profile', 'uses' => 'PageController\AuthorPageController@profile']);
 Route::get('/author/nickname/', ['as' => 'author.nickname', 'uses' => 'PageController\AuthorPageController@nickname']);
-
+Route::get('/author/create_inning', ['as' => 'author.inning', 'uses' => 'PageController\AuthorPageController@create_inning']);
 
 
 Route::get('/author/novel_memo', 'PageController\AuthorPageController@memo_index');
