@@ -76,7 +76,14 @@
                 <ul class="nav navbar-top-links pull-right">
                     <li id="dropdown-user">
                         <div class="username text-right">
-                            <button class="btn btn-danger">로그아웃</button>
+                            <a href="{{ url('/logout') }}"
+                               onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                <button class="btn btn-danger">로그아웃</button>
+                            </a>
+                            <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                            </form>
                         </div>
                     </li>
                 </ul>
@@ -97,7 +104,6 @@
                     <ul class="list-unstyled">
                     </ul>
                 </div>
-
 
 
                 <div id="mainnav-menu-wrap">
@@ -230,7 +236,6 @@
 
 
     </div>
-
 
 
 </div>
@@ -408,7 +413,6 @@
 <!--End Small Bootstrap Modal-->
 
 
-
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/nifty.min.js"></script>
 
@@ -420,6 +424,9 @@
 
 <script src="/js/ui-modals.js"></script>
 <script src="/js/ui-alerts.js"></script>
+
+{{--laravel 기본 스크립트--}}
+<script src="/js/app.js"></script>
 
 
 </body>

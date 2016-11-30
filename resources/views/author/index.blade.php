@@ -26,7 +26,7 @@
                         <div class="panel-body">
                             <div class="table-responsive">
                                 <div class="padding-bottom-5">
-                                    <a href="novel_write.php">
+                                    <a href="{{ route('author.create') }}">
                                         <button class="btn btn-primary">작품추가</button>
                                     </a>
                                 </div>
@@ -81,20 +81,20 @@
                                             </button>
                                         </div>
 
-                                        <div v-for="my_comment in my_comments">
-                                            <div class="review">
-                                                <div>
-                                                    <span class="nick">@{{ my_comment.users.name }}</span> @{{ my_comment.created_at }}
-                                                    <button class="btn btn-xs btn-pink">N</button>
-                                                </div>
-                                                <div class="content">
-                                                    <span class="inning">8회</span> @{{ my_comment.comment }}
-                                                </div>
-                                                <div class="button">
-                                                    <button class="btn btn-xs btn-mint">답변</button>
-                                                    <button class="btn btn-xs btn-danger">신고</button>
-                                                </div>
+                                        <div class="review" v-for="my_comment in my_comments">
+
+                                            <div>
+                                                <span class="nick">@{{ my_comment.users.name }}</span> @{{ my_comment.created_at }}
+                                                <button class="btn btn-xs btn-pink">N</button>
                                             </div>
+                                            <div class="content">
+                                                <span class="inning">8회</span> @{{ my_comment.comment }}
+                                            </div>
+                                            <div class="button">
+                                                <button class="btn btn-xs btn-mint">답변</button>
+                                                <button class="btn btn-xs btn-danger">신고</button>
+                                            </div>
+
                                         </div>
                                         <div class="review reply">
                                             <div>

@@ -27,7 +27,7 @@ Route::put('users/update', ['as' => 'users.update', 'uses' => 'UserController@up
 Route::resource('nickname', 'NickNameController');
 
 Route::get('/author/index', 'PageController\AuthorPageController@index');
-Route::get('/author/create', 'PageController\AuthorPageController@create');
+Route::get('/author/create', ['as' => 'author.create', 'uses' => 'PageController\AuthorPageController@create']);
 Route::get('/author/{id}/edit', 'PageController\AuthorPageController@edit');
 Route::get('/author/index', ['as' => 'author_index', 'uses' => 'PageController\AuthorPageController@index']);
 Route::get('/author/novelgroup/{id}', ['as' => 'author_novel_group', 'uses' => 'PageController\AuthorPageController@novel_gorup']);

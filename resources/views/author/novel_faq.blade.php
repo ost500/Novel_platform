@@ -23,14 +23,15 @@
                     <li class="active">
                         <a data-toggle="tab" href="#demo-lft-tab-1">독자
                             <span class="badge badge-purple">
-                                {{-- count(array_filter($faqs, function($v, $k) {
-                                     return $k == 'faq_category' || $v == 1;}, ARRAY_FILTER_USE_BOTH)) --}}9</span></a>
+                                {{ $faq_reader->count() }}</span></a>
                     </li>
                     <li>
-                        <a data-toggle="tab" href="#demo-lft-tab-2">작가</a>
+                        <a data-toggle="tab" href="#demo-lft-tab-2">작가<span class="badge badge-purple">
+                                {{ $faq_author->count() }}</span></a>
                     </li>
                     <li>
-                        <a data-toggle="tab" href="#demo-lft-tab-3">기타</a>
+                        <a data-toggle="tab" href="#demo-lft-tab-3">기타<span class="badge badge-purple">
+                                {{ $faq_etc->count() }}</span></a>
                     </li>
                 </ul>
 
@@ -78,7 +79,8 @@
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
                                             <a data-parent="#accordion" data-toggle="collapse"
-                                               href="#collapse_author{{$loop->iteration}}">{{$loop->iteration}}. {{$faq->title  }} </a>
+                                               href="#collapse_author{{$loop->iteration}}">{{$loop->iteration}}
+                                                . {{$faq->title  }} </a>
                                         </h4>
                                     </div>
 
@@ -106,7 +108,8 @@
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
                                             <a data-parent="#accordion" data-toggle="collapse"
-                                               href="#collapse_other{{$loop->iteration}}">{{$loop->iteration}}. {{$faq->title  }} </a>
+                                               href="#collapse_other{{$loop->iteration}}">{{$loop->iteration}}
+                                                . {{$faq->title  }} </a>
                                         </h4>
                                     </div>
 
@@ -118,7 +121,8 @@
                                         </div>
                                     </div>
 
-                                    <input type="hidden" name="faq_other_count" id="faq_other_count" value="{{$loop->iteration}}"/>
+                                    <input type="hidden" name="faq_other_count" id="faq_other_count"
+                                           value="{{$loop->iteration}}"/>
 
                                 </div>
 
