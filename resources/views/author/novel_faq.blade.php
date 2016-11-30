@@ -38,65 +38,58 @@
                 <div class="tab-content">
                     <div id="demo-lft-tab-1" class="tab-pane fade active in">
                         <div class="panel-group accordion" id="accordion">
-                            @php
-                            $i=1
-                            @endphp
-                            @foreach($faqs as $faq)
+
+                            @foreach($faq_reader as $faq)
                                 <div class="panel">
                                     <!--Accordion title-->
 
-                                    @if($faq->faq_category == 1)
-                                        <div class="panel-heading">
-                                            <h4 class="panel-title">
-                                                <a data-parent="#accordion" data-toggle="collapse" href="#collapse{{$i}}">{{$i}}. {{$faq->title  }} </a>
-                                            </h4>
-                                        </div>
 
-                                        <!--Accordion content-->
-                                        <div class="panel-collapse collapse" id="collapse{{$i}}">
-                                            <div class="panel-body">
-                                                {{$faq->description}}
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-parent="#accordion" data-toggle="collapse"
+                                               href="#collapse{{$loop->iteration}}">{{$loop->iteration}}
+                                                . {{$faq->title  }} </a>
+                                        </h4>
+                                    </div>
 
-                                            </div>
+                                    <!--Accordion content-->
+                                    <div class="panel-collapse collapse" id="collapse{{$loop->iteration}}">
+                                        <div class="panel-body">
+                                            {{$faq->description}}
+
                                         </div>
-                                        @php
-                                        $i=$i+1
-                                        @endphp
-                                    @endif
+                                    </div>
+
                                 </div>
 
-                             @endforeach
-                              <!--End Default Accordion-->
-                         </div>
+                        @endforeach
+                        <!--End Default Accordion-->
+                        </div>
                     </div>
 
                     <div id="demo-lft-tab-2" class="tab-pane fade">
                         <div class="panel-group accordion" id="accordion">
                             <!--<h4 class="text-thin">Second Tab Content</h4>-->
-                            @php
-                            $j=1
-                            @endphp
-                            @foreach($faqs as $faq)
+
+                            @foreach($faq_author as $faq)
                                 <div class="panel">
                                     <!--Accordion title-->
-                                    @if($faq->faq_category == 2)
-                                        <div class="panel-heading">
-                                            <h4 class="panel-title">
-                                                <a data-parent="#accordion" data-toggle="collapse" href="#collapse_author{{$j}}">{{$j}}. {{$faq->title  }} </a>
-                                            </h4>
-                                        </div>
 
-                                        <!--Accordion content-->
-                                        <div class="panel-collapse collapse" id="collapse_author{{$j}}">
-                                            <div class="panel-body">
-                                                {{$faq->description}}
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-parent="#accordion" data-toggle="collapse"
+                                               href="#collapse_author{{$loop->iteration}}">{{$loop->iteration}}. {{$faq->title  }} </a>
+                                        </h4>
+                                    </div>
 
-                                            </div>
+                                    <!--Accordion content-->
+                                    <div class="panel-collapse collapse" id="collapse_author{{$loop->iteration}}">
+                                        <div class="panel-body">
+                                            {{$faq->description}}
+
                                         </div>
-                                        @php
-                                        $j=$j+1
-                                        @endphp
-                                    @endif
+                                    </div>
+
                                 </div>
 
                             @endforeach
@@ -104,32 +97,29 @@
                     </div>
                     <div id="demo-lft-tab-3" class="tab-pane fade">
                         <div class="panel-group accordion" id="accordion">
-                           <!-- <h4 class="text-thin">Third Tab Content</h4>-->
-                            @php
-                            $k=1
-                            @endphp
-                            @foreach($faqs as $faq)
+                            <!-- <h4 class="text-thin">Third Tab Content</h4>-->
+
+                            @foreach($faq_etc as $faq)
                                 <div class="panel">
                                     <!--Accordion title-->
-                                    @if($faq->faq_category == 3)
-                                        <div class="panel-heading">
-                                            <h4 class="panel-title">
-                                                <a data-parent="#accordion" data-toggle="collapse" href="#collapse_other{{$k}}">{{$k}}. {{$faq->title  }} </a>
-                                            </h4>
-                                        </div>
 
-                                        <!--Accordion content-->
-                                        <div class="panel-collapse collapse" id="collapse_other{{$k}}">
-                                            <div class="panel-body">
-                                                {{$faq->description}}
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-parent="#accordion" data-toggle="collapse"
+                                               href="#collapse_other{{$loop->iteration}}">{{$loop->iteration}}. {{$faq->title  }} </a>
+                                        </h4>
+                                    </div>
 
-                                            </div>
+                                    <!--Accordion content-->
+                                    <div class="panel-collapse collapse" id="collapse_other{{$loop->iteration}}">
+                                        <div class="panel-body">
+                                            {{$faq->description}}
+
                                         </div>
-                                        @php
-                                        $k=$k+1
-                                        @endphp
-                                        <input type="hidden" name="faq_other_count" id="faq_other_count" value="{{$k}}" />
-                                    @endif
+                                    </div>
+
+                                    <input type="hidden" name="faq_other_count" id="faq_other_count" value="{{$loop->iteration}}"/>
+
                                 </div>
 
                             @endforeach

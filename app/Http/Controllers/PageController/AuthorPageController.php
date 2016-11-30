@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\PageController;
+
 use App\MenToMenQuestionAnswer;
 use App\NovelGroup;
 use App\Faq;
@@ -48,32 +49,37 @@ class AuthorPageController extends Controller
 
     public function edit($id)
     {
-        $novel_group=NovelGroup::find($id);
+        $novel_group = NovelGroup::find($id);
         return view('author.edit', compact('novel_group'));
     }
 
     public function men_to_men_index(Request $request)
     {
-        $men_to_men_requests= $request->user()->question_answers()->get();
+        $men_to_men_requests = $request->user()->question_answers()->get();
         return view('author.novel_request_list', compact('men_to_men_requests'));
     }
+
     public function men_to_men_show(Request $request, $id)
     {
-        $men_to_men_request= MenToMenQuestionAnswer::where('id',$id)->with('users')->first();
-        $men_to_men_requests= $request->user()->question_answers()->get();
-        return view('author.novel_request_view', compact('men_to_men_request','men_to_men_requests'));
+        $men_to_men_request = MenToMenQuestionAnswer::where('id', $id)->with('users')->first();
+        $men_to_men_requests = $request->user()->question_answers()->get();
+        return view('author.novel_request_view', compact('men_to_men_request', 'men_to_men_requests'));
     }
 
     public function memo_index()
     {
-        $memos= Memo::get();
+        $memos = Memo::get();
         return view('author.novel_memo', compact('memos'));
     }
 
     public function faq_index()
     {
-        $faqs= Faq::get();
-        return view('author.novel_faq', compact('faqs'));
+
+        $faq_reader = Faq::where('faq_category', 1)->get();
+        $faq_author = Faq::where('faq_category', 2)->get();
+        $faq_etc = Faq::where('faq_category', 3)->get();
+        
+        return view('author.novel_faq', compact('faq_reader','faq_author','faq_etc'));
     }
 
     public function faq_create()
@@ -83,7 +89,7 @@ class AuthorPageController extends Controller
 
     public function faq_edit($id)
     {
-        $faq=Faq::find($id);
+        $faq = Faq::find($id);
         return view('author.faq_edit', compact('faq'));
     }
 
