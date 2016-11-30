@@ -60,6 +60,13 @@ class AuthorPageController extends Controller
         return view('author.novel_memo', compact('novel_mail_messages'));
     }
 
+    public function mailbox_message_show($id)
+    {
+
+        $mailbox_message= Mailbox::where('id',$id)->with('users')->first();
+        return view('author.mailbox_message', compact('mailbox_message'));
+    }
+
     public function men_to_men_index(Request $request)
     {
         $men_to_men_requests= $request->user()->question_answers()->get();

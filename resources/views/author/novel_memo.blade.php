@@ -48,18 +48,18 @@
                 <ul id="demo-mail-list" class="mail-list">
                 @foreach($novel_mail_messages as $novel_mail_message)
                     <!--Mail list item-->
-                    <li class="mail-list-unread mail-attach">
+                    <li >
                         <div class="mail-control">
                             <label class="demo-cb-mail form-checkbox form-normal form-primary">
                                 <input type="checkbox">
                             </label>
                         </div>
 
-                        <div class="mail-from"><a href="#">{{$novel_mail_message->from}}</a></div>
+                        <div class="mail-from"><a href="#">@if($novel_mail_message->users) {{$novel_mail_message->users->name}} @endif</a></div>
                         <div class="mail-time">{{$novel_mail_message->created_at}}</div>
 
                         <div class="mail-subject">
-                            <a href="#" class="novel-memo-view">{{$novel_mail_message->subject}} </a>
+                            <a href="{{route('author.mailbox_message',['id'=> $novel_mail_message->id ])}}" >{{$novel_mail_message->subject}} </a>
                         </div>
                     </li>
                 @endforeach

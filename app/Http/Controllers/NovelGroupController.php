@@ -137,7 +137,7 @@ class NovelGroupController extends Controller
         if($request->hasFile('cover_photo')) {
             $cover_photo = $request->file('cover_photo');
             $size=$cover_photo->getSize();
-            if($size > 1000000){ return redirect('novelgroups'); }
+            if($size > 1000000){ return redirect('author/edit'); }
 
             $filename = $id."_".$cover_photo->getClientOriginalName();
             $db_filename =$cover_photo->getClientOriginalName();
@@ -150,7 +150,7 @@ class NovelGroupController extends Controller
 
         NovelGroup::where('id',$id)->update($input);
         //redirect to novels
-        return redirect('novelgroups');
+        return redirect()->route('novelgroups',['id'=>$id]);
 
     }
 
