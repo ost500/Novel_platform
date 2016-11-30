@@ -121,7 +121,7 @@
 
                                     <ul class="collapse">
                                         <li><a href="{{ route('author_index') }}">작품목록</a></li>
-                                        <li><a href="{{ url('/author/create') }}">작품등록</a></li>
+                                        <li><a href="{{ route('author.novel_group_create') }}">작품등록</a></li>
 
                                     </ul>
                                 </li>
@@ -166,7 +166,7 @@
                                 <li class="list-divider"></li>
 
                                 <li>
-                                    <a href="{{ url('/author/novel_memo') }}">
+                                    <a href="{{ route('author.novel_memo')}}">
                                         <i class="fa fa-envelope"></i>
 						<span class="menu-title">
 							<strong>쪽지함</strong>
@@ -177,7 +177,7 @@
                                 <li class="list-divider"></li>
 
                                 <li>
-                                    <a href="{{ url('/author/novel_request_list') }}">
+                                    <a href="{{ route('author.novel_request_list')}}">
                                         <i class="fa fa-send"></i>
 						<span class="menu-title">
 							<strong>1:1문의</strong>
@@ -188,7 +188,7 @@
                                 <li class="list-divider"></li>
 
                                 <li>
-                                    <a href="{{ url('/author/novel_faq') }}">
+                                    <a href="{{ route('author.novel_faq')}}">
                                         <i class="fa fa-send"></i>
 						<span class="menu-title">
 							<strong>FAQ</strong>

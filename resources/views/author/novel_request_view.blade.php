@@ -86,7 +86,7 @@
                         <div class="mail-time">{{$request->created_at}}</div>
 
                         <div class="mail-subject">
-                            <a href="{{ url('/author/novel_request_view/'.$request->id) }}">{{$request->title}} </a>
+                            <a href="{{ route('author.novel_request_view',['id' => $request->id])}}">{{$request->title}} </a>
                         </div>
                     </li>
                  @endforeach

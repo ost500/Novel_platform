@@ -53,7 +53,7 @@ class FaqController extends Controller
         //if validation is passed then insert the record
         Faq::create($input);
         //redirect to faqs
-        return redirect('/author/faq_index');
+        return redirect()->route('author.novel_faq');
     }
 
     /**
