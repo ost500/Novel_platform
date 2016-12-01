@@ -156,7 +156,7 @@
                     this.profile['X-CSRF-TOKEN'] = window.Laravel.csrfToken;
                     Vue.http.headers.common['X-CSRF-TOKEN'] = "{!! csrf_token() !!}";
 
-                    this.$http.post(action, this.profile, {headers: {'X-CSRF-TOKEN': '{!! csrf_token() !!}'}})
+                    this.$http.put(action, this.profile, {headers: {'X-CSRF-TOKEN': '{!! csrf_token() !!}'}})
                             .then(function (response) {
                                 $.niftyNoty({
                                     type: 'purple',

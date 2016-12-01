@@ -99,6 +99,13 @@ class NovelGroupController extends Controller
         return \Response::json($novel_group);
     }
 
+    public function show_novel($id)
+    {
+        //
+        $novel_group = NovelGroup::find($id)->novels;
+        return \Response::json($novel_group);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

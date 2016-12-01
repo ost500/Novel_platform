@@ -19,6 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 Route::resource('novelgroups', 'NovelGroupController');
+Route::get('novelgroup/novels/{id}', ['as' => 'novelgroup.novel', 'uses' => 'NovelGroupController@show_novel']);
 Route::resource('novels', 'NovelController');
 Route::resource('comments', 'CommentController');
 Route::resource('faqs', 'FaqController');

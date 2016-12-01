@@ -83,7 +83,7 @@ class NovelController extends Controller
     {
         //
         $novel = Novel::find($id);
-        return \Response::json($novel);
+        return response()->json($novel);
     }
 
 
