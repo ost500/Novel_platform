@@ -16,7 +16,7 @@
 
     <div id="page-content">
 
-
+        @include('partials.flash')
 
         <div class="panel">
             <div class="panel-body">

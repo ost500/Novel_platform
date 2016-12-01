@@ -420,7 +420,9 @@
 
 <script src="/js/ui-modals.js"></script>
 <script src="/js/ui-alerts.js"></script>
-
+<script>
+    $('div.alert').not('alert-important').delay(3000).slideUp(300);
+</script >
 
 </body>
 </html>

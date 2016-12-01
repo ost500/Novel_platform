@@ -43,7 +43,10 @@ class MenToMenQuestionAnswerController extends Controller
 
 
          $men_to_menRequest =$request->user()->question_answers()->create($request->all());
-         return \Response::json(["status"=>"ok", "id"=> $men_to_menRequest->id ]);
+
+         flash('Request inserted successfully','success');
+
+         return \Response::json(["status"=>"200", "id"=> $men_to_menRequest->id ]);
 
     }
 
