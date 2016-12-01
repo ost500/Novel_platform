@@ -34,14 +34,14 @@
 
 
                                             <td class="col-md-9">@{{ nick.nickname }}
-                                                <button v-model="nick.main" v-if="nick.main"
+                                                <button v-if="nick.main"
                                                         class="btn btn-xs btn-danger btn-circle">메인
                                                 </button>
                                             </td>
 
                                             <td class="text-center">
 
-                                                <button v-model="nick.main" v-if="nick.main == false"
+                                                <button v-if="nick.main == false"
                                                         class="btn btn-primary" v-on:click="main(nick.id)">메인전환
 
                                                 </button>

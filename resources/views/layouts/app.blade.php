@@ -18,18 +18,33 @@
     <link href="/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link href="/plugins/pace/pace.min.css" rel="stylesheet">
 
+
+
     <!-- Scripts -->
     <script src="/plugins/pace/pace.min.js"></script>
     <script src="/js/vue.js"></script>
     <script src="/js/vue-resource.min.js"></script>
     <script src="/js/jquery-2.1.1.min.js"></script>
 
+    <script src="/plugins/bootstrap-timepicker/bootstrap-timepicker.js"></script>
+
+    {{--jquery-ui css--}}
+    <link href="/css/jquery-ui/jquery-ui.min.css" rel="stylesheet">
+    <link href="/css/jquery-ui/jquery-ui.structure.min.css" rel="stylesheet">
+    <link href="/css/jquery-ui/jquery-ui.theme.min.css" rel="stylesheet">
+    <link href="/css/jquery-ui/jquery-ui.theme.min.css" rel="stylesheet">
+    <link href="/plugins/bootstrap-timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
 
     <script>
         window.Laravel = <?php echo json_encode([
                 'csrfToken' => csrf_token(),
         ]); ?>
     </script>
+
+
+
+
+
 </head>
 <body>
 
@@ -413,13 +428,16 @@
 <!--End Small Bootstrap Modal-->
 
 
+
+
 <script src="/js/bootstrap.min.js"></script>
-<script src="/js/nifty.min.js"></script>
+
 
 <!--������� �ʿ�-->
 <script src="/plugins/bootstrap-select/bootstrap-select.min.js"></script>
 <script src="/plugins/bootbox/bootbox.min.js"></script>
 <!--������� �ʿ�-->
+
 
 
 <script src="/js/ui-modals.js"></script>
@@ -428,6 +446,10 @@
 {{--laravel 기본 스크립트--}}
 <script src="/js/app.js"></script>
 
+{{--jquery UI--}}
+<script src="/js/jquery-ui/jquery-ui.min.js"></script>
+
+<script src="/js/nifty.min.js"></script>
 
 </body>
 </html>

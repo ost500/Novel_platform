@@ -28,7 +28,7 @@ class AuthorPageController extends Controller
     {
         $novel_group = NovelGroup::find($id);
         $novels = $novel_group->novels;
-        return view('author.novel_group', compact('novels'));
+        return view('author.novel_group', compact('novels', 'novel_group'));
     }
 
     public function profile()
@@ -42,9 +42,10 @@ class AuthorPageController extends Controller
         return view('author.create');
     }
 
-    public function create_inning()
+    public function create_inning($id)
     {
-        return view('author.novel_inning_write');
+        $novel_group = NovelGroup::find($id);
+        return view('author.novel_inning_write', compact('novel_group'));
     }
 
     public function edit($id)
@@ -78,7 +79,7 @@ class AuthorPageController extends Controller
         $faq_reader = Faq::where('faq_category', 1)->get();
         $faq_author = Faq::where('faq_category', 2)->get();
         $faq_etc = Faq::where('faq_category', 3)->get();
-        
+
         return view('author.novel_faq', compact('faq_reader','faq_author','faq_etc'));
     }
 
