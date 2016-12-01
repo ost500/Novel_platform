@@ -52,9 +52,10 @@
                             </button>
 
 
-                            <a id="redirect" href="{{route('author.novel_request_list')}}">
+                            <a  href="{{route('author.novel_request_list')}}">
                                 <button type="button" class="btn btn-danger">취소</button>
                             </a>
+
                         </div>
                     </form>
                 </div>
@@ -80,11 +81,11 @@
                     e.preventDefault();
                     var form = e.srcElement;
                     var action = form.action;
-                    //console.log(route('author.novel_request_list'));
                     Vue.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('#token').getAttribute('content');
-                    var  $redirect_url= document.querySelector('#redirect').getAttribute('href');
+                    var  $redirect_url='/author/novel_request_view';
                     this.$http.post(action, this.new_men_to_menRequest).then(function (response) {
-                        window.location.href=$redirect_url;
+
+                        window.location.href=$redirect_url+'/'+response.data['id'];
                         /*  $.niftyNoty({
                             type: 'purple',
                             icon: 'fa fa-check',

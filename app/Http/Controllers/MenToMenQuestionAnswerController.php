@@ -42,8 +42,8 @@ class MenToMenQuestionAnswerController extends Controller
         ]);
 
 
-         $request->user()->question_answers()->create($request->all());
-         return \Response::json("Request submitted successfully");
+         $men_to_menRequest =$request->user()->question_answers()->create($request->all());
+         return \Response::json(["status"=>"ok", "id"=> $men_to_menRequest->id ]);
 
     }
 
