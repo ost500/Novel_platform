@@ -67,6 +67,11 @@ class AuthorPageController extends Controller
         return view('author.mailbox_message', compact('mailbox_message'));
     }
 
+    public function men_to_men_create()
+    {
+        return view('author.novel_request');
+    }
+
     public function men_to_men_index(Request $request)
     {
         $men_to_men_requests= $request->user()->question_answers()->get();

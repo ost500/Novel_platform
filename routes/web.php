@@ -21,6 +21,7 @@ Route::get('/home', 'HomeController@index');
 Route::resource('novelgroups', 'NovelGroupController');
 Route::resource('novels', 'NovelController');
 Route::resource('comments', 'CommentController');
+Route::resource('mentomen', 'MenToMenQuestionAnswerController');
 Route::resource('faqs', 'FaqController');
 Route::resource('users', 'UserController', ['except' => ['update']]);
 Route::put('users/update', ['as' => 'users.update', 'uses' => 'UserController@update']);
@@ -37,8 +38,11 @@ Route::get('/author/create', ['as' => 'author.novel_group_create', 'uses' => 'Pa
 Route::get('/author/{id}/edit', ['as' => 'author.novel_group_edit', 'uses' => 'PageController\AuthorPageController@edit']);
 Route::get('/author/novel_memo', ['as' => 'author.novel_memo', 'uses' => 'PageController\AuthorPageController@mailbox_index']);
 Route::get('/author/mailbox_message/{id}',['as' => 'author.mailbox_message', 'uses' => 'PageController\AuthorPageController@mailbox_message_show']);
+
+Route::get('/author/novel_request', ['as' => 'author.novel_request', 'uses' => 'PageController\AuthorPageController@men_to_men_create']);
 Route::get('/author/novel_request_list', ['as' => 'author.novel_request_list', 'uses' => 'PageController\AuthorPageController@men_to_men_index']);
 Route::get('/author/novel_request_view/{id}',['as' => 'author.novel_request_view', 'uses' => 'PageController\AuthorPageController@men_to_men_show']);
+
 Route::get('/author/novel_faq', ['as' => 'author.novel_faq', 'uses' => 'PageController\AuthorPageController@faq_index']);
 Route::get('/author/faq_create',['as' => 'author.faq_create', 'uses' => 'PageController\AuthorPageController@faq_create']);
 Route::get('/author/faq_edit', ['as' => 'author.faq_edit', 'uses' => 'PageController\AuthorPageController@faq_edit']);
