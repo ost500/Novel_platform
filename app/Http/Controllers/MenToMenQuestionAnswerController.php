@@ -43,9 +43,8 @@ class MenToMenQuestionAnswerController extends Controller
 
 
          $request->user()->question_answers()->create($request->all());
-       //  return "OK";
          return \Response::json("Request submitted successfully");
-       //         return redirect()->route('author.novel_request_list');
+
     }
 
 }

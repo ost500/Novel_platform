@@ -21,7 +21,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
         'phone_num' => $faker->phoneNumber,
-        'bank' => "기업은행",
+        'bank' => "IBK",
         'account_holder' => $faker->name,
         'account_number' => $faker->bankAccountNumber
     ];

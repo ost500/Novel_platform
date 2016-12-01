@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <meta id="token" name="token" content="{{ csrf_token() }}">
+
     <div id="content-container" xmlns:v-on="http://www.w3.org/1999/xhtml">
 
         <div id="page-title">
@@ -22,7 +22,7 @@
 
                     <form role="form" class="form-horizontal" action="{{ route('mentomen.store')}}" method="post"
                           v-on:submit.prevent="onSubmit">
-
+                        <meta id="token" name="token" content="{{ csrf_token() }}">
                         <div class="form-group">
                             <label class="col-lg-1 control-label text-left" for="inputSubject">제목</label>
 
@@ -52,7 +52,7 @@
                             </button>
 
 
-                            <a href="{{route('author.novel_request_list')}}">
+                            <a id="redirect" href="{{route('author.novel_request_list')}}">
                                 <button type="button" class="btn btn-danger">취소</button>
                             </a>
                         </div>
@@ -80,16 +80,18 @@
                     e.preventDefault();
                     var form = e.srcElement;
                     var action = form.action;
+                    //console.log(route('author.novel_request_list'));
                     Vue.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('#token').getAttribute('content');
-
+                    var  $redirect_url= document.querySelector('#redirect').getAttribute('href');
                     this.$http.post(action, this.new_men_to_menRequest).then(function (response) {
-                        $.niftyNoty({
+                        window.location.href=$redirect_url;
+                        /*  $.niftyNoty({
                             type: 'purple',
                             icon: 'fa fa-check',
                             message: response.data,
                             container: 'page',
                             timer: 4000
-                        });
+                        });*/
 
                     }).catch(function (errors) {
 
