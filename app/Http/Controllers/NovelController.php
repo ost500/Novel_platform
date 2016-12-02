@@ -107,8 +107,24 @@ class NovelController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-        $request->user()->novel()->update($request->all())->where('id', $id);
+        $update_novel = Novel::find($id);
+
+        $update_novel->title = $request->title;
+        $update_novel->content = $request->novel_content;
+        if ($request->adult == "on") {
+            $update_novel->adult = true;
+        }
+        if ($request->publish_reservation == "on" && $request->reser_day && $request->reser_time) {
+            echo $request->reser_day . " " . $request->reser_time;
+            $update_novel->publish_reservation = $request->reser_day . " " . $request->reser_time;
+        } else{
+            $update_novel->publish_reservation = null;
+        }
+
+        $update_novel->author_comment = $request->author_comment;
+        $update_novel->save();
+
+        dd($update_novel);
     }
 
     /**

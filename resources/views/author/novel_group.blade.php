@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div id="content-container" xmlns:v-on="http://www.w3.org/1999/xhtml">
+    <div id="content-container" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 
         <div id="page-title">
             <h1 class="page-header text-overflow">작품회차목록</h1>
@@ -40,7 +40,8 @@
                                         <td class="text-center">
                                             <button class="btn btn-primary">유료화</button>
                                             <button class="btn btn-info">공개</button>
-                                            <a href="novel_inning_write.blade.php">
+                                            {{--<a href="/author/update_inning/"@{{ novel.id }}>--}}
+                                            <a v-on:click="go_to_update(novel.id)">
                                                 <button class="btn btn-success">수정</button>
                                             </a>
                                             <button class="btn btn-warning" v-on:click="destroy(novel.id)">삭제</button>
@@ -93,7 +94,7 @@
                     var destroy_confirm;
 
                     bootbox.confirm({
-                        message:"삭제 하시겠습니까?",
+                        message: "삭제 하시겠습니까?",
 
                         buttons: {
                             confirm: {
@@ -107,36 +108,36 @@
                         callback: function (result) {
 
 
-                        if (result) {
-                            Vue.http.headers.common['X-CSRF-TOKEN'] = "{!! csrf_token() !!}";
-                            //                    var csrfToken = form.querySelector('input[name="_token"]').value;
+                            if (result) {
+                                Vue.http.headers.common['X-CSRF-TOKEN'] = "{!! csrf_token() !!}";
+                                //                    var csrfToken = form.querySelector('input[name="_token"]').value;
 
-                            app_novel.$http.delete("{{ url('novels') }}/" + e, {headers: {'X-CSRF-TOKEN': '{!! csrf_token() !!}'}})
-                                    .then(function (response) {
-                                        this.reload();
-                                        $.niftyNoty({
-                                            type: 'warning',
-                                            icon: 'fa fa-check',
-                                            //message : "Hello " + name + ".<br> You've chosen <strong>" + answer + "</strong>",
-                                            message: "삭제 되었습니다.",
-                                            //container : 'floating',
-                                            container: 'page',
-                                            timer: 4000
+                                app_novel.$http.delete("{{ url('novels') }}/" + e, {headers: {'X-CSRF-TOKEN': '{!! csrf_token() !!}'}})
+                                        .then(function (response) {
+                                            this.reload();
+                                            $.niftyNoty({
+                                                type: 'warning',
+                                                icon: 'fa fa-check',
+                                                //message : "Hello " + name + ".<br> You've chosen <strong>" + answer + "</strong>",
+                                                message: "삭제 되었습니다.",
+                                                //container : 'floating',
+                                                container: 'page',
+                                                timer: 4000
+                                            });
+
+                                        })
+                                        .catch(function (data, status, request) {
+                                            var errors = data.data;
+                                            this.formErrors = errors;
                                         });
 
-                                    })
-                                    .catch(function (data, status, request) {
-                                        var errors = data.data;
-                                        this.formErrors = errors;
-                                    });
+                            } else {
 
-                        } else {
+                            }
+
 
                         }
-
-
-                    }});
-
+                    });
 
 
                 },
@@ -146,6 +147,10 @@
                                 console.log(response);
                                 this.novels = response.data;
                             });
+                },
+
+                go_to_update: function (e) {
+                    window.location.assign('{{ url('/author/update_inning/') }}'+"/" + e);
                 },
             }
 

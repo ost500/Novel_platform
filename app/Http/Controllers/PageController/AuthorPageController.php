@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\PageController;
 
 use App\MenToMenQuestionAnswer;
+use App\Novel;
 use App\NovelGroup;
 use App\Faq;
 use App\Http\Controllers\Controller;
 use Auth;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class AuthorPageController extends Controller
@@ -46,6 +48,28 @@ class AuthorPageController extends Controller
     {
         $novel_group = NovelGroup::find($id);
         return view('author.novel_inning_write', compact('novel_group'));
+    }
+
+    public function update_inning($id)
+    {
+        $novel = Novel::find($id);
+        $novel_group = $novel->novel_groups;
+
+        $reser_day = new Carbon();
+
+        //출간예약이 없다면 null 값을 리턴한다
+        if($novel->publish_reservation == null){
+            $novel->reser_day = null;
+            $novel->reser_time = null;
+        }
+        else{
+            $novel->reser_day = $reser_day->toDateString();
+            $novel->reser_day = $reser_day->format('h:i');
+        }
+
+
+
+        return view('author.novel_inning_update', compact('novel', 'novel_group'));
     }
 
     public function edit($id)
