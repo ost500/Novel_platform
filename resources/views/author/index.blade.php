@@ -18,7 +18,7 @@
 
         <div id="page-content">
 
-
+            @include('partials.flash')
             <div class="row">
                 <div class="col-lg-12">
 

@@ -39,6 +39,9 @@ class DatabaseSeeder extends Seeder
         // users table
         $this->call(UsersTableSeeder::class);
 
+        //NickName Table
+        $this->call(NickNameSeeder::class);
+
         $users = App\User::get();
 
         // NovelGroup table
@@ -86,15 +89,12 @@ class DatabaseSeeder extends Seeder
 
         //Mailbox table
         App\Mailbox::truncate();
-
         $users->each(function ($user) {
-            $mail = $user->mailbox()->save( factory(App\Mailbox::class)->make());
-            $mail->to = $user->email;
+            $user->mailbox()->save(factory(App\Mailbox::class)->make());
         });
 
         $this->command->info('Mails table seeded');
 
-        $this->call(NickNameSeeder::class);
 
         //MenToMen QuestionAnswer table
         App\MenToMenQuestionAnswer::truncate();
