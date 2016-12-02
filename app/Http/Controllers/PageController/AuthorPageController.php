@@ -49,8 +49,9 @@ class AuthorPageController extends Controller
 
     public function edit($id)
     {
-        $novel_group=NovelGroup::find($id);
-        return view('author.edit', compact('novel_group'));
+       // $novel_group=NovelGroup::find($id);
+      //  return view('author.edit', compact('novel_group','id'));
+        return view('author.edit', compact('id'));
     }
 
     public function mailbox_index(Request $request)

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\NovelGroup;
+use Illuminate\Support\Facades\Auth;
 use Validator;
 class NovelGroupController extends Controller
 {
@@ -100,9 +101,13 @@ class NovelGroupController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request,$id)
     {
-        //
+
+       // $novel_group= $request->user()->novel_groups()->with('users.nicknames')->where('id',$id)->first();
+        $novel_group=NovelGroup::where('id',$id)->first();
+        $nicknames=$request->user()->nicknames()->list('nickname','id');
+        return \Response::json(['novel_group'=>$novel_group,'nick_names'=>$nicknames]);
     }
 
     /**

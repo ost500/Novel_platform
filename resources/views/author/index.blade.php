@@ -53,7 +53,7 @@
                                                             <td class="padding-top-10 text-right">
                                                                 <button class="btn btn-primary">댓글 1,000</button>
                                                                 <button class="btn btn-info">리뷰 1,000</button>
-                                                                <button class="btn btn-success">수정</button>
+                                                                <button class="btn btn-success" onclick="window.location.href='{{route('author.novel_group_edit',['id' => $novel_group->id])}}'">수정</button>
                                                                 <button class="btn btn-mint">비밀</button>
                                                                 <button class="btn btn-warning">삭제</button>
                                                             </td>
