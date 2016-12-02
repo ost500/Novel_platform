@@ -24,6 +24,14 @@
     <script src="/js/vue-resource.min.js"></script>
     <script src="/js/jquery-2.1.1.min.js"></script>
 
+    <script src="/plugins/bootstrap-timepicker/bootstrap-timepicker.js"></script>
+
+    {{--jquery-ui css--}}
+    <link href="/css/jquery-ui/jquery-ui.min.css" rel="stylesheet">
+    <link href="/css/jquery-ui/jquery-ui.structure.min.css" rel="stylesheet">
+    <link href="/css/jquery-ui/jquery-ui.theme.min.css" rel="stylesheet">
+    <link href="/css/jquery-ui/jquery-ui.theme.min.css" rel="stylesheet">
+    <link href="/plugins/bootstrap-timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
 
     <script>
         window.Laravel = <?php echo json_encode([
@@ -76,7 +84,14 @@
                 <ul class="nav navbar-top-links pull-right">
                     <li id="dropdown-user">
                         <div class="username text-right">
-                            <button class="btn btn-danger">로그아웃</button>
+                            <a href="{{ url('/logout') }}"
+                               onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                <button class="btn btn-danger">로그아웃</button>
+                            </a>
+                            <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                            </form>
                         </div>
                     </li>
                 </ul>
@@ -420,6 +435,14 @@
 
 <script src="/js/ui-modals.js"></script>
 <script src="/js/ui-alerts.js"></script>
+
+{{--laravel 기본 스크립트--}}
+<script src="/js/app.js"></script>
+
+{{--jquery UI--}}
+<script src="/js/jquery-ui/jquery-ui.min.js"></script>
+
+<script src="/js/nifty.min.js"></script>
 
 </body>
 </html>

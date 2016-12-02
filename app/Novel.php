@@ -25,6 +25,12 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Novel whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Novel whereUpdatedAt($value)
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Comment[] $comments
+ * @property boolean $adult
+ * @property string $publish_reservation
+ * @property string $author_comment
+ * @method static \Illuminate\Database\Query\Builder|\App\Novel whereAdult($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Novel wherePublishReservation($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Novel whereAuthorComment($value)
  */
 
 

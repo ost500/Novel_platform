@@ -37,6 +37,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Query\Builder|\App\User whereBank($value)
  * @method static \Illuminate\Database\Query\Builder|\App\User whereAccountHolder($value)
  * @method static \Illuminate\Database\Query\Builder|\App\User whereAccountNumber($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\NickName[] $nicknames
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\MenToMenQuestionAnswer[] $question_answers
  */
 class User extends Authenticatable
 {

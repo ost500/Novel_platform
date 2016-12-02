@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\PageController;
 use App\Mailbox;
 use App\MenToMenQuestionAnswer;
+use App\Novel;
 use App\NovelGroup;
 use App\Faq;
 use App\Http\Controllers\Controller;
 use Auth;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class AuthorPageController extends Controller
@@ -28,7 +30,7 @@ class AuthorPageController extends Controller
     {
         $novel_group = NovelGroup::find($id);
         $novels = $novel_group->novels;
-        return view('author.novel_group', compact('novels'));
+        return view('author.novel_group', compact('novels', 'novel_group'));
     }
 
     public function profile()
@@ -42,9 +44,32 @@ class AuthorPageController extends Controller
         return view('author.create');
     }
 
-    public function create_inning()
+    public function create_inning($id)
     {
-        return view('author.novel_inning_write');
+        $novel_group = NovelGroup::find($id);
+        return view('author.novel_inning_write', compact('novel_group'));
+    }
+
+    public function update_inning($id)
+    {
+        $novel = Novel::find($id);
+        $novel_group = $novel->novel_groups;
+
+        $reser_day = new Carbon();
+
+        //출간예약이 없다면 null 값을 리턴한다
+        if($novel->publish_reservation == null){
+            $novel->reser_day = null;
+            $novel->reser_time = null;
+        }
+        else{
+            $novel->reser_day = $reser_day->toDateString();
+            $novel->reser_day = $reser_day->format('h:i');
+        }
+
+
+
+        return view('author.novel_inning_update', compact('novel', 'novel_group'));
     }
 
     public function edit($id)
@@ -75,26 +100,30 @@ class AuthorPageController extends Controller
 
     public function men_to_men_index(Request $request)
     {
-        $men_to_men_requests= $request->user()->question_answers()->get();
+        $men_to_men_requests = $request->user()->question_answers()->get();
         return view('author.novel_request_list', compact('men_to_men_requests'));
     }
     public function men_to_men_show(Request $request, $id)
     {
-        $men_to_men_request= MenToMenQuestionAnswer::where('id',$id)->with('users')->first();
-        $men_to_men_requests= $request->user()->question_answers()->get();
-        return view('author.novel_request_view', compact('men_to_men_request','men_to_men_requests'));
+        $men_to_men_request = MenToMenQuestionAnswer::where('id', $id)->with('users')->first();
+        $men_to_men_requests = $request->user()->question_answers()->get();
+        return view('author.novel_request_view', compact('men_to_men_request', 'men_to_men_requests'));
     }
 
     public function memo_index()
     {
-        $memos= Memo::get();
+        $memos = Memo::get();
         return view('author.novel_memo', compact('memos'));
     }
 
     public function faq_index()
     {
-        $faqs= Faq::get();
-        return view('author.novel_faq', compact('faqs'));
+
+        $faq_reader = Faq::where('faq_category', 1)->get();
+        $faq_author = Faq::where('faq_category', 2)->get();
+        $faq_etc = Faq::where('faq_category', 3)->get();
+
+        return view('author.novel_faq', compact('faq_reader','faq_author','faq_etc'));
     }
 
     public function faq_create()
@@ -104,7 +133,7 @@ class AuthorPageController extends Controller
 
     public function faq_edit($id)
     {
-        $faq=Faq::find($id);
+        $faq = Faq::find($id);
         return view('author.faq_edit', compact('faq'));
     }
 
