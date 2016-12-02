@@ -74,8 +74,9 @@ class AuthorPageController extends Controller
 
     public function edit($id)
     {
-        $novel_group = NovelGroup::find($id);
-        return view('author.edit', compact('novel_group'));
+       // $novel_group=NovelGroup::find($id);
+      //  return view('author.edit', compact('novel_group','id'));
+        return view('author.edit', compact('id'));
     }
 
     public function mailbox_index(Request $request)
@@ -85,12 +86,23 @@ class AuthorPageController extends Controller
         return view('author.novel_memo', compact('novel_mail_messages'));
     }
 
+    public function mailbox_message_show($id)
+    {
+
+        $mailbox_message= Mailbox::where('id',$id)->with('users')->first();
+        return view('author.mailbox_message', compact('mailbox_message'));
+    }
+
+    public function men_to_men_create()
+    {
+        return view('author.novel_request');
+    }
+
     public function men_to_men_index(Request $request)
     {
         $men_to_men_requests = $request->user()->question_answers()->get();
         return view('author.novel_request_list', compact('men_to_men_requests'));
     }
-
     public function men_to_men_show(Request $request, $id)
     {
         $men_to_men_request = MenToMenQuestionAnswer::where('id', $id)->with('users')->first();

@@ -17,7 +17,7 @@ class Mailbox extends Model
 
     public function users()
     {
-        return $this->belongsTo(User::class, 'to', 'email');
+        return $this->belongsTo(User::class,'from', 'email');
     }
 
 }

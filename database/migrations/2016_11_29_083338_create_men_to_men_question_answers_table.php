@@ -18,7 +18,7 @@ class CreateMenToMenQuestionAnswersTable extends Migration
             $table->integer('user_id')->unsigned()->index();
             $table->string('title');
             $table->text('question');
-            $table->text('answer');
+            $table->text('answer')->nullable();
             $table->boolean('status')->default(0);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

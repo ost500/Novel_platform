@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Validator;
 class MenToMenQuestionAnswerController extends Controller
 {
 
@@ -26,4 +26,28 @@ class MenToMenQuestionAnswerController extends Controller
         $men_to_men_requests= $request->user()->question_answers()->get();
         return \Response::json($men_to_men_requests);
     }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $this->validate($request, [
+
+            'title' => 'required',
+            'question' => 'required',
+        ]);
+
+
+         $men_to_menRequest =$request->user()->question_answers()->create($request->all());
+
+         flash('Request inserted successfully');
+
+         return \Response::json(["status"=>"200", "id"=> $men_to_menRequest->id ]);
+
+    }
+
 }

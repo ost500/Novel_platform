@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\NovelGroup;
+use Illuminate\Support\Facades\Auth;
 use Validator;
-
 class NovelGroupController extends Controller
 {
     /**
@@ -112,9 +112,13 @@ class NovelGroupController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request,$id)
     {
-        //
+
+       // $novel_group= $request->user()->novel_groups()->with('users.nicknames')->where('id',$id)->first();
+        $novel_group=NovelGroup::where('id',$id)->first();
+        $nicknames=$request->user()->nicknames()->list('nickname','id');
+        return \Response::json(['novel_group'=>$novel_group,'nick_names'=>$nicknames]);
     }
 
     /**
@@ -127,7 +131,7 @@ class NovelGroupController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $input = $request->except('_token', '_method');
+        $input=$request->except('_token','_method');
         //Validate the request
         $validator = Validator::make($request->all(), [
             'nickname' => 'required|max:255',
@@ -146,12 +150,10 @@ class NovelGroupController extends Controller
 
         //if validation is passed then insert the record
 
-        if ($request->hasFile('cover_photo')) {
+        if($request->hasFile('cover_photo')) {
             $cover_photo = $request->file('cover_photo');
-            $size = $cover_photo->getSize();
-            if ($size > 1000000) {
-                return redirect('novelgroups');
-            }
+            $size=$cover_photo->getSize();
+            if($size > 1000000){ return redirect('author/edit'); }
 
             $filename = $id . "_" . $cover_photo->getClientOriginalName();
             $db_filename = $cover_photo->getClientOriginalName();

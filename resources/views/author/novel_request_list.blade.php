@@ -21,7 +21,7 @@
             <div id="demo-email-list" class="panel-body">
                 <div class="row">
                     <div class="col-sm-7">
-                        <a href="novel_request.php"><button class="btn btn-primary">문의하기</button></a>
+                        <a href="{{route('author.novel_request')}}"><button class="btn btn-primary">문의하기</button></a>
                     </div>
                     <hr class="hr-sm visible-xs">
                     <div class="col-sm-12 clearfix">
