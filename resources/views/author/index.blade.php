@@ -32,39 +32,42 @@
                                 </div>
                                 <div id="novel_list">
 
-                                        <table class="table table-bordered"  v-for="group in novel_groups">
-                                            <tbody >
-                                            <tr>
-                                                <td class="text-center col-md-2"><a
-                                                            href="novel_group.blade.php">표지이미지</a>
-                                                </td>
-                                                <td>
-                                                    <table class="table-no-border" style="width:100%;">
-                                                        <tr>
-                                                            <td><h4>
-                                                                    <a style="cursor:pointer" v-on:click="go_to_group(group.id)">@{{ group.title }}</a>
-                                                                </h4>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>등록된 회차수 : 2화, 마지막 업로드 일자 : 2016-11-10</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="padding-top-10 text-right">
-                                                                <button class="btn btn-primary">댓글 1,000</button>
-                                                                <button class="btn btn-info">리뷰 1,000</button>
-                                                                <button class="btn btn-success" onclick="window.location.href='{{route('author.novel_group_edit',['id' => $novel_group->id])}}'">수정</button>
-                                                                <button class="btn btn-mint">비밀</button>
-                                                                <button class="btn btn-warning"
-                                                                        v-on:click="destroy(group.id)">삭제
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
+                                    <table class="table table-bordered" v-for="group in novel_groups">
+                                        <tbody>
+                                        <tr>
+                                            <td class="text-center col-md-2"><a
+                                                        href="novel_group.blade.php">표지이미지</a>
+                                            </td>
+                                            <td>
+                                                <table class="table-no-border" style="width:100%;">
+                                                    <tr>
+                                                        <td><h4>
+                                                                <a style="cursor:pointer"
+                                                                   v-on:click="go_to_group(group.id)">@{{ group.title }}</a>
+                                                            </h4>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>등록된 회차수 : 2화, 마지막 업로드 일자 : 2016-11-10</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="padding-top-10 text-right">
+                                                            <button class="btn btn-primary">댓글 1,000</button>
+                                                            <button class="btn btn-info">리뷰 1,000</button>
+                                                            <button class="btn btn-success"
+                                                                    v-on:click="go_to_edit(group.id)">수정
+                                                            </button>
+                                                            <button class="btn btn-mint">비밀</button>
+                                                            <button class="btn btn-warning"
+                                                                    v-on:click="destroy(group.id)">삭제
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
 
 
                                 </div>
@@ -146,8 +149,11 @@
                         });
             },
             methods: {
-                go_to_group: function(id){
-                    window.location.assign('{{ url('author/novelgroup') }}'+"/" + id);
+                go_to_group: function (id) {
+                    window.location.assign('{{ url('author/novelgroup') }}' + "/" + id);
+                },
+                go_to_edit: function (id) {
+                    window.location.assign('/author/' + id + '/edit');
                 },
 
                 destroy: function (e) {
@@ -193,7 +199,7 @@
                         }
                     });
                 },
-                reload_novel_groups: function(){
+                reload_novel_groups: function () {
                     this.$http.get('{{ route('novels.index') }}')
                             .then(function (response) {
                                 this.novel_groups = response.data;
