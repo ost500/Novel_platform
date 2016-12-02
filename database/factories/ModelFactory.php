@@ -21,7 +21,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
         'phone_num' => $faker->phoneNumber,
-        'bank' => "ê¸°ì—…ì€í–‰",
+        'bank' => "±â¾÷ÀºÇà",
         'account_holder' => $faker->name,
         'account_number' => $faker->bankAccountNumber
     ];
@@ -78,11 +78,15 @@ $factory->define(App\NickName::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Faq::class, function (Faker\Generator $faker) {
+
+
+$factory->define(App\Mailbox::class, function (Faker\Generator $faker) {
+
     return [
-        'faq_category' => $faker->randomElement(['1','2','3']),
-        'title' => $faker->sentence,
-        'description' => $faker->paragraph,
+        'to' => $faker->email,
+        'from' => $faker->email,
+        'subject' => $faker->sentence,
+        'body' => $faker->paragraph,
     ];
 });
 
@@ -97,3 +101,10 @@ $factory->define(App\MenToMenQuestionAnswer::class, function (Faker\Generator $f
     ];
 });
 
+$factory->define(App\Faq::class, function (Faker\Generator $faker) {
+    return [
+        'faq_category' => $faker->randomElement(['1','2','3']),
+        'title' => $faker->sentence,
+        'description' => $faker->paragraph,
+    ];
+});
