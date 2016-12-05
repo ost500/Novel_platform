@@ -29,10 +29,11 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 
 $factory->define(App\NovelGroup::class, function (Faker\Generator $faker) {
     $userIds = App\User::pluck('id')->toArray();
-
+    $u_id = $faker->randomElement($userIds);
+    $nick_name = App\NickName::where('user_id', $u_id)->first();
     return [
-        'user_id' => $faker->randomElement($userIds),
-        'nickname' => $faker->word,
+        'user_id' => $u_id,
+        'nickname' => $nick_name->id,
         'title' => $faker->sentence,
         'description' => $faker->paragraph,
         'keyword1' => $faker->word,
@@ -79,7 +80,6 @@ $factory->define(App\NickName::class, function (Faker\Generator $faker) {
 });
 
 
-
 $factory->define(App\Mailbox::class, function (Faker\Generator $faker) {
 
     return [
@@ -96,14 +96,14 @@ $factory->define(App\MenToMenQuestionAnswer::class, function (Faker\Generator $f
         'user_id' => $faker->randomElement($userIds),
         'title' => $faker->sentence,
         'question' => $faker->paragraph,
-        'answer' => $faker->randomElement([$faker->paragraph,' ']),
-        'status' =>$faker->randomElement(['0','1']),
+        'answer' => $faker->randomElement([$faker->paragraph, ' ']),
+        'status' => $faker->randomElement(['0', '1']),
     ];
 });
 
 $factory->define(App\Faq::class, function (Faker\Generator $faker) {
     return [
-        'faq_category' => $faker->randomElement(['1','2','3']),
+        'faq_category' => $faker->randomElement(['1', '2', '3']),
         'title' => $faker->sentence,
         'description' => $faker->paragraph,
     ];

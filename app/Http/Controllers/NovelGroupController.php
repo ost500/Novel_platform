@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\NovelGroup;
-use Illuminate\Support\Facades\Auth;
 use Validator;
+
 class NovelGroupController extends Controller
 {
     /**
@@ -109,16 +109,17 @@ class NovelGroupController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request,$id)
+    public function edit(Request $request, $id)
     {
 
-       // $novel_group= $request->user()->novel_groups()->with('users.nicknames')->where('id',$id)->first();
-        $novel_group=NovelGroup::where('id',$id)->first();
-        $nicknames=$request->user()->nicknames()->list('nickname','id');
-        return \Response::json(['novel_group'=>$novel_group,'nick_names'=>$nicknames]);
+        // $novel_group= $request->user()->novel_groups()->with('users.nicknames')->where('id',$id)->first();
+        $novel_group = NovelGroup::where('id', $id)->first();
+        $nicknames = $request->user()->nicknames()->get();
+        return \Response::json(['novel_group' => $novel_group, 'nick_names' => $nicknames]);
     }
 
     /**
@@ -131,14 +132,21 @@ class NovelGroupController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $input=$request->except('_token','_method');
+
+        $input = $request->except('_token', '_method');
         //Validate the request
-        $validator = Validator::make($request->all(), [
+        $this->validate($request, [
             'nickname' => 'required|max:255',
             'title' => 'required',
             'description' => 'required',
-            'cover_photo' => 'dimensions:max_width=900,max_height=900',
-            'cover_photo' => 'mimes:jpeg,png',
+        ]);
+
+       /* $validator = Validator::make($request->all(), [
+            'nickname' => 'required|max:255',
+            'title' => 'required',
+            'description' => 'required',
+           // 'cover_photo' => 'dimensions:max_width=900,max_height=900',
+            //'cover_photo' => 'mimes:jpeg,png',
         ]);
 
         //if validation fails then redirect to create page
@@ -146,14 +154,16 @@ class NovelGroupController extends Controller
             return redirect('author/edit')
                 ->withErrors($validator)
                 ->withInput();
-        }
+        }*/
 
         //if validation is passed then insert the record
 
-        if($request->hasFile('cover_photo')) {
+        if ($request->hasFile('cover_photo')) {
             $cover_photo = $request->file('cover_photo');
-            $size=$cover_photo->getSize();
-            if($size > 1000000){ return redirect('author/edit'); }
+            $size = $cover_photo->getSize();
+            if ($size > 1000000) {
+                return redirect('author/edit');
+            }
 
             $filename = $id . "_" . $cover_photo->getClientOriginalName();
             $db_filename = $cover_photo->getClientOriginalName();
@@ -166,7 +176,9 @@ class NovelGroupController extends Controller
 
         NovelGroup::where('id', $id)->update($input);
         //redirect to novels
-        return redirect('novelgroups');
+        flash("Novel Group updated successfully");
+        return \Response::json(['status' =>'ok']);
+       // return redirect('novelgroups');
 
     }
 

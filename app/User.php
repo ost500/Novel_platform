@@ -85,6 +85,6 @@ class User extends Authenticatable
 
     public function mailbox()
     {
-        return $this->hasMany(Mailbox::class);
+        return $this->hasMany(Mailbox::class,'to','email');
     }
 }
