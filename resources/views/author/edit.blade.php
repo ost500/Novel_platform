@@ -16,18 +16,29 @@
 
 
         <div id="page-content">
+            @if (count($errors) > 0)
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
+            @include('partials.flash')
 
             <div class="row" id="novel_group_edit">
                 <div class="col-sm-12">
 
                     <div class="panel">
 
-                        <form class="panel-body form-horizontal form-padding" method="post"
-                              enctype="multipart/form-data"
-                              v-on:submit.prevent="onSubmit(fillItem.id)">
+                        <form name="novel_group_update" id= "novel_group_update" class="panel-body form-horizontal form-padding" method="post" action="{{route('novelgroups.update',['id'=>$id]) }}"
+                              enctype="multipart/form-data">
                             <input name="_method" type="hidden" value="PUT">
-                            <meta id="token" name="token" content="{{ csrf_token() }}">
+                            {{ csrf_field() }}
+                            {{--  <input name="novel_group_id" id="novel_group_id" type="hidden" :value="fillItem.id" >
+                            <meta id="token" name="token" content="{{ csrf_token() }}">  v-on:submit.prevent="onSubmit(fillItem.id)"     --}}
 
                             <!--Static-->
                             <!--div class="form-group">
@@ -154,10 +165,7 @@
                                 <label class="col-md-2 control-label">표지 직접등록1</label>
 
                                 <div class="col-md-9">
-                                    <input type="file" v-el="cover_photo" name="cover_photo" id="cover_photo"
-                                           class="form-control"
-                                           v-on:change="onFileChange"
-                                            >
+                                    <input type="file"  name="cover_photo" id="cover_photo" class="form-control" >
                                     <small class="has-warning">사이즈 : 900*900 / 최대용량 : 1M / 업로드 가능 확장자 : JPG, PNG 파일
                                     </small>
                                 </div>
@@ -216,19 +224,7 @@
         var app = new Vue({
                     el: '#novel_group_edit',
                     data: {
-                        fillItem: {
-//                            'nickname': '',
-//                            'title': '',
-//                            'description': '',
-//                            'keyword1': '',
-//                            'keyword2': '',
-//                            'keyword3': '',
-//                            'keyword4': '',
-//                            'keyword5': '',
-//                            'keyword6': '',
-//                            'keyword7': '',
-//                            'cover_photo': '',
-                        },
+                        fillItem: { },
                         novel_group: [],
                         nick_names: [],
                         formErrors: {}
@@ -237,62 +233,13 @@
                     mounted: function () {
                         this.$http.get('{{ route( 'novelgroups.edit',['[id'=>$id]) }}')
                                 .then(function (response) {
-
-//                                    this.novel_group = response.data['novel_group'];
                                     this.fillItem = response.data['novel_group'];
-//                                    this.fillItem.nickname = this.novel_group.nickname;
-//                                    this.fillItem.title = this.novel_group.title;
-//                                    this.fillItem.description = this.novel_group.description;
-//                                    this.fillItem.keyword1= this.novel_group.keyword1;
-//                                    this.fillItem.keyword2 = this.novel_group.keyword2;
-//                                    this.fillItem.keyword3 = this.novel_group.keyword3;
-//                                    this.fillItem.keyword4 = this.novel_group.keyword4;
-//                                    this.fillItem.keyword5 = this.novel_group.keyword5;
-//                                    this.fillItem.keyword6 = this.novel_group.keyword6;
-//                                    this.fillItem.keyword7= this.novel_group.keyword7;
-                                    //  this.fillItem.cover_photo = this.novel_group.cover_photo;
-                                    //console.log(this.nick_name_selected);
                                     this.nick_names = response.data['nick_names']; //console.log( response.data);
                                 });
 
-                    },
-
-                    methods: {
-
-
-                        onSubmit: function (id) {
-                            var action = '/novelgroups/' + id;
-                            //  Vue.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('#token').getAttribute('content');
-                            // var $redirect_url = '/author/index';
-
-
-                            this.$http.put(action, this.fillItem, {
-                                headers: {
-                                    'X-CSRF-TOKEN': window.Laravel.csrfToken
-                                }
-                            })
-                                    .then(function (response) {
-                                         console.log(response.data);
-                                        //  window.location.href = $redirect_url;
-
-
-                                    }).catch(function (errors) {
-                                        console.log(errors.data);
-                                        this.formErrors = errors.data;
-                                    });
-                        },
-
-                        onFileChange: function (e) {
-                            e.preventDefault();
-                            var files = $('#cover_photo').files;
-                            var data = new FormData();
-                            // for single file
-                            data.append('cover_photo', files);
-                        }
                     }
-                })
-                ;
 
+                });
 
     </script>
 
