@@ -112,6 +112,10 @@ class NovelController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        
+
+
         $update_novel = Novel::find($id);
 
         $update_novel->title = $request->title;
@@ -135,7 +139,7 @@ class NovelController extends Controller
             $cover_photo = $request->file('cover_photo');
             $filename = $cover_photo->getClientOriginalName();
             //set original name for database
-            $input['cover_photo'] = $filename;
+            $update_novel->cover_photo = $filename;
             //Insert the record
 
             //upload file to destination path
@@ -147,7 +151,9 @@ class NovelController extends Controller
 
         $update_novel->save();
 
-        dd($update_novel);
+//        dd($update_novel);
+        $novel_group = $update_novel->novel_groups;
+        return view('author.novel_group', compact('update_novel', 'novel_group'));
     }
 
     /**

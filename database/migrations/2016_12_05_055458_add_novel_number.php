@@ -15,6 +15,7 @@ class AddNovelNumber extends Migration
     {
         Schema::table('novels', function ($table) {
             $table->integer('inning')->default(0)->unsigned()->index();
+            $table->string('cover_photo')->nullable();
 
         });
     }
