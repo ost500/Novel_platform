@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddNovelsTable extends Migration
+class AddNovelNumber extends Migration
 {
     /**
      * Run the migrations.
@@ -14,9 +14,8 @@ class AddNovelsTable extends Migration
     public function up()
     {
         Schema::table('novels', function ($table) {
-            $table->integer('adult')->default(0)->unsigned()->index();
-            $table->datetime('publish_reservation', 45)->nullable();
-            $table->text('author_comment', 45)->nullable();
+            $table->integer('inning')->default(0)->unsigned()->index();
+
         });
     }
 
@@ -28,9 +27,8 @@ class AddNovelsTable extends Migration
     public function down()
     {
         Schema::table('novels', function ($table) {
-            $table->dropColumn('adult');
-            $table->dropColumn('publish_reservation');
-            $table->dropColumn('author_comment');
+            $table->dropColumn('inning');
+
         });
     }
 }

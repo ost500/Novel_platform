@@ -102,7 +102,7 @@ class NovelGroupController extends Controller
     public function show_novel($id)
     {
         //
-        $novel_group = NovelGroup::find($id)->novels;
+        $novel_group = NovelGroup::find($id)->novels->sortByDesc('inning')->values();
         return \Response::json($novel_group);
     }
 
@@ -141,20 +141,20 @@ class NovelGroupController extends Controller
             'description' => 'required',
         ]);
 
-       /* $validator = Validator::make($request->all(), [
-            'nickname' => 'required|max:255',
-            'title' => 'required',
-            'description' => 'required',
-           // 'cover_photo' => 'dimensions:max_width=900,max_height=900',
-            //'cover_photo' => 'mimes:jpeg,png',
-        ]);
+        /* $validator = Validator::make($request->all(), [
+             'nickname' => 'required|max:255',
+             'title' => 'required',
+             'description' => 'required',
+            // 'cover_photo' => 'dimensions:max_width=900,max_height=900',
+             //'cover_photo' => 'mimes:jpeg,png',
+         ]);
 
-        //if validation fails then redirect to create page
-        if ($validator->fails()) {
-            return redirect('author/edit')
-                ->withErrors($validator)
-                ->withInput();
-        }*/
+         //if validation fails then redirect to create page
+         if ($validator->fails()) {
+             return redirect('author/edit')
+                 ->withErrors($validator)
+                 ->withInput();
+         }*/
 
         //if validation is passed then insert the record
 
@@ -177,8 +177,8 @@ class NovelGroupController extends Controller
         NovelGroup::where('id', $id)->update($input);
         //redirect to novels
         flash("Novel Group updated successfully");
-        return \Response::json(['status' =>'ok']);
-       // return redirect('novelgroups');
+        return \Response::json(['status' => 'ok']);
+        // return redirect('novelgroups');
 
     }
 
@@ -193,5 +193,23 @@ class NovelGroupController extends Controller
         //
         $novel_group = NovelGroup::find($id);
         $novel_group->delete();
+    }
+
+    public function inning_order($id)
+    {
+        $novel_group = NovelGroup::find($id);
+        $novels = $novel_group->novels;
+
+        $index = 1;
+        foreach ($novels as $novel) {
+            if($novel->adult != 0){
+                $novel->inning = $novel->adult;
+                $novel->save();
+                continue;
+            }
+            $novel->inning = $index;
+            $novel->save();
+            $index++;
+        }
     }
 }
