@@ -37,4 +37,9 @@ class Comment extends Model
     {
         return $this->belongsTo(Novel::class, 'novel_id', 'id');
     }
+
+    public function children()
+    {
+        return $this->hasMany(Comment::class, 'parent_id')->with('users')->with('novels');
+    }
 }

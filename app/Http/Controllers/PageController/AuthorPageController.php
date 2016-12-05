@@ -24,6 +24,7 @@ class AuthorPageController extends Controller
     {
         $novel_groups = Auth::user()->novel_groups;
         return view('author.index', compact('novel_groups'));
+
     }
 
     public function novel_gorup($id)
@@ -141,4 +142,5 @@ class AuthorPageController extends Controller
     {
         return view('author.nick_name');
     }
+
 }

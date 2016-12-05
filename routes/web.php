@@ -17,7 +17,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
+//Route::get('/home', 'HomeController@index');
 Route::resource('novelgroups', 'NovelGroupController');
 Route::get('novelgroup/novels/{id}', ['as' => 'novelgroup.novel', 'uses' => 'NovelGroupController@show_novel']);
 Route::resource('novels', 'NovelController');
@@ -28,7 +28,7 @@ Route::resource('users', 'UserController', ['except' => ['update']]);
 Route::put('users/update', ['as' => 'users.update', 'uses' => 'UserController@update']);
 Route::resource('nickname', 'NickNameController');
 
-Route::get('/author/index', 'PageController\AuthorPageController@index');
+
 Route::get('/author/create', ['as' => 'author.create', 'uses' => 'PageController\AuthorPageController@create']);
 Route::get('/author/{id}/edit', 'PageController\AuthorPageController@edit');
 
@@ -38,6 +38,7 @@ Route::get('/author/profile/', ['as' => 'author.profile', 'uses' => 'PageControl
 Route::get('/author/nickname/', ['as' => 'author.nickname', 'uses' => 'PageController\AuthorPageController@nickname']);
 Route::get('/author/create_inning/{id}', ['as' => 'author.inning', 'uses' => 'PageController\AuthorPageController@create_inning']);
 Route::get('/author/update_inning/{id}', ['as' => 'author.inning.update', 'uses' => 'PageController\AuthorPageController@update_inning']);
+Route::get('/author/mycomment/{id}', ['as' => 'author.mycomment', 'uses' => 'PageController\AuthorPageController@mycomment']);
 
 Route::get('/author/create', ['as' => 'author.novel_group_create', 'uses' => 'PageController\AuthorPageController@create']);
 Route::get('/author/{id}/edit', ['as' => 'author.novel_group_edit', 'uses' => 'PageController\AuthorPageController@edit']);
@@ -51,3 +52,6 @@ Route::get('/author/novel_request_view/{id}',['as' => 'author.novel_request_view
 Route::get('/author/novel_faq', ['as' => 'author.novel_faq', 'uses' => 'PageController\AuthorPageController@faq_index']);
 Route::get('/author/faq_create',['as' => 'author.faq_create', 'uses' => 'PageController\AuthorPageController@faq_create']);
 Route::get('/author/faq_edit', ['as' => 'author.faq_edit', 'uses' => 'PageController\AuthorPageController@faq_edit']);
+
+
+Route::get('/admin/index',['as' => 'admin.novel', 'uses' => 'PageController\AdminPageController@index']);
