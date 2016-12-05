@@ -25,10 +25,12 @@
                     <div class="col-sm-12">
 
                         <div class="panel">
-                            <form action="{{ route('novels.update',['novel'=> $novel->id]) }}" method="post"
+                            <form action="{{ route('novels.update',['novel'=> $novel->id]) }}" method="POST"
                                   enctype="multipart/form-data"
-                                  class="panel-body form-horizontal form-padding" v-on:submit.prevent="submit">
-                                <meta id="token" name="token" content="{{ csrf_token() }}">
+                                  class="panel-body form-horizontal form-padding">
+                                <input name="_method" type="hidden" value="PUT">
+
+                                {{ csrf_field() }}
                                 <input hidden type="text" v-model="novel.novel_group_id" name="novel_group_id">
                                 <!--Static-->
                                 <div class="form-group">
@@ -111,7 +113,7 @@
 
 
                                         <input type="file" id="demo-password-input" class="form-control"
-                                               placeholder="Password">
+                                               placeholder="Password" id="file_" name="cover_photo">
                                         <small class="has-warning">사이즈 : 900*900 / 최대용량 : 1M / 업로드 가능 확장자 : JPG, PNG
                                             파일
                                         </small>
@@ -134,7 +136,7 @@
 
                                 <div class="form-group">
                                     <div class="col-md-12 text-center">
-                                        <button class="btn btn-lg btn-primary">회차저장</button>
+                                        <button class="btn btn-lg btn-primary" type="submit">회차저장</button>
                                         <button class="btn btn-lg btn-danger">취소</button>
                                     </div>
                                 </div>
@@ -165,7 +167,8 @@
                     reser_day: "{{$novel->reser_day}}",
                     reser_time: "{{$novel->reser_time}}",
                     novel_content: "{{$novel->title}}",
-                    author_comment: "{{$novel->title}}"
+                    author_comment: "{{$novel->title}}",
+                    cover_photo: $("#file_")
                 },
                 formErrors: {}
             },
@@ -173,24 +176,7 @@
 
             },
             methods: {
-                submit: function (e) {
-                    e.preventDefault();
-//                    Vue.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('#token').getAttribute('content');
-                    Vue.http.headers.common['X-CSRF-TOKEN'] = window.Laravel.csrfToken;
-                    var form = e.srcElement;
-                    var action = form.action;
-//                    var csrfToken = form.querySelector('input[name="_token"]').value;
 
-                    this.$http.put(action, this.novel, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
-                            .then(function (response) {
-                                window.location.assign('{{ route('author_novel_group',['id'=>$novel_group->id]) }}');
-
-                            })
-                            .catch(function (data, status, request) {
-                                var errors = data.data;
-                                this.formErrors = errors;
-                            });
-                }
             }
         });
 

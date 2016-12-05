@@ -53,10 +53,10 @@ class Novel extends Model
 
     public function novel_groups()
     {
-        return $this->belongsTo(NovelGroup::class, 'id');
+        return $this->belongsTo(NovelGroup::class, 'novel_group_id');
     }
     public function comments()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Comment::class)->with('users');
     }
 }

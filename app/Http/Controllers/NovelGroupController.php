@@ -102,7 +102,7 @@ class NovelGroupController extends Controller
     public function show_novel($id)
     {
         //
-        $novel_group = NovelGroup::find($id)->novels;
+        $novel_group = NovelGroup::find($id)->novels->sortByDesc('inning')->values();
         return \Response::json($novel_group);
     }
 
@@ -131,10 +131,11 @@ class NovelGroupController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $input = $request->except('_token','_method');
+        //
 
+        $input = $request->except('_token', '_method');
         //Validate the request
-       /* $this->validate($request, [
+      /*  $this->validate($request, [
             'nickname' => 'required|max:255',
             'title' => 'required',
             'description' => 'required',
@@ -159,7 +160,6 @@ class NovelGroupController extends Controller
 
         if ($request->hasFile('cover_photo')) {
             $cover_photo = $request->file('cover_photo');
-         //   dd( $cover_photo);
             $size = $cover_photo->getSize();
             if ($size > 1000000) {
                 flash('Image Size should not be greater than 1Mb');
@@ -174,6 +174,7 @@ class NovelGroupController extends Controller
             $destinationPath = public_path('/img/novel_covers/');
             $cover_photo->move($destinationPath, $filename);
         }
+
         NovelGroup::where('id', $id)->update($input);
         //redirect to novels
         flash("Novel Group updated successfully");
@@ -195,5 +196,23 @@ class NovelGroupController extends Controller
         //
         $novel_group = NovelGroup::find($id);
         $novel_group->delete();
+    }
+
+    public function inning_order($id)
+    {
+        $novel_group = NovelGroup::find($id);
+        $novels = $novel_group->novels;
+
+        $index = 1;
+        foreach ($novels as $novel) {
+            if($novel->adult != 0){
+                $novel->inning = $novel->adult;
+                $novel->save();
+                continue;
+            }
+            $novel->inning = $index;
+            $novel->save();
+            $index++;
+        }
     }
 }

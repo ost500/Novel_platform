@@ -67,6 +67,11 @@ class NovelController extends Controller
         }
 
         $new_novel->author_comment = $request->author_comment;
+
+        $new_novel->save();
+
+        $new_novel->inning = Novel::find($request->novel_group_id)->novel_groups->novels->count();
+
         $new_novel->save();
 
         dd($new_novel);
@@ -107,6 +112,10 @@ class NovelController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        
+
+
         $update_novel = Novel::find($id);
 
         $update_novel->title = $request->title;
@@ -122,9 +131,29 @@ class NovelController extends Controller
         }
 
         $update_novel->author_comment = $request->author_comment;
+
+
+        //upload the picture
+        if ($request->hasFile('cover_photo')) {
+
+            $cover_photo = $request->file('cover_photo');
+            $filename = $cover_photo->getClientOriginalName();
+            //set original name for database
+            $update_novel->cover_photo = $filename;
+            //Insert the record
+
+            //upload file to destination path
+            $destinationPath = public_path('/img/novel_covers/');
+            $cover_photo->move($destinationPath, $update_novel->id . '_' . $filename);
+        }
+
+
+
         $update_novel->save();
 
-        dd($update_novel);
+//        dd($update_novel);
+        $novel_group = $update_novel->novel_groups;
+        return view('author.novel_group', compact('update_novel', 'novel_group'));
     }
 
     /**
@@ -138,5 +167,15 @@ class NovelController extends Controller
         //
         $novel = Novel::find($id);
         $novel->delete();
+
+//        $my_novel = Novel::where('user_id',Auth::user()->id)->orderBy('created_at')->get();
+//
+//        $index = 1;
+//        foreach($my_novel as $novel){
+//            $novel->inning = $index;
+//            $novel->save();
+//            $index++;
+//        }
+        
     }
 }
