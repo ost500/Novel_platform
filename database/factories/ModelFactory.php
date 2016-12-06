@@ -21,7 +21,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
         'phone_num' => $faker->phoneNumber,
-        'bank' => "기업은행",
+        'bank' => "IBK",
         'account_holder' => $faker->name,
         'account_number' => $faker->bankAccountNumber
     ];
@@ -32,7 +32,7 @@ $factory->define(App\NovelGroup::class, function (Faker\Generator $faker) {
 
     return [
         'user_id' => $faker->randomElement($userIds),
-        'nickname' => $faker->word,
+        'nickname' =>$faker->randomElement(['1','2','3']),
         'title' => $faker->sentence,
         'description' => $faker->paragraph,
         'keyword1' => $faker->word,
@@ -78,11 +78,14 @@ $factory->define(App\NickName::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Faq::class, function (Faker\Generator $faker) {
+
+$factory->define(App\Mailbox::class, function (Faker\Generator $faker) {
+
     return [
-        'faq_category' => $faker->randomElement(['1','2','3']),
-        'title' => $faker->sentence,
-        'description' => $faker->paragraph,
+        'to' => $faker->email,
+        'from' => $faker->email,
+        'subject' => $faker->sentence,
+        'body' => $faker->paragraph,
     ];
 });
 
@@ -92,8 +95,26 @@ $factory->define(App\MenToMenQuestionAnswer::class, function (Faker\Generator $f
         'user_id' => $faker->randomElement($userIds),
         'title' => $faker->sentence,
         'question' => $faker->paragraph,
-        'answer' => $faker->randomElement([$faker->paragraph,' ']),
-        'status' =>$faker->randomElement(['0','1']),
+        'answer' => $faker->randomElement([$faker->paragraph, ' ']),
+        'status' => $faker->randomElement(['0', '1']),
     ];
 });
 
+$factory->define(App\Faq::class, function (Faker\Generator $faker) {
+    return [
+        'faq_category' => $faker->randomElement(['1', '2', '3']),
+        'title' => $faker->sentence,
+        'description' => $faker->paragraph,
+    ];
+});
+
+$factory->define(App\Review::class, function (Faker\Generator $faker) {
+    $userIds = App\User::pluck('id')->toArray();
+    $novelIds = App\Novel::pluck('id')->toArray();
+
+    return [
+        'user_id' => $faker->randomElement($userIds),
+        'novel_id' => $faker->randomElement($novelIds),
+        'review' => $faker->sentence,
+    ];
+});

@@ -37,6 +37,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Query\Builder|\App\User whereBank($value)
  * @method static \Illuminate\Database\Query\Builder|\App\User whereAccountHolder($value)
  * @method static \Illuminate\Database\Query\Builder|\App\User whereAccountNumber($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\NickName[] $nicknames
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\MenToMenQuestionAnswer[] $question_answers
  */
 class User extends Authenticatable
 {
@@ -72,6 +74,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Comment::class);
     }
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
     public function nicknames()
     {
         return $this->hasMany(NickName::class);
@@ -79,5 +85,10 @@ class User extends Authenticatable
     public function question_answers()
     {
         return $this->hasMany(MenToMenQuestionAnswer::class);
+    }
+
+    public function mailbox()
+    {
+        return $this->hasMany(Mailbox::class,'to','email');
     }
 }

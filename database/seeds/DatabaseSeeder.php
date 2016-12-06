@@ -39,14 +39,21 @@ class DatabaseSeeder extends Seeder
         // users table
         $this->call(UsersTableSeeder::class);
 
+        //NickName Table
+        $this->call(NickNameSeeder::class);
+
         $users = App\User::get();
 
         // NovelGroup table
         App\NovelGroup::truncate();
 
         $users->each(function ($user) {
-            $user->novel_groups()->save(factory(App\NovelGroup::class)->make());
-            $user->novel_groups()->save(factory(App\NovelGroup::class)->make());
+            $new_novel_group1 = $user->novel_groups()->save(factory(App\NovelGroup::class)->make());
+            $new_novel_group1->nickname = $user->nicknames[0]->id;
+            $new_novel_group1->save();
+            $new_novel_group2 = $user->novel_groups()->save(factory(App\NovelGroup::class)->make());
+            $new_novel_group2->nickname = $user->nicknames[1]->id;
+            $new_novel_group2->save();
         });
 
         $novel_groups = App\NovelGroup::get();
@@ -76,18 +83,26 @@ class DatabaseSeeder extends Seeder
             $new_child_comment = $novel->comments()->save(factory(App\Comment::class)->make());
             $new_child_comment->parent_id = $new_comment->id;
             $new_child_comment->save();
-            
+
 
             $novel->comments()->save(factory(App\Comment::class)->make());
         }
 
         $this->command->info('comments table seeded');
 
-        $this->call(NickNameSeeder::class);
+
+        //Mailbox table
+        App\Mailbox::truncate();
+        $users->each(function ($user) {
+            $user->mailbox()->save(factory(App\Mailbox::class)->make());
+        });
+
+        $this->command->info('Mails table seeded');
+
 
         //MenToMen QuestionAnswer table
-        MenToMenQuestionAnswer::truncate();
-        factory(MenToMenQuestionAnswer::class, 10)->create();
+        App\MenToMenQuestionAnswer::truncate();
+        factory(App\MenToMenQuestionAnswer::class, 10)->create();
 
         $this->command->info('MenToMenQuestionAnswers table seeded');
 
@@ -97,5 +112,6 @@ class DatabaseSeeder extends Seeder
 
         $this->command->info('faqs table seeded');
 
+        $this->call(ReviewTableSeeder::class);
     }
 }

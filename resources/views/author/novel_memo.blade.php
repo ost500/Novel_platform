@@ -4,13 +4,13 @@
  <div id="content-container">
 
     <div id="page-title">
-        <h1 class="page-header text-overflow">¬ ¡ˆ«‘</h1>
+        <h1 class="page-header text-overflow">Ï™ΩÏßÄÌï®</h1>
     </div>
 
 
     <ol class="breadcrumb">
-        <li><a href="#">¿€∞°»®</a></li>
-        <li class="active"><a href="#">¬ ¡ˆ«‘</a></li>
+        <li><a href="#">ÏûëÍ∞ÄÌôà</a></li>
+        <li class="active"><a href="#">Ï™ΩÏßÄÌï®</a></li>
     </ol>
 
 
@@ -30,15 +30,15 @@
                             </div>
                             <button data-toggle="dropdown" class="btn btn-default dropdown-toggle dropdown-toggle-icon"><i class="dropdown-caret fa fa-caret-down"></i></button>
                             <ul class="dropdown-menu">
-                                <li><a href="javascript:void(0)" id="demo-select-all-list">¿¸√ºº±≈√</a></li>
-                                <li><a href="javascript:void(0)" id="demo-select-none-list">º±≈√«ÿ¡¶</a></li>
+                                <li><a href="javascript:void(0)" id="demo-select-all-list">Ï†ÑÏ≤¥ÏÑ†ÌÉù</a></li>
+                                <li><a href="javascript:void(0)" id="demo-select-none-list">ÏÑ†ÌÉùÌï¥Ï†ú</a></li>
                             </ul>
                         </div>
                     </div>
                     <hr class="hr-sm visible-xs">
                     <div class="col-sm-5 clearfix">
                         <div class="pull-right">
-                            <button class="btn btn-danger">º±≈√ªË¡¶</button>
+                            <button class="btn btn-danger">ÏÑ†ÌÉùÏÇ≠Ï†ú</button>
                         </div>
                     </div>
                 </div>
@@ -46,24 +46,24 @@
 
                 <!--Mail list group-->
                 <ul id="demo-mail-list" class="mail-list">
-
+                @foreach($novel_mail_messages as $novel_mail_message)
                     <!--Mail list item-->
-                    <li class="mail-list-unread mail-attach">
+                    <li >
                         <div class="mail-control">
                             <label class="demo-cb-mail form-checkbox form-normal form-primary">
                                 <input type="checkbox">
                             </label>
                         </div>
 
-                        <div class="mail-from"><a href="#">Michael Robert</a></div>
-                        <div class="mail-time">05:55 PM</div>
+                        <div class="mail-from"><a href="#">@if($novel_mail_message->users) {{$novel_mail_message->users->name}} @endif</a></div>
+                        <div class="mail-time">{{$novel_mail_message->created_at}}</div>
 
                         <div class="mail-subject">
-                            <a href="javasript:void(0);" class="novel-memo-view">This is an example if there is a really really long text. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, </a>
+                            <a href="{{route('author.mailbox_message',['id'=> $novel_mail_message->id ])}}" >{{$novel_mail_message->subject}} </a>
                         </div>
                     </li>
-
-                    <!--Mail list item-->
+                @endforeach
+                    <!--Mail list item-
                     <li class="mail-starred">
                         <div class="mail-control">
                             <label class="demo-cb-mail form-checkbox form-normal form-primary">
@@ -79,7 +79,7 @@
                         </div>
                     </li>
 
-                    <!--Mail list item-->
+                    <!--Mail list item
                     <li class="mail-list-unread mail-starred mail-attach">
                         <div class="mail-control">
                             <label class="demo-cb-mail form-checkbox form-normal form-primary">
@@ -95,7 +95,7 @@
                         </div>
                     </li>
 
-                    <!--Mail list item-->
+                    <!--Mail list item
                     <li class="mail-list-unread">
                         <div class="mail-control">
                             <label class="demo-cb-mail form-checkbox form-normal form-primary">
@@ -116,7 +116,7 @@
                         </div>
                     </li>
 
-                    <!--Mail list item-->
+                    <!--Mail list item-
                     <li>
                         <div class="mail-control">
                             <label class="demo-cb-mail form-checkbox form-normal form-primary">
@@ -130,13 +130,13 @@
                         <div class="mail-subject">
                             <a href="mailbox-message.html">Hi John! How are you?</a>
                         </div>
-                    </li>
+                    </li> -->
                 </ul>
 
 
                 <div class="fixed-table-pagination" style="display: block;">
                     <div class="pull-left">
-                        <button class="btn btn-danger">º±≈√ªË¡¶</button>
+                        <button class="btn btn-danger">ÏÑ†ÌÉùÏÇ≠Ï†ú</button>
                     </div>
 
                     <div class="pull-right">

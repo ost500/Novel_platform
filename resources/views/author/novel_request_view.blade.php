@@ -16,8 +16,6 @@
 
     <div id="page-content">
 
-
-
         <div class="panel">
             <div class="panel-body">
 
@@ -65,7 +63,7 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-sm-7">
-                        <a href="novel_request_view.php"><button class="btn btn-primary">문의하기</button></a>
+                        <a href="{{route('author.novel_request')}}"><button class="btn btn-primary">문의하기</button></a>
                     </div>
                     <hr class="hr-sm visible-xs">
                     <div class="col-sm-12 clearfix">
@@ -86,7 +84,7 @@
                         <div class="mail-time">{{$request->created_at}}</div>
 
                         <div class="mail-subject">
-                            <a href="{{ url('/author/novel_request_view/'.$request->id) }}">{{$request->title}} </a>
+                            <a href="{{ route('author.novel_request_view',['id' => $request->id])}}">{{$request->title}} </a>
                         </div>
                     </li>
                  @endforeach

@@ -25,9 +25,13 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Novel whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Novel whereUpdatedAt($value)
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Comment[] $comments
+ * @property boolean $adult
+ * @property string $publish_reservation
+ * @property string $author_comment
+ * @method static \Illuminate\Database\Query\Builder|\App\Novel whereAdult($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Novel wherePublishReservation($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Novel whereAuthorComment($value)
  */
-
-
 class Novel extends Model
 {
 
@@ -47,10 +51,16 @@ class Novel extends Model
 
     public function novel_groups()
     {
-        return $this->belongsTo(NovelGroup::class, 'id');
+        return $this->belongsTo(NovelGroup::class, 'novel_group_id');
     }
+
     public function comments()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Comment::class)->with('users');
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Comment::class)->with('users');
     }
 }

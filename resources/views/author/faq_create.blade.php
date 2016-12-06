@@ -32,7 +32,7 @@
                             </div>
                         @endif
 
-                        <form class="panel-body form-horizontal form-padding"  action="/faqs"  method="post"  >
+                        <form class="panel-body form-horizontal form-padding"  action="{{route('faqs.store')}}"  method="post"  >
                             {!! csrf_field() !!}
 
                             <div class="form-group">
