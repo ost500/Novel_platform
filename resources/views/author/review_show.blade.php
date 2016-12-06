@@ -1,6 +1,6 @@
 <div id="comment_list">
     <div class="padding-top-10">
-        <h4>댓글 {{ $comments_count }}</h4></div>
+        <h4>댓글 {{ $groups_reviews->count() }}</h4></div>
 
 
     <div class="novel-review">
@@ -14,7 +14,7 @@
         </div>
 
 
-        @foreach($groups_comments as $comment)
+        @foreach($groups_reviews as $comment)
 
 
             <div class="review">
@@ -32,21 +32,6 @@
                 </div>
 
             </div>
-            @foreach($comment['children'] as $child)
-                <div class="review reply" v-for="children in my_comment.children">
-                    <div>
-                        <span class="nick">{{ $child->users->name }}</span> {{ $child->created_at }}
-                        <button class="btn btn-xs btn-pink">N</button>
-                    </div>
-                    <div class="content">
-                        <span class="inning">{{ $child->novels->novel_group_id }}회</span> {{ $child->comment }}
-                    </div>
-                    <div class="button">
-                        <button class="btn btn-xs btn-mint">답변</button>
-                        <button class="btn btn-xs btn-danger">신고</button>
-                    </div>
-                </div>
-            @endforeach
 
         @endforeach
 

@@ -23,6 +23,7 @@ Route::get('novelgroup/novels/{id}', ['as' => 'novelgroup.novel', 'uses' => 'Nov
 Route::get('novelgroup/novels/inning/{id}', ['as' => 'novelgroup.inning', 'uses' => 'NovelGroupController@inning_order']);
 Route::get('novelgroup/{id}/comments', ['as' => 'novelgroup.comments', 'uses' => 'NovelGroupController@show_comments']);
 Route::resource('novels', 'NovelController');
+Route::resource('reviews', 'ReviewController');
 Route::resource('comments', 'CommentController');
 Route::resource('mentomen', 'MenToMenQuestionAnswerController');
 Route::resource('faqs', 'FaqController');
