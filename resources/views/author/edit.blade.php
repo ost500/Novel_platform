@@ -222,7 +222,7 @@
 
                                 <div class="col-md-9">
                                     <input type="file"  name="cover_photo" id="cover_photo" class="form-control" >
-                                    <small class="has-warning">사이즈 : 900*900 / 최대용량 : 1M / 업로드 가능 확장자 : JPG, PNG 파일
+                                    <small class="has-warning">사이즈 : 1080*1620 / 최대용량 : 1M / 업로드 가능 확장자 : JPG, PNG 파일
                                     </small>
                                 </div>
                             </div>
@@ -234,7 +234,7 @@
                                 <div class="col-md-9">
                                     <input type="file" name="cover_photo1" id="cover_photo1"
                                            class="form-control">
-                                    <small class="has-warning">사이즈 : 900*1350 / 최대용량 : 1M / 업로드 가능 확장자 : JPG, PNG 파일
+                                    <small class="has-warning">사이즈 : 1080*1080 / 최대용량 : 1M / 업로드 가능 확장자 : JPG, PNG 파일
                                     </small>
                                 </div>
                             </div>
