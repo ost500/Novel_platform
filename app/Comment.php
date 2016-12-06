@@ -42,4 +42,9 @@ class Comment extends Model
     {
         return $this->hasMany(Comment::class, 'parent_id')->with('users')->with('novels');
     }
+
+    public function myself()
+    {
+        return $this->hasMany(Comment::class, 'id')->with('users')->with('novels');
+    }
 }

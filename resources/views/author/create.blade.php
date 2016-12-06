@@ -47,9 +47,12 @@
                                 <div class="col-md-9">
                                     <select class="form-control" name="nickname">
                                         <option value="">필명선택</option>
-
-                                        <option v-for="nick in nicks" v-bind:value="nick.nickname">@{{ nick.nickname }}</option>
-
+                                        <option v-for="nick in nicks" v-if="nick.main == 1" selected>
+                                            <div v-bind:value="nick.nickname">@{{ nick.nickname }}</div>
+                                        </option>
+                                        <option v-else>
+                                            <div v-bind:value="nick.nickname">@{{ nick.nickname }}</div>
+                                        </option>
                                     </select>
                                     <!--small class="help-block">This is a help text</small-->
                                 </div>

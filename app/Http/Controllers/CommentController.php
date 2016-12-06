@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Comment;
 use App\Novel;
+use App\NovelGroup;
 use Auth;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class CommentController extends Controller
      */
 
 
-    public function index()
+    public function index($id)
     {
 
         $my_comments = Comment::with('novels')->with('users')->get()->where('novels.user_id', Auth::user()->id);
@@ -72,7 +73,27 @@ class CommentController extends Controller
      */
     public function show($id)
     {
-        //
+        $group_novel = NovelGroup::find($id)->novels;
+
+        $groups_comments = new Collection();
+
+
+
+        foreach ($group_novel as $novel) {
+            foreach ($novel->comments as $comment) {
+
+                if ($comment->parent_id == 0) {
+                    $single_comment = $comment->myself;
+                    $single_comment->put('children', $comment->children);
+                    $groups_comments->push($single_comment);
+                }
+
+            }
+
+        }
+
+//        return response()->json($groups_comments);
+        return view('author.group_comments', compact('groups_comments'));
     }
 
     /**

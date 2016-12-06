@@ -32,8 +32,6 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Novel wherePublishReservation($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Novel whereAuthorComment($value)
  */
-
-
 class Novel extends Model
 {
 
@@ -55,7 +53,13 @@ class Novel extends Model
     {
         return $this->belongsTo(NovelGroup::class, 'novel_group_id');
     }
+
     public function comments()
+    {
+        return $this->hasMany(Comment::class)->with('users');
+    }
+
+    public function reviews()
     {
         return $this->hasMany(Comment::class)->with('users');
     }

@@ -112,5 +112,6 @@ class DatabaseSeeder extends Seeder
 
         $this->command->info('faqs table seeded');
 
+        $this->call(ReviewTableSeeder::class);
     }
 }
