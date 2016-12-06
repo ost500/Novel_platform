@@ -7,7 +7,7 @@
 
 
 $(document).ready(function () {
-    $('.novel-user-nick-form').on('click', function(){
+    $('.novel-image').on('click', function(){
         bootbox.dialog({
             title: "표지관리",
             message:'<div class="row"> ' + '<div class="col-md-12"> ' +

@@ -35,8 +35,8 @@
                                     <table class="table table-bordered" v-for="group in novel_groups">
                                         <tbody>
                                         <tr>
-                                            <td class="text-center col-md-2"><a
-                                                        href="novel_group.blade.php">표지이미지</a>
+                                            <td class="text-center col-md-1"><a style="cursor:pointer"
+                                                        v-on:click="go_to_group(group.id)">표지이미지</a>
                                             </td>
                                             <td>
                                                 <table class="table-no-border" style="width:100%;">
@@ -49,7 +49,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>등록된 회차수 : 2화, 마지막 업로드 일자 : 2016-11-10</td>
+                                                        <td>등록된 회차수 : @{{ group.title }}화, 마지막 업로드 일자 : 2016-11-10</td>
                                                     </tr>
                                                     <tr>
                                                         <td class="padding-top-10 text-right">
