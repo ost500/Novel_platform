@@ -40,6 +40,7 @@
                                             </td>
                                             <td>
                                                 <table class="table-no-border" style="width:100%;">
+
                                                     <tr>
                                                         <td><h4>
                                                                 <a style="cursor:pointer"
@@ -52,8 +53,12 @@
                                                     </tr>
                                                     <tr>
                                                         <td class="padding-top-10 text-right">
-                                                            <button class="btn btn-primary"  v-on:click="commentsDisplay(group.id)"  > 댓글 1,000</button>
-                                                            <button class="btn btn-info">리뷰 1,000</button>
+                                                            <button class="btn btn-primary"
+                                                                    v-on:click="commentsDisplay(group.id)"> 댓글 1,000
+                                                            </button>
+                                                            <button class="btn btn-info"
+                                                                    v-on:click="reviewsDisplay(group.id)">리뷰 1,000
+                                                            </button>
                                                             <button class="btn btn-success"
                                                                     v-on:click="go_to_edit(group.id)">수정
                                                             </button>
@@ -64,14 +69,28 @@
                                                         </td>
                                                     </tr>
                                                 </table>
+
+
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2"
+                                                style="border-bottom-style: hidden;border-left-style: hidden;border-right-style: hidden;">
+                                                <div v-bind:id="commentId(group.id)" v-show="comment_show"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2"
+                                                style="border-bottom-style: hidden;border-left-style: hidden;border-right-style: hidden;">
+                                                <div v-bind:id="reviewId(group.id)" v-show="review_show"></div>
                                             </td>
                                         </tr>
                                         </tbody>
-                                    </table>
-
 
                                     </table>
-                                    <div id="response"></div>
+
 
                                 </div>
 
@@ -94,16 +113,20 @@
             data: {
                 novel_groups: [],
                 my_comments: [],
+                comment_show: true,
+                review_show: true,
+
             },
             mounted: function () {
                 this.$http.get('{{ route('novels.index') }}')
                         .then(function (response) {
                             this.novel_groups = response.data;
                         });
-               /* this.$http.get('{{-- route('comments.index') --}}')
-                        .then(function (response) {
-                            this.my_comments = response.data;
-                        }); */
+                /* this.$http.get('
+                {{-- route('comments.index') --}}')
+                 .then(function (response) {
+                 this.my_comments = response.data;
+                 }); */
             },
             methods: {
                 go_to_group: function (id) {
@@ -115,13 +138,33 @@
 
                 commentsDisplay: function (id) {
 
-                     var comments_url= '/comments/'+ id ;
+                    var comments_url = '/comments/' + id;
 
                     this.$http.get(comments_url)
                             .then(function (response) {
-                               // console.log("ok");
-                                $('#response').innerHTML = response.data;
+                                // document.getElementById('response').setAttribute('id','response'+id)
+                                this.review_show = false;
+                                this.comment_show = true;
+                                document.getElementById('response' + id).innerHTML = response.data;
                             });
+                },
+                commentId: function (id) {
+                    return "response" + id;
+                },
+                reviewsDisplay: function (id) {
+
+                    var comments_url = '/reviews/' + id;
+
+                    this.$http.get(comments_url)
+                            .then(function (response) {
+                                // document.getElementById('response').setAttribute('id','response'+id)
+                                this.comment_show = false;
+                                this.review_show = true;
+                                document.getElementById('review_response' + id).innerHTML = response.data;
+                            });
+                },
+                reviewId: function (id) {
+                    return "review_response" + id;
                 },
 
                 destroy: function (e) {
@@ -175,24 +218,24 @@
                 }
             }
         });
-      /*  var app5 = new Vue({
-            el: '#comment_list',
-            data: {
-                novel_groups: [],
-                my_comments: [],
-            },
-            mounted: function () {
-                this.$http.get('{{-- route('novels.index')--}}')
-                        .then(function (response) {
-                            this.novel_groups = response.data;
-                        });
-                this.$http.get('{{-- route('comments.index') --}}')
-                        .then(function (response) {
-                            this.my_comments = response.data;
-                        });
+        /*  var app5 = new Vue({
+         el: '#comment_list',
+         data: {
+         novel_groups: [],
+         my_comments: [],
+         },
+         mounted: function () {
+         this.$http.get('{{-- route('novels.index')--}}')
+         .then(function (response) {
+         this.novel_groups = response.data;
+         });
+         this.$http.get('{{-- route('comments.index') --}}')
+         .then(function (response) {
+         this.my_comments = response.data;
+         });
 
-            }
-        })*/
+         }
+         })*/
     </script>
 
 @endsection
