@@ -235,4 +235,30 @@
 
         </div>
     </div>
+
+    <script>
+        //
+        var select_nickname = new Vue({
+            el: '#select_nickname',
+            data: {
+                nicks: [],
+                formErrors: {}
+            },
+            mounted: function () {
+                this.reload();
+
+            },
+            methods: {
+                reload: function () {
+                    console.log('reloaded');
+                    this.$http.get('{{ route('nickname.index') }}')
+                            .then(function (response) {
+                                this.nicks = response.data;
+                            });
+                },
+            }
+
+        });
+
+    </script>
 @endsection
