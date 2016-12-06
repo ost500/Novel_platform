@@ -82,18 +82,15 @@
                     e.preventDefault();
                     var form = e.srcElement;
                     var action = form.action;
-                    Vue.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('#token').getAttribute('content');
+                  //  Vue.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('#token').getAttribute('content');
                     var  $redirect_url='/author/novel_request_view';
-                    this.$http.post(action, this.new_men_to_menRequest).then(function (response) {
+                    this.$http.post(action, this.new_men_to_menRequest,{
+                        headers: {
+                            'X-CSRF-TOKEN': window.Laravel.csrfToken
+                        }
+                    }).then(function (response) {
 
                         window.location.href=$redirect_url+'/'+response.data['id'];
-                        /*  $.niftyNoty({
-                            type: 'purple',
-                            icon: 'fa fa-check',
-                            message: response.data,
-                            container: 'page',
-                            timer: 4000
-                        });*/
 
                     }).catch(function (errors) {
 
