@@ -48,7 +48,7 @@
                                     <select class="form-control" name="nickname">
                                         <option value="">필명선택</option>
                                         <option v-for="nick in nicks" v-if="nick.main == 1" selected>
-                                            <div v-bind:value="nick.nickname" selected>@{{ nick.nickname }}</div>
+                                            <div v-bind:value="nick.nickname">@{{ nick.nickname }}</div>
                                         </option>
                                         <option v-else>
                                             <div v-bind:value="nick.nickname">@{{ nick.nickname }}</div>
