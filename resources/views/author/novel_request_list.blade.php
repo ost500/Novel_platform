@@ -21,7 +21,7 @@
             <div id="demo-email-list" class="panel-body">
                 <div class="row">
                     <div class="col-sm-7">
-                        <a href="novel_request.php"><button class="btn btn-primary">문의하기</button></a>
+                        <a href="{{route('author.novel_request')}}"><button class="btn btn-primary">문의하기</button></a>
                     </div>
                     <hr class="hr-sm visible-xs">
                     <div class="col-sm-12 clearfix">
@@ -44,7 +44,7 @@
                         <div class="mail-time">{{$men_to_men_request->created_at}}</div>
 
                         <div class="mail-subject">
-                            <a href="{{ url('/author/novel_request_view/'.$men_to_men_request->id) }}">{{$men_to_men_request->title}} </a>
+                            <a href="{{ route('author.novel_request_view',['id' => $men_to_men_request->id]) }}">{{$men_to_men_request->title}} </a>
                         </div>
                     </li>
                     @endforeach

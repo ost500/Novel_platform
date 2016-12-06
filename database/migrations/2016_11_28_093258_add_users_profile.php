@@ -14,10 +14,10 @@ class AddUsersProfile extends Migration
     public function up()
     {
         Schema::table('users', function ($table) {
-            $table->string('phone_num', 45);
-            $table->string('bank', 45);
-            $table->string('account_holder', 45);
-            $table->string('account_number', 45);
+            $table->string('phone_num', 45)->nullable();
+            $table->string('bank', 45)->nullable();
+            $table->string('account_holder', 45)->nullable();
+            $table->string('account_number', 45)->nullable();
         });
     }
 

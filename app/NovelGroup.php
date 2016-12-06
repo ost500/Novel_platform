@@ -20,6 +20,26 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereTitle($value)
  * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereUpdatedAt($value)
+ * @property string $nickname
+ * @property string $description
+ * @property string $keyword1
+ * @property string $keyword2
+ * @property string $keyword3
+ * @property string $keyword4
+ * @property string $keyword5
+ * @property string $keyword6
+ * @property string $keyword7
+ * @property string $cover_photo
+ * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereNickname($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereDescription($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereKeyword1($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereKeyword2($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereKeyword3($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereKeyword4($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereKeyword5($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereKeyword6($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereKeyword7($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereCoverPhoto($value)
  */
 class NovelGroup extends Model
 {
@@ -39,5 +59,9 @@ class NovelGroup extends Model
     public function users()
     {
         return $this->belongsTo(User::class, 'id');
+    }
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
     }
 }

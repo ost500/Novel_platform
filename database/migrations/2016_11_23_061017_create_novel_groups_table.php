@@ -16,7 +16,7 @@ class CreateNovelGroupsTable extends Migration
         Schema::create('novel_groups', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned()->index();
-            $table->string('nickname');
+            $table->integer('nickname');
             $table->string('title');
             $table->text('description');
             $table->string('keyword1');

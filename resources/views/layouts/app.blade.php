@@ -24,6 +24,14 @@
     <script src="/js/vue-resource.min.js"></script>
     <script src="/js/jquery-2.1.1.min.js"></script>
 
+    <script src="/plugins/bootstrap-timepicker/bootstrap-timepicker.js"></script>
+
+    {{--jquery-ui css--}}
+    <link href="/css/jquery-ui/jquery-ui.min.css" rel="stylesheet">
+    <link href="/css/jquery-ui/jquery-ui.structure.min.css" rel="stylesheet">
+    <link href="/css/jquery-ui/jquery-ui.theme.min.css" rel="stylesheet">
+    <link href="/css/jquery-ui/jquery-ui.theme.min.css" rel="stylesheet">
+    <link href="/plugins/bootstrap-timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
 
     <script>
         window.Laravel = <?php echo json_encode([
@@ -39,7 +47,7 @@
         <div id="navbar-container" class="boxed">
 
             <div class="navbar-header">
-                <a href="index.html" class="navbar-brand">
+                <a href="{{ route('author_index') }}" class="navbar-brand">
                     <img src="/img/logo.png" alt="Nifty Logo" class="brand-icon">
                     <div class="brand-title">
                         <span class="brand-text">로고</span>
@@ -76,7 +84,14 @@
                 <ul class="nav navbar-top-links pull-right">
                     <li id="dropdown-user">
                         <div class="username text-right">
-                            <button class="btn btn-danger">로그아웃</button>
+                            <a href="{{ url('/logout') }}"
+                               onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                <button class="btn btn-danger">로그아웃</button>
+                            </a>
+                            <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                            </form>
                         </div>
                     </li>
                 </ul>
@@ -87,6 +102,7 @@
     </header>
 
     <div class="boxed">
+        @include('partials.flash')
 
         @yield('content')
 
@@ -121,7 +137,7 @@
 
                                     <ul class="collapse">
                                         <li><a href="{{ route('author_index') }}">작품목록</a></li>
-                                        <li><a href="{{ url('/author/create') }}">작품등록</a></li>
+                                        <li><a href="{{ route('author.novel_group_create') }}">작품등록</a></li>
 
                                     </ul>
                                 </li>
@@ -166,7 +182,7 @@
                                 <li class="list-divider"></li>
 
                                 <li>
-                                    <a href="novel_memo.php">
+                                    <a href="{{ route('author.novel_memo')}}">
                                         <i class="fa fa-envelope"></i>
 						<span class="menu-title">
 							<strong>쪽지함</strong>
@@ -177,7 +193,7 @@
                                 <li class="list-divider"></li>
 
                                 <li>
-                                    <a href="{{ url('/author/novel_request_list') }}">
+                                    <a href="{{ route('author.novel_request_list')}}">
                                         <i class="fa fa-send"></i>
 						<span class="menu-title">
 							<strong>1:1문의</strong>
@@ -188,7 +204,7 @@
                                 <li class="list-divider"></li>
 
                                 <li>
-                                    <a href="{{ url('/author/novel_faq') }}">
+                                    <a href="{{ route('author.novel_faq')}}">
                                         <i class="fa fa-send"></i>
 						<span class="menu-title">
 							<strong>FAQ</strong>
@@ -421,6 +437,13 @@
 <script src="/js/ui-modals.js"></script>
 <script src="/js/ui-alerts.js"></script>
 
+{{--laravel 기본 스크립트--}}
+<script src="/js/app.js"></script>
+
+{{--jquery UI--}}
+<script src="/js/jquery-ui/jquery-ui.min.js"></script>
+
+<script src="/js/nifty.min.js"></script>
 
 </body>
 </html>

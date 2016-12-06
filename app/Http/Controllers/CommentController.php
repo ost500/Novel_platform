@@ -4,22 +4,44 @@ namespace App\Http\Controllers;
 
 use App\Comment;
 use App\Novel;
+use App\NovelGroup;
 use Auth;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
+
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $this->middleware('auth');
-        $my_novel = Comment::with('novels')->with('users')->get()->where('novels.user_id', Auth::user()->id);
 
-        return response()->json($my_novel);
+
+    public function index($id)
+    {
+
+        $my_comments = Comment::with('novels')->with('users')->get()->where('novels.user_id', Auth::user()->id);
+
+        //?‚´ ?†Œ?„¤?„ ê°?ì§?ê³? ?˜¨?‹¤
+//        $my_novel = Novel::where('user_id', Auth::user()->id)->with('users')->get();
+
+
+        $collection = new Collection();
+
+        //?‚´ ?†Œ?„¤?˜ ?Œ“ê¸??„ ê°?ì§?ê³? ?˜¨?‹¤
+
+        foreach ($my_comments as $novel_comm) {
+            $collection->push($novel_comm);
+            foreach ($novel_comm->children as $child) {
+                $collection->push($child);
+            }
+        }
+
+
+        return response()->json($collection);
     }
 
     /**
@@ -51,7 +73,30 @@ class CommentController extends Controller
      */
     public function show($id)
     {
-        //
+        $group_novel = NovelGroup::find($id)->novels;
+
+        $groups_comments = new Collection();
+
+        $comments_count = 0;
+
+        foreach ($group_novel as $novel) {
+            foreach ($novel->comments as $comment) {
+                if ($comment->parent_id == 0) {
+                    $comments_count++;
+                    //ë¶€ëª¨ê°€ ì—†ëŠ” ëŒ“ê¸€ë“¤ë§Œ ë¶ˆëŸ¬ì˜¨ë‹¤
+                    $single_comment = $comment->myself;
+                    $single_comment->put('children', $comment->children);
+                    $comments_count += $comment->children->count();
+                    //ìžì‹ë“¤ì„ ë‹¬ì•„ì¤€ë‹¤
+                    $groups_comments->push($single_comment);
+                    //ì½œë ‰ì…˜ì— ë„£ì–´ì¤€ë‹¤
+                }
+            }
+        }
+
+
+//        return response()->json($groups_comments);
+        return view('author.group_comments', compact('groups_comments','comments_count'));
     }
 
     /**

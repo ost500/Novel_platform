@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div id="content-container">
+    <div id="content-container" xmlns:v-bind="http://symfony.com/schema/routing">
 
         <div id="page-title">
             <h1 class="page-header text-overflow">작품등록</h1>
@@ -16,7 +16,6 @@
 
 
         <div id="page-content">
-
 
 
             <div class="row">
@@ -34,22 +33,26 @@
                             </div>
                         @endif
 
-                        <form class="panel-body form-horizontal form-padding"  action="/novelgroups"  method="post" enctype="multipart/form-data" >
-                            {!! csrf_field() !!}
-                            <!--Static-->
+                        <form class="panel-body form-horizontal form-padding" action="/novelgroups" method="post"
+                              enctype="multipart/form-data">
+                        {!! csrf_field() !!}
+                        <!--Static-->
                             <!--div class="form-group">
                                 <label class="col-md-2 control-label">Static</label>
                                 <div class="col-md-9"><p class="form-control-static">Username</p></div>
                             </div-->
 
-                            <div class="form-group">
+                            <div class="form-group" id="select_nickname">
                                 <label class="col-md-2 control-label" for="demo-text-input">필명</label>
                                 <div class="col-md-9">
                                     <select class="form-control" name="nickname">
                                         <option value="">필명선택</option>
-                                        @foreach ($nicknames->all() as $nick)
-                                        <option value="{{ $nick->id}}">{{ $nick->nickname}}</option>
-                                        @endforeach
+                                        <option v-for="nick in nicks" v-if="nick.main == 1" selected>
+                                            <div v-bind:value="nick.nickname">@{{ nick.nickname }}</div>
+                                        </option>
+                                        <option v-else>
+                                            <div v-bind:value="nick.nickname">@{{ nick.nickname }}</div>
+                                        </option>
                                     </select>
                                     <!--small class="help-block">This is a help text</small-->
                                 </div>
@@ -72,14 +75,14 @@
                             <div class="form-group">
                                 <label class="col-md-2 control-label" for="demo-text-input">키워드</label>
                                 <div class="col-md-9">
-                                    <select  name="keyword1" class="form-control inline" style="width:13.5%;" size=10>
-                                        <option value="1">장르</option>
-                                        <option value="2">현대판타지</option>
-                                        <option value="3">사극/시대물</option>
-                                        <option value="4">동양판타지</option>
-                                        <option value="5">서양/중세</option>
-                                        <option value="6">로맨스판타지</option>
-                                        <option value="7">미래/SF</option>
+                                    <select  name="keyword1" class="form-control inline" style="width:14%;" size=10>
+                                        <option value="장르">장르</option>
+                                        <option value="현대판타지">현대판타지</option>
+                                        <option value="사극/시대물">사극/시대물</option>
+                                        <option value="동양판타지">동양판타지</option>
+                                        <option value="서양/중세">서양/중세</option>
+                                        <option value="로맨스판타지">로맨스판타지</option>
+                                        <option value="미래/SF">미래/SF</option>
                                     </select>
 
                                     <select name="keyword2" class="form-control inline" style="width:13.5%;" size=10>
@@ -173,6 +176,9 @@
                             <div class="form-group">
                                 <label class="col-md-2 control-label" for="demo-password-input">기본표지</label>
                                 <div class="col-md-9">
+                                    <input type="text" id="demo-password-input" style="width:30%;"
+                                           class="form-control inline" placeholder="사용하려면 우측 표지선택 버튼을 클릭하세요.">
+                                    <button class="btn btn-primary">표지선택</button>
                                     <input type="text" id="demo-password-input" style="width:30%;" class="form-control inline" placeholder="사용하려면 우측 표지선택 버튼을 클릭하세요.">
                                     <button type="button" class="btn btn-primary novel-user-nick-form">표지선택</button>
                                 </div>
@@ -229,6 +235,4 @@
 
         </div>
     </div>
-
-
 @endsection
