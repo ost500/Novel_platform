@@ -192,12 +192,17 @@
                                 <li class="list-divider"></li>
 
                                 <li>
-                                    <a href="{{ route('author.novel_request_list')}}">
+                                    <a href="{{ route('author.novel_request')}}">
                                         <i class="fa fa-send"></i>
 						<span class="menu-title">
 							<strong>1:1문의</strong>
-						</span>
+						</span>         <i class="arrow"></i>
                                     </a>
+
+                                    <ul class="collapse">
+                                        <li><a href="{{ route('author.novel_request')}}">1:1문의</a></li>
+                                        <li><a href="{{ route('author.novel_request_list')}}">1:1문의내역</a></li>
+                                    </ul>
                                 </li>
 
                                 <li class="list-divider"></li>
