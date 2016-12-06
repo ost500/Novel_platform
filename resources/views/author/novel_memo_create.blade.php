@@ -24,6 +24,22 @@
                           v-on:submit.prevent="onSubmit">
                         <meta id="token" name="token" content="{{ csrf_token() }}">
                         <div class="form-group">
+                            <label class="col-lg-1 control-label text-left" for="inputSubject">작품선택</label>
+
+                            <div class="col-lg-11">
+                                <select class="form-control" name="nickname">
+                                    <option value="">작품선택</option>
+                                    <option v-for="nick in nicks" v-if="nick.main == 1" selected>
+                                        <div v-bind:value="nick.nickname">@{{ nick.nickname }}</div>
+                                    </option>
+                                    <option v-else>
+                                        <div v-bind:value="nick.nickname">@{{ nick.nickname }}</div>
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-lg-1 control-label text-left" for="inputSubject">제목</label>
 
                             <div class="col-lg-11">
