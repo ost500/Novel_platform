@@ -29,11 +29,10 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 
 $factory->define(App\NovelGroup::class, function (Faker\Generator $faker) {
     $userIds = App\User::pluck('id')->toArray();
-    $u_id = $faker->randomElement($userIds);
-    $nick_name = App\NickName::where('user_id', $u_id)->first();
+
     return [
-        'user_id' => $u_id,
-        'nickname' => $nick_name->id,
+        'user_id' => $faker->randomElement($userIds),
+        'nickname' =>$faker->randomElement(['1','2','3']),
         'title' => $faker->sentence,
         'description' => $faker->paragraph,
         'keyword1' => $faker->word,

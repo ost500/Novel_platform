@@ -135,26 +135,26 @@ class NovelGroupController extends Controller
 
         $input = $request->except('_token', '_method');
         //Validate the request
-        $this->validate($request, [
+      /*  $this->validate($request, [
             'nickname' => 'required|max:255',
             'title' => 'required',
             'description' => 'required',
+        ]);*/
+
+       $validator = Validator::make($request->all(), [
+            'nickname' => 'required|max:255',
+            'title' => 'required',
+            'description' => 'required',
+            'cover_photo' => 'dimensions:max_width=900,max_height=900',
+            'cover_photo' => 'mimes:jpeg,png',
         ]);
 
-        /* $validator = Validator::make($request->all(), [
-             'nickname' => 'required|max:255',
-             'title' => 'required',
-             'description' => 'required',
-            // 'cover_photo' => 'dimensions:max_width=900,max_height=900',
-             //'cover_photo' => 'mimes:jpeg,png',
-         ]);
-
-         //if validation fails then redirect to create page
-         if ($validator->fails()) {
-             return redirect('author/edit')
-                 ->withErrors($validator)
-                 ->withInput();
-         }*/
+        //if validation fails then redirect to create page
+        if ($validator->fails()) {
+            return redirect()->route('author.novel_group_edit',['id'=>$id])
+                ->withErrors($validator)
+                ->withInput();
+        }
 
         //if validation is passed then insert the record
 
@@ -162,7 +162,8 @@ class NovelGroupController extends Controller
             $cover_photo = $request->file('cover_photo');
             $size = $cover_photo->getSize();
             if ($size > 1000000) {
-                return redirect('author/edit');
+                flash('Image Size should not be greater than 1Mb');
+                return redirect()->route('author.novel_group_edit',['id'=>$id]);
             }
 
             $filename = $id . "_" . $cover_photo->getClientOriginalName();
@@ -177,8 +178,10 @@ class NovelGroupController extends Controller
         NovelGroup::where('id', $id)->update($input);
         //redirect to novels
         flash("Novel Group updated successfully");
-        return \Response::json(['status' => 'ok']);
-        // return redirect('novelgroups');
+        if($request->ajax()) {
+            return \Response::json(['status' => 'ok']);
+        }
+        return redirect()->route('author_index');
 
     }
 
