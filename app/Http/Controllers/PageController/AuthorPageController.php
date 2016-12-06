@@ -87,6 +87,11 @@ class AuthorPageController extends Controller
         return view('author.novel_memo', compact('novel_mail_messages'));
     }
 
+    public function mailbox_create()
+    {
+        return view('author.novel_memo_create');
+    }
+
     public function mailbox_message_show($id)
     {
 

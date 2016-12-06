@@ -22,23 +22,13 @@
             <div id="demo-email-list" class="panel-body">
                 <div class="row">
                     <div class="col-sm-7">
-                        <div class="btn-group">
-                            <div id="demo-checked-all-mail" class="btn btn-default">
-                                <label class="form-checkbox form-normal form-primary">
-                                    <input class="form-input" type="checkbox" name="mail-list">
-                                </label>
-                            </div>
-                            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle dropdown-toggle-icon"><i class="dropdown-caret fa fa-caret-down"></i></button>
-                            <ul class="dropdown-menu">
-                                <li><a href="javascript:void(0)" id="demo-select-all-list">전체선택</a></li>
-                                <li><a href="javascript:void(0)" id="demo-select-none-list">선택해제</a></li>
-                            </ul>
-                        </div>
+                        <a href="{{route('author.novel_memo_create')}}">
+                            <button type="button" class="btn btn-primary">쪽지보내기</button>
+                        </a>
                     </div>
                     <hr class="hr-sm visible-xs">
                     <div class="col-sm-5 clearfix">
                         <div class="pull-right">
-                            <button class="btn btn-danger">선택삭제</button>
                         </div>
                     </div>
                 </div>
