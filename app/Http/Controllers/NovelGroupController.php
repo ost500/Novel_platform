@@ -83,6 +83,7 @@ class NovelGroupController extends Controller
             return "OK";
         }
 
+        flash("생성을 성공했습니다");
         return redirect()->route('author_novel_group', ['id' => $new_novel_group->id]);
     }
 
@@ -135,13 +136,13 @@ class NovelGroupController extends Controller
 
         $input = $request->except('_token', '_method');
         //Validate the request
-      /*  $this->validate($request, [
-            'nickname' => 'required|max:255',
-            'title' => 'required',
-            'description' => 'required',
-        ]);*/
+        /*  $this->validate($request, [
+              'nickname' => 'required|max:255',
+              'title' => 'required',
+              'description' => 'required',
+          ]);*/
 
-       $validator = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'nickname' => 'required|max:255',
             'title' => 'required',
             'description' => 'required',
@@ -151,7 +152,7 @@ class NovelGroupController extends Controller
 
         //if validation fails then redirect to create page
         if ($validator->fails()) {
-            return redirect()->route('author.novel_group_edit',['id'=>$id])
+            return redirect()->route('author.novel_group_edit', ['id' => $id])
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -163,7 +164,7 @@ class NovelGroupController extends Controller
             $size = $cover_photo->getSize();
             if ($size > 1000000) {
                 flash('Image Size should not be greater than 1Mb');
-                return redirect()->route('author.novel_group_edit',['id'=>$id]);
+                return redirect()->route('author.novel_group_edit', ['id' => $id]);
             }
 
             $filename = $id . "_" . $cover_photo->getClientOriginalName();
@@ -177,8 +178,8 @@ class NovelGroupController extends Controller
 
         NovelGroup::where('id', $id)->update($input);
         //redirect to novels
-        flash("Novel Group updated successfully");
-        if($request->ajax()) {
+        flash("수정을 성공했습니다");
+        if ($request->ajax()) {
             return \Response::json(['status' => 'ok']);
         }
         return redirect()->route('author_index');
@@ -198,21 +199,5 @@ class NovelGroupController extends Controller
         $novel_group->delete();
     }
 
-    public function inning_order($id)
-    {
-        $novel_group = NovelGroup::find($id);
-        $novels = $novel_group->novels;
 
-        $index = 1;
-        foreach ($novels as $novel) {
-            if($novel->adult != 0){
-                $novel->inning = $novel->adult;
-                $novel->save();
-                continue;
-            }
-            $novel->inning = $index;
-            $novel->save();
-            $index++;
-        }
-    }
 }

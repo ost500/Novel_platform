@@ -79,7 +79,6 @@ class CommentController extends Controller
 
         $comments_count = 0;
 
-
         foreach ($group_novel as $novel) {
             foreach ($novel->comments as $comment) {
                 if ($comment->parent_id == 0) {

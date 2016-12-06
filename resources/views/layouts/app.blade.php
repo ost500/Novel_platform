@@ -102,6 +102,7 @@
     </header>
 
     <div class="boxed">
+        @include('partials.flash')
 
         @yield('content')
 
