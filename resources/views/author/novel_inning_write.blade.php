@@ -227,9 +227,6 @@
             }
         });
 
-        $(".back").click(function () {
-            history.back();
-        });
     </script>
 
 @endsection

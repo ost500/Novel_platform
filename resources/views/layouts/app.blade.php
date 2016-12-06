@@ -424,14 +424,13 @@
 <!--End Small Bootstrap Modal-->
 
 
+<script src="/js/common.js"></script>
 
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/nifty.min.js"></script>
 
-<!--������� �ʿ�-->
 <script src="/plugins/bootstrap-select/bootstrap-select.min.js"></script>
 <script src="/plugins/bootbox/bootbox.min.js"></script>
-<!--������� �ʿ�-->
 
 
 <script src="/js/ui-modals.js"></script>

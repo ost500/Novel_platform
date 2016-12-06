@@ -227,7 +227,7 @@
                             <div class="form-group">
                                 <div class="col-md-12 text-center">
                                     <button type="submit" class="btn btn-lg btn-primary">작품저장</button>
-                                    <button class="btn btn-lg btn-danger">취소</button>
+                                    <button class="btn btn-lg btn-danger back">취소</button>
                                 </div>
                             </div>
                         </form>
