@@ -27,7 +27,7 @@
                                 <div class="padding-bottom-5">
                                     <a href="novel_inning_write.blade.php">
                                         <a href="{{route('author.inning',['id'=> $novel_group->id])}}">
-                                            <button class="btn btn-primary">챕터추가</button>
+                                            <button class="btn btn-primary">회차추가</button>
                                         </a>
                                     </a>
                                 </div>

@@ -56,13 +56,13 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label" for="demo-email-input">출간예약</label>
+                                    <label class="col-md-2 control-label" for="demo-email-input">예약등록</label>
                                     <div class="col-md-9">
                                         <div class="checkbox inline">
                                             <label class="form-checkbox form-normal form-primary active"><input
                                                         name="publish_reservation" type="checkbox" id="publish_check"
                                                         class=" margin-left-10" v-model="novel.publish_reservation">
-                                                출간예약</label>
+                                                예약등록</label>
                                         </div>
 
 
@@ -103,7 +103,7 @@
                                 </div>
 
 
-                                <div class="form-group">
+                                <!--div class="form-group">
                                     <label class="col-md-2 control-label">표지</label>
                                     <div class="col-md-9">
 
@@ -127,13 +127,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div-->
 
 
                                 <div class="form-group">
                                     <div class="col-md-12 text-center">
                                         <button class="btn btn-lg btn-primary">회차저장</button>
-                                        <button class="btn btn-lg btn-danger">취소</button>
+                                        <button class="btn btn-lg btn-danger back">취소</button>
                                     </div>
                                 </div>
                             </form>
@@ -225,6 +225,10 @@
                 $("#demo-tp-com").prop('disabled', true);
                 $("#reser_day").prop('disabled', true);
             }
+        });
+
+        $(".back").click(function () {
+            history.back();
         });
     </script>
 

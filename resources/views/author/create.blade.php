@@ -76,7 +76,7 @@
                                 <label class="col-md-2 control-label" for="demo-text-input">키워드</label>
                                 <div class="col-md-9">
                                     <select  name="keyword1" class="form-control inline" style="width:14%;" size=10>
-                                        <option value="장르">장르</option>
+                                        <option value="">장르</option>
                                         <option value="현대판타지">현대판타지</option>
                                         <option value="사극/시대물">사극/시대물</option>
                                         <option value="동양판타지">동양판타지</option>
@@ -86,6 +86,7 @@
                                     </select>
 
                                     <select name="keyword2" class="form-control inline" style="width:13.5%;" size=10>
+                                        <option value="">배경</option>
                                         <option value="1">메디컬로맨스</option>
                                         <option value="2">전문직로맨스</option>
                                         <option value="3">캠퍼스로맨스</option>
@@ -96,6 +97,7 @@
                                     </select>
 
                                     <select name="keyword3" class="form-control inline" style="width:13.5%;" size=10>
+                                        <option value="">소재</option>
                                         <option value="1">차원이동</option>
                                         <option value="2">타임슬립</option>
                                         <option value="3">기억상실</option>
@@ -109,6 +111,7 @@
                                     </select>
 
                                     <select name="keyword4" class="form-control inline" style="width:13.5%;" size=10>
+                                        <option value="">관계</option>
                                         <option value="1">계약관계</option>
                                         <option value="1">나이차커플</option>
                                         <option value="1">동거</option>
@@ -127,6 +130,7 @@
                                     </select>
 
                                     <select name="keyword5" class="form-control inline" style="width:13.5%;" size=10>
+                                        <option value="">남주인공</option>
                                         <option value="1">계략남</option>
                                         <option value="2">까칠남</option>
                                         <option value="3">나쁜남자</option>
@@ -147,6 +151,7 @@
                                     </select>
 
                                     <select name="keyword6" class="form-control inline" style="width:13.5%;" size=10>
+                                        <option value="">여주인공</option>
                                         <option value="1">철벽녀</option>
                                         <option value="2">무심녀</option>
                                         <option value="3">후회녀</option>
@@ -161,6 +166,7 @@
                                     </select>
 
                                     <select name="keyword7" class="form-control inline" style="width:13.5%;" size=10>
+                                        <option value="">분위기/기타</option>
                                         <option value="1">로맨틱코미디</option>
                                         <option value="2">달달물</option>
                                         <option value="3">힐링물</option>
@@ -188,7 +194,7 @@
                                 <label class="col-md-2 control-label">표지 직접등록1</label>
                                 <div class="col-md-9">
                                     <input type="file"  name="cover_photo"  id="demo-password-input" class="form-control" >
-                                    <small class="has-warning">사이즈 : 900*900 / 최대용량 : 1M / 업로드 가능 확장자 : JPG, PNG 파일</small>
+                                    <small class="has-warning">사이즈 : 1080*1620 / 최대용량 : 1M / 업로드 가능 확장자 : JPG, PNG 파일</small>
                                 </div>
                             </div>
 
@@ -197,7 +203,7 @@
                                 <label class="col-md-2 control-label">표지 직접등록2</label>
                                 <div class="col-md-9">
                                     <input type="file" name="cover_photo1"  id="demo-password-input" class="form-control" >
-                                    <small class="has-warning">사이즈 : 900*1350 / 최대용량 : 1M / 업로드 가능 확장자 : JPG, PNG 파일</small>
+                                    <small class="has-warning">사이즈 : 1080*1080 / 최대용량 : 1M / 업로드 가능 확장자 : JPG, PNG 파일</small>
                                 </div>
                             </div>
 
@@ -235,6 +241,11 @@
 
     <script>
         //
+        $('.ul_basicCover li div input[type=radio]').click(function(){
+            alert();
+            $(this).parents('li').addClass('on').siblings('li').removeClass('on');
+        });
+
         var select_nickname = new Vue({
             el: '#select_nickname',
             data: {
