@@ -15,4 +15,9 @@ class Review extends Model
     {
         return $this->belongsTo(Novel::class, 'novel_id', 'id');
     }
+
+    public function myself()
+    {
+        return $this->belongsTo(Review::class, 'id')->with('users')->with('novels');
+    }
 }
