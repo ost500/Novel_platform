@@ -28,7 +28,7 @@
                                   class="panel-body form-horizontal form-padding" v-on:submit.prevent="submit">
                                 <meta id="token" name="token" content="{{ csrf_token() }}">
                                 <input hidden type="text" v-model="novel.novel_group_id" name="novel_group_id">
-                            <!--Static-->
+                                <!--Static-->
                                 <div class="form-group">
                                     <label class="col-md-2 control-label"></label>
                                     <div class="col-md-9"><p class="form-control-static">
@@ -38,7 +38,8 @@
                                 <div class="form-group">
                                     <label class="col-md-2 control-label" for="demo-email-input">제목</label>
                                     <div class="col-md-9">
-                                        <input type="text" name="title" v-model="novel.title" id="demo-email-input" class="form-control"
+                                        <input type="text" name="title" v-model="novel.title" id="demo-email-input"
+                                               class="form-control"
                                                placeholder="작품 제목을 입력해 주세요." data-bv-field="title">
                                     </div>
                                 </div>
@@ -48,7 +49,8 @@
                                     <div class="col-md-9">
                                         <div class="checkbox">
                                             <label class="form-checkbox form-normal form-primary active"><input
-                                                        name="adult" type="checkbox" v-model="novel.adult"> 19세 미만 관람불가입니다.</label>
+                                                        name="adult" type="checkbox" v-model="novel.adult"> 19세 미만
+                                                관람불가입니다.</label>
                                         </div>
                                     </div>
                                 </div>
@@ -59,17 +61,20 @@
                                         <div class="checkbox inline">
                                             <label class="form-checkbox form-normal form-primary active"><input
                                                         name="publish_reservation" type="checkbox" id="publish_check"
-                                                        class=" margin-left-10" v-model="novel.publish_reservation"> 출간예약</label>
+                                                        class=" margin-left-10" v-model="novel.publish_reservation">
+                                                출간예약</label>
                                         </div>
 
 
                                         <div class="inline">
-                                            <input v-model="novel.reser_day" disabled type="text" name="reser_day" id="reser_day"
+                                            <input v-model="novel.reser_day" disabled type="text" name="reser_day"
+                                                   id="reser_day"
                                                    class="form-control inline" placeholder="예약일" style="width:100px;">
 
 
-                                            <input v-model="novel.reser_time" disabled style="width:100px;" type="text" name="reser_time" id="demo-tp-com" type="text" class="timepicker form-control inline">
-
+                                            <input v-model="novel.reser_time" disabled style="width:100px;" type="text"
+                                                   name="reser_time" id="demo-tp-com" type="text"
+                                                   class="timepicker form-control inline">
 
 
                                         </div>
@@ -82,7 +87,8 @@
                                 <div class="form-group">
                                     <label class="col-md-2 control-label" for="demo-textarea-input">내용</label>
                                     <div class="col-md-9">
-                                        <textarea v-model="novel.novel_content" name="novel_content" id="demo-textarea-input" rows="20" class="form-control"
+                                        <textarea v-model="novel.novel_content" name="novel_content"
+                                                  id="demo-textarea-input" rows="20" class="form-control"
                                                   placeholder="작품 소개를 입력해 주세요"></textarea>
                                     </div>
                                 </div>
@@ -103,7 +109,7 @@
 
 
                                         <input type="file" id="demo-password-input" class="form-control"
-                                               placeholder="Password" >
+                                               placeholder="Password">
                                         <small class="has-warning">사이즈 : 900*900 / 최대용량 : 1M / 업로드 가능 확장자 : JPG, PNG
                                             파일
                                         </small>
@@ -149,7 +155,7 @@
         var app123 = new Vue({
             el: '#novel_submit',
             data: {
-                novel: {novel_group_id: "{{ $novel_group->id }}" },
+                novel: {novel_group_id: "{{ $novel_group->id }}"},
                 formErrors: {}
             },
             mounted: function () {
@@ -164,18 +170,9 @@
                     var action = form.action;
 //                    var csrfToken = form.querySelector('input[name="_token"]').value;
 
-                    this.$http.post(action, this.novel, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken }})
+                    this.$http.post(action, this.novel, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                             .then(function (response) {
-                                $.niftyNoty({
-                                    type: 'purple',
-                                    icon : 'fa fa-check',
-                                    //message : "Hello " + name + ".<br> You've chosen <strong>" + answer + "</strong>",
-                                    message : "저장 되었습니다.",
-                                    //container : 'floating',
-                                    container : 'page',
-                                    timer : 4000
-                                });
-
+                                window.location.href = '{{ route('author_novel_group',['id' => $novel_group]) }}';
                             })
                             .catch(function (data, status, request) {
                                 var errors = data.data;
@@ -220,7 +217,7 @@
         });
 
         $("#publish_check").click(function () {
-            if($(this).is(":checked")){
+            if ($(this).is(":checked")) {
                 $("#demo-tp-com").prop('disabled', false);
                 $("#reser_day").prop('disabled', false);
             }

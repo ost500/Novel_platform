@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Comment;
 use App\Novel;
+use App\NovelGroup;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -74,7 +75,13 @@ class NovelController extends Controller
 
         $new_novel->save();
 
-        dd($new_novel);
+        $this->inning_order($new_novel->novel_groups->id);
+
+        
+
+        flash("회차 저장을 성공했습니다");
+
+
 
     }
 
@@ -113,7 +120,7 @@ class NovelController extends Controller
     public function update(Request $request, $id)
     {
 
-        
+
 
 
         $update_novel = Novel::find($id);
@@ -153,6 +160,7 @@ class NovelController extends Controller
 
 //        dd($update_novel);
         $novel_group = $update_novel->novel_groups;
+        flash("회차 수정을 성공했습니다");
         return view('author.novel_group', compact('update_novel', 'novel_group'));
     }
 
@@ -168,6 +176,8 @@ class NovelController extends Controller
         $novel = Novel::find($id);
         $novel->delete();
 
+        $this->inning_order($novel->novel_groups->id);
+
 //        $my_novel = Novel::where('user_id',Auth::user()->id)->orderBy('created_at')->get();
 //
 //        $index = 1;
@@ -177,5 +187,23 @@ class NovelController extends Controller
 //            $index++;
 //        }
         
+    }
+
+    public function inning_order($id)
+    {
+        $novel_group = NovelGroup::find($id);
+        $novels = $novel_group->novels;
+
+        $index = 1;
+        foreach ($novels as $novel) {
+            if($novel->adult != 0){
+                $novel->inning = $novel->adult;
+                $novel->save();
+                continue;
+            }
+            $novel->inning = $index;
+            $novel->save();
+            $index++;
+        }
     }
 }

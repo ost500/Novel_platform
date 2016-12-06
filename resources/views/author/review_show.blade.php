@@ -1,6 +1,6 @@
 <div id="comment_list">
     <div class="padding-top-10">
-        <h4>댓글 {{ $groups_reviews->count() }}</h4></div>
+        <h4>리뷰 {{ $groups_reviews->count() }}</h4></div>
 
 
     <div class="novel-review">
