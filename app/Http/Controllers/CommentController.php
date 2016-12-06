@@ -8,6 +8,7 @@ use App\NovelGroup;
 use Auth;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
 
 class CommentController extends Controller
 {
@@ -25,13 +26,13 @@ class CommentController extends Controller
 
         $my_comments = Comment::with('novels')->with('users')->get()->where('novels.user_id', Auth::user()->id);
 
-        //?‚´ ?†Œ?„¤?„ ê°?ì§?ê³? ?˜¨?‹¤
+        //?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ï¿½?ï¿½?ï¿½? ?ï¿½ï¿½?ï¿½ï¿½
 //        $my_novel = Novel::where('user_id', Auth::user()->id)->with('users')->get();
 
 
         $collection = new Collection();
 
-        //?‚´ ?†Œ?„¤?˜ ?Œ“ê¸??„ ê°?ì§?ê³? ?˜¨?‹¤
+        //?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½ï¿½??ï¿½ï¿½ ï¿½?ï¿½?ï¿½? ?ï¿½ï¿½?ï¿½ï¿½
 
         foreach ($my_comments as $novel_comm) {
             $collection->push($novel_comm);
@@ -93,9 +94,10 @@ class CommentController extends Controller
                 }
             }
         }
+        $groups_comments = new Paginator($groups_comments,2);
 
 
-//        return response()->json($groups_comments);
+//        return response()->json($p);
         return view('author.group_comments', compact('groups_comments','comments_count'));
     }
 
