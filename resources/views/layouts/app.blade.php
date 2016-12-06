@@ -155,7 +155,6 @@
                                     </a>
 
                                     <ul class="collapse">
-                                        <li><a href="novel.html">환급신청</a></li>
                                         <li><a href="novel_write.html">여우수익내역</a></li>
                                         <li><a href="novel_write.html">퍼블리싱내역</a></li>
                                         <li><a href="novel_write.html">환급정산내역</a></li>
