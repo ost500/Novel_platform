@@ -176,9 +176,6 @@
                             <div class="form-group">
                                 <label class="col-md-2 control-label" for="demo-password-input">기본표지</label>
                                 <div class="col-md-9">
-                                    <input type="text" id="demo-password-input" style="width:30%;"
-                                           class="form-control inline" placeholder="사용하려면 우측 표지선택 버튼을 클릭하세요.">
-                                    <button class="btn btn-primary">표지선택</button>
                                     <input type="text" id="demo-password-input" style="width:30%;" class="form-control inline" placeholder="사용하려면 우측 표지선택 버튼을 클릭하세요.">
                                     <button type="button" class="btn btn-primary novel-user-nick-form">표지선택</button>
                                 </div>
