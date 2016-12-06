@@ -6571,3 +6571,7 @@ ol, ul {
   margin-left: -27%;
   margin-top: 5px;
 }
+
+.ul_basicCover li.on img {
+  border: 3px solid #f8ac59;
+}
