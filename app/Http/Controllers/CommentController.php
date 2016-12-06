@@ -24,13 +24,13 @@ class CommentController extends Controller
 
         $my_comments = Comment::with('novels')->with('users')->get()->where('novels.user_id', Auth::user()->id);
 
-        //ë‚´ ì†Œì„¤ì„ ê°€ì§€ê³  ì˜¨ë‹¤
+        //?‚´ ?†Œ?„¤?„ ê°?ì§?ê³? ?˜¨?‹¤
 //        $my_novel = Novel::where('user_id', Auth::user()->id)->with('users')->get();
 
 
         $collection = new Collection();
 
-        //ë‚´ ì†Œì„¤ì˜ ëŒ“ê¸€ì„ ê°€ì§€ê³  ì˜¨ë‹¤
+        //?‚´ ?†Œ?„¤?˜ ?Œ“ê¸??„ ê°?ì§?ê³? ?˜¨?‹¤
 
         foreach ($my_comments as $novel_comm) {
             $collection->push($novel_comm);

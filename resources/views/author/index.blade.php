@@ -52,7 +52,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td class="padding-top-10 text-right">
-                                                            <button class="btn btn-primary">댓글 1,000</button>
+                                                            <button class="btn btn-primary"  v-on:click="commentsDisplay(group.id)"  > 댓글 1,000</button>
                                                             <button class="btn btn-info">리뷰 1,000</button>
                                                             <button class="btn btn-success"
                                                                     v-on:click="go_to_edit(group.id)">수정
@@ -67,58 +67,14 @@
                                             </td>
                                         </tr>
                                         </tbody>
+
+
                                     </table>
-
+                                    <div id="response"></div>
 
                                 </div>
 
-                                <div id="comment_list">
-                                    <div class="padding-top-10">
-                                        <h4>댓글 3</h4></div>
 
-
-                                    <div class="novel-review" >
-                                        <div class="review-write pad-all">
-                                        <textarea id="demo-textarea-input" rows="4" class="form-control inline"
-                                                  style="width:50%" placeholder="댓글"></textarea>
-                                            <button class="btn btn-primary inline"
-                                                    style="width:100px;height:83px; vertical-align:top;">등록
-                                            </button>
-                                        </div>
-                                        <div v-for="my_comment in my_comments">
-
-                                            <div class="review">
-
-                                                <div>
-                                                    <span class="nick">@{{ my_comment.users.name }}</span> @{{ my_comment.created_at }}
-                                                    <button class="btn btn-xs btn-pink">N</button>
-                                                </div>
-                                                <div class="content">
-                                                    <span class="inning">@{{ my_comment.novels.title }}</span> @{{ my_comment.comment }}
-                                                </div>
-                                                <div class="button">
-                                                    <button class="btn btn-xs btn-mint">답변</button>
-                                                    <button class="btn btn-xs btn-danger">신고</button>
-                                                </div>
-
-                                            </div>
-                                            <div class="review reply" v-for="children in my_comment.children">
-                                                <div>
-                                                    <span class="nick">@{{ children.users.name }}</span> @{{ children.created_at }}
-                                                    <button class="btn btn-xs btn-pink">N</button>
-                                                </div>
-                                                <div class="content">
-                                                    <span class="inning">@{{ children.novels.novel_group_id }}회</span> @{{ children.comment }}
-                                                </div>
-                                                <div class="button">
-                                                    <button class="btn btn-xs btn-mint">답변</button>
-                                                    <button class="btn btn-xs btn-danger">신고</button>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -143,10 +99,10 @@
                         .then(function (response) {
                             this.novel_groups = response.data;
                         });
-                this.$http.get('{{ route('comments.index') }}')
+               /* this.$http.get('{{-- route('comments.index') --}}')
                         .then(function (response) {
                             this.my_comments = response.data;
-                        });
+                        }); */
             },
             methods: {
                 go_to_group: function (id) {
@@ -154,6 +110,17 @@
                 },
                 go_to_edit: function (id) {
                     window.location.assign('/author/' + id + '/edit');
+                },
+
+                commentsDisplay: function (id) {
+
+                     var comments_url= '/comments/'+ id ;
+
+                    this.$http.get(comments_url)
+                            .then(function (response) {
+                               // console.log("ok");
+                                $('#response').innerHTML = response.data;
+                            });
                 },
 
                 destroy: function (e) {
@@ -207,24 +174,24 @@
                 }
             }
         });
-        var app5 = new Vue({
+      /*  var app5 = new Vue({
             el: '#comment_list',
             data: {
                 novel_groups: [],
                 my_comments: [],
             },
             mounted: function () {
-                this.$http.get('{{ route('novels.index') }}')
+                this.$http.get('{{-- route('novels.index')--}}')
                         .then(function (response) {
                             this.novel_groups = response.data;
                         });
-                this.$http.get('{{ route('comments.index') }}')
+                this.$http.get('{{-- route('comments.index') --}}')
                         .then(function (response) {
                             this.my_comments = response.data;
                         });
 
             }
-        })
+        })*/
     </script>
 
 @endsection
