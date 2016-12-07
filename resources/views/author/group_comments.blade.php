@@ -5,11 +5,11 @@
 
     <div class="novel-review">
         {{--<div class="review-write pad-all">--}}
-                {{--<textarea id="demo-textarea-input" rows="4" class="form-control inline"--}}
-                          {{--style="width:50%" placeholder="댓글"></textarea>--}}
-            {{--<button class="btn btn-primary inline"--}}
-                    {{--style="width:100px;height:83px; vertical-align:top;">등록--}}
-            {{--</button>--}}
+        {{--<textarea id="demo-textarea-input" rows="4" class="form-control inline"--}}
+        {{--style="width:50%" placeholder="댓글"></textarea>--}}
+        {{--<button class="btn btn-primary inline"--}}
+        {{--style="width:100px;height:83px; vertical-align:top;">등록--}}
+        {{--</button>--}}
 
         {{--</div>--}}
 
@@ -32,11 +32,14 @@
                 </div>
 
 
-                <form id="comment_form{{$loop->index}}" action="" hidden>
+                <form id="comment_form{{$loop->index}}" action="{{ route('comments.store') }}" hidden>
                     <div class="review-of pad-all">
-                        <textarea hidden id="demo-textarea-input" rows="2" class="form-control inline"
+                        <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
+                        <input hidden name="parent_id" value="{{$comment[0]->id}}">
+                        <input hidden name="novel_id" value="{{$comment[0]->novels->id}}">
+                        <textarea name="comment" hidden id="demo-textarea-input" rows="2" class="form-control inline"
                                   style="width:50%" placeholder="댓글"></textarea>
-                        <button class="btn btn-primary inline"
+                        <button id="reply_post_btn{{$loop->index}}" class="btn btn-primary inline"
                                 style="width:100px;height:48px; vertical-align:top;">등록
                         </button>
                     </div>
@@ -44,11 +47,29 @@
 
                 <script type="text/javascript">
 
+                    $("#reply_button{{$loop->index}}").click(function () {
 
-                        $("#reply_button{{$loop->index}}").click(function () {
+                        $("#comment_form{{$loop->index}}").show();
+                    });
 
-                            $("#comment_form{{$loop->index}}").show();
+                    $("#reply_post_btn{{$loop->index}}").click(function (e) {
+                        console.log($('#comment_form{{$loop->index}}').serializeArray());
+                        e.preventDefault();
+                        $.ajax({
+                            url: '{{ route('comments.store') }}',
+                            type: 'POST',
+                            data: $('#comment_form{{$loop->index}}').serializeArray(),
+                            headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken},
+                            success: function (e) {
+
+                                app4.commentsDisplay({{ $comment[0]->novels->novel_group_id }});
+                            },
+                            error: function () {
+                            },
                         });
+
+                    });
+
 
                 </script>
 
