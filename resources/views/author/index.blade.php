@@ -44,11 +44,11 @@
                                 </div>
                                 <div id="novel_list">
 
-                                    <table class="table table-bordered" v-for="group in novel_groups">
+                                    <table class="table" v-for="group in novel_groups">
                                         <tbody>
-                                        <tr>
+                                        <tr class="table-bordered">
                                             <td class="text-center col-md-1"><a style="cursor:pointer"
-                                                        v-on:click="go_to_group(group.id)">표지이미지</a>
+                                                                                v-on:click="go_to_group(group.id)">표지이미지</a>
                                             </td>
                                             <td>
                                                 <table class="table-no-border" style="width:100%;">
@@ -87,15 +87,15 @@
 
 
                                         </tr>
+
+
                                         <tr>
-                                            <td colspan="2"
-                                                style="border-bottom-style: hidden;border-left-style: hidden;border-right-style: hidden; padding-bottom:0px !important;">
+                                            <td colspan="2">
                                                 <div v-bind:id="commentId(group.id)" v-show="comment_show"></div>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2"
-                                                style="border-bottom-style: hidden;border-left-style: hidden;border-right-style: hidden; padding-bottom:0px !important;">
+                                            <td colspan="2">
                                                 <div v-bind:id="reviewId(group.id)" v-show="review_show"></div>
                                             </td>
                                         </tr>
