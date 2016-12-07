@@ -74,11 +74,9 @@ class NovelGroupController extends Controller
         if ($request->hasFile('cover_photo')) {
 
 
-
             $cover_photo = $request->file('cover_photo');
             $filename = $cover_photo->getClientOriginalName();
             //set original name for database
-
 
 
             //upload file to destination path
@@ -90,11 +88,10 @@ class NovelGroupController extends Controller
 
             $cover_photo->move($destinationPath, $new_novel_group->id . '_' . $filename);
 
-            if($request->hasFile('cover_photo2')){
+            if ($request->hasFile('cover_photo2')) {
                 $cover_photo2 = $request->file('cover_photo2');
                 $filename2 = $cover_photo2->getClientOriginalName();
                 //set original name for database
-
 
 
                 //upload file to destination path
@@ -108,13 +105,11 @@ class NovelGroupController extends Controller
             $new_novel_group->save();
 
 
-
-
-        } else if($request->default_cover_photo){
+        } else if ($request->default_cover_photo) {
             $new_novel_group = $request->user()->novel_groups()->create($input);
-            $new_novel_group->cover_photo = "default_".$request->default_cover_photo.".jpg";
+            $new_novel_group->cover_photo = "default_" . $request->default_cover_photo . ".jpg";
             $new_novel_group->save();
-        } else{
+        } else {
             $new_novel_group = $request->user()->novel_groups()->create($input);
             $new_novel_group->cover_photo = "default_.jpg";
             $new_novel_group->save();
