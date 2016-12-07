@@ -120,25 +120,38 @@
                         <div class="nano-content">
                             <ul id="mainnav-menu" class="list-group">
 
-                                <!--Category name-->
                                 <li class="list-header"></li>
 
-
-                                <!--Menu list item-->
                                 <li class="active-link">
-                                    <a href="#">
+                                    <a href="{{ route('admin.user') }}">
                                         <i class="fa fa-book"></i>
-						<span class="menu-title">
-							<strong>작품관리</strong>
-						</span>
+                                        <span class="menu-title">
+                                            <strong>회원관리</strong>
+                                        </span>
+                                    </a>
+                                </li>
+
+                                <li class="list-divider"></li>
+
+                                <li>
+                                    <a href="{{ route('admin.sales') }}">
+                                        <i class="fa fa-book"></i>
+                                        <span class="menu-title">
+                                            <strong>매출관리</strong>
+                                        </span>
+                                    </a>
+                                </li>
+
+                                <li class="list-divider"></li>
+
+                                <li>
+                                    <a href="{{ route('admin.novel') }}">
+                                        <i class="fa fa-book"></i>
+                                        <span class="menu-title">
+                                            <strong>작품관리</strong>
+                                        </span>
                                         <i class="arrow"></i>
                                     </a>
-
-                                    <ul class="collapse">
-                                        <li><a href="{{ route('author_index') }}">작품목록</a></li>
-                                        <li><a href="{{ route('author.novel_group_create') }}">작품등록</a></li>
-
-                                    </ul>
                                 </li>
 
 

@@ -6530,7 +6530,7 @@ a.text-dark:focus {
 .novel-review { border: 1px solid #ddd; padding:10px;}
 .novel-review div.review { border-bottom:1px solid #ddd; padding:10px;}
 .novel-review div.reply { border-bottom:1px solid #ddd; margin-left:30px;}
-/*.novel-review div.review:last-child { border-bottom:0px; }*/
+.novel-review div.review:last-child { border-bottom:0px; }
 .novel-review div.review-write {margin-bottom:20px;}
 .novel-review div.review-of {margin-bottom:0px;}
 

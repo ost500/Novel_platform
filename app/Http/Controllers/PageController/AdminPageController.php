@@ -11,4 +11,19 @@ class AdminPageController extends Controller
     {
         return view('admin.index');
     }
+
+    public function novel()
+    {
+        return view('admin.novel');
+    }
+
+    public function user()
+    {
+        return view('admin.user');
+    }
+
+    public function sales()
+    {
+        return view('admin.sales');
+    }
 }

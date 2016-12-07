@@ -47,7 +47,7 @@
                                     <table class="table" v-for="group in novel_groups">
                                         <tbody>
                                         <tr class="table-bordered">
-                                            <td class="text-center col-md-2"><a style="cursor:pointer"
+                                            <td class="text-center col-md-1"><a style="cursor:pointer"
                                                                                 v-on:click="go_to_group(group.id)">표지이미지</a>
                                             </td>
                                             <td>

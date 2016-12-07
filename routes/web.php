@@ -60,3 +60,6 @@ Route::get('/author/faq_edit', ['as' => 'author.faq_edit', 'uses' => 'PageContro
 
 
 Route::get('/admin/index',['as' => 'admin.novel', 'uses' => 'PageController\AdminPageController@index']);
+Route::get('/admin/novel',['as' => 'admin.novel', 'uses' => 'PageController\AdminPageController@novel']);
+Route::get('/admin/user',['as' => 'admin.user', 'uses' => 'PageController\AdminPageController@user']);
+Route::get('/admin/sales',['as' => 'admin.sales', 'uses' => 'PageController\AdminPageController@sales']);

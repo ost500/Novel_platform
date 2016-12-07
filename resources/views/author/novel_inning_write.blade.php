@@ -132,7 +132,7 @@
 
                                 <div class="form-group">
                                     <div class="col-md-12 text-center">
-                                        <button class="btn btn-lg btn-primary">회차저장</button>
+                                        <button id="novel_submit" class="btn btn-lg btn-primary">회차저장</button>
                                         <button class="btn btn-lg btn-danger back">취소</button>
                                     </div>
                                 </div>
