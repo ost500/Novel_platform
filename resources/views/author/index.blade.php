@@ -98,12 +98,14 @@
                                         </tr>
                                         <tr>
                                             <td colspan="2">
-                                                <div v-bind:id="commentId(group.id)" v-show="comment_show"></div>
+                                                <div v-bind:id="commentId(group.id)" v-if="group.id == comment_show.id && comment_show.TF"></div>
+                                                <div v-bind:id="commentId(group.id)" v-else hidden></div>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td colspan="2">
-                                                <div v-bind:id="reviewId(group.id)" v-show="review_show"></div>
+                                                <div v-bind:id="reviewId(group.id)" v-if="group.id == review_show.id && review_show.TF"></div>
+                                                <div v-bind:id="reviewId(group.id)" v-else hidden></div>
                                             </td>
                                         </tr>
                                         </tbody>
@@ -135,8 +137,8 @@
                 reviewsCountData: [],
                 latested_at: [],
                 my_comments: [],
-                comment_show: false,
-                review_show: false,
+                comment_show: {'id': 0, 'TF': false},
+                review_show: {'id': 0, 'TF': false},
                 show_count: '',
 
             },
@@ -151,6 +153,14 @@
                  }); */
             },
             methods: {
+                comment_show_func: function(id){
+                    if(comment_show.id == id){
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                },
                 check: function (id) {
                     for (var key in this.commentsCountData) {
                         if (id == key) {
@@ -205,22 +215,30 @@
                 },
 
                 commentsDisplay: function (id) {
+                    console.log("TF"+this.comment_show.TF);
+                    console.log("ID"+this.comment_show.id);
 
                     var comments_url = '/comments/' + id;
-                    if (this.comment_show == true) {
-                        this.comment_show = false;
+                    if (this.comment_show.TF == true && this.comment_show.id == id) {
+                        this.comment_show.TF = false;
+                        this.comment_show.id = 0;
                     }
                     else {
                         this.$http.get(comments_url)
                                 .then(function (response) {
                                     // document.getElementById('response').setAttribute('id','response'+id)
-                                    this.review_show = false;
-                                    this.comment_show = true;
-                                    $('#response' + id).html(response.data);
-                                    myfunc();
-                                });
-                    }
 
+                                    $('#response' + id).html(response.data);
+
+                                });
+                        this.review_show.TF = false;
+                        this.review_show.id = 0;
+
+                        this.comment_show.TF = true;
+                        this.comment_show.id = id;
+                    }
+                    console.log("TF"+this.comment_show.TF);
+                    console.log("ID"+this.comment_show.id);
                 },
                 commentId: function (id) {
                     return "response" + id;
@@ -228,17 +246,22 @@
                 reviewsDisplay: function (id) {
 
                     var comments_url = '/reviews/' + id;
-                    if (this.review_show == true) {
-                        this.review_show = false;
+                    if (this.review_show.TF == true && this.review_show.id == id) {
+                        this.review_show.TF = false;
+                        this.review_show.id = 0;
                     }
-                    else{
+                    else {
                         this.$http.get(comments_url)
                                 .then(function (response) {
                                     // document.getElementById('response').setAttribute('id','response'+id)
-                                    this.comment_show = false;
-                                    this.review_show = true;
+
                                     document.getElementById('review_response' + id).innerHTML = response.data;
                                 });
+                        this.review_show.TF = true;
+                        this.review_show.id = id;
+
+                        this.comment_show.TF = false;
+                        this.comment_show.id = 0;
                     }
 
                 },
