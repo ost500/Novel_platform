@@ -49,34 +49,70 @@ class NovelGroupController extends Controller
     public function store(Request $request)
     {
         //
-        $validator = Validator::make($request->all(), [
-            'nickname' => 'required|max:255',
-            'title' => 'required',
-            'description' => 'required',
-        ]);
+        $validator = Validator::make($request->all(),
+            [
+                'nickname' => 'required|max:255',
+                'title' => 'required',
+                'description' => 'required',
+            ],
+            [
+                'nickname.required' => '필명은 필수 입니다.',
+                'title.required' => '제목은 필수 입니다.',
+                'description.required' => '설명은 필수 입니다.',
+            ]);
 
         if ($validator->fails()) {
-            return redirect('author/create')
+            return redirect()->back()
                 ->withErrors($validator)
                 ->withInput();
         }
+
         $input = $request->all();
         //if validation is passed then insert the record
 
         //upload the picture
         if ($request->hasFile('cover_photo')) {
 
+
             $cover_photo = $request->file('cover_photo');
             $filename = $cover_photo->getClientOriginalName();
             //set original name for database
-            $input['cover_photo'] = $filename;
+
+
+            //upload file to destination path
+            $destinationPath = public_path('img/novel_covers/');
+
             //Insert the record
             $new_novel_group = $request->user()->novel_groups()->create($input);
-            //upload file to destination path
-            $destinationPath = public_path('/img/novel_covers/');
+            $new_novel_group->cover_photo = $new_novel_group->id . '_' . $filename;
+
             $cover_photo->move($destinationPath, $new_novel_group->id . '_' . $filename);
+
+            if ($request->hasFile('cover_photo2')) {
+                $cover_photo2 = $request->file('cover_photo2');
+                $filename2 = $cover_photo2->getClientOriginalName();
+                //set original name for database
+
+
+                //upload file to destination path
+                $destinationPath = public_path('img/novel_covers/');
+                $cover_photo2->move($destinationPath, $new_novel_group->id . '_' . $filename2);
+
+                $new_novel_group->cover_photo2 = $new_novel_group->id . '_' . $filename2;
+
+            }
+
+            $new_novel_group->save();
+
+
+        } else if ($request->default_cover_photo) {
+            $new_novel_group = $request->user()->novel_groups()->create($input);
+            $new_novel_group->cover_photo = "default_" . $request->default_cover_photo . ".jpg";
+            $new_novel_group->save();
         } else {
             $new_novel_group = $request->user()->novel_groups()->create($input);
+            $new_novel_group->cover_photo = "default_.jpg";
+            $new_novel_group->save();
         }
 
         if ($request->ajax()) {
@@ -84,7 +120,7 @@ class NovelGroupController extends Controller
         }
 
         flash("생성을 성공했습니다");
-      //  return redirect()->route('author_novel_group', ['id' => $new_novel_group->id]);
+        //  return redirect()->route('author_novel_group', ['id' => $new_novel_group->id]);
         return redirect()->route('author_index');
     }
 

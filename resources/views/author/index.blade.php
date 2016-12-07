@@ -290,7 +290,7 @@
 
                                 app4.$http.delete("{{ url('novelgroups') }}/" + e, {headers: {'X-CSRF-TOKEN': '{!! csrf_token() !!}'}})
                                         .then(function (response) {
-                                            app4.reload_novel_groups();
+                                            app4.reload();
                                             $.niftyNoty({
                                                 type: 'warning',
                                                 icon: 'fa fa-check',
