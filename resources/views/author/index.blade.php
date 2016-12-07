@@ -47,7 +47,7 @@
                                     <table class="table" v-for="group in novel_groups">
                                         <tbody>
                                         <tr class="table-bordered">
-                                            <td class="text-center col-md-1"><a style="cursor:pointer"
+                                            <td class="text-center col-md-2"><a style="cursor:pointer"
                                                                                 v-on:click="go_to_group(group.id)">표지이미지</a>
                                             </td>
                                             <td>
@@ -66,10 +66,11 @@
                                                     <tr>
                                                         <td class="padding-top-10 text-right">
                                                             <button class="btn btn-primary"
-                                                                    v-on:click="commentsDisplay(group.id)"> 댓글 1,000
+                                                                    v-on:click="commentsDisplay(group.id)">
+                                                                댓글 @{{ check(group.id) }}
                                                             </button>
                                                             <button class="btn btn-info"
-                                                                    v-on:click="reviewsDisplay(group.id)">리뷰 1,000
+                                                                    v-on:click="reviewsDisplay(group.id)">리뷰
                                                             </button>
                                                             <button class="btn btn-success"
                                                                     v-on:click="go_to_edit(group.id)">수정
@@ -87,8 +88,6 @@
 
 
                                         </tr>
-
-
                                         <tr>
                                             <td colspan="2">
                                                 <div v-bind:id="commentId(group.id)" v-show="comment_show"></div>
@@ -124,15 +123,19 @@
             el: '#novel_list',
             data: {
                 novel_groups: [],
+                commentsCountData: [],
                 my_comments: [],
                 comment_show: true,
                 review_show: true,
+                show_count: '',
 
             },
             mounted: function () {
                 this.$http.get('{{ route('novels.index') }}')
                         .then(function (response) {
-                            this.novel_groups = response.data;
+                            this.novel_groups = response.data['novel_groups'];
+                            this.commentsCountData = response.data['count_data'];
+                            console.log(this.novel_groups);
                         });
                 /* this.$http.get('
                 {{-- route('comments.index') --}}')
@@ -141,6 +144,27 @@
                  }); */
             },
             methods: {
+                check: function (id) {
+                    console.log(this.commentsCountData.length);
+                    /* for(var i=0;i< this.commentsCountData.length;i++ ){
+                     if(id == this.commentsCountData.index){
+                     console.log(this.commentsCountData[id]);
+                     return this.commentsCountData[id];
+                     }
+                     }*/
+                    for (var key in this.commentsCountData) {
+                        if (id == key){
+                            console.log(id);
+                            return this.commentsCountData[id];
+                        }
+                    }
+
+                },
+                /* get_comment_count: function(id){
+                 var c_count =
+
+                 },*/
+
                 go_to_group: function (id) {
                     window.location.assign('{{ url('author/novelgroup') }}' + "/" + id);
                 },

@@ -20,11 +20,21 @@ class AuthorPageController extends Controller
     }
 
 
-    public function index()
+    public function index(Request $request)
     {
-        $novel_groups = Auth::user()->novel_groups;
-        return view('author.index', compact('novel_groups'));
+        $novel_groups = $request->user()->novel_groups()->with('novels')->get();
+        $comments_count = 0;
+        $count_data = array();
+        foreach ($novel_groups as $novel_group) {
+            foreach ($novel_group->novels as $novel) {
+                foreach ($novel->comments as $comment) {
+                    $comments_count++;
+                }
+                $count_data[$novel_group->id] = $comments_count;
+            }
+        }
 
+        return view('author.index', compact('novel_groups','count_data'));
     }
 
     public function novel_gorup($id)

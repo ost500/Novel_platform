@@ -28,9 +28,23 @@ class NovelController extends Controller
     public function index(Request $request)
     {
         //
-        $user_novels = $request->user()->novel_groups()->with('novels')->get();
+        $novel_groups = $request->user()->novel_groups()->with('novels')->get();
+
+        $comments_count = 0;
+        $count_data = array();
+        foreach ($novel_groups as $novel_group) {
+            foreach ($novel_group->novels as $novel) {
+                foreach ($novel->comments as $comment) {
+                    $comments_count++;
+                }
+                $count_data[$novel_group->id] = $comments_count;
+
+            }
+
+        }
+       // dd($count_data);
         // $novel_group= $request->user()->novel_groups()->where('id',$user_novels->novel_group_id)->first();
-        return \Response::json($user_novels);
+        return \Response::json(['novel_groups'=>$novel_groups,'count_data'=>$count_data]);
         // dd($user_novels);
     }
 
@@ -39,7 +53,8 @@ class NovelController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public
+    function create()
     {
         //
     }
@@ -50,7 +65,8 @@ class NovelController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public
+    function store(Request $request)
     {
         $new_novel = new Novel();
         $new_novel->user_id = Auth::user()->id;
@@ -63,7 +79,7 @@ class NovelController extends Controller
         if ($request->publish_reservation == "on" && $request->reser_day && $request->reser_time) {
             echo $request->reser_day . " " . $request->reser_time;
             $new_novel->publish_reservation = $request->reser_day . " " . $request->reser_time;
-        } else{
+        } else {
             $new_novel->publish_reservation = null;
         }
 
@@ -77,10 +93,8 @@ class NovelController extends Controller
 
         $this->inning_order($new_novel->novel_groups->id);
 
-        
 
         flash("회차 저장을 성공했습니다");
-
 
 
     }
@@ -91,7 +105,8 @@ class NovelController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public
+    function show($id)
     {
         //
         $novel = Novel::find($id);
@@ -105,7 +120,8 @@ class NovelController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public
+    function edit($id)
     {
         //
     }
@@ -117,10 +133,9 @@ class NovelController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public
+    function update(Request $request, $id)
     {
-
-
 
 
         $update_novel = Novel::find($id);
@@ -133,7 +148,7 @@ class NovelController extends Controller
         if ($request->publish_reservation == "on" && $request->reser_day && $request->reser_time) {
             echo $request->reser_day . " " . $request->reser_time;
             $update_novel->publish_reservation = $request->reser_day . " " . $request->reser_time;
-        } else{
+        } else {
             $update_novel->publish_reservation = null;
         }
 
@@ -155,7 +170,6 @@ class NovelController extends Controller
         }
 
 
-
         $update_novel->save();
 
 //        dd($update_novel);
@@ -170,7 +184,8 @@ class NovelController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public
+    function destroy($id)
     {
         //
         $novel = Novel::find($id);
@@ -186,17 +201,18 @@ class NovelController extends Controller
 //            $novel->save();
 //            $index++;
 //        }
-        
+
     }
 
-    public function inning_order($id)
+    public
+    function inning_order($id)
     {
         $novel_group = NovelGroup::find($id);
         $novels = $novel_group->novels;
 
         $index = 1;
         foreach ($novels as $novel) {
-            if($novel->adult != 0){
+            if ($novel->adult != 0) {
                 $novel->inning = $novel->adult;
                 $novel->save();
                 continue;

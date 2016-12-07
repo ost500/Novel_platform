@@ -45,15 +45,23 @@
                             <div class="form-group" id="select_nickname">
                                 <label class="col-md-2 control-label" for="demo-text-input">필명</label>
                                 <div class="col-md-9">
+
                                     <select class="form-control" name="nickname">
                                         <option value="">필명선택</option>
-                                        <option v-for="nick in nicks" v-if="nick.main == 1" selected>
-                                            <div v-bind:value="nick.nickname">@{{ nick.nickname }}</div>
+                                        <option v-for="nick in nicks" v-if="nick.main == 1" selected v-bind:value="nick.id" >
+                                            @{{ nick.nickname }}
                                         </option>
-                                        <option v-else>
-                                            <div v-bind:value="nick.nickname">@{{ nick.nickname }}</div>
+                                        <option v-else v-bind:value="nick.id">
+                                            @{{ nick.nickname }}
                                         </option>
                                     </select>
+
+                                   {{-- <select class="form-control" name="nickname" v-model="nicks.nickname">
+                                        <option value="" >필명선택</option>
+                                        <option v-for="nick_name in nicks"
+                                                :value="nick_name.id" > @{{ nick_name.nickname }} </option>
+
+                                    </select>--}}
                                     <!--small class="help-block">This is a help text</small-->
                                 </div>
                             </div>
