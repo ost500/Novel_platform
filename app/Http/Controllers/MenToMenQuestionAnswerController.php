@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\MenToMenQuestionAnswer;
 use Illuminate\Http\Request;
 use Validator;
 class MenToMenQuestionAnswerController extends Controller
@@ -36,7 +37,6 @@ class MenToMenQuestionAnswerController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-
             'title' => 'required',
             'question' => 'required',
         ]);
@@ -47,7 +47,19 @@ class MenToMenQuestionAnswerController extends Controller
         flash('1:1문의를 등록했습니다.');
 
         return \Response::json(["status"=>"200", "id"=> $men_to_menRequest->id ]);
-
     }
 
+
+
+    public function answer(Request $request, $id)
+    {
+        $mtm = MenToMenQuestionAnswer::find($id);
+        $mtm->answer = $request->comment;
+        $mtm->status = 1;
+        $mtm->save();
+
+        flash('답변을 등록했습니다.');
+
+        return \Response::json(["status"=>"200", "id"=> $mtm->id ]);
+    }
 }

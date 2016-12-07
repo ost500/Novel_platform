@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin_layout')
 
 @section('content')
 
@@ -7,14 +7,14 @@
         <div id="content-container">
 
             <div id="page-title">
-                <h1 class="page-header text-overflow">작품회차등록</h1>
+                <h1 class="page-header text-overflow">작품회차관리</h1>
             </div>
 
 
             <ol class="breadcrumb">
-                <li><a href="#">작가홈</a></li>
+                <li><a href="#">어드민</a></li>
                 <li><a href="#">작품관리</a></li>
-                <li class="active">작품회차등록</li>
+                <li class="active">작품회차관리</li>
             </ol>
 
 
@@ -29,6 +29,7 @@
                                   enctype="multipart/form-data"
                                   class="panel-body form-horizontal form-padding">
                                 <input name="_method" type="hidden" value="PUT">
+                                <input name="path" type="hidden" value="admin">
 
                                 {{ csrf_field() }}
                                 <input hidden type="text" v-model="novel.novel_group_id" name="novel_group_id">
@@ -166,8 +167,8 @@
                     publish_reservation: "{{$novel->publish_reservation}}",
                     reser_day: "{{$novel->reser_day}}",
                     reser_time: "{{$novel->reser_time}}",
-                    novel_content: "{{$novel->title}}",
-                    author_comment: "{{$novel->title}}",
+                    novel_content: "{{$novel->content}}",
+                    author_comment: "{{$novel->author_comment}}",
                     cover_photo: $("#file_")
                 },
                 formErrors: {}
@@ -224,7 +225,6 @@
                 $("#reser_day").prop('disabled', true);
             }
         });
-
 
     </script>
 
