@@ -3,7 +3,6 @@
 @section('content')
     <div id="content-container" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 
-
         <div id="page-title">
             <h1 class="page-header text-overflow">작품목록</h1>
         </div>
@@ -153,13 +152,6 @@
             },
             methods: {
                 check: function (id) {
-                    console.log(this.commentsCountData.length);
-                    /* for(var i=0;i< this.commentsCountData.length;i++ ){
-                     if(id == this.commentsCountData.index){
-                     console.log(this.commentsCountData[id]);
-                     return this.commentsCountData[id];
-                     }
-                     }*/
                     for (var key in this.commentsCountData) {
                         if (id == key) {
                             console.log(id);
