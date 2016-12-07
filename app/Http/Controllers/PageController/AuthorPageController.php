@@ -82,7 +82,6 @@ class AuthorPageController extends Controller
 
     public function mailbox_index(Request $request)
     {
-
         $novel_mail_messages= Mailbox::where('to',\Auth::user()->email)->with('users')->get();
         return view('author.novel_memo', compact('novel_mail_messages'));
     }

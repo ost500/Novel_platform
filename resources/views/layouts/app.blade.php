@@ -17,6 +17,7 @@
     <link href="/css/nifty.css" rel="stylesheet">
     <link href="/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link href="/plugins/pace/pace.min.css" rel="stylesheet">
+    <link href="/css/common.css" rel="stylesheet">
 
     <!-- Scripts -->
     <script src="/plugins/pace/pace.min.js"></script>
