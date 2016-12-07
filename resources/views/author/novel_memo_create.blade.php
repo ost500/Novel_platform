@@ -74,7 +74,7 @@
 
                         <div class="text-center">
                             <button id="mail-send-btn" class="btn btn-primary btn-labeled">
-                                <span class="btn-label"><i class="fa fa-paper-plane"></i></span> 문의하기
+                                <span class="btn-label"><i class="fa fa-paper-plane"></i></span> 쪽지보내기
                             </button>
 
 

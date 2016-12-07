@@ -34,95 +34,28 @@
                 </div>
                 <hr class="hr-sm">
 
-                <!--Mail list group-->
-                <ul id="demo-mail-list" class="mail-list">
-                @foreach($novel_mail_messages as $novel_mail_message)
-                    <!--Mail list item-->
-                    <li >
-                        <div class="mail-control">
-                            <label class="demo-cb-mail form-checkbox form-normal form-primary">
-                                <input type="checkbox">
-                            </label>
-                        </div>
-
-                        <div class="mail-from"><a href="#">@if($novel_mail_message->users) {{$novel_mail_message->users->name}} @endif</a></div>
-                        <div class="mail-time">{{$novel_mail_message->created_at}}</div>
-
-                        <div class="mail-subject">
-                            <a href="{{route('author.mailbox_message',['id'=> $novel_mail_message->id ])}}" >{{$novel_mail_message->subject}} </a>
-                        </div>
-                    </li>
-                @endforeach
-                    <!--Mail list item-
-                    <li class="mail-starred">
-                        <div class="mail-control">
-                            <label class="demo-cb-mail form-checkbox form-normal form-primary">
-                                <input type="checkbox">
-                            </label>
-                        </div>
-
-                        <div class="mail-from"><a href="#">Shopping Mall</a></div>
-                        <div class="mail-time">10:45 AM</div>
-
-                        <div class="mail-subject">
-                            <a href="mailbox-message.html">Tracking Your Order - Shoes Store Online</a>
-                        </div>
-                    </li>
-
-                    <!--Mail list item
-                    <li class="mail-list-unread mail-starred mail-attach">
-                        <div class="mail-control">
-                            <label class="demo-cb-mail form-checkbox form-normal form-primary">
-                                <input type="checkbox">
-                            </label>
-                        </div>
-
-                        <div class="mail-from"><a href="#">Dropbox</a></div>
-                        <div class="mail-time">07:18 AM</div>
-
-                        <div class="mail-subject">
-                            <a href="mailbox-message.html">Reset your account password</a>
-                        </div>
-                    </li>
-
-                    <!--Mail list item
-                    <li class="mail-list-unread">
-                        <div class="mail-control">
-                            <label class="demo-cb-mail form-checkbox form-normal form-primary">
-                                <input type="checkbox">
-                            </label>
-                        </div>
-
-                        <div class="mail-from"><a href="#">Server Host</a></div>
-                        <div class="mail-time">01:51 PM</div>
-
-                        <div class="mail-subject">
-                            <a href="mailbox-message.html">
-											<span class="label label-danger">
-											Bussines
-											</span>
-                                Regarding to your website issues.
-                            </a>
-                        </div>
-                    </li>
-
-                    <!--Mail list item-
-                    <li>
-                        <div class="mail-control">
-                            <label class="demo-cb-mail form-checkbox form-normal form-primary">
-                                <input type="checkbox">
-                            </label>
-                        </div>
-
-                        <div class="mail-from"><a href="#">Lisa D. Smith</a></div>
-                        <div class="mail-time">Yesterday</div>
-
-                        <div class="mail-subject">
-                            <a href="mailbox-message.html">Hi John! How are you?</a>
-                        </div>
-                    </li> -->
-                </ul>
-
+                <div>
+                    <table class="novel_memo">
+                        <tbody>
+                        <tr>
+                            <th class="check"><input type="checkbox"></th>
+                            <th class="from">보낸사람</th>
+                            <th>제목</th>
+                            <th class="send">보낸시간</th>
+                            <th class="read">읽은시간</th>
+                        </tr>
+                        @foreach($novel_mail_messages as $novel_mail_message)
+                        <tr>
+                            <td class="check"><input type="checkbox"></td>
+                            <td class="from"><a href="#">@if($novel_mail_message->users) {{$novel_mail_message->users->name}} @endif</a></td>
+                            <td class="text-left"><a href="{{route('author.mailbox_message',['id'=> $novel_mail_message->id ])}}" >{{$novel_mail_message->subject}} </a></td>
+                            <td class="send">{{$novel_mail_message->created_at}}</td>
+                            <td class="read">읽은시간</td>
+                        </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
 
                 <div class="fixed-table-pagination" style="display: block;">
                     <div class="pull-left">

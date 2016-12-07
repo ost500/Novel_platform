@@ -2672,7 +2672,7 @@ a.disabled-link:hover {
     min-height: 1.5em;
   }
   .mail-time {
-    width: 75px;
+    width: 130px;
   }
   .mail-subject {
     overflow: hidden;
@@ -2686,7 +2686,7 @@ a.disabled-link:hover {
     width: 35px;
   }
   .mail-from {
-    width: 85px;
+    width: 125px;
   }
   .mail-subject {
     display: block;
