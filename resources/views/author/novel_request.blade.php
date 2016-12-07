@@ -93,7 +93,7 @@
                         window.location.href=$redirect_url+'/'+response.data['id'];
 
                     }).catch(function (errors) {
-
+                        console.log(errors);
                         this.formErrors = errors.data;
                     });
                 }

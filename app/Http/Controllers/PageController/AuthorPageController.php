@@ -111,7 +111,7 @@ class AuthorPageController extends Controller
     public function men_to_men_show(Request $request, $id)
     {
         $men_to_men_request = MenToMenQuestionAnswer::where('id', $id)->with('users')->first();
-        $men_to_men_requests = $request->user()->question_answers()->paginate(2);
+        $men_to_men_requests = $request->user()->question_answers()->orderBy('id', 'desc')->paginate(10);
         //  return \Response::json($men_to_men_requests);
         return view('author.novel_request_view', compact('men_to_men_request', 'men_to_men_requests'));
     }

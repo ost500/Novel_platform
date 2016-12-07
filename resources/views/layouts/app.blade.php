@@ -50,7 +50,6 @@
             <div class="navbar-header">
                 <a href="{{ route('author_index') }}" class="navbar-brand">
                     <img src="/img/logo.png" alt="Nifty Logo" class="brand-icon">
-
                     <div class="brand-title">
                         <span class="brand-text">로고</span>
                     </div>
@@ -91,7 +90,6 @@
                                                      document.getElementById('logout-form').submit();">
                                 <button class="btn btn-danger">로그아웃</button>
                             </a>
-
                             <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
                                 {{ csrf_field() }}
                             </form>
@@ -118,6 +116,7 @@
                 </div>
 
 
+
                 <div id="mainnav-menu-wrap">
                     <div class="nano">
                         <div class="nano-content">
@@ -128,8 +127,7 @@
 
 
                                 <!--Menu list item-->
-
-                                <li @if(Request::url() ===  route('author_index') or Request::url() ===  route('author.novel_group_create')  ) class="active-link" @endif >
+                                    <li class="{{ (Request::is('author/index')||Request::is('author/create')||Request::is('author/create_inning/*')||Request::is('author/novelgroup/*')||Request::is('author/update_inning/*'))?"active-link":"" }}">
                                     <a href="#">
                                         <i class="fa fa-book"></i>
                                         <span class="menu-title">
@@ -138,7 +136,7 @@
                                         <i class="arrow"></i>
                                     </a>
 
-                                    <ul class="collapse">
+                                    <ul class="collapse {{ (Request::is('author/index')||Request::is('author/create')||Request::is('author/create_inning/*')||Request::is('author/novelgroup/*')||Request::is('author/update_inning/*'))?"in":"" }}">
                                         <li><a href="{{ route('author_index') }}">작품목록</a></li>
                                         <li><a href="{{ route('author.novel_group_create') }}">작품등록</a></li>
 
@@ -148,7 +146,7 @@
 
                                 <li class="list-divider"></li>
 
-                                <li >
+                                <li>
                                     <a href="widgets.html">
                                         <i class="fa fa-money"></i>
                                         <span class="menu-title">
@@ -183,7 +181,8 @@
 
                                 <li class="list-divider"></li>
 
-                                <li @if(Request::url() ===  route('author.novel_memo') or Request::url() ===  route('author.novel_memo_create') ) class="active-link" @endif>
+                                <li class="{{ (Request::is('author/novel_memo')||Request::is('author/novel_memo_send')||Request::is('author/novel_memo_create')||Request::is('author/mailbox_message/*'))?"active-link":"" }}">
+
                                     <a href="{{ route('author.novel_memo')}}">
                                         <i class="fa fa-envelope"></i>
                                         <span class="menu-title">
@@ -191,15 +190,15 @@
                                         </span>
                                         <i class="arrow"></i>
                                     </a>
-                                    <ul class="collapse  @if(Request::url() ===  route('author.novel_memo') or Request::url() ===  route('author.novel_memo_create') ) in" aria-expanded="true"> @else ">@endif
-                                        <li > <a href="{{ route('author.novel_memo')}}">받은쪽지함</a></li>
-                                        <li > <a href="{{ route('author.novel_memo')}}">보낸쪽지함</a></li>
+                                    <ul class="collapse {{ (Request::is('author/novel_memo')||Request::is('author/novel_memo_send')||Request::is('author/novel_memo_create')||Request::is('author/mailbox_message/*'))?"in":"" }}">
+                                        <li><a href="{{ route('author.novel_memo')}}">받은쪽지함</a></li>
+                                        <li><a href="{{ route('author.novel_memo')}}">보낸쪽지함</a></li>
                                     </ul>
                                 </li>
 
                                 <li class="list-divider"></li>
 
-                                <li>
+                                <li class="{{ (Request::is('author/novel_request')||Request::is('author/novel_request_list')||Request::is('author/novel_request_view/*'))?"active-link":"" }}">
                                     <a href="{{ route('author.novel_request')}}">
                                         <i class="fa fa-send"></i>
                                         <span class="menu-title">
@@ -208,16 +207,15 @@
                                         <i class="arrow"></i>
                                     </a>
 
-                                    <ul class="collapse  @if(Request::url() ===  route('author.novel_request') or Request::url() ===  route('author.novel_request_list') ) in" aria-expanded="true"> @else ">@endif
-                                        <li @if(Request::url() ===  route('author.novel_request')) class="active-link" @endif ><a href="{{ route('author.novel_request')}}">1:1문의</a></li>
-                                        <li @if(Request::url() ===  route('author.novel_request_list')) class="active-link" @endif ><a href="{{ route('author.novel_request_list')}}">1:1문의내역</a></li>
+                                    <ul class="collapse {{ (Request::is('author/novel_request')||Request::is('author/novel_request_list')||Request::is('author/novel_request_view/*'))?"in":"" }}">
+                                        <li><a href="{{ route('author.novel_request')}}">1:1문의</a></li>
+                                        <li><a href="{{ route('author.novel_request_list')}}">1:1문의내역</a></li>
                                     </ul>
-
                                 </li>
 
                                 <li class="list-divider"></li>
 
-                                <li @if(Request::url() ===  route('author.novel_faq') ) class="active-link" @endif>
+                                <li class="{{ (Request::is('author/novel_faq'))?"active-link":"" }}">
                                     <a href="{{ route('author.novel_faq')}}">
                                         <i class="fa fa-send"></i>
                                         <span class="menu-title">
@@ -229,7 +227,7 @@
                                 <li class="list-divider"></li>
 
 
-                                <li @if(Request::url() ===  route('author.profile') or Request::url() ===  route('author.nickname') ) class="active-link" @endif>
+                                <li class="{{ (Request::is('author/profile')||Request::is('author/nickname'))?"active-link":"" }}">
                                     <a href="/">
                                         <i class="fa fa-user"></i>
                                         <span class="menu-title">
@@ -239,7 +237,7 @@
                                     </a>
 
 
-                                    <ul class="collapse">
+                                    <ul class="collapse {{ (Request::is('author/profile')||Request::is('author/nickname'))?"in":"" }}">
                                         <li><a href="{{ route("author.profile") }}">작가정보관리</a></li>
                                         <li><a href="{{ route("author.nickname") }}">필명관리</a></li>
                                     </ul>
@@ -262,26 +260,10 @@
     </div>
 
 
+
 </div>
 
-<script>
-  /*  $('li > a').click(function() {
-        $('li').removeClass();
-        $(this).parent().addClass('active');
-    });*/
-    // When we click on the LI
-    $('#mainnav-menu >li').click(function(){
-       // alert("dfdsfdsf");
-         // If this isn't already active
-        if (!$(this).hasClass("active-link")) {
-            // Remove the class from anything that is active
-             $("li.active-link").removeClass("active-link");
-           // $(this).parent().removeClass('active-link');
-            // And make this active
-            $(this).addClass("active-link");
-        }
-    });
-</script>
+
 <!-- FOOTER -->
 <!--===================================================-->
 <footer id="footer">
@@ -328,13 +310,11 @@
             <!--Modal body-->
             <div class="modal-body">
                 <h4 class="text-thin">Bootstrap Modal Vertical Alignment Center</h4>
-
                 <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
                     laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
                     ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
                 <hr>
                 <h4 class="text-thin">Popover in a modal</h4>
-
                 <p>This
                     <button class="btn btn-sm btn-warning demo-modal-popover add-popover" data-toggle="popover"
                             data-trigger="focus"
@@ -345,7 +325,6 @@
                 </p>
                 <hr>
                 <h4 class="text-thin">Tooltips in a modal</h4>
-
                 <p>
                     <a class="btn-link add-tooltip" href="#" data-original-title="Tooltip">This link</a> and
                     <a class="btn-link add-tooltip" href="#" data-original-title="Tooltip">that link</a> should have
@@ -384,14 +363,12 @@
             <!--Modal body-->
             <div class="modal-body">
                 <h4 class="text-thin">Bootstrap Modal Vertical Alignment Center</h4>
-
                 <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
                     laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
                     ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
 
                 <hr>
                 <h4 class="text-thin">Popover in a modal</h4>
-
                 <p>This
                     <button class="btn btn-sm btn-warning demo-modal-popover add-popover" data-toggle="popover"
                             data-trigger="focus"
@@ -404,7 +381,6 @@
                 <hr>
 
                 <h4 class="text-thin">Tooltips in a modal</h4>
-
                 <p><a class="btn-link add-tooltip" href="#" data-original-title="Tooltip">This link</a> and <a
                             class="btn-link add-tooltip" data-toggle="tooltip" href="#" data-original-title="Tooltip"
                             title="">that link</a> should have tooltips on hover.</p>

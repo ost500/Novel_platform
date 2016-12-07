@@ -150,7 +150,6 @@
                                         <span class="menu-title">
                                             <strong>작품관리</strong>
                                         </span>
-                                        <i class="arrow"></i>
                                     </a>
                                 </li>
 
