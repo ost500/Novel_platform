@@ -29,6 +29,7 @@ Route::resource('mentomen', 'MenToMenQuestionAnswerController');
 Route::resource('faqs', 'FaqController');
 Route::resource('users', 'UserController', ['except' => ['update']]);
 Route::put('users/update', ['as' => 'users.update', 'uses' => 'UserController@update']);
+Route::put('users/update_agreement', ['as' => 'users.update_agreement', 'uses' => 'UserController@update_agreement']);
 Route::resource('nickname', 'NickNameController');
 
 

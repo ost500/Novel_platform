@@ -98,13 +98,15 @@
                                         </tr>
                                         <tr>
                                             <td colspan="2">
-                                                <div v-bind:id="commentId(group.id)" v-if="group.id == comment_show.id && comment_show.TF"></div>
+                                                <div v-bind:id="commentId(group.id)"
+                                                     v-if="group.id == comment_show.id && comment_show.TF"></div>
                                                 <div v-bind:id="commentId(group.id)" v-else hidden></div>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td colspan="2">
-                                                <div v-bind:id="reviewId(group.id)" v-if="group.id == review_show.id && review_show.TF"></div>
+                                                <div v-bind:id="reviewId(group.id)"
+                                                     v-if="group.id == review_show.id && review_show.TF"></div>
                                                 <div v-bind:id="reviewId(group.id)" v-else hidden></div>
                                             </td>
                                         </tr>
@@ -140,11 +142,13 @@
                 comment_show: {'id': 0, 'TF': false},
                 review_show: {'id': 0, 'TF': false},
                 show_count: '',
+                author: [],
 
             },
             mounted: function () {
 
                 this.reload();
+
 
                 /* this.$http.get('
                 {{-- route('comments.index') --}}')
@@ -153,8 +157,8 @@
                  }); */
             },
             methods: {
-                comment_show_func: function(id){
-                    if(comment_show.id == id){
+                comment_show_func: function (id) {
+                    if (comment_show.id == id) {
                         return true;
                     }
                     else {
@@ -164,20 +168,12 @@
                 check: function (id) {
                     for (var key in this.commentsCountData) {
                         if (id == key) {
-                            console.log(id);
                             return this.commentsCountData[id];
                         }
                     }
 
                 },
                 check_review: function (id) {
-                    console.log(this.reviewsCountData.length);
-                    /* for(var i=0;i< this.commentsCountData.length;i++ ){
-                     if(id == this.commentsCountData.index){
-                     console.log(this.commentsCountData[id]);
-                     return this.commentsCountData[id];
-                     }
-                     }*/
                     for (var key in this.reviewsCountData) {
                         if (id == key) {
                             console.log(id);
@@ -187,13 +183,6 @@
 
                 },
                 latested: function (id) {
-                    console.log(this.reviewsCountData.length);
-                    /* for(var i=0;i< this.commentsCountData.length;i++ ){
-                     if(id == this.commentsCountData.index){
-                     console.log(this.commentsCountData[id]);
-                     return this.commentsCountData[id];
-                     }
-                     }*/
                     for (var key in this.reviewsCountData) {
                         if (id == key) {
                             console.log(id);
@@ -202,10 +191,6 @@
                     }
 
                 },
-                /* get_comment_count: function(id){
-                 var c_count =
-
-                 },*/
 
                 go_to_group: function (id) {
                     window.location.assign('{{ url('author/novelgroup') }}' + "/" + id);
@@ -215,8 +200,8 @@
                 },
 
                 commentsDisplay: function (id) {
-                    console.log("TF"+this.comment_show.TF);
-                    console.log("ID"+this.comment_show.id);
+                    console.log("TF" + this.comment_show.TF);
+                    console.log("ID" + this.comment_show.id);
 
                     var comments_url = '/comments/' + id;
                     if (this.comment_show.TF == true && this.comment_show.id == id) {
@@ -237,8 +222,8 @@
                         this.comment_show.TF = true;
                         this.comment_show.id = id;
                     }
-                    console.log("TF"+this.comment_show.TF);
-                    console.log("ID"+this.comment_show.id);
+                    console.log("TF" + this.comment_show.TF);
+                    console.log("ID" + this.comment_show.id);
                 },
                 commentId: function (id) {
                     return "response" + id;
@@ -325,32 +310,54 @@
                                 this.commentsCountData = response.data['count_data'];
                                 this.reviewsCountData = response.data['review_count_data'];
                                 this.latested_at = response.data['latested_at'];
+
+                                console.log(this.author.author_agreement);
+                                this.author = response.data['author'];
+                                if(this.author.author_agreement == 0) {
+                                    console.log('dsfdsfdsfdsfdsfdsfsdfdsf');
+                                    //  $('.author_agreement_dialog').show();
+                                    agreement();
+                                }
+                               // this.check_agreemet();
                                 console.log(this.novel_groups);
                             });
 
-                }
+                },
+              /*  check_agreemet: function () {
+                    console.log(this.author.author_agreement);
+
+                }*/
 
 
             }
         });
-        /*  var app5 = new Vue({
-         el: '#comment_list',
-         data: {
-         novel_groups: [],
-         my_comments: [],
-         },
-         mounted: function () {
-         this.$http.get('{{-- route('novels.index')--}}')
-         .then(function (response) {
-         this.novel_groups = response.data;
-         });
-         this.$http.get('{{-- route('comments.index') --}}')
-         .then(function (response) {
-         this.my_comments = response.data;
-         });
 
-         }
-         })*/
+
+
+
+    /*  var app5 = new Vue({
+    el: '#comment_list',
+    data: {
+    novel_groups: [],
+    my_comments: [],
+    },
+    mounted: function () {
+    this.$http.get('{{-- route('novels.index')--}}')
+    .then(function (response) {
+    this.novel_groups = response.data;
+    });
+    this.$http.get('{{-- route('comments.index') --}}')
+    .then(function (response) {
+    this.my_comments = response.data;
+    });
+
+    }
+    })*/
+    </script>
+    <script>
+    $(document).ready(function () {
+
+    });
     </script>
 
 @endsection

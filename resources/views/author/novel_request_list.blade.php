@@ -31,8 +31,8 @@
                     </div>
                 </div>
                 <hr class="hr-sm">
-                <?php $counter= 0; ?>
-                @if($counter > 0)
+
+                @if(count($men_to_men_requests) > 0)
                 <!--Mail list group-->
                 <ul id="demo-mail-list" class="mail-list">
 
