@@ -193,10 +193,10 @@
                  },*/
 
                 go_to_group: function (id) {
-                    window.location.assign('{{ url('author/novelgroup') }}' + "/" + id);
+                    window.location.assign('{{ url('admin/novel') }}' + "/" + id);
                 },
                 go_to_edit: function (id) {
-                    window.location.assign('/author/' + id + '/edit');
+                    window.location.assign('/admin/' + id + '/edit');
                 },
 
                 commentsDisplay: function (id) {
@@ -275,13 +275,13 @@
                     });
                 },
                 reload_novel_groups: function () {
-                    this.$http.get('{{ route('admin.novel') }}')
+                    this.$http.get('{{ route('admin.novel_json') }}')
                             .then(function (response) {
                                 this.novel_groups = response.data;
                             });
                 },
                 reload: function() {
-                    this.$http.get('{{ route('admin.novel') }}')
+                    this.$http.get('{{ route('admin.novel_json') }}')
                             .then(function (response) {
                                 this.novel_groups = response.data['novel_groups'];
                                 this.commentsCountData = response.data['count_data'];

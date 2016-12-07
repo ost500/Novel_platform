@@ -122,7 +122,7 @@
 
                                 <li class="list-header"></li>
 
-                                <li class="active-link">
+                                <li class="{{ (Request::is('admin/user'))?"active-link":"" }}">
                                     <a href="{{ route('admin.user') }}">
                                         <i class="fa fa-book"></i>
                                         <span class="menu-title">
@@ -133,7 +133,7 @@
 
                                 <li class="list-divider"></li>
 
-                                <li>
+                                <li class="{{ (Request::is('admin/price'))?"active-link":"" }}">
                                     <a href="{{ route('admin.sales') }}">
                                         <i class="fa fa-book"></i>
                                         <span class="menu-title">
@@ -144,7 +144,7 @@
 
                                 <li class="list-divider"></li>
 
-                                <li>
+                                <li class="{{ (Request::is('admin/novel/*'))?"active-link":"" }}">
                                     <a href="{{ route('admin.novel') }}">
                                         <i class="fa fa-book"></i>
                                         <span class="menu-title">

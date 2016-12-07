@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\PageController;
 
 use App\Http\Controllers\Controller;
+use App\Novel;
 use App\NovelGroup;
 use App\User;
 use Illuminate\Http\Request;
@@ -16,6 +17,22 @@ class AdminPageController extends Controller
 
     public function novel()
     {
+        $novel_groups = NovelGroup::all("*");
+
+        return view('admin.novel', compact('novel_groups', 'novel_groups'));
+    }
+
+    public function novel_inning($id)
+    {
+        $novel_group = NovelGroup::find($id);
+        $novels = $novel_group->novels;
+        return view('admin.novel_inning', compact('novels', 'novel_group'));
+    }
+
+
+    public function novel_json(Request $request)
+    {
+        //
         $novel_groups = NovelGroup::all("*");
 
         $comments_count = 0;
@@ -44,8 +61,10 @@ class AdminPageController extends Controller
             $review_count = 0;
 
         }
-
+        // dd($count_data);
+        // $novel_group= $request->user()->novel_groups()->where('id',$user_novels->novel_group_id)->first();
         return \Response::json(['novel_groups' => $novel_groups, 'count_data' => $count_data, 'review_count_data' => $review_count_data, 'latested_at' => $latested_at]);
+        // dd($user_novels);
     }
 
     public function user()

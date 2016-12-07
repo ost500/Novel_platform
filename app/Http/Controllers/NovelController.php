@@ -62,6 +62,7 @@ class NovelController extends Controller
         // dd($user_novels);
     }
 
+
     /**
      * Show the form for creating a new resource.
      *

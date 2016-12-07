@@ -35,7 +35,7 @@
                                         <tbody>
                                         <tr>
                                             <td class="text-center col-md-2"><a
-                                                        href="novel_group.blade.php">표지이미지</a>
+                                                        href="novel.blade.php">표지이미지</a>
                                             </td>
                                             <td>
                                                 <table class="table-no-border" style="width:100%;">
