@@ -27,7 +27,7 @@
                     <span class="inning">{{ $comment->novels->inning }} 회</span> {{ $comment->review }}
                 </div>
                 <div class="button">
-                    <button class="btn btn-xs btn-mint">답변</button>
+
                     <button class="btn btn-xs btn-danger">신고</button>
                 </div>
 

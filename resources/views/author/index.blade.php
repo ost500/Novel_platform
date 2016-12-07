@@ -49,7 +49,8 @@
                                             <td class="text-center col-md-2"><a style="cursor:pointer"
                                                                                 v-on:click="go_to_group(group.id)">
 
-                                                    <img v-if="group.cover_photo != null" v-bind:src="'/img/novel_covers/' + group.cover_photo">
+                                                    <img v-if="group.cover_photo != null"
+                                                         v-bind:src="'/img/novel_covers/' + group.cover_photo">
                                                     <img v-else v-bind:src="'/img/novel_covers/default_.jpg'">
 
                                                 </a>
@@ -65,7 +66,8 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>등록된 회차수 : @{{ group.max_inning }}화, 마지막 업로드 일자 : @{{ latested(group.id) }}</td>
+                                                        <td>등록된 회차수 : @{{ group.max_inning }}화, 마지막 업로드 일자
+                                                            : @{{ latested(group.id) }}</td>
                                                     </tr>
                                                     <tr>
                                                         <td class="padding-top-10 text-right">
@@ -74,7 +76,8 @@
                                                                 댓글 @{{ check(group.id) }}
                                                             </button>
                                                             <button class="btn btn-info"
-                                                                    v-on:click="reviewsDisplay(group.id)">리뷰 @{{ check_review(group.id) }}
+                                                                    v-on:click="reviewsDisplay(group.id)">
+                                                                리뷰 @{{ check_review(group.id) }}
 
                                                             </button>
                                                             <button class="btn btn-success"
@@ -95,12 +98,14 @@
                                         </tr>
                                         <tr>
                                             <td colspan="2">
-                                                <div v-bind:id="commentId(group.id)" v-show="comment_show"></div>
+                                                <div v-bind:id="commentId(group.id)" v-if="group.id == comment_show.id && comment_show.TF"></div>
+                                                <div v-bind:id="commentId(group.id)" v-else hidden></div>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td colspan="2">
-                                                <div v-bind:id="reviewId(group.id)" v-show="review_show"></div>
+                                                <div v-bind:id="reviewId(group.id)" v-if="group.id == review_show.id && review_show.TF"></div>
+                                                <div v-bind:id="reviewId(group.id)" v-else hidden></div>
                                             </td>
                                         </tr>
                                         </tbody>
@@ -132,14 +137,14 @@
                 reviewsCountData: [],
                 latested_at: [],
                 my_comments: [],
-                comment_show: true,
-                review_show: true,
+                comment_show: {'id': 0, 'TF': false},
+                review_show: {'id': 0, 'TF': false},
                 show_count: '',
 
             },
             mounted: function () {
 
-                            this.reload();
+                this.reload();
 
                 /* this.$http.get('
                 {{-- route('comments.index') --}}')
@@ -148,9 +153,17 @@
                  }); */
             },
             methods: {
+                comment_show_func: function(id){
+                    if(comment_show.id == id){
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                },
                 check: function (id) {
                     for (var key in this.commentsCountData) {
-                        if (id == key){
+                        if (id == key) {
                             console.log(id);
                             return this.commentsCountData[id];
                         }
@@ -166,7 +179,7 @@
                      }
                      }*/
                     for (var key in this.reviewsCountData) {
-                        if (id == key){
+                        if (id == key) {
                             console.log(id);
                             return this.reviewsCountData[id];
                         }
@@ -182,7 +195,7 @@
                      }
                      }*/
                     for (var key in this.reviewsCountData) {
-                        if (id == key){
+                        if (id == key) {
                             console.log(id);
                             return this.latested_at[id];
                         }
@@ -202,17 +215,30 @@
                 },
 
                 commentsDisplay: function (id) {
+                    console.log("TF"+this.comment_show.TF);
+                    console.log("ID"+this.comment_show.id);
 
                     var comments_url = '/comments/' + id;
+                    if (this.comment_show.TF == true && this.comment_show.id == id) {
+                        this.comment_show.TF = false;
+                        this.comment_show.id = 0;
+                    }
+                    else {
+                        this.$http.get(comments_url)
+                                .then(function (response) {
+                                    // document.getElementById('response').setAttribute('id','response'+id)
 
-                    this.$http.get(comments_url)
-                            .then(function (response) {
-                                // document.getElementById('response').setAttribute('id','response'+id)
-                                this.review_show = false;
-                                this.comment_show = true;
-                                $('#response' + id).html(response.data);
-                                myfunc();
-                            });
+                                    $('#response' + id).html(response.data);
+
+                                });
+                        this.review_show.TF = false;
+                        this.review_show.id = 0;
+
+                        this.comment_show.TF = true;
+                        this.comment_show.id = id;
+                    }
+                    console.log("TF"+this.comment_show.TF);
+                    console.log("ID"+this.comment_show.id);
                 },
                 commentId: function (id) {
                     return "response" + id;
@@ -220,14 +246,24 @@
                 reviewsDisplay: function (id) {
 
                     var comments_url = '/reviews/' + id;
+                    if (this.review_show.TF == true && this.review_show.id == id) {
+                        this.review_show.TF = false;
+                        this.review_show.id = 0;
+                    }
+                    else {
+                        this.$http.get(comments_url)
+                                .then(function (response) {
+                                    // document.getElementById('response').setAttribute('id','response'+id)
 
-                    this.$http.get(comments_url)
-                            .then(function (response) {
-                                // document.getElementById('response').setAttribute('id','response'+id)
-                                this.comment_show = false;
-                                this.review_show = true;
-                                document.getElementById('review_response' + id).innerHTML = response.data;
-                            });
+                                    document.getElementById('review_response' + id).innerHTML = response.data;
+                                });
+                        this.review_show.TF = true;
+                        this.review_show.id = id;
+
+                        this.comment_show.TF = false;
+                        this.comment_show.id = 0;
+                    }
+
                 },
                 reviewId: function (id) {
                     return "review_response" + id;
@@ -282,7 +318,7 @@
                                 this.novel_groups = response.data;
                             });
                 },
-                reload: function() {
+                reload: function () {
                     this.$http.get('{{ route('novels.index') }}')
                             .then(function (response) {
                                 this.novel_groups = response.data['novel_groups'];
