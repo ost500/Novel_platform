@@ -38,7 +38,9 @@ class NovelController extends Controller
                     $comments_count++;
                 }
                 $count_data[$novel_group->id] = $comments_count;
+
             }
+
         }
        // dd($count_data);
         // $novel_group= $request->user()->novel_groups()->where('id',$user_novels->novel_group_id)->first();
