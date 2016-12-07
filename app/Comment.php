@@ -25,6 +25,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $parent_id
  * @property-read \App\Novel $novels
  * @method static \Illuminate\Database\Query\Builder|\App\Comment whereParentId($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Comment[] $children
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Comment[] $myself
  */
 class Comment extends Model
 {

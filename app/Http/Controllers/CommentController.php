@@ -63,7 +63,13 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $new_comment = new Comment();
+        $new_comment->comment = $request->comment;
+        $new_comment->parent_id = $request->parent_id;
+        $new_comment->novel_id = $request->novel_id;
+        $new_comment->user_id = Auth::user()->id;
+        $new_comment->save();
     }
 
     /**
@@ -94,10 +100,10 @@ class CommentController extends Controller
                 }
             }
         }
-        $groups_comments = new Paginator($groups_comments,2);
+//        $groups_comments = new Paginator($groups_comments, 2);
 
 
-//        return response()->json($p);
+//        return response()->json($groups_comments);
         return view('author.group_comments', compact('groups_comments','comments_count'));
     }
 

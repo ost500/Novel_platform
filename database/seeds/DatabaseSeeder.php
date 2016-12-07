@@ -2,6 +2,7 @@
 
 use App\Faq;
 use App\MenToMenQuestionAnswer;
+use App\NovelGroup;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -113,5 +114,33 @@ class DatabaseSeeder extends Seeder
         $this->command->info('faqs table seeded');
 
         $this->call(ReviewTableSeeder::class);
+
+        $ng = NovelGroup::get();
+        foreach($ng as $novelgroup)
+        {
+            $this->inning_order($novelgroup->id);
+        }
+        $this->command->info('inning ordering');
+
+    }
+    public
+    function inning_order($id)
+    {
+        $novel_group = NovelGroup::find($id);
+        $novels = $novel_group->novels;
+
+        $index = 1;
+        foreach ($novels as $novel) {
+            if ($novel->adult != 0) {
+                $novel->inning = $novel->adult;
+                $novel->save();
+                continue;
+            }
+            $novel->inning = $index;
+            $novel->save();
+            $index++;
+        }
+        $novel_group->max_inning = --$index;
+        $novel_group->save();
     }
 }
