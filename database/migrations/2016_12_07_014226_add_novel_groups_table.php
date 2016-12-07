@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -15,7 +16,7 @@ class AddNovelGroupsTable extends Migration
     {
         Schema::table('novel_groups', function ($table) {
             $table->integer('max_inning')->default(0)->unsigned()->index();
-            $table->date('latest_at');
+            $table->date('latest_at')->default(Carbon::now());
         });
     }
 

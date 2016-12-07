@@ -47,7 +47,13 @@ class NovelController extends Controller
                 }
 
             }
-            $latested_at[$novel_group->id] = $novel_group->novels->sortby('created_at')->first()->created_at->format('Y-m-d');
+            //소설이 없다면
+            if( $novel_group->novels->count() != 0 ){
+                $latested_at[$novel_group->id] = $novel_group->novels->sortby('created_at')->first()->created_at->format('Y-m-d');
+            } else {
+                $latested_at[$novel_group->id] = "0000-00-00";
+            }
+
 
             $count_data[$novel_group->id] = $comments_count;
             $comments_count = 0;

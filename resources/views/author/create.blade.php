@@ -48,49 +48,74 @@
 
                                     <select class="form-control" name="nickname">
                                         <option value="">필명선택</option>
-                                        <option v-for="nick in nicks" v-if="nick.main == 1" selected v-bind:value="nick.id" >
-                                            @{{ nick.nickname }}
-                                        </option>
-                                        <option v-else v-bind:value="nick.id">
-                                            @{{ nick.nickname }}
-                                        </option>
+                                        @if(old('nickname'))
+
+                                            <option v-for="nick in nicks" v-if="nick.id == {{ old('nickname')  }}"
+                                                    selected
+                                                    v-bind:value="nick.id">
+                                                @{{ nick.nickname }}
+                                            </option>
+                                            <option v-else v-bind:value="nick.id">
+                                                @{{ nick.nickname }}
+                                            </option>
+
+                                        @else
+                                            <option v-for="nick in nicks" v-if="nick.main == 1" selected
+                                                    v-bind:value="nick.id">
+                                                @{{ nick.nickname }}
+                                            </option>
+                                            <option v-else v-bind:value="nick.id">
+                                                @{{ nick.nickname }}
+                                            </option>
+                                        @endif
                                     </select>
 
-                                   {{-- <select class="form-control" name="nickname" v-model="nicks.nickname">
-                                        <option value="" >필명선택</option>
-                                        <option v-for="nick_name in nicks"
-                                                :value="nick_name.id" > @{{ nick_name.nickname }} </option>
+                                {{-- <select class="form-control" name="nickname" v-model="nicks.nickname">
+                                     <option value="" >필명선택</option>
+                                     <option v-for="nick_name in nicks"
+                                             :value="nick_name.id" > @{{ nick_name.nickname }} </option>
 
-                                    </select>--}}
-                                    <!--small class="help-block">This is a help text</small-->
+                                 </select>--}}
+                                <!--small class="help-block">This is a help text</small-->
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-md-2 control-label" for="demo-email-input">작품제목</label>
                                 <div class="col-md-9">
-                                    <input type="text" name="title" id="demo-email-input" class="form-control" placeholder="작품 제목을 입력해 주세요." data-bv-field="title">
+                                    <input type="text" name="title" id="demo-email-input" class="form-control"
+                                           placeholder="작품 제목을 입력해 주세요." data-bv-field="title"
+                                           value="{{ old('title')  }}">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-md-2 control-label" for="demo-textarea-input">작품소개</label>
                                 <div class="col-md-9">
-                                    <textarea  name="description" id="demo-textarea-input" rows="9" class="form-control" placeholder="작품 소개를 입력해 주세요"></textarea>
+                                    <textarea name="description" id="demo-textarea-input" rows="9" class="form-control"
+                                              placeholder="작품 소개를 입력해 주세요">{{ old('description')  }}</textarea>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-md-2 control-label" for="demo-text-input">키워드</label>
                                 <div class="col-md-9">
-                                    <select  name="keyword1" class="form-control inline" style="width:14%;" size=10>
+                                    <select name="keyword1" class="form-control inline" style="width:14%;" size=10>
                                         <option value="">장르</option>
-                                        <option value="현대판타지">현대판타지</option>
-                                        <option value="사극/시대물">사극/시대물</option>
-                                        <option value="동양판타지">동양판타지</option>
-                                        <option value="서양/중세">서양/중세</option>
-                                        <option value="로맨스판타지">로맨스판타지</option>
-                                        <option value="미래/SF">미래/SF</option>
+                                        <option value="현대판타지" @if(old('keyword1') == "현대판타지") selected @endif>현대판타지
+                                        </option>
+                                        <option value="사극/시대물" @if(old('keyword1') == "사극/시대물") selected @endif>
+                                            사극/시대물
+                                        </option>
+                                        <option value="동양판타지" @if(old('keyword1') == "동양판타지") selected @endif>동양판타지
+                                        </option>
+                                        <option value="서양/중세" @if(old('keyword1') == "서양/중세") selected @endif>서양/중세
+                                        </option>
+                                        <option value="로맨스판타지" @if(old('keyword1') == "로맨스판타지") selected @endif>
+                                            로맨스판타지
+                                        </option>
+                                        <option value="미래/SF" @if(old('keyword1') == "미래/SF") selected @endif>미래/SF
+                                        </option>
                                     </select>
 
                                     <select name="keyword2" class="form-control inline" style="width:13.5%;" size=10>
@@ -190,19 +215,19 @@
                             <div class="form-group">
                                 <label class="col-md-2 control-label" for="demo-password-input">기본표지</label>
                                 <div class="col-md-9">
-                                    <input type="text" id="demo-password-input" style="width:30%;" class="form-control inline" placeholder="사용하려면 우측 표지선택 버튼을 클릭하세요.">
+                                    <input type="text" id="demo-password-input" style="width:30%;" name="default_cover_photo"
+                                           class="form-control inline" placeholder="사용하려면 우측 표지선택 버튼을 클릭하세요.">
                                     <button type="button" class="btn btn-primary novel-image">표지선택</button>
                                 </div>
                             </div>
 
 
-
-
                             <div class="form-group">
                                 <label class="col-md-2 control-label">표지 직접등록1</label>
                                 <div class="col-md-9">
-                                    <input type="file"  name="cover_photo"  id="demo-password-input" class="form-control" >
-                                    <small class="has-warning">사이즈 : 1080*1620 / 최대용량 : 1M / 업로드 가능 확장자 : JPG, PNG 파일</small>
+                                    <input type="file" name="cover_photo" id="demo-password-input" class="form-control">
+                                    <small class="has-warning">사이즈 : 1080*1620 / 최대용량 : 1M / 업로드 가능 확장자 : JPG, PNG 파일
+                                    </small>
                                 </div>
                             </div>
 
@@ -210,8 +235,10 @@
                             <div class="form-group">
                                 <label class="col-md-2 control-label">표지 직접등록2</label>
                                 <div class="col-md-9">
-                                    <input type="file" name="cover_photo1"  id="demo-password-input" class="form-control" >
-                                    <small class="has-warning">사이즈 : 1080*1080 / 최대용량 : 1M / 업로드 가능 확장자 : JPG, PNG 파일</small>
+                                    <input type="file" name="cover_photo2" id="demo-password-input"
+                                           class="form-control">
+                                    <small class="has-warning">사이즈 : 1080*1080 / 최대용량 : 1M / 업로드 가능 확장자 : JPG, PNG 파일
+                                    </small>
                                 </div>
                             </div>
 
@@ -226,7 +253,8 @@
                                         </div>
                                         <div class="media-body">
                                             <p class="alert-title">표지를 직접 등록할 때, 이미지 사이즈와 확장자가 정확 해야만 등록이 됩니다.</p>
-                                            <p class="alert-title">저작권을 분쟁의 소지가 있는 이미지는 사용하실 수 없습니다. 저작권 관련 문제 발생 시, 모든 책임은 개인에게 있습니다.</p>
+                                            <p class="alert-title">저작권을 분쟁의 소지가 있는 이미지는 사용하실 수 없습니다. 저작권 관련 문제 발생 시, 모든
+                                                책임은 개인에게 있습니다.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -249,7 +277,7 @@
 
     <script>
         //
-        $('.ul_basicCover li div input[type=radio]').click(function(){
+        $('.ul_basicCover li div input[type=radio]').click(function () {
             alert();
             $(this).parents('li').addClass('on').siblings('li').removeClass('on');
         });
