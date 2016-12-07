@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-
     <div id="content-container" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
 
         <div id="page-title">
             <h1 class="page-header text-overflow">작품목록</h1>
@@ -17,26 +17,38 @@
 
 
         <div id="page-content">
-
-
             <div class="row">
                 <div class="col-lg-12">
 
                     <div class="panel">
                         <div class="panel-body">
                             <div class="table-responsive">
-                                <div class="padding-bottom-5">
-                                    <a href="{{ route('author.novel_group_create') }}">
-                                        <button class="btn btn-primary">작품추가</button>
-                                    </a>
+                                <div>
+                                    <div class="col-md-10 pad-no padding-bottom-5">
+                                        <a href="{{ route('author.novel_group_create') }}">
+                                            <button type="button" class="btn btn-primary">작품추가</button>
+                                        </a>
+
+                                        <button type="button" class="btn btn-primary novel-agree">연재약관</button>
+                                    </div>
+
+                                    <div class="col-md-2 text-right pad-no padding-bottom-5">
+                                        <select class="form-control" name="sort">
+                                            <option value="">정렬</option>
+                                            <option value="1">모든글</option>
+                                            <option value="2">연재글</option>
+                                            <option value="3">연결글</option>
+                                            <option value="4">비밀글</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div id="novel_list">
 
                                     <table class="table table-bordered" v-for="group in novel_groups">
                                         <tbody>
                                         <tr>
-                                            <td class="text-center col-md-2"><a
-                                                        href="novel_group.blade.php">표지이미지</a>
+                                            <td class="text-center col-md-1"><a style="cursor:pointer"
+                                                        v-on:click="go_to_group(group.id)">표지이미지</a>
                                             </td>
                                             <td>
                                                 <table class="table-no-border" style="width:100%;">
@@ -49,7 +61,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>등록된 회차수 : 2화, 마지막 업로드 일자 : 2016-11-10</td>
+                                                        <td>등록된 회차수 : @{{ group.title }}화, 마지막 업로드 일자 : 2016-11-10</td>
                                                     </tr>
                                                     <tr>
                                                         <td class="padding-top-10 text-right">
@@ -77,13 +89,13 @@
                                         </tr>
                                         <tr>
                                             <td colspan="2"
-                                                style="border-bottom-style: hidden;border-left-style: hidden;border-right-style: hidden;">
+                                                style="border-bottom-style: hidden;border-left-style: hidden;border-right-style: hidden; padding-bottom:0px !important;">
                                                 <div v-bind:id="commentId(group.id)" v-show="comment_show"></div>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td colspan="2"
-                                                style="border-bottom-style: hidden;border-left-style: hidden;border-right-style: hidden;">
+                                                style="border-bottom-style: hidden;border-left-style: hidden;border-right-style: hidden; padding-bottom:0px !important;">
                                                 <div v-bind:id="reviewId(group.id)" v-show="review_show"></div>
                                             </td>
                                         </tr>
