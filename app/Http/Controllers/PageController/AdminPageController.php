@@ -73,6 +73,11 @@ class AdminPageController extends Controller
         return view('admin.user', compact('users', 'users'));
     }
 
+    public function profile()
+    {
+        return view('admin.profile');
+    }
+
     public function sales()
     {
         return view('admin.sales');

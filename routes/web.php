@@ -65,5 +65,5 @@ Route::get('/admin/novel_json',['as' => 'admin.novel_json', 'uses' => 'PageContr
 Route::get('/admin/novel/{id}', ['as' => 'admin.novel_inning', 'uses' => 'PageController\AdminPageController@novel_inning']);
 
 Route::get('/admin/user',['as' => 'admin.user', 'uses' => 'PageController\AdminPageController@user']);
-Route::get('/admin/user/{id}',['as' => 'admin.user.info', 'uses' => 'PageController\AdminPageController@user_info']);
+Route::get('/admin/user/{id}',['as' => 'admin.profile', 'uses' => 'PageController\AdminPageController@profile']);
 Route::get('/admin/sales',['as' => 'admin.sales', 'uses' => 'PageController\AdminPageController@sales']);

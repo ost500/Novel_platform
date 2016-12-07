@@ -122,7 +122,7 @@
 
                                 <li class="list-header"></li>
 
-                                <li class="{{ (Request::is('admin/user'))?"active-link":"" }}">
+                                <li class="{{ (Request::is('admin/user')||Request::is('admin/user/*'))?"active-link":"" }}">
                                     <a href="{{ route('admin.user') }}">
                                         <i class="fa fa-book"></i>
                                         <span class="menu-title">
@@ -159,9 +159,9 @@
                                 <li>
                                     <a href="widgets.html">
                                         <i class="fa fa-money"></i>
-						<span class="menu-title">
-							<strong>수익내역</strong>
-						</span>
+                                        <span class="menu-title">
+                                            <strong>정산관리</strong>
+                                        </span>
                                         <i class="arrow"></i>
                                     </a>
 
@@ -178,15 +178,15 @@
                                 <li>
                                     <a href="index.html">
                                         <i class="fa fa-share"></i>
-						<span class="menu-title">
-							<strong>제휴연재신청</strong>
-						</span>
+                                        <span class="menu-title">
+                                            <strong>제휴연재관리</strong>
+                                        </span>
                                         <i class="arrow"></i>
                                     </a>
 
                                     <ul class="collapse">
                                         <li><a href="novel.html">연재신청</a></li>
-                                        <li><a href="novel_write.html">연재신청내역</a></li>
+                                        <li><a href="novel_write.html">업체관리</a></li>
                                     </ul>
                                 </li>
 
@@ -195,9 +195,9 @@
                                 <li>
                                     <a href="{{ route('author.novel_memo')}}">
                                         <i class="fa fa-envelope"></i>
-						<span class="menu-title">
-							<strong>쪽지함</strong>
-						</span>
+                                        <span class="menu-title">
+                                            <strong>쪽지함</strong>
+                                        </span>
                                     </a>
                                 </li>
 
@@ -206,9 +206,9 @@
                                 <li>
                                     <a href="{{ route('author.novel_request_list')}}">
                                         <i class="fa fa-send"></i>
-						<span class="menu-title">
-							<strong>1:1문의</strong>
-						</span>
+                                        <span class="menu-title">
+                                            <strong>1:1문의</strong>
+                                        </span>
                                     </a>
                                 </li>
 
@@ -217,32 +217,15 @@
                                 <li>
                                     <a href="{{ route('author.novel_faq')}}">
                                         <i class="fa fa-send"></i>
-						<span class="menu-title">
-							<strong>FAQ</strong>
-						</span>
+                                        <span class="menu-title">
+                                            <strong>FAQ</strong>
+                                        </span>
                                     </a>
                                 </li>
 
                                 <li class="list-divider"></li>
 
 
-                                <li>
-                                    <a href="/">
-                                        <i class="fa fa-user"></i>
-						<span class="menu-title">
-							<strong>내정보</strong>
-						</span>
-                                        <i class="arrow"></i>
-                                    </a>
-
-
-                                    <ul class="collapse">
-                                        <li><a href="{{ route("author.profile") }}">작가정보관리</a></li>
-                                        <li><a href="{{ route("author.nickname") }}">필명관리</a></li>
-                                    </ul>
-                                </li>
-
-                                <li class="list-divider"></li>
 
 
                             </ul>
