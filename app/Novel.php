@@ -31,6 +31,11 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Novel whereAdult($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Novel wherePublishReservation($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Novel whereAuthorComment($value)
+ * @property integer $inning
+ * @property string $cover_photo
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Review[] $reviews
+ * @method static \Illuminate\Database\Query\Builder|\App\Novel whereInning($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Novel whereCoverPhoto($value)
  */
 class Novel extends Model
 {

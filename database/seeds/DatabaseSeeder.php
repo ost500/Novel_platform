@@ -140,5 +140,7 @@ class DatabaseSeeder extends Seeder
             $novel->save();
             $index++;
         }
+        $novel_group->max_inning = --$index;
+        $novel_group->save();
     }
 }

@@ -42,6 +42,8 @@ $factory->define(App\NovelGroup::class, function (Faker\Generator $faker) {
         'keyword5' => $faker->word,
         'keyword6' => $faker->word,
         'keyword7' => $faker->word,
+        'latest_at' => $faker->date('Y-m-d'),
+        'cover_photo' => "/img/default_.jpg"
     ];
 });
 

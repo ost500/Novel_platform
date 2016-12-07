@@ -48,7 +48,12 @@
                                         <tbody>
                                         <tr class="table-bordered">
                                             <td class="text-center col-md-2"><a style="cursor:pointer"
-                                                                                v-on:click="go_to_group(group.id)">표지이미지</a>
+                                                                                v-on:click="go_to_group(group.id)">
+
+                                                    <img v-if="group.cover_photo != null" v-bind:src="'/img/novel_covers/' + group.cover_photo">
+                                                    <img v-else v-bind:src="'/img/novel_covers/default_.jpg'">
+
+                                                </a>
                                             </td>
                                             <td>
                                                 <table class="table-no-border" style="width:100%;">
@@ -61,7 +66,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>등록된 회차수 : @{{ group.title }}화, 마지막 업로드 일자 : 2016-11-10</td>
+                                                        <td>등록된 회차수 : @{{ group.max_inning }}화, 마지막 업로드 일자 : @{{ latested(group.id) }}</td>
                                                     </tr>
                                                     <tr>
                                                         <td class="padding-top-10 text-right">
@@ -126,6 +131,7 @@
                 novel_groups: [],
                 commentsCountData: [],
                 reviewsCountData: [],
+                latested_at: [],
                 my_comments: [],
                 comment_show: true,
                 review_show: true,
@@ -133,13 +139,9 @@
 
             },
             mounted: function () {
-                this.$http.get('{{ route('novels.index') }}')
-                        .then(function (response) {
-                            this.novel_groups = response.data['novel_groups'];
-                            this.commentsCountData = response.data['count_data'];
-                            this.reviewsCountData = response.data['review_count_data'];
-                            console.log(this.novel_groups);
-                        });
+
+                            this.reload();
+
                 /* this.$http.get('
                 {{-- route('comments.index') --}}')
                  .then(function (response) {
@@ -175,6 +177,22 @@
                         if (id == key){
                             console.log(id);
                             return this.reviewsCountData[id];
+                        }
+                    }
+
+                },
+                latested: function (id) {
+                    console.log(this.reviewsCountData.length);
+                    /* for(var i=0;i< this.commentsCountData.length;i++ ){
+                     if(id == this.commentsCountData.index){
+                     console.log(this.commentsCountData[id]);
+                     return this.commentsCountData[id];
+                     }
+                     }*/
+                    for (var key in this.reviewsCountData) {
+                        if (id == key){
+                            console.log(id);
+                            return this.latested_at[id];
                         }
                     }
 
@@ -271,7 +289,20 @@
                             .then(function (response) {
                                 this.novel_groups = response.data;
                             });
+                },
+                reload: function() {
+                    this.$http.get('{{ route('novels.index') }}')
+                            .then(function (response) {
+                                this.novel_groups = response.data['novel_groups'];
+                                this.commentsCountData = response.data['count_data'];
+                                this.reviewsCountData = response.data['review_count_data'];
+                                this.latested_at = response.data['latested_at'];
+                                console.log(this.novel_groups);
+                            });
+
                 }
+
+
             }
         });
         /*  var app5 = new Vue({

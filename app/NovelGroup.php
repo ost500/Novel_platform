@@ -40,6 +40,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereKeyword6($value)
  * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereKeyword7($value)
  * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereCoverPhoto($value)
+ * @property integer $max_inning
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Review[] $reviews
+ * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereMaxInning($value)
  */
 class NovelGroup extends Model
 {

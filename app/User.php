@@ -39,6 +39,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Query\Builder|\App\User whereAccountNumber($value)
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\NickName[] $nicknames
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\MenToMenQuestionAnswer[] $question_answers
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Review[] $reviews
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Mailbox[] $mailbox
  */
 class User extends Authenticatable
 {
