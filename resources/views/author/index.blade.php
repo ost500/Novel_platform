@@ -145,7 +145,8 @@
                                 // document.getElementById('response').setAttribute('id','response'+id)
                                 this.review_show = false;
                                 this.comment_show = true;
-                                document.getElementById('response' + id).innerHTML = response.data;
+                                $('#response' + id).html(response.data);
+                                myfunc();
                             });
                 },
                 commentId: function (id) {
