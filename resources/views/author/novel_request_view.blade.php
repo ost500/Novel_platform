@@ -46,7 +46,7 @@
                      {{$men_to_men_request->question}}
                 </div>
 
-
+                @if($men_to_men_request->answer)
                 <div class="pad-top">
                     <h5>답변시간 <span>{{$men_to_men_request->updated_at}}</span></h5>
 
@@ -55,6 +55,7 @@
                 <div class="pad-all bord-all bg-gray-light margin-top-10">
                     {{$men_to_men_request->answer}}
                 </div>
+                @endif
 
             </div>
         </div>
