@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\PageController;
 
 use App\Http\Controllers\Controller;
+use App\MenToMenQuestionAnswer;
+use App\Novel;
 use App\NovelGroup;
 use App\User;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class AdminPageController extends Controller
 {
@@ -16,6 +19,42 @@ class AdminPageController extends Controller
 
     public function novel()
     {
+        $novel_groups = NovelGroup::all("*");
+
+        return view('admin.novel', compact('novel_groups', 'novel_groups'));
+    }
+
+    public function novel_inning($id)
+    {
+        $novel_group = NovelGroup::find($id);
+        $novels = $novel_group->novels;
+        return view('admin.novel_inning', compact('novels', 'novel_group'));
+    }
+
+    public function novel_inning_view($id)
+    {
+        $novel = Novel::find($id);
+        $novel_group = $novel->novel_groups;
+
+        $reser_day = new Carbon();
+
+        //출간예약이 없다면 null 값을 리턴한다
+        if($novel->publish_reservation == null){
+            $novel->reser_day = null;
+            $novel->reser_time = null;
+        }
+        else{
+            $novel->reser_day = $reser_day->toDateString();
+            $novel->reser_day = $reser_day->format('h:i');
+        }
+
+        return view('admin.novel_inning_view', compact('novel', 'novel_group'));
+    }
+
+
+    public function novel_json(Request $request)
+    {
+        //
         $novel_groups = NovelGroup::all("*");
 
         $comments_count = 0;
@@ -44,14 +83,36 @@ class AdminPageController extends Controller
             $review_count = 0;
 
         }
-
+        // dd($count_data);
+        // $novel_group= $request->user()->novel_groups()->where('id',$user_novels->novel_group_id)->first();
         return \Response::json(['novel_groups' => $novel_groups, 'count_data' => $count_data, 'review_count_data' => $review_count_data, 'latested_at' => $latested_at]);
+        // dd($user_novels);
     }
 
     public function user()
     {
         $users = User::all('*');
         return view('admin.user', compact('users', 'users'));
+    }
+
+    public function profile()
+    {
+        return view('admin.profile');
+    }
+
+    public function request(Request $request)
+    {
+        $men_to_men_requests = MenToMenQuestionAnswer::all('*')->orderBy('id', 'desc')->paginate(10);
+        // return \Response::json($men_to_men_requests);
+        return view('admin.request', compact('men_to_men_requests'));
+    }
+
+    public function request_view(Request $request, $id)
+    {
+        $men_to_men_request = MenToMenQuestionAnswer::where('id', $id)->with('users')->first();
+        $men_to_men_requests = $request->user()->question_answers()->orderBy('id', 'desc')->paginate(10);
+        //  return \Response::json($men_to_men_requests);
+        return view('admin.request_view', compact('men_to_men_request', 'men_to_men_requests'));
     }
 
     public function sales()

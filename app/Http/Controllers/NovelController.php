@@ -50,7 +50,13 @@ class NovelController extends Controller
                 }
 
             }
-            $latested_at[$novel_group->id] = $novel_group->novels->sortby('created_at')->first()->created_at->format('Y-m-d');
+            //소설이 없다면
+            if( $novel_group->novels->count() != 0 ){
+                $latested_at[$novel_group->id] = $novel_group->novels->sortby('created_at')->first()->created_at->format('Y-m-d');
+            } else {
+                $latested_at[$novel_group->id] = "0000-00-00";
+            }
+
 
             $count_data[$novel_group->id] = $comments_count;
             $comments_count = 0;
@@ -64,6 +70,7 @@ class NovelController extends Controller
         return \Response::json(['novel_groups' => $novel_groups, 'count_data' => $count_data, 'review_count_data' => $review_count_data, 'latested_at' => $latested_at,'author'=>$author]);
         // dd($user_novels);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -192,7 +199,15 @@ class NovelController extends Controller
 //        dd($update_novel);
         $novel_group = $update_novel->novel_groups;
         flash("회차 수정을 성공했습니다");
-        return view('author.novel_group', compact('update_novel', 'novel_group'));
+
+        if ($request->path == "admin")
+        {
+            return redirect()->route('admin.novel_inning_view', ['id' => $id]);
+        }
+        else
+        {
+            return view('author.novel_group', compact('update_novel', 'novel_group'));
+        }
     }
 
     /**

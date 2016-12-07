@@ -62,6 +62,13 @@ Route::get('/author/faq_edit', ['as' => 'author.faq_edit', 'uses' => 'PageContro
 
 Route::get('/admin/index',['as' => 'admin.index', 'uses' => 'PageController\AdminPageController@index']);
 Route::get('/admin/novel',['as' => 'admin.novel', 'uses' => 'PageController\AdminPageController@novel']);
+Route::get('/admin/novel_json',['as' => 'admin.novel_json', 'uses' => 'PageController\AdminPageController@novel_json']);
+Route::get('/admin/novel/{id}', ['as' => 'admin.novel_inning', 'uses' => 'PageController\AdminPageController@novel_inning']);
+Route::get('/admin/novel/inning/{id}', ['as' => 'admin.novel_inning_view', 'uses' => 'PageController\AdminPageController@novel_inning_view']);
+
 Route::get('/admin/user',['as' => 'admin.user', 'uses' => 'PageController\AdminPageController@user']);
-Route::get('/admin/user/{id}',['as' => 'admin.user.info', 'uses' => 'PageController\AdminPageController@user_info']);
+Route::get('/admin/user/{id}',['as' => 'admin.profile', 'uses' => 'PageController\AdminPageController@profile']);
 Route::get('/admin/sales',['as' => 'admin.sales', 'uses' => 'PageController\AdminPageController@sales']);
+Route::get('/admin/request',['as' => 'admin.request', 'uses' => 'PageController\AdminPageController@request']);
+Route::get('/admin/request/{id}',['as' => 'admin.request_view', 'uses' => 'PageController\AdminPageController@request_view']);
+Route::post('/admin/request/{id}/answer',['as' => 'admin.request_answer', 'uses' => 'MenToMenQuestionAnswerController@answer']);
