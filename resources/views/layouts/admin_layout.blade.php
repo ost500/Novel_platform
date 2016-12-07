@@ -102,7 +102,7 @@
     </header>
 
     <div class="boxed">
-
+        @include('partials.flash')
         @yield('content')
 
         <nav id="mainnav-container">
@@ -144,7 +144,7 @@
 
                                 <li class="list-divider"></li>
 
-                                <li class="{{ (Request::is('admin/novel/*'))?"active-link":"" }}">
+                                <li class="{{ (Request::is('admin/novel')||Request::is('admin/novel/*'))?"active-link":"" }}">
                                     <a href="{{ route('admin.novel') }}">
                                         <i class="fa fa-book"></i>
                                         <span class="menu-title">
@@ -203,8 +203,8 @@
 
                                 <li class="list-divider"></li>
 
-                                <li>
-                                    <a href="{{ route('author.novel_request_list')}}">
+                                <li class="{{ (Request::is('admin/request')||Request::is('admin/request/*'))?"active-link":"" }}">
+                                    <a href="{{ route('admin.request')}}">
                                         <i class="fa fa-send"></i>
                                         <span class="menu-title">
                                             <strong>1:1문의</strong>

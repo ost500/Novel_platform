@@ -190,7 +190,15 @@ class NovelController extends Controller
 //        dd($update_novel);
         $novel_group = $update_novel->novel_groups;
         flash("회차 수정을 성공했습니다");
-        return view('author.novel_group', compact('update_novel', 'novel_group'));
+
+        if ($request->path == "admin")
+        {
+            return redirect()->route('admin.novel_inning_view', ['id' => $id]);
+        }
+        else
+        {
+            return view('author.novel_group', compact('update_novel', 'novel_group'));
+        }
     }
 
     /**

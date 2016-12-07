@@ -104,7 +104,7 @@ class AuthorPageController extends Controller
 
     public function men_to_men_index(Request $request)
     {
-        $men_to_men_requests = $request->user()->question_answers()->paginate(2);
+        $men_to_men_requests = $request->user()->question_answers()->paginate(10);
        // return \Response::json($men_to_men_requests);
         return view('author.novel_request_list', compact('men_to_men_requests'));
     }

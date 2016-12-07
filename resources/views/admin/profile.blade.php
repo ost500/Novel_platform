@@ -108,7 +108,8 @@
                                         <div class="col-md-12 text-center">
                                             <button type="submit" value="submit" class="btn btn-lg btn-primary">저장
                                             </button>
-                                            <button class="btn btn-lg btn-danger">취소</button>
+                                            <button type="button" class="btn btn-lg btn-danger back"
+                                                    v-on:click="go_to_back()">취소</button>
                                         </div>
                                     </div>
                                 </form>
@@ -142,6 +143,9 @@
 
             },
             methods: {
+                go_to_back: function () {
+                    window.location.assign('{{ url('admin/user') }}');
+                },
                 submita: function (e) {
                     e.preventDefault();
 

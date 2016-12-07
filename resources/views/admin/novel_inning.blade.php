@@ -134,7 +134,7 @@
                 },
 
                 go_to_update: function (e) {
-                    window.location.assign('{{ url('/author/update_inning/') }}'+"/" + e);
+                    window.location.assign('{{ url('/admin/novel/inning') }}'+"/" + e);
                 },
             }
 
