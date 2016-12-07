@@ -26,7 +26,7 @@
                         <!--Sender Information-->
                         <div class="media">
                             <div class="media-body">
-                                <div class="text-bold request-subject">{{ $men_to_men_request->title }}!!</div>
+                                <div class="text-bold request-subject">{{ $men_to_men_request->title }}</div>
                             </div>
                         </div>
                     </div>
