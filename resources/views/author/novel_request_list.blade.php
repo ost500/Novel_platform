@@ -64,6 +64,9 @@
                             @if($men_to_men_requests->currentPage() >= 2)
                                 <li class="page-pre"><a href="{{url('/author/novel_request_list'."?page=".($men_to_men_requests->currentPage()-1))}}">&lt;</a></li>
                             @endif
+                            @if($men_to_men_requests->currentPage() >= 5)
+                                <li class="page-pre"><a href="{{url('/author/novel_request_list'."?page=".($men_to_men_requests->currentPage()-4))}}">{{$men_to_men_requests->currentPage()-4}}</a></li>
+                            @endif
                             @if($men_to_men_requests->currentPage() >= 4)
                                 <li class="page-pre"><a href="{{url('/author/novel_request_list'."?page=".($men_to_men_requests->currentPage()-3))}}">{{$men_to_men_requests->currentPage()-3}}</a></li>
                             @endif
@@ -84,6 +87,9 @@
                             @endif
                             @if($men_to_men_requests->lastPage()-3 >= $men_to_men_requests->currentPage())
                                 <li class="page-number"><a href="{{url('/author/novel_request_list'."?page=".($men_to_men_requests->currentPage()+3))}}">{{$men_to_men_requests->currentPage()+3}}</a></li>
+                            @endif
+                            @if($men_to_men_requests->lastPage()-4 >= $men_to_men_requests->currentPage())
+                                <li class="page-number"><a href="{{url('/author/novel_request_list'."?page=".($men_to_men_requests->currentPage()+4))}}">{{$men_to_men_requests->currentPage()+4}}</a></li>
                             @endif
 
                             @if($men_to_men_requests->lastPage()-1 >= $men_to_men_requests->currentPage())
