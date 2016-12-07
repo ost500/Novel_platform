@@ -84,7 +84,8 @@ class NovelGroupController extends Controller
         }
 
         flash("생성을 성공했습니다");
-        return redirect()->route('author_novel_group', ['id' => $new_novel_group->id]);
+      //  return redirect()->route('author_novel_group', ['id' => $new_novel_group->id]);
+        return redirect()->route('author_index');
     }
 
     /**

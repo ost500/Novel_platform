@@ -94,10 +94,10 @@ class CommentController extends Controller
                 }
             }
         }
-        $groups_comments = new Paginator($groups_comments,2);
+//        $groups_comments = new Paginator($groups_comments, 2);
 
 
-//        return response()->json($p);
+//        return response()->json($groups_comments);
         return view('author.group_comments', compact('groups_comments','comments_count'));
     }
 

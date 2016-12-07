@@ -58,7 +58,7 @@ class ReviewController extends Controller
 
         }
 
-//        return response()->json($groups_comments);
+//        return response()->json($groups_reviews);
         return view('author.review_show', compact('groups_reviews'));
     }
 

@@ -4170,7 +4170,7 @@ hr {
   border-bottom: 2px solid rgba(0, 0, 0, 0.14);
 }
 #container .table td {
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  /*border-top: 1px solid rgba(0, 0, 0, 0.05);*/
 }
 #container .table.table-vcenter th,
 #container .table.table-vcenter td {
@@ -6532,6 +6532,8 @@ a.text-dark:focus {
 .novel-review div.reply { border-bottom:1px solid #ddd; margin-left:30px;}
 /*.novel-review div.review:last-child { border-bottom:0px; }*/
 .novel-review div.review-write {margin-bottom:20px;}
+.novel-review div.review-of {margin-bottom:0px;}
+
 
 .novel-review div.button { padding-top:10px; }
 .novel-review div.content { padding-top:10px; }
