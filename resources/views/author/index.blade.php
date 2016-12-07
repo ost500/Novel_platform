@@ -70,7 +70,8 @@
                                                                 댓글 @{{ check(group.id) }}
                                                             </button>
                                                             <button class="btn btn-info"
-                                                                    v-on:click="reviewsDisplay(group.id)">리뷰
+                                                                    v-on:click="reviewsDisplay(group.id)">리뷰 @{{ check_review(group.id) }}
+
                                                             </button>
                                                             <button class="btn btn-success"
                                                                     v-on:click="go_to_edit(group.id)">수정
@@ -124,6 +125,7 @@
             data: {
                 novel_groups: [],
                 commentsCountData: [],
+                reviewsCountData: [],
                 my_comments: [],
                 comment_show: true,
                 review_show: true,
@@ -135,6 +137,7 @@
                         .then(function (response) {
                             this.novel_groups = response.data['novel_groups'];
                             this.commentsCountData = response.data['count_data'];
+                            this.reviewsCountData = response.data['review_count_data'];
                             console.log(this.novel_groups);
                         });
                 /* this.$http.get('
@@ -156,6 +159,22 @@
                         if (id == key){
                             console.log(id);
                             return this.commentsCountData[id];
+                        }
+                    }
+
+                },
+                check_review: function (id) {
+                    console.log(this.reviewsCountData.length);
+                    /* for(var i=0;i< this.commentsCountData.length;i++ ){
+                     if(id == this.commentsCountData.index){
+                     console.log(this.commentsCountData[id]);
+                     return this.commentsCountData[id];
+                     }
+                     }*/
+                    for (var key in this.reviewsCountData) {
+                        if (id == key){
+                            console.log(id);
+                            return this.reviewsCountData[id];
                         }
                     }
 

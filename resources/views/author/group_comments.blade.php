@@ -24,7 +24,7 @@
                     <button class="btn btn-xs btn-pink">N</button>
                 </div>
                 <div class="content">
-                    <span class="inning">{{ $comment[0]->novels->id }} 회</span> {{ $comment[0]->comment }}
+                    <span class="inning">{{ $comment[0]->novels->inning }} 회</span> {{ $comment[0]->comment }}
                 </div>
                 <div class="button">
                     <button id="reply_button{{$loop->index}}" class="btn btn-xs btn-mint">답변</button>
@@ -60,7 +60,7 @@
                         <button class="btn btn-xs btn-pink">N</button>
                     </div>
                     <div class="content">
-                        <span class="inning">{{ $child->novels->novel_group_id }}회</span> {{ $child->comment }}
+                        <span class="inning">{{ $child->novels->inning }}회</span> {{ $child->comment }}
                     </div>
                     <div class="button">
 
