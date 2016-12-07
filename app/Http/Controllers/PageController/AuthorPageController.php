@@ -8,7 +8,7 @@ use App\NovelGroup;
 use App\Faq;
 use App\Http\Controllers\Controller;
 use Auth;
-
+use Illuminate\Pagination\Paginator;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -23,18 +23,7 @@ class AuthorPageController extends Controller
     public function index(Request $request)
     {
         $novel_groups = $request->user()->novel_groups()->with('novels')->get();
-        $comments_count = 0;
-        $count_data = array();
-        foreach ($novel_groups as $novel_group) {
-            foreach ($novel_group->novels as $novel) {
-                foreach ($novel->comments as $comment) {
-                    $comments_count++;
-                }
-                $count_data[$novel_group->id] = $comments_count;
-            }
-        }
-
-        return view('author.index', compact('novel_groups','count_data'));
+        return view('author.index', compact('novel_groups'));
     }
 
     public function novel_gorup($id)
@@ -116,13 +105,15 @@ class AuthorPageController extends Controller
 
     public function men_to_men_index(Request $request)
     {
-        $men_to_men_requests = $request->user()->question_answers()->get();
+        $men_to_men_requests = $request->user()->question_answers()->paginate(2);
+       // return \Response::json($men_to_men_requests);
         return view('author.novel_request_list', compact('men_to_men_requests'));
     }
     public function men_to_men_show(Request $request, $id)
     {
         $men_to_men_request = MenToMenQuestionAnswer::where('id', $id)->with('users')->first();
-        $men_to_men_requests = $request->user()->question_answers()->get();
+        $men_to_men_requests = $request->user()->question_answers()->paginate(2);
+        //  return \Response::json($men_to_men_requests);
         return view('author.novel_request_view', compact('men_to_men_request', 'men_to_men_requests'));
     }
 

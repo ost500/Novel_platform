@@ -37,9 +37,9 @@ class NovelController extends Controller
                 foreach ($novel->comments as $comment) {
                     $comments_count++;
                 }
-                $count_data[$novel_group->id] = $comments_count;
-
             }
+            $count_data[$novel_group->id] = $comments_count;
+            $comments_count = 0;
 
         }
        // dd($count_data);

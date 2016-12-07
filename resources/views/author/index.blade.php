@@ -146,13 +146,6 @@
             },
             methods: {
                 check: function (id) {
-                    console.log(this.commentsCountData.length);
-                    /* for(var i=0;i< this.commentsCountData.length;i++ ){
-                     if(id == this.commentsCountData.index){
-                     console.log(this.commentsCountData[id]);
-                     return this.commentsCountData[id];
-                     }
-                     }*/
                     for (var key in this.commentsCountData) {
                         if (id == key){
                             console.log(id);
@@ -161,10 +154,6 @@
                     }
 
                 },
-                /* get_comment_count: function(id){
-                 var c_count =
-
-                 },*/
 
                 go_to_group: function (id) {
                     window.location.assign('{{ url('author/novelgroup') }}' + "/" + id);
