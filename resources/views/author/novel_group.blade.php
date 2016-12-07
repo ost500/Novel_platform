@@ -25,11 +25,10 @@
                         <div class="panel-body">
                             <div class="table-responsive">
                                 <div class="padding-bottom-5">
-                                    <a href="novel_inning_write.blade.php">
-                                        <a href="{{route('author.inning',['id'=> $novel_group->id])}}">
-                                            <button class="btn btn-primary">챕터추가</button>
-                                        </a>
+                                    <a href="{{route('author.inning',['id'=> $novel_group->id])}}">
+                                        <button class="btn btn-primary">회차추가</button>
                                     </a>
+                                    <button type="button" class="btn btn-primary novel-price-agree">유료연재약관</button>
                                 </div>
                                 <table class="table table-bordered" id="novel_group">
                                     <tbody>

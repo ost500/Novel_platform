@@ -7,6 +7,111 @@
 
 
 $(document).ready(function () {
+    $('.novel-image').on('click', function(){
+        bootbox.dialog({
+            title: "표지관리",
+            message:'<div class="row"> ' + '<div class="col-md-12"> ' +
+            '<div class="modal-body pre-scrollable"><ul class="ul_basicCover"><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover1" value="1" name="radioInline" class="m-b"><label for="cover1">기본표지1 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img1.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover2" value="2" name="radioInline" class="m-b"><label for="cover2">기본표지2 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img2.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover3" value="3" name="radioInline" class="m-b"><label for="cover3">기본표지3 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img3.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover4" value="4" name="radioInline" class="m-b"><label for="cover4">기본표지4 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img4.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover5" value="5" name="radioInline" class="m-b"><label for="cover5">기본표지5 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img5.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover6" value="6" name="radioInline" class="m-b"><label for="cover6">기본표지6 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img6.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover7" value="7" name="radioInline" class="m-b"><label for="cover7">기본표지7 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img7.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover8" value="8" name="radioInline" class="m-b"><label for="cover8">기본표지8 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img8.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover9" value="9" name="radioInline" class="m-b"><label for="cover9">기본표지9 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img9.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover10" value="10" name="radioInline" class="m-b"><label for="cover10">기본표지10 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img10.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover11" value="11" name="radioInline" class="m-b"><label for="cover11">기본표지11 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img11.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover12" value="12" name="radioInline" class="m-b"><label for="cover12">기본표지12 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img12.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover13" value="13" name="radioInline" class="m-b"><label for="cover13">기본표지13 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img13.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover14" value="14" name="radioInline" class="m-b"><label for="cover14">기본표지14 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img14.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover15" value="15" name="radioInline" class="m-b"><label for="cover15">기본표지15 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img15.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover16" value="16" name="radioInline" class="m-b"><label for="cover16">기본표지16 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img16.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover17" value="17" name="radioInline" class="m-b"><label for="cover17">기본표지17 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img17.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover18" value="18" name="radioInline" class="m-b"><label for="cover18">기본표지18 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img18.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover19" value="19" name="radioInline" class="m-b"><label for="cover19">기본표지19 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img19.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover20" value="20" name="radioInline" class="m-b"><label for="cover20">기본표지20 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img20.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover21" value="21" name="radioInline" class="m-b"><label for="cover21">기본표지21 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img21.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover22" value="22" name="radioInline" class="m-b"><label for="cover22">기본표지22 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img22.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover23" value="23" name="radioInline" class="m-b"><label for="cover23">기본표지23 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img23.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover24" value="24" name="radioInline" class="m-b"><label for="cover24">기본표지24 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img24.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover25" value="25" name="radioInline" class="m-b"><label for="cover25">기본표지25 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img25.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover26" value="26" name="radioInline" class="m-b"><label for="cover26">기본표지26 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img26.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover27" value="27" name="radioInline" class="m-b"><label for="cover27">기본표지27 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img27.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover28" value="28" name="radioInline" class="m-b"><label for="cover28">기본표지28 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img28.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover29" value="29" name="radioInline" class="m-b"><label for="cover29">기본표지29 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img29.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover30" value="30" name="radioInline" class="m-b"><label for="cover30">기본표지30 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img30.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover31" value="31" name="radioInline" class="m-b"><label for="cover31">기본표지31 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img31.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover32" value="32" name="radioInline" class="m-b"><label for="cover32">기본표지32 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img32.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover33" value="33" name="radioInline" class="m-b"><label for="cover33">기본표지33 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img33.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover34" value="34" name="radioInline" class="m-b"><label for="cover34">기본표지34 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img34.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover35" value="35" name="radioInline" class="m-b"><label for="cover35">기본표지35 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img35.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover36" value="36" name="radioInline" class="m-b"><label for="cover36">기본표지36 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img36.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover37" value="37" name="radioInline" class="m-b"><label for="cover37">기본표지37 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img37.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover38" value="38" name="radioInline" class="m-b"><label for="cover38">기본표지38 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img38.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover39" value="39" name="radioInline" class="m-b"><label for="cover39">기본표지39 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img39.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover40" value="40" name="radioInline" class="m-b"><label for="cover40">기본표지40 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img40.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover41" value="41" name="radioInline" class="m-b"><label for="cover41">기본표지41 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img41.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover42" value="42" name="radioInline" class="m-b"><label for="cover42">기본표지42 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img42.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover43" value="43" name="radioInline" class="m-b"><label for="cover43">기본표지43 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img43.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover44" value="44" name="radioInline" class="m-b"><label for="cover44">기본표지44 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img44.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover45" value="45" name="radioInline" class="m-b"><label for="cover45">기본표지45 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img45.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover46" value="46" name="radioInline" class="m-b"><label for="cover46">기본표지46 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img46.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover47" value="47" name="radioInline" class="m-b"><label for="cover47">기본표지47 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img47.jpg"> </label> </div></li><li><div class="radio radio-warning radio-inline m-b-xxs"><input type="radio" id="cover48" value="48" name="radioInline" class="m-b"><label for="cover48">기본표지48 <img src="http://file2.bookpal.co.kr/xeditor/images/cover_img/cover_img48.jpg"> </label> </div></li></ul></div></div> </div><script></script>',
+            buttons: {
+                success: {
+                    label: "저장",
+                    className: "btn-purple",
+                    callback: function() {
+                        var name = $('#name').val();
+                        var answer = $("input[name='awesomeness']:checked").val();
+
+                        $.niftyNoty({
+                            type: 'purple',
+                            icon : 'fa fa-check',
+                            //message : "Hello " + name + ".<br> You've chosen <strong>" + answer + "</strong>",
+                            message : "필명 " + name + "이 저장 되었습니다.",
+                            //container : 'floating',
+                            container : 'page',
+                            timer : 4000
+                        });
+                    }
+                }
+            }
+        });
+
+        $(".demo-modal-radio").niftyCheck();
+    });
+
+    $('.novel-agree').on('click', function(){
+        bootbox.dialog({
+            title: "연재약관",
+            message: '<div class="row"> ' + '<div class="col-md-12"> ' +
+            '<form class="form-horizontal"> ' + '<div class="form-group"> ' +
+            '<div class="col-md-12"> ' +
+            '<textarea cols="100%" rows="30" class="form-control input-md">연재약관</textarea> ' +
+            '</div> ' +
+            '</div> ' + '<div class="form-group"> ' +
+            '<div class="col-md-12"> <div class="text-center"> ' +
+            '<label class="form-radio form-icon demo-modal-radio active"><input type="radio" autocomplete="off" name="awesomeness" value="1" checked> 동의합니다.</label>' +
+            '<label class="form-radio form-icon demo-modal-radio"><input type="radio" autocomplete="off" name="awesomeness" value="0"> 동의하지 않습니다.</label> </div>' +
+            '</div> </div>' + '</form> </div> </div><script></script>',
+            buttons: {
+                success: {
+                    label: "저장",
+                    className: "btn-purple",
+                    callback: function() {
+                        var name = $('#name').val();
+                        var answer = $("input[name='awesomeness']:checked").val();
+
+                        $.niftyNoty({
+                            type: 'purple',
+                            icon : 'fa fa-check',
+                            message : "연재약관에 동의 하셨습니다.",
+                            //container : 'floating',
+                            container : 'page',
+                            timer : 4000
+                        });
+                    }
+                }
+            }
+        });
+
+        $(".demo-modal-radio").niftyCheck();
+    });
+
+
+    $('.novel-price-agree').on('click', function(){
+        bootbox.dialog({
+            title: "유료연재약관",
+            message: '<div class="row"> ' + '<div class="col-md-12"> ' +
+            '<form class="form-horizontal"> ' + '<div class="form-group"> ' +
+            '<div class="col-md-12"> ' +
+            '<textarea cols="100%" rows="30" class="form-control input-md">연재약관</textarea> ' +
+            '</div> ' +
+            '</div> ' + '<div class="form-group"> ' +
+            '<div class="col-md-12"> <div class="text-center"> ' +
+            '<label class="form-radio form-icon demo-modal-radio active"><input type="radio" autocomplete="off" name="awesomeness" value="1" checked> 동의합니다.</label>' +
+            '<label class="form-radio form-icon demo-modal-radio"><input type="radio" autocomplete="off" name="awesomeness" value="0"> 동의하지 않습니다.</label> </div>' +
+            '</div> </div>' + '</form> </div> </div><script></script>',
+            buttons: {
+                success: {
+                    label: "저장",
+                    className: "btn-purple",
+                    callback: function() {
+                        var name = $('#name').val();
+                        var answer = $("input[name='awesomeness']:checked").val();
+
+                        $.niftyNoty({
+                            type: 'purple',
+                            icon : 'fa fa-check',
+                            message : "유료연재약관에 동의 하셨습니다.",
+                            //container : 'floating',
+                            container : 'page',
+                            timer : 4000
+                        });
+                    }
+                }
+            }
+        });
+
+        $(".demo-modal-radio").niftyCheck();
+    });
+
 
     // BOOTBOX - ALERT MODAL
     // =================================================================

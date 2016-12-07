@@ -155,7 +155,6 @@
                                     </a>
 
                                     <ul class="collapse">
-                                        <li><a href="novel.html">환급신청</a></li>
                                         <li><a href="novel_write.html">여우수익내역</a></li>
                                         <li><a href="novel_write.html">퍼블리싱내역</a></li>
                                         <li><a href="novel_write.html">환급정산내역</a></li>
@@ -184,21 +183,32 @@
                                 <li>
                                     <a href="{{ route('author.novel_memo')}}">
                                         <i class="fa fa-envelope"></i>
-						<span class="menu-title">
-							<strong>쪽지함</strong>
-						</span>
+                                        <span class="menu-title">
+                                            <strong>쪽지함</strong>
+                                        </span>
+                                        <i class="arrow"></i>
                                     </a>
+                                    <ul class="collapse">
+                                        <li><a href="{{ route('author.novel_memo')}}">받은쪽지함</a></li>
+                                        <li><a href="{{ route('author.novel_memo')}}">보낸쪽지함</a></li>
+                                    </ul>
                                 </li>
 
                                 <li class="list-divider"></li>
 
                                 <li>
-                                    <a href="{{ route('author.novel_request_list')}}">
+                                    <a href="{{ route('author.novel_request')}}">
                                         <i class="fa fa-send"></i>
-						<span class="menu-title">
-							<strong>1:1문의</strong>
-						</span>
+                                        <span class="menu-title">
+                                            <strong>1:1문의</strong>
+                                        </span>
+                                        <i class="arrow"></i>
                                     </a>
+
+                                    <ul class="collapse">
+                                        <li><a href="{{ route('author.novel_request')}}">1:1문의</a></li>
+                                        <li><a href="{{ route('author.novel_request_list')}}">1:1문의내역</a></li>
+                                    </ul>
                                 </li>
 
                                 <li class="list-divider"></li>
@@ -424,14 +434,13 @@
 <!--End Small Bootstrap Modal-->
 
 
+<script src="/js/common.js"></script>
 
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/nifty.min.js"></script>
 
-<!--������� �ʿ�-->
 <script src="/plugins/bootstrap-select/bootstrap-select.min.js"></script>
 <script src="/plugins/bootbox/bootbox.min.js"></script>
-<!--������� �ʿ�-->
 
 
 <script src="/js/ui-modals.js"></script>
