@@ -24,21 +24,37 @@
                     <div class="panel">
                         <div class="panel-body">
                             <div class="table-responsive">
-                                <div class="padding-bottom-5">
-                                    <a href="{{ route('author.novel_group_create') }}">
-                                        <button class="btn btn-primary">작품추가</button>
-                                    </a>
+                                <div>
+                                    <div class="col-md-10 pad-no padding-bottom-5">
+
+                                    </div>
+
+                                    <div class="col-md-2 text-right pad-no padding-bottom-5">
+                                        <select class="form-control" name="sort">
+                                            <option value="">정렬</option>
+                                            <option value="1">모든글</option>
+                                            <option value="2">연재글</option>
+                                            <option value="3">연결글</option>
+                                            <option value="4">비밀글</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div id="novel_list">
 
-                                    <table class="table table-bordered" v-for="group in novel_groups">
+                                    <table class="table" v-for="group in novel_groups">
                                         <tbody>
-                                        <tr>
-                                            <td class="text-center col-md-2"><a
-                                                        href="novel_group.blade.php">표지이미지</a>
+                                        <tr class="table-bordered">
+                                            <td class="text-center col-md-2"><a style="cursor:pointer"
+                                                                                v-on:click="go_to_group(group.id)">
+
+                                                    <img v-if="group.cover_photo != null" v-bind:src="'/img/novel_covers/' + group.cover_photo">
+                                                    <img v-else v-bind:src="'/img/novel_covers/default_.jpg'">
+
+                                                </a>
                                             </td>
                                             <td>
                                                 <table class="table-no-border" style="width:100%;">
+
                                                     <tr>
                                                         <td><h4>
                                                                 <a style="cursor:pointer"
@@ -47,12 +63,18 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>등록된 회차수 : 2화, 마지막 업로드 일자 : 2016-11-10</td>
+                                                        <td>등록된 회차수 : @{{ group.max_inning }}화, 마지막 업로드 일자 : @{{ latested(group.id) }}</td>
                                                     </tr>
                                                     <tr>
                                                         <td class="padding-top-10 text-right">
-                                                            <button class="btn btn-primary">댓글 1,000</button>
-                                                            <button class="btn btn-info">리뷰 1,000</button>
+                                                            <button class="btn btn-primary"
+                                                                    v-on:click="commentsDisplay(group.id)">
+                                                                댓글 @{{ check(group.id) }}
+                                                            </button>
+                                                            <button class="btn btn-info"
+                                                                    v-on:click="reviewsDisplay(group.id)">리뷰 @{{ check_review(group.id) }}
+
+                                                            </button>
                                                             <button class="btn btn-success"
                                                                     v-on:click="go_to_edit(group.id)">수정
                                                             </button>
@@ -63,61 +85,30 @@
                                                         </td>
                                                     </tr>
                                                 </table>
+
+
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <div v-bind:id="commentId(group.id)" v-show="comment_show"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <div v-bind:id="reviewId(group.id)" v-show="review_show"></div>
                                             </td>
                                         </tr>
                                         </tbody>
+
                                     </table>
 
 
                                 </div>
 
-                                <div id="comment_list">
-                                    <div class="padding-top-10">
-                                        <h4>댓글 3</h4></div>
 
-
-                                    <div class="novel-review">
-                                        <div class="review-write pad-all">
-                                        <textarea id="demo-textarea-input" rows="4" class="form-control inline"
-                                                  style="width:50%" placeholder="댓글"></textarea>
-                                            <button class="btn btn-primary inline"
-                                                    style="width:100px;height:83px; vertical-align:top;">등록
-                                            </button>
-                                        </div>
-
-                                        <div class="review" v-for="my_comment in my_comments">
-
-                                            <div>
-                                                <span class="nick">@{{ my_comment.users.name }}</span> @{{ my_comment.created_at }}
-                                                <button class="btn btn-xs btn-pink">N</button>
-                                            </div>
-                                            <div class="content">
-                                                <span class="inning">8회</span> @{{ my_comment.comment }}
-                                            </div>
-                                            <div class="button">
-                                                <button class="btn btn-xs btn-mint">답변</button>
-                                                <button class="btn btn-xs btn-danger">신고</button>
-                                            </div>
-
-                                        </div>
-                                        <div class="review reply">
-                                            <div>
-                                                <span class="nick">닉네임</span> 2016-11-10 00:00:00
-                                                <button class="btn btn-xs btn-pink">N</button>
-                                            </div>
-                                            <div class="content">
-                                                <span class="inning">8회</span> 둘이 당췌 먼 사연인지는 모르지만 유부녀가 바에서 꽐라될때까지 술마신거나
-                                                속마음
-                                                터놓지도 못하는거나 답답합니다 고구마철이라고 고구마 두시는건지
-                                            </div>
-                                            <div class="button">
-                                                <button class="btn btn-xs btn-mint">답변</button>
-                                                <button class="btn btn-xs btn-danger">신고</button>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -135,24 +126,109 @@
             el: '#novel_list',
             data: {
                 novel_groups: [],
+                commentsCountData: [],
+                reviewsCountData: [],
+                latested_at: [],
                 my_comments: [],
+                comment_show: true,
+                review_show: true,
+                show_count: '',
+
             },
             mounted: function () {
-                this.$http.get('{{ route('novels.index') }}')
-                        .then(function (response) {
-                            this.novel_groups = response.data;
-                        });
-                this.$http.get('{{ route('comments.index') }}')
-                        .then(function (response) {
-                            this.my_comments = response.data;
-                        });
+
+                this.reload();
+
+                /* this.$http.get('
+                {{-- route('comments.index') --}}')
+                 .then(function (response) {
+                 this.my_comments = response.data;
+                 }); */
             },
             methods: {
+                check: function (id) {
+                    for (var key in this.commentsCountData) {
+                        if (id == key){
+                            console.log(id);
+                            return this.commentsCountData[id];
+                        }
+                    }
+
+                },
+                check_review: function (id) {
+                    console.log(this.reviewsCountData.length);
+                    /* for(var i=0;i< this.commentsCountData.length;i++ ){
+                     if(id == this.commentsCountData.index){
+                     console.log(this.commentsCountData[id]);
+                     return this.commentsCountData[id];
+                     }
+                     }*/
+                    for (var key in this.reviewsCountData) {
+                        if (id == key){
+                            console.log(id);
+                            return this.reviewsCountData[id];
+                        }
+                    }
+
+                },
+                latested: function (id) {
+                    console.log(this.reviewsCountData.length);
+                    /* for(var i=0;i< this.commentsCountData.length;i++ ){
+                     if(id == this.commentsCountData.index){
+                     console.log(this.commentsCountData[id]);
+                     return this.commentsCountData[id];
+                     }
+                     }*/
+                    for (var key in this.reviewsCountData) {
+                        if (id == key){
+                            console.log(id);
+                            return this.latested_at[id];
+                        }
+                    }
+
+                },
+                /* get_comment_count: function(id){
+                 var c_count =
+
+                 },*/
+
                 go_to_group: function (id) {
                     window.location.assign('{{ url('author/novelgroup') }}' + "/" + id);
                 },
                 go_to_edit: function (id) {
                     window.location.assign('/author/' + id + '/edit');
+                },
+
+                commentsDisplay: function (id) {
+
+                    var comments_url = '/comments/' + id;
+
+                    this.$http.get(comments_url)
+                            .then(function (response) {
+                                // document.getElementById('response').setAttribute('id','response'+id)
+                                this.review_show = false;
+                                this.comment_show = true;
+                                $('#response' + id).html(response.data);
+                                myfunc();
+                            });
+                },
+                commentId: function (id) {
+                    return "response" + id;
+                },
+                reviewsDisplay: function (id) {
+
+                    var comments_url = '/reviews/' + id;
+
+                    this.$http.get(comments_url)
+                            .then(function (response) {
+                                // document.getElementById('response').setAttribute('id','response'+id)
+                                this.comment_show = false;
+                                this.review_show = true;
+                                document.getElementById('review_response' + id).innerHTML = response.data;
+                            });
+                },
+                reviewId: function (id) {
+                    return "review_response" + id;
                 },
 
                 destroy: function (e) {
@@ -199,31 +275,44 @@
                     });
                 },
                 reload_novel_groups: function () {
-                    this.$http.get('{{ route('novels.index') }}')
+                    this.$http.get('{{ route('admin.novel') }}')
                             .then(function (response) {
                                 this.novel_groups = response.data;
                             });
+                },
+                reload: function() {
+                    this.$http.get('{{ route('admin.novel') }}')
+                            .then(function (response) {
+                                this.novel_groups = response.data['novel_groups'];
+                                this.commentsCountData = response.data['count_data'];
+                                this.reviewsCountData = response.data['review_count_data'];
+                                this.latested_at = response.data['latested_at'];
+                                console.log(this.novel_groups);
+                            });
+
                 }
-            }
-        });
-        var app5 = new Vue({
-            el: '#comment_list',
-            data: {
-                novel_groups: [],
-                my_comments: [],
-            },
-            mounted: function () {
-                this.$http.get('{{ route('novels.index') }}')
-                        .then(function (response) {
-                            this.novel_groups = response.data;
-                        });
-                this.$http.get('{{ route('comments.index') }}')
-                        .then(function (response) {
-                            this.my_comments = response.data;
-                        });
+
 
             }
-        })
+        });
+        /*  var app5 = new Vue({
+         el: '#comment_list',
+         data: {
+         novel_groups: [],
+         my_comments: [],
+         },
+         mounted: function () {
+         this.$http.get('{{-- route('novels.index')--}}')
+         .then(function (response) {
+         this.novel_groups = response.data;
+         });
+         this.$http.get('{{-- route('comments.index') --}}')
+         .then(function (response) {
+         this.my_comments = response.data;
+         });
+
+         }
+         })*/
     </script>
 
 @endsection

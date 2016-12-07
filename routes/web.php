@@ -59,7 +59,8 @@ Route::get('/author/faq_create',['as' => 'author.faq_create', 'uses' => 'PageCon
 Route::get('/author/faq_edit', ['as' => 'author.faq_edit', 'uses' => 'PageController\AuthorPageController@faq_edit']);
 
 
-Route::get('/admin/index',['as' => 'admin.novel', 'uses' => 'PageController\AdminPageController@index']);
+Route::get('/admin/index',['as' => 'admin.index', 'uses' => 'PageController\AdminPageController@index']);
 Route::get('/admin/novel',['as' => 'admin.novel', 'uses' => 'PageController\AdminPageController@novel']);
 Route::get('/admin/user',['as' => 'admin.user', 'uses' => 'PageController\AdminPageController@user']);
+Route::get('/admin/user/{id}',['as' => 'admin.user.info', 'uses' => 'PageController\AdminPageController@user_info']);
 Route::get('/admin/sales',['as' => 'admin.sales', 'uses' => 'PageController\AdminPageController@sales']);

@@ -28,16 +28,24 @@
                                 </div>
                                 <div id="user_list">
 
-                                    <table class="table table-bordered" v-for="user in users">
+                                    <table class="table table-bordered">
                                         <tbody>
                                         <tr>
-                                            <td class="text-center col-md-2"><a
-                                                        href="novel_group.blade.php">@{{ user.name }}</a>
-                                            </td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <th width="100" class="text-center">아이디</th>
+                                            <th class="text-center">이메일</th>
+                                            <th class="text-center">연락처</th>
+                                            <th class="text-center">가입일</th>
                                         </tr>
+                                        @foreach($users as $user)
+                                        <tr>
+                                            <td class="text-center col-md-2"><a
+                                                        href="user/{{ $user->id }}">{{ $user->name }}</a>
+                                            </td>
+                                            <td class="text-center">{{ $user->email }}</td>
+                                            <td class="text-center">{{ $user->phone_num }}</td>
+                                            <td class="text-center">{{ $user->created_at }}</td>
+                                        </tr>
+                                        @endforeach
                                         </tbody>
                                     </table>
 
@@ -56,91 +64,4 @@
 
 
     </div>
-
-    <script>
-        var app4 = new Vue({
-            el: '#user_list',
-            data: {
-                users: [],
-            },
-            mounted: function () {
-                this.$http.get('{{ route('users.index') }}')
-                        .then(function (response) {
-                            this.users = response.data;
-                        });
-            },
-            methods: {
-                go_to_user: function (id) {
-                    window.location.assign('{{ url('admin/user_info') }}' + "/" + id);
-                },
-                go_to_edit: function (id) {
-                    window.location.assign('/author/' + id + '/edit');
-                },
-
-                destroy: function (e) {
-                    bootbox.confirm({
-                        message: "삭제 하시겠습니까?",
-
-                        buttons: {
-                            confirm: {
-                                label: "삭제"
-                            },
-                            cancel: {
-                                label: '취소'
-                            }
-                        },
-
-                        callback: function (result) {
-
-                            if (result) {
-                                Vue.http.headers.common['X-CSRF-TOKEN'] = "{!! csrf_token() !!}";
-                                //                    var csrfToken = form.querySelector('input[name="_token"]').value;
-
-                                app4.$http.delete("{{ url('novelgroups') }}/" + e, {headers: {'X-CSRF-TOKEN': '{!! csrf_token() !!}'}})
-                                        .then(function (response) {
-                                            app4.reload_users();
-                                            $.niftyNoty({
-                                                type: 'warning',
-                                                icon: 'fa fa-check',
-                                                //message : "Hello " + name + ".<br> You've chosen <strong>" + answer + "</strong>",
-                                                message: "삭제 되었습니다.",
-                                                //container : 'floating',
-                                                container: 'page',
-                                                timer: 4000
-                                            });
-
-                                        })
-                                        .catch(function (data, status, request) {
-                                            var errors = data.data;
-                                            this.formErrors = errors;
-                                        });
-
-                            }
-
-                        }
-                    });
-                },
-                reload_users: function () {
-                    this.$http.get('{{ route('novels.index') }}')
-                            .then(function (response) {
-                                this.users = response.data;
-                            });
-                }
-            }
-        });
-        var app5 = new Vue({
-            el: '#comment_list',
-            data: {
-                users: [],
-                my_comments: [],
-            },
-            mounted: function () {
-                this.$http.get('{{ route('users.index') }}')
-                        .then(function (response) {
-                            this.users = response.data;
-                        });
-            }
-        })
-    </script>
-
 @endsection
