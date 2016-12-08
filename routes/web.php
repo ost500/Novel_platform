@@ -28,6 +28,7 @@ Route::resource('comments', 'CommentController');
 Route::resource('mentomen', 'MenToMenQuestionAnswerController');
 Route::resource('faqs', 'FaqController');
 Route::resource('users', 'UserController', ['except' => ['update']]);
+Route::post('mailboxes', ['as' => 'mailbox.store', 'uses' => 'MailboxController@store']);
 Route::put('users/update', ['as' => 'users.update', 'uses' => 'UserController@update']);
 Route::put('users/update_agreement', ['as' => 'users.update_agreement', 'uses' => 'UserController@update_agreement']);
 Route::resource('nickname', 'NickNameController');
@@ -49,26 +50,26 @@ Route::get('/author/{id}/edit', ['as' => 'author.novel_group_edit', 'uses' => 'P
 Route::get('/author/novel_memo', ['as' => 'author.novel_memo', 'uses' => 'PageController\AuthorPageController@mailbox_index']);
 Route::get('/author/novel_memo_send', ['as' => 'author.novel_memo_send', 'uses' => 'PageController\AuthorPageController@mailbox_send']);
 Route::get('/author/novel_memo_create', ['as' => 'author.novel_memo_create', 'uses' => 'PageController\AuthorPageController@mailbox_create']);
-Route::get('/author/mailbox_message/{id}',['as' => 'author.mailbox_message', 'uses' => 'PageController\AuthorPageController@mailbox_message_show']);
+Route::get('/author/mailbox_message/{id}', ['as' => 'author.mailbox_message', 'uses' => 'PageController\AuthorPageController@mailbox_message_show']);
 
 Route::get('/author/novel_request', ['as' => 'author.novel_request', 'uses' => 'PageController\AuthorPageController@men_to_men_create']);
 Route::get('/author/novel_request_list', ['as' => 'author.novel_request_list', 'uses' => 'PageController\AuthorPageController@men_to_men_index']);
-Route::get('/author/novel_request_view/{id}',['as' => 'author.novel_request_view', 'uses' => 'PageController\AuthorPageController@men_to_men_show']);
+Route::get('/author/novel_request_view/{id}', ['as' => 'author.novel_request_view', 'uses' => 'PageController\AuthorPageController@men_to_men_show']);
 
 Route::get('/author/novel_faq', ['as' => 'author.novel_faq', 'uses' => 'PageController\AuthorPageController@faq_index']);
-Route::get('/author/faq_create',['as' => 'author.faq_create', 'uses' => 'PageController\AuthorPageController@faq_create']);
+Route::get('/author/faq_create', ['as' => 'author.faq_create', 'uses' => 'PageController\AuthorPageController@faq_create']);
 Route::get('/author/faq_edit', ['as' => 'author.faq_edit', 'uses' => 'PageController\AuthorPageController@faq_edit']);
 
 
-Route::get('/admin/index',['as' => 'admin.index', 'uses' => 'PageController\AdminPageController@index']);
-Route::get('/admin/novel',['as' => 'admin.novel', 'uses' => 'PageController\AdminPageController@novel']);
-Route::get('/admin/novel_json',['as' => 'admin.novel_json', 'uses' => 'PageController\AdminPageController@novel_json']);
+Route::get('/admin/index', ['as' => 'admin.index', 'uses' => 'PageController\AdminPageController@index']);
+Route::get('/admin/novel', ['as' => 'admin.novel', 'uses' => 'PageController\AdminPageController@novel']);
+Route::get('/admin/novel_json', ['as' => 'admin.novel_json', 'uses' => 'PageController\AdminPageController@novel_json']);
 Route::get('/admin/novel/{id}', ['as' => 'admin.novel_inning', 'uses' => 'PageController\AdminPageController@novel_inning']);
 Route::get('/admin/novel/inning/{id}', ['as' => 'admin.novel_inning_view', 'uses' => 'PageController\AdminPageController@novel_inning_view']);
 
-Route::get('/admin/user',['as' => 'admin.user', 'uses' => 'PageController\AdminPageController@user']);
-Route::get('/admin/user/{id}',['as' => 'admin.profile', 'uses' => 'PageController\AdminPageController@profile']);
-Route::get('/admin/sales',['as' => 'admin.sales', 'uses' => 'PageController\AdminPageController@sales']);
-Route::get('/admin/request',['as' => 'admin.request', 'uses' => 'PageController\AdminPageController@request']);
-Route::get('/admin/request/{id}',['as' => 'admin.request_view', 'uses' => 'PageController\AdminPageController@request_view']);
-Route::post('/admin/request/{id}/answer',['as' => 'admin.request_answer', 'uses' => 'MenToMenQuestionAnswerController@answer']);
+Route::get('/admin/user', ['as' => 'admin.user', 'uses' => 'PageController\AdminPageController@user']);
+Route::get('/admin/user/{id}', ['as' => 'admin.profile', 'uses' => 'PageController\AdminPageController@profile']);
+Route::get('/admin/sales', ['as' => 'admin.sales', 'uses' => 'PageController\AdminPageController@sales']);
+Route::get('/admin/request', ['as' => 'admin.request', 'uses' => 'PageController\AdminPageController@request']);
+Route::get('/admin/request/{id}', ['as' => 'admin.request_view', 'uses' => 'PageController\AdminPageController@request_view']);
+Route::post('/admin/request/{id}/answer', ['as' => 'admin.request_answer', 'uses' => 'MenToMenQuestionAnswerController@answer']);
