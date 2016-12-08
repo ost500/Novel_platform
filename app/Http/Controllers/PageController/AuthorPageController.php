@@ -87,12 +87,19 @@ class AuthorPageController extends Controller
 
     public function mailbox_create()
     {
-        return view('author.novel_memo_create');
+        $my_novel_groups = NovelGroup::where('user_id',Auth::user()->id)->get();
+        return view('author.novel_memo_create', compact('my_novel_groups'));
     }
 
     public function mailbox_message_show($id)
     {
 
+        $mailbox_message= Mailbox::where('id',$id)->with('users')->first();
+        return view('author.mailbox_message', compact('mailbox_message'));
+    }
+
+    public function novel_memo_send($id)
+    {
         $mailbox_message= Mailbox::where('id',$id)->with('users')->first();
         return view('author.mailbox_message', compact('mailbox_message'));
     }
@@ -114,12 +121,6 @@ class AuthorPageController extends Controller
         $men_to_men_requests = $request->user()->question_answers()->orderBy('id', 'desc')->paginate(10);
         //  return \Response::json($men_to_men_requests);
         return view('author.novel_request_view', compact('men_to_men_request', 'men_to_men_requests'));
-    }
-
-    public function memo_index()
-    {
-        $memos = Memo::get();
-        return view('author.novel_memo', compact('memos'));
     }
 
     public function faq_index()

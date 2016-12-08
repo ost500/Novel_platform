@@ -20,21 +20,17 @@
             <div id="request_create" class="panel panel-default panel-left">
                 <div class="panel-body">
 
-                    <form role="form" class="form-horizontal" action="{{ route('mentomen.store')}}" method="post"
-                          v-on:submit.prevent="onSubmit">
+                    <form role="form" class="form-horizontal" action="{{ route('mailbox.store') }}" method="post">
                         <meta id="token" name="token" content="{{ csrf_token() }}">
                         <div class="form-group">
                             <label class="col-lg-1 control-label text-left" for="inputSubject">작품선택</label>
 
                             <div class="col-lg-11">
-                                <select class="form-control" name="nickname">
+                                <select class="form-control" name="novel_id">
                                     <option value="">작품선택</option>
-                                    <option v-for="nick in nicks" v-if="nick.main == 1" selected>
-                                        <div v-bind:value="nick.nickname">@{{ nick.nickname }}</div>
-                                    </option>
-                                    <option v-else>
-                                        <div v-bind:value="nick.nickname">@{{ nick.nickname }}</div>
-                                    </option>
+                                    @foreach($my_novel_groups as $group)
+                                        <option value="{{ $group->id }}" selected>{{ $group->title }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -43,10 +39,11 @@
                             <label class="col-lg-1 control-label text-left" for="inputSubject">제목</label>
 
                             <div class="col-lg-11">
-                                <input type="text" name="title" id="inputSubject" class="form-control"
-                                       placeholder="제목" v-model="new_men_to_menRequest.title">
+                                <input type="text" name="subject" id="inputSubject" class="form-control"
+                                       placeholder="제목" >
 
-                                <span v-if="formErrors['title']" class="error text-danger"> @{{ formErrors['title'] }}</span>
+                                <span v-if="formErrors['subject']"
+                                      class="error text-danger"> </span>
                             </div>
                         </div>
 
@@ -55,8 +52,9 @@
 
                             <div class="col-lg-11">
                                     <textarea name="question" id="demo-textarea-input" rows="15" class="form-control"
-                                              placeholder="문의내용" v-model="new_men_to_menRequest.question"></textarea>
-                                <span v-if="formErrors['question']" class="error text-danger">@{{ formErrors['question'] }}</span>
+                                              placeholder="내용"></textarea>
+                                <span v-if="formErrors['question']"
+                                      class="error text-danger"></span>
                             </div>
                         </div>
 
@@ -78,7 +76,7 @@
                             </button>
 
 
-                            <a  href="{{route('author.novel_request_list')}}">
+                            <a href="{{route('author.novel_request_list')}}">
                                 <button type="button" class="btn btn-danger">취소</button>
                             </a>
 
@@ -93,41 +91,7 @@
     </div>
 
 
-    <script>
-        //
 
-        var app = new Vue({
-            el: '#request_create',
-            data: {
-
-                new_men_to_menRequest: {'title': '', 'question': ''},
-                formErrors: { }
-            },
-            methods: {
-                onSubmit: function (e) {
-                    e.preventDefault();
-                    var form = e.srcElement;
-                    var action = form.action;
-                  //  Vue.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('#token').getAttribute('content');
-                    var  $redirect_url='/author/novel_request_view';
-                    this.$http.post(action, this.new_men_to_menRequest,{
-                        headers: {
-                            'X-CSRF-TOKEN': window.Laravel.csrfToken
-                        }
-                    }).then(function (response) {
-
-                        window.location.href=$redirect_url+'/'+response.data['id'];
-
-                    }).catch(function (errors) {
-
-                        this.formErrors = errors.data;
-                    });
-                }
-            }
-        });
-
-
-    </script>
 
 
 @endsection
