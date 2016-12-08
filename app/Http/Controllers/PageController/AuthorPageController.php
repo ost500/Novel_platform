@@ -97,11 +97,22 @@ class AuthorPageController extends Controller
         return view('author.novel_memo_create', compact('my_novel_groups'));
     }
 
-    public function mailbox_message_show($id)
+    public function mailbox_message_show($id, Request $request)
     {
 
-        $mailbox_message = Mailbox::where('id', $id)->with('users')->first();
-        return view('author.mailbox_message', compact('mailbox_message'));
+//        $mailbox_message = Mailbox::where('id', $id)->with('users')->first();
+        $men_to_men_request = Mailbox::where('id', $id)->with('users')->first();
+        $men_to_men_requests = $request->user()->maillogs()->orderBy('id', 'desc')->paginate(10);
+        return view('author.mailbox_message', compact('men_to_men_request', 'men_to_men_requests'));
+    }
+
+    public function mailbox_send_message_show($id, Request $request)
+    {
+
+//        $mailbox_message = Mailbox::where('id', $id)->with('users')->first();
+        $men_to_men_request = Mailbox::where('id', $id)->with('users')->first();
+        $men_to_men_requests = $request->user()->mailbox()->orderBy('id', 'desc')->paginate(10);
+        return view('author.mailbox_send_message', compact('men_to_men_request', 'men_to_men_requests'));
     }
 
     public function novel_memo_send($id)

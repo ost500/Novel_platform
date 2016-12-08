@@ -32,7 +32,7 @@ class Mailbox extends Model
      * @var array
      */
     protected $fillable = [
-        'to', 'from', 'subject', 'body',
+        'from', 'subject', 'body',
     ];
 
     public function users()
@@ -42,7 +42,7 @@ class Mailbox extends Model
 
     public function maillogs()
     {
-        return $this->hasMany(MailLog::class, 'from', 'user_id');
+        return $this->hasMany(MailLog::class);
     }
 
 }
