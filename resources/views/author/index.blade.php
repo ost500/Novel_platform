@@ -28,7 +28,7 @@
                                             <button type="button" class="btn btn-primary">작품추가</button>
                                         </a>
 
-                                        <button type="button" class="btn btn-primary novel-agree">연재약관</button>
+                                      {{--  <button type="button" class="btn btn-primary novel-agree">연재약관</button>--}}
                                     </div>
 
                                     <div class="col-md-2 text-right pad-no padding-bottom-5">

@@ -259,4 +259,21 @@ class NovelController extends Controller
         $novel_group->max_inning = --$index;
         $novel_group->save();
     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+
+     * @return \Illuminate\Http\Response
+     */
+    public function update_agreement(Request $request,$id)
+    {
+        $novel = Novel::find($id);
+
+        $novel->non_free_agreement = $request->non_free_agreement;
+        $novel->save();
+        return response()->json($request);
+    }
+
 }
