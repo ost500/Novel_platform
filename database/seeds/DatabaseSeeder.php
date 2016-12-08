@@ -120,9 +120,16 @@ class DatabaseSeeder extends Seeder
         {
             $this->inning_order($novelgroup->id);
         }
+
+
+        $this->call(MailLogTableSeeder::class);
+
+
         $this->command->info('inning ordering');
 
     }
+    
+    
     public
     function inning_order($id)
     {

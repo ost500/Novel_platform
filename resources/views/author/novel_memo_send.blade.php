@@ -39,16 +39,16 @@
                         <tbody>
                         <tr>
                             <th class="check"><input type="checkbox"></th>
-                            <th class="from">받은사람</th>
+                            <th class="from">보낸사람</th>
                             <th>제목</th>
-                            <th class="send">받은시간</th>
+                            <th class="send">보낸시간</th>
                             <th class="read">읽은시간</th>
                         </tr>
                         @foreach($novel_mail_messages as $novel_mail_message)
                         <tr>
                             <td class="check"><input type="checkbox"></td>
                             <td class="from"><a href="#">@if($novel_mail_message->users) {{$novel_mail_message->users->name}} @endif</a></td>
-                            <td class="text-left"><a href="{{route('author.mailbox_message',['id'=> $novel_mail_message->id ])}}" >{{$novel_mail_message->mailboxs->subject}} </a></td>
+                            <td class="text-left"><a href="{{route('author.mailbox_message',['id'=> $novel_mail_message->id ])}}" >{{$novel_mail_message->subject}} </a></td>
                             <td class="send">{{$novel_mail_message->created_at}}</td>
                             <td class="read">읽은시간</td>
                         </tr>
