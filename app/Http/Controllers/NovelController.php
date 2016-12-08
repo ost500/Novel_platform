@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Comment;
 use App\Novel;
 use App\NovelGroup;
+use App\User;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -29,6 +30,8 @@ class NovelController extends Controller
     {
         //
         $novel_groups = $request->user()->novel_groups()->with('novels')->get();
+        $author=User::select('author_agreement')->where('id', Auth::user()->id)->first();
+
 
         $comments_count = 0;
         $review_count = 0;
@@ -64,7 +67,7 @@ class NovelController extends Controller
         }
         // dd($count_data);
         // $novel_group= $request->user()->novel_groups()->where('id',$user_novels->novel_group_id)->first();
-        return \Response::json(['novel_groups' => $novel_groups, 'count_data' => $count_data, 'review_count_data' => $review_count_data, 'latested_at' => $latested_at]);
+        return \Response::json(['novel_groups' => $novel_groups, 'count_data' => $count_data, 'review_count_data' => $review_count_data, 'latested_at' => $latested_at,'author'=>$author]);
         // dd($user_novels);
     }
 

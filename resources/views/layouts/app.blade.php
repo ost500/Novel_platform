@@ -149,9 +149,9 @@
                                 <li>
                                     <a href="widgets.html">
                                         <i class="fa fa-money"></i>
-						<span class="menu-title">
-							<strong>수익내역</strong>
-						</span>
+                                        <span class="menu-title">
+                                            <strong>수익내역</strong>
+                                        </span>
                                         <i class="arrow"></i>
                                     </a>
 
@@ -167,9 +167,9 @@
                                 <li>
                                     <a href="index.html">
                                         <i class="fa fa-share"></i>
-						<span class="menu-title">
-							<strong>제휴연재신청</strong>
-						</span>
+                                    <span class="menu-title">
+                                        <strong>제휴연재신청</strong>
+                                    </span>
                                         <i class="arrow"></i>
                                     </a>
 
@@ -230,9 +230,9 @@
                                 <li class="{{ (Request::is('author/profile')||Request::is('author/nickname'))?"active-link":"" }}">
                                     <a href="/">
                                         <i class="fa fa-user"></i>
-						<span class="menu-title">
-							<strong>내정보</strong>
-						</span>
+                                        <span class="menu-title">
+                                            <strong>내정보</strong>
+                                        </span>
                                         <i class="arrow"></i>
                                     </a>
 
