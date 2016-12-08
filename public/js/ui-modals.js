@@ -43,42 +43,9 @@ $(document).ready(function () {
     //});
 
 
-    $('.novel-price-agree').on('click', function () {
-        bootbox.dialog({
-            title: "유료연재약관",
-            message: '<div class="row"> ' + '<div class="col-md-12"> ' +
-            '<form class="form-horizontal"> ' + '<div class="form-group"> ' +
-            '<div class="col-md-12"> ' +
-            '<textarea cols="100%" rows="30" class="form-control input-md">연재약관</textarea> ' +
-            '</div> ' +
-            '</div> ' + '<div class="form-group"> ' +
-            '<div class="col-md-12"> <div class="text-center"> ' +
-            '<label class="form-radio form-icon demo-modal-radio active"><input type="radio" autocomplete="off" name="awesomeness" value="1" checked> 동의합니다.</label>' +
-            '<label class="form-radio form-icon demo-modal-radio"><input type="radio" autocomplete="off" name="awesomeness" value="0"> 동의하지 않습니다.</label> </div>' +
-            '</div> </div>' + '</form> </div> </div><script></script>',
-            buttons: {
-                success: {
-                    label: "저장",
-                    className: "btn-purple",
-                    callback: function () {
-                        var name = $('#name').val();
-                        var answer = $("input[name='awesomeness']:checked").val();
+   // $('.novel-price-agree').on('click', function () {
 
-                        $.niftyNoty({
-                            type: 'purple',
-                            icon: 'fa fa-check',
-                            message: "유료연재약관에 동의 하셨습니다.",
-                            //container : 'floating',
-                            container: 'page',
-                            timer: 4000
-                        });
-                    }
-                }
-            }
-        });
-
-        $(".demo-modal-radio").niftyCheck();
-    });
+  //  });
 
 
     // BOOTBOX - ALERT MODAL
@@ -486,3 +453,60 @@ var agreement = function(){
 })};
 
 //$(".demo-modal-radio").niftyCheck();
+var nonFreeAgreement= function(id) {
+    bootbox.dialog({
+        title: "유료연재약관",
+        message: '<div class="row"> ' + '<div class="col-md-12"> ' +
+        '<form class="form-horizontal"> ' + '<div class="form-group"> ' +
+        '<div class="col-md-12"> ' +
+        '<textarea cols="100%" rows="30" class="form-control input-md">연재약관</textarea> ' +
+        '</div> ' +
+        '</div> ' + '<div class="form-group"> ' +
+        '<div class="col-md-12"> <div class="text-center"> ' +
+        '<label class="form-radio form-icon demo-modal-radio active"><input type="radio" autocomplete="off" name="awesomeness" id="" value="1" checked> 동의합니다.</label>' +
+        '<label class="form-radio form-icon demo-modal-radio "><input type="radio" autocomplete="off" name="awesomeness" value="0"> 동의하지 않습니다.</label> </div>' +
+        '</div> </div>' + '</form> </div> </div><script></script>',
+        buttons: {
+
+            success: {
+                label: "저장",
+                className: "btn-purple",
+                callback: function () {
+                    var name = $('#name').val();
+                    var answer = $("input[name='awesomeness']:checked").val();
+
+                    var formData = {non_free_agreement: answer};
+                    $.ajax({
+                        type: 'PUT',
+                        url: '/novels/update_agreement/' + id,
+                        data: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': window.Laravel.csrfToken
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            location.reload();
+
+                        },
+                        error: function (data) {
+                            console.log(data);
+                        }
+                    });
+
+                    $.niftyNoty({
+                        type: 'purple',
+                        icon: 'fa fa-check',
+                        message: "유료연재약관에 동의 하셨습니다.",
+                        //container : 'floating',
+                        container: 'page',
+                        timer: 4000
+                    });
+                }
+            }
+        }
+    })
+
+    $("awesomeness").niftyCheck();
+
+
+};

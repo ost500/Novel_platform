@@ -28,7 +28,8 @@
                                     <a href="{{route('author.inning',['id'=> $novel_group->id])}}">
                                         <button class="btn btn-primary">회차추가</button>
                                     </a>
-                                    <button type="button" class="btn btn-primary novel-price-agree">유료연재약관</button>
+                                 {{--  <button type="button" class="btn btn-primary ">유료연재약관</button>--}}
+
                                 </div>
                                 <table class="table table-bordered" id="novel_group">
                                     <tbody>
@@ -39,7 +40,7 @@
                                             <button v-if="novel.adult != 0" class="btn btn-xs btn-danger btn-circle">19금</button>
                                         </td>
                                         <td class="text-center">
-                                            <button class="btn btn-primary">유료화</button>
+                                            <button type="button" class="btn btn-primary" v-if="novel.non_free_agreement==0" v-on:click="show_nonFreeAgreement(novel.id)">유료화</button>
                                             <button class="btn btn-info">공개</button>
                                             {{--<a href="/author/update_inning/"@{{ novel.id }}>--}}
                                             <a v-on:click="go_to_update(novel.id)">
@@ -77,6 +78,10 @@
                 this.reload();
             },
             methods: {
+
+                show_nonFreeAgreement: function(id){
+                   nonFreeAgreement(id);
+                },
 
                 destroy: function (e) {
                     var destroy_confirm;
