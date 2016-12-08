@@ -447,7 +447,7 @@ var agreement = function () {
                 }
             }
         }
-    })
+    });
     $("input[name='awesomeness']").on('click', function () {
 
         var ans = $("input[name='awesomeness']:checked").val();
@@ -513,7 +513,7 @@ var nonFreeAgreement = function (id) {
                 }
             }
         }
-    })
+    });
 
     $("awesomeness").niftyCheck();
     $("input[name='awesomeness']").on('click', function () {
@@ -526,5 +526,24 @@ var nonFreeAgreement = function (id) {
             $(".btn-purple").attr("disabled", false);
         }
 
+    });
+};
+
+var commonAlertBox = function (str) {
+    var alert_message;
+    if (str == "comment") {
+        alert_message = "<p style='text-align: center;font-weight: 600;font-size: 16px;margin-top: 4%;'>댓글이 없습니다</p>";
+    } else if(str == "review"){
+        alert_message = "<p style='text-align: center;font-weight: 600;font-size: 16px;margin-top: 4%;'>리뷰가 없습니다</p>";
+    }
+
+    bootbox.alert(alert_message, function () {
+       /* $.niftyNoty({
+            type: 'info',
+            icon: 'fa fa-info',
+            message: 'Thank you',
+            container: 'floating',
+            timer: 3000
+        });*/
     });
 };

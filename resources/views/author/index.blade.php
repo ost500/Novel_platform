@@ -28,7 +28,7 @@
                                             <button type="button" class="btn btn-primary">작품추가</button>
                                         </a>
 
-                                      {{--  <button type="button" class="btn btn-primary novel-agree">연재약관</button>--}}
+                                        {{--  <button type="button" class="btn btn-primary novel-agree">연재약관</button>--}}
                                     </div>
 
                                     <div class="col-md-2 text-right pad-no padding-bottom-5">
@@ -209,18 +209,22 @@
                         this.comment_show.id = 0;
                     }
                     else {
-                        this.$http.get(comments_url)
-                                .then(function (response) {
-                                    // document.getElementById('response').setAttribute('id','response'+id)
 
-                                    $('#response' + id).html(response.data);
+                        if (this.commentsCountData[id] != 0) {
+                            this.$http.get(comments_url)
+                                    .then(function (response) {
+                                        // document.getElementById('response').setAttribute('id','response'+id)
 
-                                });
-                        this.review_show.TF = false;
-                        this.review_show.id = 0;
+                                        $('#response' + id).html(response.data);
+                                    });
+                            this.review_show.TF = false;
+                            this.review_show.id = 0;
 
-                        this.comment_show.TF = true;
-                        this.comment_show.id = id;
+                            this.comment_show.TF = true;
+                            this.comment_show.id = id;
+                        } else {
+                            commonAlertBox("comment");
+                        }
                     }
                     console.log("TF" + this.comment_show.TF);
                     console.log("ID" + this.comment_show.id);
@@ -236,17 +240,21 @@
                         this.review_show.id = 0;
                     }
                     else {
-                        this.$http.get(comments_url)
-                                .then(function (response) {
-                                    // document.getElementById('response').setAttribute('id','response'+id)
 
-                                    document.getElementById('review_response' + id).innerHTML = response.data;
-                                });
-                        this.review_show.TF = true;
-                        this.review_show.id = id;
+                        if (this.reviewsCountData[id] != 0) {
+                            this.$http.get(comments_url)
+                                    .then(function (response) {
+                                        // document.getElementById('response').setAttribute('id','response'+id)
+                                        document.getElementById('review_response' + id).innerHTML = response.data;
+                                    });
+                            this.review_show.TF = true;
+                            this.review_show.id = id;
 
-                        this.comment_show.TF = false;
-                        this.comment_show.id = 0;
+                            this.comment_show.TF = false;
+                            this.comment_show.id = 0;
+                        } else {
+                            commonAlertBox("review");
+                        }
                     }
 
                 },
@@ -313,51 +321,49 @@
 
                                 console.log(this.author.author_agreement);
                                 this.author = response.data['author'];
-                                if(this.author.author_agreement == 0) {
+                                if (this.author.author_agreement == 0) {
                                     console.log('dsfdsfdsfdsfdsfdsfsdfdsf');
                                     //  $('.author_agreement_dialog').show();
                                     agreement();
                                 }
-                               // this.check_agreemet();
+                                // this.check_agreemet();
                                 console.log(this.novel_groups);
                             });
 
                 },
-              /*  check_agreemet: function () {
-                    console.log(this.author.author_agreement);
+                /*  check_agreemet: function () {
+                 console.log(this.author.author_agreement);
 
-                }*/
+                 }*/
 
 
             }
         });
 
 
+        /*  var app5 = new Vue({
+         el: '#comment_list',
+         data: {
+         novel_groups: [],
+         my_comments: [],
+         },
+         mounted: function () {
+         this.$http.get('{{-- route('novels.index')--}}')
+         .then(function (response) {
+         this.novel_groups = response.data;
+         });
+         this.$http.get('{{-- route('comments.index') --}}')
+         .then(function (response) {
+         this.my_comments = response.data;
+         });
 
-
-    /*  var app5 = new Vue({
-    el: '#comment_list',
-    data: {
-    novel_groups: [],
-    my_comments: [],
-    },
-    mounted: function () {
-    this.$http.get('{{-- route('novels.index')--}}')
-    .then(function (response) {
-    this.novel_groups = response.data;
-    });
-    this.$http.get('{{-- route('comments.index') --}}')
-    .then(function (response) {
-    this.my_comments = response.data;
-    });
-
-    }
-    })*/
+         }
+         })*/
     </script>
     <script>
-    $(document).ready(function () {
+        $(document).ready(function () {
 
-    });
+        });
     </script>
 
 @endsection
