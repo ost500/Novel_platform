@@ -27,17 +27,22 @@ use Illuminate\Database\Eloquent\Model;
 class Mailbox extends Model
 {
     /**
-    * The attributes that are mass assignable.
-    *
-    * @var array
-    */
-        protected $fillable = [
-            'to','from', 'subject', 'body',
-        ];
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'from', 'subject', 'body',
+    ];
 
     public function users()
     {
-        return $this->belongsTo(User::class,'from', 'email');
+        return $this->belongsTo(User::class, 'from', 'id');
+    }
+
+    public function maillogs()
+    {
+        return $this->hasMany(MailLog::class);
     }
 
 }

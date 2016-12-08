@@ -32,7 +32,7 @@ $factory->define(App\NovelGroup::class, function (Faker\Generator $faker) {
 
     return [
         'user_id' => $faker->randomElement($userIds),
-        'nickname' =>$faker->randomElement(['1','2','3']),
+        'nickname' => $faker->randomElement(['1', '2', '3']),
         'title' => $faker->sentence,
         'description' => $faker->paragraph,
         'keyword1' => $faker->word,
@@ -82,12 +82,25 @@ $factory->define(App\NickName::class, function (Faker\Generator $faker) {
 
 
 $factory->define(App\Mailbox::class, function (Faker\Generator $faker) {
-
+    $novelIds = App\Novel::pluck('id')->toArray();
+    $userId_fake1 = App\User::pluck('id')->toArray();
+    
+//    $userId_fake = $faker->randomElement($userIds);
+//    while (true) {
+//        $userId_fake2 = $faker->randomElement($userIds);
+//        if ($userId_fake != $userId_fake2) {
+//            break;
+//        }
+//    }
+//    echo $userId_fake.$userId_fake2;
     return [
-        'to' => $faker->email,
-        'from' => $faker->email,
+//        'to' => $userId_fake,
+
+        'from' => $faker->randomElement($userId_fake1),
+        'novel_id' => $faker->randomElement($novelIds),
         'subject' => $faker->sentence,
         'body' => $faker->paragraph,
+
     ];
 });
 
@@ -118,5 +131,17 @@ $factory->define(App\Review::class, function (Faker\Generator $faker) {
         'user_id' => $faker->randomElement($userIds),
         'novel_id' => $faker->randomElement($novelIds),
         'review' => $faker->sentence,
+    ];
+});
+
+$factory->define(App\MailLog::class, function (Faker\Generator $faker) {
+    $userIds = App\User::pluck('id')->toArray();
+    $novelIds = App\Novel::pluck('id')->toArray();
+    $mailIds = App\Mailbox::pluck('id')->toArray();
+
+    return [
+        'user_id' => $faker->randomElement($userIds),
+        'novel_id' => $faker->randomElement($novelIds),
+        'mailbox_id' => $faker->randomElement($mailIds)
     ];
 });

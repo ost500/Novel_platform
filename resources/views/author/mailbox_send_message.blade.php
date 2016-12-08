@@ -82,25 +82,25 @@
                     <!--Mail list group-->
                     <ul id="demo-mail-list" class="mail-list">
                     @foreach($men_to_men_requests as $request)
-                        @if($men_to_men_request->id == $request->mailbox_id)
+                        @if($men_to_men_request->id == $request->id)
                             @continue
                         @endif
                         <!--Mail list item-->
                             <li class="mail-list-unread">
-                            {{--<div class="mail-from">--}}
-                            {{--<button @if($request->answer!=null) class="btn btn-xs btn-danger">완료</button>--}}
-                            {{--</div>@else class="btn btn-xs btn-success">대기</button>--}}
-                            {{--</div>@endif--}}
-                            <div class="mail-from">
+                                {{--<div class="mail-from">--}}
+                                {{--<button @if($request->answer!=null) class="btn btn-xs btn-danger">완료</button>--}}
+                                {{--</div>@else class="btn btn-xs btn-success">대기</button>--}}
+                                {{--</div>@endif--}}
+                                <div class="mail-from">
 
-                                <button class="btn btn-xs btn-success">대기</button>
-                            </div>
+                                    <button class="btn btn-xs btn-success">대기</button>
+                                </div>
 
-                            <div class="mail-time">{{$request->created_at}}</div>
+                                <div class="mail-time">{{$request->created_at}}</div>
 
-                            <div class="mail-subject">
-                                <a href="{{ route('author.mailbox_message',['id' => $request->mailboxs->id])}}">{{$request->mailboxs->subject}} </a>
-                            </div>
+                                <div class="mail-subject">
+                                    <a href="{{ route('author.mailbox_send_message',['id' => $request->id])}}">{{$request->subject}} </a>
+                                </div>
                             </li>
                     @endforeach
 
@@ -138,27 +138,27 @@
                                 </li>
                                 @if($men_to_men_requests->currentPage() >= 2)
                                     <li class="page-pre"><a
-                                                href="{{url('/author/mailbox_message/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()-1))}}">
+                                                href="{{url('/author/mailbox_send_message/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()-1))}}">
                                             &lt;</a></li>
                                 @endif
                                 @if($men_to_men_requests->currentPage() >= 5)
                                     <li class="page-pre"><a
-                                                href="{{url('/author/mailbox_message/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()-4))}}">{{$men_to_men_requests->currentPage()-4}}</a>
+                                                href="{{url('/author/mailbox_send_message/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()-4))}}">{{$men_to_men_requests->currentPage()-4}}</a>
                                     </li>
                                 @endif
                                 @if($men_to_men_requests->currentPage() >= 4)
                                     <li class="page-pre"><a
-                                                href="{{url('/author/mailbox_message/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()-3))}}">{{$men_to_men_requests->currentPage()-3}}</a>
+                                                href="{{url('/author/mailbox_send_message/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()-3))}}">{{$men_to_men_requests->currentPage()-3}}</a>
                                     </li>
                                 @endif
                                 @if($men_to_men_requests->currentPage() >= 3)
                                     <li class="page-pre"><a
-                                                href="{{url('/author/mailbox_message/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()-2))}}">{{$men_to_men_requests->currentPage()-2}}</a>
+                                                href="{{url('/author/mailbox_send_message/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()-2))}}">{{$men_to_men_requests->currentPage()-2}}</a>
                                     </li>
                                 @endif
                                 @if($men_to_men_requests->currentPage() >= 2)
                                     <li class="page-pre"><a
-                                                href="{{url('/author/mailbox_message/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()-1))}}">{{$men_to_men_requests->currentPage()-1}}</a>
+                                                href="{{url('/author/mailbox_send_message/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()-1))}}">{{$men_to_men_requests->currentPage()-1}}</a>
                                     </li>
                                 @endif
 
@@ -167,28 +167,28 @@
 
                                 @if($men_to_men_requests->lastPage()-1 >= $men_to_men_requests->currentPage())
                                     <li class="page-number"><a
-                                                href="{{url('/author/mailbox_message/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()+1))}}">{{$men_to_men_requests->currentPage()+1}}</a>
+                                                href="{{url('/author/mailbox_send_message/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()+1))}}">{{$men_to_men_requests->currentPage()+1}}</a>
                                     </li>
                                 @endif
                                 @if($men_to_men_requests->lastPage()-2 >= $men_to_men_requests->currentPage())
                                     <li class="page-number"><a
-                                                href="{{url('/author/mailbox_message/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()+2))}}">{{$men_to_men_requests->currentPage()+2}}</a>
+                                                href="{{url('/author/mailbox_send_message/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()+2))}}">{{$men_to_men_requests->currentPage()+2}}</a>
                                     </li>
                                 @endif
                                 @if($men_to_men_requests->lastPage()-3 >= $men_to_men_requests->currentPage())
                                     <li class="page-number"><a
-                                                href="{{url('/author/mailbox_message/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()+3))}}">{{$men_to_men_requests->currentPage()+3}}</a>
+                                                href="{{url('/author/mailbox_send_message/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()+3))}}">{{$men_to_men_requests->currentPage()+3}}</a>
                                     </li>
                                 @endif
                                 @if($men_to_men_requests->lastPage()-4 >= $men_to_men_requests->currentPage())
                                     <li class="page-number"><a
-                                                href="{{url('/author/mailbox_message/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()+3))}}">{{$men_to_men_requests->currentPage()+4}}</a>
+                                                href="{{url('/author/mailbox_send_message/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()+3))}}">{{$men_to_men_requests->currentPage()+4}}</a>
                                     </li>
                                 @endif
 
                                 @if($men_to_men_requests->lastPage()-1 >= $men_to_men_requests->currentPage())
                                     <li class="page-next"><a
-                                                href="{{url('/author/mailbox_message/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()+1))}}">
+                                                href="{{url('/author/mailbox_send_message/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()+1))}}">
                                             &gt;</a></li>
                                 @endif
 

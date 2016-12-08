@@ -13,21 +13,24 @@ class AlterMailboxesTable extends Migration
      */
     public function up()
     {
-//        Schema::table('mailboxes', function ($table) {
-//            $table->dropColumn('to');
-//            $table->dropColumn('from');
-//        });
-//
-//        Schema::table('mailboxes', function ($table) {
-//
+
+        Schema::table('mailboxes', function ($table) {
+            $table->dropForeign('mailboxes_from_foreign');
+//            $table->dropForeign('mailboxes_to_foreign');
+            $table->dropColumn('from');
+            $table->dropColumn('to');
+        });
+
+        Schema::table('mailboxes', function ($table) {
+
 //            $table->integer('to')->unsigned()->index();
-//            $table->integer('from')->unsigned()->index();
-//            $table->integer('novel_id')->unsigned()->index();
+            $table->integer('from')->unsigned()->index();
+            $table->integer('novel_id')->unsigned()->index();
 //
 //            $table->foreign('to')->references('id')->on('users')->onDelete('cascade');
 //            $table->foreign('from')->references('id')->on('users')->onDelete('cascade');
-//            $table->foreign('novel_id')->references('id')->on('novels')->onDelete('cascade');
-//        });
+            $table->foreign('novel_id')->references('id')->on('novels')->onDelete('cascade');
+        });
     }
 
     /**
@@ -37,9 +40,12 @@ class AlterMailboxesTable extends Migration
      */
     public function down()
     {
-//        Schema::table('mailboxes', function ($table) {
-//            $table->dropColumn('novel_id');
-//
-//        });
+        if (Schema::hasColumn('mailboxes', 'novel_id')) {
+            Schema::table('mailboxes', function ($table) {
+                $table->dropForeign('mailboxes_novel_id_foreign');
+                $table->dropColumn('novel_id');
+            });
+        }
+
     }
 }

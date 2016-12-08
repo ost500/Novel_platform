@@ -100,6 +100,14 @@ class DatabaseSeeder extends Seeder
 
         $this->command->info('Mails table seeded');
 
+        //Mailbox table
+        App\Mailbox::truncate();
+        $users->each(function ($user) {
+            $user->mailbox()->save(factory(App\Mailbox::class)->make());
+        });
+
+        $this->command->info('Mails table seeded');
+
 
         //MenToMen QuestionAnswer table
         App\MenToMenQuestionAnswer::truncate();
@@ -120,9 +128,16 @@ class DatabaseSeeder extends Seeder
         {
             $this->inning_order($novelgroup->id);
         }
+
+
+        $this->call(MailLogTableSeeder::class);
+
+
         $this->command->info('inning ordering');
 
     }
+    
+    
     public
     function inning_order($id)
     {
