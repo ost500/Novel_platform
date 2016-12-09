@@ -13,7 +13,7 @@ class MailLogTableSeeder extends Seeder
     {
         $users = App\User::get();
 
-        App\NickName::truncate();
+        App\MailLog::truncate();
 
         $users->each(function ($user) {
             $user->maillogs()->save(factory(App\MailLog::class)->make());
