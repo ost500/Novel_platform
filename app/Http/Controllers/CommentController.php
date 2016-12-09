@@ -6,9 +6,11 @@ use App\Comment;
 use App\Novel;
 use App\NovelGroup;
 use Auth;
+
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
+use Validator;
 
 class CommentController extends Controller
 {
@@ -63,6 +65,15 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
+
+        Validator::make($request->all(), [
+            'comment' => 'required|max:1',
+        ], [
+            'comment.required' => '입력하세요',
+            'comment.max' => '댓글이 너무 깁니다',
+        ])->validate();
+
+
 
         $new_comment = new Comment();
         $new_comment->comment = $request->comment;

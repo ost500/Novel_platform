@@ -42,7 +42,7 @@ class AlterMailboxesTable extends Migration
     {
         if (Schema::hasColumn('mailboxes', 'novel_id')) {
             Schema::table('mailboxes', function ($table) {
-                $table->dropForeign('mailboxes_novel_id_foreign');
+//                $table->dropForeign('mailboxes_novel_id_foreign');
                 $table->dropColumn('novel_id');
             });
         }

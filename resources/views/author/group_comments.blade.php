@@ -32,49 +32,6 @@
                 </div>
 
 
-                <form id="comment_form{{$loop->index}}" action="{{ route('comments.store') }}" hidden>
-                    <div class="review-of pad-all">
-                        <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
-                        <input hidden name="parent_id" value="{{$comment[0]->id}}">
-                        <input hidden name="novel_id" value="{{$comment[0]->novels->id}}">
-                        <textarea name="comment" hidden id="demo-textarea-input" rows="2" class="form-control inline"
-                                  style="width:50%" placeholder="댓글"></textarea>
-                        <button id="reply_post_btn{{$loop->index}}" class="btn btn-primary inline"
-                                style="width:100px;height:48px; vertical-align:top;">등록
-                        </button>
-                    </div>
-                </form>
-
-                <script type="text/javascript">
-
-                    $("#reply_button{{$loop->index}}").click(function () {
-
-                        $("#comment_form{{$loop->index}}").show();
-                    });
-
-                    $("#reply_post_btn{{$loop->index}}").click(function (e) {
-                        console.log($('#comment_form{{$loop->index}}').serializeArray());
-                        e.preventDefault();
-                        $.ajax({
-                            url: '{{ route('comments.store') }}',
-                            type: 'POST',
-                            data: $('#comment_form{{$loop->index}}').serializeArray(),
-                            headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken},
-                            success: function (e) {
-
-
-                                app4_index.commentsDisplay_after_commenting("{{ $comment[0]->novels->novel_group_id }}");
-
-                            },
-                            error: function () {
-                            },
-                        });
-
-                    });
-
-
-                </script>
-
             </div>
             @foreach($comment['children'] as $child)
                 <div class="review reply">
@@ -91,6 +48,60 @@
                     </div>
                 </div>
             @endforeach
+            <form id="comment_form{{$loop->index}}" action="{{ route('comments.store') }}" hidden>
+                <div class="review-of pad-all">
+                    <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
+                    <input hidden name="parent_id" value="{{$comment[0]->id}}">
+                    <input hidden name="novel_id" value="{{$comment[0]->novels->id}}">
+                        <textarea name="comment" hidden id="demo-textarea-input" rows="2" class="form-control inline"
+                                  style="width:50%" placeholder="댓글"></textarea>
+                    <button id="reply_post_btn{{$loop->index}}" class="btn btn-primary inline"
+                            style="width:100px;height:48px; vertical-align:top;">등록
+                    </button>
+                </div>
+            </form>
+
+            <div hidden id="error_bar{{$loop->index}}" class="alert alert-danger">
+                <ul>
+                    <li>
+                        <div id="error_message{{$loop->index}}"></div>
+                    </li>
+                </ul>
+            </div>
+
+
+            <script type="text/javascript">
+
+                $("#reply_button{{$loop->index}}").click(function () {
+
+                    $("#comment_form{{$loop->index}}").show();
+                });
+
+                $("#reply_post_btn{{$loop->index}}").click(function (e) {
+                    console.log($('#comment_form{{$loop->index}}').serializeArray());
+                    e.preventDefault();
+                    $.ajax({
+                        url: '{{ route('comments.store') }}',
+                        type: 'POST',
+                        data: $('#comment_form{{$loop->index}}').serializeArray(),
+                        headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken},
+                        success: function (e) {
+
+
+                            app4_index.commentsDisplay_after_commenting("{{ $comment[0]->novels->novel_group_id }}");
+
+                        },
+                        error: function (data) {
+
+                            $("#error_bar{{$loop->index}}").show();
+                            $("#error_message{{$loop->index}}").html(data.responseJSON.comment);
+                        }
+                    });
+
+                });
+
+
+            </script>
 
         @endforeach
 
