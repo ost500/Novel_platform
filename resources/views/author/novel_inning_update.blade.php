@@ -3,190 +3,209 @@
 @section('content')
 
     {{--<div class="boxed" > --}}
-        <div id="content-container" xmlns:v-el="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml"
-             xmlns:v-bind="http://www.w3.org/1999/xhtml">
+    <div id="content-container">
 
-            <div id="page-title">
-                <h1 class="page-header text-overflow">작품회차등록</h1>
-            </div>
-
-
-            <ol class="breadcrumb">
-                <li><a href="#">작가홈</a></li>
-                <li><a href="#">작품관리</a></li>
-                <li class="active">작품회차등록</li>
-            </ol>
+        <div id="page-title">
+            <h1 class="page-header text-overflow">작품회차등록</h1>
+        </div>
 
 
-            <div id="page-content">
+        <ol class="breadcrumb">
+            <li><a href="#">작가홈</a></li>
+            <li><a href="#">작품관리</a></li>
+            <li class="active">작품회차등록</li>
+        </ol>
 
 
-                <div class="row" id="novel_submit">
-                    <div class="col-sm-12">
+        <div id="page-content">
 
-                        <div class="panel">
-                            <form action="{{ route('novels.update',['novel'=> $id]) }}" method="POST"
-                                  enctype="multipart/form-data"
-                                  class="panel-body form-horizontal form-padding">
-                                <input name="_method" type="hidden" value="PUT">
 
-                                {{ csrf_field() }}
-                                <input hidden type="text" v-model="novel.novel_group_id" name="novel_group_id">
-                                <!--Static-->
-                                <div class="form-group">
-                                    <label class="col-md-2 control-label"></label>
-                                    <div class="col-md-9"><p class="form-control-static">
-                                        <h3>@{{ novel_group.title }}</h3></div>
+            <div class="row" id="novel_submit">
+                <div class="col-sm-12">
+
+                    <div class="panel">
+                        <form action="{{ route('novels.update',['novel'=> $novel->id]) }}" method="POST"
+                              enctype="multipart/form-data"
+                              class="panel-body form-horizontal form-padding">
+                            <input name="_method" type="hidden" value="PUT">
+
+                            {{ csrf_field() }}
+                            <input hidden type="text" name="novel_group_id">
+                            <!--Static-->
+                            <div class="form-group">
+                                <label class="col-md-2 control-label"></label>
+
+                                <div class="col-md-9"><p class="form-control-static">
+
+                                    <h3>{{ $novel_group->title }}</h3></div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 control-label" for="demo-email-input">제목</label>
+
+                                <div class="col-md-9">
+                                    <input type="text" name="title" value="{{$novel->title}}" id="demo-email-input"
+                                           class="form-control"
+                                           placeholder="작품 제목을 입력해 주세요." data-bv-field="title">
                                 </div>
+                            </div>
 
-                                <div class="form-group">
-                                    <label class="col-md-2 control-label" for="demo-email-input">제목</label>
-                                    <div class="col-md-9">
-                                        <input type="text" name="title" v-model="novel.title" id="demo-email-input"
-                                               class="form-control"
-                                               placeholder="작품 제목을 입력해 주세요." data-bv-field="title">
+                            <div class="form-group">
+                                <label class="col-md-2 control-label" for="demo-email-input">성인</label>
+
+                                <div class="col-md-9">
+                                    <div class="checkbox">
+                                        <label class="form-checkbox form-normal form-primary active">
+                                            <input name="adult" type="checkbox" @if($novel->adult == 1) checked="checked" @endif >
+
+                                            19세 미만
+                                            관람불가입니다.</label>
+
                                     </div>
                                 </div>
+                            </div>
 
-                                <div class="form-group">
-                                    <label class="col-md-2 control-label" for="demo-email-input">성인</label>
-                                    <div class="col-md-9">
-                                        <div class="checkbox">
-                                            <label class="form-checkbox form-normal form-primary active">
-                                                <input name="adult" type="checkbox" value="on" v-model="novel.adult"> 19세 미만
-                                                관람불가입니다.</label>
-                                        </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label" for="demo-email-input">예약등록</label>
+
+                                <div class="col-md-9">
+                                    <div class="checkbox inline">
+                                        <label class="form-checkbox form-normal form-primary active">
+                                            <input name="publish_reservation" type="checkbox" id="publish_check"
+                                                   class=" margin-left-10"  @if($novel->publish_reservation != null) checked="checked" @endif>
+                                            예약등록</label>
                                     </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="col-md-2 control-label" for="demo-email-input">예약등록</label>
-                                    <div class="col-md-9">
-                                        <div class="checkbox inline">
-                                            <label class="form-checkbox form-normal form-primary active">
-                                                <input name="publish_reservation" type="checkbox" id="publish_check"
-                                                        class=" margin-left-10" v-model="novel.publish_reservation">
-                                                예약등록</label>
-                                        </div>
 
 
-                                        <div class="inline">
-                                            <input v-model="novel.reser_day" disabled type="text" name="reser_day"
-                                                   id="reser_day"
-                                                   class="form-control inline" placeholder="예약일" style="width:100px;">
+                                    <div class="inline">
+                                        <input readonly type="text" name="reser_day" id="reser_day"
+                                               value="{{$novel->reser_day}}"
+                                               class="form-control inline" placeholder="예약일" style="width:100px;">
 
 
-                                            <input v-model="novel.reser_time" disabled style="width:100px;" type="text"
-                                                   name="reser_time" id="demo-tp-com" type="text"
-                                                   class="timepicker form-control inline" placeholder="예약시간">
+                                        <input readonly style="width:100px;" type="text"
+                                               name="reser_time" id="demo-tp-com" value=" @if($novel->reser_time !=null) {{$novel->reser_time}} @endif"
+                                               class="timepicker form-control inline" placeholder="예약시간">
 
 
-                                        </div>
-                                        <small class="has-warning">예약 기능은 신규 챕터 등록 시에만 적용되며, 등록된 챕터를 수정할 때는 적용되지 않습니다.
-                                        </small>
                                     </div>
+                                    <small class="has-warning">예약 기능은 신규 챕터 등록 시에만 적용되며, 등록된 챕터를 수정할 때는 적용되지 않습니다.
+                                    </small>
                                 </div>
+                            </div>
 
 
-                                <div class="form-group">
-                                    <label class="col-md-2 control-label" for="demo-textarea-input">내용</label>
-                                    <div class="col-md-9">
-                                        <textarea  rows="20" name="content" id="demo-textarea-input"  class="form-control"
-                                                  placeholder="작품 소개를 입력해 주세요" v-model="novel.content"> </textarea>
-                                    </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label" for="demo-textarea-input">내용</label>
+
+                                <div class="col-md-9">
+                                        <textarea rows="20" name="content" id="demo-textarea-input" class="form-control"
+                                                  placeholder="작품 소개를 입력해 주세요"> {{$novel->content}} </textarea>
                                 </div>
+                            </div>
 
-                                <div class="form-group">
-                                    <label class="col-md-2 control-label" for="demo-textarea-input">작가의 말</label>
-                                    <div class="col-md-9">
+                            <div class="form-group">
+                                <label class="col-md-2 control-label" for="demo-textarea-input">작가의 말</label>
+
+                                <div class="col-md-9">
                                         <textarea rows="5" name="author_comment" id="demo-textarea-input"
-                                                  class="form-control" v-model="novel.author_comment"
-                                                  placeholder="작가의 말"></textarea>
-                                    </div>
+                                                  class="form-control"
+                                                  placeholder="작가의 말"> {{$novel->author_comment}}</textarea>
                                 </div>
+                            </div>
 
 
-                                <!--div class="form-group">
-                                    <label class="col-md-2 control-label">표지</label>
-                                    <div class="col-md-9">
+                            <!--div class="form-group">
+                                <label class="col-md-2 control-label">표지</label>
+                                <div class="col-md-9">
 
 
-                                        <input type="file" id="demo-password-input" class="form-control"
-                                               placeholder="Password" id="file_" name="cover_photo">
-                                        <small class="has-warning">사이즈 : 900*900 / 최대용량 : 1M / 업로드 가능 확장자 : JPG, PNG
-                                            파일
-                                        </small>
+                                    <input type="file" id="demo-password-input" class="form-control"
+                                           placeholder="Password" id="file_" name="cover_photo">
+                                    <small class="has-warning">사이즈 : 900*900 / 최대용량 : 1M / 업로드 가능 확장자 : JPG, PNG
+                                        파일
+                                    </small>
 
-                                        <div class="alert alert-warning media fade in">
-                                            <div class="media-left">
-													<span class="icon-wrap icon-wrap-xs icon-circle alert-icon">
-														<i class="fa fa-bolt fa-lg"></i>
-													</span>
-                                            </div>
-                                            <div class="media-body">
-                                                <p class="alert-title">표지를 직접 등록할 때, 이미지 사이즈와 확장자가 정확 해야만 등록이 됩니다.</p>
-                                                <p class="alert-title">저작권을 분쟁의 소지가 있는 이미지는 사용하실 수 없습니다. 저작권 관련 문제 발생 시,
-                                                    모든 책임은 개인에게 있습니다.</p>
-                                            </div>
+                                    <div class="alert alert-warning media fade in">
+                                        <div class="media-left">
+                                                <span class="icon-wrap icon-wrap-xs icon-circle alert-icon">
+                                                    <i class="fa fa-bolt fa-lg"></i>
+                                                </span>
+                                        </div>
+                                        <div class="media-body">
+                                            <p class="alert-title">표지를 직접 등록할 때, 이미지 사이즈와 확장자가 정확 해야만 등록이 됩니다.</p>
+                                            <p class="alert-title">저작권을 분쟁의 소지가 있는 이미지는 사용하실 수 없습니다. 저작권 관련 문제 발생 시,
+                                                모든 책임은 개인에게 있습니다.</p>
                                         </div>
                                     </div>
-                                </div-->
-
-
-                                <div class="form-group">
-                                    <div class="col-md-12 text-center">
-                                        <button type="submit" class="btn btn-lg btn-primary">회차저장</button>
-                                        <button type="button" class="btn btn-lg btn-danger back">취소</button>
-                                    </div>
                                 </div>
-                            </form>
-                        </div>
+                            </div-->
+
+
+                            <div class="form-group">
+                                <div class="col-md-12 text-center">
+                                    <button type="submit" class="btn btn-lg btn-primary">회차저장</button>
+                                    <button type="button" class="btn btn-lg btn-danger back">취소</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
-
-
             </div>
 
 
         </div>
-  {{--  </div> --}}
+
+
+    </div>
+    {{--  </div> --}}
 
 
     <script>
 
 
-        var app123 = new Vue({
-            el: '#novel_submit',
-            data: {
+        /*      var app123 = new Vue({
+         el: '#novel_submit',
+         data: {
 
-                formErrors: {},
-                novel_group:[],
-                novel:[],
+         formErrors: {},
+         novel_group:[],
+         novel:[],
 
-            },
-
-
-
-            mounted: function () {
-
-                this.reload();
+         },
 
 
-            },
-            methods: {
 
-                reload: function () {
-                    this.$http.get('{{ route('novels.edit',['id'=>$id]) }}')
-                            .then(function (response) {
-                                this.novel_group = response.data['novel_group'];
-                                this.novel = response.data['novel'];
-                            });
+         mounted: function () {
 
-                },
+         this.reload();
 
 
-            }
-        });
+         },
+         methods: {
+         adultStatus: function(){
+
+         if(response.data['novel']['adult'] == 1) {
+         //this.novel.adult = true;
+         console.log("abc");
+         return "checked";
+         }
+
+         },
+
+         reload: function () {
+         this.$http.get('{{-- route('novels.edit',['id'=>$id]) --}}')
+         .then(function (response) {
+         this.novel_group = response.data['novel_group'];
+         this.novel = response.data['novel'];
+
+         });
+
+         },
+
+
+         }
+         });*/
 
 
         $(function () {

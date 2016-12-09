@@ -53,8 +53,22 @@ class AuthorPageController extends Controller
 
     public function update_inning($id)
     {
-        // return view('author.novel_inning_update', compact('novel', 'novel_group'));
-        return view('author.novel_inning_update', compact('id'));
+        $novel = Novel::find($id);
+        $novel_group = $novel->novel_groups;
+
+        $reser_day = new Carbon($novel->publish_reservation);
+
+        //출간예약이 없다면 null 값을 리턴한다
+        if($novel->publish_reservation == null){
+            $novel->reser_day = null;
+            $novel->reser_time = null;
+        }
+        else{
+            $novel->reser_day = $reser_day->toDateString();
+            $novel->reser_time = $reser_day->format('h:i');
+        }
+        return view('author.novel_inning_update', compact('novel', 'novel_group'));
+
     }
 
     public function edit($id)
