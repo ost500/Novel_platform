@@ -62,7 +62,9 @@
                             headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken},
                             success: function (e) {
 
-                                app4.commentsDisplay({{ $comment[0]->novels->novel_group_id }});
+
+                                app4_index.commentsDisplay_after_commenting("{{ $comment[0]->novels->novel_group_id }}");
+
                             },
                             error: function () {
                             },

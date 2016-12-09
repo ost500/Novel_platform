@@ -131,7 +131,7 @@
     </div>
 
     <script>
-        var app4 = new Vue({
+        var app4_index = new Vue({
             el: '#novel_list',
             data: {
                 novel_groups: [],
@@ -229,6 +229,32 @@
                     console.log("TF" + this.comment_show.TF);
                     console.log("ID" + this.comment_show.id);
                 },
+                commentsDisplay_after_commenting: function (id) {
+                    console.log("TF" + this.comment_show.TF);
+                    console.log("ID" + this.comment_show.id);
+
+                    var comments_url = '/comments/' + id;
+
+
+                    if (this.commentsCountData[id] != 0) {
+                        this.$http.get(comments_url)
+                                .then(function (response) {
+                                    // document.getElementById('response').setAttribute('id','response'+id)
+
+                                    $('#response' + id).html(response.data);
+                                });
+                        this.review_show.TF = false;
+                        this.review_show.id = 0;
+
+                        this.comment_show.TF = true;
+                        this.comment_show.id = id;
+                    } else {
+                        commonAlertBox("comment");
+                    }
+
+                    console.log("TF" + this.comment_show.TF);
+                    console.log("ID" + this.comment_show.id);
+                },
                 commentId: function (id) {
                     return "response" + id;
                 },
@@ -281,9 +307,9 @@
                                 Vue.http.headers.common['X-CSRF-TOKEN'] = "{!! csrf_token() !!}";
                                 //                    var csrfToken = form.querySelector('input[name="_token"]').value;
 
-                                app4.$http.delete("{{ url('novelgroups') }}/" + e, {headers: {'X-CSRF-TOKEN': '{!! csrf_token() !!}'}})
+                                app4_index.$http.delete("{{ url('novelgroups') }}/" + e, {headers: {'X-CSRF-TOKEN': '{!! csrf_token() !!}'}})
                                         .then(function (response) {
-                                            app4.reload();
+                                            app4_index.reload();
                                             $.niftyNoty({
                                                 type: 'warning',
                                                 icon: 'fa fa-check',
@@ -360,10 +386,6 @@
          }
          })*/
     </script>
-    <script>
-        $(document).ready(function () {
 
-        });
-    </script>
 
 @endsection
