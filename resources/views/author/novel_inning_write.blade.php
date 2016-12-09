@@ -172,7 +172,7 @@
 
                     this.$http.post(action, this.novel, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                             .then(function (response) {
-                                window.location.href = '{{ route('author_novel_group',['id' => $novel_group]) }}';
+                                window.location.href = '{{ route('author_novel_group',['id' => $novel_group->id]) }}';
                             })
                             .catch(function (data, status, request) {
                                 var errors = data.data;

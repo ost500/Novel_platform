@@ -2,9 +2,9 @@
 
 @section('content')
 
-    <div class="boxed" xmlns:v-el="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml"
-         xmlns:v-bind="http://www.w3.org/1999/xhtml">
-        <div id="content-container">
+    {{--<div class="boxed" > --}}
+        <div id="content-container" xmlns:v-el="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml"
+             xmlns:v-bind="http://www.w3.org/1999/xhtml">
 
             <div id="page-title">
                 <h1 class="page-header text-overflow">작품회차등록</h1>
@@ -25,7 +25,7 @@
                     <div class="col-sm-12">
 
                         <div class="panel">
-                            <form action="{{ route('novels.update',['novel'=> $novel->id]) }}" method="POST"
+                            <form action="{{ route('novels.update',['novel'=> $id]) }}" method="POST"
                                   enctype="multipart/form-data"
                                   class="panel-body form-horizontal form-padding">
                                 <input name="_method" type="hidden" value="PUT">
@@ -36,7 +36,7 @@
                                 <div class="form-group">
                                     <label class="col-md-2 control-label"></label>
                                     <div class="col-md-9"><p class="form-control-static">
-                                        <h3>{{ $novel_group->title }}</h3></div>
+                                        <h3>@{{ novel_group.title }}</h3></div>
                                 </div>
 
                                 <div class="form-group">
@@ -52,8 +52,8 @@
                                     <label class="col-md-2 control-label" for="demo-email-input">성인</label>
                                     <div class="col-md-9">
                                         <div class="checkbox">
-                                            <label class="form-checkbox form-normal form-primary active"><input
-                                                        name="adult" type="checkbox" v-model="novel.adult"> 19세 미만
+                                            <label class="form-checkbox form-normal form-primary active">
+                                                <input name="adult" type="checkbox" value="on" v-model="novel.adult"> 19세 미만
                                                 관람불가입니다.</label>
                                         </div>
                                     </div>
@@ -63,8 +63,8 @@
                                     <label class="col-md-2 control-label" for="demo-email-input">예약등록</label>
                                     <div class="col-md-9">
                                         <div class="checkbox inline">
-                                            <label class="form-checkbox form-normal form-primary active"><input
-                                                        name="publish_reservation" type="checkbox" id="publish_check"
+                                            <label class="form-checkbox form-normal form-primary active">
+                                                <input name="publish_reservation" type="checkbox" id="publish_check"
                                                         class=" margin-left-10" v-model="novel.publish_reservation">
                                                 예약등록</label>
                                         </div>
@@ -91,9 +91,8 @@
                                 <div class="form-group">
                                     <label class="col-md-2 control-label" for="demo-textarea-input">내용</label>
                                     <div class="col-md-9">
-                                        <textarea v-model="novel.novel_content" name="novel_content"
-                                                  id="demo-textarea-input" rows="20" class="form-control"
-                                                  placeholder="작품 소개를 입력해 주세요"></textarea>
+                                        <textarea  rows="20" name="content" id="demo-textarea-input"  class="form-control"
+                                                  placeholder="작품 소개를 입력해 주세요" v-model="novel.content"> </textarea>
                                     </div>
                                 </div>
 
@@ -150,7 +149,7 @@
 
 
         </div>
-    </div>
+  {{--  </div> --}}
 
 
     <script>
@@ -159,23 +158,32 @@
         var app123 = new Vue({
             el: '#novel_submit',
             data: {
-                novel: {
-                    novel_group_id: "{{ $novel_group->id }}",
-                    title: "{{$novel->title}}",
-                    adult: "{{$novel->adult}}",
-                    publish_reservation: "{{$novel->publish_reservation}}",
-                    reser_day: "{{$novel->reser_day}}",
-                    reser_time: "{{$novel->reser_time}}",
-                    novel_content: "{{$novel->title}}",
-                    author_comment: "{{$novel->title}}",
-                    cover_photo: $("#file_")
-                },
-                formErrors: {}
+
+                formErrors: {},
+                novel_group:[],
+                novel:[],
+
             },
+
+
+
             mounted: function () {
+
+                this.reload();
+
 
             },
             methods: {
+
+                reload: function () {
+                    this.$http.get('{{ route('novels.edit',['id'=>$id]) }}')
+                            .then(function (response) {
+                                this.novel_group = response.data['novel_group'];
+                                this.novel = response.data['novel'];
+                            });
+
+                },
+
 
             }
         });
