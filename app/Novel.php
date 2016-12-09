@@ -36,6 +36,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Review[] $reviews
  * @method static \Illuminate\Database\Query\Builder|\App\Novel whereInning($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Novel whereCoverPhoto($value)
+ * @property boolean $non_free_agreement
+ * @method static \Illuminate\Database\Query\Builder|\App\Novel whereNonFreeAgreement($value)
  */
 class Novel extends Model
 {

@@ -21,12 +21,13 @@
                 <div class="panel-body">
 
                     <form role="form" class="form-horizontal" action="{{ route('mailbox.store') }}" method="post">
-                        <meta id="token" name="token" content="{{ csrf_token() }}">
+                        {{--<meta id="token" name="token" content="{{ csrf_token() }}">--}}
+                        {!! csrf_field() !!}
                         <div class="form-group">
                             <label class="col-lg-1 control-label text-left" for="inputSubject">작품선택</label>
 
                             <div class="col-lg-11">
-                                <select class="form-control" name="novel_id">
+                                <select class="form-control" name="novel_group_id">
                                     <option value="">작품선택</option>
                                     @foreach($my_novel_groups as $group)
                                         <option value="{{ $group->id }}" selected>{{ $group->title }}</option>
@@ -51,7 +52,7 @@
                             <label class="col-lg-1 control-label text-left" for="inputSubject">내용</label>
 
                             <div class="col-lg-11">
-                                    <textarea name="question" id="demo-textarea-input" rows="15" class="form-control"
+                                    <textarea name="body" id="demo-textarea-input" rows="15" class="form-control"
                                               placeholder="내용"></textarea>
                                 <span v-if="formErrors['question']"
                                       class="error text-danger"></span>

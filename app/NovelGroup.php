@@ -43,6 +43,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $max_inning
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Review[] $reviews
  * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereMaxInning($value)
+ * @property string $cover_photo2
+ * @property string $latest_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\NovelGroup[] $favorites
+ * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereCoverPhoto2($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereLatestAt($value)
  */
 class NovelGroup extends Model
 {
@@ -66,5 +71,20 @@ class NovelGroup extends Model
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
+    public function mailboxes()
+    {
+        return $this->hasMany(Mailbox::class);
+    }
+
+    public function maillogs()
+    {
+        return $this->hasMany(MailLog::class);
     }
 }

@@ -4,13 +4,13 @@
     <div id="content-container">
 
         <div id="page-title">
-            <h1 class="page-header text-overflow">1:1문의내역</h1>
+            <h1 class="page-header text-overflow">받은 쪽지</h1>
         </div>
 
 
         <ol class="breadcrumb">
             <li><a href="#">작가홈</a></li>
-            <li class="active"><a href="#">1:1문의내역</a></li>
+            <li class="active"><a href="#">받은 쪽지</a></li>
         </ol>
 
 
@@ -66,8 +66,8 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-sm-7">
-                            <a href="{{route('author.novel_request')}}">
-                                <button class="btn btn-primary">문의하기</button>
+                            <a href="{{route('author.novel_memo_create')}}">
+                                <button class="btn btn-primary">쪽지 보내기</button>
                             </a>
                         </div>
                         <hr class="hr-sm visible-xs">
@@ -99,7 +99,7 @@
                             <div class="mail-time">{{$request->created_at}}</div>
 
                             <div class="mail-subject">
-                                <a href="{{ route('author.mailbox_message',['id' => $request->mailboxs->id])}}">{{$request->mailboxs->subject}} </a>
+                                <a href="{{ route('author.mailbox_message',['id' => $request->id])}}">{{$request->mailboxs->subject}} </a>
                             </div>
                             </li>
                     @endforeach

@@ -48,7 +48,7 @@
                         <tr>
                             <td class="check"><input type="checkbox"></td>
                             <td class="from"><a href="#">@if($novel_mail_message->mailboxs->users) {{$novel_mail_message->mailboxs->users->name}} @endif</a></td>
-                            <td class="text-left"><a href="{{route('author.mailbox_message',['id'=> $novel_mail_message->mailboxs->id ])}}" >{{$novel_mail_message->mailboxs->subject}} </a></td>
+                            <td class="text-left"><a href="{{route('author.mailbox_message',['id'=> $novel_mail_message->id ])}}" >{{$novel_mail_message->mailboxs->subject}} </a></td>
                             <td class="send">{{$novel_mail_message->created_at}}</td>
                             <td class="read">읽은시간</td>
                         </tr>

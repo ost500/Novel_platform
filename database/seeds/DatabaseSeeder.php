@@ -131,6 +131,8 @@ class DatabaseSeeder extends Seeder
 
 
         $this->call(MailLogTableSeeder::class);
+        
+        $this->call(FavoriteTableSeeder::class);
 
 
         $this->command->info('inning ordering');

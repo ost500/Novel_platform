@@ -23,6 +23,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Mailbox whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Mailbox whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property integer $novel_id
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\MailLog[] $maillogs
+ * @method static \Illuminate\Database\Query\Builder|\App\Mailbox whereNovelId($value)
  */
 class Mailbox extends Model
 {
@@ -43,6 +46,11 @@ class Mailbox extends Model
     public function maillogs()
     {
         return $this->hasMany(MailLog::class);
+    }
+
+    public function novel_groups()
+    {
+        return $this->belongsTo(NovelGroup::class, 'novel_group_id', 'id');
     }
 
 }
