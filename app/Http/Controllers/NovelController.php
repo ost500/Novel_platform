@@ -151,7 +151,7 @@ class NovelController extends Controller
         $novel = Novel::find($id);
         $novel_group = $novel->novel_groups;
 
-        $reser_day = new Carbon();
+        $reser_day = new Carbon($novel->publish_reservation);
 
         //출간예약이 없다면 null 값을 리턴한다
         if($novel->publish_reservation == null){
