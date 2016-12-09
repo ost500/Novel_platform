@@ -8,6 +8,7 @@ use App\NovelGroup;
 use App\User;
 use Auth;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class NovelController extends Controller
 {
@@ -147,7 +148,24 @@ class NovelController extends Controller
     public
     function edit($id)
     {
-        //
+        $novel = Novel::find($id);
+        $novel_group = $novel->novel_groups;
+
+        $reser_day = new Carbon();
+
+        //출간예약이 없다면 null 값을 리턴한다
+        if($novel->publish_reservation == null){
+            $novel->reser_day = null;
+            $novel->reser_time = null;
+        }
+        else{
+            $novel->reser_day = $reser_day->toDateString();
+            $novel->reser_time = $reser_day->format('h:i');
+        }
+
+
+        return \Response::json(['novel'=>$novel,'novel_group'=>$novel_group ]);
+       // return view('author.novel_inning_update', compact('novel', 'novel_group'));
     }
 
     /**
@@ -157,20 +175,21 @@ class NovelController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public
-    function update(Request $request, $id)
+    public function update(Request $request, $id)
     {
 
-
+       // dd($request->all());
         $update_novel = Novel::find($id);
 
         $update_novel->title = $request->title;
-        $update_novel->content = $request->novel_content;
+        $update_novel->content = $request->get('content');
         if ($request->adult == "on") {
             $update_novel->adult = true;
-        }
+
+        }else{ $update_novel->adult = false; }
+
         if ($request->publish_reservation == "on" && $request->reser_day && $request->reser_time) {
-            echo $request->reser_day . " " . $request->reser_time;
+           // echo $request->reser_day . " " . $request->reser_time;
             $update_novel->publish_reservation = $request->reser_day . " " . $request->reser_time;
         } else {
             $update_novel->publish_reservation = null;
@@ -206,7 +225,10 @@ class NovelController extends Controller
         }
         else
         {
-            return view('author.novel_group', compact('update_novel', 'novel_group'));
+
+           // return "ddsfdsfdsf";
+            return redirect()->route('author_novel_group',['id' => $update_novel->novel_group_id]);
+           // return view('author.novel_group', compact('update_novel', 'novel_group'));
         }
     }
 
@@ -259,4 +281,21 @@ class NovelController extends Controller
         $novel_group->max_inning = --$index;
         $novel_group->save();
     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+
+     * @return \Illuminate\Http\Response
+     */
+    public function update_agreement(Request $request,$id)
+    {
+        $novel = Novel::find($id);
+
+        $novel->non_free_agreement = $request->non_free_agreement;
+        $novel->save();
+        return response()->json($request);
+    }
+
 }

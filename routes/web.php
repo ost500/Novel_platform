@@ -23,15 +23,18 @@ Route::get('novelgroup/novels/{id}', ['as' => 'novelgroup.novel', 'uses' => 'Nov
 Route::get('novelgroup/novels/inning/{id}', ['as' => 'novelgroup.inning', 'uses' => 'NovelGroupController@inning_order']);
 Route::get('novelgroup/{id}/comments', ['as' => 'novelgroup.comments', 'uses' => 'NovelGroupController@show_comments']);
 Route::resource('novels', 'NovelController');
+Route::put('novels/update_agreement/{id}', ['as' => 'novels.update_agreement', 'uses' => 'NovelController@update_agreement']);
 Route::resource('reviews', 'ReviewController');
 Route::resource('comments', 'CommentController');
 Route::resource('mentomen', 'MenToMenQuestionAnswerController');
 Route::resource('faqs', 'FaqController');
+
 Route::resource('users', 'UserController', ['except' => ['update']]);
+Route::post('mailboxes', ['as' => 'mailbox.store', 'uses' => 'MailboxController@store']);
 Route::put('users/update', ['as' => 'users.update', 'uses' => 'UserController@update']);
 Route::put('users/update_agreement', ['as' => 'users.update_agreement', 'uses' => 'UserController@update_agreement']);
-Route::resource('nickname', 'NickNameController');
 
+Route::resource('nickname', 'NickNameController');
 
 Route::get('/author/create', ['as' => 'author.create', 'uses' => 'PageController\AuthorPageController@create']);
 Route::get('/author/{id}/edit', 'PageController\AuthorPageController@edit');
@@ -48,15 +51,16 @@ Route::get('/author/create', ['as' => 'author.novel_group_create', 'uses' => 'Pa
 Route::get('/author/{id}/edit', ['as' => 'author.novel_group_edit', 'uses' => 'PageController\AuthorPageController@edit']);
 Route::get('/author/novel_memo', ['as' => 'author.novel_memo', 'uses' => 'PageController\AuthorPageController@mailbox_index']);
 Route::get('/author/novel_memo_send', ['as' => 'author.novel_memo_send', 'uses' => 'PageController\AuthorPageController@mailbox_send']);
+Route::get('/author/mailbox_message/{id}', ['as' => 'author.mailbox_message', 'uses' => 'PageController\AuthorPageController@mailbox_message_show']);
+Route::get('/author/mailbox_send_message/{id}', ['as' => 'author.mailbox_send_message', 'uses' => 'PageController\AuthorPageController@mailbox_send_message_show']);
 Route::get('/author/novel_memo_create', ['as' => 'author.novel_memo_create', 'uses' => 'PageController\AuthorPageController@mailbox_create']);
-Route::get('/author/mailbox_message/{id}',['as' => 'author.mailbox_message', 'uses' => 'PageController\AuthorPageController@mailbox_message_show']);
 
 Route::get('/author/novel_request', ['as' => 'author.novel_request', 'uses' => 'PageController\AuthorPageController@men_to_men_create']);
 Route::get('/author/novel_request_list', ['as' => 'author.novel_request_list', 'uses' => 'PageController\AuthorPageController@men_to_men_index']);
-Route::get('/author/novel_request_view/{id}',['as' => 'author.novel_request_view', 'uses' => 'PageController\AuthorPageController@men_to_men_show']);
+Route::get('/author/novel_request_view/{id}', ['as' => 'author.novel_request_view', 'uses' => 'PageController\AuthorPageController@men_to_men_show']);
 
 Route::get('/author/novel_faq', ['as' => 'author.novel_faq', 'uses' => 'PageController\AuthorPageController@faq_index']);
-Route::get('/author/faq_create',['as' => 'author.faq_create', 'uses' => 'PageController\AuthorPageController@faq_create']);
+Route::get('/author/faq_create', ['as' => 'author.faq_create', 'uses' => 'PageController\AuthorPageController@faq_create']);
 Route::get('/author/faq_edit', ['as' => 'author.faq_edit', 'uses' => 'PageController\AuthorPageController@faq_edit']);
 
 

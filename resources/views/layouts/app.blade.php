@@ -192,7 +192,7 @@
                                     </a>
                                     <ul class="collapse {{ (Request::is('author/novel_memo')||Request::is('author/novel_memo_send')||Request::is('author/novel_memo_create')||Request::is('author/mailbox_message/*'))?"in":"" }}">
                                         <li><a href="{{ route('author.novel_memo')}}">받은쪽지함</a></li>
-                                        <li><a href="{{ route('author.novel_memo')}}">보낸쪽지함</a></li>
+                                        <li><a href="{{ route('author.novel_memo_send')}}">보낸쪽지함</a></li>
                                     </ul>
                                 </li>
 

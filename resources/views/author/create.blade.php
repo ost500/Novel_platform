@@ -215,8 +215,9 @@
                             <div class="form-group">
                                 <label class="col-md-2 control-label" for="demo-password-input">기본표지</label>
                                 <div class="col-md-9">
-                                    <input type="text" id="demo-password-input" style="width:30%;" name="default_cover_photo"
-                                           class="form-control inline" placeholder="사용하려면 우측 표지선택 버튼을 클릭하세요.">
+                                    <input type="text" id="demo-password-input" style="width:30%;"
+                                           name="default_cover_photo"
+                                           class="form-control inline" placeholder="사용하려면 우측 표지선택 버튼을 클릭하세요." value="{{old('default_cover_photo')}}">
                                     <button type="button" class="btn btn-primary novel-image">표지선택</button>
                                 </div>
                             </div>
@@ -225,7 +226,8 @@
                             <div class="form-group">
                                 <label class="col-md-2 control-label">표지 직접등록1</label>
                                 <div class="col-md-9">
-                                    <input type="file" name="cover_photo" id="demo-password-input" class="form-control">
+                                    <input type="file" name="cover_photo" id="demo-password-input" class="form-control"
+                                           value="{{old('cover_photo')}}">
                                     <small class="has-warning">사이즈 : 1080*1620 / 최대용량 : 1M / 업로드 가능 확장자 : JPG, PNG 파일
                                     </small>
                                 </div>
@@ -236,7 +238,7 @@
                                 <label class="col-md-2 control-label">표지 직접등록2</label>
                                 <div class="col-md-9">
                                     <input type="file" name="cover_photo2" id="demo-password-input"
-                                           class="form-control">
+                                           class="form-control" value="{{old('cover_photo2')}}">
                                     <small class="has-warning">사이즈 : 1080*1080 / 최대용량 : 1M / 업로드 가능 확장자 : JPG, PNG 파일
                                     </small>
                                 </div>

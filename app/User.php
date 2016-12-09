@@ -68,22 +68,27 @@ class User extends Authenticatable
     {
         return $this->hasMany(NovelGroup::class);
     }
+
     public function novels()
     {
         return $this->hasMany(Novel::class);
     }
+
     public function comments()
     {
         return $this->hasMany(Comment::class);
     }
+
     public function reviews()
     {
         return $this->hasMany(Review::class);
     }
+
     public function nicknames()
     {
         return $this->hasMany(NickName::class);
     }
+
     public function question_answers()
     {
         return $this->hasMany(MenToMenQuestionAnswer::class);
@@ -91,6 +96,11 @@ class User extends Authenticatable
 
     public function mailbox()
     {
-        return $this->hasMany(Mailbox::class,'to','email');
+        return $this->hasMany(Mailbox::class, 'from', 'id');
+    }
+
+    public function maillogs()
+    {
+        return $this->hasMany(MailLog::class);
     }
 }
