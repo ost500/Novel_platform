@@ -72,3 +72,7 @@ Route::get('/admin/sales',['as' => 'admin.sales', 'uses' => 'PageController\Admi
 Route::get('/admin/request',['as' => 'admin.request', 'uses' => 'PageController\AdminPageController@request']);
 Route::get('/admin/request/{id}',['as' => 'admin.request_view', 'uses' => 'PageController\AdminPageController@request_view']);
 Route::post('/admin/request/{id}/answer',['as' => 'admin.request_answer', 'uses' => 'MenToMenQuestionAnswerController@answer']);
+
+Route::get('/admin/memo',['as' => 'admin.memo', 'uses' => 'PageController\AdminPageController@memo']);
+Route::get('/admin/memo/{id}',['as' => 'admin.memo_view', 'uses' => 'PageController\AdminPageController@memo_view']);
+Route::get('/admin/memo_create',['as' => 'admin.memo_create', 'uses' => 'PageController\AdminPageController@memo_create']);
