@@ -7,6 +7,7 @@ use App\MenToMenQuestionAnswer;
 use App\Novel;
 use App\NovelGroup;
 use App\User;
+use App\Mailbox;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -114,6 +115,24 @@ class AdminPageController extends Controller
         //  return \Response::json($men_to_men_requests);
         return view('admin.request_view', compact('men_to_men_request', 'men_to_men_requests'));
     }
+
+    public function memo(Request $request)
+    {
+        $novel_mail_messages= Mailbox::all('*');
+        return view('admin.memo', compact('novel_mail_messages'));
+    }
+
+    public function memo_create()
+    {
+        return view('admin.memo_create');
+    }
+
+    public function memo_view(Request $request, $id)
+    {
+        $memo = Mailbox::find($id);
+        return view('admin.memo_view', compact('memo'));
+    }
+
 
     public function sales()
     {

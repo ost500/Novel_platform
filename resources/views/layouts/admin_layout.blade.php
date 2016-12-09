@@ -23,6 +23,7 @@
     <script src="/js/vue.js"></script>
     <script src="/js/vue-resource.min.js"></script>
     <script src="/js/jquery-2.1.1.min.js"></script>
+    <link href="/css/common.css" rel="stylesheet">
 
     <script src="/plugins/bootstrap-timepicker/bootstrap-timepicker.js"></script>
 
@@ -192,13 +193,19 @@
 
                                 <li class="list-divider"></li>
 
-                                <li>
-                                    <a href="{{ route('author.novel_memo')}}">
+                                <li class="{{ (Request::is('admin/memo')||Request::is('admin/memo/*')||Request::is('admin/memo_create'))?"active-link":"" }}">
+                                    <a href="{{ route('admin.memo')}}">
                                         <i class="fa fa-envelope"></i>
                                         <span class="menu-title">
                                             <strong>쪽지함</strong>
                                         </span>
+                                        <i class="arrow"></i>
                                     </a>
+
+                                    <ul class="collapse  {{ (Request::is('admin/memo')||Request::is('admin/memo/*')||Request::is('admin/memo_create'))?"in":"" }}">
+                                        <li><a href="{{ route('admin.memo')}}">쪽지함</a></li>
+                                        <li><a href="{{ route('admin.memo_create')}}">쪽지보내기</a></li>
+                                    </ul>
                                 </li>
 
                                 <li class="list-divider"></li>

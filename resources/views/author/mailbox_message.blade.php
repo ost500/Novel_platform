@@ -26,7 +26,7 @@
                             <!--Sender Information-->
                             <div class="media">
                                 <div class="media-body">
-                                    <div class="text-bold request-subject">{{ $men_to_men_request->subject }}</div>
+                                    <div class="text-bold request-subject">{{ $men_to_men_request->mailboxs->subject }}</div>
                                 </div>
                             </div>
                         </div>
@@ -36,7 +36,7 @@
                             <!--Details Information-->
                             <div class="pull-right text-right">
                                 <p class="mar-no">
-                                <div class="text-muted">{{$men_to_men_request->created_at}}</div>
+                                <div class="text-muted">{{$men_to_men_request->mailboxs->created_at}}</div>
                                 </p>
                             </div>
                         </div>
@@ -45,17 +45,17 @@
                     <!--Message-->
                     <!--===================================================-->
                     <div class="pad-all bord-all bg-gray-light">
-                        {{$men_to_men_request->body}}
+                        {{$men_to_men_request->mailboxs->body}}
                     </div>
 
-                    @if($men_to_men_request->answer)
+                    @if($men_to_men_request->mailboxs->answer)
                         <div class="pad-top">
-                            <h5>답변시간 <span>{{$men_to_men_request->updated_at}}</span></h5>
+                            <h5>답변시간 <span>{{$men_to_men_request->mailboxs->updated_at}}</span></h5>
 
                         </div>
 
                         <div class="pad-all bord-all bg-gray-light margin-top-10">
-                            {{$men_to_men_request->answer}}
+                            {{$men_to_men_request->mailboxs->answer}}
                         </div>
                     @endif
 
@@ -82,7 +82,7 @@
                     <!--Mail list group-->
                     <ul id="demo-mail-list" class="mail-list">
                     @foreach($men_to_men_requests as $request)
-                        @if($men_to_men_request->id == $request->mailbox_id)
+                        @if($men_to_men_request->id == $request->id)
                             @continue
                         @endif
                         <!--Mail list item-->

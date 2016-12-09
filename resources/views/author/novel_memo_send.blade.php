@@ -63,7 +63,51 @@
                     </div>
 
                     <div class="pull-right">
-                        <ul class="pagination"><li class="page-first disabled"><a href="javascript:void(0)">&lt;&lt;</a></li><li class="page-pre disabled"><a href="javascript:void(0)">&lt;</a></li><li class="page-number active disabled"><a href="javascript:void(0)">1</a></li><li class="page-number"><a href="javascript:void(0)">2</a></li><li class="page-number"><a href="javascript:void(0)">3</a></li><li class="page-number"><a href="javascript:void(0)">4</a></li><li class="page-number"><a href="javascript:void(0)">5</a></li><li class="page-next"><a href="javascript:void(0)">&gt;</a></li><li class="page-last"><a href="javascript:void(0)">&gt;&gt;</a></li></ul>
+                        <ul class="pagination">
+
+                            {{-- $novel_mail_messages->render() --}}
+                            <li class="page-first  @if($novel_mail_messages->currentPage() ==1)  disabled @endif" >
+                                <a href=" @if($novel_mail_messages->currentPage() ==1)  #  @else {{url('/author/novel_memo_send'."?page=1")}} @endif">&lt;&lt;</a>
+                            </li>
+                            @if($novel_mail_messages->currentPage() >= 2)
+                                <li class="page-pre"><a href="{{url('/author/novel_memo_send'."?page=".($novel_mail_messages->currentPage()-1))}}">&lt;</a></li>
+                            @endif
+                            @if($novel_mail_messages->currentPage() >= 5)
+                                <li class="page-pre"><a href="{{url('/author/novel_memo_send'."?page=".($novel_mail_messages->currentPage()-4))}}">{{$novel_mail_messages->currentPage()-4}}</a></li>
+                            @endif
+                            @if($novel_mail_messages->currentPage() >= 4)
+                                <li class="page-pre"><a href="{{url('/author/novel_memo_send'."?page=".($novel_mail_messages->currentPage()-3))}}">{{$novel_mail_messages->currentPage()-3}}</a></li>
+                            @endif
+                            @if($novel_mail_messages->currentPage() >= 3)
+                                <li class="page-pre"><a href="{{url('/author/novel_memo_send'."?page=".($novel_mail_messages->currentPage()-2))}}">{{$novel_mail_messages->currentPage()-2}}</a></li>
+                            @endif
+                            @if($novel_mail_messages->currentPage() >= 2)
+                                <li class="page-pre"><a href="{{url('/author/novel_memo_send'."?page=".($novel_mail_messages->currentPage()-1))}}">{{$novel_mail_messages->currentPage()-1}}</a></li>
+                            @endif
+
+                            <li class="page-number active"><a href="#">{{ $novel_mail_messages->currentPage()}}</a></li>
+
+                            @if($novel_mail_messages->lastPage()-1 >= $novel_mail_messages->currentPage())
+                                <li class="page-number"><a href="{{url('/author/novel_memo_send'."?page=".($novel_mail_messages->currentPage()+1))}}">{{$novel_mail_messages->currentPage()+1}}</a></li>
+                            @endif
+                            @if($novel_mail_messages->lastPage()-2 >= $novel_mail_messages->currentPage())
+                                <li class="page-number"><a href="{{url('/author/novel_memo_send'."?page=".($novel_mail_messages->currentPage()+2))}}">{{$novel_mail_messages->currentPage()+2}}</a></li>
+                            @endif
+                            @if($novel_mail_messages->lastPage()-3 >= $novel_mail_messages->currentPage())
+                                <li class="page-number"><a href="{{url('/author/novel_memo_send'."?page=".($novel_mail_messages->currentPage()+3))}}">{{$novel_mail_messages->currentPage()+3}}</a></li>
+                            @endif
+                            @if($novel_mail_messages->lastPage()-4 >= $novel_mail_messages->currentPage())
+                                <li class="page-number"><a href="{{url('/author/novel_memo_send'."?page=".($novel_mail_messages->currentPage()+4))}}">{{$novel_mail_messages->currentPage()+4}}</a></li>
+                            @endif
+
+                            @if($novel_mail_messages->lastPage()-1 >= $novel_mail_messages->currentPage())
+                                <li class="page-next"><a href="{{url('/author/novel_memo_send'."?page=".($novel_mail_messages->currentPage()+1))}}">&gt;</a></li>
+                            @endif
+
+                            <li class="page-last  @if($novel_mail_messages->currentPage() == $novel_mail_messages->lastPage())  disabled @endif">
+                                <a href=" @if($novel_mail_messages->currentPage() ==$novel_mail_messages->lastPage())  #  @else{{url('/author/novel_memo_send'."?page=".($novel_mail_messages->lastPage()))}} @endif">&gt;&gt;</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
