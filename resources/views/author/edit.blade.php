@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div id="content-container" xmlns:v-on="http://www.w3.org/1999/xhtml">
+    <div id="content-container" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 
         <div id="page-title">
             <h1 class="page-header text-overflow">업데이트 작업</h1>
@@ -32,14 +32,16 @@
 
                     <div class="panel">
 
-                        <form name="novel_group_update" id= "novel_group_update" class="panel-body form-horizontal form-padding" method="post" action="{{route('novelgroups.update',['id'=>$id]) }}"
+                        <form name="novel_group_update" id="novel_group_update"
+                              class="panel-body form-horizontal form-padding" method="post"
+                              action="{{route('novelgroups.update',['id'=>$id]) }}"
                               enctype="multipart/form-data">
                             <input name="_method" type="hidden" value="PUT">
                             {{ csrf_field() }}
                             {{--  <input name="novel_group_id" id="novel_group_id" type="hidden" :value="fillItem.id" >
                             <meta id="token" name="token" content="{{ csrf_token() }}">  v-on:submit.prevent="onSubmit(fillItem.id)"     --}}
 
-                            <!--Static-->
+                                    <!--Static-->
                             <!--div class="form-group">
                                 <label class="col-md-2 control-label">Static</label>
                                 <div class="col-md-9"><p class="form-control-static">Username</p></div>
@@ -207,27 +209,48 @@
                                 <div class="col-md-9">
                                     <input type="text" id="demo-password-input" style="width:30%;"
                                            class="form-control inline" placeholder="사용하려면 우측 표지선택 버튼을 클릭하세요.">
-                                    <button  type="button" class="btn btn-primary novel-image">표지선택</button>
+                                    <button type="button" class="btn btn-primary novel-image">표지선택</button>
                                 </div>
                             </div>
-
                             <div class="form-group">
+                                <label class="col-md-2 control-label"></label>
+
+                                <div class="col-md-9" style="text-align: left">
+
+                                    <img v-if="fillItem.cover_photo != null"
+                                         v-bind:src="'/img/novel_covers/' + fillItem.cover_photo">
+                                    <img v-else v-bind:src="'/img/novel_covers/default_.jpg'">
+                                </div>
+                            </div>
+                            <div class="form-group">
+
                                 <label class="col-md-2 control-label">표지 직접등록1</label>
 
                                 <div class="col-md-9">
-                                    <input type="file"  name="cover_photo" id="cover_photo" class="form-control" >
+                                    <input type="file" name="cover_photo" id="cover_photo" class="form-control" style="cursor: pointer">
                                     <small class="has-warning">사이즈 : 1080*1620 / 최대용량 : 1M / 업로드 가능 확장자 : JPG, PNG 파일
                                     </small>
+
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label"></label>
+
+                                <div class="col-md-9" style="text-align: left">
+
+                                    <img v-if="fillItem.cover_photo2 != null"
+                                         v-bind:src="'/img/novel_covers/' + fillItem.cover_photo2">
+                                    <img v-else v-bind:src="'/img/novel_covers/default_.jpg'">
                                 </div>
                             </div>
-
 
                             <div class="form-group">
                                 <label class="col-md-2 control-label">표지 직접등록2</label>
 
                                 <div class="col-md-9">
-                                    <input type="file" name="cover_photo1" id="cover_photo1"
-                                           class="form-control">
+                                    <input type="file" name="cover_photo2" id="cover_photo2"
+                                           class="form-control" style="cursor: pointer">
                                     <small class="has-warning">사이즈 : 1080*1080 / 최대용량 : 1M / 업로드 가능 확장자 : JPG, PNG 파일
                                     </small>
                                 </div>
@@ -272,24 +295,33 @@
         //
 
         var app = new Vue({
-                    el: '#novel_group_edit',
-                    data: {
-                        fillItem: { },
-                        novel_group: [],
-                        nick_names: [],
-                        formErrors: {}
-                    },
+            el: '#novel_group_edit',
+            data: {
+                fillItem: {},
+                novel_group: [],
+                nick_names: [],
+                formErrors: {}
+            },
 
-                    mounted: function () {
-                        this.$http.get('{{ route( 'novelgroups.edit',['[id'=>$id]) }}')
-                                .then(function (response) {
-                                    this.fillItem = response.data['novel_group'];
-                                    this.nick_names = response.data['nick_names']; //console.log( response.data);
-                                });
+            mounted: function () {
+                this.$http.get('{{ route( 'novelgroups.edit',['[id'=>$id]) }}')
+                        .then(function (response) {
+                            this.fillItem = response.data['novel_group'];
+                            this.nick_names = response.data['nick_names']; //console.log( response.data);
+                        });
 
-                    }
+            },
+            method: {
+                /*     getCoverPhotoName:function(){
 
-                });
+                 console.log(this.fillItem.cover_photo);
+                 // return this.fillItem.cover_photo;
+                 $('#cover_photo').attr('value',this.fillItem.cover_photo);
+                 }*/
+
+            }
+
+        });
 
     </script>
 

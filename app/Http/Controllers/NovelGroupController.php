@@ -49,56 +49,51 @@ class NovelGroupController extends Controller
     public function store(Request $request)
     {
         //
-        $validator = Validator::make($request->all(),
-            [
-                'nickname' => 'required|max:255',
-                'title' => 'required',
-                'description' => 'required',
-            ],
-            [
-                'nickname.required' => '필명은 필수 입니다.',
-                'title.required' => '제목은 필수 입니다.',
-                'description.required' => '설명은 필수 입니다.',
-            ]);
+        Validator::make($request->all(), [
+            'nickname' => 'required|max:255',
+            'title' => 'required',
+            'description' => 'required',
+            'cover_photo' => 'mimes:jpeg,png|image|max:1024|dimensions:max_width=1080,max_height=1620',
+            'cover_photo2' => 'mimes:jpeg,png|image|max:1024|dimensions:max_width=1080,max_height=1080',
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
+        ], [
+            'nickname.required' => '필명은 필수 입니다.',
+            'title.required' => '제목은 필수 입니다.',
+            'description.required' => '설명은 필수 입니다.',
+            'cover_photo.dimensions' => '표지1 크기는 1080*1620 이어야 합니다',
+            'cover_photo.max' => '표지1 용량은 1M를 넘지 않아야 합니다',
+            'cover_photo2.dimensions' => '표지2 크기는 1080*1080 이어야 합니다',
+            'cover_photo2.max' => '표지2 용량은 1M를 넘지 않아야 합니다',
+
+        ])->validate();
 
         $input = $request->all();
         //if validation is passed then insert the record
+        $new_novel_group = $request->user()->novel_groups()->create($input);
 
         //upload the picture
-        if ($request->hasFile('cover_photo')) {
+        if ($request->hasFile('cover_photo') or $request->hasFile('cover_photo2')) {
 
 
-            $cover_photo = $request->file('cover_photo');
-            $filename = $cover_photo->getClientOriginalName();
-            //set original name for database
+            if ($request->hasFile('cover_photo')) {
+                $cover_photo = $request->file('cover_photo');
+                $filename = $cover_photo->getClientOriginalExtension();
+                //upload file to destination path
+                $destinationPath = public_path('img/novel_covers/');
 
+                $new_novel_group->cover_photo = $new_novel_group->id . 'cover_photo1.' . $filename;
 
-            //upload file to destination path
-            $destinationPath = public_path('img/novel_covers/');
-
-            //Insert the record
-            $new_novel_group = $request->user()->novel_groups()->create($input);
-            $new_novel_group->cover_photo = $new_novel_group->id . '_' . $filename;
-
-            $cover_photo->move($destinationPath, $new_novel_group->id . '_' . $filename);
+                $cover_photo->move($destinationPath, $new_novel_group->id . 'cover_photo1.' . $filename);
+            }
 
             if ($request->hasFile('cover_photo2')) {
                 $cover_photo2 = $request->file('cover_photo2');
-                $filename2 = $cover_photo2->getClientOriginalName();
-                //set original name for database
-
-
+                $filename2 = $cover_photo2->getClientOriginalExtension();
                 //upload file to destination path
                 $destinationPath = public_path('img/novel_covers/');
-                $cover_photo2->move($destinationPath, $new_novel_group->id . '_' . $filename2);
+                $cover_photo2->move($destinationPath, $new_novel_group->id .'cover_photo2'. $filename2);
 
-                $new_novel_group->cover_photo2 = $new_novel_group->id . '_' . $filename2;
+                $new_novel_group->cover_photo2 = $new_novel_group->id .'cover_photo2'. $filename2;
 
             }
 
@@ -106,11 +101,11 @@ class NovelGroupController extends Controller
 
 
         } else if ($request->default_cover_photo) {
-            $new_novel_group = $request->user()->novel_groups()->create($input);
+           // $new_novel_group = $request->user()->novel_groups()->create($input);
             $new_novel_group->cover_photo = "default_" . $request->default_cover_photo . ".jpg";
             $new_novel_group->save();
         } else {
-            $new_novel_group = $request->user()->novel_groups()->create($input);
+           // $new_novel_group = $request->user()->novel_groups()->create($input);
             $new_novel_group->cover_photo = "default_.jpg";
             $new_novel_group->save();
         }
@@ -184,6 +179,16 @@ class NovelGroupController extends Controller
             'title' => 'required',
             'description' => 'required',
             'cover_photo' => 'mimes:jpeg,png|image|max:1024|dimensions:max_width=1080,max_height=1620',
+            'cover_photo2' => 'mimes:jpeg,png|image|max:1024|dimensions:max_width=1080,max_height=1080',
+
+        ], [
+            'nickname.required' => '필명은 필수 입니다.',
+            'title.required' => '제목은 필수 입니다.',
+            'description.required' => '설명은 필수 입니다.',
+            'cover_photo.dimensions' => '표지1 크기는 1080*1620 이어야 합니다',
+            'cover_photo.max' => '표지1 용량은 1M를 넘지 않아야 합니다',
+            'cover_photo2.dimensions' => '표지2 크기는 1080*1080 이어야 합니다',
+            'cover_photo2.max' => '표지2 용량은 1M를 넘지 않아야 합니다',
 
         ])->validate();
 
@@ -191,10 +196,21 @@ class NovelGroupController extends Controller
 
         if ($request->hasFile('cover_photo')) {
             $cover_photo = $request->file('cover_photo');
-            $filename = $id . "_" . $cover_photo->getClientOriginalName();
-            $db_filename = $cover_photo->getClientOriginalName();
-            //set original name for database
-            $input['cover_photo'] = $db_filename;
+            //$original_filename = $cover_photo->getClientOriginalName();
+            $filename = $id . "cover_photo1." . $cover_photo->getClientOriginalExtension();
+            //set file name for database
+            $input['cover_photo'] = $filename;
+            //upload file to destination path
+            $destinationPath = public_path('/img/novel_covers/');
+            $cover_photo->move($destinationPath, $filename);
+        }
+
+        if ($request->hasFile('cover_photo2')) {
+            $cover_photo = $request->file('cover_photo2');
+            //$original_filename = $cover_photo->getClientOriginalName();
+            $filename = $id . "cover_photo2." . $cover_photo->getClientOriginalExtension();
+            //set file name for database
+            $input['cover_photo2'] = $filename;
             //upload file to destination path
             $destinationPath = public_path('/img/novel_covers/');
             $cover_photo->move($destinationPath, $filename);
