@@ -26,7 +26,6 @@
                 </div>
             @endif
 
-            @include('partials.flash')
 
             <div class="row" id="novel_group_edit">
                 <div class="col-sm-12">
@@ -56,8 +55,7 @@
                                                 :value="nick_name.id"> @{{ nick_name.nickname }} </option>
 
                                     </select>
-                                    <span v-if="formErrors['description']"
-                                          class="error text-danger">@{{ formErrors['nickname'] }}</span>
+
                                     <!--small class="help-block">This is a help text</small-->
                                 </div>
                             </div>
@@ -69,8 +67,6 @@
                                     <input type="text" name="title" id="demo-email-input" class="form-control"
                                            v-model="fillItem.title" placeholder="작품 제목을 입력해 주세요."
                                            data-bv-field="title">
-                                    <span v-if="formErrors['description']"
-                                          class="error text-danger">@{{ formErrors['title'] }}</span>
                                 </div>
                             </div>
 
@@ -80,8 +76,6 @@
                                 <div class="col-md-9">
                                     <textarea name="description" id="demo-textarea-input" rows="9" class="form-control"
                                               placeholder="작품 소개를 입력해 주세요" v-model="fillItem.description"></textarea>
-                                    <span v-if="formErrors['description']"
-                                          class="error text-danger">@{{ formErrors['description'] }}</span>
                                 </div>
                             </div>
 
