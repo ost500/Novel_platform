@@ -22,7 +22,13 @@
 
                 <div class="row" id="novel_submit">
                     <div class="col-sm-12">
-
+                        <div class="alert alert-danger" v-if="formErrors">
+                            <ul>
+                                <li v-if="errors['title']">@{{ errors.title.toString() }}</li>
+                                <li v-if="errors['novel_content']">@{{ errors.novel_content.toString() }}</li>
+                                <li v-if="errors['author_comment']">@{{ errors.author_comment.toString() }}</li>
+                            </ul>
+                        </div>
                         <div class="panel">
                             <form action="{{ route('novels.store') }}" method="post" enctype="multipart/form-data"
                                   class="panel-body form-horizontal form-padding" v-on:submit.prevent="submit">
@@ -31,12 +37,15 @@
                                 <!--Static-->
                                 <div class="form-group">
                                     <label class="col-md-2 control-label"></label>
+
                                     <div class="col-md-9"><p class="form-control-static">
+
                                         <h3>{{ $novel_group->title }}</h3></div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-md-2 control-label" for="demo-email-input">제목</label>
+
                                     <div class="col-md-9">
                                         <input type="text" name="title" v-model="novel.title" id="demo-email-input"
                                                class="form-control"
@@ -46,6 +55,7 @@
 
                                 <div class="form-group">
                                     <label class="col-md-2 control-label" for="demo-email-input">성인</label>
+
                                     <div class="col-md-9">
                                         <div class="checkbox">
                                             <label class="form-checkbox form-normal form-primary active"><input
@@ -57,6 +67,7 @@
 
                                 <div class="form-group">
                                     <label class="col-md-2 control-label" for="demo-email-input">예약등록</label>
+
                                     <div class="col-md-9">
                                         <div class="checkbox inline">
                                             <label class="form-checkbox form-normal form-primary active"><input
@@ -73,7 +84,8 @@
 
 
                                             <input v-model="novel.reser_time" disabled style="width:100px;" type="text"
-                                                   name="reser_time" id="demo-tp-com" type="text"
+                                                   id="reser_time"
+                                                   name="reser_time"
                                                    class="timepicker form-control inline">
 
 
@@ -86,6 +98,7 @@
 
                                 <div class="form-group">
                                     <label class="col-md-2 control-label" for="demo-textarea-input">내용</label>
+
                                     <div class="col-md-9">
                                         <textarea v-model="novel.novel_content" name="novel_content"
                                                   id="demo-textarea-input" rows="20" class="form-control"
@@ -95,6 +108,7 @@
 
                                 <div class="form-group">
                                     <label class="col-md-2 control-label" for="demo-textarea-input">작가의 말</label>
+
                                     <div class="col-md-9">
                                         <textarea rows="5" name="author_comment" id="demo-textarea-input"
                                                   class="form-control" v-model="novel.author_comment"
@@ -151,12 +165,15 @@
 
     <script>
 
+        //  var moment = require('moment');
 
         var app123 = new Vue({
             el: '#novel_submit',
+
             data: {
                 novel: {novel_group_id: "{{ $novel_group->id }}"},
-                formErrors: {}
+                formErrors: false,
+                errors: {}
             },
             mounted: function () {
 
@@ -170,13 +187,19 @@
                     var action = form.action;
 //                    var csrfToken = form.querySelector('input[name="_token"]').value;
 
+                    var date = $("#reser_day").val();
+                    this.novel.reser_day = date;
+                    var time = $("#reser_time").val();
+                    this.novel.reser_time = time;
+
+                    console.log(this.novel);
                     this.$http.post(action, this.novel, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                             .then(function (response) {
-                                window.location.href = '{{ route('author_novel_group',['id' => $novel_group->id]) }}';
+                                 window.location.href = '{{  route('author_novel_group',['id' => $novel_group->id]) }}';
                             })
-                            .catch(function (data, status, request) {
-                                var errors = data.data;
-                                this.formErrors = errors;
+                            .catch(function (errors) {
+                                this.errors = errors.data;
+                                this.formErrors = true;
                             });
                 }
             }
@@ -205,24 +228,27 @@
             };
             $.datepicker.setDefaults($.datepicker.regional['ko']);
 
-            $("#reser_day").datepicker({dateFormat: 'yy-mm-dd'});
+
+            $("#reser_day").datepicker({
+                dateFormat: 'yy-mm-dd'
+            });
 
 
         });
-        $("#demo-tp-com").timepicker({
+        $("#reser_time").timepicker({
             showMeridian: false,
-
             showInputs: false,
             minuteStep: 30
+
         });
 
         $("#publish_check").click(function () {
             if ($(this).is(":checked")) {
-                $("#demo-tp-com").prop('disabled', false);
+                $("#reser_time").prop('disabled', false);
                 $("#reser_day").prop('disabled', false);
             }
             else {
-                $("#demo-tp-com").prop('disabled', true);
+                $("#reser_time").prop('disabled', true);
                 $("#reser_day").prop('disabled', true);
             }
         });
