@@ -34,13 +34,13 @@ class AlterMaillogTable extends Migration
     public function down()
     {
         if (Schema::hasColumn('mail_logs', 'novel_group_id')) {
-            Schema::table('mailboxes', function ($table) {
-                $table->dropForeign('mailboxes_novel_group_id_foreign');
+            Schema::table('mail_logs', function ($table) {
+                $table->dropForeign('mail_logs_novel_group_id_foreign');
                 $table->dropColumn('novel_group_id');
             });
         }
         if (Schema::hasColumn('mail_logs', 'novel_group_id')) {
-            Schema::table('mailboxes', function ($table) {
+            Schema::table('mail_logs', function ($table) {
                 $table->integer('novel_id')->unsigned()->index();
                 $table->foreign('novel_id')->references('id')->on('novels')->onDelete('cascade');
             });

@@ -18,7 +18,7 @@ class CreateMailboxesTable extends Migration
             $table->string('to');
             $table->string('from');
             $table->string('subject');
-            $table->string('body');
+            $table->text('body');
             $table->timestamps();
             $table->foreign('from')->references('email')->on('users')->onDelete('cascade');
         });

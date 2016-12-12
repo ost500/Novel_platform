@@ -13,11 +13,12 @@ class AlterMailboxTable extends Migration
      */
     public function up()
     {
-        Schema::table('mailboxes', function ($table) {
-            $table->dropForeign('mailboxes_novel_id_foreign');
-            $table->dropColumn('novel_id');
-        });
-
+        if (Schema::hasColumn('mailboxes', 'novel_id')) {
+            Schema::table('mailboxes', function ($table) {
+                $table->dropForeign('mailboxes_novel_id_foreign');
+                $table->dropColumn('novel_id');
+            });
+        }
         Schema::table('mailboxes', function ($table) {
 
             $table->integer('novel_group_id')->unsigned()->index()->nullable();
@@ -39,10 +40,10 @@ class AlterMailboxTable extends Migration
                 $table->dropColumn('novel_group_id');
             });
         }
-        if (Schema::hasColumn('mailboxes', 'novel_group_id')) {
+        if (!Schema::hasColumn('mailboxes', 'novel_id')) {
             Schema::table('mailboxes', function ($table) {
                 $table->integer('novel_id')->unsigned()->index();
-                $table->foreign('novel_id')->references('id')->on('novels')->onDelete('cascade');
+//                $table->foreign('novel_id')->references('id')->on('novels')->onDelete('cascade');
             });
         }
     }
