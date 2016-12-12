@@ -39,20 +39,25 @@ class FaqController extends Controller
     public function store(Request $request)
     {
         //
-        $validator = Validator::make($request->all(), [
-            'title' => 'required',
+       Validator::make($request->all(), [
+            'faq_category'=>'required',
+            'title' => 'required|max:255',
             'description' => 'required',
-        ]);
+        ], [
+            'faq_category.required' => '범주은 필수 입니다.',
+            'title.required' => '제목은 필수 입니다.',
+            'title.max' =>   '제목은 반드시 255 자리보다 작아야 합니다.',
+            'description.required' => '소개은 필수 입니다.',
 
-        if ($validator->fails()) {
-            return redirect('author/faq_create')
-                ->withErrors($validator)
-                ->withInput();
-        }
+        ])->validate();
+
         $input=$request->all();
         //if validation is passed then insert the record
         Faq::create($input);
+        flash("FAQ created successfully");
         //redirect to faqs
+        if($request->ajax()){ return response()->json(['status'=>'ok']);   }
+
         return redirect()->route('author.novel_faq');
     }
 
