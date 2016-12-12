@@ -145,10 +145,18 @@
                                                     container: 'page',
                                                     timer: 4000
                                                 });
+
+                                                $("#error_warning").html("");
                                             })
                                             .catch(function (data, status, request) {
                                                 var errors = data.data;
                                                 console.log(errors);
+
+                                                error_show = '<div class="alert alert-danger"><ul><li> ' +
+                                                        errors.nickname[0]
+                                                        +'</li></ul></div>';
+
+                                                $("#error_warning").html(error_show);
 
                                             });
 
@@ -266,6 +274,7 @@
                                                             timer: 4000
                                                         });
                                                         $("#error_warning").html("");
+
                                                         //if successed, validation true
                                                     })
                                                     .catch(function (data, status, request) {

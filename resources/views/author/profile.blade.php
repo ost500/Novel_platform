@@ -20,9 +20,9 @@
             </ol>
 
 
-                <div id="page-content">
+            <div id="page-content">
 
-<div id="profile" >
+                <div id="profile">
                     <div class="row">
                         <div class="col-sm-12">
 
@@ -117,7 +117,7 @@
                     </div>
                 </div>
 
-                </div>
+            </div>
 
 
         </div>
@@ -171,7 +171,16 @@
                             })
                             .catch(function (data, status, request) {
                                 var errors = data.data;
+                                console.log(errors);
                                 this.formErrors = errors;
+                                var error_show = '<div class="alert alert-danger"><ul>';
+                                for (error in errors) {
+                                    error_show += '<li>' + errors.nickname[0] + '</li>';
+                                }
+                                error_show += '</ul></div>';
+                                console.log(error_show);
+
+                                $("#error_warning").html(error_show);
                             });
                 }
             }
