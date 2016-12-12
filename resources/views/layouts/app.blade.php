@@ -266,17 +266,17 @@
 
 <!-- FOOTER -->
 <!--===================================================-->
-<footer id="footer">
+{{--<footer id="footer">--}}
 
 
-    <!-- Visible when footer positions are static -->
-    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-    <div class="hide-fixed pull-right pad-rgt"></div>
+    {{--<!-- Visible when footer positions are static -->--}}
+    {{--<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->--}}
+    {{--<div class="hide-fixed pull-right pad-rgt"></div>--}}
 
-    <p class="pad-lft"></p>
+    {{--<p class="pad-lft"></p>--}}
 
 
-</footer>
+{{--</footer>--}}
 <!--===================================================-->
 <!-- END FOOTER -->
 

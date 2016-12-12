@@ -67,7 +67,7 @@ class CommentController extends Controller
     {
 
         Validator::make($request->all(), [
-            'comment' => 'required|max:1',
+            'comment' => 'required|max:1000',
         ], [
             'comment.required' => '입력하세요',
             'comment.max' => '댓글이 너무 깁니다',
