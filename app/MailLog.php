@@ -32,7 +32,7 @@ class MailLog extends Model
 
     public function mailboxs()
     {
-        return $this->belongsTo(MailBox::class, 'mailbox_id', 'id');
+        return $this->belongsTo(Mailbox::class, 'mailbox_id', 'id');
     }
 
     public function novel_groups()
