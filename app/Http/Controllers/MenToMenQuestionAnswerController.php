@@ -36,15 +36,24 @@ class MenToMenQuestionAnswerController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+       /* $this->validate($request, [
             'title' => 'required',
             'question' => 'required',
-        ]);
-
+        ]);*/
+        Validator::make($request->all(), [
+            'title' => 'required|max:255',
+            'question' => 'required',
+        ],
+            [
+                'title.required' => '제목은 필수 입니다.',
+                'title.max' => '제목은 반드시 255 자리보다 작아야 합니다.',
+                'question.required' => '내용은 필수 입니다.',
+            ]
+        )->validate();
 
         $men_to_menRequest =$request->user()->question_answers()->create($request->all());
 
-        flash('1:1문의를 등록했습니다.');
+        flash('1:1臾몄쓽瑜� �벑濡앺뻽�뒿�땲�떎.');
 
         return \Response::json(["status"=>"200", "id"=> $men_to_menRequest->id ]);
     }
@@ -58,7 +67,7 @@ class MenToMenQuestionAnswerController extends Controller
         $mtm->status = 1;
         $mtm->save();
 
-        flash('답변을 등록했습니다.');
+        flash('�떟蹂��쓣 �벑濡앺뻽�뒿�땲�떎.');
 
         return \Response::json(["status"=>"200", "id"=> $mtm->id ]);
     }

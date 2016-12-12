@@ -16,8 +16,13 @@
 
         <div id="page-content">
 
-
             <div id="request_create" class="panel panel-default panel-left">
+                <div class="alert alert-danger" v-if="formErrors">
+                    <ul>
+                        <li v-if="errors['title']">@{{ errors.title.toString() }}</li>
+                        <li v-if="errors['question']">@{{ errors.question.toString() }}</li>
+                    </ul>
+                </div>
                 <div class="panel-body">
 
                     <form role="form" class="form-horizontal" action="{{ route('mentomen.store')}}" method="post"
@@ -30,7 +35,7 @@
                                 <input type="text" name="title" id="inputSubject" class="form-control"
                                        placeholder="제목" v-model="new_men_to_menRequest.title">
 
-                                <span v-if="formErrors['title']" class="error text-danger"> @{{ formErrors['title'] }}</span>
+                                {{-- <span v-if="formErrors['title']" class="error text-danger"> @{{ formErrors['title'] }}</span>--}}
                             </div>
                         </div>
 
@@ -40,7 +45,7 @@
                             <div class="col-lg-11">
                                     <textarea name="question" id="demo-textarea-input" rows="15" class="form-control"
                                               placeholder="문의내용" v-model="new_men_to_menRequest.question"></textarea>
-                                <span v-if="formErrors['question']" class="error text-danger">@{{ formErrors['question'] }}</span>
+                                {{--<span v-if="formErrors['question']" class="error text-danger">@{{ formErrors['question'] }}</span>--}}
                             </div>
                         </div>
 
@@ -52,7 +57,7 @@
                             </button>
 
 
-                            <a  href="{{route('author.novel_request_list')}}">
+                            <a href="{{route('author.novel_request_list')}}">
                                 <button type="button" class="btn btn-danger">취소</button>
                             </a>
 
@@ -75,26 +80,29 @@
             data: {
 
                 new_men_to_menRequest: {'title': '', 'question': ''},
-                formErrors: { }
+                errors: {},
+                formErrors:false
             },
             methods: {
                 onSubmit: function (e) {
                     e.preventDefault();
                     var form = e.srcElement;
                     var action = form.action;
-                  //  Vue.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('#token').getAttribute('content');
-                    var  $redirect_url='/author/novel_request_view';
-                    this.$http.post(action, this.new_men_to_menRequest,{
+                    //  Vue.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('#token').getAttribute('content');
+                    var $redirect_url = '/author/novel_request_view';
+                    this.$http.post(action, this.new_men_to_menRequest, {
                         headers: {
                             'X-CSRF-TOKEN': window.Laravel.csrfToken
                         }
                     }).then(function (response) {
 
-                        window.location.href=$redirect_url+'/'+response.data['id'];
+                        window.location.href = $redirect_url + '/' + response.data['id'];
 
                     }).catch(function (errors) {
-                        console.log(errors);
-                        this.formErrors = errors.data;
+
+                        this.errors = errors.data;
+                        this.formErrors=true;
+                         console.log(this.errors);
                     });
                 }
             }

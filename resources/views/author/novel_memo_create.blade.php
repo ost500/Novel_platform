@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 
-    <div id="content-container" xmlns:v-on="http://www.w3.org/1999/xhtml">
+    <div id="content-container">
 
         <div id="page-title">
             <h1 class="page-header text-overflow">쪽지보내기</h1>
@@ -16,6 +16,15 @@
 
         <div id="page-content">
 
+            @if (count($errors) > 0)
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
             <div id="request_create" class="panel panel-default panel-left">
                 <div class="panel-body">
@@ -41,10 +50,7 @@
 
                             <div class="col-lg-11">
                                 <input type="text" name="subject" id="inputSubject" class="form-control"
-                                       placeholder="제목" >
-
-                                <span v-if="formErrors['subject']"
-                                      class="error text-danger"> </span>
+                                       placeholder="제목">
                             </div>
                         </div>
 
@@ -54,8 +60,6 @@
                             <div class="col-lg-11">
                                     <textarea name="body" id="demo-textarea-input" rows="15" class="form-control"
                                               placeholder="내용"></textarea>
-                                <span v-if="formErrors['question']"
-                                      class="error text-danger"></span>
                             </div>
                         </div>
 
