@@ -4,14 +4,14 @@
     <div id="content-container" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 
         <div id="page-title">
-            <h1 class="page-header text-overflow">업데이트 작업</h1>
+            <h1 class="page-header text-overflow">작품 수정</h1>
         </div>
 
 
         <ol class="breadcrumb">
             <li><a href="#">작가홈</a></li>
             <li><a href="#">작품관리</a></li>
-            <li class="active">작품회차목록</li>
+            <li class="active">작품 수정</li>
         </ol>
 
 
@@ -208,7 +208,7 @@
 
                                 <div class="col-md-9">
                                     <input type="text" id="demo-password-input" style="width:30%;"
-                                           class="form-control inline" placeholder="사용하려면 우측 표지선택 버튼을 클릭하세요.">
+                                           name="default_cover_photo" class="form-control inline" placeholder="사용하려면 우측 표지선택 버튼을 클릭하세요.">
                                     <button type="button" class="btn btn-primary novel-image">표지선택</button>
                                 </div>
                             </div>
