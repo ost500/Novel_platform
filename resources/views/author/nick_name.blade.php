@@ -23,6 +23,10 @@
                     <div class="col-sm-12">
 
                         <div class="panel">
+
+                            <div id="error_warning"></div>
+
+
                             <div class="panel-body">
                                 <div class="table-responsive">
                                     <div class="padding-bottom-5">
@@ -128,7 +132,7 @@
                                     console.log(name);
 
                                     Vue.http.headers.common['X-CSRF-TOKEN'] = "{!! csrf_token() !!}";
-                                    app_nickname.$http.put("/nickname/"+id, {'nickname': name}, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                                    app_nickname.$http.put("/nickname/" + id, {'nickname': name}, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                                             .then(function (response) {
                                                 console.log(response);
                                                 app_nickname.reload();
@@ -145,6 +149,7 @@
                                             .catch(function (data, status, request) {
                                                 var errors = data.data;
                                                 console.log(errors);
+
                                             });
 
 
@@ -211,67 +216,88 @@
     <script>
         //필명 추가
         $('#novels-user-nick-form').on('click', function () {
-            bootbox.dialog({
-                title: "필명관리",
-                message: '<div class="row"> ' + '<div class="col-md-12"> ' +
-                '<form class="form-horizontal"> ' + '<div class="form-group"> ' +
-                '<label class="col-md-4 control-label" for="name">필명</label> ' +
-                '<div class="col-md-4"> ' +
-                '<input id="name" name="nickname" type="text" placeholder="필명을 입력해주세요." class="form-control input-md"> ' +
-                '</div> ' +
-                '</div> ' + '<div class="form-group"> ' +
-                '<label class="col-md-4 control-label" for="awesomeness">메인필명</label> ' +
-                '<div class="col-md-8"> <div class="form-block"> ' +
-                '<label class="form-radio form-icon demo-modal-radio active"><input type="radio" name="main" value="1" checked> 예, 메인 필명입니다.</label>' +
-                '<label class="form-radio form-icon demo-modal-radio"><input type="radio" name="main"  value="0"> 아니오, 메인 필명이 아닙니다. </label> </div>' +
-                '</div> </div>' + '</form> </div> </div>',
-                buttons: {
+            function boot() {
+
+                bootbox.dialog({
+                    title: "필명관리",
+                    message: '<div class="row"> ' + '<div class="col-md-12"> ' +
+                    '<form class="form-horizontal"> ' + '<div class="form-group"> ' +
+                    '<label class="col-md-4 control-label" for="name">필명</label> ' +
+                    '<div class="col-md-4"> ' +
+                    '<input id="name" name="nickname" type="text" placeholder="필명을 입력해주세요." class="form-control input-md"> ' +
+                    '</div> ' +
+                    '</div> ' + '<div class="form-group"> ' +
+                    '<label class="col-md-4 control-label" for="awesomeness">메인필명</label> ' +
+                    '<div class="col-md-8"> <div class="form-block"> ' +
+                    '<label class="form-radio form-icon demo-modal-radio active"><input type="radio" name="main" value="1" checked> 예, 메인 필명입니다.</label>' +
+                    '<label class="form-radio form-icon demo-modal-radio"><input type="radio" name="main"  value="0"> 아니오, 메인 필명이 아닙니다. </label> </div>' +
+                    '</div> </div>' + '</form> </div> </div>',
+                    buttons: {
 
 
-                    success: {
-                        label: "저장",
-                        className: "btn-purple",
-                        callback: function () {
-                            var name = $('#name').val();
-                            var answer = $("input[name='main']:checked").val();
-                            console.log(name);
+                        success: {
+                            label: "저장",
+                            className: "btn-purple",
+                            callback: function (event) {
+                                var name = $('#name').val();
+                                var answer = $("input[name='main']:checked").val();
+                                console.log(name);
 
-                            var app_nick_create = new Vue({
-                                data: {
-                                    nickname: {'nickname': name, 'main': answer},
-                                },
-                                methods: {
-                                    create: function () {
-                                        Vue.http.headers.common['X-CSRF-TOKEN'] = "{!! csrf_token() !!}";
-                                        this.$http.post("/nickname", this.nickname)
-                                                .then(function (response) {
-                                                    console.log(response);
-                                                    app_nickname.reload();
-                                                    $.niftyNoty({
-                                                        type: 'purple',
-                                                        icon: 'fa fa-check',
-                                                        //message : "Hello " + name + ".<br> You've chosen <strong>" + answer + "</strong>",
-                                                        message: "필명 " + name + "이 저장 되었습니다.",
-                                                        //container : 'floating',
-                                                        container: 'page',
-                                                        timer: 4000
+                                var app_nick_create = new Vue({
+                                    data: {
+                                        nickname: {'nickname': name, 'main': answer},
+                                        validation: {}
+                                    },
+                                    methods: {
+                                        create: function (event) {
+                                            Vue.http.headers.common['X-CSRF-TOKEN'] = "{!! csrf_token() !!}";
+
+                                            this.$http.post("/nickname", this.nickname)
+                                                    .then(function (response) {
+                                                        console.log(response);
+                                                        app_nickname.reload();
+                                                        $.niftyNoty({
+                                                            type: 'purple',
+                                                            icon: 'fa fa-check',
+                                                            //message : "Hello " + name + ".<br> You've chosen <strong>" + answer + "</strong>",
+                                                            message: "필명 " + name + "이 저장 되었습니다.",
+                                                            //container : 'floating',
+                                                            container: 'page',
+                                                            timer: 4000
+                                                        });
+                                                        $("#error_warning").html("");
+                                                        //if successed, validation true
+                                                    })
+                                                    .catch(function (data, status, request) {
+
+                                                        var errors = data.data;
+                                                        console.log(errors);
+
+
+                                                        error_show = '<div class="alert alert-danger"><ul><li> ' +
+                                                                errors.nickname[0]
+                                                                +'</li></ul></div>';
+
+                                                        $("#error_warning").html(error_show);
                                                     });
-                                                })
-                                                .catch(function (data, status, request) {
-                                                    var errors = data.data;
-                                                    console.log(errors);
-                                                });
+
+
+                                        }
                                     }
-                                }
 
-                            });
+                                });
 
-                            app_nick_create.create();
 
+                                app_nick_create.create(event);
+
+
+                            }
                         }
                     }
-                }
-            });
+                });
+            }
+
+            boot();
 
             $(".demo-modal-radio").niftyCheck();
         });
