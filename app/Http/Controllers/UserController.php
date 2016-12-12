@@ -73,15 +73,15 @@ class UserController extends Controller
     {
         Validator::make($request->all(), [
             'name' => 'required|max:600',
-            'phone_num' => 'numeric',
+            'phone_num' => 'digits_between:0,20',
             'email' => 'required|max:600',
             'bank' => 'max:600',
             'account_holder' => 'max:600',
-            'account_number' => 'numeric',
+            'account_number' => 'digits_between:0,20',
         ], [
             'name.required' => '이름을 입력하세요',
             'name.max' => '이름이 너무 깁니다',
-            'phone_num.max' => '연락처가 너무 깁니다',
+            'phone_num.digits_between' => '연락처가 너무 깁니다',
             'phone_num.numeric' => '연락처는 숫자만 입력할 수 있습니다',
 
             'email.required' => '이메일을 입력하세요',
@@ -89,7 +89,7 @@ class UserController extends Controller
             'bank.max' => '은행명이 너무 깁니다',
             'account_holder.max' => '예금주가 너무 깁니다',
             'account_number.numeric' => '계좌번호는 숫자만 입력할 수 있습니다',
-            'account_number.max' => '계좌번호가 너무 깁니다',
+            'account_number.digits_between' => '계좌번호가 너무 깁니다',
 
         ])->validate();
 
