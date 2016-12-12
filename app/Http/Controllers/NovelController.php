@@ -9,6 +9,7 @@ use App\User;
 use Auth;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Validator;
 
 class NovelController extends Controller
 {
@@ -93,6 +94,23 @@ class NovelController extends Controller
     public
     function store(Request $request)
     {
+
+        Validator::make($request->all(), [
+            'title' => 'required|max:255',
+            'novel_content' => 'required',
+            'author_comment' => 'required',
+        ],
+            [
+                'title.required' => '제목은 필수 입니다.',
+                'title.max' => '제목은 반드시 255 자리보다 작아야 합니다.',
+                'novel_content.required' => '내용은 필수 입니다.',
+                'author_comment.required' => '작가의 말은 필수 입니다.',
+            ]
+        )->validate();
+
+
+
+
         $new_novel = new Novel();
         $new_novel->user_id = Auth::user()->id;
         $new_novel->novel_group_id = $request->novel_group_id;
@@ -101,8 +119,9 @@ class NovelController extends Controller
         if ($request->adult == "on") {
             $new_novel->adult = true;
         }
+
         if ($request->publish_reservation == "on" && $request->reser_day && $request->reser_time) {
-            echo $request->reser_day . " " . $request->reser_time;
+           // echo $request->reser_day . " " . $request->reser_time;
             $new_novel->publish_reservation = $request->reser_day . " " . $request->reser_time;
         } else {
             $new_novel->publish_reservation = null;
@@ -178,7 +197,20 @@ class NovelController extends Controller
     public function update(Request $request, $id)
     {
 
-       // dd($request->all());
+        Validator::make($request->all(), [
+            'title' => 'required|max:255',
+            'content' => 'required',
+            'author_comment' => 'required',
+        ],
+            [
+                'title.required' => '제목은 필수 입니다.',
+                'title.max' => '제목은 반드시 255 자리보다 작아야 합니다.',
+                'content.required' => '내용은 필수 입니다.',
+                'author_comment.required' => '작가의 말은 필수 입니다.',
+            ]
+        )->validate();
+
+
         $update_novel = Novel::find($id);
 
         $update_novel->title = $request->title;
