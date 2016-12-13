@@ -78,22 +78,22 @@
 
                     <!--Mail list group-->
                     <ul id="demo-mail-list" class="mail-list">
-                        @foreach($men_to_men_requests as $request)
-                                <!--Mail list item-->
-                        <li class="mail-list-unread">
-                            <div class="mail-from">
-                                <button @if($request->status==0) class="btn btn-xs btn-danger"
-                                        @else class="btn btn-xs btn-success" @endif >대기
-                                </button>
-                            </div>
+                    @foreach($men_to_men_requests as $request)
+                        <!--Mail list item-->
+                            <li class="mail-list-unread">
+                                <div class="mail-from">
+                                    <button @if($request->answer == "") class="btn btn-xs btn-danger">대기
+                                        @else class="btn btn-xs btn-success" >완료 @endif
+                                    </button>
+                                </div>
 
-                            <div class="mail-time">{{$request->created_at}}</div>
+                                <div class="mail-time">{{$request->created_at}}</div>
 
-                            <div class="mail-subject">
-                                <a href="{{ url('admin/request/'. $request->id.'?page='.$men_to_men_requests->currentPage()) }}">{{$request->title}} </a>
+                                <div class="mail-subject">
+                                    <a href="{{ url('admin/request/'. $request->id.'?page='.$men_to_men_requests->currentPage()) }}">{{$request->title}} </a>
 
-                            </div>
-                        </li>
+                                </div>
+                            </li>
                         @endforeach
 
                     </ul>
