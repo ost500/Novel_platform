@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\PageController;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Pagination\Paginator;
 use App\MenToMenQuestionAnswer;
 use App\Novel;
 use App\NovelGroup;
 use App\User;
 use App\Mailbox;
+use App\Faq;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -15,7 +17,7 @@ class AdminPageController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['admin']);
+        $this->middleware(['auth','admin']);
     }
 
     public function index()
@@ -95,10 +97,10 @@ class AdminPageController extends Controller
         // dd($user_novels);
     }
 
-    public function user()
+    public function users()
     {
-        $users = User::all('*');
-        return view('admin.user', compact('users', 'users'));
+        $users = User::all('*')->paginate(10);
+        return view('admin.users', compact('users', 'users'));
     }
 
     public function profile()
@@ -143,4 +145,20 @@ class AdminPageController extends Controller
     {
         return view('admin.sales');
     }
+
+
+
+    public function faq_create()
+    {
+        return view('admin.faq_create');
+    }
+
+    public function faq_edit($id)
+    {
+        $faq = Faq::find($id);
+        return view('admin.faq_edit', compact('faq'));
+    }
+
+
+
 }

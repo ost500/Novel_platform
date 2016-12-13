@@ -152,16 +152,6 @@ class AuthorPageController extends Controller
         return view('author.novel_faq', compact('faq_reader', 'faq_author', 'faq_etc'));
     }
 
-    public function faq_create()
-    {
-        return view('author.faq_create');
-    }
-
-    public function faq_edit($id)
-    {
-        $faq = Faq::find($id);
-        return view('author.faq_edit', compact('faq'));
-    }
 
     public function nickname()
     {
