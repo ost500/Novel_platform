@@ -20,12 +20,22 @@
             </ol>
 
 
-                <div id="page-content">
+            <div id="page-content">
 
-<div id="profile" >
+                <div id="profile">
                     <div class="row">
                         <div class="col-sm-12">
+                            <div class="alert alert-danger" v-if="formErrors">
+                                <ul>
+                                    <li v-if="errors['name']">@{{ errors.name.toString() }}</li>
+                                    <li v-if="errors['phone_num']">@{{ errors.phone_num.toString() }}</li>
+                                    <li v-if="errors['email']">@{{ errors.email.toString() }}</li>
+                                    <li v-if="errors['bank']">@{{ errors.bank.toString() }}</li>
+                                    <li v-if="errors['account_holder']">@{{ errors.account_holder.toString() }}</li>
+                                    <li v-if="errors['account_number']">@{{ errors.account_number.toString() }}</li>
 
+                                </ul>
+                            </div>
                             <div class="panel">
                                 <form id="app-2" class="panel-body form-horizontal form-padding" method="put"
                                       action="{{route('users.update')}}" v-on:submit.prevent="submita">
@@ -117,7 +127,7 @@
                     </div>
                 </div>
 
-                </div>
+            </div>
 
 
         </div>
@@ -130,7 +140,8 @@
             data: {
 
                 profile: {},
-                formErrors: {}
+                formErrors: false,
+                errors: {}
 
             },
             mounted: function () {
@@ -167,11 +178,12 @@
                                     container: 'page',
                                     timer: 4000
                                 });
-
+                                this.formErrors = false;
                             })
                             .catch(function (data, status, request) {
-                                var errors = data.data;
-                                this.formErrors = errors;
+
+                                this.errors = data.data;
+                                this.formErrors = true;
                             });
                 }
             }

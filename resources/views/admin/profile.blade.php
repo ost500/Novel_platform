@@ -20,18 +20,23 @@
             </ol>
 
 
-                <div id="page-content">
+            <div id="page-content">
 
-<div id="profile" >
-                    <div class="row">
-                        <div class="col-sm-12">
 
-                            <div class="panel">
-                                <form id="app-2" class="panel-body form-horizontal form-padding" method="put"
-                                      action="{{route('users.update')}}" v-on:submit.prevent="submita">
+                <div class="row">
+                    <div class="col-sm-12">
+
+                        <div class="panel">
+
+                            <div id="error_warning"></div>
+                            <div id="profile">
+
+                                <form class="panel-body form-horizontal form-padding"method="post"
+                                      enctype="multipart/form-data"
+                                      action="{{route('users.update')}}" v-on:submit.prevent="submit">
 
                                     {{--<input v-model="profile.X-CSRF-TOKEN" id="_token" name="token" value="{{ csrf_token() }}">--}}
-                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
 
                                     <div class="form-group">
                                         <label class="col-md-2 control-label"></label>
@@ -106,10 +111,11 @@
 
                                     <div class="form-group">
                                         <div class="col-md-12 text-center">
-                                            <button type="submit" value="submit" class="btn btn-lg btn-primary">저장
+                                            <button class="btn btn-lg btn-primary">저장
                                             </button>
                                             <button type="button" class="btn btn-lg btn-danger back"
-                                                    v-on:click="go_to_back()">취소</button>
+                                                    v-on:click="go_to_back()">취소
+                                            </button>
                                         </div>
                                     </div>
                                 </form>
@@ -118,15 +124,15 @@
                     </div>
                 </div>
 
-                </div>
+            </div>
 
 
         </div>
     </div>
 
     <script>
-        new Vue({
-            name: "hello",
+        var profile_vue = new Vue({
+
             el: '#profile',
             data: {
 
@@ -146,8 +152,9 @@
                 go_to_back: function () {
                     window.location.assign('{{ url('admin/user') }}');
                 },
-                submita: function (e) {
-                    e.preventDefault();
+                submit: function (e) {
+                    alert('HI!');
+                    console.log('hihi');
 
 //                            Vue.http.headers.common['X-CSRF-TOKEN'] = $('#_token').getAttribute('content');
                     // console.log($('#_token').data('content'));
@@ -159,8 +166,26 @@
 //                    var csrfToken = form.querySelector('input[name="_token"]').value;
                     this.profile['X-CSRF-TOKEN'] = window.Laravel.csrfToken;
                     Vue.http.headers.common['X-CSRF-TOKEN'] = "{!! csrf_token() !!}";
+                    console.log('hi1');
+                    this.$http.put(action, this.profile, {
+                        headers: {
+                            'X-CSRF-TOKEN': '{!! csrf_token() !!}',
+                            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                        }
+                    })
+                            .catch(function (data) {
+                                console.log('hi2');
+                                var errors = data.data;
+                                this.formErrors = errors;
+                                var error_show = '<div class="alert alert-danger"><ul>';
+                                for (error in errors) {
+                                    error_show += '<li>' + errors.nickname[0] + '</li>';
+                                }
+                                error_show += '</ul></div>';
+                                console.log(error_show);
 
-                    this.$http.put(action, this.profile, {headers: {'X-CSRF-TOKEN': '{!! csrf_token() !!}'}})
+                                $("#error_warning").html(error_show);
+                            })
                             .then(function (response) {
                                 $.niftyNoty({
                                     type: 'purple',
@@ -171,12 +196,10 @@
                                     container: 'page',
                                     timer: 4000
                                 });
-
-                            })
-                            .catch(function (data, status, request) {
-                                var errors = data.data;
-                                this.formErrors = errors;
+                                $("#error_warning").html("");
                             });
+
+
                 }
             }
         });
