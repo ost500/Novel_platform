@@ -20,7 +20,7 @@ class AdminPageController extends Controller
 
     public function novel()
     {
-        $novel_groups = NovelGroup::all("*");
+        
 
         return view('admin.novel', compact('novel_groups', 'novel_groups'));
     }
@@ -39,7 +39,7 @@ class AdminPageController extends Controller
 
         $reser_day = new Carbon();
 
-        //Ãâ°£¿¹¾àÀÌ ¾ø´Ù¸é null °ªÀ» ¸®ÅÏÇÑ´Ù
+        //ï¿½â°£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ null ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½
         if($novel->publish_reservation == null){
             $novel->reser_day = null;
             $novel->reser_time = null;
