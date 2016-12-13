@@ -99,7 +99,7 @@ class AdminPageController extends Controller
 
     public function users()
     {
-        $users = User::all('*')->paginate(10);
+        $users = User::paginate(10);
         return view('admin.users', compact('users', 'users'));
     }
 
@@ -110,7 +110,7 @@ class AdminPageController extends Controller
 
     public function request(Request $request)
     {
-        $men_to_men_requests = MenToMenQuestionAnswer::all('*')->orderBy('id', 'desc')->paginate(10);
+        $men_to_men_requests = MenToMenQuestionAnswer::orderBy('id', 'desc')->paginate(10);
         // return \Response::json($men_to_men_requests);
         return view('admin.request', compact('men_to_men_requests'));
     }
@@ -118,8 +118,7 @@ class AdminPageController extends Controller
     public function request_view(Request $request, $id)
     {
         $men_to_men_request = MenToMenQuestionAnswer::where('id', $id)->with('users')->first();
-        $men_to_men_requests = $request->user()->question_answers()->orderBy('id', 'desc')->paginate(10);
-        //  return \Response::json($men_to_men_requests);
+        $men_to_men_requests = MenToMenQuestionAnswer::orderBy('id', 'desc')->paginate(5);
         return view('admin.request_view', compact('men_to_men_request', 'men_to_men_requests'));
     }
 
