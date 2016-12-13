@@ -37,7 +37,16 @@ class NovelGroupController extends Controller
             $novel_groups = $request->user()->novel_groups()->with('novels')->get();
         }
 
+        //check an agreement agreed or not
         $author = User::select('author_agreement')->where('id', Auth::user()->id)->first();
+
+        if ($request->order == "secret") {
+            $novel_groups = $novel_groups->where('secret', 1);
+        } else if ($request->order == "completed") {
+            $novel_groups = $novel_groups->where('completed', 1);
+        } else if ($request->order == "running") {
+            $novel_groups = $novel_groups->where('completed', 0);
+        }
 
 
         $comments_count = 0;
@@ -218,7 +227,7 @@ class NovelGroupController extends Controller
     {
         //
 
-        $input = $request->except('_token', '_method','default_cover_photo');
+        $input = $request->except('_token', '_method', 'default_cover_photo');
 
         Validator::make($request->all(), [
             'nickname' => 'required|max:255',
@@ -263,12 +272,12 @@ class NovelGroupController extends Controller
                 $cover_photo->move($destinationPath, $filename);
             }
 
-        }else if ($request->default_cover_photo) {
+        } else if ($request->default_cover_photo) {
 
             $input['cover_photo'] = "default_" . $request->default_cover_photo . ".jpg";
         } else {
             // $new_novel_group = $request->user()->novel_groups()->create($input);
-            $input['cover_photo']= "default_.jpg";
+            $input['cover_photo'] = "default_.jpg";
         }
 
         NovelGroup::where('id', $id)->update($input);

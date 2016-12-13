@@ -32,7 +32,7 @@
                                         </div>
 
                                         <div class="col-md-2 text-right pad-no padding-bottom-5">
-                                            <select class="form-control" name="sort">
+                                            <select v-on:click="pagination(2)"  class="form-control" name="sort">
                                                 <option value="">정렬</option>
                                                 <option value="1">모든글</option>
                                                 <option value="2">연재글</option>
