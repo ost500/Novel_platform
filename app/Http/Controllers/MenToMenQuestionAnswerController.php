@@ -62,8 +62,18 @@ class MenToMenQuestionAnswerController extends Controller
 
     public function answer(Request $request, $id)
     {
+
+      //  dd($request->all());
+        Validator::make($request->all(), [
+            'answer' => 'required',
+        ],
+            [
+                'answer.required' => '답변은 필수 입니다.',
+            ]
+        )->validate();
+
         $mtm = MenToMenQuestionAnswer::find($id);
-        $mtm->answer = $request->comment;
+        $mtm->answer = $request->answer;
         $mtm->status = 1;
         $mtm->save();
 
