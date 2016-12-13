@@ -66,8 +66,7 @@ Route::get('/admin/faqs/{id}/edit', ['as' => 'admin.faqs.edit', 'uses' => 'PageC
 
 
 Route::get('/admin/index',['as' => 'admin.index', 'uses' => 'PageController\AdminPageController@index']);
-Route::get('/admin/novel',['as' => 'admin.novel', 'uses' => 'PageController\AdminPageController@novel']);
-Route::get('/admin/novel_json',['as' => 'admin.novel_json', 'uses' => 'PageController\AdminPageController@novel_json']);
+Route::get('/admin/novel',['as' => 'admin.novel', 'uses' => 'PageController\AdminPageController@index']);
 Route::get('/admin/novel/{id}', ['as' => 'admin.novel_inning', 'uses' => 'PageController\AdminPageController@novel_inning']);
 Route::get('/admin/novel/inning/{id}', ['as' => 'admin.novel_inning_view', 'uses' => 'PageController\AdminPageController@novel_inning_view']);
 

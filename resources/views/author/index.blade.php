@@ -117,52 +117,52 @@
 
                                 </div>
 
+                                <div class="fixed-table-pagination" style="display: block;">
+                                    <div class="pull-left">
+                                        <button class="btn btn-danger">선택삭제</button>
+                                    </div>
 
-                            </div>
+                                    <div class="pull-right">
+                                        <ul class="pagination">
 
-                            <div class="fixed-table-pagination" style="display: block;">
-                                <div class="pull-left">
-                                    <button class="btn btn-danger">선택삭제</button>
-                                </div>
+                                            <li v-if="page.page_first" class="page-first"><a v-on:click="pagination(1)" href="#">&lt;&lt;</a></li>
+                                            <li v-else class="page-first disabled"><a v-on:click="pagination(1)" href="#">&lt;&lt;</a></li>
 
-                                <div class="pull-right">
-                                    <ul class="pagination">
-
-                                        <li v-if="page.page_first" class="page-first"><a v-on:click="pagination(1)" href="#">&lt;&lt;</a></li>
-                                        <li v-else class="page-first disabled"><a v-on:click="pagination(1)" href="#">&lt;&lt;</a></li>
-
-                                        <li v-if="page.page_pre" class="page-pre"><a v-on:click="pagination(page.current_page - 1)" href="#">&lt;</a></li>
-                                        <li v-else class="page-pre disabled"><a v-on:click="pagination(page.current_page - 1)" href="#">&lt;</a></li>
+                                            <li v-if="page.page_pre" class="page-pre"><a v-on:click="pagination(page.current_page - 1)" href="#">&lt;</a></li>
+                                            <li v-else class="page-pre disabled"><a v-on:click="pagination(page.current_page - 1)" href="#">&lt;</a></li>
 
 
-                                        <li v-if="page.current_page >= 5" class="page-number">
-                                            <a v-on:click="pagination(page.current_page - 4)" href="#">@{{ page.current_page - 4 }}</a></li>
-                                        <li v-if="page.current_page >= 4" class="page-number">
-                                            <a v-on:click="pagination(page.current_page - 3)" href="#">@{{ page.current_page - 3 }}</a></li>
-                                        <li v-if="page.current_page >= 3" class="page-number">
-                                            <a v-on:click="pagination(page.current_page - 2)" href="#">@{{ page.current_page - 2 }}</a></li>
-                                        <li v-if="page.current_page >= 2" class="page-number">
-                                            <a v-on:click="pagination(page.current_page - 1)" href="#">@{{ page.current_page - 1 }}</a></li>
+                                            <li v-if="page.current_page >= 5" class="page-number">
+                                                <a v-on:click="pagination(page.current_page - 4)" href="#">@{{ page.current_page - 4 }}</a></li>
+                                            <li v-if="page.current_page >= 4" class="page-number">
+                                                <a v-on:click="pagination(page.current_page - 3)" href="#">@{{ page.current_page - 3 }}</a></li>
+                                            <li v-if="page.current_page >= 3" class="page-number">
+                                                <a v-on:click="pagination(page.current_page - 2)" href="#">@{{ page.current_page - 2 }}</a></li>
+                                            <li v-if="page.current_page >= 2" class="page-number">
+                                                <a v-on:click="pagination(page.current_page - 1)" href="#">@{{ page.current_page - 1 }}</a></li>
 
-                                        <li class="page-number active"><a>@{{ page.current_page }}</a></li>
+                                            <li class="page-number active"><a>@{{ page.current_page }}</a></li>
 
-                                        <li v-if="(page.last_page-1) >= page.current_page" class="page-number">
-                                            <a v-on:click="pagination(page.current_page + 1)" href="#">@{{ page.current_page + 1 }}</a></li>
-                                        <li v-if="(page.last_page-2) >= page.current_page" class="page-number">
-                                            <a v-on:click="pagination(page.current_page + 2)" href="#">@{{ page.current_page + 2 }}</a></li>
-                                        <li v-if="(page.last_page-3) >= page.current_page" class="page-number">
-                                            <a v-on:click="pagination(page.current_page + 3)" href="#">@{{ page.current_page + 3 }}</a></li>
-                                        <li v-if="(page.last_page-4) >= page.current_page" class="page-number">
-                                            <a v-on:click="pagination(page.current_page + 4)" href="#">@{{ page.current_page + 4 }}</a></li>
+                                            <li v-if="(page.last_page-1) >= page.current_page" class="page-number">
+                                                <a v-on:click="pagination(page.current_page + 1)" href="#">@{{ page.current_page + 1 }}</a></li>
+                                            <li v-if="(page.last_page-2) >= page.current_page" class="page-number">
+                                                <a v-on:click="pagination(page.current_page + 2)" href="#">@{{ page.current_page + 2 }}</a></li>
+                                            <li v-if="(page.last_page-3) >= page.current_page" class="page-number">
+                                                <a v-on:click="pagination(page.current_page + 3)" href="#">@{{ page.current_page + 3 }}</a></li>
+                                            <li v-if="(page.last_page-4) >= page.current_page" class="page-number">
+                                                <a v-on:click="pagination(page.current_page + 4)" href="#">@{{ page.current_page + 4 }}</a></li>
 
 
-                                        <li v-if="page.page_next" class="page-next"><a v-on:click="pagination(page.current_page + 1)"  href="#">&gt;</a></li>
-                                        <li v-else class="page-next disabled"><a v-on:click="pagination(page.current_page + 1)"  href="#">&gt;</a></li>
-                                        <li v-if="page.page_last" class="page-last"><a v-on:click="pagination(page.last_page)"  href="#">&gt;&gt;</a></li>
-                                        <li v-else class="page-last disabled"><a v-on:click="pagination(page.last_page)"  href="#">&gt;&gt;</a></li>
-                                    </ul>
+                                            <li v-if="page.page_next" class="page-next"><a v-on:click="pagination(page.current_page + 1)"  href="#">&gt;</a></li>
+                                            <li v-else class="page-next disabled"><a v-on:click="pagination(page.current_page + 1)"  href="#">&gt;</a></li>
+                                            <li v-if="page.page_last" class="page-last"><a v-on:click="pagination(page.last_page)"  href="#">&gt;&gt;</a></li>
+                                            <li v-else class="page-last disabled"><a v-on:click="pagination(page.last_page)"  href="#">&gt;&gt;</a></li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
+
+
                         </div>
                     </div>
                 </div>
@@ -480,7 +480,9 @@
                                 this.page.from = response.data.novel_groups.from;
                                 this.page.last_page = response.data.novel_groups.last_page;
                                 console.log(this);
-
+                                $("#page-title").click(function(){
+                                    console.log(this);
+                                });
 
                             });
 
