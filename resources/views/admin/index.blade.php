@@ -1,7 +1,6 @@
-@extends('layouts.admin_layout')
+@extends('layouts.app')
 
 @section('content')
-
     <div id="content-container" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 
         <div id="page-title">
@@ -17,29 +16,48 @@
 
 
         <div id="page-content">
-
-
             <div class="row">
                 <div class="col-lg-12">
+                    <div id="novel_list">
+                        <div class="panel">
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <div>
+                                        <div class="col-md-10 pad-no padding-bottom-5">
+                                            <a href="{{ route('author.novel_group_create') }}">
+                                                <button type="button" class="btn btn-primary">작품추가</button>
+                                            </a>
 
-                    <div class="panel">
-                        <div class="panel-body">
-                            <div class="table-responsive">
-                                <div class="padding-bottom-5">
-                                    <a href="{{ route('author.novel_group_create') }}">
-                                        <button class="btn btn-primary">작품추가</button>
-                                    </a>
-                                </div>
-                                <div id="novel_list">
+                                            {{--  <button type="button" class="btn btn-primary novel-agree">연재약관</button>--}}
+                                        </div>
 
-                                    <table class="table table-bordered" v-for="group in novel_groups">
+                                        <div class="col-md-2 text-right pad-no padding-bottom-5">
+                                            <select class="form-control" name="sort">
+                                                <option value="">정렬</option>
+                                                <option value="1">모든글</option>
+                                                <option value="2">연재글</option>
+                                                <option value="3">연결글</option>
+                                                <option value="4">비밀글</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                    <table class="table" v-for="group in novel_groups">
                                         <tbody>
-                                        <tr>
-                                            <td class="text-center col-md-2"><a
-                                                        href="novel.blade.php">표지이미지</a>
+                                        <tr class="table-bordered">
+                                            <td class="text-center col-md-2"><a style="cursor:pointer"
+                                                                                v-on:click="go_to_group(group.id)">
+
+                                                    <img v-if="group.cover_photo != null"
+                                                         v-bind:src="'/img/novel_covers/' + group.cover_photo">
+                                                    <img v-else v-bind:src="'/img/novel_covers/default_.jpg'">
+
+                                                </a>
                                             </td>
                                             <td>
                                                 <table class="table-no-border" style="width:100%;">
+
                                                     <tr>
                                                         <td><h4>
                                                                 <a style="cursor:pointer"
@@ -48,12 +66,20 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>등록된 회차수 : 2화, 마지막 업로드 일자 : 2016-11-10</td>
+                                                        <td>등록된 회차수 : @{{ group.max_inning }}화, 마지막 업로드 일자
+                                                            : @{{ latested(group.id) }}</td>
                                                     </tr>
                                                     <tr>
                                                         <td class="padding-top-10 text-right">
-                                                            <button class="btn btn-primary">댓글 1,000</button>
-                                                            <button class="btn btn-info">리뷰 1,000</button>
+                                                            <button class="btn btn-primary"
+                                                                    v-on:click="commentsDisplay(group.id)">
+                                                                댓글 @{{ check(group.id) }}
+                                                            </button>
+                                                            <button class="btn btn-info"
+                                                                    v-on:click="reviewsDisplay(group.id)">
+                                                                리뷰 @{{ check_review(group.id) }}
+
+                                                            </button>
                                                             <button class="btn btn-success"
                                                                     v-on:click="go_to_edit(group.id)">수정
                                                             </button>
@@ -64,62 +90,79 @@
                                                         </td>
                                                     </tr>
                                                 </table>
+
+
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <div v-bind:id="commentId(group.id)"
+                                                     v-if="group.id == comment_show.id && comment_show.TF"></div>
+                                                <div v-bind:id="commentId(group.id)" v-else hidden></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <div v-bind:id="reviewId(group.id)"
+                                                     v-if="group.id == review_show.id && review_show.TF"></div>
+                                                <div v-bind:id="reviewId(group.id)" v-else hidden></div>
                                             </td>
                                         </tr>
                                         </tbody>
+
                                     </table>
 
 
                                 </div>
 
-                                <div id="comment_list">
-                                    <div class="padding-top-10">
-                                        <h4>댓글 3</h4></div>
+                                <div class="fixed-table-pagination" style="display: block;">
+                                    <div class="pull-left">
+                                        <button class="btn btn-danger">선택삭제</button>
+                                    </div>
+
+                                    <div class="pull-right">
+                                        <ul class="pagination">
+
+                                            <li v-if="page.page_first" class="page-first"><a v-on:click="pagination(1)" href="#">&lt;&lt;</a></li>
+                                            <li v-else class="page-first disabled"><a v-on:click="pagination(1)" href="#">&lt;&lt;</a></li>
+
+                                            <li v-if="page.page_pre" class="page-pre"><a v-on:click="pagination(page.current_page - 1)" href="#">&lt;</a></li>
+                                            <li v-else class="page-pre disabled"><a v-on:click="pagination(page.current_page - 1)" href="#">&lt;</a></li>
 
 
-                                    <div class="novel-review">
-                                        <div class="review-write pad-all">
-                                        <textarea id="demo-textarea-input" rows="4" class="form-control inline"
-                                                  style="width:50%" placeholder="댓글"></textarea>
-                                            <button class="btn btn-primary inline"
-                                                    style="width:100px;height:83px; vertical-align:top;">등록
-                                            </button>
-                                        </div>
+                                            <li v-if="page.current_page >= 5" class="page-number">
+                                                <a v-on:click="pagination(page.current_page - 4)" href="#">@{{ page.current_page - 4 }}</a></li>
+                                            <li v-if="page.current_page >= 4" class="page-number">
+                                                <a v-on:click="pagination(page.current_page - 3)" href="#">@{{ page.current_page - 3 }}</a></li>
+                                            <li v-if="page.current_page >= 3" class="page-number">
+                                                <a v-on:click="pagination(page.current_page - 2)" href="#">@{{ page.current_page - 2 }}</a></li>
+                                            <li v-if="page.current_page >= 2" class="page-number">
+                                                <a v-on:click="pagination(page.current_page - 1)" href="#">@{{ page.current_page - 1 }}</a></li>
 
-                                        <div class="review" v-for="my_comment in my_comments">
+                                            <li class="page-number active"><a>@{{ page.current_page }}</a></li>
 
-                                            <div>
-                                                <span class="nick">@{{ my_comment.users.name }}</span> @{{ my_comment.created_at }}
-                                                <button class="btn btn-xs btn-pink">N</button>
-                                            </div>
-                                            <div class="content">
-                                                <span class="inning">8회</span> @{{ my_comment.comment }}
-                                            </div>
-                                            <div class="button">
-                                                <button class="btn btn-xs btn-mint">답변</button>
-                                                <button class="btn btn-xs btn-danger">신고</button>
-                                            </div>
+                                            <li v-if="(page.last_page-1) >= page.current_page" class="page-number">
+                                                <a v-on:click="pagination(page.current_page + 1)" href="#">@{{ page.current_page + 1 }}</a></li>
+                                            <li v-if="(page.last_page-2) >= page.current_page" class="page-number">
+                                                <a v-on:click="pagination(page.current_page + 2)" href="#">@{{ page.current_page + 2 }}</a></li>
+                                            <li v-if="(page.last_page-3) >= page.current_page" class="page-number">
+                                                <a v-on:click="pagination(page.current_page + 3)" href="#">@{{ page.current_page + 3 }}</a></li>
+                                            <li v-if="(page.last_page-4) >= page.current_page" class="page-number">
+                                                <a v-on:click="pagination(page.current_page + 4)" href="#">@{{ page.current_page + 4 }}</a></li>
 
-                                        </div>
-                                        <div class="review reply">
-                                            <div>
-                                                <span class="nick">닉네임</span> 2016-11-10 00:00:00
-                                                <button class="btn btn-xs btn-pink">N</button>
-                                            </div>
-                                            <div class="content">
-                                                <span class="inning">8회</span> 둘이 당췌 먼 사연인지는 모르지만 유부녀가 바에서 꽐라될때까지 술마신거나
-                                                속마음
-                                                터놓지도 못하는거나 답답합니다 고구마철이라고 고구마 두시는건지
-                                            </div>
-                                            <div class="button">
-                                                <button class="btn btn-xs btn-mint">답변</button>
-                                                <button class="btn btn-xs btn-danger">신고</button>
-                                            </div>
-                                        </div>
 
+                                            <li v-if="page.page_next" class="page-next"><a v-on:click="pagination(page.current_page + 1)"  href="#">&gt;</a></li>
+                                            <li v-else class="page-next disabled"><a v-on:click="pagination(page.current_page + 1)"  href="#">&gt;</a></li>
+                                            <li v-if="page.page_last" class="page-last"><a v-on:click="pagination(page.last_page)"  href="#">&gt;&gt;</a></li>
+                                            <li v-else class="page-last disabled"><a v-on:click="pagination(page.last_page)"  href="#">&gt;&gt;</a></li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
+
+
                         </div>
                     </div>
                 </div>
@@ -132,28 +175,219 @@
     </div>
 
     <script>
-        var app4 = new Vue({
+        var app4_index = new Vue({
             el: '#novel_list',
             data: {
                 novel_groups: [],
+                commentsCountData: [],
+                reviewsCountData: [],
+                latested_at: [],
                 my_comments: [],
+                comment_show: {'id': 0, 'TF': false},
+                review_show: {'id': 0, 'TF': false},
+                show_count: '',
+                author: [],
+                page: {
+                    'page_first': false,
+                    'page_pre': false,
+                    'page_next': false,
+                    'page_last': false,
+                    'current_page': 0,
+                    'from': 0,
+                    'last_page': 0
+                }
+
+
             },
             mounted: function () {
-                this.$http.get('{{ route('novels.index') }}')
-                        .then(function (response) {
-                            this.novel_groups = response.data;
-                        });
-                this.$http.get('{{ route('comments.index') }}')
-                        .then(function (response) {
-                            this.my_comments = response.data;
-                        });
+
+                this.reload();
+
+
+                /* this.$http.get('
+                {{-- route('comments.index') --}}')
+                 .then(function (response) {
+                 this.my_comments = response.data;
+                 }); */
             },
             methods: {
+
+                pagination: function (page) {
+                    this.$http.get('{{ route('novelgroups.index') }}?page='+ page)
+                            .then(function (response) {
+                                console.log(response);
+                                this.novel_groups = response.data.novel_groups.data;
+                                this.commentsCountData = response.data['count_data'];
+                                this.reviewsCountData = response.data['review_count_data'];
+                                this.latested_at = response.data['latested_at'];
+
+//                                console.log(this.author.author_agreement);
+                                this.author = response.data['author'];
+                                if (this.author.author_agreement == 0) {
+                                    //  $('.author_agreement_dialog').show();
+                                    agreement();
+                                }
+                                // this.check_agreemet();
+
+                                console.log(response.data.novel_groups.current_page);
+                                //about page
+                                if (response.data.novel_groups.current_page > 1) {
+                                    this.page.page_first = true;
+
+
+                                }
+                                if (response.data.novel_groups.current_page >= 2) {
+                                    this.page.page_pre = true;
+
+                                }
+                                if (response.data.novel_groups.last_page - 1 >= response.data.novel_groups.current_page) {
+                                    this.page.page_next = true;
+
+                                }
+                                if (response.data.novel_groups.last_page != response.data.novel_groups.current_page) {
+                                    this.page.page_last = true;
+
+                                }
+                                //store current page value
+                                this.page.current_page = response.data.novel_groups.current_page;
+                                this.page.from = response.data.novel_groups.from;
+                                this.page.last_page = response.data.novel_groups.last_page;
+                                console.log(this);
+
+
+                            });
+
+                },
+
+                comment_show_func: function (id) {
+                    if (comment_show.id == id) {
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                },
+                check: function (id) {
+                    for (var key in this.commentsCountData) {
+                        if (id == key) {
+                            return this.commentsCountData[id];
+                        }
+                    }
+
+                },
+                check_review: function (id) {
+                    for (var key in this.reviewsCountData) {
+                        if (id == key) {
+                            console.log(id);
+                            return this.reviewsCountData[id];
+                        }
+                    }
+
+                },
+                latested: function (id) {
+                    for (var key in this.reviewsCountData) {
+                        if (id == key) {
+                            console.log(id);
+                            return this.latested_at[id];
+                        }
+                    }
+
+                },
+
                 go_to_group: function (id) {
                     window.location.assign('{{ url('author/novelgroup') }}' + "/" + id);
                 },
                 go_to_edit: function (id) {
                     window.location.assign('/author/' + id + '/edit');
+                },
+
+                commentsDisplay: function (id) {
+                    console.log("TF" + this.comment_show.TF);
+                    console.log("ID" + this.comment_show.id);
+
+                    var comments_url = '/comments/' + id;
+                    if (this.comment_show.TF == true && this.comment_show.id == id) {
+                        this.comment_show.TF = false;
+                        this.comment_show.id = 0;
+                    }
+                    else {
+
+                        if (this.commentsCountData[id] != 0) {
+                            this.$http.get(comments_url)
+                                    .then(function (response) {
+                                        // document.getElementById('response').setAttribute('id','response'+id)
+
+                                        $('#response' + id).html(response.data);
+                                    });
+                            this.review_show.TF = false;
+                            this.review_show.id = 0;
+
+                            this.comment_show.TF = true;
+                            this.comment_show.id = id;
+                        } else {
+                            commonAlertBox("comment");
+                        }
+                    }
+                    console.log("TF" + this.comment_show.TF);
+                    console.log("ID" + this.comment_show.id);
+                },
+                commentsDisplay_after_commenting: function (id) {
+                    console.log("TF" + this.comment_show.TF);
+                    console.log("ID" + this.comment_show.id);
+
+                    var comments_url = '/comments/' + id;
+
+
+                    if (this.commentsCountData[id] != 0) {
+                        this.$http.get(comments_url)
+                                .then(function (response) {
+                                    // document.getElementById('response').setAttribute('id','response'+id)
+
+                                    $('#response' + id).html(response.data);
+                                });
+                        this.review_show.TF = false;
+                        this.review_show.id = 0;
+
+                        this.comment_show.TF = true;
+                        this.comment_show.id = id;
+                    } else {
+                        commonAlertBox("comment");
+                    }
+
+                    console.log("TF" + this.comment_show.TF);
+                    console.log("ID" + this.comment_show.id);
+                },
+                commentId: function (id) {
+                    return "response" + id;
+                },
+                reviewsDisplay: function (id) {
+
+                    var comments_url = '/reviews/' + id;
+                    if (this.review_show.TF == true && this.review_show.id == id) {
+                        this.review_show.TF = false;
+                        this.review_show.id = 0;
+                    }
+                    else {
+
+                        if (this.reviewsCountData[id] != 0) {
+                            this.$http.get(comments_url)
+                                    .then(function (response) {
+                                        // document.getElementById('response').setAttribute('id','response'+id)
+                                        document.getElementById('review_response' + id).innerHTML = response.data;
+                                    });
+                            this.review_show.TF = true;
+                            this.review_show.id = id;
+
+                            this.comment_show.TF = false;
+                            this.comment_show.id = 0;
+                        } else {
+                            commonAlertBox("review");
+                        }
+                    }
+
+                },
+                reviewId: function (id) {
+                    return "review_response" + id;
                 },
 
                 destroy: function (e) {
@@ -175,9 +409,9 @@
                                 Vue.http.headers.common['X-CSRF-TOKEN'] = "{!! csrf_token() !!}";
                                 //                    var csrfToken = form.querySelector('input[name="_token"]').value;
 
-                                app4.$http.delete("{{ url('novelgroups') }}/" + e, {headers: {'X-CSRF-TOKEN': '{!! csrf_token() !!}'}})
+                                app4_index.$http.delete("{{ url('novelgroups') }}/" + e, {headers: {'X-CSRF-TOKEN': '{!! csrf_token() !!}'}})
                                         .then(function (response) {
-                                            app4.reload_novel_groups();
+                                            app4_index.reload();
                                             $.niftyNoty({
                                                 type: 'warning',
                                                 icon: 'fa fa-check',
@@ -200,31 +434,87 @@
                     });
                 },
                 reload_novel_groups: function () {
-                    this.$http.get('{{ route('novels.index') }}')
+                    this.$http.get('{{ route('novelgroups.index') }}')
                             .then(function (response) {
                                 this.novel_groups = response.data;
                             });
-                }
-            }
-        });
-        var app5 = new Vue({
-            el: '#comment_list',
-            data: {
-                novel_groups: [],
-                my_comments: [],
-            },
-            mounted: function () {
-                this.$http.get('{{ route('novels.index') }}')
-                        .then(function (response) {
-                            this.novel_groups = response.data;
-                        });
-                this.$http.get('{{ route('comments.index') }}')
-                        .then(function (response) {
-                            this.my_comments = response.data;
-                        });
+                },
+                reload: function () {
+                    this.$http.get('{{ route('novelgroups.index') }}')
+                            .then(function (response) {
+                                console.log(response);
+                                this.novel_groups = response.data.novel_groups.data;
+                                this.commentsCountData = response.data['count_data'];
+                                this.reviewsCountData = response.data['review_count_data'];
+                                this.latested_at = response.data['latested_at'];
+
+//                                console.log(this.author.author_agreement);
+                                this.author = response.data['author'];
+                                if (this.author.author_agreement == 0) {
+                                    //  $('.author_agreement_dialog').show();
+                                    agreement();
+                                }
+                                // this.check_agreemet();
+
+                                console.log(response.data.novel_groups.current_page);
+                                //about page
+                                if (response.data.novel_groups.current_page > 1) {
+                                    this.page.page_first = true;
+
+
+                                }
+                                if (response.data.novel_groups.current_page >= 2) {
+                                    this.page.page_pre = true;
+
+                                }
+                                if (response.data.novel_groups.last_page - 1 >= response.data.novel_groups.current_page) {
+                                    this.page.page_next = true;
+
+                                }
+                                if (response.data.novel_groups.last_page != response.data.novel_groups.current_page) {
+                                    this.page.page_last = true;
+
+                                }
+                                //store current page value
+                                this.page.current_page = response.data.novel_groups.current_page;
+                                this.page.from = response.data.novel_groups.from;
+                                this.page.last_page = response.data.novel_groups.last_page;
+                                console.log(this);
+
+
+                            });
+
+                },
+
+                /*  check_agreemet: function () {
+                 console.log(this.author.author_agreement);
+
+                 }*/
+
 
             }
-        })
+        });
+
+
+        /*  var app5 = new Vue({
+         el: '#comment_list',
+         data: {
+         novel_groups: [],
+         my_comments: [],
+         },
+         mounted: function () {
+         this.$http.get('{{-- route('novels.index')--}}')
+         .then(function (response) {
+         this.novel_groups = response.data;
+         });
+         this.$http.get('{{-- route('comments.index') --}}')
+         .then(function (response) {
+         this.my_comments = response.data;
+         });
+
+         }
+         })*/
     </script>
+
 
 @endsection

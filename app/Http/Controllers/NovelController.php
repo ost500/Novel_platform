@@ -30,9 +30,15 @@ class NovelController extends Controller
      */
     public function index(Request $request)
     {
-        //
-        $novel_groups = $request->user()->novel_groups()->with('novels')->get();
-        $author=User::select('author_agreement')->where('id', Auth::user()->id)->first();
+        if (Auth::user()->isAdmin()) {
+            //if you are admin
+            $novel_groups = NovelGroup::with('novels')->get();
+        } else {
+            //if you are user
+            $novel_groups = $request->user()->novel_groups()->with('novels')->get();
+        }
+
+        $author = User::select('author_agreement')->where('id', Auth::user()->id)->first();
 
 
         $comments_count = 0;
@@ -53,7 +59,7 @@ class NovelController extends Controller
 
             }
             //소설이 없다면
-            if( $novel_group->novels->count() != 0 ){
+            if ($novel_group->novels->count() != 0) {
                 $latested_at[$novel_group->id] = $novel_group->novels->sortby('created_at')->first()->created_at->format('Y-m-d');
             } else {
                 $latested_at[$novel_group->id] = "0000-00-00";
@@ -69,7 +75,7 @@ class NovelController extends Controller
         }
         // dd($count_data);
         // $novel_group= $request->user()->novel_groups()->where('id',$user_novels->novel_group_id)->first();
-        return \Response::json(['novel_groups' => $novel_groups, 'count_data' => $count_data, 'review_count_data' => $review_count_data, 'latested_at' => $latested_at,'author'=>$author]);
+        return \Response::json(['novel_groups' => $novel_groups, 'count_data' => $count_data, 'review_count_data' => $review_count_data, 'latested_at' => $latested_at, 'author' => $author]);
         // dd($user_novels);
     }
 
@@ -109,8 +115,6 @@ class NovelController extends Controller
         )->validate();
 
 
-
-
         $new_novel = new Novel();
         $new_novel->user_id = Auth::user()->id;
         $new_novel->novel_group_id = $request->novel_group_id;
@@ -121,7 +125,7 @@ class NovelController extends Controller
         }
 
         if ($request->publish_reservation == "on" && $request->reser_day && $request->reser_time) {
-           // echo $request->reser_day . " " . $request->reser_time;
+            // echo $request->reser_day . " " . $request->reser_time;
             $new_novel->publish_reservation = $request->reser_day . " " . $request->reser_time;
         } else {
             $new_novel->publish_reservation = null;
@@ -173,18 +177,17 @@ class NovelController extends Controller
         $reser_day = new Carbon($novel->publish_reservation);
 
         //출간예약이 없다면 null 값을 리턴한다
-        if($novel->publish_reservation == null){
+        if ($novel->publish_reservation == null) {
             $novel->reser_day = null;
             $novel->reser_time = null;
-        }
-        else{
+        } else {
             $novel->reser_day = $reser_day->toDateString();
             $novel->reser_time = $reser_day->format('h:i');
         }
 
 
-        return \Response::json(['novel'=>$novel,'novel_group'=>$novel_group ]);
-       // return view('author.novel_inning_update', compact('novel', 'novel_group'));
+        return \Response::json(['novel' => $novel, 'novel_group' => $novel_group]);
+        // return view('author.novel_inning_update', compact('novel', 'novel_group'));
     }
 
     /**
@@ -218,10 +221,12 @@ class NovelController extends Controller
         if ($request->adult == "on") {
             $update_novel->adult = true;
 
-        }else{ $update_novel->adult = false; }
+        } else {
+            $update_novel->adult = false;
+        }
 
         if ($request->publish_reservation == "on" && $request->reser_day && $request->reser_time) {
-           // echo $request->reser_day . " " . $request->reser_time;
+            // echo $request->reser_day . " " . $request->reser_time;
             $update_novel->publish_reservation = $request->reser_day . " " . $request->reser_time;
         } else {
             $update_novel->publish_reservation = null;
@@ -251,16 +256,13 @@ class NovelController extends Controller
         $novel_group = $update_novel->novel_groups;
         flash("회차 수정을 성공했습니다");
 
-        if ($request->path == "admin")
-        {
+        if ($request->path == "admin") {
             return redirect()->route('admin.novel_inning_view', ['id' => $id]);
-        }
-        else
-        {
+        } else {
 
-           // return "ddsfdsfdsf";
-            return redirect()->route('author_novel_group',['id' => $update_novel->novel_group_id]);
-           // return view('author.novel_group', compact('update_novel', 'novel_group'));
+            // return "ddsfdsfdsf";
+            return redirect()->route('author_novel_group', ['id' => $update_novel->novel_group_id]);
+            // return view('author.novel_group', compact('update_novel', 'novel_group'));
         }
     }
 
@@ -317,11 +319,10 @@ class NovelController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function update_agreement(Request $request,$id)
+    public function update_agreement(Request $request, $id)
     {
         $novel = Novel::find($id);
 

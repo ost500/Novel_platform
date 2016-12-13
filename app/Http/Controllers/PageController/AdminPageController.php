@@ -46,12 +46,11 @@ class AdminPageController extends Controller
 
         $reser_day = new Carbon();
 
-        //출간예약이 없다면 null 값을 리턴한다
-        if($novel->publish_reservation == null){
+        //�Ⱓ������ ���ٸ� null ���� �����Ѵ�
+        if ($novel->publish_reservation == null) {
             $novel->reser_day = null;
             $novel->reser_time = null;
-        }
-        else{
+        } else {
             $novel->reser_day = $reser_day->toDateString();
             $novel->reser_day = $reser_day->format('h:i');
         }
@@ -124,7 +123,7 @@ class AdminPageController extends Controller
 
     public function memo(Request $request)
     {
-        $novel_mail_messages= Mailbox::all('*');
+        $novel_mail_messages = Mailbox::all('*');
         return view('admin.memo', compact('novel_mail_messages'));
     }
 

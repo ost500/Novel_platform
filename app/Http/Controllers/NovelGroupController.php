@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
+use Auth;
 use Illuminate\Http\Request;
 use App\NovelGroup;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use Validator;
 
 class NovelGroupController extends Controller
@@ -25,9 +29,57 @@ class NovelGroupController extends Controller
      */
     public function index(Request $request)
     {
-        //
-        $novel_groups = $request->user()->novel_groups()->get();
-        return \Response::json($novel_groups);
+        if (Auth::user()->isAdmin()) {
+            //if you are admin
+            $novel_groups = NovelGroup::with('novels')->get();
+        } else {
+            //if you are user
+            $novel_groups = $request->user()->novel_groups()->with('novels')->get();
+        }
+
+        $author = User::select('author_agreement')->where('id', Auth::user()->id)->first();
+
+
+        $comments_count = 0;
+        $review_count = 0;
+        $count_data = array();
+        $review_count_data = array();
+        $latested_at = array();
+        $novel_groups_count = $novel_groups->count();
+
+        foreach ($novel_groups as $novel_group) {
+
+            foreach ($novel_group->novels as $novel) {
+                foreach ($novel->comments as $commenat) {
+                    $comments_count++;
+                }
+                foreach ($novel->reviews as $n) {
+                    $review_count++;
+                }
+
+            }
+            //소설이 없다면
+            if ($novel_group->novels->count() != 0) {
+                $latested_at[$novel_group->id] = $novel_group->novels->sortby('created_at')->first()->created_at->format('Y-m-d');
+            } else {
+                $latested_at[$novel_group->id] = "0000-00-00";
+            }
+
+
+            $count_data[$novel_group->id] = $comments_count;
+            $comments_count = 0;
+
+            $review_count_data[$novel_group->id] = $review_count;
+            $review_count = 0;
+
+        }
+        // dd($count_data);
+        // $novel_group= $request->user()->novel_groups()->where('id',$user_novels->novel_group_id)->first();
+        $novel_group_per_page = $novel_groups->forPage($request->page, 5);
+        $novel_groups = new LengthAwarePaginator($novel_group_per_page, $novel_groups_count, 5);
+
+        return \Response::json(['novel_groups' => $novel_groups, 'count_data' => $count_data, 'review_count_data' => $review_count_data, 'latested_at' => $latested_at, 'author' => $author]);
+        // dd($user_novels);
     }
 
     /**
