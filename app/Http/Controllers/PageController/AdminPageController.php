@@ -46,7 +46,7 @@ class AdminPageController extends Controller
 
         $reser_day = new Carbon();
 
-        //Ãâ°£¿¹¾àÀÌ ¾ø´Ù¸é null °ªÀ» ¸®ÅÏÇÑ´Ù
+        //ì¶œê°„ì˜ˆì•½ì´ ì—†ë‹¤ë©´ null ê°’ì„ ë¦¬í„´í•œë‹¤
         if($novel->publish_reservation == null){
             $novel->reser_day = null;
             $novel->reser_time = null;
@@ -145,7 +145,15 @@ class AdminPageController extends Controller
         return view('admin.sales');
     }
 
+    public function faq_index()
+    {
 
+        $faq_reader = Faq::where('faq_category', 1)->get();
+        $faq_author = Faq::where('faq_category', 2)->get();
+        $faq_etc = Faq::where('faq_category', 3)->get();
+
+        return view('admin.faq_index', compact('faq_reader', 'faq_author', 'faq_etc'));
+    }
 
     public function faq_create()
     {
