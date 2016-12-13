@@ -13,6 +13,11 @@ use Carbon\Carbon;
 
 class AdminPageController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['admin']);
+    }
+
     public function index()
     {
         return view('admin.index');

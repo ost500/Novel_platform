@@ -53,7 +53,7 @@ class MenToMenQuestionAnswerController extends Controller
 
         $men_to_menRequest =$request->user()->question_answers()->create($request->all());
 
-        flash('1:1臾몄쓽瑜� �벑濡앺뻽�뒿�땲�떎.');
+        flash('1:1문의를 등록했습니다.');
 
         return \Response::json(["status"=>"200", "id"=> $men_to_menRequest->id ]);
     }
@@ -67,7 +67,7 @@ class MenToMenQuestionAnswerController extends Controller
         $mtm->status = 1;
         $mtm->save();
 
-        flash('�떟蹂��쓣 �벑濡앺뻽�뒿�땲�떎.');
+        flash('1:1문의 답변을 등록했습니다.');
 
         return \Response::json(["status"=>"200", "id"=> $mtm->id ]);
     }
