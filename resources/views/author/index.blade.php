@@ -18,30 +18,30 @@
         <div id="page-content">
             <div class="row">
                 <div class="col-lg-12">
+                    <div id="novel_list">
+                        <div class="panel">
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <div>
+                                        <div class="col-md-10 pad-no padding-bottom-5">
+                                            <a href="{{ route('author.novel_group_create') }}">
+                                                <button type="button" class="btn btn-primary">작품추가</button>
+                                            </a>
 
-                    <div class="panel">
-                        <div class="panel-body">
-                            <div class="table-responsive">
-                                <div>
-                                    <div class="col-md-10 pad-no padding-bottom-5">
-                                        <a href="{{ route('author.novel_group_create') }}">
-                                            <button type="button" class="btn btn-primary">작품추가</button>
-                                        </a>
+                                            {{--  <button type="button" class="btn btn-primary novel-agree">연재약관</button>--}}
+                                        </div>
 
-                                        {{--  <button type="button" class="btn btn-primary novel-agree">연재약관</button>--}}
+                                        <div class="col-md-2 text-right pad-no padding-bottom-5">
+                                            <select class="form-control" name="sort">
+                                                <option value="">정렬</option>
+                                                <option value="1">모든글</option>
+                                                <option value="2">연재글</option>
+                                                <option value="3">연결글</option>
+                                                <option value="4">비밀글</option>
+                                            </select>
+                                        </div>
                                     </div>
 
-                                    <div class="col-md-2 text-right pad-no padding-bottom-5">
-                                        <select class="form-control" name="sort">
-                                            <option value="">정렬</option>
-                                            <option value="1">모든글</option>
-                                            <option value="2">연재글</option>
-                                            <option value="3">연결글</option>
-                                            <option value="4">비밀글</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div id="novel_list">
 
                                     <table class="table" v-for="group in novel_groups">
                                         <tbody>
@@ -119,6 +119,50 @@
 
 
                             </div>
+
+                            <div class="fixed-table-pagination" style="display: block;">
+                                <div class="pull-left">
+                                    <button class="btn btn-danger">선택삭제</button>
+                                </div>
+
+                                <div class="pull-right">
+                                    <ul class="pagination">
+
+                                        <li v-if="page.page_first" class="page-first"><a v-on:click="pagination(1)" href="#">&lt;&lt;</a></li>
+                                        <li v-else class="page-first disabled"><a v-on:click="pagination(1)" href="#">&lt;&lt;</a></li>
+
+                                        <li v-if="page.page_pre" class="page-pre"><a v-on:click="pagination(page.current_page - 1)" href="#">&lt;</a></li>
+                                        <li v-else class="page-pre disabled"><a v-on:click="pagination(page.current_page - 1)" href="#">&lt;</a></li>
+
+
+                                        <li v-if="page.current_page >= 5" class="page-number">
+                                            <a v-on:click="pagination(page.current_page - 4)" href="#">@{{ page.current_page - 4 }}</a></li>
+                                        <li v-if="page.current_page >= 4" class="page-number">
+                                            <a v-on:click="pagination(page.current_page - 3)" href="#">@{{ page.current_page - 3 }}</a></li>
+                                        <li v-if="page.current_page >= 3" class="page-number">
+                                            <a v-on:click="pagination(page.current_page - 2)" href="#">@{{ page.current_page - 2 }}</a></li>
+                                        <li v-if="page.current_page >= 2" class="page-number">
+                                            <a v-on:click="pagination(page.current_page - 1)" href="#">@{{ page.current_page - 1 }}</a></li>
+
+                                        <li class="page-number active"><a>@{{ page.current_page }}</a></li>
+
+                                        <li v-if="(page.last_page-1) >= page.current_page" class="page-number">
+                                            <a v-on:click="pagination(page.current_page + 1)" href="#">@{{ page.current_page + 1 }}</a></li>
+                                        <li v-if="(page.last_page-2) >= page.current_page" class="page-number">
+                                            <a v-on:click="pagination(page.current_page + 2)" href="#">@{{ page.current_page + 2 }}</a></li>
+                                        <li v-if="(page.last_page-3) >= page.current_page" class="page-number">
+                                            <a v-on:click="pagination(page.current_page + 3)" href="#">@{{ page.current_page + 3 }}</a></li>
+                                        <li v-if="(page.last_page-4) >= page.current_page" class="page-number">
+                                            <a v-on:click="pagination(page.current_page + 4)" href="#">@{{ page.current_page + 4 }}</a></li>
+
+
+                                        <li v-if="page.page_next" class="page-next"><a v-on:click="pagination(page.current_page + 1)"  href="#">&gt;</a></li>
+                                        <li v-else class="page-next disabled"><a v-on:click="pagination(page.current_page + 1)"  href="#">&gt;</a></li>
+                                        <li v-if="page.page_last" class="page-last"><a v-on:click="pagination(page.last_page)"  href="#">&gt;&gt;</a></li>
+                                        <li v-else class="page-last disabled"><a v-on:click="pagination(page.last_page)"  href="#">&gt;&gt;</a></li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -143,6 +187,16 @@
                 review_show: {'id': 0, 'TF': false},
                 show_count: '',
                 author: [],
+                page: {
+                    'page_first': false,
+                    'page_pre': false,
+                    'page_next': false,
+                    'page_last': false,
+                    'current_page': 0,
+                    'from': 0,
+                    'last_page': 0
+                }
+
 
             },
             mounted: function () {
@@ -157,6 +211,54 @@
                  }); */
             },
             methods: {
+
+                pagination: function (page) {
+                    this.$http.get('{{ route('novelgroups.index') }}?page='+ page)
+                            .then(function (response) {
+                                console.log(response);
+                                this.novel_groups = response.data.novel_groups.data;
+                                this.commentsCountData = response.data['count_data'];
+                                this.reviewsCountData = response.data['review_count_data'];
+                                this.latested_at = response.data['latested_at'];
+
+//                                console.log(this.author.author_agreement);
+                                this.author = response.data['author'];
+                                if (this.author.author_agreement == 0) {
+                                    //  $('.author_agreement_dialog').show();
+                                    agreement();
+                                }
+                                // this.check_agreemet();
+
+                                console.log(response.data.novel_groups.current_page);
+                                //about page
+                                if (response.data.novel_groups.current_page > 1) {
+                                    this.page.page_first = true;
+
+
+                                }
+                                if (response.data.novel_groups.current_page >= 2) {
+                                    this.page.page_pre = true;
+
+                                }
+                                if (response.data.novel_groups.last_page - 1 >= response.data.novel_groups.current_page) {
+                                    this.page.page_next = true;
+
+                                }
+                                if (response.data.novel_groups.last_page != response.data.novel_groups.current_page) {
+                                    this.page.page_last = true;
+
+                                }
+                                //store current page value
+                                this.page.current_page = response.data.novel_groups.current_page;
+                                this.page.from = response.data.novel_groups.from;
+                                this.page.last_page = response.data.novel_groups.last_page;
+                                console.log(this);
+
+
+                            });
+
+                },
+
                 comment_show_func: function (id) {
                     if (comment_show.id == id) {
                         return true;
@@ -332,31 +434,58 @@
                     });
                 },
                 reload_novel_groups: function () {
-                    this.$http.get('{{ route('novels.index') }}')
+                    this.$http.get('{{ route('novelgroups.index') }}')
                             .then(function (response) {
                                 this.novel_groups = response.data;
                             });
                 },
                 reload: function () {
-                    this.$http.get('{{ route('novels.index') }}')
+                    this.$http.get('{{ route('novelgroups.index') }}')
                             .then(function (response) {
-                                this.novel_groups = response.data['novel_groups'];
+                                console.log(response);
+                                this.novel_groups = response.data.novel_groups.data;
                                 this.commentsCountData = response.data['count_data'];
                                 this.reviewsCountData = response.data['review_count_data'];
                                 this.latested_at = response.data['latested_at'];
 
-                                console.log(this.author.author_agreement);
+//                                console.log(this.author.author_agreement);
                                 this.author = response.data['author'];
                                 if (this.author.author_agreement == 0) {
-                                    console.log('dsfdsfdsfdsfdsfdsfsdfdsf');
                                     //  $('.author_agreement_dialog').show();
                                     agreement();
                                 }
                                 // this.check_agreemet();
-                                console.log(this.novel_groups);
+
+                                console.log(response.data.novel_groups.current_page);
+                                //about page
+                                if (response.data.novel_groups.current_page > 1) {
+                                    this.page.page_first = true;
+
+
+                                }
+                                if (response.data.novel_groups.current_page >= 2) {
+                                    this.page.page_pre = true;
+
+                                }
+                                if (response.data.novel_groups.last_page - 1 >= response.data.novel_groups.current_page) {
+                                    this.page.page_next = true;
+
+                                }
+                                if (response.data.novel_groups.last_page != response.data.novel_groups.current_page) {
+                                    this.page.page_last = true;
+
+                                }
+                                //store current page value
+                                this.page.current_page = response.data.novel_groups.current_page;
+                                this.page.from = response.data.novel_groups.from;
+                                this.page.last_page = response.data.novel_groups.last_page;
+                                console.log(this);
+
+
                             });
 
                 },
+
                 /*  check_agreemet: function () {
                  console.log(this.author.author_agreement);
 
