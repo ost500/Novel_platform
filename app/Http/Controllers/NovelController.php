@@ -31,7 +31,7 @@ class NovelController extends Controller
     public function index(Request $request)
     {
 
-        
+
         $novel_groups = $request->user()->novel_groups()->with('novels')->get();
         $author=User::select('author_agreement')->where('id', Auth::user()->id)->first();
 

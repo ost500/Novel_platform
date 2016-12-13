@@ -60,8 +60,8 @@ Route::get('/author/novel_request_list', ['as' => 'author.novel_request_list', '
 Route::get('/author/novel_request_view/{id}', ['as' => 'author.novel_request_view', 'uses' => 'PageController\AuthorPageController@men_to_men_show']);
 
 Route::get('/author/novel_faq', ['as' => 'author.novel_faq', 'uses' => 'PageController\AuthorPageController@faq_index']);
-Route::get('/author/faq_create', ['as' => 'author.faq_create', 'uses' => 'PageController\AuthorPageController@faq_create']);
-Route::get('/author/faq_edit', ['as' => 'author.faq_edit', 'uses' => 'PageController\AuthorPageController@faq_edit']);
+Route::get('/admin/faq_create', ['as' => 'admin.faq_create', 'uses' => 'PageController\AdminPageController@faq_create']);
+Route::get('/admin/faq_edit', ['as' => 'admin.faq_edit', 'uses' => 'PageController\AdminPageController@faq_edit']);
 
 
 Route::get('/admin/index',['as' => 'admin.index', 'uses' => 'PageController\AdminPageController@index']);
@@ -70,7 +70,7 @@ Route::get('/admin/novel_json',['as' => 'admin.novel_json', 'uses' => 'PageContr
 Route::get('/admin/novel/{id}', ['as' => 'admin.novel_inning', 'uses' => 'PageController\AdminPageController@novel_inning']);
 Route::get('/admin/novel/inning/{id}', ['as' => 'admin.novel_inning_view', 'uses' => 'PageController\AdminPageController@novel_inning_view']);
 
-Route::get('/admin/user',['as' => 'admin.user', 'uses' => 'PageController\AdminPageController@user']);
+Route::get('/admin/users',['as' => 'admin.users', 'uses' => 'PageController\AdminPageController@users']);
 Route::get('/admin/user/{id}',['as' => 'admin.profile', 'uses' => 'PageController\AdminPageController@profile']);
 Route::get('/admin/sales',['as' => 'admin.sales', 'uses' => 'PageController\AdminPageController@sales']);
 Route::get('/admin/request',['as' => 'admin.request', 'uses' => 'PageController\AdminPageController@request']);

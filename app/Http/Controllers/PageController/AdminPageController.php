@@ -20,7 +20,7 @@ class AdminPageController extends Controller
 
     public function novel()
     {
-        
+        $novel_groups = NovelGroup::all("*");
 
         return view('admin.novel', compact('novel_groups', 'novel_groups'));
     }

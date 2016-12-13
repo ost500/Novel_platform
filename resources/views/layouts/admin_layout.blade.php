@@ -123,8 +123,8 @@
 
                                 <li class="list-header"></li>
 
-                                <li class="{{ (Request::is('admin/user')||Request::is('admin/user/*'))?"active-link":"" }}">
-                                    <a href="{{ route('admin.user') }}">
+                                <li class="{{ (Request::is('admin/users')||Request::is('admin/users/*'))?"active-link":"" }}">
+                                    <a href="{{ route('admin.users') }}">
                                         <i class="fa fa-book"></i>
                                         <span class="menu-title">
                                             <strong>회원관리</strong>
@@ -221,8 +221,8 @@
 
                                 <li class="list-divider"></li>
 
-                                <li>
-                                    <a href="{{ route('author.novel_faq')}}">
+                                <li  class="{{ (Request::is('admin/faq_create'))?"active-link":"" }}">
+                                    <a href="{{ route('admin.faq_create')}}">
                                         <i class="fa fa-send"></i>
                                         <span class="menu-title">
                                             <strong>FAQ</strong>
