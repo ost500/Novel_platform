@@ -87,7 +87,7 @@ class FaqController extends Controller
 
         //if validation is passed then insert the record
         Faq::where('id',$id)->update($input);
-
+        flash('FAQ 수정을 성공했습니다.');
         if($request->ajax()){ return response()->json(['status'=>'ok']);   }
         //redirect to faqs
         return redirect()->route('admin.faqs');
