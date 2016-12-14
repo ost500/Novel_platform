@@ -39,7 +39,11 @@
                                 <select class="form-control" name="novel_group_id">
                                     <option value="">작품선택</option>
                                     @foreach($my_novel_groups as $group)
-                                        <option value="{{ $group->id }}" selected>{{ $group->title }}</option>
+                                        @if(old('novel_group_id') == $group->id)
+                                            <option value="{{ $group->id }}" selected>{{ $group->title }}</option>
+                                        @else
+                                            <option value="{{ $group->id }}">{{ $group->title }}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>

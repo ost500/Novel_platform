@@ -138,7 +138,7 @@ class AdminPageController extends Controller
     public function memo_view(Request $request, $id)
     {
         $men_to_men_request = Mailbox::where('id', $id)->with('users')->first();
-        $men_to_men_requests = $request->user()->mailbox()->orderBy('id', 'desc')->paginate(10);
+        $men_to_men_requests = Mailbox::orderBy('id', 'desc')->paginate(10);
         return view('admin.memo_view', compact('men_to_men_request', 'men_to_men_requests'));
     }
 
