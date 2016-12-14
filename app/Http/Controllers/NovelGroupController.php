@@ -84,6 +84,12 @@ class NovelGroupController extends Controller
         }
         // dd($count_data);
         // $novel_group= $request->user()->novel_groups()->where('id',$user_novels->novel_group_id)->first();
+
+        if (!isset($request->page)) {
+            $request->page = 1;
+        }
+
+
         $novel_group_per_page = $novel_groups->forPage($request->page, 5);
         $novel_groups = new LengthAwarePaginator($novel_group_per_page, $novel_groups_count, 5);
 
