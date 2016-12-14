@@ -49,9 +49,9 @@
                                             <td class="text-center col-md-2"><a style="cursor:pointer"
                                                                                 v-on:click="go_to_group(group.id)">
 
-                                                    <img v-if="group.cover_photo != null"
+                                                    <img class="index_img" v-if="group.cover_photo != null"
                                                          v-bind:src="'/img/novel_covers/' + group.cover_photo">
-                                                    <img v-else v-bind:src="'/img/novel_covers/default_.jpg'">
+                                                    <img class="index_img" v-else v-bind:src="'/img/novel_covers/default_.jpg'">
 
                                                 </a>
                                             </td>

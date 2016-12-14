@@ -6753,3 +6753,9 @@ button.close {
         display: none !important
     }
 }
+
+img.index_img {
+    height:270px;
+    width:180px;
+}
+
