@@ -49,13 +49,26 @@
                         {{$men_to_men_request->question}}
                     </div>
 
-                    <div class="pad-top">
-                        @if($men_to_men_request->status == "1")
+                    @if($men_to_men_request->status == "1" && $men_to_men_request->question != null)
+                        <div class="pad-top">
                             <h5>답변시간 <span>{{$men_to_men_request->updated_at}}</span></h5>
-                        @endif
-                    </div>
 
-                    <div class="pad-all bord-all bg-gray-light margin-top-10">
+                        </div>
+
+
+
+                        <div class="pad-all bord-all bg-gray-light margin-top-10">
+                            {{$men_to_men_request->answer}}
+                        </div>
+                        <div class="pad-top">
+                            <button id="answer_box_btn" class="btn btn-primary inline"
+                                    style="width:100px;height:48px; vertical-align:top;">수정
+                            </button>
+                        </div>
+                    @endif
+
+                    <div id="answer_box" class="pad-all bord-all bg-gray-light margin-top-10"
+                         @if($men_to_men_request->status == "1") style="display: none" @endif>
                         <form id="answer_form">
                             <div class="review-of pad-all">
                                 <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
@@ -78,22 +91,22 @@
 
                     <!--Mail list group-->
                     <ul id="demo-mail-list" class="mail-list">
-                    @foreach($men_to_men_requests as $request)
-                        <!--Mail list item-->
-                            <li class="mail-list-unread">
-                                <div class="mail-from">
-                                    <button @if($request->answer == "") class="btn btn-xs btn-danger">대기
-                                        @else class="btn btn-xs btn-success" >완료 @endif
-                                    </button>
-                                </div>
+                        @foreach($men_to_men_requests as $request)
+                                <!--Mail list item-->
+                        <li class="mail-list-unread">
+                            <div class="mail-from">
+                                <button @if($request->status==0) class="btn btn-xs btn-danger"
+                                        @else class="btn btn-xs btn-success" @endif >대기
+                                </button>
+                            </div>
 
-                                <div class="mail-time">{{$request->created_at}}</div>
+                            <div class="mail-time">{{$request->created_at}}</div>
 
-                                <div class="mail-subject">
-                                    <a href="{{ url('admin/request/'. $request->id.'?page='.$men_to_men_requests->currentPage()) }}">{{$request->title}} </a>
+                            <div class="mail-subject">
+                                <a href="{{ url('admin/request/'. $request->id.'?page='.$men_to_men_requests->currentPage()) }}">{{$request->title}} </a>
 
-                                </div>
-                            </li>
+                            </div>
+                        </li>
                         @endforeach
 
                     </ul>
@@ -211,6 +224,14 @@
                     $('#show_errors').html(output);
                 },
             });
+        });
+
+        $("#answer_box_btn").click(function (e) {
+            //  console.log($('#answer_form').serializeArray());
+            e.preventDefault();
+            $('#answer_box').show();
+            $('#answer_box_btn').hide();
+            // $('#answer_box_btn').hide();
         });
     </script>
 @endsection

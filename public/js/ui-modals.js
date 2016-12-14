@@ -533,17 +533,93 @@ var commonAlertBox = function (str) {
     var alert_message;
     if (str == "comment") {
         alert_message = "<p style='text-align: center;font-weight: 600;font-size: 16px;margin-top: 4%;'>댓글이 없습니다</p>";
-    } else if(str == "review"){
+    } else if (str == "review") {
         alert_message = "<p style='text-align: center;font-weight: 600;font-size: 16px;margin-top: 4%;'>리뷰가 없습니다</p>";
     }
 
     bootbox.alert(alert_message, function () {
-       /* $.niftyNoty({
-            type: 'info',
-            icon: 'fa fa-info',
-            message: 'Thank you',
-            container: 'floating',
-            timer: 3000
-        });*/
+        /* $.niftyNoty({
+         type: 'info',
+         icon: 'fa fa-info',
+         message: 'Thank you',
+         container: 'floating',
+         timer: 3000
+         });*/
     });
+};
+
+
+var faqUpdate = function (faq) {
+
+    bootbox.dialog({
+        title: "유료연재약관",
+        message: '<div class="row"> ' + '<div class="col-md-12"> ' +
+        '<form class="form-horizontal" id="faq_edit" > ' + '<div class="form-group"> ' +
+        '<label class="col-md-12 control-label" for="faq_category">자주 묻는 질문 범주</label> ' +
+        '<div class="col-md-12" > ' +
+        '<select  id="faq_category" name="faq_category" class="form-control input-md"  style="height:30px" >' +
+        '<option value="">범주선택</option>' +
+        '<option value="1">독자 </option>' +
+        '<option value="2">작가 </option>' +
+        '<option value="3">기타 </option>' + '</select> ' +
+        '</div> ' +
+        '</div> ' + '<div class="form-group"> ' +
+        '<label class="col-md-12 control-label" for="title">작품제목</label> ' +
+        '<div class="col-md-12"  > ' +
+        '<input value="' + faq.title + '" id="title" name="title" type="text" placeholder="필명을 입력해주세요." class="form-control" style="height:30px"> ' +
+        '</div> ' +
+        '</div> ' + '<div class="form-group"> ' +
+        '<label class="col-md-12 control-label" for="description">작품소개</label> ' +
+        '<div class="col-md-12" > ' +
+        '<textarea  rows="20" id="description" name="description" class="form-control input-md" >' + faq.description + '</textarea> ' +
+        '</div> ' +
+        '</div> ' + '</form> </div> </div>',
+        buttons: {
+
+            success: {
+                label: "저장",
+                className: "btn-purple",
+                callback: function () {
+                    var formData = $('#faq_edit').serializeArray();
+                    $.ajax({
+                        type: 'PUT',
+                        url: '/faqs/' + faq.id,
+                        data: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': window.Laravel.csrfToken
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            location.reload();
+
+                            $.niftyNoty({
+                                type: 'purple',
+                                icon: 'fa fa-check',
+                                message: "유료연재약관에 동의 하셨습니다.",
+                                //container : 'floating',
+                                container: 'page',
+                                timer: 4000
+                            });
+
+                        },
+                        error: function (data) {
+                            console.log(data);
+                        }
+                    });
+
+                }
+            }
+        }
+    });
+
+    if (faq.faq_category == 1) {
+
+        $("#faq_category").find("option[value=" + 1 + "]").attr("selected", true);
+    }
+    else if (faq.faq_category == 2) {
+        $("#faq_category").find("option[value=" + 2 + "]").attr("selected", true);
+    } else {
+        $("#faq_category").find("option[value=" + 3 + "]").attr("selected", true);
+    }
+
 };
