@@ -46,8 +46,8 @@
                             @foreach($novel_mail_messages as $novel_mail_message)
                                 <tr>
                                     <td class="check"><input type="checkbox"></td>
-                                    <td class="from"><a
-                                                href="#">@if($novel_mail_message->mailboxs->users) {{$novel_mail_message->mailboxs->users->name}} @endif</a>
+                                    <td class="from"><a  id="demo"
+                                                        href="#">@if($novel_mail_message->mailboxs->users) {{$novel_mail_message->mailboxs->users->name}} @endif</a>
                                     </td>
                                     <td class="text-left"><a
                                                 href="{{route('author.mailbox_message',['id'=> $novel_mail_message->id ])}}">{{$novel_mail_message->mailboxs->subject}} </a>
@@ -147,6 +147,34 @@
 
 
     </div>
+
+
+    <script>
+        $(function () {
+            $.contextMenu({
+                selector: '#demo',
+                trigger: "left",
+                callback: function(key, options) {
+                    var m = "clicked: " + key;
+                    console.log(options);
+
+                    if(key=="mail"){
+
+{{--                        window.location.assign("{{ route('author.novel_memo_create') }}");--}}
+                    }
+
+                },
+                items: {
+                    "mail": {name: "쪽지 보내기", icon: "mail"},
+                    "cut": {name: "소설 보기", icon: "cut"},
+                }
+            });
+
+            $('.context-menu-one').on('click', function(e){
+                console.log('clicked', this);
+            })
+        });
+    </script>
 
 
 @endsection
