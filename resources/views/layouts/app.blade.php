@@ -33,6 +33,8 @@
     <link href="/css/jquery-ui/jquery-ui.theme.min.css" rel="stylesheet">
     <link href="/css/jquery-ui/jquery-ui.theme.min.css" rel="stylesheet">
     <link href="/plugins/bootstrap-timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
+    {{--jquery contextMenu--}}
+    <link href="/plugins/jquery-contextMenu/jquery.contextMenu.css" rel="stylesheet">
 
     <script>
         window.Laravel = <?php echo json_encode([
@@ -456,5 +458,8 @@
 
 <script src="/js/nifty.min.js"></script>
 
+{{--jquery contextMenu--}}
+<script src="/plugins/jquery-contextMenu/jquery.contextMenu.js"></script>
+<script src="/plugins/jquery-contextMenu/jquery.ui.position.js"></script>
 </body>
 </html>

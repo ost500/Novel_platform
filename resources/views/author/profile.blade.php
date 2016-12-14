@@ -25,16 +25,18 @@
                 <div id="profile">
                     <div class="row">
                         <div class="col-sm-12">
-                            <div class="alert alert-danger" v-if="formErrors">
-                                <ul>
-                                    <li v-if="errors['name']">@{{ errors.name.toString() }}</li>
-                                    <li v-if="errors['phone_num']">@{{ errors.phone_num.toString() }}</li>
-                                    <li v-if="errors['email']">@{{ errors.email.toString() }}</li>
-                                    <li v-if="errors['bank']">@{{ errors.bank.toString() }}</li>
-                                    <li v-if="errors['account_holder']">@{{ errors.account_holder.toString() }}</li>
-                                    <li v-if="errors['account_number']">@{{ errors.account_number.toString() }}</li>
+                            <div hidden id="errors">
+                                <div class="alert alert-danger" v-if="formErrors">
+                                    <ul>
+                                        <li v-if="errors['name']">@{{ errors.name.toString() }}</li>
+                                        <li v-if="errors['phone_num']">@{{ errors.phone_num.toString() }}</li>
+                                        <li v-if="errors['email']">@{{ errors.email.toString() }}</li>
+                                        <li v-if="errors['bank']">@{{ errors.bank.toString() }}</li>
+                                        <li v-if="errors['account_holder']">@{{ errors.account_holder.toString() }}</li>
+                                        <li v-if="errors['account_number']">@{{ errors.account_number.toString() }}</li>
 
-                                </ul>
+                                    </ul>
+                                </div>
                             </div>
                             <div class="panel">
                                 <form id="app-2" class="panel-body form-horizontal form-padding" method="put"
@@ -151,6 +153,7 @@
                             this.profile = response.data;
                         });
 
+
             },
             methods: {
                 submita: function (e) {
@@ -181,12 +184,18 @@
                                 this.formErrors = false;
                             })
                             .catch(function (data, status, request) {
-
+                                $("#errors").show();
                                 this.errors = data.data;
                                 this.formErrors = true;
                             });
+
+
                 }
             }
+        });
+
+        $(function () {
+
         });
 
 
