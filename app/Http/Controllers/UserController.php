@@ -79,17 +79,17 @@ class UserController extends Controller
             'account_holder' => 'max:600',
             'account_number' => 'digits_between:0,20',
         ], [
-            'name.required' => '이름을 입력하세요',
-            'name.max' => '이름이 너무 깁니다',
-            'phone_num.digits_between' => '연락처가 너무 깁니다',
-            'phone_num.numeric' => '연락처는 숫자만 입력할 수 있습니다',
+            'name.required' => '�씠由꾩쓣 �엯�젰�븯�꽭�슂',
+            'name.max' => '�씠由꾩씠 �꼫臾� 源곷땲�떎',
+            'phone_num.digits_between' => '�뿰�씫泥섍� �꼫臾� 源곷땲�떎',
+            'phone_num.numeric' => '�뿰�씫泥섎뒗 �닽�옄留� �엯�젰�븷 �닔 �엳�뒿�땲�떎',
 
-            'email.required' => '이메일을 입력하세요',
-            'email.max' => '이메일이 너무 깁니다',
-            'bank.max' => '은행명이 너무 깁니다',
-            'account_holder.max' => '예금주가 너무 깁니다',
-            'account_number.numeric' => '계좌번호는 숫자만 입력할 수 있습니다',
-            'account_number.digits_between' => '계좌번호가 너무 깁니다',
+            'email.required' => '�씠硫붿씪�쓣 �엯�젰�븯�꽭�슂',
+            'email.max' => '�씠硫붿씪�씠 �꼫臾� 源곷땲�떎',
+            'bank.max' => '���뻾紐낆씠 �꼫臾� 源곷땲�떎',
+            'account_holder.max' => '�삁湲덉＜媛� �꼫臾� 源곷땲�떎',
+            'account_number.numeric' => '怨꾩쥖踰덊샇�뒗 �닽�옄留� �엯�젰�븷 �닔 �엳�뒿�땲�떎',
+            'account_number.digits_between' => '怨꾩쥖踰덊샇媛� �꼫臾� 源곷땲�떎',
 
         ])->validate();
 

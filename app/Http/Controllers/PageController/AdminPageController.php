@@ -12,6 +12,7 @@ use App\Mailbox;
 use App\Faq;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Auth;
 
 class AdminPageController extends Controller
 {
@@ -129,7 +130,8 @@ class AdminPageController extends Controller
 
     public function memo_create()
     {
-        return view('admin.memo_create');
+        $my_novel_groups = NovelGroup::where('user_id', Auth::user()->id)->get();
+        return view('admin.memo_create', compact('my_novel_groups'));
     }
 
     public function memo_view(Request $request, $id)
