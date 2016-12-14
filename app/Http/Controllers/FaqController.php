@@ -58,7 +58,7 @@ class FaqController extends Controller
         //redirect to faqs
         if($request->ajax()){ return response()->json(['status'=>'ok']);   }
 
-        return redirect()->route('author.novel_faq');
+       return redirect()->route('admin.faqs');
     }
 
     /**
@@ -73,24 +73,42 @@ class FaqController extends Controller
         //
         $input=$request->except('_token','_method');
         //Validate the request
-        $validator = Validator::make($request->all(), [
-            'nickname' => 'required|max:255',
-            'title' => 'required',
+        Validator::make($request->all(), [
+            'faq_category'=>'required',
+            'title' => 'required|max:255',
             'description' => 'required',
-        ]);
-        //if validation fails then redirect to create page
-        if ($validator->fails()) {
-            return redirect('author/faq_edit')
-                ->withErrors($validator)
-                ->withInput();
-        }
+        ], [
+            'faq_category.required' => '범주은 필수 입니다.',
+            'title.required' => '제목은 필수 입니다.',
+            'title.max' =>   '제목은 반드시 255 자리보다 작아야 합니다.',
+            'description.required' => '소개은 필수 입니다.',
+
+        ])->validate();
 
         //if validation is passed then insert the record
         Faq::where('id',$id)->update($input);
+
+        if($request->ajax()){ return response()->json(['status'=>'ok']);   }
         //redirect to faqs
-        return redirect('/author/novel_faq');
+        return redirect()->route('admin.faqs');
 
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
+        $faq= Faq::find($id);
+        $faq->delete();
+        flash('삭제 되었습니다');
+        return response()->json(['status'=>'ok']);
+    }
+
 
 
 }
