@@ -46,7 +46,7 @@
                             @foreach($novel_mail_messages as $novel_mail_message)
                                 <tr>
                                     <td class="check"><input type="checkbox"></td>
-                                    <td class="from"><a  id="demo"
+                                    <td class="from"><a id="demo{{ $novel_mail_message->id }}"
                                                         href="#">@if($novel_mail_message->mailboxs->users) {{$novel_mail_message->mailboxs->users->name}} @endif</a>
                                     </td>
                                     <td class="text-left"><a
@@ -151,26 +151,31 @@
 
     <script>
         $(function () {
-            $.contextMenu({
-                selector: '#demo',
-                trigger: "left",
-                callback: function(key, options) {
-                    var m = "clicked: " + key;
-                    console.log(options);
+            @foreach($novel_mail_messages as $novel_mail_message)
+            $("#demo{{$novel_mail_message->id}}").click(function () {
+                $.contextMenu({
+                    selector: '#demo{{$novel_mail_message->id}}',
+                    trigger: "left",
+                    callback: function (key, options) {
+                        var m = "clicked: " + key;
+                        console.log(this);
 
-                    if(key=="mail"){
+                        if (key == "mail") {
+                            {{-- using this @{{$novel_mail_message->id}} we can go to somewhere to send a message to particular person--}}
+                                                                                window.location.assign("{{ route('author.novel_memo_create') }}");
+                        }
 
-{{--                        window.location.assign("{{ route('author.novel_memo_create') }}");--}}
+                    },
+                    items: {
+                        "mail": {name: "쪽지 보내기", icon: "mail"},
+                        "cut": {name: "소설 보기", icon: "cut"},
                     }
-
-                },
-                items: {
-                    "mail": {name: "쪽지 보내기", icon: "mail"},
-                    "cut": {name: "소설 보기", icon: "cut"},
-                }
+                });
             });
+            @endforeach
 
-            $('.context-menu-one').on('click', function(e){
+
+            $('.context-menu-one').on('click', function (e) {
                 console.log('clicked', this);
             })
         });
