@@ -52,6 +52,8 @@
                     @if($men_to_men_request->status == "1" && $men_to_men_request->question != null)
                         <div class="pad-top">
                             <h5>답변시간 <span>{{$men_to_men_request->updated_at}}</span></h5>
+                        @endif
+                    </div>
 
                         </div>
 

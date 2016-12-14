@@ -32,12 +32,12 @@
                                         </div>
 
                                         <div class="col-md-2 text-right pad-no padding-bottom-5">
-                                            <select class="form-control" name="sort">
-                                                <option value="">정렬</option>
-                                                <option value="1">모든글</option>
-                                                <option value="2">연재글</option>
-                                                <option value="3">연결글</option>
-                                                <option value="4">비밀글</option>
+                                            <select v-model="order" class="form-control" name="sort">
+                                                <option value="정렬">정렬</option>
+                                                <option value="">모든글</option>
+                                                <option value="running">연재글</option>
+                                                <option value="completed">완결글</option>
+                                                <option value="secret">비밀글</option>
                                             </select>
                                         </div>
                                     </div>
@@ -117,52 +117,74 @@
 
                                 </div>
 
+                                <div class="fixed-table-pagination" style="display: block;">
+                                    <div class="pull-left">
+                                        <button class="btn btn-danger">선택삭제</button>
+                                    </div>
 
+                                    <div class="pull-right">
+                                        <ul class="pagination">
+
+                                            <li v-if="page.page_first" class="page-first"><a v-on:click="pagination(1)"
+                                                                                             href="#">&lt;&lt;</a></li>
+                                            <li v-else class="page-first disabled"><a v-on:click="pagination(1)"
+                                                                                      href="#">&lt;&lt;</a></li>
+
+                                            <li v-if="page.page_pre" class="page-pre"><a
+                                                        v-on:click="pagination(page.current_page - 1)" href="#">&lt;</a>
+                                            </li>
+                                            <li v-else class="page-pre disabled"><a
+                                                        v-on:click="pagination(page.current_page - 1)" href="#">&lt;</a>
+                                            </li>
+
+
+                                            <li v-if="page.current_page >= 5" class="page-number">
+                                                <a v-on:click="pagination(page.current_page - 4)"
+                                                   href="#">@{{ page.current_page - 4 }}</a></li>
+                                            <li v-if="page.current_page >= 4" class="page-number">
+                                                <a v-on:click="pagination(page.current_page - 3)"
+                                                   href="#">@{{ page.current_page - 3 }}</a></li>
+                                            <li v-if="page.current_page >= 3" class="page-number">
+                                                <a v-on:click="pagination(page.current_page - 2)"
+                                                   href="#">@{{ page.current_page - 2 }}</a></li>
+                                            <li v-if="page.current_page >= 2" class="page-number">
+                                                <a v-on:click="pagination(page.current_page - 1)"
+                                                   href="#">@{{ page.current_page - 1 }}</a></li>
+
+                                            <li class="page-number active"><a>@{{ page.current_page }}</a></li>
+
+                                            <li v-if="(page.last_page-1) >= page.current_page" class="page-number">
+                                                <a v-on:click="pagination(page.current_page + 1)"
+                                                   href="#">@{{ page.current_page + 1 }}</a></li>
+                                            <li v-if="(page.last_page-2) >= page.current_page" class="page-number">
+                                                <a v-on:click="pagination(page.current_page + 2)"
+                                                   href="#">@{{ page.current_page + 2 }}</a></li>
+                                            <li v-if="(page.last_page-3) >= page.current_page" class="page-number">
+                                                <a v-on:click="pagination(page.current_page + 3)"
+                                                   href="#">@{{ page.current_page + 3 }}</a></li>
+                                            <li v-if="(page.last_page-4) >= page.current_page" class="page-number">
+                                                <a v-on:click="pagination(page.current_page + 4)"
+                                                   href="#">@{{ page.current_page + 4 }}</a></li>
+
+
+                                            <li v-if="page.page_next" class="page-next"><a
+                                                        v-on:click="pagination(page.current_page + 1)" href="#">&gt;</a>
+                                            </li>
+                                            <li v-else class="page-next disabled"><a
+                                                        v-on:click="pagination(page.current_page + 1)" href="#">&gt;</a>
+                                            </li>
+                                            <li v-if="page.page_last" class="page-last"><a
+                                                        v-on:click="pagination(page.last_page)" href="#">&gt;&gt;</a>
+                                            </li>
+                                            <li v-else class="page-last disabled"><a
+                                                        v-on:click="pagination(page.last_page)" href="#">&gt;&gt;</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
 
-                            <div class="fixed-table-pagination" style="display: block;">
-                                <div class="pull-left">
-                                    <button class="btn btn-danger">선택삭제</button>
-                                </div>
 
-                                <div class="pull-right">
-                                    <ul class="pagination">
-
-                                        <li v-if="page.page_first" class="page-first"><a v-on:click="pagination(1)" href="#">&lt;&lt;</a></li>
-                                        <li v-else class="page-first disabled"><a v-on:click="pagination(1)" href="#">&lt;&lt;</a></li>
-
-                                        <li v-if="page.page_pre" class="page-pre"><a v-on:click="pagination(page.current_page - 1)" href="#">&lt;</a></li>
-                                        <li v-else class="page-pre disabled"><a v-on:click="pagination(page.current_page - 1)" href="#">&lt;</a></li>
-
-
-                                        <li v-if="page.current_page >= 5" class="page-number">
-                                            <a v-on:click="pagination(page.current_page - 4)" href="#">@{{ page.current_page - 4 }}</a></li>
-                                        <li v-if="page.current_page >= 4" class="page-number">
-                                            <a v-on:click="pagination(page.current_page - 3)" href="#">@{{ page.current_page - 3 }}</a></li>
-                                        <li v-if="page.current_page >= 3" class="page-number">
-                                            <a v-on:click="pagination(page.current_page - 2)" href="#">@{{ page.current_page - 2 }}</a></li>
-                                        <li v-if="page.current_page >= 2" class="page-number">
-                                            <a v-on:click="pagination(page.current_page - 1)" href="#">@{{ page.current_page - 1 }}</a></li>
-
-                                        <li class="page-number active"><a>@{{ page.current_page }}</a></li>
-
-                                        <li v-if="(page.last_page-1) >= page.current_page" class="page-number">
-                                            <a v-on:click="pagination(page.current_page + 1)" href="#">@{{ page.current_page + 1 }}</a></li>
-                                        <li v-if="(page.last_page-2) >= page.current_page" class="page-number">
-                                            <a v-on:click="pagination(page.current_page + 2)" href="#">@{{ page.current_page + 2 }}</a></li>
-                                        <li v-if="(page.last_page-3) >= page.current_page" class="page-number">
-                                            <a v-on:click="pagination(page.current_page + 3)" href="#">@{{ page.current_page + 3 }}</a></li>
-                                        <li v-if="(page.last_page-4) >= page.current_page" class="page-number">
-                                            <a v-on:click="pagination(page.current_page + 4)" href="#">@{{ page.current_page + 4 }}</a></li>
-
-
-                                        <li v-if="page.page_next" class="page-next"><a v-on:click="pagination(page.current_page + 1)"  href="#">&gt;</a></li>
-                                        <li v-else class="page-next disabled"><a v-on:click="pagination(page.current_page + 1)"  href="#">&gt;</a></li>
-                                        <li v-if="page.page_last" class="page-last"><a v-on:click="pagination(page.last_page)"  href="#">&gt;&gt;</a></li>
-                                        <li v-else class="page-last disabled"><a v-on:click="pagination(page.last_page)"  href="#">&gt;&gt;</a></li>
-                                    </ul>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -195,7 +217,8 @@
                     'current_page': 0,
                     'from': 0,
                     'last_page': 0
-                }
+                },
+                order: "정렬"
 
 
             },
@@ -210,10 +233,18 @@
                  this.my_comments = response.data;
                  }); */
             },
+
+            watch: {
+                order: function (val) {
+                    console.log(val);
+                    this.pagination(this.page.current_page);
+                }
+            },
+
             methods: {
 
                 pagination: function (page) {
-                    this.$http.get('{{ route('novelgroups.index') }}?page='+ page)
+                    this.$http.get('{{ route('novelgroups.index') }}?page=' + page + '&order=' + this.order)
                             .then(function (response) {
                                 console.log(response);
                                 this.novel_groups = response.data.novel_groups.data;
@@ -278,7 +309,7 @@
                 check_review: function (id) {
                     for (var key in this.reviewsCountData) {
                         if (id == key) {
-                            console.log(id);
+
                             return this.reviewsCountData[id];
                         }
                     }
@@ -287,7 +318,7 @@
                 latested: function (id) {
                     for (var key in this.reviewsCountData) {
                         if (id == key) {
-                            console.log(id);
+
                             return this.latested_at[id];
                         }
                     }
@@ -480,7 +511,9 @@
                                 this.page.from = response.data.novel_groups.from;
                                 this.page.last_page = response.data.novel_groups.last_page;
                                 console.log(this);
-
+                                $("#page-title").click(function () {
+                                    console.log(this);
+                                });
 
                             });
 

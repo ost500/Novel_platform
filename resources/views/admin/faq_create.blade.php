@@ -35,7 +35,7 @@
                         <form class="panel-body form-horizontal form-padding"  action="{{route('faqs.store')}}"  method="post"  >
                             {!! csrf_field() !!}
                             <div class="form-group">
-                                <label class="col-md-2 control-label" for="demo-email-input">자주 묻는 질문 범주</label>
+                                <label class="col-md-2 control-label" for="demo-email-input">범주</label>
                             <div class="col-md-9">
                                 <select class="form-control" name="faq_category">
                                     <option value="">범주선택</option>

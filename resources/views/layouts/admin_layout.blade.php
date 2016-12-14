@@ -230,8 +230,8 @@
                                         <i class="arrow"></i>
                                         </a>
                                         <ul class="collapse  {{ (Request::is('admin/faqs')||Request::is('admin/faqs/*')||Request::is('admin/faqs/create'))?"in":"" }}">
-                                            <li><a href="{{ route('admin.faqs')}}">쪽지함</a></li>
-                                            <li><a href="{{ route('admin.faqs.create')}}">쪽지보내기</a></li>
+                                            <li><a href="{{ route('admin.faqs')}}">FAQ</a></li>
+                                            <li><a href="{{ route('admin.faqs.create')}}">FAQ 등록</a></li>
                                         </ul>
                                 </li>
 
