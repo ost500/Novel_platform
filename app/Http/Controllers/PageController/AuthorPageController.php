@@ -93,15 +93,15 @@ class AuthorPageController extends Controller
 
     public function mailbox_index(Request $request)
     {
-        $novel_mail_messages = Auth::user()->maillogs()->paginate(10);
+        $novel_mail_messages = Auth::user()->maillogs()->with('mailboxs')->paginate(10);
 //        $page = new Paginator($novel_mail_messages, 2);
-//        return response()->json($page);
+//        return response()->json($novel_mail_messages);
         return view('author.novel_memo', compact('novel_mail_messages'));
     }
 
     public function mailbox_send(Request $request)
     {
-        $novel_mail_messages = Mailbox::where('from', Auth::user()->id)->paginate(10);
+        $novel_mail_messages = Mailbox::where('from', Auth::user()->id)->with('users')->paginate(10);
 //                return response()->json($novel_mail_messages);
         return view('author.novel_memo_send', compact('novel_mail_messages'));
     }

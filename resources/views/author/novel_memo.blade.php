@@ -152,6 +152,7 @@
     <script>
         $(function () {
             @foreach($novel_mail_messages as $novel_mail_message)
+
             $("#demo{{$novel_mail_message->id}}").click(function () {
                 $.contextMenu({
                     selector: '#demo{{$novel_mail_message->id}}',
@@ -161,8 +162,7 @@
                         console.log(this);
 
                         if (key == "mail") {
-                            {{-- using this @{{$novel_mail_message->id}} we can go to somewhere to send a message to particular person--}}
-                                                                                window.location.assign("{{ route('author.novel_memo_create') }}");
+                            window.location.assign("{{ route('author.specific_mail', ['id'=> $novel_mail_message->mailboxs->from]) }}");
                         }
 
                     },
