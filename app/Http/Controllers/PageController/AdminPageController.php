@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\PageController;
 
 use App\Http\Controllers\Controller;
+use App\MailLog;
 use Illuminate\Pagination\Paginator;
 use App\MenToMenQuestionAnswer;
 use App\Novel;
@@ -125,8 +126,10 @@ class AdminPageController extends Controller
 
     public function memo(Request $request)
     {
-        $novel_mail_messages = Mailbox::all('*');
-        return view('admin.memo', compact('novel_mail_messages'));
+        $novel_mail_messages = Auth::user()->maillogs()->with('mailboxs')->paginate(2);
+//        $page = new Paginator($novel_mail_messages, 2);
+//        return response()->json($novel_mail_messages);
+        return view('author.novel_memo', compact('novel_mail_messages'));
     }
 
     public function memo_create()
@@ -137,9 +140,12 @@ class AdminPageController extends Controller
 
     public function memo_view(Request $request, $id)
     {
-        $men_to_men_request = Mailbox::where('id', $id)->with('users')->first();
-        $men_to_men_requests = Mailbox::orderBy('id', 'desc')->paginate(10);
-        return view('admin.memo_view', compact('men_to_men_request', 'men_to_men_requests'));
+
+//        $mailbox_message = Mailbox::where('id', $id)->with('users')->first();
+        $men_to_men_request = MailLog::where('id', $id)->with('mailboxs.users')->with('users')->first();
+        $men_to_men_requests = $request->user()->maillogs()->with('mailboxs.users')->orderBy('id', 'desc')->paginate(10);
+//                return response()->json($men_to_men_request);
+        return view('author.mailbox_message', compact('men_to_men_request', 'men_to_men_requests'));
     }
 
 
