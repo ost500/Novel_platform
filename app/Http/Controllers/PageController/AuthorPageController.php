@@ -1,12 +1,14 @@
 <?php
 
 namespace App\Http\Controllers\PageController;
+
 use App\Mailbox;
 use App\MailLog;
 use App\MenToMenQuestionAnswer;
 use App\Novel;
 use App\NovelGroup;
 use App\Faq;
+use App\User;
 use App\Http\Controllers\Controller;
 use Auth;
 use Illuminate\Pagination\Paginator;
@@ -59,11 +61,10 @@ class AuthorPageController extends Controller
         $reser_day = new Carbon($novel->publish_reservation);
 
         //출간예약이 없다면 null 값을 리턴한다
-        if($novel->publish_reservation == null){
+        if ($novel->publish_reservation == null) {
             $novel->reser_day = null;
             $novel->reser_time = null;
-        }
-        else{
+        } else {
             $novel->reser_day = $reser_day->toDateString();
             $novel->reser_time = $reser_day->format('h:i');
         }
@@ -76,6 +77,18 @@ class AuthorPageController extends Controller
         // $novel_group=NovelGroup::find($id);
         //  return view('author.edit', compact('novel_group','id'));
         return view('author.edit', compact('id'));
+    }
+
+    public function specific_mailbox_create($id = null)
+    {
+        if ($id) {
+            $user = User::where('id', $id)->first();
+
+        } else {
+           $user=null;
+        }
+        return view('author.specific_mail', compact('user'));
+
     }
 
     public function mailbox_index(Request $request)

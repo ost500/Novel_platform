@@ -36,16 +36,13 @@
                             <label class="col-lg-1 control-label text-left" for="inputSubject">작품선택</label>
 
                             <div class="col-lg-11">
-                                <select class="form-control" name="novel_group_id">
-                                    <option value=""  >작품선택</option>
-                                    @foreach($my_novel_groups as $group)
-                                        @if(old('novel_group_id') == $group->id)
-                                            <option value="{{ $group->id }}" selected>{{ $group->title }}</option>
-                                        @else
-                                            <option value="{{ $group->id }}">{{ $group->title }}</option>
-                                        @endif
-                                    @endforeach
-                                </select>
+                                @if($user)
+                                <input type="text" name="to" id="to" class="form-control"
+                                       placeholder="제목" value="{{ $user->email}}">
+                                @else
+                                    <input type="text" name="to" id="to" class="form-control"
+                                           placeholder="제목" value="{{old('to')}}">
+                                @endif
                             </div>
                         </div>
 
@@ -85,7 +82,7 @@
                             </button>
 
 
-                            <a href="{{route('author.novel_request_list')}}">
+                            <a href="{{route('author.novel_memo')}}">
                                 <button type="button" class="btn btn-danger">취소</button>
                             </a>
 

@@ -216,7 +216,7 @@
                     console.log(response.data);
                 },
                 error: function (response) {
-                    console.log(response['responseJSON'].answer);
+                   // console.log(response['responseJSON'].answer);
                     var output = "<div class='alert alert-danger'> <ul>";
                     output += "<li>" + response['responseJSON'].answer + "</li>";
                     output += "</div></ul>";

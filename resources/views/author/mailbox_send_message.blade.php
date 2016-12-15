@@ -58,6 +58,15 @@
                             {{$men_to_men_request->answer}}
                         </div>
                     @endif
+                    @if($men_to_men_request->attachment)
+                        <div class="pad-top">
+                            <div class="col-md-9" style="text-align: left">
+
+                                <img src="/img/mail_attachments/{{$men_to_men_request->attachment}}" style="width: 20%;height: 15%"/>
+
+                            </div>
+                        </div>
+                    @endif
 
                 </div>
             </div>
