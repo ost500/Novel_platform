@@ -51,7 +51,7 @@
                                     <td class="from"><a
                                                 href="#">@if($novel_mail_message->users) {{$novel_mail_message->users->name}} @endif</a>
                                     </td>
-                                    <td class="from"><a href="#">{{$novel_mail_message->novel_groups->title}}</a></td>
+                                    <td class="from"><a href="#">@if($novel_mail_message->novel_groups){{$novel_mail_message->novel_groups->title}}@endif</a></td>
                                     <td class="text-left"><a
                                                 href="{{route('author.mailbox_send_message',['id'=> $novel_mail_message->id ])}}">{{$novel_mail_message->subject}} </a>
                                     </td>

@@ -134,7 +134,7 @@
 
                                 <li class="list-divider"></li>
 
-                                <li class="{{ (Request::is('admin/price'))?"active-link":"" }}">
+                                <li class="{{ (Request::is('admin/sales'))?"active-link":"" }}">
                                     <a href="{{ route('admin.sales') }}">
                                         <i class="fa fa-book"></i>
                                         <span class="menu-title">
