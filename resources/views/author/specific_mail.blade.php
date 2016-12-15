@@ -29,7 +29,7 @@
             <div id="request_create" class="panel panel-default panel-left">
                 <div class="panel-body">
 
-                    <form role="form" class="form-horizontal" action="{{ route('mailbox.store') }}" method="post" enctype="multipart/form-data">
+                    <form role="form" class="form-horizontal" action="{{ route('mailbox.store_specific_mail') }}" method="post" enctype="multipart/form-data">
                         {{--<meta id="token" name="token" content="{{ csrf_token() }}">--}}
                         {!! csrf_field() !!}
                         <div class="form-group">

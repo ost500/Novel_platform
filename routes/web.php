@@ -31,6 +31,7 @@ Route::resource('faqs', 'FaqController');
 
 Route::resource('users', 'UserController', ['except' => ['update']]);
 Route::post('mailboxes', ['as' => 'mailbox.store', 'uses' => 'MailboxController@store']);
+Route::post('mailboxes/specific_mail', ['as' => 'mailbox.store_specific_mail', 'uses' => 'MailboxController@store_specific_mail']);
 Route::put('users/update', ['as' => 'users.update', 'uses' => 'UserController@update']);
 Route::put('users/update_agreement', ['as' => 'users.update_agreement', 'uses' => 'UserController@update_agreement']);
 
