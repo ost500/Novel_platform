@@ -37,7 +37,7 @@
                         <table class="novel_memo">
                             <tbody>
                             <tr>
-                                <th class="check"><input type="checkbox"></th>
+                                <th class="check"><input type="checkbox" name="checkAll" id="checkAll"></th>
                                 <th class="from">보낸사람</th>
                                 <th>제목</th>
                                 <th class="send">보낸시간</th>
@@ -45,7 +45,8 @@
                             </tr>
                             @foreach($novel_mail_messages as $novel_mail_message)
                                 <tr>
-                                    <td class="check"><input type="checkbox"></td>
+                                    <td class="check"><input type="checkbox" class="checkboxes"
+                                                             value="{{ $novel_mail_message->id }}"></td>
                                     <td class="from"><a id="demo{{ $novel_mail_message->id }}"
                                                         href="#">@if($novel_mail_message->mailboxs->users) {{$novel_mail_message->mailboxs->users->name}} @endif</a>
                                     </td>
@@ -62,7 +63,7 @@
 
                     <div class="fixed-table-pagination" style="display: block;">
                         <div class="pull-left">
-                            <button class="btn btn-danger">선택삭제</button>
+                            <button class="btn btn-danger" id="destroy">선택삭제</button>
                         </div>
 
                         <div class="pull-right">
@@ -150,35 +151,89 @@
 
 
     <script>
-        $(function () {
-            @foreach($novel_mail_messages as $novel_mail_message)
-            $("#demo{{$novel_mail_message->id}}").click(function () {
-                $.contextMenu({
-                    selector: '#demo{{$novel_mail_message->id}}',
-                    trigger: "left",
-                    callback: function (key, options) {
-                        var m = "clicked: " + key;
-                        console.log(this);
 
-                        if (key == "mail") {
-                            {{-- using this @{{$novel_mail_message->id}} we can go to somewhere to send a message to particular person--}}
-                                                                                window.location.assign("{{ route('author.novel_memo_create') }}");
-                        }
+        $("#checkAll").change(function () {
+            $("input:checkbox").prop('checked', $(this).prop("checked"));
+        });
 
+        // function destroySelected() {
+        $("#destroy").click(function () {
+
+            bootbox.confirm({
+                message: "삭제 하시겠습니까?",
+                buttons: {
+                    confirm: {
+                        label: "삭제"
                     },
-                    items: {
-                        "mail": {name: "쪽지 보내기", icon: "mail"},
-                        "cut": {name: "소설 보기", icon: "cut"},
+                    cancel: {
+                        label: '취소'
                     }
-                });
-            });
-            @endforeach
+                },
+                callback: function (result) {
+                    if (result) {
 
+                        var checked_data = $(".checkboxes:checked").map(function() {
+                            return this.value;
+                        }).get();
 
-            $('.context-menu-one').on('click', function (e) {
-                console.log('clicked', this);
+                        $.ajax({
+                            type: 'POST',
+                            data:{'ids':checked_data},
+                            url: '{{ route('mailbox.destroy') }}',
+                            headers: {
+                                'X-CSRF-TOKEN': window.Laravel.csrfToken
+                            },
+                            success: function (response) {
+                               location.reload();
+                               /* $.niftyNoty({
+                                    type: 'warning',
+                                    icon: 'fa fa-check',
+                                    message: "삭제 되었습니다.",
+                                    container: 'page',
+                                    timer: 4000
+                                });*/
+                            },
+                            error: function (data2) {
+                                console.log(data2);
+                            }
+                        });
+
+                    }
+                }
             })
         });
+            //  }
+
+
+            $(function () {
+                @foreach($novel_mail_messages as $novel_mail_message)
+                $("#demo{{$novel_mail_message->id}}").click(function () {
+                            $.contextMenu({
+                                selector: '#demo{{$novel_mail_message->id}}',
+                                trigger: "left",
+                                callback: function (key, options) {
+                                    var m = "clicked: " + key;
+                                    console.log(this);
+
+                                    if (key == "mail") {
+                                        {{-- using this @{{$novel_mail_message->id}} we can go to somewhere to send a message to particular person--}}
+                                        window.location.assign("{{ route('author.novel_memo_create') }}");
+                                    }
+
+                                },
+                                items: {
+                                    "mail": {name: "쪽지 보내기", icon: "mail"},
+                                    "cut": {name: "소설 보기", icon: "cut"},
+                                }
+                            });
+                        });
+                @endforeach
+
+
+                $('.context-menu-one').on('click', function (e) {
+                            console.log('clicked', this);
+                        })
+            });
     </script>
 
 
