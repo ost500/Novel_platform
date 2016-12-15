@@ -33,7 +33,7 @@
                         {{--<meta id="token" name="token" content="{{ csrf_token() }}">--}}
                         {!! csrf_field() !!}
                         <div class="form-group">
-                            <label class="col-lg-1 control-label text-left" for="inputSubject">작품선택</label>
+                            <label class="col-lg-1 control-label text-left" for="inputSubject">받는이</label>
 
                             <div class="col-lg-11">
                                 @if($user)
