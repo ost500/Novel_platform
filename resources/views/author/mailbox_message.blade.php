@@ -1,4 +1,4 @@
-@extends('layouts.admin_layout')
+@extends('layouts.app')
 
 @section('content')
     <div id="content-container">
@@ -88,20 +88,20 @@
                         @endif
                         <!--Mail list item-->
                             <li class="mail-list-unread">
-                            {{--<div class="mail-from">--}}
-                            {{--<button @if($request->answer!=null) class="btn btn-xs btn-danger">완료</button>--}}
-                            {{--</div>@else class="btn btn-xs btn-success">대기</button>--}}
-                            {{--</div>@endif--}}
-                            <div class="mail-from">
-                                <a>{{ $request->mailboxs->users->name }}</a>
-                                {{--<button class="btn btn-xs btn-success">대기</button>--}}
-                            </div>
+                                {{--<div class="mail-from">--}}
+                                {{--<button @if($request->answer!=null) class="btn btn-xs btn-danger">완료</button>--}}
+                                {{--</div>@else class="btn btn-xs btn-success">대기</button>--}}
+                                {{--</div>@endif--}}
+                                <div class="mail-from">
+                                    <a>{{ $request->mailboxs->users->name }}</a>
+                                    {{--<button class="btn btn-xs btn-success">대기</button>--}}
+                                </div>
 
-                            <div class="mail-time">{{$request->created_at}}</div>
+                                <div class="mail-time">{{$request->created_at}}</div>
 
-                            <div class="mail-subject">
-                                <a href="{{ route('admin.memo_view',['id' => $request->id])}}">{{$request->mailboxs->subject}} </a>
-                            </div>
+                                <div class="mail-subject">
+                                    <a href="{{ route('author.mailbox_message',['id' => $request->id]) }}/?page={{$page}}">{{$request->mailboxs->subject}} </a>
+                                </div>
                             </li>
                     @endforeach
 
@@ -126,82 +126,9 @@
                     </li>-->
 
                     </ul>
-
-
                     <div class="fixed-table-pagination" style="display: block;">
                         <div class="pull-left">
-                            <ul class="pagination">
-
-                                {{-- $men_to_men_requests->render() --}}
-                                <li class="page-first  @if($men_to_men_requests->currentPage() ==1)  disabled @endif">
-                                    <a href=" @if($men_to_men_requests->currentPage() ==1)  #  @else {{url('/admin/memo/'.$men_to_men_request->id."?page=1")}} @endif">
-                                        &lt;&lt;</a>
-                                </li>
-                                @if($men_to_men_requests->currentPage() >= 2)
-                                    <li class="page-pre"><a
-                                                href="{{url('/admin/memo/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()-1))}}">
-                                            &lt;</a></li>
-                                @endif
-                                @if($men_to_men_requests->currentPage() >= 5)
-                                    <li class="page-pre"><a
-                                                href="{{url('/admin/memo/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()-4))}}">{{$men_to_men_requests->currentPage()-4}}</a>
-                                    </li>
-                                @endif
-                                @if($men_to_men_requests->currentPage() >= 4)
-                                    <li class="page-pre"><a
-                                                href="{{url('/admin/memo/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()-3))}}">{{$men_to_men_requests->currentPage()-3}}</a>
-                                    </li>
-                                @endif
-                                @if($men_to_men_requests->currentPage() >= 3)
-                                    <li class="page-pre"><a
-                                                href="{{url('/admin/memo/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()-2))}}">{{$men_to_men_requests->currentPage()-2}}</a>
-                                    </li>
-                                @endif
-                                @if($men_to_men_requests->currentPage() >= 2)
-                                    <li class="page-pre"><a
-                                                href="{{url('/admin/memo/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()-1))}}">{{$men_to_men_requests->currentPage()-1}}</a>
-                                    </li>
-                                @endif
-
-                                <li class="page-number active"><a href="#">{{ $men_to_men_requests->currentPage()}}</a>
-                                </li>
-
-                                @if($men_to_men_requests->lastPage()-1 >= $men_to_men_requests->currentPage())
-                                    <li class="page-number"><a
-                                                href="{{url('/admin/memo/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()+1))}}">{{$men_to_men_requests->currentPage()+1}}</a>
-                                    </li>
-                                @endif
-                                @if($men_to_men_requests->lastPage()-2 >= $men_to_men_requests->currentPage())
-                                    <li class="page-number"><a
-                                                href="{{url('/admin/memo/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()+2))}}">{{$men_to_men_requests->currentPage()+2}}</a>
-                                    </li>
-                                @endif
-                                @if($men_to_men_requests->lastPage()-3 >= $men_to_men_requests->currentPage())
-                                    <li class="page-number"><a
-                                                href="{{url('/admin/memo/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()+3))}}">{{$men_to_men_requests->currentPage()+3}}</a>
-                                    </li>
-                                @endif
-                                @if($men_to_men_requests->lastPage()-4 >= $men_to_men_requests->currentPage())
-                                    <li class="page-number"><a
-                                                href="{{url('/admin/memo/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()+3))}}">{{$men_to_men_requests->currentPage()+4}}</a>
-                                    </li>
-                                @endif
-
-                                @if($men_to_men_requests->lastPage()-1 >= $men_to_men_requests->currentPage())
-                                    <li class="page-next"><a
-                                                href="{{url('/admin/memo/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()+1))}}">
-                                            &gt;</a></li>
-                                @endif
-
-                                <li class="page-last  @if($men_to_men_requests->currentPage() == $men_to_men_requests->lastPage())  disabled @endif">
-                                    <a href=" @if($men_to_men_requests->currentPage() ==$men_to_men_requests->lastPage())  #  @else{{url('/admin/memo/'.$men_to_men_request->id."?page=".($men_to_men_requests->lastPage()))}} @endif">
-                                        &gt;&gt;</a>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="pull-right">
-
+                            @include('pagination', ['collection' => $men_to_men_requests, 'url' => route('author.mailbox_message',['id'=>$men_to_men_request->id])])
                         </div>
                     </div>
                 </div>
