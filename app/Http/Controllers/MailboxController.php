@@ -37,6 +37,7 @@ class MailboxController extends Controller
 
         $input = $request->all();
         $new_mail = $request->user()->mailbox()->create($input);
+        $new_mail->novel_group_id = $request->novel_group_id;
 
         if ($request->hasFile('attachment')) {
             $attachment = $request->file('attachment');

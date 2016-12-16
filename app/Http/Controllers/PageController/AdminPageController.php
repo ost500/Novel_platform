@@ -128,9 +128,10 @@ class AdminPageController extends Controller
     public function memo(Request $request)
     {
         $novel_mail_messages = Auth::user()->maillogs()->with('mailboxs')->paginate(2);
+        $page = $request->page;
 //        $page = new Paginator($novel_mail_messages, 2);
 //        return response()->json($novel_mail_messages);
-        return view('author.novel_memo', compact('novel_mail_messages'));
+        return view('admin.novel_memo', compact('novel_mail_messages','page'));
     }
 
     public function memo_create()
@@ -144,9 +145,10 @@ class AdminPageController extends Controller
 
 //        $mailbox_message = Mailbox::where('id', $id)->with('users')->first();
         $men_to_men_request = MailLog::where('id', $id)->with('mailboxs.users')->with('users')->first();
-        $men_to_men_requests = $request->user()->maillogs()->with('mailboxs.users')->orderBy('id', 'desc')->paginate(10);
+        $men_to_men_requests = $request->user()->maillogs()->with('mailboxs.users')->orderBy('id', 'desc')->paginate(2);
+        $page = $request->page;
 //                return response()->json($men_to_men_request);
-        return view('author.mailbox_message', compact('men_to_men_request', 'men_to_men_requests'));
+        return view('admin.mailbox_message', compact('men_to_men_request', 'men_to_men_requests','page'));
     }
 
 

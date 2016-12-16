@@ -108,7 +108,7 @@
                     </div>
                     @else
                         <div style="font-weight: 600;text-align: center;">
-                           No record Found.
+                           문의가 없습니다.
                         </div>
                     @endif
 

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin_layout')
 
 @section('content')
     <div id="content-container">
@@ -100,7 +100,7 @@
                                 <div class="mail-time">{{$request->created_at}}</div>
 
                                 <div class="mail-subject">
-                                    <a href="{{ route('author.mailbox_message',['id' => $request->id]) }}/?page={{$page}}">{{$request->mailboxs->subject}} </a>
+                                    <a href="{{ route('admin.memo_view',['id' => $request->id]) }}/?page={{$page}}">{{$request->mailboxs->subject}} </a>
                                 </div>
                             </li>
                     @endforeach
@@ -128,7 +128,7 @@
                     </ul>
                     <div class="fixed-table-pagination" style="display: block;">
                         <div class="pull-left">
-                            @include('pagination', ['collection' => $men_to_men_requests, 'url' => route('author.mailbox_message',['id'=>$men_to_men_request->id])])
+                            @include('pagination', ['collection' => $men_to_men_requests, 'url' => route('admin.memo_view',['id'=>$men_to_men_request->id])])
                         </div>
                     </div>
                 </div>

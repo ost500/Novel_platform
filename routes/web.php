@@ -55,7 +55,7 @@ Route::get('/author/create', ['as' => 'author.novel_group_create', 'uses' => 'Pa
 Route::get('/author/{id}/edit', ['as' => 'author.novel_group_edit', 'uses' => 'PageController\AuthorPageController@edit']);
 Route::get('/author/novel_memo', ['as' => 'author.novel_memo', 'uses' => 'PageController\AuthorPageController@mailbox_index']);
 Route::get('/author/novel_memo_send', ['as' => 'author.novel_memo_send', 'uses' => 'PageController\AuthorPageController@mailbox_send']);
-Route::get('/author/mailbox_message/{id}', ['as' => 'author.mailbox_message', 'uses' => 'PageController\AuthorPageController@mailbox_message_show']);
+Route::get('/author/novel_memo_detail/{id}', ['as' => 'author.mailbox_message', 'uses' => 'PageController\AuthorPageController@mailbox_message_show']);
 Route::get('/author/mailbox_send_message/{id}', ['as' => 'author.mailbox_send_message', 'uses' => 'PageController\AuthorPageController@mailbox_send_message_show']);
 Route::get('/author/novel_memo_create', ['as' => 'author.novel_memo_create', 'uses' => 'PageController\AuthorPageController@mailbox_create']);
 Route::get('/author/specific_mail/{id?}', ['as' => 'author.specific_mail', 'uses' => 'PageController\AuthorPageController@specific_mailbox_create']);
@@ -86,5 +86,5 @@ Route::get('/admin/request/{id}',['as' => 'admin.request_view', 'uses' => 'PageC
 Route::post('/admin/request/{id}/answer',['as' => 'admin.request_answer', 'uses' => 'MenToMenQuestionAnswerController@answer']);
 
 Route::get('/admin/memo',['as' => 'admin.memo', 'uses' => 'PageController\AdminPageController@memo']);
-Route::get('/admin/memo/{id}',['as' => 'admin.memo_view', 'uses' => 'PageController\AdminPageController@memo_view']);
+Route::get('/admin/memo_detail/{id}',['as' => 'admin.memo_view', 'uses' => 'PageController\AdminPageController@memo_view']);
 Route::get('/admin/memo_create',['as' => 'admin.memo_create', 'uses' => 'PageController\AdminPageController@memo_create']);
