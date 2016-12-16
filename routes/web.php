@@ -68,6 +68,9 @@ Route::get('/admin/faqs', ['as' => 'admin.faqs', 'uses' => 'PageController\Admin
 Route::get('/admin/faqs/create', ['as' => 'admin.faqs.create', 'uses' => 'PageController\AdminPageController@faq_create']);
 Route::get('/admin/faqs/{id}/edit', ['as' => 'admin.faqs.edit', 'uses' => 'PageController\AdminPageController@faq_edit']);
 
+Route::get('/admin/keywords', ['as' => 'admin.keywords', 'uses' => 'PageController\AdminPageController@keyword_index']);
+Route::get('/admin/keywords/create', ['as' => 'admin.keywords.create', 'uses' => 'PageController\AdminPageController@keyword_create']);
+
 
 Route::get('/admin/index',['as' => 'admin.index', 'uses' => 'PageController\AdminPageController@index']);
 Route::get('/admin/novel',['as' => 'admin.novel', 'uses' => 'PageController\AdminPageController@index']);

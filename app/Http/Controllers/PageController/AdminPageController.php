@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\PageController;
 
 use App\Http\Controllers\Controller;
+use App\Keyword;
 use App\MailLog;
 use Illuminate\Pagination\Paginator;
 use App\MenToMenQuestionAnswer;
@@ -169,11 +170,25 @@ class AdminPageController extends Controller
         return view('admin.faq_create');
     }
 
-    public function faq_edit($id)
+    public function keyword_index()
     {
-        $faq = Faq::find($id);
-        return view('admin.faq_edit', compact('faq'));
+
+        $keyword1  = Keyword::where('category', 1)->get();
+        $keyword2  = Keyword::where('category', 2)->get();
+        $keyword3  = Keyword::where('category', 3)->get();
+        $keyword4  = Keyword::where('category', 4)->get();
+        $keyword5  = Keyword::where('category', 5)->get();
+        $keyword6  = Keyword::where('category', 6)->get();
+        $keyword7  = Keyword::where('category', 7)->get();
+
+        return view('admin.keyword_index', compact('keyword1', 'keyword2', 'keyword3','keyword4','keyword5','keyword6','keyword7'));
     }
+
+    public function keyword_create()
+    {
+        return view('admin.keyword_create');
+    }
+
 
 
 

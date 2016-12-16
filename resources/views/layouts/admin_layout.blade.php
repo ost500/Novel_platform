@@ -221,6 +221,21 @@
 
                                 <li class="list-divider"></li>
 
+                                <li  class="{{ (Request::is('admin/keywords')||Request::is('admin/keywords/*')||Request::is('admin/keywords/create'))?"active-link":"" }}">
+                                    <a href="{{ route('admin.keywords')}}">
+                                        <i class="fa fa-send"></i>
+                                        <span class="menu-title">
+                                            <strong>키워드</strong>
+                                        </span>
+                                        <i class="arrow"></i>
+                                    </a>
+                                    <ul class="collapse  {{ (Request::is('admin/keywords')||Request::is('admin/keywords/*')||Request::is('admin/keywords/create'))?"in":"" }}">
+                                        <li><a href="{{ route('admin.keywords')}}">키워드</a></li>
+                                        <li><a href="{{ route('admin.keywords.create')}}">키워드 등록</a></li>
+                                    </ul>
+                                </li>
+                                <li class="list-divider"></li>
+
                                 <li  class="{{ (Request::is('admin/faqs')||Request::is('admin/faqs/*')||Request::is('admin/faqs/create'))?"active-link":"" }}">
                                     <a href="{{ route('admin.faqs')}}">
                                         <i class="fa fa-send"></i>
@@ -234,6 +249,7 @@
                                             <li><a href="{{ route('admin.faqs.create')}}">FAQ 등록</a></li>
                                         </ul>
                                 </li>
+
 
                                 <li class="list-divider"></li>
 
