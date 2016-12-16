@@ -96,14 +96,7 @@ class AuthorPageController extends Controller
         $novel_mail_messages = Auth::user()->maillogs()->with('mailboxs')->paginate(2);
         $page = $request->page;
 //        return response()->json($novel_mail_messages);
-        return view('author.novel_memo', compact('novel_mail_messages','page'));
-    }
-
-    public function mailbox_send(Request $request)
-    {
-        $novel_mail_messages = Mailbox::where('from', Auth::user()->id)->with('users')->paginate(10);
-//                return response()->json($novel_mail_messages);
-        return view('author.novel_memo_send', compact('novel_mail_messages'));
+        return view('author.novel_memo', compact('novel_mail_messages', 'page'));
     }
 
     public function mailbox_create()
@@ -117,10 +110,18 @@ class AuthorPageController extends Controller
 
 //        $mailbox_message = Mailbox::where('id', $id)->with('users')->first();
         $men_to_men_request = MailLog::where('id', $id)->with('mailboxs.users')->with('users')->first();
-        $men_to_men_requests = $request->user()->maillogs()->with('mailboxs.users')->orderBy('id', 'desc')->paginate(2);
+        $men_to_men_requests = $request->user()->maillogs()->with('mailboxs.users')->orderBy('created_at', 'desc')->paginate(2);
 //                return response()->json($men_to_men_request);
         $page = $request->page;
         return view('author.mailbox_message', compact('men_to_men_request', 'men_to_men_requests', 'page'));
+    }
+
+    public function mailbox_send(Request $request)
+    {
+        $novel_mail_messages = Mailbox::where('from', Auth::user()->id)->with('users')->orderBy('created_at', 'desc')->paginate(2);
+        $page = $request->page;
+//                return response()->json($novel_mail_messages);
+        return view('author.novel_memo_send', compact('novel_mail_messages', 'page'));
     }
 
     public function mailbox_send_message_show($id, Request $request)
@@ -128,8 +129,9 @@ class AuthorPageController extends Controller
 
 //        $mailbox_message = Mailbox::where('id', $id)->with('users')->first();
         $men_to_men_request = Mailbox::where('id', $id)->with('users')->first();
-        $men_to_men_requests = $request->user()->mailbox()->orderBy('id', 'desc')->paginate(10);
-        return view('author.mailbox_send_message', compact('men_to_men_request', 'men_to_men_requests'));
+        $men_to_men_requests = $request->user()->mailbox()->orderBy('id', 'desc')->paginate(2);
+        $page = $request->page;
+        return view('author.mailbox_send_message', compact('men_to_men_request', 'men_to_men_requests', 'page'));
     }
 
     public function novel_memo_send($id)

@@ -108,7 +108,7 @@
                                 <div class="mail-time">{{$request->created_at}}</div>
 
                                 <div class="mail-subject">
-                                    <a href="{{ route('author.mailbox_send_message',['id' => $request->id])}}">{{$request->subject}} </a>
+                                    <a href="{{ route('author.mailbox_send_message',['id' => $request->id])}}/?page={{$page}}">{{$request->subject}} </a>
                                 </div>
                             </li>
                     @endforeach

@@ -53,7 +53,7 @@
                                     </td>
                                     <td class="from"><a href="#">@if($novel_mail_message->novel_groups){{$novel_mail_message->novel_groups->title}}@endif</a></td>
                                     <td class="text-left"><a
-                                                href="{{route('author.mailbox_send_message',['id'=> $novel_mail_message->id ])}}">{{$novel_mail_message->subject}} </a>
+                                                href="{{route('author.mailbox_send_message',['id'=> $novel_mail_message->id ])}}/?page={{$page}}">{{$novel_mail_message->subject}} </a>
                                     </td>
                                     <td class="send">{{$novel_mail_message->created_at}}</td>
                                     <td class="read">읽은시간</td>
