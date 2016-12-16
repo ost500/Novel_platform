@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Keyword;
 use App\User;
 use Auth;
 use Illuminate\Http\Request;
@@ -9,6 +10,7 @@ use App\NovelGroup;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Validator;
+
 
 class NovelGroupController extends Controller
 {
@@ -219,7 +221,25 @@ class NovelGroupController extends Controller
         // $novel_group= $request->user()->novel_groups()->with('users.nicknames')->where('id',$id)->first();
         $novel_group = NovelGroup::where('id', $id)->first();
         $nicknames = $request->user()->nicknames()->get();
-        return \Response::json(['novel_group' => $novel_group, 'nick_names' => $nicknames]);
+        $keyword1 = Keyword::select('id', 'name')->where('category', '1')->get();
+        $keyword2 = Keyword::select('id', 'name')->where('category', '2')->get();
+        $keyword3 = Keyword::select('id', 'name')->where('category', '3')->get();
+        $keyword4 = Keyword::select('id', 'name')->where('category', '4')->get();
+        $keyword5 = Keyword::select('id', 'name')->where('category', '5')->get();
+        $keyword6 = Keyword::select('id', 'name')->where('category', '6')->get();
+        $keyword7 = Keyword::select('id', 'name')->where('category', '7')->get();
+
+
+        return \Response::json([
+            'novel_group' => $novel_group,
+            'nick_names' => $nicknames,
+            'keyword1' => $keyword1,
+            'keyword2' => $keyword2, 'keyword3' => $keyword3,
+            'keyword4' => $keyword4, 'keyword5' => $keyword5,
+            'keyword6' => $keyword6, 'keyword7' => $keyword7,
+
+
+        ]);
     }
 
     /**

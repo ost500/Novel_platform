@@ -16,5 +16,4 @@ class Keyword extends Model
     protected $fillable = [
         'category', 'name',
     ];
-
 }

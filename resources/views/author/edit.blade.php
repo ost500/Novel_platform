@@ -88,32 +88,39 @@
                                     <select name="keyword1" class="form-control inline"
                                             v-model="fillItem.keyword1"
                                             style="width:14%;" size=10>
-                                        <option value="">장르</option>
-                                        <option value="1">현대판타지</option>
-                                        <option value="2">사극/시대물</option>
-                                        <option value="3">동양판타지</option>
-                                        <option value="3">서양/중세</option>
-                                        <option value="4">로맨스판타지</option>
-                                        <option value="5">미래/SF</option>
+
+                                        <option v-for="keyword in keyword1"
+                                                :value="keyword.id"> @{{keyword.name }} </option>
+                                        {{-- <option value="">장르</option>
+                                           <option value="1">현대판타지</option>
+                                           <option value="2">사극/시대물</option>
+                                           <option value="3">동양판타지</option>
+                                           <option value="3">서양/중세</option>
+                                           <option value="4">로맨스판타지</option>
+                                           <option value="5">미래/SF</option>--}}
                                     </select>
 
                                     <select name="keyword2" class="form-control inline"
                                             v-model="fillItem.keyword2"
                                             style="width:14%;" size=10>
-                                        <option value="">배경</option>
+                                        <option v-for="keyword in keyword2"
+                                                :value="keyword.id"> @{{keyword.name }} </option>
+                                     {{--   <option value="">배경</option>
                                         <option value="1">메디컬로맨스</option>
                                         <option value="2">전문직로맨스</option>
                                         <option value="3">캠퍼스로맨스</option>
                                         <option value="4">학원로맨스</option>
                                         <option value="5">할리퀸로맨스</option>
                                         <option value="6">스포츠</option>
-                                        <option value="7">연예계</option>
+                                        <option value="7">연예계</option>--}}
                                     </select>
 
                                     <select name="keyword3" class="form-control inline"
                                             v-model="fillItem.keyword3"
                                             style="width:14%;" size=10>
-                                        <option value="">소재</option>
+                                        <option v-for="keyword in keyword3"
+                                                :value="keyword.id"> @{{keyword.name }} </option>
+                                      {{--  <option value="">소재</option>
                                         <option value="1">차원이동</option>
                                         <option value="2">타임슬립</option>
                                         <option value="3">기억상실</option>
@@ -123,13 +130,15 @@
                                         <option value="7">복수</option>
                                         <option value="8">스캔들</option>
                                         <option value="9">영혼체인지</option>
-                                        <option value="10">회귀물</option>
+                                        <option value="10">회귀물</option>--}}
                                     </select>
 
                                     <select name="keyword4" class="form-control inline"
                                             v-model="fillItem.keyword4"
                                             style="width:14%;" size=10>
-                                        <option value="">관계</option>
+                                        <option v-for="keyword in keyword4"
+                                                :value="keyword.id"> @{{keyword.name }} </option>
+                                   {{--     <option value="">관계</option>
                                         <option value="1">계약관계</option>
                                         <option value="1">나이차커플</option>
                                         <option value="1">동거</option>
@@ -144,13 +153,15 @@
                                         <option value="1">첫경험</option>
                                         <option value="1">첫사랑</option>
                                         <option value="1">친구/연인</option>
-                                        <option value="1">선후배</option>
+                                        <option value="1">선후배</option>--}}
                                     </select>
 
                                     <select name="keyword5" class="form-control inline"
                                             v-model="fillItem.keyword5"
                                             style="width:14%;" size=10>
-                                        <option value="">남주인공</option>
+                                        <option v-for="keyword in keyword5"
+                                                :value="keyword.id"> @{{keyword.name }} </option>
+                                      {{--  <option value="">남주인공</option>
                                         <option value="1">계략남</option>
                                         <option value="2">까칠남</option>
                                         <option value="3">나쁜남자</option>
@@ -167,13 +178,15 @@
                                         <option value="14">절륜남</option>
                                         <option value="15">재벌남</option>
                                         <option value="16">카리스마남</option>
-                                        <option value="17">후회남</option>
+                                        <option value="17">후회남</option>--}}
                                     </select>
 
                                     <select name="keyword6" class="form-control inline"
                                             v-model="fillItem.keyword6"
                                             style="width:14%;" size=10>
-                                        <option value="">여주인공</option>
+                                        <option v-for="keyword in keyword6"
+                                                :value="keyword.id"> @{{keyword.name }} </option>
+                                      {{--  <option value="">여주인공</option>
                                         <option value="1">철벽녀</option>
                                         <option value="2">무심녀</option>
                                         <option value="3">후회녀</option>
@@ -184,13 +197,15 @@
                                         <option value="8">다정녀</option>
                                         <option value="9">동정녀</option>
                                         <option value="10">순정녀</option>
-                                        <option value="11">사이다녀</option>
+                                        <option value="11">사이다녀</option>--}}
                                     </select>
 
                                     <select name="keyword7" class="form-control inline"
                                             v-model="fillItem.keyword7"
                                             style="width:14%;" size=10>
-                                        <option value="">분위기/기타</option>
+                                        <option v-for="keyword in keyword7"
+                                                :value="keyword.id"> @{{keyword.name }} </option>
+                                  {{--      <option value="">분위기/기타</option>
                                         <option value="1">로맨틱코미디</option>
                                         <option value="2">달달물</option>
                                         <option value="3">힐링물</option>
@@ -198,7 +213,7 @@
                                         <option value="5">신파</option>
                                         <option value="6">잔잔물</option>
                                         <option value="7">애잔물</option>
-                                        <option value="8">미스테리/스릴러</option>
+                                        <option value="8">미스테리/스릴러</option>--}}
                                     </select>
                                 </div>
                             </div>
@@ -300,14 +315,33 @@
                 fillItem: {},
                 novel_group: [],
                 nick_names: [],
-                formErrors: {}
+                keyword1:[],
+                keyword2:[],
+                keyword3:[],
+                keyword4:[],
+                keyword5:[],
+                keyword6:[],
+                keyword7:[],
+
+
+
+                formErrors: {},
+
             },
 
             mounted: function () {
                 this.$http.get('{{ route( 'novelgroups.edit',['[id'=>$id]) }}')
                         .then(function (response) {
                             this.fillItem = response.data['novel_group'];
-                            this.nick_names = response.data['nick_names']; //console.log( response.data);
+                            this.nick_names = response.data['nick_names'];
+                            this.keyword1 = response.data['keyword1'];
+                            this.keyword2 = response.data['keyword2'];
+                            this.keyword3 = response.data['keyword3'];
+                            this.keyword4 = response.data['keyword4'];
+                            this.keyword5 = response.data['keyword5'];
+                            this.keyword6 = response.data['keyword6'];
+                            this.keyword7 = response.data['keyword7'];
+
                         });
 
             },
