@@ -28,6 +28,7 @@ Route::resource('reviews', 'ReviewController');
 Route::resource('comments', 'CommentController');
 Route::resource('mentomen', 'MenToMenQuestionAnswerController');
 Route::resource('faqs', 'FaqController');
+Route::resource('keywords', 'KeywordController');
 
 Route::resource('users', 'UserController', ['except' => ['update']]);
 Route::post('mailboxes', ['as' => 'mailbox.store', 'uses' => 'MailboxController@store']);
