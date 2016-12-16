@@ -11,6 +11,7 @@ use App\Faq;
 use App\User;
 use App\Http\Controllers\Controller;
 use Auth;
+use App\Keyword;
 use Illuminate\Pagination\Paginator;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -44,7 +45,15 @@ class AuthorPageController extends Controller
     public function create()
     {
 
-        return view('author.create');
+        $keyword1 = Keyword::select('id', 'name')->where('category', '1')->get();
+        $keyword2 = Keyword::select('id', 'name')->where('category', '2')->get();
+        $keyword3 = Keyword::select('id', 'name')->where('category', '3')->get();
+        $keyword4 = Keyword::select('id', 'name')->where('category', '4')->get();
+        $keyword5 = Keyword::select('id', 'name')->where('category', '5')->get();
+        $keyword6 = Keyword::select('id', 'name')->where('category', '6')->get();
+        $keyword7 = Keyword::select('id', 'name')->where('category', '7')->get();
+
+        return view('author.create',compact('keyword1','keyword2','keyword3','keyword4','keyword5','keyword6','keyword7'));
     }
 
     public function create_inning($id)
