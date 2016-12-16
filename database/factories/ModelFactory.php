@@ -157,3 +157,11 @@ $factory->define(App\Favorite::class, function (Faker\Generator $faker) {
 
     ];
 });
+
+$factory->define(\App\Keyword::class, function (Faker\Generator $faker) {
+    return [
+        'category' => $faker->randomElement(['1','2','3','4','5','6','7']),
+        'name' => $faker->word,
+
+    ];
+});

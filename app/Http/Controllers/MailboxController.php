@@ -129,5 +129,12 @@ class MailboxController extends Controller
         return redirect()->route('author.mailbox_send_message', ['id' => $new_mail->id]);
     }
 
+    public function destroy( Request $request){
+
+             $ids =$request->get('ids');
+             MailLog::destroy($ids);
+             flash("삭제 되었습니다");
+             return response()->json("ok");
+    }
 
 }

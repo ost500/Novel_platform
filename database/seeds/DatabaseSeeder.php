@@ -133,8 +133,9 @@ class DatabaseSeeder extends Seeder
         $this->call(MailLogTableSeeder::class);
         
         $this->call(FavoriteTableSeeder::class);
-
-
+        //KeywordTable
+        $this->call(KeywordsTableSeeder::class);
+        $this->command->info('Keywords seeded');
         $this->command->info('inning ordering');
 
     }

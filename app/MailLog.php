@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\MailLog
@@ -25,6 +26,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 class MailLog extends Model
 {
+    use SoftDeletes;
+    protected $dates = ['deleted_at'];
+
     public function users()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
