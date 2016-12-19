@@ -37,7 +37,7 @@
                         <table class="novel_memo">
                             <tbody>
                             <tr>
-                                <th class="check"><input type="checkbox"></th>
+                                <th class="check"><input type="checkbox" name="checkAll" id="checkAll"></th>
                                 <th class="from">보낸사람</th>
                                 <th class="from">소설명</th>
                                 <th>제목</th>
@@ -47,7 +47,8 @@
                             </tr>
                             @foreach($novel_mail_messages as $novel_mail_message)
                                 <tr>
-                                    <td class="check"><input type="checkbox"></td>
+                                    <td class="check"><input type="checkbox"  class="checkboxes"
+                                                             value="{{ $novel_mail_message->id }}"></td>
                                     <td class="from"><a
                                                 href="#">@if($novel_mail_message->users) {{$novel_mail_message->users->name}} @endif</a>
                                     </td>
@@ -65,7 +66,7 @@
 
                     <div class="fixed-table-pagination" style="display: block;">
                         <div class="pull-left">
-                            <button class="btn btn-danger">선택삭제</button>
+                            <button class="btn btn-danger" id="destroy">선택삭제</button>
                         </div>
 
                         <div class="pull-right">
@@ -86,5 +87,57 @@
 
 
     </div>
+    <script>
 
+        $("#checkAll").change(function () {
+            $("input:checkbox").prop('checked', $(this).prop("checked"));
+        });
+
+        // function destroySelected() {
+        $("#destroy").click(function () {
+
+            bootbox.confirm({
+                message: "삭제 하시겠습니까?",
+                buttons: {
+                    confirm: {
+                        label: "삭제"
+                    },
+                    cancel: {
+                        label: '취소'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+
+                        var checked_data = $(".checkboxes:checked").map(function() {
+                            return this.value;
+                        }).get();
+
+                        $.ajax({
+                            type: 'POST',
+                            data:{'ids':checked_data},
+                            url: '{{ route('mailbox.destroy_sent') }}',
+                            headers: {
+                                'X-CSRF-TOKEN': window.Laravel.csrfToken
+                            },
+                            success: function (response) {
+                                location.reload();
+                                /* $.niftyNoty({
+                                 type: 'warning',
+                                 icon: 'fa fa-check',
+                                 message: "삭제 되었습니다.",
+                                 container: 'page',
+                                 timer: 4000
+                                 });*/
+                            },
+                            error: function (data2) {
+                                console.log(data2);
+                            }
+                        });
+
+                    }
+                }
+            })
+        });
+    </script>
 @endsection

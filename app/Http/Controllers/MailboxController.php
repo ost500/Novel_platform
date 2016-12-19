@@ -137,4 +137,12 @@ class MailboxController extends Controller
              return response()->json("ok");
     }
 
+    public function destroy_sent( Request $request){
+
+        $ids =$request->get('ids');
+        Mailbox::destroy($ids);
+        flash("삭제 되었습니다");
+        return response()->json("ok");
+    }
+
 }
