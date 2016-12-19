@@ -26,7 +26,7 @@ class AddSoftdeleteMaillogsTable extends Migration
     public function down()
     {
         Schema::table('mail_logs', function (Blueprint $table) {
-            $table->softDeletes();
+            $table->dropColumn('deleted_at');
         });
     }
 }
