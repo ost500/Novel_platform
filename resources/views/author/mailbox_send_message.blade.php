@@ -47,6 +47,35 @@
                     <div class="pad-all bord-all bg-gray-light">
                         {{$men_to_men_request->body}}
                     </div>
+                    <div class="pad-all margin-top-10">
+                        <table class="novel_memo">
+                            <tbody>
+                            <tr>
+                                <th class="check"><input type="checkbox"></th>
+                                <th class="from">받은사람</th>
+                                <th class="from">소설명</th>
+
+                                <th class="send">보낸시간</th>
+
+                                <th class="read">읽은시간</th>
+                            </tr>
+                            @foreach($men_to_men_request->maillogs as $maillog)
+                                <tr>
+                                    <td class="check"><input type="checkbox"></td>
+                                    <td class="from"><a
+                                                href="#">@if($maillog->users) {{$maillog->users->name}} @endif</a>
+                                    </td>
+                                    <td class="from"><a href="#">@if($men_to_men_request->novel_groups){{$men_to_men_request->novel_groups->title}}@endif</a></td>
+
+                                    <td class="send">{{$men_to_men_request->created_at}}</td>
+                                    <td class="read">읽은시간</td>
+                                </tr>
+                            @endforeach
+
+                            </tbody>
+                        </table>
+                    </div>
+
 
                     @if($men_to_men_request->answer)
                         <div class="pad-top">
@@ -62,7 +91,8 @@
                         <div class="pad-top">
                             <div class="col-md-9" style="text-align: left">
 
-                                <img src="/img/mail_attachments/{{$men_to_men_request->attachment}}" style="width: 20%;height: 15%"/>
+                                <img src="/img/mail_attachments/{{$men_to_men_request->attachment}}"
+                                     style="width: 20%;height: 15%"/>
 
                             </div>
                         </div>

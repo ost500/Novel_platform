@@ -137,9 +137,10 @@ class AuthorPageController extends Controller
     {
 
 //        $mailbox_message = Mailbox::where('id', $id)->with('users')->first();
-        $men_to_men_request = Mailbox::where('id', $id)->with('users')->first();
+        $men_to_men_request = Mailbox::where('id', $id)->with('users')->with('maillogs.users')->with('novel_groups')->first();
         $men_to_men_requests = $request->user()->mailbox()->orderBy('id', 'desc')->paginate(2);
         $page = $request->page;
+//        return response()->json($men_to_men_request);
         return view('author.mailbox_send_message', compact('men_to_men_request', 'men_to_men_requests', 'page'));
     }
 
