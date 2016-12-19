@@ -84,12 +84,12 @@ class MailboxController extends Controller
         ],
             [
                 'to.required' => '작품선택 필수 입니다.',
+                'to.email' => '이메일 형식이 유효하지 않습니다.',
                 'subject.required' => '제목은 필수 입니다.',
                 'subject.max' => '제목은 반드시 255 자리보다 작아야 합니다.',
                 'body.required' => '내용은 필수 입니다.',
                 'attachment.mimes' => '첨부파일은 반드시 다음의 파일 타입이어야 합니다: jpeg, png.',
                 'attachment.max' => '표지1 용량은 1M를 넘지 않아야 합니다',
-
             ]
         )->validate();
 

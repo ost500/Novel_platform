@@ -136,7 +136,7 @@ class AdminPageController extends Controller
 
     public function memo_create()
     {
-        $my_novel_groups = NovelGroup::where('user_id', Auth::user()->id)->get();
+        $my_novel_groups = NovelGroup::get();
         return view('admin.memo_create', compact('my_novel_groups'));
     }
 
