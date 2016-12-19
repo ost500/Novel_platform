@@ -38,6 +38,7 @@
                             <tbody>
                             <tr>
                                 <th class="check"><input type="checkbox" name="checkAll" id="checkAll"></th>
+                                <th class="read">상태</th>
                                 <th class="from">보낸사람</th>
                                 <th>제목</th>
                                 <th class="send">보낸시간</th>
@@ -47,14 +48,22 @@
                                 <tr>
                                     <td class="check"><input type="checkbox" class="checkboxes"
                                                              value="{{ $novel_mail_message->id }}"></td>
-                                    <td class="from"><a id="demo{{ $novel_mail_message->id }}"
+                                    <td class="from " >
+                                        <button @if(!$novel_mail_message->read) class="btn btn-xs btn-danger"
+                                                @else class="btn btn-xs btn-success" @endif >@if(!$novel_mail_message->read)
+                                                새 쪽지 @else 읽음   @endif</button>
+                                    </td>
+
+
+                                    <td class="from " >
+                                        <a id="demo{{ $novel_mail_message->id }}"
                                                         href="#">@if($novel_mail_message->mailboxs->users) {{$novel_mail_message->mailboxs->users->name}} @endif</a>
                                     </td>
                                     <td class="text-left"><a
                                                 href="{{route('author.mailbox_message',['id'=> $novel_mail_message->id ])}}/?page={{$page}}">{{$novel_mail_message->mailboxs->subject}} </a>
                                     </td>
                                     <td class="send">{{$novel_mail_message->created_at}}</td>
-                                    <td class="read">읽은시간</td>
+                                    <td class="read"> @if($novel_mail_message->read) {{$novel_mail_message->read}} @endif</td>
                                 </tr>
                             @endforeach
                             </tbody>
