@@ -623,3 +623,84 @@ var faqUpdate = function (faq) {
     }
 
 };
+
+var keywordEdit = function (keyword) {
+
+    bootbox.dialog({
+        title: "키워드",
+        message: '<div class="row"> ' + '<div class="col-md-12"> ' +
+        '<form class="form-horizontal" id="keyword_edit" > ' + '<div class="form-group"> ' +
+        '<label class="col-md-12 control-label" for="faq_category">자주 묻는 질문 범주</label> ' +
+        '<div class="col-md-12" > ' +
+        '<select  id="category" name="category" class="form-control input-md"  style="height:30px" >' +
+        '<option value="">범주선택</option>' +
+        '<option value="1">장르 </option>' +
+        '<option value="2">배경 </option>' +
+        '<option value="3">소재 </option>' +
+        '<option value="4">관계 </option>' +
+        '<option value="5">남주인공 </option>' +
+        '<option value="6">여주인공 </option>' +
+        '<option value="7">분위기/기타 </option>' + '</select> ' +
+        '</div> ' +
+        '</div> ' + '<div class="form-group"> ' +
+        '<label class="col-md-12 control-label" for="title">작품제목</label> ' +
+        '<div class="col-md-12"  > ' +
+        '<input value="' + keyword.name + '" id="name" name="name" type="text" placeholder="필명을 입력해주세요." class="form-control" style="height:30px"> ' +
+        '</div> ' +
+        '</div> ' +'</form> </div> </div>',
+        buttons: {
+
+            success: {
+                label: "저장",
+                className: "btn-purple",
+                callback: function () {
+                    var formData = $('#keyword_edit').serializeArray();
+                    $.ajax({
+                        type: 'PUT',
+                        url: '/keywords/' + keyword.id,
+                        data: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': window.Laravel.csrfToken
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            location.reload();
+
+                            $.niftyNoty({
+                                type: 'purple',
+                                icon: 'fa fa-check',
+                                message: "유료연재약관에 동의 하셨습니다.",
+                                //container : 'floating',
+                                container: 'page',
+                                timer: 4000
+                            });
+
+                        },
+                        error: function (data) {
+                            console.log(data);
+                        }
+                    });
+
+                }
+            }
+        }
+    });
+
+    if (keyword.category == 1) {
+        $("#category").find("option[value=" + 1 + "]").attr("selected", true);
+    }
+    else if (keyword.category == 2) {
+        $("#category").find("option[value=" + 2 + "]").attr("selected", true);
+    } else if (keyword.category == 3)  {
+        $("#category").find("option[value=" + 3 + "]").attr("selected", true);
+    } else if (keyword.category == 4) {
+        $("#category").find("option[value=" + 4 + "]").attr("selected", true);
+    } else if (keyword.category == 5)  {
+        $("#category").find("option[value=" + 5 + "]").attr("selected", true);
+    } else if (keyword.category == 6) {
+        $("#category").find("option[value=" + 6 + "]").attr("selected", true);
+    } else  {
+        $("#category").find("option[value=" + 7 + "]").attr("selected", true);
+    }
+
+};

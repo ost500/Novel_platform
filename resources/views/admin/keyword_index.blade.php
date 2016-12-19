@@ -313,16 +313,15 @@
      },
 
      methods: {*/
-    function update(faq) {
-        // console.log(faq);
+    function update(keyword) {
 
-        faqUpdate(faq);
+        keywordEdit(keyword);
 
 
     }
 
 
-    function destroy(faq_id) {
+    function destroy(keyword_id) {
         bootbox.confirm({
             message: "삭제 하시겠습니까?",
             buttons: {
@@ -335,10 +334,10 @@
             },
             callback: function (result) {
                 if (result) {
-                    console.log(faq_id);
+                    console.log(keyword_id);
                     $.ajax({
                         type: 'DELETE',
-                        url: '{{ url('/faqs') }}/' + faq_id,
+                        url: '{{ url('/keywords') }}/' + keyword_id,
                         headers: {
                             'X-CSRF-TOKEN': window.Laravel.csrfToken
                         },
