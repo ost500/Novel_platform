@@ -159,8 +159,8 @@
                                 <div class="col-md-9" style="text-align: left">
 
                                     <img v-if="fillItem.cover_photo != null"
-                                         v-bind:src="'/img/novel_covers/' + fillItem.cover_photo">
-                                    <img v-else v-bind:src="'/img/novel_covers/default_.jpg'">
+                                         v-bind:src="'/img/novel_covers/' + fillItem.cover_photo" class="index_img">
+                                    <img v-else v-bind:src="'/img/novel_covers/default_.jpg'" class="index_img">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -182,8 +182,8 @@
                                 <div class="col-md-9" style="text-align: left">
 
                                     <img v-if="fillItem.cover_photo2 != null"
-                                         v-bind:src="'/img/novel_covers/' + fillItem.cover_photo2">
-                                    <img v-else v-bind:src="'/img/novel_covers/default_.jpg'">
+                                         v-bind:src="'/img/novel_covers/' + fillItem.cover_photo2" class="index_img">
+                                    <img v-else v-bind:src="'/img/novel_covers/default_.jpg'" class="index_img">
                                 </div>
                             </div>
 
