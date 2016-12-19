@@ -76,7 +76,7 @@
                         </div>
 
                         <div class="pull-right">
-                            @include('pagination', ['collection' => $novel_mail_messages, 'url' => '/author/novel_memo'])
+                            @include('pagination', ['collection' => $novel_mail_messages, 'url' => route('author.novel_memo')])
 
                         </div>
                     </div>
