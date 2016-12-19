@@ -26,6 +26,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $novel_id
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\MailLog[] $maillogs
  * @method static \Illuminate\Database\Query\Builder|\App\Mailbox whereNovelId($value)
+ * @property string $attachment
+ * @property int $novel_group_id
+ * @property-read \App\NovelGroup $novel_groups
+ * @method static \Illuminate\Database\Query\Builder|\App\Mailbox whereAttachment($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Mailbox whereNovelGroupId($value)
  */
 class Mailbox extends Model
 {

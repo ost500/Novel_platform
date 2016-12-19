@@ -23,6 +23,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\MailLog whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\MailLog whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property int $novel_group_id
+ * @property \Carbon\Carbon $deleted_at
+ * @property string $read
+ * @property-read \App\NovelGroup $novel_groups
+ * @method static \Illuminate\Database\Query\Builder|\App\MailLog whereNovelGroupId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\MailLog whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\MailLog whereRead($value)
  */
 class MailLog extends Model
 {

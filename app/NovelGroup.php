@@ -48,6 +48,12 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\NovelGroup[] $favorites
  * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereCoverPhoto2($value)
  * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereLatestAt($value)
+ * @property bool $completed
+ * @property bool $secret
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Mailbox[] $mailboxes
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\MailLog[] $maillogs
+ * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereCompleted($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereSecret($value)
  */
 class NovelGroup extends Model
 {

@@ -46,57 +46,83 @@
                     <!--===================================================-->
                     <div class="pad-all bord-all bg-gray-light">
                         {{$men_to_men_request->body}}
+
+
                     </div>
+
+                    <div class="row">
+
+                        @if($men_to_men_request->answer)
+                            <div class="pad-top">
+                                <h5>답변시간 <span>{{$men_to_men_request->updated_at}}</span></h5>
+
+                            </div>
+
+                            <div class="pad-all bord-all bg-gray-light margin-top-10">
+                                {{$men_to_men_request->answer}}
+                            </div>
+                        @endif
+                        @if($men_to_men_request->attachment)
+                            <div class="pad-top">
+                                <div class="col-md-9" style="text-align: left">
+
+                                    <img src="/img/mail_attachments/{{$men_to_men_request->attachment}}"
+                                         style="width: 20%;height: 15%"/>
+
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+
+
                     <div class="pad-all margin-top-10">
+
+
                         <table class="novel_memo">
                             <tbody>
                             <tr>
-                                <th class="check"><input type="checkbox"></th>
                                 <th class="from">받은사람</th>
-                                <th class="from">소설명</th>
+                                <th class="content">소설명</th>
 
                                 <th class="send">보낸시간</th>
 
                                 <th class="read">읽은시간</th>
                             </tr>
-                            @foreach($men_to_men_request->maillogs as $maillog)
+                            @if($mail_logs->count() == 0)
                                 <tr>
-                                    <td class="check"><input type="checkbox"></td>
+                                    <td colspan="4">쪽지를 보내지 않았습니다</td>
+                                </tr>
+                            @endif
+                            @foreach($mail_logs as $maillog)
+                                <tr>
+
                                     <td class="from"><a
                                                 href="#">@if($maillog->users) {{$maillog->users->name}} @endif</a>
                                     </td>
-                                    <td class="from"><a href="#">@if($men_to_men_request->novel_groups){{$men_to_men_request->novel_groups->title}}@endif</a></td>
+                                    <td class="content"><a
+                                                href="#">@if($men_to_men_request->novel_groups){{$men_to_men_request->novel_groups->title}}@endif</a>
+                                    </td>
 
                                     <td class="send">{{$men_to_men_request->created_at}}</td>
-                                    <td class="read">읽은시간</td>
+                                    <td class="read">{{ $maillog->read }}</td>
                                 </tr>
                             @endforeach
 
                             </tbody>
                         </table>
-                    </div>
 
 
-                    @if($men_to_men_request->answer)
-                        <div class="pad-top">
-                            <h5>답변시간 <span>{{$men_to_men_request->updated_at}}</span></h5>
+                        <div class="fixed-table-pagination" style="display: block;">
+                            <div class="pull-left">
+                                @include('pagination_manual', ['collection' => $mail_logs, 'url' => route('author.mailbox_send_message',['id'=>$men_to_men_request->id]) . "?page=".$page . "&maillog_page="])
+                            </div>
 
-                        </div>
-
-                        <div class="pad-all bord-all bg-gray-light margin-top-10">
-                            {{$men_to_men_request->answer}}
-                        </div>
-                    @endif
-                    @if($men_to_men_request->attachment)
-                        <div class="pad-top">
-                            <div class="col-md-9" style="text-align: left">
-
-                                <img src="/img/mail_attachments/{{$men_to_men_request->attachment}}"
-                                     style="width: 20%;height: 15%"/>
-
+                            <div class="pull-right">
+                                <button id="cancel_mail" class="btn btn-primary">쪽지 보내기 취소</button>
                             </div>
                         </div>
-                    @endif
+                    </div>
+
 
                 </div>
             </div>
@@ -138,10 +164,11 @@
                                 <div class="mail-time">{{$request->created_at}}</div>
 
                                 <div class="mail-subject">
-                                    <a href="{{ route('author.mailbox_send_message',['id' => $request->id])}}/?page={{$page}}">{{$request->subject}} </a>
+                                    <a href="{{ route('author.mailbox_send_message',['id' => $request->id])}}/?page={{$page}}&maillog_page={{$maillog_page}}">{{$request->subject}} </a>
                                 </div>
                             </li>
                     @endforeach
+
 
                     <!--Mail list item-
                     <li class="mail-starred">
@@ -165,83 +192,13 @@
 
                     </ul>
 
-
                     <div class="fixed-table-pagination" style="display: block;">
                         <div class="pull-left">
-                            <ul class="pagination">
-
-                                {{-- $men_to_men_requests->render() --}}
-                                <li class="page-first  @if($men_to_men_requests->currentPage() ==1)  disabled @endif">
-                                    <a href=" @if($men_to_men_requests->currentPage() ==1)  #  @else {{url('/author/novel_request_view/'.$men_to_men_request->id."?page=1")}} @endif">
-                                        &lt;&lt;</a>
-                                </li>
-                                @if($men_to_men_requests->currentPage() >= 2)
-                                    <li class="page-pre"><a
-                                                href="{{url('/author/mailbox_send_message/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()-1))}}">
-                                            &lt;</a></li>
-                                @endif
-                                @if($men_to_men_requests->currentPage() >= 5)
-                                    <li class="page-pre"><a
-                                                href="{{url('/author/mailbox_send_message/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()-4))}}">{{$men_to_men_requests->currentPage()-4}}</a>
-                                    </li>
-                                @endif
-                                @if($men_to_men_requests->currentPage() >= 4)
-                                    <li class="page-pre"><a
-                                                href="{{url('/author/mailbox_send_message/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()-3))}}">{{$men_to_men_requests->currentPage()-3}}</a>
-                                    </li>
-                                @endif
-                                @if($men_to_men_requests->currentPage() >= 3)
-                                    <li class="page-pre"><a
-                                                href="{{url('/author/mailbox_send_message/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()-2))}}">{{$men_to_men_requests->currentPage()-2}}</a>
-                                    </li>
-                                @endif
-                                @if($men_to_men_requests->currentPage() >= 2)
-                                    <li class="page-pre"><a
-                                                href="{{url('/author/mailbox_send_message/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()-1))}}">{{$men_to_men_requests->currentPage()-1}}</a>
-                                    </li>
-                                @endif
-
-                                <li class="page-number active"><a href="#">{{ $men_to_men_requests->currentPage()}}</a>
-                                </li>
-
-                                @if($men_to_men_requests->lastPage()-1 >= $men_to_men_requests->currentPage())
-                                    <li class="page-number"><a
-                                                href="{{url('/author/mailbox_send_message/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()+1))}}">{{$men_to_men_requests->currentPage()+1}}</a>
-                                    </li>
-                                @endif
-                                @if($men_to_men_requests->lastPage()-2 >= $men_to_men_requests->currentPage())
-                                    <li class="page-number"><a
-                                                href="{{url('/author/mailbox_send_message/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()+2))}}">{{$men_to_men_requests->currentPage()+2}}</a>
-                                    </li>
-                                @endif
-                                @if($men_to_men_requests->lastPage()-3 >= $men_to_men_requests->currentPage())
-                                    <li class="page-number"><a
-                                                href="{{url('/author/mailbox_send_message/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()+3))}}">{{$men_to_men_requests->currentPage()+3}}</a>
-                                    </li>
-                                @endif
-                                @if($men_to_men_requests->lastPage()-4 >= $men_to_men_requests->currentPage())
-                                    <li class="page-number"><a
-                                                href="{{url('/author/mailbox_send_message/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()+3))}}">{{$men_to_men_requests->currentPage()+4}}</a>
-                                    </li>
-                                @endif
-
-                                @if($men_to_men_requests->lastPage()-1 >= $men_to_men_requests->currentPage())
-                                    <li class="page-next"><a
-                                                href="{{url('/author/mailbox_send_message/'.$men_to_men_request->id."?page=".($men_to_men_requests->currentPage()+1))}}">
-                                            &gt;</a></li>
-                                @endif
-
-                                <li class="page-last  @if($men_to_men_requests->currentPage() == $men_to_men_requests->lastPage())  disabled @endif">
-                                    <a href=" @if($men_to_men_requests->currentPage() ==$men_to_men_requests->lastPage())  #  @else{{url('/author/novel_request_view/'.$men_to_men_request->id."?page=".($men_to_men_requests->lastPage()))}} @endif">
-                                        &gt;&gt;</a>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="pull-right">
-
+                            @include('pagination_manual', ['collection' => $men_to_men_requests, 'url' => route('author.mailbox_send_message',['id'=>$men_to_men_request->id]) ."?maillog_page=".$maillog_page. "&page="])
                         </div>
                     </div>
+
+
                 </div>
 
             </div>
@@ -253,4 +210,48 @@
 
 
     </div>
+
+    <script>
+        $("#cancel_mail").click(function () {
+
+            bootbox.confirm({
+                message: "삭제 하시겠습니까?",
+                buttons: {
+                    confirm: {
+                        label: "삭제"
+                    },
+                    cancel: {
+                        label: '취소'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+
+                        $.ajax({
+                            type: 'DELETE',
+                            data: {'delete': true},
+                            url: '{{ route('maillog.destroy', ['id' => $men_to_men_request->id]) }}',
+                            headers: {
+                                'X-CSRF-TOKEN': window.Laravel.csrfToken
+                            },
+                            success: function (response) {
+                                location.reload();
+                                /* $.niftyNoty({
+                                 type: 'warning',
+                                 icon: 'fa fa-check',
+                                 message: "삭제 되었습니다.",
+                                 container: 'page',
+                                 timer: 4000
+                                 });*/
+                            },
+                            error: function (data2) {
+                                console.log(data2);
+                            }
+                        });
+
+                    }
+                }
+            })
+        });
+    </script>
 @endsection

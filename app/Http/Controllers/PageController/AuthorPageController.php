@@ -53,7 +53,7 @@ class AuthorPageController extends Controller
         $keyword6 = Keyword::select('id', 'name')->where('category', '6')->get();
         $keyword7 = Keyword::select('id', 'name')->where('category', '7')->get();
 
-        return view('author.create',compact('keyword1','keyword2','keyword3','keyword4','keyword5','keyword6','keyword7'));
+        return view('author.create', compact('keyword1', 'keyword2', 'keyword3', 'keyword4', 'keyword5', 'keyword6', 'keyword7'));
     }
 
     public function create_inning($id)
@@ -120,11 +120,11 @@ class AuthorPageController extends Controller
 //        $mailbox_message = Mailbox::where('id', $id)->with('users')->first();
         $men_to_men_request = MailLog::where('id', $id)->with('mailboxs.users')->with('users')->first();
         //update the read status
-         if(!$men_to_men_request->read){
-             //$maillog = new MailLog();
-             $men_to_men_request->read=Carbon::now();
-             $men_to_men_request->save();
-         }
+        if (!$men_to_men_request->read) {
+            //$maillog = new MailLog();
+            $men_to_men_request->read = Carbon::now();
+            $men_to_men_request->save();
+        }
         $men_to_men_requests = $request->user()->maillogs()->with('mailboxs.users')->orderBy('created_at', 'desc')->paginate(2);
 //                return response()->json($men_to_men_request);
         $page = $request->page;
@@ -146,8 +146,11 @@ class AuthorPageController extends Controller
         $men_to_men_request = Mailbox::where('id', $id)->with('users')->with('maillogs.users')->with('novel_groups')->first();
         $men_to_men_requests = $request->user()->mailbox()->orderBy('id', 'desc')->paginate(2);
         $page = $request->page;
+        $maillog_page = $request->maillog_page;
+
+        $mail_logs = MailLog::where('mailbox_id', $id)->with('users')->with('novel_groups')->paginate(5, ["*"], "maillog_page");
 //        return response()->json($men_to_men_request);
-        return view('author.mailbox_send_message', compact('men_to_men_request', 'men_to_men_requests', 'page'));
+        return view('author.mailbox_send_message', compact('men_to_men_request', 'men_to_men_requests', 'page', 'mail_logs','maillog_page'));
     }
 
     public function novel_memo_send($id)

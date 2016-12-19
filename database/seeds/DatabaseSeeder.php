@@ -92,22 +92,6 @@ class DatabaseSeeder extends Seeder
         $this->command->info('comments table seeded');
 
 
-        //Mailbox table
-        App\Mailbox::truncate();
-        $users->each(function ($user) {
-            $user->mailbox()->save(factory(App\Mailbox::class)->make());
-        });
-
-        $this->command->info('Mails table seeded');
-
-        //Mailbox table
-        App\Mailbox::truncate();
-        $users->each(function ($user) {
-            $user->mailbox()->save(factory(App\Mailbox::class)->make());
-        });
-
-        $this->command->info('Mails table seeded');
-
 
         //MenToMen QuestionAnswer table
         App\MenToMenQuestionAnswer::truncate();
