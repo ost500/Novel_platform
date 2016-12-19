@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddSoftdeleteMaillogsTable extends Migration
+class AddReadMaillogsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddSoftdeleteMaillogsTable extends Migration
     public function up()
     {
         Schema::table('mail_logs', function (Blueprint $table) {
-            $table->softDeletes();
+            $table->timestamp('read')->nullable();
         });
     }
 
@@ -26,7 +26,7 @@ class AddSoftdeleteMaillogsTable extends Migration
     public function down()
     {
         Schema::table('mail_logs', function (Blueprint $table) {
-            $table->dropColumn('deleted_at');
+            $table->dropColumn('read');
         });
     }
 }

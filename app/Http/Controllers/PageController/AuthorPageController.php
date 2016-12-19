@@ -119,6 +119,12 @@ class AuthorPageController extends Controller
 
 //        $mailbox_message = Mailbox::where('id', $id)->with('users')->first();
         $men_to_men_request = MailLog::where('id', $id)->with('mailboxs.users')->with('users')->first();
+        //update the read status
+         if(!$men_to_men_request->read){
+             //$maillog = new MailLog();
+             $men_to_men_request->read=Carbon::now();
+             $men_to_men_request->save();
+         }
         $men_to_men_requests = $request->user()->maillogs()->with('mailboxs.users')->orderBy('created_at', 'desc')->paginate(2);
 //                return response()->json($men_to_men_request);
         $page = $request->page;
