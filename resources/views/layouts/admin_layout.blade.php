@@ -202,8 +202,9 @@
                                         <i class="arrow"></i>
                                     </a>
 
-                                    <ul class="collapse  {{ (Request::is('admin/memo')||Request::is('admin/memo/*')||Request::is('admin/memo_create'))?"in":"" }}">
-                                        <li><a href="{{ route('admin.memo')}}">쪽지함</a></li>
+                                    <ul class="collapse  {{ (Request::is('admin/memo')||Request::is('admin/memo/*')||Request::is('admin/memo_create')||Request::is('admin/memo_detail/*'))?"in":"" }}">
+                                        <li><a href="{{ route('admin.memo')}}">받은 쪽지함</a></li>
+                                        <li><a href="{{ route('admin.novel_memo_send')}}">보낸 쪽지함</a></li>
                                         <li><a href="{{ route('admin.memo_create')}}">쪽지보내기</a></li>
                                     </ul>
                                 </li>

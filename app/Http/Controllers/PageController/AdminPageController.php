@@ -151,6 +151,28 @@ class AdminPageController extends Controller
         return view('admin.mailbox_message', compact('men_to_men_request', 'men_to_men_requests','page'));
     }
 
+    public function mailbox_send(Request $request)
+    {
+        $novel_mail_messages = Mailbox::where('from', Auth::user()->id)->with('users')->orderBy('created_at', 'desc')->paginate(2);
+        $page = $request->page;
+//                return response()->json($novel_mail_messages);
+        return view('admin.novel_memo_send', compact('novel_mail_messages', 'page'));
+    }
+
+    public function mailbox_send_message_show($id, Request $request)
+    {
+
+//        $mailbox_message = Mailbox::where('id', $id)->with('users')->first();
+        $men_to_men_request = Mailbox::where('id', $id)->with('users')->with('maillogs.users')->with('novel_groups')->first();
+        $men_to_men_requests = $request->user()->mailbox()->orderBy('id', 'desc')->paginate(2);
+        $page = $request->page;
+        $maillog_page = $request->maillog_page;
+
+        $mail_logs = MailLog::where('mailbox_id', $id)->with('users')->with('novel_groups')->paginate(5, ["*"], "maillog_page");
+//        return response()->json($men_to_men_request);
+        return view('admin.mailbox_send_message', compact('men_to_men_request', 'men_to_men_requests', 'page', 'mail_logs','maillog_page'));
+    }
+
 
     public function sales()
     {
