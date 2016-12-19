@@ -102,7 +102,7 @@ class DatabaseSeeder extends Seeder
             $this->inning_order($novelgroup->id);
         }
 
-
+        $this->call(MailBoxTableSeeder::class);
         $this->call(MailLogTableSeeder::class);
         
         $this->call(FavoriteTableSeeder::class);
