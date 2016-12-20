@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Favorite;
 use App\Keyword;
+use App\Mailbox;
+use App\MailLog;
 use App\User;
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\NovelGroup;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -327,6 +331,70 @@ class NovelGroupController extends Controller
         //
         $novel_group = NovelGroup::find($id);
         $novel_group->delete();
+    }
+
+    public function secret($id)
+    {
+        $novel_group = NovelGroup::findOrFail($id);
+
+        $non_free = $novel_group->novels->where('non_free_agreement', 1)->count();
+
+        if ($non_free == 0) {
+            $novel_group->secret = Carbon::now();
+        } else {
+            $novel_group->secret = Carbon::now()->addMonth();
+        }
+        $novel_group->save();
+
+
+        $new_mail = new Mailbox();
+        $new_mail->subject = "'" . $novel_group->title . "'이 비밀이 됩니다.";
+        $new_mail->body = $novel_group->secret . " '" . $novel_group->title . "'이 비밀이 됩니다.";
+        $new_mail->from = Auth::user()->id;
+        $new_mail->novel_group_id = $novel_group->id;
+        $new_mail->save();
+
+
+        $favorites = Favorite::where('novel_group_id', $id)->pluck('user_id');
+
+        foreach ($favorites as $favorite) {
+            $new_mail_log = new MailLog();
+            $new_mail_log->user_id = $favorite;
+            $new_mail_log->mailbox_id = $new_mail->id;
+            $new_mail_log->novel_group_id = $novel_group->id;
+            $new_mail_log->save();
+        }
+
+    }
+
+    public function non_secret($id)
+    {
+
+        $novel_group = NovelGroup::findOrFail($id);
+
+
+        $novel_group->secret = null;
+
+        $novel_group->save();
+
+
+        $new_mail = new Mailbox();
+        $new_mail->subject = "'" . $novel_group->title . "'이 비밀 해제 됩니다.";
+        $new_mail->body = $novel_group->secret . " '" . $novel_group->title . "'이 비밀 해제 됩니다.";
+        $new_mail->from = Auth::user()->id;
+        $new_mail->novel_group_id = $novel_group->id;
+        $new_mail->save();
+
+
+        $favorites = Favorite::where('novel_group_id', $id)->pluck('user_id');
+
+        foreach ($favorites as $favorite) {
+            $new_mail_log = new MailLog();
+            $new_mail_log->user_id = $favorite;
+            $new_mail_log->mailbox_id = $new_mail->id;
+            $new_mail_log->novel_group_id = $novel_group->id;
+            $new_mail_log->save();
+        }
     }
 
 
