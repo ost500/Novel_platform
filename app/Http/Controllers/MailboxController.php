@@ -129,20 +129,26 @@ class MailboxController extends Controller
         return redirect()->route('author.mailbox_send_message', ['id' => $new_mail->id]);
     }
 
-    public function destroy( Request $request){
+    public function destroy(Request $request)
+    {
 
-             $ids =$request->get('ids');
-             MailLog::destroy($ids);
-             flash("삭제 되었습니다");
-             return response()->json("ok");
-    }
-
-    public function destroy_sent( Request $request){
-
-        $ids =$request->get('ids');
-        Mailbox::destroy($ids);
+        $ids = $request->get('ids');
+        MailLog::destroy($ids);
         flash("삭제 되었습니다");
         return response()->json("ok");
+    }
+
+    public function destroy_sent($id)
+    {
+
+        $maillogs = MailLog::where('mailbox_id', $id)->get();
+        if (count($maillogs) > 0) {
+            return response()->json(['error' => 1, 'message' => '이미 읽거나 보내진 쪽지는 삭제할 수 없습니다.', 'status' => "401"]);
+        }else {
+            Mailbox::destroy($id);
+            flash("삭제 되었습니다");
+            return response()->json(['error' => 0, 'message' => 'success', 'status' => "200"]);
+        }
     }
 
 }

@@ -37,7 +37,7 @@
                         <table class="novel_memo">
                             <tbody>
                             <tr>
-                                <th class="check"><input type="checkbox" name="checkAll" id="checkAll"></th>
+                                <th class="check">{{--<input type="checkbox" name="checkAll" id="checkAll"> --}}</th>
                                 <th class="from">보낸사람</th>
                                 <th class="from">소설명</th>
                                 <th>제목</th>
@@ -47,12 +47,18 @@
                             </tr>
                             @foreach($novel_mail_messages as $novel_mail_message)
                                 <tr>
-                                    <td class="check"><input type="checkbox"  class="checkboxes"
-                                                             value="{{ $novel_mail_message->id }}"></td>
+                                    <td class="check">{{--<input type="checkbox"  class="checkboxes"
+                                                             value="{{ $novel_mail_message->id }}"> --}}
+                                        <button class="btn btn-xs btn-danger"
+                                                onclick="destroy({{ $novel_mail_message->id }})">삭제
+                                        </button>
+                                    </td>
                                     <td class="from"><a
                                                 href="#">@if($novel_mail_message->users) {{$novel_mail_message->users->name}} @endif</a>
                                     </td>
-                                    <td class="from"><a href="#">@if($novel_mail_message->novel_groups){{$novel_mail_message->novel_groups->title}}@endif</a></td>
+                                    <td class="from"><a
+                                                href="#">@if($novel_mail_message->novel_groups){{$novel_mail_message->novel_groups->title}}@endif</a>
+                                    </td>
                                     <td class="text-left"><a
                                                 href="{{route('author.mailbox_send_message',['id'=> $novel_mail_message->id ])}}/?page={{$page}}">{{$novel_mail_message->subject}} </a>
                                     </td>
@@ -66,7 +72,7 @@
 
                     <div class="fixed-table-pagination" style="display: block;">
                         <div class="pull-left">
-                            <button class="btn btn-danger" id="destroy">선택삭제</button>
+                            {{--<button class="btn btn-danger" id="destroy">선택삭제</button>--}}
                         </div>
 
                         <div class="pull-right">
@@ -89,13 +95,13 @@
     </div>
     <script>
 
-        $("#checkAll").change(function () {
-            $("input:checkbox").prop('checked', $(this).prop("checked"));
-        });
+        /*  $("#checkAll").change(function () {
+         $("input:checkbox").prop('checked', $(this).prop("checked"));
+         });*/
 
         // function destroySelected() {
-        $("#destroy").click(function () {
-
+        //$("#destroy{{-- $novel_mail_message->id --}}").click(function () {
+        function destroy(id) {
             bootbox.confirm({
                 message: "삭제 하시겠습니까?",
                 buttons: {
@@ -109,19 +115,26 @@
                 callback: function (result) {
                     if (result) {
 
-                        var checked_data = $(".checkboxes:checked").map(function() {
+                        var checked_data = $(".checkboxes:checked").map(function () {
                             return this.value;
                         }).get();
 
                         $.ajax({
-                            type: 'POST',
-                            data:{'ids':checked_data},
-                            url: '{{ route('mailbox.destroy_sent') }}',
+                            type: 'DELETE',
+                            // data:{'ids':checked_data},
+                            url: '/mailboxes/destroy_sent/'+id,
                             headers: {
                                 'X-CSRF-TOKEN': window.Laravel.csrfToken
                             },
                             success: function (response) {
-                                location.reload();
+                                if (response.error == 1) {
+
+                                    bootbox.alert(response.message, function () {
+                                    });
+                                } else {
+                                    location.reload();
+                                }
+
                                 /* $.niftyNoty({
                                  type: 'warning',
                                  icon: 'fa fa-check',
@@ -138,6 +151,6 @@
                     }
                 }
             })
-        });
+        }
     </script>
 @endsection
