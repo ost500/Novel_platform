@@ -149,6 +149,8 @@ class CommentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Comment::destroy($id);
+        Comment::where('parent_id',$id)->delete();
+        return response()->json(['status'=>'ok']);
     }
 }

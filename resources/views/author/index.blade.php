@@ -517,7 +517,7 @@
 
                             });
 
-                },
+                }
 
                 /*  check_agreemet: function () {
                  console.log(this.author.author_agreement);

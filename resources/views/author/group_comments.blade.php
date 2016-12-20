@@ -22,6 +22,9 @@
                 <div>
                     <span class="nick">{{ $comment[0]->users->name }}</span> {{ $comment[0]->created_at }}
                     <button class="btn btn-xs btn-pink">N</button>
+
+                    <button class="btn  btn-xs btn-danger" id="comment_destroy{{$comment[0]->id}}">X</button>
+
                 </div>
                 <div class="content">
                     <span class="inning">{{ $comment[0]->novels->inning }} 회</span> {{ $comment[0]->comment }}
@@ -99,7 +102,40 @@
                     });
 
                 });
+                $("#comment_destroy{{$comment[0]->id}}").click(function () {
 
+                   bootbox.confirm({
+                        message: "삭제 하시겠습니까?",
+                        buttons: {
+                            confirm: {
+                                label: "삭제"
+                            },
+                            cancel: {
+                                label: '취소'
+                            }
+                        },
+                        callback: function (result) {
+                            if (result) {
+                                $.ajax({
+                                    type: 'DELETE',
+                                    url: '{{ route('comments.destroy',['id'=>$comment[0]->id]) }}',
+                                    headers: {
+                                        'X-CSRF-TOKEN': window.Laravel.csrfToken
+                                    },
+                                    success: function (response) {
+
+                                        commonAlertBox("comment_delete");
+                                        app4_index.commentsDisplay_after_commenting("{{ $comment[0]->novels->novel_group_id }}");
+
+                                    }, error: function (data2) {
+                                        console.log(data2);
+                                    }
+                                });
+                            }
+                        }
+                    })
+
+                });
 
             </script>
 
@@ -108,4 +144,3 @@
 
     </div>
 </div>
-
