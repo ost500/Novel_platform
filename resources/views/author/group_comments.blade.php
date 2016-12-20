@@ -123,10 +123,7 @@
                                         'X-CSRF-TOKEN': window.Laravel.csrfToken
                                     },
                                     success: function (response) {
-
-                                        commonAlertBox("comment_delete");
                                         app4_index.commentsDisplay_after_commenting("{{ $comment[0]->novels->novel_group_id }}");
-
                                     }, error: function (data2) {
                                         console.log(data2);
                                     }

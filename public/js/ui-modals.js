@@ -535,10 +535,6 @@ var commonAlertBox = function (str) {
         alert_message = "<p style='text-align: center;font-weight: 600;font-size: 16px;margin-top: 4%;'>댓글이 없습니다</p>";
     } else if (str == "review") {
         alert_message = "<p style='text-align: center;font-weight: 600;font-size: 16px;margin-top: 4%;'>리뷰가 없습니다</p>";
-    }else if(str=="comment_delete"){
-        alert_message = "<p style='text-align: center;font-weight: 600;font-size: 16px;margin-top: 4%;'>삭제 된 없습니다</p>";
-    }else if(str=="review_delete"){
-        alert_message = "<p style='text-align: center;font-weight: 600;font-size: 16px;margin-top: 4%;'>삭제 된 없습니다</p>";
     }
 
     bootbox.alert(alert_message, function () {

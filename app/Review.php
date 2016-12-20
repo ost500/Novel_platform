@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * App\Review
  *
@@ -26,6 +26,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Review extends Model
 {
+    use SoftDeletes;
+    protected $dates = ['deleted_at'];
+
     public function users()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
