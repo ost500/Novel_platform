@@ -193,7 +193,7 @@
 
                                 <li class="list-divider"></li>
 
-                                <li class="{{ (Request::is('admin/memo')||Request::is('admin/memo/*')||Request::is('admin/memo_create'))?"active-link":"" }}">
+                                <li class="{{ (Request::is('admin/memo')||Request::is('admin/memo/*')||Request::is('admin/novel_memo_send')||Request::is('admin/memo_create')||Request::is('admin/specific_mail')||Request::is('admin/memo_detail/*'))?"active-link":"" }}">
                                     <a href="{{ route('admin.memo')}}">
                                         <i class="fa fa-envelope"></i>
                                         <span class="menu-title">
@@ -202,7 +202,7 @@
                                         <i class="arrow"></i>
                                     </a>
 
-                                    <ul class="collapse  {{ (Request::is('admin/memo')||Request::is('admin/memo/*')||Request::is('admin/memo_create')||Request::is('admin/memo_detail/*'))?"in":"" }}">
+                                    <ul class="collapse  {{ (Request::is('admin/memo')||Request::is('admin/memo/*')||Request::is('admin/novel_memo_send')||Request::is('admin/memo_create')||Request::is('admin/specific_mail')||Request::is('admin/memo_detail/*'))?"in":"" }}">
                                         <li><a href="{{ route('admin.memo')}}">받은 쪽지함</a></li>
                                         <li><a href="{{ route('admin.novel_memo_send')}}">보낸 쪽지함</a></li>
                                         <li><a href="{{ route('admin.memo_create')}}">쪽지보내기</a></li>
@@ -217,7 +217,11 @@
                                         <span class="menu-title">
                                             <strong>1:1문의</strong>
                                         </span>
+                                        <i class="arrow"></i>
                                     </a>
+                                    <ul class="collapse  {{ (Request::is('admin/request')||Request::is('admin/request/*'))?"in":"" }}">
+                                        <li><a href="{{ route('admin.request')}}">1:1문의</a></li>
+                                    </ul>
                                 </li>
 
                                 <li class="list-divider"></li>
