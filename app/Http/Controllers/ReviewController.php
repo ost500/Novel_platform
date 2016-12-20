@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\NovelGroup;
+use App\Review;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
@@ -93,6 +94,7 @@ class ReviewController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Review::destroy($id);
+        return response()->json(['status'=>'ok']);
     }
 }
