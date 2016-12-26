@@ -36,7 +36,7 @@
 
                                     <tr v-for="novel in novels">
                                         <td class="text-center col-md-1">@{{ novel.inning }}회</td>
-                                        <td class="col-md-8">@{{ novel.title }}
+                                        <td class="col-md-8"><a href="# " v-on:click="go_to_novel(novel.id)" >@{{ novel.title }}</a>
                                             <button v-if="novel.adult != 0" class="btn btn-xs btn-danger btn-circle">19금</button>
                                         </td>
                                         <td class="text-center">
@@ -144,6 +144,9 @@
 
                 go_to_update: function (e) {
                     window.location.assign('{{ url('/author/update_inning/') }}'+"/" + e);
+                },
+                go_to_novel: function (e) {
+                    window.location.assign('{{ url('/author/show_inning/') }}'+"/" + e);
                 },
             }
 

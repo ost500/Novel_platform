@@ -10,6 +10,7 @@ use App\NovelGroup;
 use App\Faq;
 use App\User;
 use App\Http\Controllers\Controller;
+use App\ViewCount;
 use Auth;
 use App\Keyword;
 use Illuminate\Pagination\Paginator;
@@ -61,6 +62,73 @@ class AuthorPageController extends Controller
         $novel_group = NovelGroup::find($id);
         return view('author.novel_inning_write', compact('novel_group'));
     }
+
+    public function show_inning($novel_id)
+    {
+
+        $novel = Novel::where('id', $novel_id)->first();
+
+        //Create or update today's views
+        $today = Carbon::now()->toDateString();
+        $view_count_instance = new ViewCount();
+        //check if today's view for this novel_id already exists or not
+        $view_count_today = $view_count_instance->viewCountToday($novel_id);
+        //if exists, then update the today's view count otherwise create new view count
+        if ($view_count_today) {
+            $view_count_today->count = $view_count_today->count + 1;
+            $view_count_today->save();
+            $today_count = $view_count_today->count;
+
+        } else {
+            $novel->view_counts()->create([
+                'date' => $today,
+                'count' => '0',
+                'separation' => 1,
+            ]);
+            $today_count = 0;
+        }
+
+        //Create or update week's views
+        $start_of_week = Carbon::now()->startOfWeek()->toDateString();
+        $view_count_instance1 = new ViewCount();
+        //check if week's view for this novel_id already exists or not
+        $view_count_week = $view_count_instance1->viewCountWeek($novel_id);
+        //if exists, then update the week's view count otherwise create new view count
+        if ($view_count_week) {
+            $view_count_week->count = $view_count_week->count + 1;
+            $view_count_week->save();
+            $this_week_count = $view_count_week->count;
+        } else {
+            $novel->view_counts()->create([
+                'date' => $start_of_week,
+                'count' => '0',
+                'separation' => 2,
+            ]);
+            $this_week_count = 0;
+        }
+
+        //Create or update month's views
+       $start_of_month = Carbon::now()->startOfMonth()->toDateString();
+       $view_count_instance2 = new ViewCount();
+        //check if month's view for this novel_id already exists or not
+        $view_count_month = $view_count_instance2->viewCountMonth($novel_id);
+        //if exists, then update the month's view count otherwise create new view count
+        if ($view_count_month) {
+            $view_count_month->count = $view_count_month->count + 1;
+            $view_count_month->save();
+            $this_month_count = $view_count_month->count;
+        } else {
+            $novel->view_counts()->create([
+                'date' => $start_of_month,
+                'count' => '0',
+                'separation' => 3,
+            ]);
+            $this_month_count =0;
+        }
+
+        return view('author.novel_inning_show', compact('novel', 'today_count', 'this_week_count', 'this_month_count'));
+    }
+
 
     public function update_inning($id)
     {
@@ -150,7 +218,7 @@ class AuthorPageController extends Controller
 
         $mail_logs = MailLog::where('mailbox_id', $id)->with('users')->with('novel_groups')->paginate(5, ["*"], "maillog_page");
 //        return response()->json($men_to_men_request);
-        return view('author.mailbox_send_message', compact('men_to_men_request', 'men_to_men_requests', 'page', 'mail_logs','maillog_page'));
+        return view('author.mailbox_send_message', compact('men_to_men_request', 'men_to_men_requests', 'page', 'mail_logs', 'maillog_page'));
     }
 
     public function novel_memo_send($id)

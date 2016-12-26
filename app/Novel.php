@@ -70,4 +70,8 @@ class Novel extends Model
     {
         return $this->hasMany(Review::class)->with('users');
     }
+    public function view_counts()
+    {
+        return $this->hasMany(ViewCount::class);
+    }
 }
