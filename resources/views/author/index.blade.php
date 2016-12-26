@@ -331,10 +331,10 @@
                         },
 
                         go_to_group: function (id) {
-                            window.location.assign('{{ url('author/novelgroup') }}' + "/" + id);
+                            window.location.assign('{{ url('/author/management/novelgroups') }}' + "/" + id);
                         },
                         go_to_edit: function (id) {
-                            window.location.assign('/author/' + id + '/edit');
+                            window.location.assign('/author/management/novelgroups/' + id + '/edit');
                         },
 
                         commentsDisplay: function (id) {

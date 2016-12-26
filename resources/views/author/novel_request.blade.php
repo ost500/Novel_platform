@@ -16,7 +16,7 @@
 
         <div id="page-content">
 
-            <div id="request_create" class="panel panel-default panel-left">
+            <div id="create_request" class="panel panel-default panel-left">
                 <div class="alert alert-danger" v-if="formErrors">
                     <ul>
                         <li v-if="errors['title']">@{{ errors.title.toString() }}</li>
@@ -76,7 +76,7 @@
         //
 
         var app = new Vue({
-            el: '#request_create',
+            el: '#create_request',
             data: {
 
                 new_men_to_menRequest: {'title': '', 'question': ''},
@@ -86,10 +86,9 @@
             methods: {
                 onSubmit: function (e) {
                     e.preventDefault();
-                    var form = e.srcElement;
-                    var action = form.action;
+                    var action ='{{ route('mentomen.store')}}';
                     //  Vue.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('#token').getAttribute('content');
-                    var $redirect_url = '/author/novel_request_view';
+                    var $redirect_url = '/author/men_to_men/requests';
                     this.$http.post(action, this.new_men_to_menRequest, {
                         headers: {
                             'X-CSRF-TOKEN': window.Laravel.csrfToken

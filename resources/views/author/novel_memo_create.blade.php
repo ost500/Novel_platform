@@ -85,7 +85,7 @@
                             </button>
 
 
-                            <a href="{{route('author.novel_request_list')}}">
+                            <a href="{{route('author.novel_memo')}}">
                                 <button type="button" class="btn btn-danger">취소</button>
                             </a>
 

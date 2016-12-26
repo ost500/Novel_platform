@@ -143,10 +143,10 @@
                 },
 
                 go_to_update: function (e) {
-                    window.location.assign('{{ url('/author/update_inning/') }}'+"/" + e);
+                    window.location.assign('{{ url('/author/management/update_novel/') }}'+"/" + e);
                 },
                 go_to_novel: function (e) {
-                    window.location.assign('{{ url('/author/show_inning/') }}'+"/" + e);
+                    window.location.assign('{{ url('/author/management/show_novel/') }}'+"/" + e);
                 },
             }
 

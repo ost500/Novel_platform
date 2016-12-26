@@ -30,7 +30,7 @@
                             </ul>
                         </div>
                         <div class="panel">
-                            <form action="{{ route('novels.store') }}" method="post" enctype="multipart/form-data"
+                            <form action="" method="post" enctype="multipart/form-data"
                                   class="panel-body form-horizontal form-padding" v-on:submit.prevent="submit">
                                 <meta id="token" name="token" content="{{ csrf_token() }}">
                                 <input hidden type="text" v-model="novel.novel_group_id" name="novel_group_id">
@@ -183,8 +183,8 @@
                     e.preventDefault();
 //                    Vue.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('#token').getAttribute('content');
                     Vue.http.headers.common['X-CSRF-TOKEN'] = window.Laravel.csrfToken;
-                    var form = e.srcElement;
-                    var action = form.action;
+
+                    var action = '{{ route('novels.store') }}';
 //                    var csrfToken = form.querySelector('input[name="_token"]').value;
 
                     var date = $("#reser_day").val();

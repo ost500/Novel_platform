@@ -33,7 +33,7 @@
                             </div>
                         @endif
 
-                        <form class="panel-body form-horizontal form-padding" action="/novelgroups" method="post"
+                        <form class="panel-body form-horizontal form-padding" action="{{route('novelgroups.store')}}" method="post"
                               enctype="multipart/form-data">
                             {!! csrf_field() !!}
                                     <!--Static-->

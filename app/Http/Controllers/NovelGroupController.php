@@ -305,10 +305,10 @@ class NovelGroupController extends Controller
         } else if ($request->default_cover_photo) {
 
             $input['cover_photo'] = "default_" . $request->default_cover_photo . ".jpg";
-        } else {
+        } /*else {
             // $new_novel_group = $request->user()->novel_groups()->create($input);
             $input['cover_photo'] = "default_.jpg";
-        }
+        }*/
 
         NovelGroup::where('id', $id)->update($input);
         //redirect to novels
