@@ -160,8 +160,19 @@ $factory->define(App\Favorite::class, function (Faker\Generator $faker) {
 
 $factory->define(\App\Keyword::class, function (Faker\Generator $faker) {
     return [
-        'category' => $faker->randomElement(['1','2','3','4','5','6','7']),
+        'category' => $faker->randomElement(['1', '2', '3', '4', '5', '6', '7']),
         'name' => $faker->word,
 
     ];
+});
+
+$factory->define(\App\ViewCount::class, function (Faker\Generator $faker) {
+    $novelIds = App\Novel::pluck('id')->toArray();
+        return [
+            'novel_id' => $faker->randomElement($novelIds),
+            'date' => $faker->date('Y-m-d'),
+            'count' => $faker->randomElement(range(10,50)),
+            'separation'=>$faker->randomElement(['1','2','3'])
+
+        ];
 });
