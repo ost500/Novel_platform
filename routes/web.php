@@ -71,6 +71,12 @@ Route::get('/author/novel_request_list', ['as' => 'author.novel_request_list', '
 Route::get('/author/novel_request_view/{id}', ['as' => 'author.novel_request_view', 'uses' => 'PageController\AuthorPageController@men_to_men_show']);
 
 Route::get('/author/novel_faq', ['as' => 'author.novel_faq', 'uses' => 'PageController\AuthorPageController@faq_index']);
+
+Route::get('/author/partnership/apply',['as' => 'author.partner_apply', 'uses'=> 'PageController\AuthorPageController@partner_apply']);
+Route::get('/author/partnership/apply_list',['as' => 'author.partner_apply_list', 'uses'=> 'PageController\AuthorPageController@partner_apply_list']);
+Route::get('/author/partnership/manage_company',['as' => 'author.partner_manage_company', 'uses'=> 'PageController\AuthorPageController@partner_manage_company']);
+Route::get('/author/partnership/manage_apply',['as' => 'author.partner_manage_apply', 'uses'=> 'PageController\AuthorPageController@partner_manage_apply']);
+
 Route::get('/admin/faqs', ['as' => 'admin.faqs', 'uses' => 'PageController\AdminPageController@faq_index']);
 Route::get('/admin/faqs/create', ['as' => 'admin.faqs.create', 'uses' => 'PageController\AdminPageController@faq_create']);
 Route::get('/admin/faqs/{id}/edit', ['as' => 'admin.faqs.edit', 'uses' => 'PageController\AdminPageController@faq_edit']);

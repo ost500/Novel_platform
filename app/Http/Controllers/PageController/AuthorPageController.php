@@ -195,4 +195,22 @@ class AuthorPageController extends Controller
         return view('author.nick_name');
     }
 
+    public function partner_apply()
+    {
+        return view('author.partnership.apply');
+    }
+
+    public function partner_apply_list()
+    {
+        return view('author.partnership.apply_list');
+    }
+    public function partner_manage_company()
+    {
+        return view('author.partnership.manage_company');
+    }
+    public function partner_manage_apply()
+    {
+        return view('author.partnership.manage_apply');
+    }
+
 }
