@@ -129,7 +129,7 @@
 
 
                                 <!--Menu list item-->
-                                    <li class="{{ (Request::is('author/index')||Request::is('author/create')||Request::is('author/create_inning/*')||Request::is('author/novelgroup/*')||Request::is('author/update_inning/*'))?"active-link":"" }}">
+                                    <li class="{{ (Request::is('author/management/novelgroups')||Request::is('author/management/novelgroups/create')||Request::is('author/management/create_novel/*')||Request::is('author/management/novelgroups/*')||Request::is('author/management/update_novel/*')||Request::is('author/management/show_novel/*'))?"active-link":"" }}">
                                     <a href="#">
                                         <i class="fa fa-book"></i>
                                         <span class="menu-title">
@@ -138,7 +138,7 @@
                                         <i class="arrow"></i>
                                     </a>
 
-                                    <ul class="collapse {{ (Request::is('author/index')||Request::is('author/create')||Request::is('author/create_inning/*')||Request::is('author/novelgroup/*')||Request::is('author/update_inning/*'))?"in":"" }}">
+                                    <ul class="collapse {{ (Request::is('author/management/novelgroups')||Request::is('author/management/novelgroups/create')||Request::is('author/management/create_novel/*')||Request::is('author/management/novelgroups/*')||Request::is('author/management/update_novel/*')||Request::is('author/management/show_novel/*'))?"in":"" }}">
                                         <li><a href="{{ route('author_index') }}">작품목록</a></li>
                                         <li><a href="{{ route('author.novel_group_create') }}">작품등록</a></li>
 
@@ -185,7 +185,7 @@
 
                                 <li class="list-divider"></li>
 
-                                <li class="{{ (Request::is('author/novel_memo')||Request::is('author/novel_memo_send')||Request::is('author/novel_memo_create')||Request::is('author/mailbox_message/*'))?"active-link":"" }}">
+                                <li class="{{ (Request::is('author/mailbox/receive_mail')||Request::is('author/mailbox/receive_mail/*')||Request::is('author/mailbox/sent_mail')||Request::is('author/mailbox/sent_mail/*')||Request::is('author/mailbox/create_mail')||Request::is('author/mailbox_message/*'))?"active-link":"" }}">
 
                                     <a href="{{ route('author.novel_memo')}}">
                                         <i class="fa fa-envelope"></i>
@@ -194,7 +194,7 @@
                                         </span>
                                         <i class="arrow"></i>
                                     </a>
-                                    <ul class="collapse {{ (Request::is('author/receive_mail')||Request::is('author/receive_mail_detail/*')||Request::is('author/send_mail')||Request::is('author/send_mail_detail/*')||Request::is('/author/novel_memo_create'))?"in":"" }}">
+                                    <ul class="collapse {{ (Request::is('author/mailbox/receive_mail')||Request::is('author/mailbox/receive_mail/*')||Request::is('author/mailbox/sent_mail')||Request::is('author/mailbox/sent_mail/*')||Request::is('author/mailbox/create_mail'))?"in":"" }}">
                                         <li><a href="{{ route('author.novel_memo')}}">받은쪽지함</a></li>
                                         <li><a href="{{ route('author.novel_memo_send')}}">보낸쪽지함</a></li>
                                     </ul>
@@ -202,7 +202,7 @@
 
                                 <li class="list-divider"></li>
 
-                                <li class="{{ (Request::is('author/novel_request')||Request::is('author/novel_request_list')||Request::is('author/novel_request_view/*'))?"active-link":"" }}">
+                                <li class="{{ (Request::is('author/men_to_men/request_create')||Request::is('author/men_to_men/requests')||Request::is('author/men_to_men/requests/*'))?"active-link":"" }}">
                                     <a href="{{ route('author.novel_request')}}">
                                         <i class="fa fa-send"></i>
                                         <span class="menu-title">
@@ -211,7 +211,7 @@
                                         <i class="arrow"></i>
                                     </a>
 
-                                    <ul class="collapse {{ (Request::is('author/novel_request')||Request::is('author/novel_request_list')||Request::is('author/novel_request_view/*'))?"in":"" }}">
+                                    <ul class="collapse {{ (Request::is('author/men_to_men/request_create')||Request::is('author/men_to_men/requests')||Request::is('author/men_to_men/requests/*'))?"in":"" }}">
                                         <li><a href="{{ route('author.novel_request')}}">1:1문의</a></li>
                                         <li><a href="{{ route('author.novel_request_list')}}">1:1문의내역</a></li>
                                     </ul>
@@ -219,8 +219,8 @@
 
                                 <li class="list-divider"></li>
 
-                                <li class="{{ (Request::is('author/novel_faq'))?"active-link":"" }}">
-                                    <a href="{{ route('author.novel_faq')}}">
+                                <li class="{{ (Request::is('author/faqs'))?"active-link":"" }}">
+                                    <a href="{{ route('author.faqs')}}">
                                         <i class="fa fa-send"></i>
                                         <span class="menu-title">
                                             <strong>FAQ</strong>
@@ -231,7 +231,7 @@
                                 <li class="list-divider"></li>
 
 
-                                <li class="{{ (Request::is('author/profile')||Request::is('author/nickname'))?"active-link":"" }}">
+                                <li class="{{ (Request::is('author/profile/information')||Request::is('author/profile/nickname'))?"active-link":"" }}">
                                     <a href="/">
                                         <i class="fa fa-user"></i>
                                         <span class="menu-title">
@@ -241,7 +241,7 @@
                                     </a>
 
 
-                                    <ul class="collapse {{ (Request::is('author/profile')||Request::is('author/nickname'))?"in":"" }}">
+                                    <ul class="collapse {{ (Request::is('author/profile/information')||Request::is('author/profile/nickname'))?"in":"" }}">
                                         <li><a href="{{ route("author.profile") }}">작가정보관리</a></li>
                                         <li><a href="{{ route("author.nickname") }}">필명관리</a></li>
                                     </ul>
