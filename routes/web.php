@@ -31,6 +31,7 @@ Route::resource('comments', 'CommentController');
 Route::resource('mentomen', 'MenToMenQuestionAnswerController');
 Route::resource('faqs', 'FaqController');
 Route::resource('keywords', 'KeywordController');
+Route::resource('companies', 'CompanyController');
 Route::delete('maillogs/{id}', ['as' => 'maillog.destroy', 'uses' => 'MailLogController@destroy']);
 
 Route::resource('users', 'UserController', ['except' => ['update']]);
@@ -78,7 +79,7 @@ Route::get('/author/partnership/apply',['as' => 'author.partner_apply', 'uses'=>
 Route::get('/author/partnership/apply_list',['as' => 'author.partner_apply_list', 'uses'=> 'PageController\AuthorPageController@partner_apply_list']);
 Route::get('/author/partnership/manage_company',['as' => 'author.partner_manage_company', 'uses'=> 'PageController\AuthorPageController@partner_manage_company']);
 Route::get('/author/partnership/manage_apply',['as' => 'author.partner_manage_apply', 'uses'=> 'PageController\AuthorPageController@partner_manage_apply']);
-
+Route::get('/author/partnership/create_company',['as' => 'author.partner_create_company', 'uses'=> 'PageController\AuthorPageController@partner_create_company']);
 
 Route::get('/author/faqs', ['as' => 'author.faqs', 'uses' => 'PageController\AuthorPageController@faq_index']);
 Route::get('/admin/faqs', ['as' => 'admin.faqs', 'uses' => 'PageController\AdminPageController@faq_index']);
