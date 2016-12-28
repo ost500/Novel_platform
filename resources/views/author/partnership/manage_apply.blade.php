@@ -3,71 +3,89 @@
 
 
 	<div id="content-container">
-				
-				<div id="page-title">
-					<h1 class="page-header text-overflow">제휴업체관리</h1>
-				</div>
+
+		<div id="page-title">
+			<h1 class="page-header text-overflow">연재신청내역</h1>
+		</div>
 
 
-				<ol class="breadcrumb">
-					<li><a href="#">어드민</a></li>
-					<li class="active"><a href="#">제휴업체관리</a></li>
-				</ol>
+		<ol class="breadcrumb">
+			<li><a href="#">어드민</a></li>
+			<li class="active">연재신청내역</li>
+		</ol>
 
 
-				<div id="page-content">
-					
+		<div id="page-content">
 
 
-					<div class="panel panel-default panel-left">
+
+			<div class="row">
+				<div class="col-sm-12">
+
+					<div class="panel">
 						<div class="panel-body">
+							<div class="table-responsive">
+								<table class="table table-striped table-hover">
+									<thead>
+									<tr>
+										<th>작가명</th>
+										<th>작품명</th>
+										<th>연재요청업체명</th>
+										<th class="text-center">초기연재회차</th>
+										<th class="text-center">일</th>
+										<th class="text-center">편수</th>
+										<th class="text-center">신청일</th>
+										<th class="text-center">처리일</th>
+										<th class="text-center">상태</th>
+									</tr>
+									</thead>
+									<tbody>
 
-							<form role="form" class="form-horizontal">
-								<div class="form-group">
-									<label class="col-lg-1 control-label text-left" for="inputSubject">업체명</label>
-									<div class="col-lg-11">
-										<input type="text" id="inputSubject" class="form-control" placeholder="업체명">
-									</div>
-								</div>
+									<tr>
+										<td class="col-md-1">작가명1</td>
+										<td class="col-md-2">작품명1</td>
+										<td class="col-md-2">네이버</td>
+										<td class="col-md-1 text-center">20편</td>
+										<td class="col-md-1 text-center">1일</td>
+										<td class="col-md-1 text-center">2편</td>
+										<td class="col-md-1 text-center">2016-12-20</td>
+										<td class="col-md-1 text-center">2016-12-20</td>
+										<td class="col-md-2 text-center">
+											<button class="btn btn-sm btn-warning">심사중</button>
+											<button class="btn btn-sm btn-primary">승인</button>
+											<button class="btn btn-sm btn-danger">거절</button>
+										</td>
+									</tr>
 
-								<div class="form-group">
-									<label class="col-lg-1 control-label text-left" for="inputSubject">이미지</label>
-									<div class="col-lg-1">
-										<img src="http://211.110.165.137/img/novel_covers/default_.jpg" width="100">
-									</div>
-									<div class="col-lg-10">
-										<input type="file" id="inputSubject" class="form-control" placeholder="이미지">
-										<small class="has-warning">최대용량 : 1M / 업로드 가능 확장자 : JPG, PNG 파일</small>
-									</div>
-								</div>
+									<tr>
+										<td class="col-md-1">작가명2</td>
+										<td class="col-md-2">작품명2</td>
+										<td class="col-md-2">카카오</td>
+										<td class="col-md-1 text-center">30편</td>
+										<td class="col-md-1 text-center">1일</td>
+										<td class="col-md-1 text-center">2편</td>
+										<td class="col-md-1 text-center">2016-12-20</td>
+										<td class="col-md-1 text-center">2016-12-20</td>
+										<td class="col-md-2 text-center">
+											<button class="btn btn-sm btn-warning">심사중</button>
+											<button class="btn btn-sm btn-primary">승인</button>
+											<button class="btn btn-sm btn-danger">거절</button>
+										</td>
+									</tr>
 
-
-								<div class="form-group">
-									<label class="col-lg-1 control-label text-left" for="inputSubject">수수료</label>
-									<div class="col-lg-11">
-										<input type="text" id="inputSubject" class="form-control" placeholder="수수료">
-									</div>
-								</div>
-							</form>
-		
-
-
-							<div id="demo-mail-compose"></div>
-		
-							<div class="text-center">
-								<button id="mail-send-btn" type="button" class="btn btn-primary btn-labeled">
-									<span class="btn-label"><i class="fa fa-paper-plane"></i></span> 등록하기
-								</button>
-								<a href="manage_company.blade.php"><button type="button" class="btn btn-danger">취소</button></a>
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</div>
-
-
 				</div>
-
-
 			</div>
+
+
+		</div>
+
+
+	</div>
 
 
 @endsection
