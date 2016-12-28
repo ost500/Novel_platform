@@ -26,4 +26,9 @@ class PublishNovelGroup extends Model
     {
         return $this->belongsTo(NovelGroup::class, 'id');
     }
+
+    public function publish_novels()
+    {
+        return $this->hasMany(PublishNovel::class);
+    }
 }
