@@ -1,5 +1,6 @@
 <?php
 
+
 use App\Faq;
 use App\MenToMenQuestionAnswer;
 use App\NovelGroup;
@@ -43,6 +44,8 @@ class DatabaseSeeder extends Seeder
         //NickName Table
         $this->call(NickNameSeeder::class);
 
+        $this->call(CompaniesTableSeeder::class);
+
         //NovelGroup Table
         $this->call(NovelGroupTableSeeder::class);
 
@@ -62,6 +65,12 @@ class DatabaseSeeder extends Seeder
         }
 
         $this->command->info('novel table seeded');
+
+        // PublishNovelGroups table
+        $this->call(PublishNovelGroupsTableSeeder::class);
+        // NovelGroupPublishCompanies table
+        $this->call(NovelGroupPublishCompaniesTableSeeder::class);
+
 
         // comment table
         $novels = App\Novel::get();
@@ -114,8 +123,7 @@ class DatabaseSeeder extends Seeder
     }
     
     
-    public
-    function inning_order($id)
+    public function inning_order($id)
     {
         $novel_group = NovelGroup::find($id);
         $novels = $novel_group->novels;
@@ -134,4 +142,6 @@ class DatabaseSeeder extends Seeder
         $novel_group->max_inning = --$index;
         $novel_group->save();
     }
+
+
 }

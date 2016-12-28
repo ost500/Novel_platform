@@ -168,11 +168,37 @@ $factory->define(\App\Keyword::class, function (Faker\Generator $faker) {
 
 $factory->define(\App\ViewCount::class, function (Faker\Generator $faker) {
     $novelIds = App\Novel::pluck('id')->toArray();
-        return [
-            'novel_id' => $faker->randomElement($novelIds),
-            'date' => $faker->date('Y-m-d'),
-            'count' => $faker->randomElement(range(10,50)),
-            'separation'=>$faker->randomElement(['1','2','3'])
+    return [
+        'novel_id' => $faker->randomElement($novelIds),
+        'date' => $faker->date('Y-m-d'),
+        'count' => $faker->randomElement(range(10, 50)),
+        'separation' => $faker->randomElement(['1', '2', '3'])
 
-        ];
+    ];
+});
+
+$factory->define(\App\Company::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->word,
+        'initial_inning' => $faker->randomElement(['1', '2', '3', '4', '5']),
+        'adult_allowance' => $faker->randomElement(['0', '1']),
+    ];
+});
+$factory->define(\App\PublishNovelGroup::class, function (Faker\Generator $faker) {
+    $novel_groupIds = App\NovelGroup::pluck('id')->toArray();
+    return [
+        'novel_group_id' => $faker->randomElement($novel_groupIds),
+        'days' => $faker->randomElement(['1','2','3','4','5','6','7']),
+        'novels_per_days' => $faker->randomElement(['1','2','3','4','5','6','7','8','9','10']),
+    ];
+});
+
+$factory->define(\App\NovelGroupPublishCompany::class, function (Faker\Generator $faker) {
+    $publish_novel_groupIds = App\PublishNovelGroup::pluck('id')->toArray();
+    $companyIds = App\Company::pluck('id')->toArray();
+    return [
+        'publish_novel_group_id' => $faker->randomElement($publish_novel_groupIds),
+        'company_id' => $faker->randomElement($companyIds),
+        'status' => $faker->randomElement(['신청하기', '대기 중','심사 중','승인','거절']),
+    ];
 });

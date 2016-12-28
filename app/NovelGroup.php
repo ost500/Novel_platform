@@ -95,4 +95,9 @@ class NovelGroup extends Model
     {
         return $this->hasMany(MailLog::class);
     }
+
+    public function publish_novel_groups()
+    {
+        return $this->hasOne(PublishNovelGroup::class);
+    }
 }
