@@ -14,13 +14,8 @@ class PublishNovelGroup extends Model
      * @var array
      */
     protected $fillable = [
-        'novel_group_id','days', 'novels_per_days',
+        'novel_group_id', 'days', 'novels_per_days',
     ];
-
-    public function novel_group_companies()
-    {
-        return $this->hasMany(NovelGroupPublishCompany::class);
-    }
 
     public function novel_groups()
     {
@@ -31,4 +26,12 @@ class PublishNovelGroup extends Model
     {
         return $this->hasMany(PublishNovel::class);
     }
+
+    public function companies()
+    {
+        return $this->belongsToMany(Company::class,
+            'novel_group_publish_companies', 'publish_novel_group_id', 'company_id')
+            ->withPivot('status', 'created_at');
+    }
+
 }

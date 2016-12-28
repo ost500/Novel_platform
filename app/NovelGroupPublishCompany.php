@@ -15,8 +15,5 @@ class NovelGroupPublishCompany extends Model
         'publish_novel_group_id','company_id', 'status',
     ];
 
-    public function publish_novel_groups()
-    {
-        return $this->belongsTo(PublishNovelGroup::class, 'id');
-    }
+    
 }
