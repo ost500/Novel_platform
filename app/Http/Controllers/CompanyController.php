@@ -36,31 +36,47 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
+
         Validator::make($request->all(), [
             'name' => 'required|max:255',
+            'company_picture' => 'mimes:jpeg,png|max:1024',
             'initial_inning' => 'required|numeric',
-            'adult_allowance' => 'required',
-            //'company_picture' => 'image|max:1024',
+
         ], [
             'name.required' => '업체명은 필수 입니다.',
             'name.max' => '업체명은 반드시 255 자리보다 작아야 합니다.',
+             'company_picture.mimes' => '이미지은 반드시 다음의 파일 타입이어야 합니다: jpeg, png',
+            'company_picture.max' => '표지1 용량은 1M를 넘지 않아야 합니다',
             'initial_inning.required' => '소개은 필수 입니다.',
             'initial_inning.numeric' => ' 반드시 숫자여야 합니다',
-            'adult_allowance.required' => '소개은 필수 입니다.',
-            //  'company_picture.max' => '표지1 용량은 1M를 넘지 않아야 합니다',
-            // 'company_picture.mimes' =>'이미지은 반드시 다음의 파일 타입이어야 합니다: jpeg, png',
+
+
         ])->validate();
 
         $input = $request->all();
-        if ($request->adult_allowance=="on") {
+        if ($request->adult_allowance == "on") {
             $input['adult_allowance'] = true;
         } else {
             $input['adult_allowance'] = false;
         }
+
         //if validation is passed then insert the record
-        Company::create($input);
+        $company = Company::create($input);
+
+        if ($request->hasFile('company_picture')) {
+            $company_picture = $request->file('company_picture');
+            $filename = $company->id.".".$company_picture->getClientOriginalExtension();
+            //db pic name
+            $company->company_picture = $filename;
+            //upload file to destination path
+            $destinationPath = public_path('img/company_pictures/');
+            $company_picture->move($destinationPath, $filename);
+            $company->save();
+        }
+
+
         flash("Company created successfully");
-      
+
         if ($request->ajax()) {
             return response()->json(['status' => 'ok']);
         }
