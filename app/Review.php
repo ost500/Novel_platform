@@ -23,6 +23,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Review whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Review whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property \Carbon\Carbon $deleted_at
+ * @method static \Illuminate\Database\Query\Builder|\App\Review whereDeletedAt($value)
  */
 class Review extends Model
 {

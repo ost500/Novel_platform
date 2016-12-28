@@ -4,6 +4,26 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\PublishNovelGroup
+ *
+ * @property int $id
+ * @property int $novel_group_id
+ * @property int $days
+ * @property int $novels_per_days
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property-read \App\NovelGroup $novel_groups
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\PublishNovel[] $publish_novels
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Company[] $companies
+ * @method static \Illuminate\Database\Query\Builder|\App\PublishNovelGroup whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\PublishNovelGroup whereNovelGroupId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\PublishNovelGroup whereDays($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\PublishNovelGroup whereNovelsPerDays($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\PublishNovelGroup whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\PublishNovelGroup whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class PublishNovelGroup extends Model
 {
 

@@ -27,6 +27,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Comment whereParentId($value)
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Comment[] $children
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Comment[] $myself
+ * @property \Carbon\Carbon $deleted_at
+ * @method static \Illuminate\Database\Query\Builder|\App\Comment whereDeletedAt($value)
  */
 class Comment extends Model
 {

@@ -44,6 +44,8 @@ Route::put('users/update_agreement', ['as' => 'users.update_agreement', 'uses' =
 
 Route::resource('nickname', 'NickNameController');
 
+Route::post('publishnovelgroups', ['as' => 'publishnovelgroups.store', 'uses' => "PublishNovelGroupController@store"]);
+
 //Route::get('/author/create', ['as' => 'author.create', 'uses' => 'PageController\AuthorPageController@create']);
 //Route::get('/author/{id}/edit', 'PageController\AuthorPageController@edit');
 
@@ -74,10 +76,10 @@ Route::get('/author/men_to_men/requests/{id}', ['as' => 'author.novel_request_vi
 
 Route::get('/author/novel_faq', ['as' => 'author.novel_faq', 'uses' => 'PageController\AuthorPageController@faq_index']);
 
-Route::get('/author/partnership/apply',['as' => 'author.partner_apply', 'uses'=> 'PageController\AuthorPageController@partner_apply']);
-Route::get('/author/partnership/apply_list',['as' => 'author.partner_apply_list', 'uses'=> 'PageController\AuthorPageController@partner_apply_list']);
-Route::get('/author/partnership/manage_company',['as' => 'author.partner_manage_company', 'uses'=> 'PageController\AuthorPageController@partner_manage_company']);
-Route::get('/author/partnership/manage_apply',['as' => 'author.partner_manage_apply', 'uses'=> 'PageController\AuthorPageController@partner_manage_apply']);
+Route::get('/author/partnership/apply', ['as' => 'author.partner_apply', 'uses' => 'PageController\AuthorPageController@partner_apply']);
+Route::get('/author/partnership/apply_list', ['as' => 'author.partner_apply_list', 'uses' => 'PageController\AuthorPageController@partner_apply_list']);
+Route::get('/author/partnership/manage_company', ['as' => 'author.partner_manage_company', 'uses' => 'PageController\AuthorPageController@partner_manage_company']);
+Route::get('/author/partnership/manage_apply', ['as' => 'author.partner_manage_apply', 'uses' => 'PageController\AuthorPageController@partner_manage_apply']);
 
 
 Route::get('/author/faqs', ['as' => 'author.faqs', 'uses' => 'PageController\AuthorPageController@faq_index']);

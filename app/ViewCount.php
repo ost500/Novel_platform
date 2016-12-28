@@ -5,6 +5,25 @@ namespace App;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\ViewCount
+ *
+ * @property int $id
+ * @property int $novel_id
+ * @property string $date
+ * @property int $count
+ * @property int $separation
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @method static \Illuminate\Database\Query\Builder|\App\ViewCount whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\ViewCount whereNovelId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\ViewCount whereDate($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\ViewCount whereCount($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\ViewCount whereSeparation($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\ViewCount whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\ViewCount whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class ViewCount extends Model
 {
     /**

@@ -19,94 +19,42 @@
 
             <div class="panel panel-default panel-left">
                 <div class="panel-body">
+                    @if (count($errors) > 0)
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
 
-                    <form role="form" class="form-horizontal">
+                    <form role="form" class="form-horizontal" action="{{ route('publishnovelgroups.store') }}"
+                          method="post">
+                        {{ csrf_field() }}
                         <div class="form-group pad-ver">
 
                             <div class="col-lg-12 text-center">
-                                <div class="col-md-4">
-                                    <div class="col-sm-6">
-                                        <div>
-                                            <img src="http://211.110.165.137/img/novel_covers/default_.jpg" width="150">
+                                <div class="col-md-12">
+                                    @foreach($companies as $company)
+                                        <div class="col-sm-2">
+                                            <div>
+                                                <img src="http://211.110.165.137/img/novel_covers/default_.jpg"
+                                                     width="150">
+                                            </div>
+                                            <div class="padding-top-10">
+                                                <label class="form-checkbox form-icon form-text">
+                                                    <input type="checkbox" name="company{{$company->id}}"
+                                                           value="true" checked
+                                                    > {{ $company->name }}</label>
+                                            </div>
+                                            <div class="padding-top-10">초기연재 20편</div>
+                                            <div class="padding-top-10">19금 불가</div>
                                         </div>
-                                        <div class="padding-top-10">
-                                            <label class="form-checkbox form-icon form-text active"><input
-                                                        type="checkbox" name="btn-bkl" checked=""> 업체명 1</label>
-                                        </div>
-                                        <div class="padding-top-10">초기연재 20편</div>
-                                        <div class="padding-top-10">19금 불가</div>
-                                    </div>
+                                    @endforeach
 
-                                    <div class="col-sm-6">
-                                        <div>
-                                            <img src="http://211.110.165.137/img/novel_covers/default_.jpg" width="150">
-                                        </div>
-                                        <div class="padding-top-10">
-                                            <label class="form-checkbox form-icon form-text"><input type="checkbox"
-                                                                                                    name="btn-bkl"> 업체명
-                                                1</label>
-                                        </div>
-                                        <div class="padding-top-10">초기연재 20편</div>
-                                        <div class="padding-top-10">19금 불가</div>
-                                    </div>
                                 </div>
 
-                                <div class="col-md-4">
-                                    <div class="col-sm-6">
-                                        <div>
-                                            <img src="http://211.110.165.137/img/novel_covers/default_.jpg" width="150">
-                                        </div>
-                                        <div class="padding-top-10">
-                                            <label class="form-checkbox form-icon form-text"><input type="checkbox"
-                                                                                                    name="btn-bkl"> 업체명
-                                                1</label>
-                                        </div>
-                                        <div class="padding-top-10">초기연재 20편</div>
-                                        <div class="padding-top-10">19금 불가</div>
-                                    </div>
-
-                                    <div class="col-sm-6">
-                                        <div>
-                                            <img src="http://211.110.165.137/img/novel_covers/default_.jpg" width="150">
-                                        </div>
-                                        <div class="padding-top-10">
-                                            <label class="form-checkbox form-icon form-text"><input type="checkbox"
-                                                                                                    name="btn-bkl"
-                                                                                                    checked=""> 업체명
-                                                1</label>
-                                        </div>
-                                        <div class="padding-top-10">초기연재 20편</div>
-                                        <div class="padding-top-10">19금 불가</div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="col-sm-6">
-                                        <div>
-                                            <img src="http://211.110.165.137/img/novel_covers/default_.jpg" width="150">
-                                        </div>
-                                        <div class="padding-top-10">
-                                            <label class="form-checkbox form-icon form-text"><input type="checkbox"
-                                                                                                    name="btn-bkl"> 업체명
-                                                1</label>
-                                        </div>
-                                        <div class="padding-top-10">초기연재 20편</div>
-                                        <div class="padding-top-10">19금 불가</div>
-                                    </div>
-
-                                    <div class="col-sm-6">
-                                        <div>
-                                            <img src="http://211.110.165.137/img/novel_covers/default_.jpg" width="150">
-                                        </div>
-                                        <div class="padding-top-10">
-                                            <label class="form-checkbox form-icon form-text"><input type="checkbox"
-                                                                                                    name="btn-bkl"> 업체명
-                                                1</label>
-                                        </div>
-                                        <div class="padding-top-10">초기연재 20편</div>
-                                        <div class="padding-top-10">19금 불가</div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
 
@@ -115,10 +63,12 @@
                         <div class="form-group pad-ver">
                             <label class="col-lg-1 control-label text-left" for="inputSubject">작품선택</label>
                             <div class="col-lg-11">
-                                <select class="form-control">
+                                <select name="novel_group" class="form-control">
                                     <option value="">작품선택</option>
-                                    <option value="">작품명1</option>
-                                    <option value="">작품명2</option>
+                                    @foreach($my_novel_groups as $my_novel_group)
+
+                                        <option value="{{$my_novel_group->id}}">{{$my_novel_group->title}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -126,10 +76,12 @@
                         <div class="form-group pad-ver">
                             <label class="col-lg-1 control-label text-left" for="inputSubject">일(날짜)</label>
                             <div class="col-lg-11">
-                                <select class="form-control">
+                                <select name="days" class="form-control">
                                     <option value="">선택</option>
-                                    <option value="">1일</option>
-                                    <option value="">10일</option>
+                                    @for($i=1; $i<=10; $i++)
+                                        <option value="{{$i}}">{{$i}}일</option>
+
+                                    @endfor
                                 </select>
                             </div>
                         </div>
@@ -137,26 +89,27 @@
                         <div class="form-group pad-ver">
                             <label class="col-lg-1 control-label text-left" for="inputSubject">편수</label>
                             <div class="col-lg-11">
-                                <select class="form-control">
+                                <select name="novels_per_days" class="form-control">
                                     <option value="">선택</option>
-                                    <option value="">1편</option>
-                                    <option value="">50편</option>
+                                    @for($i=1; $i<=10; $i++)
+                                        <option value="{{$i}}">{{$i}}편</option>
+                                    @endfor
                                 </select>
                             </div>
                         </div>
+
+
+                        <div id="demo-mail-compose"></div>
+
+                        <div class="text-center">
+                            <button id="mail-send-btn" type="submit" class="btn btn-primary btn-labeled">
+                                <span class="btn-label"><i class="fa fa-paper-plane"></i></span> 신청하기
+                            </button>
+                            {{--<a href="with_company.html">--}}
+                            {{--<button type="button" class="btn btn-danger">취소</button>--}}
+                            {{--</a>--}}
+                        </div>
                     </form>
-
-
-                    <div id="demo-mail-compose"></div>
-
-                    <div class="text-center">
-                        <button id="mail-send-btn" type="button" class="btn btn-primary btn-labeled">
-                            <span class="btn-label"><i class="fa fa-paper-plane"></i></span> 신청하기
-                        </button>
-                        <a href="with_company.html">
-                            <button type="button" class="btn btn-danger">취소</button>
-                        </a>
-                    </div>
                 </div>
 
 

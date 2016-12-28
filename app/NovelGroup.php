@@ -55,6 +55,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\MailLog[] $maillogs
  * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereCompleted($value)
  * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereSecret($value)
+ * @property string $deleted_at
+ * @property-read \App\PublishNovelGroup $publish_novel_groups
+ * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereDeletedAt($value)
  */
 class NovelGroup extends Model
 {

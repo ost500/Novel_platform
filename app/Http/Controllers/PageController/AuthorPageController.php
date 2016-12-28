@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\PageController;
 
+use App\Company;
 use App\Mailbox;
 use App\MailLog;
 use App\MenToMenQuestionAnswer;
@@ -108,8 +109,8 @@ class AuthorPageController extends Controller
         }
 
         //Create or update month's views
-       $start_of_month = Carbon::now()->startOfMonth()->toDateString();
-       $view_count_instance2 = new ViewCount();
+        $start_of_month = Carbon::now()->startOfMonth()->toDateString();
+        $view_count_instance2 = new ViewCount();
         //check if month's view for this novel_id already exists or not
         $view_count_month = $view_count_instance2->viewCountMonth($novel_id);
         //if exists, then update the month's view count otherwise create new view count
@@ -123,7 +124,7 @@ class AuthorPageController extends Controller
                 'count' => '0',
                 'separation' => 3,
             ]);
-            $this_month_count =0;
+            $this_month_count = 0;
         }
 
         return view('author.novel_inning_show', compact('novel', 'today_count', 'this_week_count', 'this_month_count'));
@@ -265,17 +266,24 @@ class AuthorPageController extends Controller
 
     public function partner_apply()
     {
-        return view('author.partnership.apply');
+        $companies = Company::get();
+
+        $my_novel_groups = NovelGroup::where('user_id', Auth::user()->id)->with('publish_novel_groups')->get()->where('publish_novel_groups', null);
+
+
+        return view('author.partnership.apply', compact('companies', 'my_novel_groups'));
     }
 
     public function partner_apply_list()
     {
         return view('author.partnership.apply_list');
     }
+
     public function partner_manage_company()
     {
         return view('author.partnership.manage_company');
     }
+
     public function partner_manage_apply()
     {
         return view('author.partnership.manage_apply');

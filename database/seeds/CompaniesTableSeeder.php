@@ -13,7 +13,7 @@ class CompaniesTableSeeder extends Seeder
     {
 
         \App\Company::truncate();
-        factory(App\Company::class, 10)->create();
+        factory(App\Company::class, 6)->create();
 
     }
 }
