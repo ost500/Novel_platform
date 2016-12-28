@@ -12,12 +12,17 @@ class PublishNovel extends Model
      * @var array
      */
     protected $fillable = [
-        'novel_id','publish_novel_group_id','status','file',
+        'novel_id', 'publish_novel_group_id', 'status', 'file',
     ];
 
-    public function novel_groups()
+    public function publish_novel_groups()
     {
-        return $this->belongsTo(PublishNovelGroup::class, 'id');
+        return $this->belongsTo(PublishNovelGroup::class, 'publish_novel_group_id', 'id');
+    }
+
+    public function novels()
+    {
+        return $this->hasOne(Novel::class, 'id','novel_id');
     }
 
 }

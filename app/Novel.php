@@ -74,4 +74,9 @@ class Novel extends Model
     {
         return $this->hasMany(ViewCount::class);
     }
+
+    public function publish_novels()
+    {
+        return $this->hasOne(PublishNovel::class);
+    }
 }
