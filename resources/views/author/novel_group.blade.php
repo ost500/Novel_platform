@@ -47,6 +47,8 @@
                                                 <button class="btn btn-success">수정</button>
                                             </a>
                                             <button class="btn btn-warning" v-on:click="destroy(novel.id)">삭제</button>
+                                            <button v-if="novel.adult==0" class="btn btn-danger" v-on:click="destroy(novel.id)">19금</button>
+                                            <button v-else class="btn btn-danger" v-on:click="destroy(novel.id)">19금 취소</button>
                                         </td>
                                     </tr>
 

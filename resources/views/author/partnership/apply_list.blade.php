@@ -47,8 +47,9 @@
                                             </td>
                                             @foreach($my_publish_novel_group->companies as $each_company)
                                                 <td class="col-md-2 text-center">
-
-                                                    @if($each_company->pivot->status == "신청하기")
+                                                    @if($each_company->pivot->status == "거절")
+                                                        @php $status = "btn-warning" @endphp
+                                                    @elseif($each_company->pivot->status == "신청하기")
                                                         @php $status = "btn-primary" @endphp
                                                     @elseif($each_company->pivot->status == "승인")
                                                         @php $status = "btn-danger" @endphp

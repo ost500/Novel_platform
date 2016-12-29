@@ -48,8 +48,8 @@
                                                            value="true" checked
                                                     > {{ $company->name }}</label>
                                             </div>
-                                            <div class="padding-top-10">초기연재 20편</div>
-                                            <div class="padding-top-10">19금 불가</div>
+                                            <div class="padding-top-10">초기연재 {{$company->initial_inning}}편</div>
+                                            <div class="padding-top-10">@if($company->adult_allowance)19금 불가@endif</div>
                                         </div>
                                     @endforeach
 
