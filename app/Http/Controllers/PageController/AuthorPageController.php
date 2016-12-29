@@ -9,6 +9,7 @@ use App\MenToMenQuestionAnswer;
 use App\Novel;
 use App\NovelGroup;
 use App\Faq;
+use App\PublishNovelGroup;
 use App\User;
 use App\Http\Controllers\Controller;
 use App\ViewCount;
@@ -276,7 +277,23 @@ class AuthorPageController extends Controller
 
     public function partner_apply_list()
     {
-        return view('author.partnership.apply_list');
+        $my_publish_novel_groups = PublishNovelGroup::with(array('novel_groups' => function ($query) {
+            $query->where('novel_groups.user_id', Auth::user()->id);
+        }))
+            ->with('companies')
+            ->get();
+//            ->join('publish_novel_groups', 'novel_groups.id', '=', 'publish_novel_groups.novel_group_id')
+
+//            ->where('publish_novel_groups', '!=', null);
+
+//        $my_publish_novel_groups =
+//            PublishNovelGroup::join('novel_groups', 'novel_groups.id', '=', 'publish_novel_groups.novel_group_id')
+//                ->join('novel_group_publish_companies', 'novel_group_publish_companies.publish_novel_group_id', '=', 'publish_novel_groups.id')
+//                ->join('companies', 'companies.id', '=', 'novel_group_publish_companies.company_id')
+//                ->where('user_id', Auth::user()->id)->get();
+
+        $companies = Company::get();
+        return view('author.partnership.apply_list', compact('my_publish_novel_groups', 'companies'));
     }
 
     public function partner_manage_company()

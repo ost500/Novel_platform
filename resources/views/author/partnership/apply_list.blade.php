@@ -29,49 +29,43 @@
                                         <th>작품명</th>
                                         <th class="text-center">일</th>
                                         <th class="text-center">편수</th>
-                                        <th class="text-center">네이버</th>
-                                        <th class="text-center">카카오</th>
-                                        <th class="text-center">예스24</th>
-                                        <th class="text-center">교보</th>
+                                        @foreach($companies as $company)
+                                            <th class="text-center">{{ $company->name }}</th>
+                                        @endforeach
                                     </tr>
                                     </thead>
                                     <tbody>
 
-                                    <tr>
-                                        <td class="col-md-2">작품명1</td>
-                                        <td class="col-md-1 text-center">1일</td>
-                                        <td class="col-md-1 text-center">2회차</td>
-                                        <td class="col-md-2 text-center">
-                                            <button class="btn btn-primary">신청하기</button>
-                                        </td>
-                                        <td class="col-md-2 text-center">
-                                            <button class="btn btn-warning">대기 중</button>
-                                        </td>
-                                        <td class="col-md-2 text-center">
-                                            <button class="btn btn-danger">승인</button>
-                                        </td>
-                                        <td class="col-md-2 text-center">
-                                            <button class="btn btn-purple">심사 중</button>
-                                        </td>
-                                    </tr>
+                                    @foreach($my_publish_novel_groups as $my_publish_novel_group)
+                                        <tr>
+                                            <td class="col-md-2">{{$my_publish_novel_group->novel_groups->title}}</td>
+                                            <td class="col-md-1 text-center">{{$my_publish_novel_group->days}}
+                                                일
+                                            </td>
+                                            <td class="col-md-1 text-center">{{$my_publish_novel_group->novels_per_days}}
+                                                회차
+                                            </td>
+                                            @foreach($my_publish_novel_group->companies as $each_company)
+                                                <td class="col-md-2 text-center">
+                                                    @if($each_company->pivot->status == "대기중")
+                                                        @php $status = "btn-warning" @endphp
+                                                    @elseif($each_company->pivot->status == "신청하기")
+                                                        @php $status = "btn-primary" @endphp
+                                                    @elseif($each_company->pivot->status == "승인")
+                                                        @php $status = "btn-danger" @endphp
+                                                    @elseif($each_company->pivot->status == "심사중")
+                                                        @php $status = "btn-purple" @endphp
+                                                    @endif
+                                                    <button class="btn {{ $status }}">{{$each_company->pivot->status}}</button>
 
-                                    <tr>
-                                        <td class="col-md-2">작품명1</td>
-                                        <td class="col-md-1 text-center">1일</td>
-                                        <td class="col-md-1 text-center">2회차</td>
-                                        <td class="col-md-2 text-center">
-                                            <button class="btn btn-primary">신청하기</button>
-                                        </td>
-                                        <td class="col-md-2 text-center">
-                                            <button class="btn btn-warning">대기 중</button>
-                                        </td>
-                                        <td class="col-md-2 text-center">
-                                            <button class="btn btn-danger">승인</button>
-                                        </td>
-                                        <td class="col-md-2 text-center">
-                                            <button class="btn btn-purple">심사 중</button>
-                                        </td>
-                                    </tr>
+
+                                                </td>
+                                            @endforeach
+
+
+                                        </tr>
+                                    @endforeach
+
                                     </tbody>
                                 </table>
                             </div>

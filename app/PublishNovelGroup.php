@@ -39,7 +39,7 @@ class PublishNovelGroup extends Model
 
     public function novel_groups()
     {
-        return $this->belongsTo(NovelGroup::class, 'id');
+        return $this->belongsTo(NovelGroup::class, 'novel_group_id');
     }
 
     public function publish_novels()
