@@ -186,10 +186,14 @@ $factory->define(\App\Company::class, function (Faker\Generator $faker) {
 });
 $factory->define(\App\PublishNovelGroup::class, function (Faker\Generator $faker) {
     $novel_groupIds = App\NovelGroup::pluck('id')->toArray();
+
+    $random_novel_group = $faker->randomElement($novel_groupIds);
+    $random_user_id = App\NovelGroup::find($random_novel_group)->user_id;
     return [
-        'novel_group_id' => $faker->randomElement($novel_groupIds),
-        'days' => $faker->randomElement(['1','2','3','4','5','6','7']),
-        'novels_per_days' => $faker->randomElement(['1','2','3','4','5','6','7','8','9','10']),
+        'user_id' => $random_user_id,
+        'novel_group_id' => $random_novel_group,
+        'days' => $faker->randomElement(['1', '2', '3', '4', '5', '6', '7']),
+        'novels_per_days' => $faker->randomElement(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']),
     ];
 });
 
@@ -199,6 +203,6 @@ $factory->define(\App\NovelGroupPublishCompany::class, function (Faker\Generator
     return [
         'publish_novel_group_id' => $faker->randomElement($publish_novel_groupIds),
         'company_id' => $faker->randomElement($companyIds),
-        'status' => $faker->randomElement(['신청하기', '대기중','심사중','승인','거절']),
+        'status' => $faker->randomElement(['신청하기', '심사중', '승인', '거절']),
     ];
 });
