@@ -47,6 +47,14 @@ class PublishNovelGroup extends Model
         return $this->hasMany(PublishNovel::class);
     }
 
+    public function novels()
+    {
+        return $this->belongsToMany(Novel::class,
+            'publish_novels', 'publish_novel_group_id', 'novel_id')
+            ->withPivot('status', 'created_at');
+    }
+
+
     public function companies()
     {
         return $this->belongsToMany(Company::class,

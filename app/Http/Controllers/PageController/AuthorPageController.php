@@ -15,7 +15,6 @@ use App\Http\Controllers\Controller;
 use App\ViewCount;
 use Auth;
 use App\Keyword;
-use App\Company;
 use Illuminate\Pagination\Paginator;
 use Carbon\Carbon;
 use Illuminate\Http\Request;

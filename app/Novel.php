@@ -77,6 +77,13 @@ class Novel extends Model
         return $this->hasMany(ViewCount::class);
     }
 
+    public function publish_novel_groups()
+    {
+        return $this->belongsToMany(PublishNovelGroup::class,
+            'publish_novels', 'novel_id', 'publish_novel_group_id')
+            ->withPivot('status', 'created_at');
+    }
+
     public function publish_novels()
     {
         return $this->hasOne(PublishNovel::class);
