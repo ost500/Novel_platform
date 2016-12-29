@@ -32,5 +32,5 @@ class NovelGroupPublishCompany extends Model
         'publish_novel_group_id','company_id', 'status',
     ];
 
-    
+
 }
