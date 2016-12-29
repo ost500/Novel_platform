@@ -42,7 +42,7 @@
                             <label class="col-lg-1 control-label text-left" for="company_picture">이미지</label>
 
                             <div class="col-lg-1">
-                                <img src="http://211.110.165.137/img/novel_covers/default_.jpg" width="100">
+                                <img id="company_pic_preview" src="http://211.110.165.137/img/novel_covers/default_.jpg" width="100">
                             </div>
                             <div class="col-lg-10">
                                 <input type="file" id="company_picture" name="company_picture" class="form-control" placeholder="이미지">
@@ -59,16 +59,15 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-lg-1 control-label text-left" for="initial_inning">initial Inning</label>
+                            <label class="col-lg-1 control-label text-left" for="initial_inning">초기연재회차</label>
 
                             <div class="col-lg-11">
                                 <input type="text" id="initial_inning" name="initial_inning" class="form-control" value="{{old('initial_inning')}}"
-                                       placeholder="수수료">
+                                       placeholder="초기연재회차">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-lg-1 control-label text-left" for="adult_allowance">Adult
-                                Allowance</label>
+                            <label class="col-lg-1 control-label text-left" for="adult_allowance">성인물 허가</label>
 
                             <div class="col-lg-11">
 
@@ -95,7 +94,32 @@
 
 
         </div>
+        <script type="text/javascript">
 
+            function readURL(input) {
+
+                if (input.files && input.files[0]) {
+
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+
+                        $('#company_pic_preview').attr('src', e.target.result);
+
+                    }
+
+                    reader.readAsDataURL(input.files[0]);
+
+                }
+
+            }
+
+            $("#company_picture").change(function(){
+
+                readURL(this);
+
+            });
+
+        </script>
 
     </div>
 @endsection

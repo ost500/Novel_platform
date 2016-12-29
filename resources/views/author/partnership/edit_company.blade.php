@@ -64,7 +64,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-lg-1 control-label text-left" for="initial_inning">initial Inning</label>
+                            <label class="col-lg-1 control-label text-left" for="initial_inning">오상택
+                                초기연재회차
+                            </label>
 
                             <div class="col-lg-11">
                                 <input type="text" id="initial_inning" name="initial_inning" class="form-control" value="{{$company->initial_inning}}"
@@ -72,8 +74,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-lg-1 control-label text-left" for="adult_allowance">Adult
-                                Allowance</label>
+                            <label class="col-lg-1 control-label text-left" for="adult_allowance">성인물 허가</label>
 
                             <div class="col-lg-11">
 

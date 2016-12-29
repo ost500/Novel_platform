@@ -45,10 +45,10 @@ class CompanyController extends Controller
         ], [
             'name.required' => '업체명은 필수 입니다.',
             'name.max' => '업체명은 반드시 255 자리보다 작아야 합니다.',
-             'company_picture.mimes' => '이미지은 반드시 다음의 파일 타입이어야 합니다: jpeg, png',
+            'company_picture.mimes' => '이미지는 반드시 다음의 파일 타입이어야 합니다: jpeg, png',
             'company_picture.max' => '표지1 용량은 1M를 넘지 않아야 합니다',
-            'initial_inning.required' => '소개은 필수 입니다.',
-            'initial_inning.numeric' => ' 반드시 숫자여야 합니다',
+            'initial_inning.required' => '초기연재회차는 필수 입니다.',
+            'initial_inning.numeric' => ' 초기연재회차는 반드시 숫자여야 합니다',
 
 
         ])->validate();
@@ -75,7 +75,7 @@ class CompanyController extends Controller
         }
 
 
-        flash("Company created successfully");
+        flash("제휴 업체가 성공적으로 생성 됐습니다.");
 
         if ($request->ajax()) {
             return response()->json(['status' => 'ok']);
@@ -95,10 +95,10 @@ class CompanyController extends Controller
         ], [
             'name.required' => '업체명은 필수 입니다.',
             'name.max' => '업체명은 반드시 255 자리보다 작아야 합니다.',
-            'company_picture.mimes' => '이미지은 반드시 다음의 파일 타입이어야 합니다: jpeg, png',
+            'company_picture.mimes' => '이미지는 반드시 다음의 파일 타입이어야 합니다: jpeg, png',
             'company_picture.max' => '표지1 용량은 1M를 넘지 않아야 합니다',
-            'initial_inning.required' => '소개은 필수 입니다.',
-            'initial_inning.numeric' => ' 반드시 숫자여야 합니다',
+            'initial_inning.required' => '초기연재회차는 필수 입니다.',
+            'initial_inning.numeric' => ' 초기연재회차는 반드시 숫자여야 합니다',
 
 
         ])->validate();
@@ -123,7 +123,7 @@ class CompanyController extends Controller
         }
 
         Company::where('id', $company_id)->update($input);
-        flash("Company updated successfully");
+        flash("제휴 업체가 성공적으로 수정 됐습니다.");
 
         if ($request->ajax()) {
             return response()->json(['status' => 'ok']);
