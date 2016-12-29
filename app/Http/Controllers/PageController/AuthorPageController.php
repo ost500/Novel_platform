@@ -282,7 +282,12 @@ class AuthorPageController extends Controller
     {
         return view('author.partnership.create_company');
     }
-    public function partner_manage_apply()
+    public function partner_edit_company($company_id)
+    {
+        $company=Company::where('id',$company_id)->first();
+        return view('author.partnership.edit_company',compact('company'));
+    }
+        public function partner_manage_apply()
     {
         return view('author.partnership.manage_apply');
     }

@@ -39,7 +39,7 @@
 												<tr>
 													<td class="col-md-9"><a href="manage_apply.blade.php">{{$company->name}} <!--업체명1--></a></td>
 													<td class="text-center">
-														<a href="manage_apply.blade.php"><button class="btn btn-success">수정</button></a>
+														<a href="{{route('author.partner_edit_company',['id'=>$company->id])}}"><button class="btn btn-success">수정</button></a>
 														<button class="btn btn-warning"  onclick="destroy({{$company->id}})" >삭제</button>
 													</td>
 												</tr>
