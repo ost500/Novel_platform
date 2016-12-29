@@ -24,7 +24,7 @@
 								<div class="panel-body">
 									<div class="table-responsive">
 										<div class="padding-bottom-5">
-											<a href="manage_apply.blade.php"><button class="btn btn-primary novel-user-nick-form">업체추가</button></a>
+											<a href="{{route('author.partner_create_company')}}"><button class="btn btn-primary novel-user-nick-form">업체추가</button></a>
 										</div>
 
 										<table class="table table-striped table-hover">
@@ -35,22 +35,16 @@
 												</tr>
 											</thead>
 											<tbody>
-												
+												@foreach($companies as $company)
 												<tr>
-													<td class="col-md-9"><a href="manage_apply.blade.php">업체명1</a></td>
+													<td class="col-md-9"><a href="manage_apply.blade.php">{{$company->name}} <!--업체명1--></a></td>
 													<td class="text-center">
-														<a href="manage_apply.blade.php"><button class="btn btn-success">수정</button></a>
-														<button class="btn btn-warning">삭제</button>
+														<a href="{{route('author.partner_edit_company',['id'=>$company->id])}}"><button class="btn btn-success">수정</button></a>
+														<button class="btn btn-warning"  onclick="destroy({{$company->id}})" >삭제</button>
 													</td>
 												</tr>
+												@endforeach
 
-												<tr>
-													<td class="col-md-9"><a href="manage_apply.blade.php">업체명2</a></td>
-													<td class="text-center">
-														<a href="manage_apply.blade.php"><button class="btn btn-success">수정</button></a>
-														<button class="btn btn-warning">삭제</button>
-													</td>
-												</tr>
 											</tbody>
 										</table>
 									</div>
@@ -64,6 +58,59 @@
 
 
 			</div>
+			<script type="text/javascript">
 
+
+				/* function update(faq) {
+				 // console.log(faq);
+
+				 faqUpdate(faq);
+
+
+				 }*/
+
+
+				function destroy(company_id) {
+					bootbox.confirm({
+						message: "삭제 하시겠습니까?",
+						buttons: {
+							confirm: {
+								label: "삭제"
+							},
+							cancel: {
+								label: '취소'
+							}
+						},
+						callback: function (result) {
+							if (result) {
+								$.ajax({
+									type: 'DELETE',
+									url: '{{ url('/companies') }}/' + company_id,
+									headers: {
+										'X-CSRF-TOKEN': window.Laravel.csrfToken
+									},
+									success: function (response) {
+
+										$.niftyNoty({
+											type: 'warning',
+											icon: 'fa fa-check',
+											message: "삭제 되었습니다.",
+											container: 'page',
+											timer: 4000
+										});
+										location.reload();
+									},
+									error: function (data2) {
+										console.log(data2);
+									}
+								});
+
+							}
+						}
+					});
+				}
+
+
+			</script>
 
 @endsection

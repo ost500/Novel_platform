@@ -15,6 +15,7 @@ use App\Http\Controllers\Controller;
 use App\ViewCount;
 use Auth;
 use App\Keyword;
+use App\Company;
 use Illuminate\Pagination\Paginator;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -298,7 +299,17 @@ class AuthorPageController extends Controller
 
     public function partner_manage_company()
     {
-        return view('author.partnership.manage_company');
+        $companies=Company::get();
+        return view('author.partnership.manage_company',compact('companies'));
+    }
+    public function partner_create_company()
+    {
+        return view('author.partnership.create_company');
+    }
+    public function partner_edit_company($company_id)
+    {
+        $company=Company::where('id',$company_id)->first();
+        return view('author.partnership.edit_company',compact('company'));
     }
 
     public function partner_manage_apply()
