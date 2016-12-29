@@ -277,11 +277,11 @@ class AuthorPageController extends Controller
 
     public function partner_apply_list()
     {
-        $my_publish_novel_groups = PublishNovelGroup::with(array('novel_groups' => function ($query) {
-            $query->where('novel_groups.user_id', Auth::user()->id);
-        }))
-            ->with('companies')
-            ->get();
+        $my_publish_novel_groups = PublishNovelGroup::where('user_id', 2)
+            ->with('novel_groups')
+            ->with('companies')->get();
+
+
 //            ->join('publish_novel_groups', 'novel_groups.id', '=', 'publish_novel_groups.novel_group_id')
 
 //            ->where('publish_novel_groups', '!=', null);
@@ -298,17 +298,19 @@ class AuthorPageController extends Controller
 
     public function partner_manage_company()
     {
-        $companies=Company::get();
-        return view('author.partnership.manage_company',compact('companies'));
+        $companies = Company::get();
+        return view('author.partnership.manage_company', compact('companies'));
     }
+
     public function partner_create_company()
     {
         return view('author.partnership.create_company');
     }
+
     public function partner_edit_company($company_id)
     {
-        $company=Company::where('id',$company_id)->first();
-        return view('author.partnership.edit_company',compact('company'));
+        $company = Company::where('id', $company_id)->first();
+        return view('author.partnership.edit_company', compact('company'));
     }
 
     public function partner_manage_apply()

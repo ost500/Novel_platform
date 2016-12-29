@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Company;
 use App\NovelGroupPublishCompany;
 use App\PublishNovelGroup;
+use Auth;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -28,6 +29,7 @@ class PublishNovelGroupController extends Controller
 
         $new_publish_novel_group = new PublishNovelGroup();
         $new_publish_novel_group->novel_group_id = $request->novel_group;
+        $new_publish_novel_group->user_id = Auth::user()->id;
         $new_publish_novel_group->days = $request->days;
         $new_publish_novel_group->novels_per_days = $request->novels_per_days;
         $new_publish_novel_group->save();
@@ -38,7 +40,7 @@ class PublishNovelGroupController extends Controller
             $new_novel_group_publish_company->publish_novel_group_id = $new_publish_novel_group->id;
             $new_novel_group_publish_company->company_id = $company->id;
             if ($request->input('company' . $company->id)) {
-                $new_novel_group_publish_company->status = "대기중";
+                $new_novel_group_publish_company->status = "심사중";
             } else {
                 $new_novel_group_publish_company->status = "신청하기";
             }
