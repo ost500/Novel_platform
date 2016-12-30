@@ -331,4 +331,21 @@ class NovelController extends Controller
         return response()->json($request);
     }
 
+    public function make_adult($id)
+    {
+        $novel = Novel::find($id);
+
+        $novel->adult = 1;
+        $novel->save();
+
+    }
+    public function cancel_adult($id)
+    {
+        $novel = Novel::find($id);
+
+        $novel->adult = 0;
+        $novel->save();
+
+    }
+
 }
