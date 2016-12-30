@@ -54,6 +54,10 @@ class PublishNovelGroup extends Model
             ->withPivot('status', 'created_at');
     }
 
+    public function users()
+    {
+        return $this->belongsTo(User::class, 'user_id','id');
+    }
 
     public function companies()
     {
