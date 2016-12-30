@@ -46,7 +46,7 @@ class KeywordController extends Controller
         $input=$request->all();
         //if validation is passed then insert the record
         Keyword::create($input);
-        flash("Keyword created successfully");
+        flash("키워드가 성공적으로 생성됐습니다");
         //redirect to faqs
         if($request->ajax()){ return response()->json(['status'=>'ok']);   }
 

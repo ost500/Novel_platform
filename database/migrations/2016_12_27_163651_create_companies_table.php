@@ -17,7 +17,7 @@ class CreateCompaniesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->integer('initial_inning');
-            $table->boolean('adult_allowance');
+            $table->boolean('adult');
             $table->timestamps();
         });
     }

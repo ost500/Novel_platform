@@ -13,7 +13,13 @@ class CompaniesTableSeeder extends Seeder
     {
 
         \App\Company::truncate();
-        factory(App\Company::class, 6)->create();
+        $arr = Array("네이버","카카오","예스24","교보");
+        foreach($arr as $ar){
+            $new_com = factory(App\Company::class)->create();
+            $new_com->name = $ar;
+            $new_com->save();
+        }
+
 
     }
 }

@@ -278,7 +278,7 @@ class AuthorPageController extends Controller
 
     public function partner_apply_list()
     {
-        $my_publish_novel_groups = PublishNovelGroup::where('user_id', 2)
+        $my_publish_novel_groups = PublishNovelGroup::where('user_id', Auth::user()->id)
             ->with('novel_groups')
             ->with('companies')->get();
 

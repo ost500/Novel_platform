@@ -45,11 +45,11 @@
                                             <div class="padding-top-10">
                                                 <label class="form-checkbox form-icon form-text">
                                                     <input type="checkbox" name="company{{$company->id}}"
-                                                           value="true" checked
+                                                           value="true" @if(old('company'.$company->id)) checked @endif
                                                     > {{ $company->name }}</label>
                                             </div>
-                                            <div class="padding-top-10">초기연재 20편</div>
-                                            <div class="padding-top-10">19금 불가</div>
+                                            <div class="padding-top-10">초기연재 {{$company->initial_inning}}편</div>
+                                            <div class="padding-top-10">@if($company->adult)19금 불가@endif</div>
                                         </div>
                                     @endforeach
 
@@ -67,7 +67,8 @@
                                     <option value="">작품선택</option>
                                     @foreach($my_novel_groups as $my_novel_group)
 
-                                        <option value="{{$my_novel_group->id}}">{{$my_novel_group->title}}</option>
+                                        <option value="{{$my_novel_group->id}}"
+                                                @if($my_novel_group->id == old('novel_group')) selected @endif>{{$my_novel_group->title}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -79,7 +80,8 @@
                                 <select name="days" class="form-control">
                                     <option value="">선택</option>
                                     @for($i=1; $i<=10; $i++)
-                                        <option value="{{$i}}">{{$i}}일</option>
+                                        <option value="{{$i}}"
+                                                @if($i == old('days')) selected @endif>{{$i}}일</option>
 
                                     @endfor
                                 </select>
@@ -92,7 +94,8 @@
                                 <select name="novels_per_days" class="form-control">
                                     <option value="">선택</option>
                                     @for($i=1; $i<=10; $i++)
-                                        <option value="{{$i}}">{{$i}}편</option>
+                                        <option value="{{$i}}"
+                                                @if($i == old('novels_per_days')) selected @endif>{{$i}}편</option>
                                     @endfor
                                 </select>
                             </div>

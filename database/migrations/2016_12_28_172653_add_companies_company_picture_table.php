@@ -14,7 +14,7 @@ class AddCompaniesCompanyPictureTable extends Migration
     public function up()
     {
         Schema::table('companies', function (Blueprint $table) {
-            $table->string('company_picture')->nullable()->after('adult_allowance');
+            $table->string('company_picture')->nullable()->after('adult');
         });
     }
 

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Company;
+use App\Novel;
+use App\NovelGroup;
 use App\NovelGroupPublishCompany;
 use App\PublishNovelGroup;
 use Auth;
@@ -17,7 +19,7 @@ class PublishNovelGroupController extends Controller
         print_r($request->all());
         print_r($request->companies);
 
-        Validator::make($request->all(), [
+        $vali = Validator::make($request->all(), [
             'novel_group' => 'required',
             'days' => 'required',
             'novels_per_days' => 'required',
@@ -25,7 +27,32 @@ class PublishNovelGroupController extends Controller
             'novel_group.required' => '작품을 선택하세요',
             'days.required' => '일(날짜)를 입력하세요',
             'novels_per_days.required' => '편수를 입력하세요',
-        ])->validate();
+        ]);
+
+
+        $vali->validate();
+
+        $companies = Company::get();
+        //company condition validation check
+        $novel_group = NovelGroup::find($request->novel_group);
+        foreach ($companies as $company) {
+            if ($request->input('company' . $company->id)) {
+
+                $novel_group_has_adult = Novel::where('novel_group_id', $novel_group->id)->where('adult', 1)->exists();
+                // check novel_group has adult or not
+
+                if ($company->initial_inning > $novel_group->novels->count()) {
+                    $errors = array(["연재업체 " . $company->name . "는 초기연재 " . $company->initial_inning . "회를 요구합니다. "]);
+
+                    return redirect()->back()->withInput()->withErrors($errors);
+                }
+                if ($company->adult == 1 && $novel_group_has_adult) {
+                    $errors = array(["연재업체 " . $company->name . "는 19금 작품 제휴가 불가능 합니다"]);
+                    return redirect()->back()->withInput()->withErrors($errors);
+                }
+            }
+        }
+
 
         $new_publish_novel_group = new PublishNovelGroup();
         $new_publish_novel_group->novel_group_id = $request->novel_group;
@@ -45,7 +72,7 @@ class PublishNovelGroupController extends Controller
                 $new_novel_group_publish_company->status = "신청하기";
             }
             $new_novel_group_publish_company->save();
-            
+
         }
         return redirect()->route('author.partner_apply_list');
 

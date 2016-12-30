@@ -6,6 +6,7 @@ use App\Favorite;
 use App\Keyword;
 use App\Mailbox;
 use App\MailLog;
+use App\Novel;
 use App\User;
 use Auth;
 use Carbon\Carbon;
@@ -13,6 +14,7 @@ use Illuminate\Http\Request;
 use App\NovelGroup;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
+use Mockery\CountValidator\Exception;
 use Validator;
 
 
@@ -37,15 +39,16 @@ class NovelGroupController extends Controller
     {
         if (Auth::user()->isAdmin()) {
             //if you are admin
-            $novel_groups = NovelGroup::with('novels')->get();
+            $novel_groups = NovelGroup::with('novels')->latest()->get();
         } else {
             //if you are user
-            $novel_groups = $request->user()->novel_groups()->with('novels')->get();
+            $novel_groups = $request->user()->novel_groups()->with('novels')->latest()->get();
         }
 
         //check an agreement agreed or not
         $author = User::select('author_agreement')->where('id', Auth::user()->id)->first();
 
+        // sorting
         if ($request->order == "secret") {
             $novel_groups = $novel_groups->where('secret', 1);
         } else if ($request->order == "completed") {
@@ -73,7 +76,7 @@ class NovelGroupController extends Controller
                 }
 
             }
-            //소설이 없다면
+            // 소설이 없다면
             if ($novel_group->novels->count() != 0) {
                 $latested_at[$novel_group->id] = $novel_group->novels->sortby('created_at')->first()->created_at->format('Y-m-d');
             } else {
@@ -88,14 +91,12 @@ class NovelGroupController extends Controller
             $review_count = 0;
 
         }
-        // dd($count_data);
-        // $novel_group= $request->user()->novel_groups()->where('id',$user_novels->novel_group_id)->first();
 
+
+        // pagination
         if (!isset($request->page)) {
             $request->page = 1;
         }
-
-
         $novel_group_per_page = $novel_groups->forPage($request->page, 5);
         $novel_groups = new LengthAwarePaginator($novel_group_per_page, $novel_groups_count, 5);
 
@@ -395,6 +396,31 @@ class NovelGroupController extends Controller
             $new_mail_log->novel_group_id = $novel_group->id;
             $new_mail_log->save();
         }
+    }
+
+    public function clone_for_publish($id)
+    {
+        try {
+            $cloning_novel_group = NovelGroup::find($id);
+            // novel_group to clone
+            $new_novel_group = $cloning_novel_group->replicate();
+            $new_novel_group->title = $new_novel_group->title . "[15세 개정판]";
+            $new_novel_group->push();
+            // novel_group cloned
+
+            $cloning_novels = Novel::where('novel_group_id', $cloning_novel_group->id)->orderBy('inning')->get();
+            foreach ($cloning_novels as $cloning_novel) {
+                if ($cloning_novel->adult == 1) {
+                    break;
+                }
+                $new_novel = $cloning_novel->replicate();
+                $new_novel->novel_group_id = $new_novel_group->id;
+                $new_novel->push();
+            }
+        } catch (Exception $e){
+            abort(403, '처리 중 에러가 발생했습니다 관리자에게 문의하세요.');
+        }
+
     }
 
 
