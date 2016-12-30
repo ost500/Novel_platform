@@ -65,26 +65,21 @@
                                             </tr>
                                         @endforeach
                                     @endforeach
-
-                                       {{-- <tr>
-                                            <td class="col-md-1">작가명2</td>
-                                            <td class="col-md-2">작품명2</td>
-                                            <td class="col-md-2">카카오</td>
-                                            <td class="col-md-1 text-center">30편</td>
-                                            <td class="col-md-1 text-center">1일</td>
-                                            <td class="col-md-1 text-center">2편</td>
-                                            <td class="col-md-1 text-center">2016-12-20</td>
-                                            <td class="col-md-1 text-center">2016-12-20</td>
-                                            <td class="col-md-2 text-center">
-                                                <button class="btn btn-sm btn-warning">심사중</button>
-                                                <button class="btn btn-sm btn-primary">승인</button>
-                                                <button class="btn btn-sm btn-danger">거절</button>
-                                            </td>
-                                        </tr>--}}
-
                                     </tbody>
                                 </table>
                             </div>
+                            <div class="fixed-table-pagination" style="display: block;">
+                                <div class="pull-left">
+                                  {{-- <button class="btn btn-danger">선택삭제</button>--}}
+                                </div>
+
+                                <div class="pull-right">
+                                    @include('pagination', ['collection' => $apply_requests, 'url' => route('author.partner_manage_apply')])
+
+                                </div>
+                            </div>
+
+
                         </div>
                     </div>
                 </div>

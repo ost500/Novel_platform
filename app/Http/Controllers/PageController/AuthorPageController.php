@@ -316,8 +316,7 @@ class AuthorPageController extends Controller
     public function partner_manage_apply()
     {
 
-        $apply_requests = PublishNovelGroup::with('novel_groups')->with('users')->with('companies')->get();
-
+        $apply_requests = PublishNovelGroup::with('novel_groups')->with('users')->with('companies')->paginate(5);
         return view('author.partnership.manage_apply', compact('apply_requests'));
     }
 
