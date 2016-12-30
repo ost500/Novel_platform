@@ -80,7 +80,7 @@ Route::get('/author/novel_faq', ['as' => 'author.novel_faq', 'uses' => 'PageCont
 Route::get('/author/partnership/apply', ['as' => 'author.partner_apply', 'uses' => 'PageController\AuthorPageController@partner_apply']);
 Route::get('/author/partnership/apply_list', ['as' => 'author.partner_apply_list', 'uses' => 'PageController\AuthorPageController@partner_apply_list']);
 Route::get('/author/partnership/manage_company', ['as' => 'author.partner_manage_company', 'uses' => 'PageController\AuthorPageController@partner_manage_company']);
-Route::get('/author/partnership/manage_apply', ['as' => 'author.partner_manage_apply', 'uses' => 'PageController\AuthorPageController@partner_manage_apply']);
+Route::get('/author/partnership/manage_apply/{id?}', ['as' => 'author.partner_manage_apply', 'uses' => 'PageController\AuthorPageController@partner_manage_apply']);
 Route::get('/author/partnership/create_company', ['as' => 'author.partner_create_company', 'uses' => 'PageController\AuthorPageController@partner_create_company']);
 Route::get('/author/partnership/edit_company/{id}', ['as' => 'author.partner_edit_company', 'uses' => 'PageController\AuthorPageController@partner_edit_company']);
 
