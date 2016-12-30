@@ -181,7 +181,7 @@ $factory->define(\App\Company::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->word,
         'initial_inning' => $faker->randomElement(['1', '2', '3', '4', '5']),
-        'adult_allowance' => $faker->randomElement(['0', '1']),
+        'adult' => $faker->randomElement(['0', '1']),
     ];
 });
 $factory->define(\App\PublishNovelGroup::class, function (Faker\Generator $faker) {
