@@ -88,4 +88,12 @@ class PublishNovelGroupController extends Controller
         $put_NGPC->save();
 //        return redirect()->back();
     }
+
+    public function show_novels($publish_novel_group_id)
+    {
+       // $novel_group = NovelGroup::find($id)->novels->sortByDesc('inning')->values();
+        $novels= Novel::where('novel_group_id',$publish_novel_group_id)->get();
+        //return \Response::json($novels);
+        return view('admin.partnership.novels',compact('novels'));
+    }
 }
