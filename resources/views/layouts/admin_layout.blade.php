@@ -176,7 +176,7 @@
 
                                 <li class="list-divider"></li>
 
-                                <li>
+                                <li class="{{Request::is('admin/partnership/*')?"active-link":"" }}">
                                     <a href="index.html">
                                         <i class="fa fa-share"></i>
                                         <span class="menu-title">
@@ -185,9 +185,9 @@
                                         <i class="arrow"></i>
                                     </a>
 
-                                    <ul class="collapse">
-                                        <li><a href="novel.html">연재신청</a></li>
-                                        <li><a href="novel_write.html">업체관리</a></li>
+                                    <ul class="collapse {{ (Request::is('admin/partnership/*') )?"in":"" }}">
+                                        <li><a href="{{ route('admin.partner_manage_company') }}">어드민 연재업체관리</a></li>
+                                        <li><a href="{{ route('admin.partner_manage_apply') }}">어드민 연재신청관리</a></li>
                                     </ul>
                                 </li>
 

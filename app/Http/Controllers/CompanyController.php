@@ -81,7 +81,7 @@ class CompanyController extends Controller
             return response()->json(['status' => 'ok']);
         }
 
-        return redirect()->route('author.partner_manage_company');
+        return redirect()->route('admin.partner_manage_company');
 
     }
 
@@ -129,7 +129,7 @@ class CompanyController extends Controller
             return response()->json(['status' => 'ok']);
         }
 
-        return redirect()->route('author.partner_manage_company');
+        return redirect()->route('admin.partner_manage_company');
     }
 
 

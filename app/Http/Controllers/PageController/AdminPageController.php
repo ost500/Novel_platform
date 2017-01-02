@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\PageController;
-
+use App\NovelGroupPublishCompany;
+use App\Company;
 use App\Http\Controllers\Controller;
 use App\Keyword;
 use App\MailLog;
@@ -213,6 +214,45 @@ class AdminPageController extends Controller
         return view('admin.keyword_create');
     }
 
+    public function partner_create_company()
+    {
+        return view('admin.partnership.create_company');
+    }
+
+    public function partner_edit_company($company_id)
+    {
+        $company = Company::where('id', $company_id)->first();
+        return view('admin.partnership.edit_company', compact('company'));
+    }
+
+    public function partner_manage_company()
+    {
+        $companies = Company::get();
+        return view('admin.partnership.manage_company', compact('companies'));
+    }
+    /**
+     * @param null $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function partner_manage_apply($id = null)
+    {
+
+        $companies = Company::orderBy('name')->get();
+        $apply_requests = NovelGroupPublishCompany::where('status','!=','신청하기')->with('novel_groups.users')->with('publish_novel_groups')->with('companies');
+
+        if ($id) {
+            //  $apply_requests= PublishNovelGroup::with('novel_groups')->with('users')->with(['companies'=> function($q){ $q->where('company_id','2'); } ])->paginate(5);
+//            $apply_requests = $apply_requests->whereHas('companies', function ($q) use ($id) {
+//                    $q->where('companies.id', $id);
+//            });
+            $apply_requests->where('company_id',$id);
+
+        }
+
+        $apply_requests =$apply_requests->paginate(20);
+        return view('admin.partnership.manage_apply', compact('apply_requests', 'companies'));
+
+    }
 
 
 

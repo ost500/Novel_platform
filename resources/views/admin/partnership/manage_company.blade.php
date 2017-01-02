@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin_layout')
 @section('content')
 			<div id="content-container">
 				
@@ -24,7 +24,7 @@
 								<div class="panel-body">
 									<div class="table-responsive">
 										<div class="padding-bottom-5">
-											<a href="{{route('author.partner_create_company')}}"><button class="btn btn-primary novel-user-nick-form">업체추가</button></a>
+											<a href="{{route('admin.partner_create_company')}}"><button class="btn btn-primary novel-user-nick-form">업체추가</button></a>
 										</div>
 
 										<table class="table table-striped table-hover">
@@ -52,7 +52,7 @@
 													<td class="text-center">{{$company->initial_inning}} </td>
 													<td class="text-center">@if($company->adult_allowance)  Yes @else No  @endif </td>
 													<td class="text-center">
-														<a href="{{route('author.partner_edit_company',['id'=>$company->id])}}"><button class="btn btn-success">수정</button></a>
+														<a href="{{route('admin.partner_edit_company',['id'=>$company->id])}}"><button class="btn btn-success">수정</button></a>
 														<button class="btn btn-warning"  onclick="destroy({{$company->id}})" >삭제</button>
 													</td>
 												</tr>

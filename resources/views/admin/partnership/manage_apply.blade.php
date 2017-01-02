@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin_layout')
 @section('content')
 
 
@@ -30,8 +30,8 @@
                                         <tr>
                                             @foreach($companies as $company)
 
-                                                    <button class="btn btn-primary"
-                                                            onclick="window.location.href='{{route('author.partner_manage_apply',['id'=>$company->id]) }}'">{{$company->name}}</button>
+                                                <button class="btn btn-primary"
+                                                        onclick="window.location.href='{{route('admin.partner_manage_apply',['id'=>$company->id]) }}'">{{$company->name}}</button>
 
                                             @endforeach
                                         </tr>
@@ -72,9 +72,11 @@
                                                     {{--<button class="btn btn-sm btn-warning">심사중</button> --}}
                                                     @if($apply_request->status == '심사중')
                                                         <span id="response{{$apply_request->id}}"></span>
-                                                        <button class="btn btn-sm btn-primary" id="approve{{$apply_request->id}}"
+                                                        <button class="btn btn-sm btn-primary"
+                                                                id="approve{{$apply_request->id}}"
                                                                 v-on:click="approve_deny('{{$apply_request->id}}',1)">@{{approve_status}}</button>
-                                                        <button class="btn btn-sm btn-danger" id="deny{{$apply_request->id}}"
+                                                        <button class="btn btn-sm btn-danger"
+                                                                id="deny{{$apply_request->id}}"
                                                                 v-on:click="approve_deny('{{$apply_request->id}}',0)">@{{deny_status}}</button>
                                                     @else
                                                         <span>{{$apply_request->status}}</span>
@@ -95,7 +97,7 @@
                                 </div>
 
                                 <div class="pull-right">
-                                    @include('pagination', ['collection' => $apply_requests, 'url' => route('author.partner_manage_apply')])
+                                    @include('pagination', ['collection' => $apply_requests, 'url' => route('admin.partner_manage_apply')])
 
                                 </div>
                             </div>
@@ -126,19 +128,37 @@
             },
             methods: {
                 approve_deny: function (company_id, type) {
-                    if (type == 1) {
-                        this.info.status = this.approve_status;
-                    } else {
-                        this.info.status = this.deny_status;
-                    }
-                    this.$http.put('{{ url('publish_companies') }}/' + company_id, this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
-                            .then(function (response) {
-                                $('#approve'+company_id).hide();
-                                $('#deny'+company_id).hide();
-                                $('#response'+company_id).html(response.data.data);
-                            }).catch(function (data, status, request) {
-                                var errors = data.data;
-                            });s
+                    bootbox.prompt("거절 사유", function (result) {
+                        if (result) {
+
+                            //distinguish approve or deny function
+                            if (type == 1) {
+                                app.info.status = app.approve_status;
+                            } else {
+                                app.info.status = app.deny_status;
+                            }
+                            app.$http.put('{{ url('publish_companies') }}/' + company_id, app.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                                    .then(function (response) {
+                                        $('#approve' + company_id).hide();
+                                        $('#deny' + company_id).hide();
+                                        $('#response' + company_id).html(response.data.data);
+                                        $.niftyNoty({
+                                            type: 'success',
+                                            icon: 'fa fa-check',
+                                            message: app.info.status + "했습니다",
+                                            container: 'floating',
+                                            timer: 3000
+                                        });
+
+
+                                    })
+                                    .catch(function (data, status, request) {
+                                        var errors = data.data;
+                                    });
+                        }
+
+                    });
+
                 }
             }
 

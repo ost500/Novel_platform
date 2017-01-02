@@ -85,10 +85,6 @@ Route::get('/author/novel_faq', ['as' => 'author.novel_faq', 'uses' => 'PageCont
 
 Route::get('/author/partnership/apply', ['as' => 'author.partner_apply', 'uses' => 'PageController\AuthorPageController@partner_apply']);
 Route::get('/author/partnership/apply_list', ['as' => 'author.partner_apply_list', 'uses' => 'PageController\AuthorPageController@partner_apply_list']);
-Route::get('/author/partnership/manage_company', ['as' => 'author.partner_manage_company', 'uses' => 'PageController\AuthorPageController@partner_manage_company']);
-Route::get('/author/partnership/manage_apply/{id?}', ['as' => 'author.partner_manage_apply', 'uses' => 'PageController\AuthorPageController@partner_manage_apply']);
-Route::get('/author/partnership/create_company', ['as' => 'author.partner_create_company', 'uses' => 'PageController\AuthorPageController@partner_create_company']);
-Route::get('/author/partnership/edit_company/{id}', ['as' => 'author.partner_edit_company', 'uses' => 'PageController\AuthorPageController@partner_edit_company']);
 Route::get('/author/partnership/proceed/', ['as' => 'author.partner_proceed', 'uses' => 'PageController\AuthorPageController@partner_proceed']);
 
 Route::get('/author/faqs', ['as' => 'author.faqs', 'uses' => 'PageController\AuthorPageController@faq_index']);
@@ -118,3 +114,8 @@ Route::get('/admin/memo_create', ['as' => 'admin.memo_create', 'uses' => 'PageCo
 Route::get('/admin/novel_memo_send', ['as' => 'admin.novel_memo_send', 'uses' => 'PageController\AdminPageController@mailbox_send']);
 Route::get('/admin/mailbox_send_message/{id}', ['as' => 'admin.mailbox_send_message', 'uses' => 'PageController\AdminPageController@mailbox_send_message_show']);
 Route::get('/admin/specific_mail/{id?}', ['as' => 'admin.memo_create', 'uses' => 'PageController\AdminPageController@memo_create']);
+
+Route::get('/admin/partnership/manage_company', ['as' => 'admin.partner_manage_company', 'uses' => 'PageController\AdminPageController@partner_manage_company']);
+Route::get('/admin/partnership/manage_apply/{id?}', ['as' => 'admin.partner_manage_apply', 'uses' => 'PageController\AdminPageController@partner_manage_apply']);
+Route::get('/admin/partnership/create_company', ['as' => 'admin.partner_create_company', 'uses' => 'PageController\AdminPageController@partner_create_company']);
+Route::get('/admin/partnership/edit_company/{id}', ['as' => 'admin.partner_edit_company', 'uses' => 'PageController\AdminPageController@partner_edit_company']);
