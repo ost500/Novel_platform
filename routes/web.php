@@ -35,6 +35,7 @@ Route::resource('mentomen', 'MenToMenQuestionAnswerController');
 Route::resource('faqs', 'FaqController');
 Route::resource('keywords', 'KeywordController');
 Route::resource('companies', 'CompanyController');
+Route::resource('publish_companies', 'NovelGroupPublishCompanyController', ['only' => ['update']]);
 Route::delete('maillogs/{id}', ['as' => 'maillog.destroy', 'uses' => 'MailLogController@destroy']);
 
 Route::resource('users', 'UserController', ['except' => ['update']]);
