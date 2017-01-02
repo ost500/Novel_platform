@@ -188,6 +188,7 @@
                                     <ul class="collapse {{ (Request::is('admin/partnership/*') )?"in":"" }}">
                                         <li><a href="{{ route('admin.partner_manage_company') }}">어드민 연재업체관리</a></li>
                                         <li><a href="{{ route('admin.partner_manage_apply') }}">어드민 연재신청관리</a></li>
+                                        <li><a href="{{ route('admin.partner_test_inning') }}">어드민 연재신청관리</a></li>
                                     </ul>
                                 </li>
 
