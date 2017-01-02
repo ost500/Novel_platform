@@ -58,6 +58,7 @@ Route::put('publishnovelgroups/{novel_group_publish_company_id}', ['as' => 'publ
 Route::get('/author/profile/information', ['as' => 'author.profile', 'uses' => 'PageController\AuthorPageController@profile']);
 Route::get('/author/profile/nickname/', ['as' => 'author.nickname', 'uses' => 'PageController\AuthorPageController@nickname']);
 
+Route::get('/author/index', ['as' => 'author.index', 'uses' => 'PageController\AuthorPageController@index']);
 Route::get('/author/management/novelgroups', ['as' => 'author_index', 'uses' => 'PageController\AuthorPageController@index']);
 Route::get('/author/management/novelgroups/create', ['as' => 'author.novel_group_create', 'uses' => 'PageController\AuthorPageController@create']);
 Route::get('/author/management/novelgroups/{id}', ['as' => 'author_novel_group', 'uses' => 'PageController\AuthorPageController@novel_gorup']);
@@ -88,6 +89,7 @@ Route::get('/author/partnership/manage_company', ['as' => 'author.partner_manage
 Route::get('/author/partnership/manage_apply/{id?}', ['as' => 'author.partner_manage_apply', 'uses' => 'PageController\AuthorPageController@partner_manage_apply']);
 Route::get('/author/partnership/create_company', ['as' => 'author.partner_create_company', 'uses' => 'PageController\AuthorPageController@partner_create_company']);
 Route::get('/author/partnership/edit_company/{id}', ['as' => 'author.partner_edit_company', 'uses' => 'PageController\AuthorPageController@partner_edit_company']);
+Route::get('/author/partnership/proceed/', ['as' => 'author.partner_proceed', 'uses' => 'PageController\AuthorPageController@partner_proceed']);
 
 Route::get('/author/faqs', ['as' => 'author.faqs', 'uses' => 'PageController\AuthorPageController@faq_index']);
 Route::get('/admin/faqs', ['as' => 'admin.faqs', 'uses' => 'PageController\AdminPageController@faq_index']);

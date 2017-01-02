@@ -25,18 +25,7 @@
                         <div class="panel-body">
                             <div class="table-responsive">
                                 <div id="manage_apply">
-                                    <table class="table table-striped table-hover">
-                                        <thead>
-                                        <tr>
-                                            @foreach($companies as $company)
 
-                                                    <button class="btn btn-primary"
-                                                            onclick="window.location.href='{{route('author.partner_manage_apply',['id'=>$company->id]) }}'">{{$company->name}}</button>
-
-                                            @endforeach
-                                        </tr>
-                                        </thead>
-                                    </table>
                                     <table class="table table-striped table-hover">
                                         <thead>
                                         <tr>
