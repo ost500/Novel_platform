@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin_layout')
 @section('content')
 
 
@@ -31,7 +31,7 @@
                                             @foreach($companies as $company)
                                                 <th>
                                                     <button class="btn btn-primary"
-                                                            onclick="window.location.href='{{route('author.partner_manage_apply',['id'=>$company->id]) }}'">{{$company->name}}</button>
+                                                            onclick="window.location.href='{{route('admin.partner_manage_apply',['id'=>$company->id]) }}'">{{$company->name}}</button>
                                                 </th>
                                             @endforeach
                                         </tr>
@@ -57,14 +57,11 @@
                                                 <td class="col-md-1">{{$apply_request->novel_groups->users->name}}</td>
                                                 <td class="col-md-2">{{$apply_request->novel_groups->title}}</td>
                                                 <td class="col-md-2">{{$apply_request->companies->name}}</td>
-                                                <td class="col-md-1 text-center">{{$apply_request->companies->initial_inning}}
-                                                    편
+                                                <td class="col-md-1 text-center">{{$apply_request->companies->initial_inning}}편
                                                 </td>
-                                                <td class="col-md-1 text-center">{{$apply_request->publish_novel_groups->days}}
-                                                    일
+                                                <td class="col-md-1 text-center">{{$apply_request->publish_novel_groups->days}}일
                                                 </td>
-                                                <td class="col-md-1 text-center">{{$apply_request->publish_novel_groups->novels_per_days}}
-                                                    편
+                                                <td class="col-md-1 text-center">{{$apply_request->publish_novel_groups->novels_per_days}}편
                                                 </td>
                                                 <td class="col-md-1 text-center">{{$apply_request->created_at}}</td>
                                                 <td class="col-md-1 text-center">{{$apply_request->updated_at}}</td>
@@ -95,7 +92,7 @@
                                 </div>
 
                                 <div class="pull-right">
-                                    @include('pagination', ['collection' => $apply_requests, 'url' => route('author.partner_manage_apply')])
+                                    @include('pagination', ['collection' => $apply_requests, 'url' => route('admin.partner_manage_apply')])
 
                                 </div>
                             </div>
