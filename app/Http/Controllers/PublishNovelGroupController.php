@@ -60,8 +60,11 @@ class PublishNovelGroupController extends Controller
         $new_publish_novel_group->days = $request->days;
         $new_publish_novel_group->novels_per_days = $request->novels_per_days;
         $new_publish_novel_group->save();
+        //publish novel group generated
+
 
         $companies = Company::get();
+        //novel group publish company
         foreach ($companies as $company) {
             $new_novel_group_publish_company = new NovelGroupPublishCompany();
             $new_novel_group_publish_company->publish_novel_group_id = $new_publish_novel_group->id;
@@ -76,5 +79,13 @@ class PublishNovelGroupController extends Controller
         }
         return redirect()->route('author.partner_apply_list');
 
+    }
+
+    public function apply_each_company($novel_group_publish_company_id)
+    {
+        $put_NGPC = NovelGroupPublishCompany::find($novel_group_publish_company_id);
+        $put_NGPC->status = "심사중";
+        $put_NGPC->save();
+//        return redirect()->back();
     }
 }
