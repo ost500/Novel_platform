@@ -254,6 +254,25 @@ class AdminPageController extends Controller
 
     }
 
+    public function partner_test_inning($id = null){
+
+        $companies = Company::orderBy('name')->get();
+        $apply_requests = NovelGroupPublishCompany::where('status','!=','신청하기')->with('novel_groups.users')->with('publish_novel_groups')->with('companies');
+
+        if ($id) {
+            //  $apply_requests= PublishNovelGroup::with('novel_groups')->with('users')->with(['companies'=> function($q){ $q->where('company_id','2'); } ])->paginate(5);
+//            $apply_requests = $apply_requests->whereHas('companies', function ($q) use ($id) {
+//                    $q->where('companies.id', $id);
+//            });
+            $apply_requests->where('company_id',$id);
+
+        }
+
+        $apply_requests =$apply_requests->paginate(20);
+        return view('admin.partnership.test_inning', compact('apply_requests', 'companies'));
+
+    }
+
 
 
 }
