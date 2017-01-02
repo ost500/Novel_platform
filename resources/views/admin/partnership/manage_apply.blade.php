@@ -178,7 +178,6 @@
         var app = new Vue({
             el: '#manage_apply',
             data: {
-                novels: [],
                 approve_status: '승인',
                 deny_status: '거절',
                 info: {
@@ -191,22 +190,38 @@
             },
             methods: {
                 approve_deny: function (company_id, type) {
-                    if (type == 1) {
-                        this.info.status = this.approve_status;
-                    } else {
-                        this.info.status = this.deny_status;
-                    }
-                    this.$http.put('{{ url('publish_companies') }}/' + company_id, this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
-                            .then(function (response) {
-                                $('#approve' + company_id).hide();
-                                $('#deny' + company_id).hide();
-                                $('#response' + company_id).html(response.data.data);
-                            }).catch(function (data, status, request) {
-                                var errors = data.data;
-                            });
+                    bootbox.prompt("거절 사유", function (result) {
+                        if (result) {
+
+                            //distinguish approve or deny function
+                            if (type == 1) {
+                                app.info.status = app.approve_status;
+                            } else {
+                                app.info.status = app.deny_status;
+                            }
+                            app.$http.put('{{ url('publish_companies') }}/' + company_id, app.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                                    .then(function (response) {
+                                        $('#approve' + company_id).hide();
+                                        $('#deny' + company_id).hide();
+                                        $('#response' + company_id).html(response.data.data);
+                                        $.niftyNoty({
+                                            type: 'success',
+                                            icon: 'fa fa-check',
+                                            message: app.info.status + "했습니다",
+                                            container: 'floating',
+                                            timer: 3000
+                                        });
+
+
+                                    })
+                                    .catch(function (data, status, request) {
+                                        var errors = data.data;
+                                    });
+                        }
+
+                    });
+
                 },
-
-
 
                 displayNovels: function (publish_novel_group_id) {
                     if (this.novel_show.TF == true && this.novel_show.id == publish_novel_group_id) {
