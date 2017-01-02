@@ -78,6 +78,8 @@
                                                         <button class="btn btn-sm btn-danger"
                                                                 id="deny{{$apply_request->id}}"
                                                                 v-on:click="approve_deny('{{$apply_request->id}}',0)">@{{deny_status}}</button>
+                                                    @elseif($apply_request->status == '거절')
+                                                        <span style="cursor:pointer;" v-on:click="{{"deny_reason(".$apply_request->id." ,'".$apply_request->reject_reason."')"}}">{{$apply_request->status}}</span>
                                                     @else
                                                         <span>{{$apply_request->status}}</span>
                                                     @endif
@@ -120,48 +122,152 @@
                 approve_status: '승인',
                 deny_status: '거절',
                 info: {
-                    status: ''
+                    status: '',
+                    deny_reason: ''
                 }
             },
             mounted: function () {
 
             },
             methods: {
-                approve_deny: function (company_id, type) {
-                    bootbox.prompt("거절 사유", function (result) {
-                        if (result) {
-
-                            //distinguish approve or deny function
-                            if (type == 1) {
-                                app.info.status = app.approve_status;
-                            } else {
-                                app.info.status = app.deny_status;
+                deny_reason: function (company_id, reason) {
+                    bootbox.prompt({
+                        title: "거절 사유",
+                        buttons: {
+                            confirm: {
+                                label: "거절",
+                            },
+                            cancel: {
+                                label: '취소'
                             }
-                            app.$http.put('{{ url('publish_companies') }}/' + company_id, app.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
-                                    .then(function (response) {
-                                        $('#approve' + company_id).hide();
-                                        $('#deny' + company_id).hide();
-                                        $('#response' + company_id).html(response.data.data);
-                                        $.niftyNoty({
-                                            type: 'success',
-                                            icon: 'fa fa-check',
-                                            message: app.info.status + "했습니다",
-                                            container: 'floating',
-                                            timer: 3000
+                        },
+                        value: reason,
+                        callback: function (result) {
+                            if(result){
+                                console.log('hi');
+                                //deny_info
+                                app.info.status = "거절";
+
+                                app.info.deny_reason = result;
+
+                                app.$http.put('{{ url('publish_companies') }}/' + company_id, app.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                                        .then(function (response) {
+                                            $('#approve' + company_id).hide();
+                                            $('#deny' + company_id).hide();
+                                            $('#response' + company_id).html(response.data.data);
+                                            $.niftyNoty({
+                                                type: 'success',
+                                                icon: 'fa fa-check',
+                                                message: app.info.status + "했습니다",
+                                                container: 'floating',
+                                                timer: 3000
+                                            });
+                                            location.reload();
+
+                                        })
+                                        .catch(function (data, status, request) {
+                                            var errors = data.data;
                                         });
-
-
-                                    })
-                                    .catch(function (data, status, request) {
-                                        var errors = data.data;
-                                    });
+                            }
                         }
 
-                    });
+                    })
+                },
+                approve_deny: function (company_id, type) {
+                    // if type==1 is approve else deny
+                    if (type == 1) {
 
+                        bootbox.confirm({
+                            message: "승인 하시겠습니까?",
+
+                            buttons: {
+                                confirm: {
+                                    label: "승인"
+                                },
+                                cancel: {
+                                    label: '취소'
+                                }
+                            },
+
+                            callback: function (result) {
+                                //approve info
+                                app.info.status = app.approve_status;
+
+                                if (result) {
+                                    Vue.http.headers.common['X-CSRF-TOKEN'] = "{!! csrf_token() !!}";
+                                    //                    var csrfToken = form.querySelector('input[name="_token"]').value;
+
+                                    app.$http.put('{{ url('publish_companies') }}/' + company_id, app.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                                            .then(function (response) {
+                                                $('#approve' + company_id).hide();
+                                                $('#deny' + company_id).hide();
+                                                $('#response' + company_id).html(response.data.data);
+                                                $.niftyNoty({
+                                                    type: 'success',
+                                                    icon: 'fa fa-check',
+                                                    message: app.info.status + "했습니다",
+                                                    container: 'floating',
+                                                    timer: 3000
+                                                });
+
+
+                                            })
+                                            .catch(function (data, status, request) {
+                                                var errors = data.data;
+                                            });
+
+                                }
+
+                            }
+                        });
+                    } else {
+
+                        bootbox.prompt({
+                            title: "거절 사유",
+                            buttons: {
+                                confirm: {
+                                    label: "거절"
+                                },
+                                cancel: {
+                                    label: '취소'
+                                }
+                            },
+
+                            callback: function (result) {
+                                if (result) {
+
+
+                                    //deny_info
+                                    app.info.status = app.deny_status;
+
+                                    app.info.deny_reason = result;
+
+                                    app.$http.put('{{ url('publish_companies') }}/' + company_id, app.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                                            .then(function (response) {
+                                                $('#approve' + company_id).hide();
+                                                $('#deny' + company_id).hide();
+                                                $('#response' + company_id).html(response.data.data);
+                                                $.niftyNoty({
+                                                    type: 'success',
+                                                    icon: 'fa fa-check',
+                                                    message: app.info.status + "했습니다",
+                                                    container: 'floating',
+                                                    timer: 3000
+                                                });
+                                                location.reload();
+
+                                            })
+                                            .catch(function (data, status, request) {
+                                                var errors = data.data;
+                                            });
+                                }
+
+                            }
+                        });
+
+                    }
                 }
             }
-
         });
 
     </script>

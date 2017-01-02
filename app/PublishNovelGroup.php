@@ -23,6 +23,10 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\PublishNovelGroup whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\PublishNovelGroup whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property int $user_id
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Novel[] $novels
+ * @property-read \App\User $users
+ * @method static \Illuminate\Database\Query\Builder|\App\PublishNovelGroup whereUserId($value)
  */
 class PublishNovelGroup extends Model
 {
@@ -56,14 +60,14 @@ class PublishNovelGroup extends Model
 
     public function users()
     {
-        return $this->belongsTo(User::class, 'user_id','id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function companies()
     {
         return $this->belongsToMany(Company::class,
             'novel_group_publish_companies', 'publish_novel_group_id', 'company_id')
-            ->withPivot('status', 'created_at', 'id');
+            ->withPivot('status', 'created_at', 'id', 'reject_reason');
     }
 
 }

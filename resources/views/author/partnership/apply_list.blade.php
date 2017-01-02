@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <div id="apply">
+    <div id="apply" xmlns:v-on="http://www.w3.org/1999/xhtml">
         <div id="content-container">
 
             <div id="page-title">
@@ -48,7 +48,7 @@
                                                 @foreach($my_publish_novel_group->companies as $each_company)
                                                     <td class="col-md-2 text-center">
                                                         @if($each_company->pivot->status == "거절")
-                                                            {{$each_company->pivot->status}}
+                                                            <div style="cursor: pointer;" v-on:click="{{"reject_reason('".$each_company->pivot->reject_reason."')"}}">{{$each_company->pivot->status}}</div>
 
                                                         @elseif($each_company->pivot->status == "승인")
                                                             {{$each_company->pivot->status}}
@@ -91,6 +91,14 @@
         var apply = new Vue({
             el: '#apply',
             methods: {
+                reject_reason: function (reason) {
+                    bootbox.alert({
+                        title: "거절사유",
+                        message: reason,
+                        callback: function () {
+                        }
+                    });
+                },
                 apply_company: function (e) {
                     bootbox.confirm({
                         message: "비밀을 해제 하시겠습니까?",

@@ -21,6 +21,10 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Company whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Company whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property bool $adult
+ * @property string $company_picture
+ * @method static \Illuminate\Database\Query\Builder|\App\Company whereAdult($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Company whereCompanyPicture($value)
  */
 class Company extends Model
 {

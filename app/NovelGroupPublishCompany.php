@@ -20,6 +20,11 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\NovelGroupPublishCompany whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\NovelGroupPublishCompany whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $reject_reason
+ * @property-read \App\PublishNovelGroup $publish_novel_groups
+ * @property-read \App\NovelGroup $novel_groups
+ * @property-read \App\Company $companies
+ * @method static \Illuminate\Database\Query\Builder|\App\NovelGroupPublishCompany whereRejectReason($value)
  */
 class NovelGroupPublishCompany extends Model
 {
