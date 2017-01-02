@@ -203,6 +203,6 @@ $factory->define(\App\NovelGroupPublishCompany::class, function (Faker\Generator
     return [
         'publish_novel_group_id' => $faker->randomElement($publish_novel_groupIds),
         'company_id' => $faker->randomElement($companyIds),
-        'status' => $faker->randomElement(['신청하기', '심사중', '승인', '거절']),
+        'status' => $faker->randomElement(['심사중', '승인', '거절']),
     ];
 });
