@@ -37,7 +37,8 @@
 
                                     @if(count($apply_requests) > 0)
                                         @foreach($apply_requests as $apply_request)
-                                            <table class="table">
+                                           @if(checkPublishNovelGroup($apply_request->publish_novel_group_id,$apply_request->company_id))
+                                            <table class="table" id="{{$apply_request}}">
                                                 <tbody>
 
                                                 <tr class="table-bordered">
@@ -60,7 +61,7 @@
                                                             <tr>
                                                                 <td><h4>
                                                                         <a style="cursor:pointer"
-                                                                           v-on:click="displayNovels('{{$apply_request->publish_novel_group_id}}','{{$apply_request->id }}')">{{$apply_request->novel_groups->title }}</a>
+                                                                           v-on:click="displayNovels('{{$apply_request->id }}','{{$apply_request->publish_novel_group_id}}','{{$apply_request->company_id }}')">{{$apply_request->novel_groups->title }}</a>
                                                                     </h4>
                                                                 </td>
                                                             </tr>
@@ -112,6 +113,7 @@
 
                                                 </tbody>
                                             </table>
+                                           @endif
                                         @endforeach
                                     @else
                                         <table class="table">
@@ -159,14 +161,14 @@
                 info: {
                     status: ''
                 },
-                novel_info: {novel_id: '', publish_novel_group_id: '', status: '준비'},
+                novel_info: {novel_id: '', publish_novel_group_id: '',company_id:'', status: '준비'},
                 novel_show: {'id': 0, 'TF': false}
             },
             mounted: function () {
 
             },
             methods: {
-                approve_deny: function (company_id, type) {
+                approve_deny: function (publish_company_id, type) {
                     bootbox.prompt("거절 사유", function (result) {
                         if (result) {
 
@@ -176,11 +178,11 @@
                             } else {
                                 app.info.status = app.deny_status;
                             }
-                            app.$http.put('{{ url('publish_companies') }}/' + company_id, app.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                            app.$http.put('{{ url('publish_companies') }}/' + publish_company_id, app.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                                     .then(function (response) {
-                                        $('#approve' + company_id).hide();
-                                        $('#deny' + company_id).hide();
-                                        $('#response_status' + company_id).html(response.data.data);
+                                        $('#approve' + publish_company_id).hide();
+                                        $('#deny' + publish_company_id).hide();
+                                        $('#response_status' + publish_company_id).html(response.data.data);
                                         $.niftyNoty({
                                             type: 'success',
                                             icon: 'fa fa-check',
@@ -200,30 +202,44 @@
 
                 },
 
-                displayNovels: function (publish_novel_group_id, company_id) {
-                    if (this.novel_show.TF == true && this.novel_show.id == company_id) {
+                displayNovels: function (publish_company_id,publish_novel_group_id, company_id) {
+                    if (this.novel_show.TF == true && this.novel_show.id == publish_company_id) {
                         this.novel_show.TF = false;
                         this.novel_show.id = 0;
                     } else {
 
-                        this.$http.get('{{url('publishnovelgroups')}}/' + publish_novel_group_id)
+                        this.$http.get('{{url('publishnovelgroups')}}/'+ publish_novel_group_id+'/'+company_id+'/'+publish_company_id)
                                 .then(function (response) {
 
-                                    this.novel_show.id = company_id;
+                                    this.novel_show.id = publish_company_id;
                                     this.novel_show.TF = true;
 
-                                    $('#response' + company_id).html(response.data);
+                                    $('#response' + publish_company_id).html(response.data);
 
 
                                 });
                     }
                 },
-                storePublishNovel: function (novel_id, publish_novel_group_id) {
+
+                /*
+                 novel_id is id from novels table
+                 publish_novel_group_id is id from publish_novel_groups table
+                 company_id is from novel_group_publish_companies table
+                 publish_company_id is id from novel_group_publish_companies table
+
+                 */
+
+                storePublishNovel: function (novel_id, publish_novel_group_id,company_id,publish_company_id) {
                     app.novel_info.novel_id = novel_id;
-                    app.novel_info.publish_novel_group_id = publish_novel_group_id
+                    app.novel_info.publish_novel_group_id = publish_novel_group_id;
+                    app.novel_info.company_id = company_id;
                     app.$http.post('{{ route('publishnovels.publish_novels') }}', app.novel_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                             .then(function (response) {
-                                $('#response' + company_id).html(response.data.data);
+                                this.novel_show.TF = false;
+                                this.novel_show.id = 0;
+                                app.displayNovels(publish_company_id,publish_novel_group_id, company_id);
+
+                               // $('#response' + company_id).html(response.data.data);
                                 /* $.niftyNoty({
                                     type: 'success',
                                     icon: 'fa fa-check',
