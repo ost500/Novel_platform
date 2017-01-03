@@ -21,6 +21,10 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Company whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Company whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property bool $adult
+ * @property string $company_picture
+ * @method static \Illuminate\Database\Query\Builder|\App\Company whereAdult($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Company whereCompanyPicture($value)
  */
 class Company extends Model
 {
@@ -38,6 +42,11 @@ class Company extends Model
         return $this->belongsToMany(PublishNovelGroup::class,
             'novel_group_publish_companies', 'company_id', 'publish_novel_group_id')
             ->withPivot('status', 'created_at');
+    }
+
+    public function publish_novels()
+    {
+        return $this->hasMany(PublishNovel::class);
     }
 
 

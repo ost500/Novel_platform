@@ -5,7 +5,7 @@
     <div id="content-container" xmlns:v-on="http://www.w3.org/1999/xhtml">
 
         <div id="page-title">
-            <h1 class="page-header text-overflow">연재신청내역</h1>
+            <h1 class="page-header text-overflow">회차별 심사 승인</h1>
         </div>
 
 
@@ -43,9 +43,7 @@
                                             <th>작가명</th>
                                             <th>작품명</th>
                                             <th>연재요청업체명</th>
-                                            <th class="text-center">초기연재회차</th>
-                                            <th class="text-center">일</th>
-                                            <th class="text-center">편수</th>
+
                                             <th class="text-center">신청일</th>
                                             <th class="text-center">처리일</th>
                                             <th class="text-center">상태</th>
@@ -53,39 +51,34 @@
                                         </thead>
                                         <tbody>
                                         @foreach($apply_requests as $apply_request)
-                                            <tr>
-                                                <td class="col-md-1">{{$apply_request->novel_groups->users->name}}</td>
-                                                <td class="col-md-2">{{$apply_request->novel_groups->title}}</td>
-                                                <td class="col-md-2">{{$apply_request->companies->name}}</td>
-                                                <td class="col-md-1 text-center">{{$apply_request->companies->initial_inning}}
-                                                    편
-                                                </td>
-                                                <td class="col-md-1 text-center">{{$apply_request->publish_novel_groups->days}}
-                                                    일
-                                                </td>
-                                                <td class="col-md-1 text-center">{{$apply_request->publish_novel_groups->novels_per_days}}
-                                                    편
-                                                </td>
-                                                <td class="col-md-1 text-center">{{$apply_request->created_at}}</td>
-                                                <td class="col-md-1 text-center">{{$apply_request->updated_at}}</td>
-                                                <td class="col-md-2 text-center">
-                                                    {{--<button class="btn btn-sm btn-warning">심사중</button> --}}
-                                                    @if($apply_request->status == '심사중')
-                                                        <span id="response{{$apply_request->id}}"></span>
-                                                        <button class="btn btn-sm btn-primary"
-                                                                id="approve{{$apply_request->id}}"
-                                                                v-on:click="approve_deny('{{$apply_request->id}}',1)">@{{approve_status}}</button>
-                                                        <button class="btn btn-sm btn-danger"
-                                                                id="deny{{$apply_request->id}}"
-                                                                v-on:click="approve_deny('{{$apply_request->id}}',0)">@{{deny_status}}</button>
-                                                    @elseif($apply_request->status == '거절')
-                                                        <span style="cursor:pointer;" v-on:click="{{"deny_reason(".$apply_request->id." ,'".$apply_request->reject_reason."')"}}">{{$apply_request->status}}</span>
-                                                    @else
-                                                        <span>{{$apply_request->status}}</span>
-                                                    @endif
-                                                </td>
-                                            </tr>
+                                            @foreach($apply_request->publish_novel_groups->companies as $company)
+                                                <tr>
+                                                    <td class="col-md-1">{{$apply_request->publish_novel_groups->novel_groups->users->name}}</td>
+                                                    <td class="col-md-2">{{$apply_request->publish_novel_groups->novel_groups->title}}</td>
+                                                    <td class="col-md-2">{{$company->name}}</td>
 
+                                                    <td class="col-md-1 text-center">{{$apply_request->created_at}}</td>
+                                                    <td class="col-md-1 text-center">{{$apply_request->updated_at}}</td>
+                                                    <td class="col-md-2 text-center">
+                                                        <button class="btn btn-sm btn-warning">심사중</button>
+                                                        @if($apply_request->status == '심사중')
+                                                            <span id="response{{$apply_request->id}}"></span>
+                                                            <button class="btn btn-sm btn-primary"
+                                                                    id="approve{{$apply_request->id}}"
+                                                                    v-on:click="approve_deny('{{$apply_request->id}}',1)">@{{approve_status}}</button>
+                                                            <button class="btn btn-sm btn-danger"
+                                                                    id="deny{{$apply_request->id}}"
+                                                                    v-on:click="approve_deny('{{$apply_request->id}}',0)">@{{deny_status}}</button>
+                                                        @elseif($apply_request->status == '거절')
+                                                            <span style="cursor:pointer;"
+                                                                  v-on:click="{{"deny_reason(".$apply_request->id." ,'".$apply_request->reject_reason."')"}}">{{$apply_request->status}}</span>
+                                                        @else
+                                                            <span>{{$apply_request->status}}</span>
+                                                        @endif
+                                                    </td>
+                                                </tr>
+
+                                            @endforeach
                                         @endforeach
                                         </tbody>
                                     </table>
@@ -143,7 +136,7 @@
                         },
                         value: reason,
                         callback: function (result) {
-                            if(result){
+                            if (result) {
                                 console.log('hi');
                                 //deny_info
                                 app.info.status = "거절";

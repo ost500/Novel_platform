@@ -40,6 +40,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Novel whereNonFreeAgreement($value)
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\ViewCount[] $view_counts
  * @property-read \App\PublishNovel $publish_novels
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\PublishNovelGroup[] $publish_novel_groups
  */
 class Novel extends Model
 {

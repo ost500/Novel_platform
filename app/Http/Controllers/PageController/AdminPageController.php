@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Http\Controllers\PageController;
+
 use App\NovelGroupPublishCompany;
 use App\Company;
 use App\Http\Controllers\Controller;
 use App\Keyword;
 use App\MailLog;
+use App\PublishNovel;
 use Illuminate\Pagination\Paginator;
 use App\MenToMenQuestionAnswer;
 use App\Novel;
@@ -22,7 +24,7 @@ class AdminPageController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth','admin']);
+        $this->middleware(['auth', 'admin']);
     }
 
     public function index()
@@ -132,7 +134,7 @@ class AdminPageController extends Controller
         $page = $request->page;
 //        $page = new Paginator($novel_mail_messages, 2);
 //        return response()->json($novel_mail_messages);
-        return view('admin.novel_memo', compact('novel_mail_messages','page'));
+        return view('admin.novel_memo', compact('novel_mail_messages', 'page'));
     }
 
     public function memo_create()
@@ -149,7 +151,7 @@ class AdminPageController extends Controller
         $men_to_men_requests = $request->user()->maillogs()->with('mailboxs.users')->orderBy('id', 'desc')->paginate(2);
         $page = $request->page;
 //                return response()->json($men_to_men_request);
-        return view('admin.mailbox_message', compact('men_to_men_request', 'men_to_men_requests','page'));
+        return view('admin.mailbox_message', compact('men_to_men_request', 'men_to_men_requests', 'page'));
     }
 
     public function mailbox_send(Request $request)
@@ -171,7 +173,7 @@ class AdminPageController extends Controller
 
         $mail_logs = MailLog::where('mailbox_id', $id)->with('users')->with('novel_groups')->paginate(5, ["*"], "maillog_page");
 //        return response()->json($men_to_men_request);
-        return view('admin.mailbox_send_message', compact('men_to_men_request', 'men_to_men_requests', 'page', 'mail_logs','maillog_page'));
+        return view('admin.mailbox_send_message', compact('men_to_men_request', 'men_to_men_requests', 'page', 'mail_logs', 'maillog_page'));
     }
 
 
@@ -198,15 +200,15 @@ class AdminPageController extends Controller
     public function keyword_index()
     {
 
-        $keyword1  = Keyword::where('category', 1)->get();
-        $keyword2  = Keyword::where('category', 2)->get();
-        $keyword3  = Keyword::where('category', 3)->get();
-        $keyword4  = Keyword::where('category', 4)->get();
-        $keyword5  = Keyword::where('category', 5)->get();
-        $keyword6  = Keyword::where('category', 6)->get();
-        $keyword7  = Keyword::where('category', 7)->get();
+        $keyword1 = Keyword::where('category', 1)->get();
+        $keyword2 = Keyword::where('category', 2)->get();
+        $keyword3 = Keyword::where('category', 3)->get();
+        $keyword4 = Keyword::where('category', 4)->get();
+        $keyword5 = Keyword::where('category', 5)->get();
+        $keyword6 = Keyword::where('category', 6)->get();
+        $keyword7 = Keyword::where('category', 7)->get();
 
-        return view('admin.keyword_index', compact('keyword1', 'keyword2', 'keyword3','keyword4','keyword5','keyword6','keyword7'));
+        return view('admin.keyword_index', compact('keyword1', 'keyword2', 'keyword3', 'keyword4', 'keyword5', 'keyword6', 'keyword7'));
     }
 
     public function keyword_create()
@@ -230,6 +232,7 @@ class AdminPageController extends Controller
         $companies = Company::get();
         return view('admin.partnership.manage_company', compact('companies'));
     }
+
     /**
      * @param null $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -238,41 +241,60 @@ class AdminPageController extends Controller
     {
 
         $companies = Company::orderBy('name')->get();
-        $apply_requests = NovelGroupPublishCompany::where('status','!=','신청하기')->with('novel_groups.users')->with('publish_novel_groups')->with('companies');
+        $apply_requests = NovelGroupPublishCompany::where('status', '!=', '신청하기')->with('novel_groups.users')->with('publish_novel_groups')->with('companies');
 
         if ($id) {
             //  $apply_requests= PublishNovelGroup::with('novel_groups')->with('users')->with(['companies'=> function($q){ $q->where('company_id','2'); } ])->paginate(5);
 //            $apply_requests = $apply_requests->whereHas('companies', function ($q) use ($id) {
 //                    $q->where('companies.id', $id);
 //            });
-            $apply_requests->where('company_id',$id);
+            $apply_requests->where('company_id', $id);
 
         }
 
-        $apply_requests =$apply_requests->paginate(20);
+        $apply_requests = $apply_requests->paginate(20);
         return view('admin.partnership.manage_apply', compact('apply_requests', 'companies'));
 
     }
 
-    public function partner_test_inning($id = null){
+    public function partner_test_inning($id = null)
+    {
 
         $companies = Company::orderBy('name')->get();
-        $apply_requests = NovelGroupPublishCompany::where('status','!=','신청하기')->with('novel_groups.users')->with('publish_novel_groups')->with('companies');
+        $apply_requests = NovelGroupPublishCompany::where('status', '!=', '신청하기')->with('novel_groups.users')->with('publish_novel_groups')->with('companies');
 
         if ($id) {
             //  $apply_requests= PublishNovelGroup::with('novel_groups')->with('users')->with(['companies'=> function($q){ $q->where('company_id','2'); } ])->paginate(5);
 //            $apply_requests = $apply_requests->whereHas('companies', function ($q) use ($id) {
 //                    $q->where('companies.id', $id);
 //            });
-            $apply_requests->where('company_id',$id);
+            $apply_requests->where('company_id', $id);
 
         }
 
-        $apply_requests =$apply_requests->paginate(20);
+        $apply_requests = $apply_requests->paginate(20);
         return view('admin.partnership.test_inning', compact('apply_requests', 'companies'));
 
     }
 
+    public function partner_approve_inning($id = null)
+    {
+
+        $apply_requests = PublishNovel::with('publish_novel_groups.companies')->with('publish_novel_groups.novel_groups.users')->with('novels');
+
+
+        $companies = Company::orderBy('name')->get();
+//        $apply_requests = NovelGroupPublishCompany::where('status', '!=', '신청하기')->with('novel_groups.users')->with('publish_novel_groups')->with('companies');
+
+        if ($id) {
+
+            $apply_requests->where('company_id', $id);
+
+        }
+
+        $apply_requests = $apply_requests->paginate(20);
+        return view('admin.partnership.approve_inning', compact('apply_requests', 'companies'));
+    }
 
 
 }
