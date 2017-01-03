@@ -44,5 +44,10 @@ class Company extends Model
             ->withPivot('status', 'created_at');
     }
 
+    public function publish_novels()
+    {
+        return $this->hasMany(PublishNovel::class);
+    }
+
 
 }

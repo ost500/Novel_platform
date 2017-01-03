@@ -46,4 +46,8 @@ class PublishNovel extends Model
         return $this->hasOne(Novel::class, 'id','novel_id');
     }
 
+    public function companies()
+    {
+        return $this->belongsTo(Company::class, 'company_id', 'id');
+    }
 }
