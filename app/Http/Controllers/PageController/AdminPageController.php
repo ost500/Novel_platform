@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Keyword;
 use App\MailLog;
 use App\PublishNovel;
+use DateTime;
 use Illuminate\Pagination\Paginator;
 use App\MenToMenQuestionAnswer;
 use App\Novel;
@@ -130,7 +131,7 @@ class AdminPageController extends Controller
 
     public function memo(Request $request)
     {
-        $novel_mail_messages = Auth::user()->maillogs()->with('mailboxs')->paginate(2);
+        $novel_mail_messages = Auth::user()->maillogs()->with('mailboxs')->latest()->paginate(2);
         $page = $request->page;
 //        $page = new Paginator($novel_mail_messages, 2);
 //        return response()->json($novel_mail_messages);
@@ -280,7 +281,7 @@ class AdminPageController extends Controller
     public function partner_approve_inning($id = null)
     {
 
-        $apply_requests = PublishNovel::with('publish_novel_groups.companies')->with('publish_novel_groups.novel_groups.users')->with('novels');
+        $apply_requests = PublishNovel::with('companies')->with('publish_novel_groups.novel_groups.users')->with('novels');
 
 
         $companies = Company::orderBy('name')->get();
@@ -288,12 +289,53 @@ class AdminPageController extends Controller
 
         if ($id) {
 
-            $apply_requests->where('company_id', $id);
+            $apply_requests->where('company_id', $id)->where('status','심사');
 
         }
 
+
+
+
+
         $apply_requests = $apply_requests->paginate(20);
+
+        //time pass put
+        foreach ($apply_requests as $apply_request) {
+            $apply_request->pass = $this->time_elapsed_string($apply_request->created_at);
+
+        }
+
         return view('admin.partnership.approve_inning', compact('apply_requests', 'companies'));
+    }
+
+    function time_elapsed_string($datetime, $full = false)
+    {
+        $now = new DateTime;
+        $ago = new DateTime($datetime);
+        $diff = $now->diff($ago);
+
+        $diff->w = floor($diff->d / 7);
+        $diff->d -= $diff->w * 7;
+
+        $string = array(
+            'y' => '년',
+            'm' => '월',
+            'w' => '주',
+            'd' => '일',
+            'h' => '시간',
+            'i' => '분',
+            's' => '초',
+        );
+        foreach ($string as $k => &$v) {
+            if ($diff->$k) {
+                $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? '' : '');
+            } else {
+                unset($string[$k]);
+            }
+        }
+
+        if (!$full) $string = array_slice($string, 0, 1);
+        return $string ? implode(', ', $string) . ' 전' : '방금 전';
     }
 
 

@@ -37,6 +37,7 @@ Route::resource('keywords', 'KeywordController');
 Route::resource('companies', 'CompanyController');
 Route::resource('publish_companies', 'NovelGroupPublishCompanyController', ['only' => ['update']]);
 Route::delete('maillogs/{id}', ['as' => 'maillog.destroy', 'uses' => 'MailLogController@destroy']);
+Route::put('publish_novel/{id}', ['as' => 'publish_novel.update', 'uses' => 'PublishNovelController@update']);
 
 Route::resource('users', 'UserController', ['except' => ['update']]);
 Route::post('mailboxes', ['as' => 'mailbox.store', 'uses' => 'MailboxController@store']);

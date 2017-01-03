@@ -11,7 +11,10 @@ class NovelGroupPublishCompanyController extends Controller
     {
         $publish_company = NovelGroupPublishCompany::find($id);
         $publish_company->status = $request->status;
-        $publish_company->reject_reason = $request->deny_reason;
+        if ($request->deny_reason) {
+            //if deny_reason exists
+            $publish_company->reject_reason = $request->deny_reason;
+        }
         $publish_company->save();
         return response()->json(['data' => $request->status, 'status' => 'ok']);
     }

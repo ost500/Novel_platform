@@ -17,7 +17,7 @@ class CreatePublishNovelsTable extends Migration
             $table->increments('id');
             $table->integer('novel_id')->unsigned()->index();
             $table->integer('publish_novel_group_id')->unsigned()->index();
-            $table->enum('status', array('준비', '심사', '완료'));
+            $table->enum('status', array('승인', '심사중', '거절'));
             $table->string('file')->nullable();
             $table->timestamps();
             $table->foreign('novel_id')->references('id')->on('novels')->onDelete('cascade');

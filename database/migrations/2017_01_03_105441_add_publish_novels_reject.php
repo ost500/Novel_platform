@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddNgpcRejectreason extends Migration
+class AddPublishNovelsReject extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class AddNgpcRejectreason extends Migration
      */
     public function up()
     {
-        Schema::table('novel_group_publish_companies', function (Blueprint $table) {
+        Schema::table('publish_novels', function (Blueprint $table) {
             $table->string('reject_reason')->nullable();
         });
     }
@@ -25,7 +25,7 @@ class AddNgpcRejectreason extends Migration
      */
     public function down()
     {
-        Schema::table('novel_group_publish_companies', function (Blueprint $table) {
+        Schema::table('publish_novels', function (Blueprint $table) {
             $table->dropColumn('reject_reason');
         });
     }
