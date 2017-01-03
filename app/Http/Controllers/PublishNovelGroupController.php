@@ -98,30 +98,4 @@ class PublishNovelGroupController extends Controller
         return view('admin.partnership.novels',compact('novels','company_id','publish_novel_group_id','publish_company_id'));
     }
 
-
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function publish_novels(Request $request){
-
-        //store publish novel
-         PublishNovel::create($request->all());
-
-        //get novels count
-        $novels_count = \App\Novel::where('novel_group_id', $request->publish_novel_group_id)->count('id');
-        //get publish novels count
-        $publish_novels_count = \App\PublishNovel::where(['publish_novel_group_id'=>$request->publish_novel_group_id,'company_id'=>$request->company_id])->count();
-
-        //if count is same means all novels are published and return false to remove group
-        if ($publish_novels_count == $novels_count) {
-
-            $group_display= false;
-        }else{ $group_display= true; }
-
-
-        return response()->json(['status'=>'ok','group_display'=>$group_display]);
-    }
-
-
 }

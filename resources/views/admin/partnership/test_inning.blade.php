@@ -187,7 +187,7 @@
                     app.novel_info.novel_id = novel_id;
                     app.novel_info.publish_novel_group_id = publish_novel_group_id;
                     app.novel_info.company_id = company_id;
-                    app.$http.post('{{ route('publishnovels.publish_novels') }}', app.novel_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                    app.$http.post('{{ route('publish_novel.store') }}', app.novel_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                             .then(function (response) {
                                 this.novel_show.TF = false;
                                 this.novel_show.id = 0;

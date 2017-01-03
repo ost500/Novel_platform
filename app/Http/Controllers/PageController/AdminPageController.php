@@ -293,10 +293,6 @@ class AdminPageController extends Controller
 
         }
 
-
-
-
-
         $apply_requests = $apply_requests->paginate(20);
 
         //time pass put
