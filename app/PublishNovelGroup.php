@@ -67,7 +67,7 @@ class PublishNovelGroup extends Model
     {
         return $this->belongsToMany(Company::class,
             'novel_group_publish_companies', 'publish_novel_group_id', 'company_id')
-            ->withPivot('status', 'created_at', 'id', 'reject_reason');
+            ->withPivot('status', 'created_at', 'updated_at', 'id', 'reject_reason');
     }
 
 }

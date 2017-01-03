@@ -26,39 +26,49 @@
                                     <table class="table table-striped table-hover">
                                         <thead>
                                         <tr>
-                                            <th>작품명</th>
+                                            <th class="text-center"><a
+                                                        href="{{route('author.partner_apply_list')."?order=1"}}">작품명  <i class="fa fa-sort" aria-hidden="true"></i></a>
+                                            </th>
+                                            <th class="text-center"><a
+                                                        href="{{route('author.partner_apply_list')."?order=2"}}">업체명  <i class="fa fa-sort" aria-hidden="true"></i></a>
+                                            </th>
+                                            <th class="text-center"><a
+                                                        href="{{route('author.partner_apply_list')."?order=3"}}">상태  <i class="fa fa-sort" aria-hidden="true"></i></a>
+                                            </th>
+                                            <th class="text-center">초기 연재 회차</th>
                                             <th class="text-center">일</th>
                                             <th class="text-center">편수</th>
-                                            @foreach($companies as $company)
-                                                <th class="text-center">{{ $company->name }}</th>
-                                            @endforeach
+                                            <th class="text-center">신청일</th>
+                                            <th class="text-center">처리일</th>
+                                            {{--@foreach($companies as $company)--}}
+                                            {{--<th class="text-center">{{ $company->name }}</th>--}}
+                                            {{--@endforeach--}}
+
                                         </tr>
                                         </thead>
                                         <tbody>
 
                                         @foreach($my_publish_novel_groups as $my_publish_novel_group)
-                                            <tr>
-                                                <td class="col-md-2">{{$my_publish_novel_group->novel_groups->title}}</td>
-                                                <td class="col-md-1 text-center">{{$my_publish_novel_group->days}}
-                                                    일
-                                                </td>
-                                                <td class="col-md-1 text-center">{{$my_publish_novel_group->novels_per_days}}
-                                                    회차
-                                                </td>
-                                                @foreach($my_publish_novel_group->companies as $each_company)
-                                                    <td class="col-md-2 text-center">
-                                                        @if($each_company->pivot->status == "거절")
-                                                            <div style="cursor: pointer;" v-on:click="{{"reject_reason('".$each_company->pivot->reject_reason."')"}}">{{$each_company->pivot->status}}</div>
 
-                                                        @elseif($each_company->pivot->status == "승인")
-                                                            {{$each_company->pivot->status}}
-                                                        @elseif($each_company->pivot->status == "심사중")
-                                                            {{$each_company->pivot->status}}
+                                                <tr>
+                                                    <td class="col-md-2">{{$my_publish_novel_group->publish_novel_groups->novel_groups->title}}</td>
+                                                    <td class="col-md-1 text-center">{{$my_publish_novel_group->companies->name}}</td>
+                                                    <td class="col-md-1 text-center">
+                                                        @if($my_publish_novel_group->status == "거절")
+                                                            <button class="btn btn-danger"
+                                                                    v-on:click="{{"reject_reason('".$my_publish_novel_group->reject_reason."')"}}">
+                                                                <div>{{$my_publish_novel_group->status}}</div>
+                                                            </button>
+
+                                                        @elseif($my_publish_novel_group->status == "승인")
+                                                            <button class="btn btn-primary">{{$my_publish_novel_group->status}}</button>
+                                                        @elseif($my_publish_novel_group->status == "심사중")
+                                                            {{$my_publish_novel_group->status}}
                                                         @else
                                                             <form
                                                                     {{--action="{{route("publishnovelgroups.apply_each_company",['novel_group_publish_company_id'=>$each_company->pivot->id])}}"--}}
                                                                     method="post"
-                                                                    v-on:submit.prevent="apply_company({{$each_company->pivot->id}})">
+                                                                    v-on:submit.prevent="apply_company({{$my_publish_novel_group->id}})">
                                                                 {{--<input name="_method" value="put" type="hidden">--}}
                                                                 {{--{!! csrf_field() !!}--}}
                                                                 <button class="btn btn-primary">신청하기</button>
@@ -67,10 +77,21 @@
 
 
                                                     </td>
-                                                @endforeach
+                                                    <td class="col-md-1 text-center">{{$my_publish_novel_group->companies->initial_inning}}
+                                                        편
+                                                    </td>
+                                                    <td class="col-md-1 text-center">{{$my_publish_novel_group->days}}
+                                                        일
+                                                    </td>
+                                                    <td class="col-md-1 text-center">{{$my_publish_novel_group->novels_per_days}}
+                                                        회차
+                                                    </td>
+                                                    <td class="col-md-1 text-center">{{$my_publish_novel_group->created_at}}</td>
+                                                    <td class="col-md-1 text-center">{{$my_publish_novel_group->updated_at}}</td>
 
 
-                                            </tr>
+                                                </tr>
+
                                         @endforeach
 
                                         </tbody>
