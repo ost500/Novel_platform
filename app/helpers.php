@@ -16,5 +16,15 @@ function get_groupComment_count($novel_group_id)
     foreach ($novels->comments as $comment) {
         $comment_count++;
     }
-   return $comment_count;
+    return $comment_count;
+}
+
+
+function checkPublishNovel($novel_id)
+{
+    $novels = \App\PublishNovel::where('novel_id', $novel_id)->first();
+    if (!$novels) {
+        return false;
+    }
+    return true;
 }

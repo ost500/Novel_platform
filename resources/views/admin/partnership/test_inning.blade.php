@@ -35,34 +35,9 @@
                                         {{--  <button type="button" class="btn btn-primary novel-agree">연재약관</button>--}}
                                     </div>
 
-                                    {{--<table class="table table-striped table-hover">
-                                        <thead>
-                                        <tr>
-                                            @foreach($companies as $company)
-                                                <th>
-                                                    <button class="btn btn-primary"
-                                                            onclick="window.location.href='{{route('admin.partner_manage_apply',['id'=>$company->id]) }}'">{{$company->name}}</button>
-                                                </th>
-                                            @endforeach
-                                        </tr>
-                                        </thead>
-                                    </table>--}}
                                     @if(count($apply_requests) > 0)
                                         @foreach($apply_requests as $apply_request)
                                             <table class="table">
-                                                {{-- <thead>
-                                                 <tr>
-                                                     <th>작가명</th>
-                                                     <th>작품명</th>
-                                                     <th>연재요청업체명</th>
-                                                     <th class="text-center">초기연재회차</th>
-                                                     <th class="text-center">일</th>
-                                                     <th class="text-center">편수</th>
-                                                     <th class="text-center">신청일</th>
-                                                     <th class="text-center">처리일</th>
-                                                     <th class="text-center">상태</th>
-                                                 </tr>
-                                                 </thead>--}}
                                                 <tbody>
 
                                                 <tr class="table-bordered">
@@ -85,7 +60,7 @@
                                                             <tr>
                                                                 <td><h4>
                                                                         <a style="cursor:pointer"
-                                                                           v-on:click="displayNovels('{{$apply_request->publish_novel_group_id}}')">{{$apply_request->novel_groups->title }}</a>
+                                                                           v-on:click="displayNovels('{{$apply_request->publish_novel_group_id}}','{{$apply_request->id }}')">{{$apply_request->novel_groups->title }}</a>
                                                                     </h4>
                                                                 </td>
                                                             </tr>
@@ -99,7 +74,7 @@
                                                             <tr>
                                                                 <td class="padding-top-10 text-right">
                                                                     @if($apply_request->status == '심사중')
-                                                                        <span id="response{{$apply_request->id}}"></span>
+                                                                        <span id="response_status{{$apply_request->id}}"></span>
                                                                         <button class="btn btn-sm btn-primary"
                                                                                 id="approve{{$apply_request->id}}"
                                                                                 v-on:click="approve_deny('{{$apply_request->id}}',1)">@{{approve_status}}</button>
@@ -125,10 +100,11 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td colspan="2"id="response{{$apply_request->publish_novel_group_id}}"
-                                                        v-if="{{$apply_request->publish_novel_group_id }} == novel_show.id && novel_show.TF"></td>
-                                                    <td colspan="2"id="response{{$apply_request->publish_novel_group_id}}"
-                                                        v-else hidden></td>
+                                                    <td colspan="2"
+                                                        id="response{{$apply_request->id}}"
+                                                        v-if="{{$apply_request->id }} == novel_show.id && novel_show.TF"></td>
+                                                    <td colspan="2"
+                                                        id="response{{$apply_request->id}}" v-else hidden></td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="2"></td>
@@ -183,6 +159,7 @@
                 info: {
                     status: ''
                 },
+                novel_info: {novel_id: '', publish_novel_group_id: '', status: '준비'},
                 novel_show: {'id': 0, 'TF': false}
             },
             mounted: function () {
@@ -203,7 +180,7 @@
                                     .then(function (response) {
                                         $('#approve' + company_id).hide();
                                         $('#deny' + company_id).hide();
-                                        $('#response' + company_id).html(response.data.data);
+                                        $('#response_status' + company_id).html(response.data.data);
                                         $.niftyNoty({
                                             type: 'success',
                                             icon: 'fa fa-check',
@@ -223,8 +200,8 @@
 
                 },
 
-                displayNovels: function (publish_novel_group_id) {
-                    if (this.novel_show.TF == true && this.novel_show.id == publish_novel_group_id) {
+                displayNovels: function (publish_novel_group_id, company_id) {
+                    if (this.novel_show.TF == true && this.novel_show.id == company_id) {
                         this.novel_show.TF = false;
                         this.novel_show.id = 0;
                     } else {
@@ -232,14 +209,34 @@
                         this.$http.get('{{url('publishnovelgroups')}}/' + publish_novel_group_id)
                                 .then(function (response) {
 
-                                    this.novel_show.id = publish_novel_group_id;
+                                    this.novel_show.id = company_id;
                                     this.novel_show.TF = true;
 
-                                    $('#response' + publish_novel_group_id).html(response.data);
+                                    $('#response' + company_id).html(response.data);
 
 
                                 });
                     }
+                },
+                storePublishNovel: function (novel_id, publish_novel_group_id) {
+                    app.novel_info.novel_id = novel_id;
+                    app.novel_info.publish_novel_group_id = publish_novel_group_id
+                    app.$http.post('{{ route('publishnovels.publish_novels') }}', app.novel_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                            .then(function (response) {
+                                $('#response' + company_id).html(response.data.data);
+                                /* $.niftyNoty({
+                                    type: 'success',
+                                    icon: 'fa fa-check',
+                                    message: app.info.status + "했습니다",
+                                    container: 'floating',
+                                    timer: 3000
+                                });
+                                */
+                            })
+                            .catch(function (data, status, request) {
+                                var errors = data.data;
+                            });
+
                 }
             }
 
