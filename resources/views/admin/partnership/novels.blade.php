@@ -12,12 +12,7 @@
                 @endif
             </td>
             <td class="text-center">
-                <button class="btn btn-info" onclick="app.storePublishNovel({{$novel->id.','.$publish_novel_group_id.','.$company_id.','.$publish_company_id}})">공개</button>
-                {{--<a href="/author/update_inning/"@{{ novel.id }}>--}}
-                <a>
-                    <button class="btn btn-success">수정</button>
-                </a>
-                <button class="btn btn-warning">삭제</button>
+                <button class="btn btn-info" onclick="app.storePublishNovel({{$novel->id.','.$publish_novel_group_id.','.$company_id.','.$publish_company_id}})">회차 심사</button>
             </td>
         </tr>
         @endif

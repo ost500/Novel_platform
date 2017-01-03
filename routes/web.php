@@ -120,5 +120,5 @@ Route::get('/admin/partnership/manage_company', ['as' => 'admin.partner_manage_c
 Route::get('/admin/partnership/manage_apply/{id?}', ['as' => 'admin.partner_manage_apply', 'uses' => 'PageController\AdminPageController@partner_manage_apply']);
 Route::get('/admin/partnership/create_company', ['as' => 'admin.partner_create_company', 'uses' => 'PageController\AdminPageController@partner_create_company']);
 Route::get('/admin/partnership/edit_company/{id}', ['as' => 'admin.partner_edit_company', 'uses' => 'PageController\AdminPageController@partner_edit_company']);
-Route::get('/admin/partnership/test_inning', ['as' => 'admin.partner_test_inning', 'uses' => 'PageController\AdminPageController@partner_test_inning']);
+Route::get('/admin/partnership/test_inning/{id?}', ['as' => 'admin.partner_test_inning', 'uses' => 'PageController\AdminPageController@partner_test_inning']);
 Route::get('/admin/partnership/approve_inning', ['as' => 'admin.partner_approve_inning', 'uses' => 'PageController\AdminPageController@partner_approve_inning']);
