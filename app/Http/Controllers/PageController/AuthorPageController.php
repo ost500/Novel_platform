@@ -276,11 +276,25 @@ class AuthorPageController extends Controller
         return view('author.partnership.apply', compact('companies', 'my_novel_groups'));
     }
 
-    public function partner_apply_list()
+    public function partner_apply_list(Request $request)
     {
         $my_publish_novel_groups = PublishNovelGroup::where('user_id', Auth::user()->id)
             ->with('novel_groups')
-            ->with('companies')->get();
+            ->with('companies')->latest()->get();
+        $my_publish_novel_groups = NovelGroupPublishCompany::join('publish_novel_groups', 'publish_novel_groups.id', '=', 'novel_group_publish_companies.publish_novel_group_id')
+            ->where('user_id', Auth::user()->id)->with('publish_novel_groups.novel_groups')
+            ->with('companies')
+            ->get();
+//        return response()->json($my_publish_novel_groups);
+
+        if ($request->order == 1) {
+            //order by novel_group name
+            $my_publish_novel_groups = $my_publish_novel_groups->sortBy('publish_novel_groups.novel_groups.title');
+        } elseif ($request->order == 2) {
+            $my_publish_novel_groups = $my_publish_novel_groups->sortBy('companies.name');
+        } elseif ($request->order == 3) {
+            $my_publish_novel_groups = $my_publish_novel_groups->sortBy('status');
+        }
 
 
 //            ->join('publish_novel_groups', 'novel_groups.id', '=', 'publish_novel_groups.novel_group_id')
@@ -293,20 +307,15 @@ class AuthorPageController extends Controller
 //                ->join('companies', 'companies.id', '=', 'novel_group_publish_companies.company_id')
 //                ->where('user_id', Auth::user()->id)->get();
 
-        $companies = Company::get();
+
         return view('author.partnership.apply_list', compact('my_publish_novel_groups', 'companies'));
     }
-
-
-
-
-
 
 
     public function partner_proceed($id = null)
     {
         $companies = Company::orderBy('name')->get();
-        $apply_requests = NovelGroupPublishCompany::where('status','승인')->with('novel_groups.users')->with('publish_novel_groups')->with('companies');
+        $apply_requests = NovelGroupPublishCompany::where('status', '승인')->with('novel_groups.users')->with('publish_novel_groups')->with('companies');
 
         if ($id) {
             //  $apply_requests= PublishNovelGroup::with('novel_groups')->with('users')->with(['companies'=> function($q){ $q->where('company_id','2'); } ])->paginate(5);
