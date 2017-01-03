@@ -37,6 +37,7 @@ Route::resource('keywords', 'KeywordController');
 Route::resource('companies', 'CompanyController');
 Route::resource('publish_companies', 'NovelGroupPublishCompanyController', ['only' => ['update']]);
 Route::delete('maillogs/{id}', ['as' => 'maillog.destroy', 'uses' => 'MailLogController@destroy']);
+Route::put('publish_novel/{id}', ['as' => 'publish_novel.update', 'uses' => 'PublishNovelController@update']);
 
 Route::resource('users', 'UserController', ['except' => ['update']]);
 Route::post('mailboxes', ['as' => 'mailbox.store', 'uses' => 'MailboxController@store']);
@@ -120,4 +121,4 @@ Route::get('/admin/partnership/manage_apply/{id?}', ['as' => 'admin.partner_mana
 Route::get('/admin/partnership/create_company', ['as' => 'admin.partner_create_company', 'uses' => 'PageController\AdminPageController@partner_create_company']);
 Route::get('/admin/partnership/edit_company/{id}', ['as' => 'admin.partner_edit_company', 'uses' => 'PageController\AdminPageController@partner_edit_company']);
 Route::get('/admin/partnership/test_inning', ['as' => 'admin.partner_test_inning', 'uses' => 'PageController\AdminPageController@partner_test_inning']);
-Route::get('/admin/partnership/approve_inning', ['as' => 'admin.partner_approve_inning', 'uses' => 'PageController\AdminPageController@partner_approve_inning']);
+Route::get('/admin/partnership/approve_inning/{id?}', ['as' => 'admin.partner_approve_inning', 'uses' => 'PageController\AdminPageController@partner_approve_inning']);

@@ -45,8 +45,8 @@
                     <!--Message-->
                     <!--===================================================-->
                     <div class="pad-all bord-all bg-gray-light">
-                        {{$men_to_men_request->body}}
 
+                        {{nl2br($men_to_men_request['body'])}}
 
                     </div>
 
@@ -215,7 +215,8 @@
         $("#cancel_mail").click(function () {
 
             bootbox.confirm({
-                message: "삭제 하시겠습니까?",
+                message: "삭제 하시겠습니까?\n " +
+                "(이미 읽은 메일은 삭제되지 않습니다)",
                 buttons: {
                     confirm: {
                         label: "삭제"

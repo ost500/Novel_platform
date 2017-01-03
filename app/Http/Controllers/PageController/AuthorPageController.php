@@ -173,7 +173,7 @@ class AuthorPageController extends Controller
 
     public function mailbox_index(Request $request)
     {
-        $novel_mail_messages = Auth::user()->maillogs()->with('mailboxs')->paginate(2);
+        $novel_mail_messages = Auth::user()->maillogs()->with('mailboxs')->latest()->paginate(2);
         $page = $request->page;
 //        return response()->json($novel_mail_messages);
         return view('author.novel_memo', compact('novel_mail_messages', 'page'));
