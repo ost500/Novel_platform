@@ -26,13 +26,14 @@
                             <div class="table-responsive">
                                 <div id="manage_apply">
 
-                                    <div class="col-md-10 pad-no padding-bottom-5">
+                                    <div class="col-md-12 pad-no padding-bottom-5">
                                         @foreach($companies as $company)
                                             <button class="btn btn-primary"
                                                     onclick="window.location.href='{{route('admin.partner_test_inning',['id'=>$company->id]) }}'">{{$company->name}}</button>
 
                                         @endforeach
-                                        {{--  <button type="button" class="btn btn-primary novel-agree">연재약관</button>--}}
+
+                                        {{-- <button type="button" class="btn btn-info novel-agree" style="float: right;">Total {{ $apply_requests->total() }} Results Found</button>--}}
                                     </div>
 
                                     @if(count($apply_requests) > 0)
@@ -72,6 +73,14 @@
                                                                         신청일:{{$apply_request->created_at}}
                                                                     </td>
 
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <button type="button" class="btn btn-primary "
+                                                                                v-on:click="todayDone('{{$apply_request->id }}')">
+                                                                            Today's Done
+                                                                        </button>
+                                                                    </td>
                                                                 </tr>
                                                             </table>
                                                         </td>
@@ -143,7 +152,8 @@
                     status: ''
                 },
                 novel_info: {novel_id: '', publish_novel_group_id: '', company_id: '', status: '준비'},
-                novel_show: {'id': 0, 'TF': false}
+                novel_show: {'id': 0, 'TF': false},
+                today_info: {'publish_company_id': ''}
             },
             mounted: function () {
 
@@ -154,7 +164,7 @@
                  publish_company_id is id from novel_group_publish_companies table
                  publish_novel_group_id is id from publish_novel_groups table
                  company_id is from novel_group_publish_companies table
-               */
+                 */
 
                 displayNovels: function (publish_company_id, publish_novel_group_id, company_id) {
                     if (this.novel_show.TF == true && this.novel_show.id == publish_company_id) {
@@ -210,7 +220,22 @@
                                 var errors = data.data;
                             });
 
+                },
+
+                todayDone: function (publish_company_id) {
+                    app.today_info.publish_company_id = publish_company_id;
+                    app.$http.post('{{ route('publishnovelgroups.today_done') }}', app.today_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                            .then(function (response) {
+                                document.getElementById('tab' + publish_company_id).style.display = 'none';
+                            })
+                            .catch(function (data, status, request) {
+                                var errors = data.data;
+                            });
+
+
                 }
+
+
             }
 
         });

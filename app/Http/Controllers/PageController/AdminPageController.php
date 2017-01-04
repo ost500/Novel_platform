@@ -260,9 +260,11 @@ class AdminPageController extends Controller
 
     public function partner_test_inning($id = null)
     {
+        //update today_done=0 to make group visible
+        NovelGroupPublishCompany::where('today_done','1')->whereDate('updated_at','!=',Carbon::today()->toDateString())->update(['today_done'=>0]);
 
         $companies = Company::orderBy('name')->get();
-        $apply_requests = NovelGroupPublishCompany::where('status', '!=', '신청하기')->with('novel_groups.users')->with('publish_novel_groups')->with('companies');
+        $apply_requests = NovelGroupPublishCompany::where([['status', '!=', '신청하기'],['today_done',false]])->with('novel_groups.users')->with('publish_novel_groups')->with('companies');
 
         if ($id) {
             //  $apply_requests= PublishNovelGroup::with('novel_groups')->with('users')->with(['companies'=> function($q){ $q->where('company_id','2'); } ])->paginate(5);

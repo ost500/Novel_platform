@@ -98,4 +98,12 @@ class PublishNovelGroupController extends Controller
         return view('admin.partnership.novels',compact('novels','company_id','publish_novel_group_id','publish_company_id'));
     }
 
+    public function today_done(Request $request)
+    {
+        // $novel_group = PublishNovelGroup::find($publish_novel_group_id)->novels()->with('companies')->get();
+       NovelGroupPublishCompany::where('id',$request->publish_company_id)->update(['today_done'=>1]);
+        return \Response::json(['status'=>'ok']);
+        //return view('admin.partnership.novels',compact('novels','company_id','publish_novel_group_id','publish_company_id'));
+    }
+
 }
