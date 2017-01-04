@@ -61,9 +61,9 @@
                                                             </button>
 
                                                         @elseif($my_publish_novel_group->status == "승인")
-                                                            <button class="btn btn-primary">{{$my_publish_novel_group->status}}</button>
+                                                            <button class="btn btn-success">{{$my_publish_novel_group->status}}</button>
                                                         @elseif($my_publish_novel_group->status == "심사중")
-                                                            {{$my_publish_novel_group->status}}
+                                                            <button class="btn btn-warning">{{$my_publish_novel_group->status}}</button>
                                                         @else
                                                             <form
                                                                     {{--action="{{route("publishnovelgroups.apply_each_company",['novel_group_publish_company_id'=>$each_company->pivot->id])}}"--}}

@@ -54,10 +54,10 @@ class CompanyController extends Controller
         ])->validate();
 
         $input = $request->all();
-        if ($request->adult_allowance == "on") {
-            $input['adult_allowance'] = true;
+        if ($request->adult == "on") {
+            $input['adult'] = true;
         } else {
-            $input['adult_allowance'] = false;
+            $input['adult'] = false;
         }
 
         //if validation is passed then insert the record
@@ -104,10 +104,10 @@ class CompanyController extends Controller
         ])->validate();
 
         $input = $request->except('_method','_token','test');
-        if ($request->adult_allowance == "on") {
-            $input['adult_allowance'] = true;
+        if ($request->adult == "on") {
+            $input['adult'] = true;
         } else {
-            $input['adult_allowance'] = false;
+            $input['adult'] = false;
         }
 
         //if validation is passed then insert the record

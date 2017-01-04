@@ -74,11 +74,11 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-lg-1 control-label text-left" for="adult_allowance">성인물 허가</label>
+                            <label class="col-lg-1 control-label text-left" for="adult">성인물 허가</label>
 
                             <div class="col-lg-11">
 
-                                <input type="checkbox" id="adult_allowance" name="adult_allowance"  @if($company->adult_allowance)) checked  @endif>
+                                <input type="checkbox" id="adult_allowance" name="adult"  @if($company->adult_allowance)) checked  @endif>
 
                             </div>
                         </div>
