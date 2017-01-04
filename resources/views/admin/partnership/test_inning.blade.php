@@ -27,12 +27,19 @@
                                 <div id="manage_apply">
 
                                     <div class="col-md-12 pad-no padding-bottom-5">
+                                        <button type="button" class="btn btn-purple"
+                                                onclick="window.location.href='{{route('admin.partner_test_inning') }}'">
+                                            기본
+                                        </button>
                                         @foreach($companies as $company)
                                             <button class="btn btn-primary"
                                                     onclick="window.location.href='{{route('admin.partner_test_inning',['id'=>$company->id]) }}'">{{$company->name}}</button>
 
                                         @endforeach
-
+                                        <button type="button" class="btn btn-info"
+                                                onclick="window.location.href='{{route('admin.partner_test_inning',['id'=>'today_done']) }}'">
+                                            오늘 완료
+                                        </button>
                                         {{-- <button type="button" class="btn btn-info novel-agree" style="float: right;">Total {{ $apply_requests->total() }} Results Found</button>--}}
                                     </div>
 
@@ -67,19 +74,24 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>작가명
-                                                                        :{{$apply_request->novel_groups->users->name}},
+                                                                    <td>
+                                                                        작가명:{{$apply_request->novel_groups->users->name}}
+                                                                        ,
                                                                         연재요청업체명: {{$apply_request->companies->name}},
+                                                                        상태:{{$apply_request->status}},
                                                                         신청일:{{$apply_request->created_at}}
                                                                     </td>
 
                                                                 </tr>
                                                                 <tr>
                                                                     <td>
-                                                                        <button type="button" class="btn btn-primary "
-                                                                                v-on:click="todayDone('{{$apply_request->id }}')">
-                                                                            Today's Done
-                                                                        </button>
+                                                                        @if($id !='today_done')
+                                                                            <button type="button"
+                                                                                    class="btn btn-primary "
+                                                                                    v-on:click="todayDone('{{$apply_request->id }}')">
+                                                                                오늘 완료
+                                                                            </button>
+                                                                        @endif
                                                                     </td>
                                                                 </tr>
                                                             </table>
@@ -199,6 +211,7 @@
                     app.novel_info.company_id = company_id;
                     app.$http.post('{{ route('publish_novel.store') }}', app.novel_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                             .then(function (response) {
+                                //show new unpublished novel list
                                 this.novel_show.TF = false;
                                 this.novel_show.id = 0;
                                 app.displayNovels(publish_company_id, publish_novel_group_id, company_id);

@@ -261,12 +261,25 @@ class AdminPageController extends Controller
     public function partner_test_inning($id = null)
     {
         //update today_done=0 to make group visible
-        NovelGroupPublishCompany::where('today_done','1')->whereDate('updated_at','!=',Carbon::today()->toDateString())->update(['today_done'=>0]);
+        NovelGroupPublishCompany::where('today_done', '1')->whereDate('updated_at', '!=', Carbon::today()->toDateString())->update(['today_done' => 0]);
 
+        //Get companies list
         $companies = Company::orderBy('name')->get();
-        $apply_requests = NovelGroupPublishCompany::where([['status', '!=', '신청하기'],['today_done',false]])->with('novel_groups.users')->with('publish_novel_groups')->with('companies');
 
-        if ($id) {
+        //whether show today's done or not [Today's done filter]
+
+        $today_done = false;
+
+        if ($id == 'today_done') {
+
+            $today_done = true;
+        }
+
+        //get company wise published groups based on today's done
+        $apply_requests = NovelGroupPublishCompany::where([['status', '=', '승인'], ['today_done', $today_done]])->with('novel_groups.users')->with('publish_novel_groups')->with('companies');
+
+        //[company id filter]
+        if ( $id != null and $id !='today_done') {
             //  $apply_requests= PublishNovelGroup::with('novel_groups')->with('users')->with(['companies'=> function($q){ $q->where('company_id','2'); } ])->paginate(5);
 //            $apply_requests = $apply_requests->whereHas('companies', function ($q) use ($id) {
 //                    $q->where('companies.id', $id);
@@ -276,7 +289,7 @@ class AdminPageController extends Controller
         }
 
         $apply_requests = $apply_requests->paginate(10);
-        return view('admin.partnership.test_inning', compact('apply_requests', 'companies','id'));
+        return view('admin.partnership.test_inning', compact('apply_requests', 'companies', 'id'));
 
     }
 
@@ -291,7 +304,7 @@ class AdminPageController extends Controller
 
         if ($id) {
 
-            $apply_requests->where('company_id', $id)->where('status','심사');
+            $apply_requests->where('company_id', $id)->where('status', '심사');
 
         }
 

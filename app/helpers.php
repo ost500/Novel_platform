@@ -42,7 +42,7 @@ function checkPublishNovelGroup($publish_novel_group_id,$company_id)
 
     //if count is same means all novels are published and return false to remove group
     if ($publish_novels_count == $novels_count) {
-
+        //echo $publish_novel_group_id.'-'.$company_id.',';
         return false;
     }
     return true;
