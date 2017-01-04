@@ -289,7 +289,7 @@ class AdminPageController extends Controller
 
         if ($id) {
 
-            $apply_requests->where('company_id', $id)->where('status','심사');
+            $apply_requests->where('company_id', $id)->where('status','심사중');
 
         }
 
