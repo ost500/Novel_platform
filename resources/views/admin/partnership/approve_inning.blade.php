@@ -97,7 +97,7 @@
                                 </div>
 
                                 <div class="pull-right">
-                                    @include('pagination', ['collection' => $apply_requests, 'url' => route('admin.partner_manage_apply')])
+                                    @include('pagination', ['collection' => $apply_requests, 'url' => route('admin.partner_approve_inning')])
 
                                 </div>
                             </div>
