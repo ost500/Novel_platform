@@ -338,8 +338,8 @@ class NovelGroupController extends Controller
     {
         $novel_group = NovelGroup::findOrFail($id);
 
+        //if there is paid novel, 1 month will be given to readers.
         $non_free = $novel_group->novels->where('non_free_agreement', 1)->count();
-
         if ($non_free == 0) {
             $novel_group->secret = Carbon::now();
         } else {
@@ -404,6 +404,7 @@ class NovelGroupController extends Controller
             $cloning_novel_group = NovelGroup::find($id);
             // novel_group to clone
             $new_novel_group = $cloning_novel_group->replicate();
+            $new_novel_group->secret = Carbon::now();
             $new_novel_group->title = $new_novel_group->title . "[15세 개정판]";
             $new_novel_group->push();
             // novel_group cloned

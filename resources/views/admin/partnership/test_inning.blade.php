@@ -142,7 +142,7 @@
                 info: {
                     status: ''
                 },
-                novel_info: {novel_id: '', publish_novel_group_id: '', company_id: '', status: '준비'},
+                novel_info: {novel_id: '', publish_novel_group_id: '', company_id: '', status: '심사중'},
                 novel_show: {'id': 0, 'TF': false}
             },
             mounted: function () {
