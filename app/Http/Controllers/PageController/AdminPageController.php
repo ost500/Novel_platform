@@ -253,7 +253,7 @@ class AdminPageController extends Controller
 
         }
 
-        $apply_requests = $apply_requests->paginate(20);
+        $apply_requests = $apply_requests->paginate(10);
         return view('admin.partnership.manage_apply', compact('apply_requests', 'companies'));
 
     }
@@ -273,8 +273,8 @@ class AdminPageController extends Controller
 
         }
 
-        $apply_requests = $apply_requests->paginate(20);
-        return view('admin.partnership.test_inning', compact('apply_requests', 'companies'));
+        $apply_requests = $apply_requests->paginate(10);
+        return view('admin.partnership.test_inning', compact('apply_requests', 'companies','id'));
 
     }
 
@@ -292,10 +292,6 @@ class AdminPageController extends Controller
             $apply_requests->where('company_id', $id)->where('status','심사');
 
         }
-
-
-
-
 
         $apply_requests = $apply_requests->paginate(20);
 

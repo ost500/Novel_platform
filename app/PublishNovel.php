@@ -33,7 +33,7 @@ class PublishNovel extends Model
      * @var array
      */
     protected $fillable = [
-        'novel_id', 'publish_novel_group_id', 'status', 'file',
+        'novel_id', 'publish_novel_group_id','company_id', 'status', 'file',
     ];
 
     public function publish_novel_groups()

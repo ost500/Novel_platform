@@ -6,6 +6,7 @@ use App\Company;
 use App\Novel;
 use App\NovelGroup;
 use App\NovelGroupPublishCompany;
+use App\PublishNovel;
 use App\PublishNovelGroup;
 use Auth;
 use Illuminate\Http\Request;
@@ -89,11 +90,12 @@ class PublishNovelGroupController extends Controller
 //        return redirect()->back();
     }
 
-    public function show_novels($publish_novel_group_id)
+    public function show_novels($publish_novel_group_id,$company_id,$publish_company_id )
     {
-       // $novel_group = NovelGroup::find($id)->novels->sortByDesc('inning')->values();
+       // $novel_group = PublishNovelGroup::find($publish_novel_group_id)->novels()->with('companies')->get();
         $novels= Novel::where('novel_group_id',$publish_novel_group_id)->get();
         //return \Response::json($novels);
-        return view('admin.partnership.novels',compact('novels'));
+        return view('admin.partnership.novels',compact('novels','company_id','publish_novel_group_id','publish_company_id'));
     }
+
 }
