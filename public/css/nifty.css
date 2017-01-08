@@ -2672,7 +2672,7 @@ a.disabled-link:hover {
     min-height: 1.5em;
   }
   .mail-time {
-    width: 75px;
+    width: 130px;
   }
   .mail-subject {
     overflow: hidden;
@@ -2686,7 +2686,7 @@ a.disabled-link:hover {
     width: 35px;
   }
   .mail-from {
-    width: 85px;
+    width: 125px;
   }
   .mail-subject {
     display: block;
@@ -4170,7 +4170,7 @@ hr {
   border-bottom: 2px solid rgba(0, 0, 0, 0.14);
 }
 #container .table td {
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  /*border-top: 1px solid rgba(0, 0, 0, 0.05);*/
 }
 #container .table.table-vcenter th,
 #container .table.table-vcenter td {
@@ -6530,8 +6530,10 @@ a.text-dark:focus {
 .novel-review { border: 1px solid #ddd; padding:10px;}
 .novel-review div.review { border-bottom:1px solid #ddd; padding:10px;}
 .novel-review div.reply { border-bottom:1px solid #ddd; margin-left:30px;}
-/*.novel-review div.review:last-child { border-bottom:0px; }*/
+.novel-review div.review:last-child { border-bottom:0px; }
 .novel-review div.review-write {margin-bottom:20px;}
+.novel-review div.review-of {margin-bottom:0px;}
+
 
 .novel-review div.button { padding-top:10px; }
 .novel-review div.content { padding-top:10px; }
@@ -6542,3 +6544,36 @@ a.text-dark:focus {
 
 
 .request-subject { font-size:25px; padding-bottom:10px;}
+
+
+ul {
+  list-style: none;
+}
+ol, ul {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.ul_basicCover {
+  display: inline-block;
+}
+
+.ul_basicCover li {
+  width: 25%;
+  float: left;
+  margin-right: 30px;
+  margin-bottom: 15px;
+}
+
+.ul_basicCover li img {
+  width: 130%;
+  height: auto;
+  border: 3px solid #f8fafb;
+  margin-bottom: 10px;
+  margin-left: -27%;
+  margin-top: 5px;
+}
+
+.ul_basicCover li.on img {
+  border: 3px solid #f8ac59;
+}

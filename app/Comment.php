@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * App\Comment
  *
@@ -25,9 +25,16 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $parent_id
  * @property-read \App\Novel $novels
  * @method static \Illuminate\Database\Query\Builder|\App\Comment whereParentId($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Comment[] $children
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Comment[] $myself
+ * @property \Carbon\Carbon $deleted_at
+ * @method static \Illuminate\Database\Query\Builder|\App\Comment whereDeletedAt($value)
  */
 class Comment extends Model
 {
+    use SoftDeletes;
+    protected $dates = ['deleted_at'];
+
     public function users()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');

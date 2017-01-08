@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin_layout')
 
 @section('content')
     <div id="content-container">
@@ -34,6 +34,18 @@
 
                         <form class="panel-body form-horizontal form-padding"  action="{{route('faqs.store')}}"  method="post"  >
                             {!! csrf_field() !!}
+                            <div class="form-group">
+                                <label class="col-md-2 control-label" for="demo-email-input">범주</label>
+                            <div class="col-md-9">
+                                <select class="form-control" name="faq_category">
+                                    <option value="">범주선택</option>
+                                    <option value="1"> 독자 </option>
+                                    <option value="2">작가 </option>
+                                    <option value="3"> 기타 </option>
+
+                                </select>
+                            </div>
+                                </div>
 
                             <div class="form-group">
                                 <label class="col-md-2 control-label" for="demo-email-input">작품제목</label>

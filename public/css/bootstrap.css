@@ -2244,7 +2244,7 @@ th {
 .table {
   width: 100%;
   max-width: 100%;
-  margin-bottom: 20px;
+  /*margin-bottom: 20px;*/
 }
 .table > thead > tr > th,
 .table > tbody > tr > th,
@@ -2255,7 +2255,7 @@ th {
   padding: 8px;
   line-height: 1.42857143;
   vertical-align: middle;
-  border-top: 1px solid #ddd;
+  /*border-top: 1px solid #ddd;*/
 }
 .table > thead > tr > th {
   vertical-align: bottom;

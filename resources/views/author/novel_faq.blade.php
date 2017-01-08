@@ -69,7 +69,7 @@
                     </div>
 
                     <div id="demo-lft-tab-2" class="tab-pane fade">
-                        <div class="panel-group accordion" id="accordion">
+                        <div class="panel-group accordion" id="accordion2">
                             <!--<h4 class="text-thin">Second Tab Content</h4>-->
 
                             @foreach($faq_author as $faq)
@@ -78,7 +78,7 @@
 
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
-                                            <a data-parent="#accordion" data-toggle="collapse"
+                                            <a data-parent="#accordion2" data-toggle="collapse"
                                                href="#collapse_author{{$loop->iteration}}">{{$loop->iteration}}
                                                 . {{$faq->title  }} </a>
                                         </h4>
@@ -98,7 +98,7 @@
                         </div>
                     </div>
                     <div id="demo-lft-tab-3" class="tab-pane fade">
-                        <div class="panel-group accordion" id="accordion">
+                        <div class="panel-group accordion" id="accordion3">
                             <!-- <h4 class="text-thin">Third Tab Content</h4>-->
 
                             @foreach($faq_etc as $faq)
@@ -107,7 +107,7 @@
 
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
-                                            <a data-parent="#accordion" data-toggle="collapse"
+                                            <a data-parent="#accordion3" data-toggle="collapse"
                                                href="#collapse_other{{$loop->iteration}}">{{$loop->iteration}}
                                                 . {{$faq->title  }} </a>
                                         </h4>

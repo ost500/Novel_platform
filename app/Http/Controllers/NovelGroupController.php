@@ -2,9 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Favorite;
+use App\Keyword;
+use App\Mailbox;
+use App\MailLog;
+use App\Novel;
+use App\User;
+use Auth;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\NovelGroup;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
+use Mockery\CountValidator\Exception;
 use Validator;
+
 
 class NovelGroupController extends Controller
 {
@@ -25,9 +37,71 @@ class NovelGroupController extends Controller
      */
     public function index(Request $request)
     {
-        //
-        $novel_groups = $request->user()->novel_groups()->get();
-        return \Response::json($novel_groups);
+        if (Auth::user()->isAdmin()) {
+            //if you are admin
+            $novel_groups = NovelGroup::with('novels')->latest()->get();
+        } else {
+            //if you are user
+            $novel_groups = $request->user()->novel_groups()->with('novels')->latest()->get();
+        }
+
+        //check an agreement agreed or not
+        $author = User::select('author_agreement')->where('id', Auth::user()->id)->first();
+
+        // sorting
+        if ($request->order == "secret") {
+            $novel_groups = $novel_groups->where('secret', 1);
+        } else if ($request->order == "completed") {
+            $novel_groups = $novel_groups->where('completed', 1);
+        } else if ($request->order == "running") {
+            $novel_groups = $novel_groups->where('completed', 0);
+        }
+
+
+        $comments_count = 0;
+        $review_count = 0;
+        $count_data = array();
+        $review_count_data = array();
+        $latested_at = array();
+        $novel_groups_count = $novel_groups->count();
+
+        foreach ($novel_groups as $novel_group) {
+
+            foreach ($novel_group->novels as $novel) {
+                foreach ($novel->comments as $commenat) {
+                    $comments_count++;
+                }
+                foreach ($novel->reviews as $n) {
+                    $review_count++;
+                }
+
+            }
+            // 소설이 없다면
+            if ($novel_group->novels->count() != 0) {
+                $latested_at[$novel_group->id] = $novel_group->novels->sortby('created_at')->first()->created_at->format('Y-m-d');
+            } else {
+                $latested_at[$novel_group->id] = "0000-00-00";
+            }
+
+
+            $count_data[$novel_group->id] = $comments_count;
+            $comments_count = 0;
+
+            $review_count_data[$novel_group->id] = $review_count;
+            $review_count = 0;
+
+        }
+
+
+        // pagination
+        if (!isset($request->page)) {
+            $request->page = 1;
+        }
+        $novel_group_per_page = $novel_groups->forPage($request->page, 5);
+        $novel_groups = new LengthAwarePaginator($novel_group_per_page, $novel_groups_count, 5);
+
+        return \Response::json(['novel_groups' => $novel_groups, 'count_data' => $count_data, 'review_count_data' => $review_count_data, 'latested_at' => $latested_at, 'author' => $author]);
+        // dd($user_novels);
     }
 
     /**
@@ -49,34 +123,65 @@ class NovelGroupController extends Controller
     public function store(Request $request)
     {
         //
-        $validator = Validator::make($request->all(), [
+        Validator::make($request->all(), [
             'nickname' => 'required|max:255',
             'title' => 'required',
             'description' => 'required',
-        ]);
+            'cover_photo' => 'mimes:jpeg,png|image|max:1024|dimensions:max_width=1080,max_height=1620',
+            'cover_photo2' => 'mimes:jpeg,png|image|max:1024|dimensions:max_width=1080,max_height=1080',
 
-        if ($validator->fails()) {
-            return redirect('author/create')
-                ->withErrors($validator)
-                ->withInput();
-        }
+        ], [
+            'nickname.required' => '필명은 필수 입니다.',
+            'title.required' => '제목은 필수 입니다.',
+            'description.required' => '설명은 필수 입니다.',
+            'cover_photo.dimensions' => '표지1 크기는 1080*1620 이어야 합니다',
+            'cover_photo.max' => '표지1 용량은 1M를 넘지 않아야 합니다',
+            'cover_photo2.dimensions' => '표지2 크기는 1080*1080 이어야 합니다',
+            'cover_photo2.max' => '표지2 용량은 1M를 넘지 않아야 합니다',
+
+        ])->validate();
+
         $input = $request->all();
         //if validation is passed then insert the record
+        $new_novel_group = $request->user()->novel_groups()->create($input);
 
         //upload the picture
-        if ($request->hasFile('cover_photo')) {
+        if ($request->hasFile('cover_photo') or $request->hasFile('cover_photo2')) {
 
-            $cover_photo = $request->file('cover_photo');
-            $filename = $cover_photo->getClientOriginalName();
-            //set original name for database
-            $input['cover_photo'] = $filename;
-            //Insert the record
-            $new_novel_group = $request->user()->novel_groups()->create($input);
-            //upload file to destination path
-            $destinationPath = public_path('/img/novel_covers/');
-            $cover_photo->move($destinationPath, $new_novel_group->id . '_' . $filename);
+
+            if ($request->hasFile('cover_photo')) {
+                $cover_photo = $request->file('cover_photo');
+                $filename = $cover_photo->getClientOriginalExtension();
+                //upload file to destination path
+                $destinationPath = public_path('img/novel_covers/');
+
+                $new_novel_group->cover_photo = $new_novel_group->id . 'cover_photo1.' . $filename;
+
+                $cover_photo->move($destinationPath, $new_novel_group->id . 'cover_photo1.' . $filename);
+            }
+
+            if ($request->hasFile('cover_photo2')) {
+                $cover_photo2 = $request->file('cover_photo2');
+                $filename2 = $cover_photo2->getClientOriginalExtension();
+                //upload file to destination path
+                $destinationPath = public_path('img/novel_covers/');
+                $cover_photo2->move($destinationPath, $new_novel_group->id . 'cover_photo2' . $filename2);
+
+                $new_novel_group->cover_photo2 = $new_novel_group->id . 'cover_photo2' . $filename2;
+
+            }
+
+            $new_novel_group->save();
+
+
+        } else if ($request->default_cover_photo) {
+            // $new_novel_group = $request->user()->novel_groups()->create($input);
+            $new_novel_group->cover_photo = "default_" . $request->default_cover_photo . ".jpg";
+            $new_novel_group->save();
         } else {
-            $new_novel_group = $request->user()->novel_groups()->create($input);
+            // $new_novel_group = $request->user()->novel_groups()->create($input);
+            $new_novel_group->cover_photo = "default_.jpg";
+            $new_novel_group->save();
         }
 
         if ($request->ajax()) {
@@ -84,7 +189,8 @@ class NovelGroupController extends Controller
         }
 
         flash("생성을 성공했습니다");
-        return redirect()->route('author_novel_group', ['id' => $new_novel_group->id]);
+        //  return redirect()->route('author_novel_group', ['id' => $new_novel_group->id]);
+        return redirect()->route('author_index');
     }
 
     /**
@@ -120,7 +226,25 @@ class NovelGroupController extends Controller
         // $novel_group= $request->user()->novel_groups()->with('users.nicknames')->where('id',$id)->first();
         $novel_group = NovelGroup::where('id', $id)->first();
         $nicknames = $request->user()->nicknames()->get();
-        return \Response::json(['novel_group' => $novel_group, 'nick_names' => $nicknames]);
+        $keyword1 = Keyword::select('id', 'name')->where('category', '1')->get();
+        $keyword2 = Keyword::select('id', 'name')->where('category', '2')->get();
+        $keyword3 = Keyword::select('id', 'name')->where('category', '3')->get();
+        $keyword4 = Keyword::select('id', 'name')->where('category', '4')->get();
+        $keyword5 = Keyword::select('id', 'name')->where('category', '5')->get();
+        $keyword6 = Keyword::select('id', 'name')->where('category', '6')->get();
+        $keyword7 = Keyword::select('id', 'name')->where('category', '7')->get();
+
+
+        return \Response::json([
+            'novel_group' => $novel_group,
+            'nick_names' => $nicknames,
+            'keyword1' => $keyword1,
+            'keyword2' => $keyword2, 'keyword3' => $keyword3,
+            'keyword4' => $keyword4, 'keyword5' => $keyword5,
+            'keyword6' => $keyword6, 'keyword7' => $keyword7,
+
+
+        ]);
     }
 
     /**
@@ -134,47 +258,58 @@ class NovelGroupController extends Controller
     {
         //
 
-        $input = $request->except('_token', '_method');
-        //Validate the request
-        /*  $this->validate($request, [
-              'nickname' => 'required|max:255',
-              'title' => 'required',
-              'description' => 'required',
-          ]);*/
+        $input = $request->except('_token', '_method', 'default_cover_photo');
 
-        $validator = Validator::make($request->all(), [
+        Validator::make($request->all(), [
             'nickname' => 'required|max:255',
             'title' => 'required',
             'description' => 'required',
-            'cover_photo' => 'dimensions:max_width=900,max_height=900',
-            'cover_photo' => 'mimes:jpeg,png',
-        ]);
+            'cover_photo' => 'mimes:jpeg,png|image|max:1024|dimensions:max_width=1080,max_height=1620',
+            'cover_photo2' => 'mimes:jpeg,png|image|max:1024|dimensions:max_width=1080,max_height=1080',
 
-        //if validation fails then redirect to create page
-        if ($validator->fails()) {
-            return redirect()->route('author.novel_group_edit', ['id' => $id])
-                ->withErrors($validator)
-                ->withInput();
-        }
+        ], [
+            'nickname.required' => '필명은 필수 입니다.',
+            'title.required' => '제목은 필수 입니다.',
+            'description.required' => '설명은 필수 입니다.',
+            'cover_photo.dimensions' => '표지1 크기는 1080*1620 이어야 합니다',
+            'cover_photo.max' => '표지1 용량은 1M를 넘지 않아야 합니다',
+            'cover_photo2.dimensions' => '표지2 크기는 1080*1080 이어야 합니다',
+            'cover_photo2.max' => '표지2 용량은 1M를 넘지 않아야 합니다',
+
+        ])->validate();
 
         //if validation is passed then insert the record
-
-        if ($request->hasFile('cover_photo')) {
-            $cover_photo = $request->file('cover_photo');
-            $size = $cover_photo->getSize();
-            if ($size > 1000000) {
-                flash('Image Size should not be greater than 1Mb');
-                return redirect()->route('author.novel_group_edit', ['id' => $id]);
+        //upload the picture
+        if ($request->hasFile('cover_photo') or $request->hasFile('cover_photo2')) {
+            if ($request->hasFile('cover_photo')) {
+                $cover_photo = $request->file('cover_photo');
+                //$original_filename = $cover_photo->getClientOriginalName();
+                $filename = $id . "cover_photo1." . $cover_photo->getClientOriginalExtension();
+                //set file name for database
+                $input['cover_photo'] = $filename;
+                //upload file to destination path
+                $destinationPath = public_path('/img/novel_covers/');
+                $cover_photo->move($destinationPath, $filename);
             }
 
-            $filename = $id . "_" . $cover_photo->getClientOriginalName();
-            $db_filename = $cover_photo->getClientOriginalName();
-            //set original name for database
-            $input['cover_photo'] = $db_filename;
-            //upload file to destination path
-            $destinationPath = public_path('/img/novel_covers/');
-            $cover_photo->move($destinationPath, $filename);
-        }
+            if ($request->hasFile('cover_photo2')) {
+                $cover_photo = $request->file('cover_photo2');
+                //$original_filename = $cover_photo->getClientOriginalName();
+                $filename = $id . "cover_photo2." . $cover_photo->getClientOriginalExtension();
+                //set file name for database
+                $input['cover_photo2'] = $filename;
+                //upload file to destination path
+                $destinationPath = public_path('/img/novel_covers/');
+                $cover_photo->move($destinationPath, $filename);
+            }
+
+        } else if ($request->default_cover_photo) {
+
+            $input['cover_photo'] = "default_" . $request->default_cover_photo . ".jpg";
+        } /*else {
+            // $new_novel_group = $request->user()->novel_groups()->create($input);
+            $input['cover_photo'] = "default_.jpg";
+        }*/
 
         NovelGroup::where('id', $id)->update($input);
         //redirect to novels
@@ -197,6 +332,96 @@ class NovelGroupController extends Controller
         //
         $novel_group = NovelGroup::find($id);
         $novel_group->delete();
+    }
+
+    public function secret($id)
+    {
+        $novel_group = NovelGroup::findOrFail($id);
+
+        //if there is paid novel, 1 month will be given to readers.
+        $non_free = $novel_group->novels->where('non_free_agreement', 1)->count();
+        if ($non_free == 0) {
+            $novel_group->secret = Carbon::now();
+        } else {
+            $novel_group->secret = Carbon::now()->addMonth();
+        }
+        $novel_group->save();
+
+
+        $new_mail = new Mailbox();
+        $new_mail->subject = "'" . $novel_group->title . "'이 비밀이 됩니다.";
+        $new_mail->body = $novel_group->secret . " '" . $novel_group->title . "'이 비밀이 됩니다.";
+        $new_mail->from = Auth::user()->id;
+        $new_mail->novel_group_id = $novel_group->id;
+        $new_mail->save();
+
+
+        $favorites = Favorite::where('novel_group_id', $id)->pluck('user_id');
+
+        foreach ($favorites as $favorite) {
+            $new_mail_log = new MailLog();
+            $new_mail_log->user_id = $favorite;
+            $new_mail_log->mailbox_id = $new_mail->id;
+            $new_mail_log->novel_group_id = $novel_group->id;
+            $new_mail_log->save();
+        }
+
+    }
+
+    public function non_secret($id)
+    {
+
+        $novel_group = NovelGroup::findOrFail($id);
+
+
+        $novel_group->secret = null;
+
+        $novel_group->save();
+
+
+        $new_mail = new Mailbox();
+        $new_mail->subject = "'" . $novel_group->title . "'이 비밀 해제 됩니다.";
+        $new_mail->body = $novel_group->secret . " '" . $novel_group->title . "'이 비밀 해제 됩니다.";
+        $new_mail->from = Auth::user()->id;
+        $new_mail->novel_group_id = $novel_group->id;
+        $new_mail->save();
+
+
+        $favorites = Favorite::where('novel_group_id', $id)->pluck('user_id');
+
+        foreach ($favorites as $favorite) {
+            $new_mail_log = new MailLog();
+            $new_mail_log->user_id = $favorite;
+            $new_mail_log->mailbox_id = $new_mail->id;
+            $new_mail_log->novel_group_id = $novel_group->id;
+            $new_mail_log->save();
+        }
+    }
+
+    public function clone_for_publish($id)
+    {
+        try {
+            $cloning_novel_group = NovelGroup::find($id);
+            // novel_group to clone
+            $new_novel_group = $cloning_novel_group->replicate();
+            $new_novel_group->secret = Carbon::now();
+            $new_novel_group->title = $new_novel_group->title . "[15세 개정판]";
+            $new_novel_group->push();
+            // novel_group cloned
+
+            $cloning_novels = Novel::where('novel_group_id', $cloning_novel_group->id)->orderBy('inning')->get();
+            foreach ($cloning_novels as $cloning_novel) {
+                if ($cloning_novel->adult == 1) {
+                    break;
+                }
+                $new_novel = $cloning_novel->replicate();
+                $new_novel->novel_group_id = $new_novel_group->id;
+                $new_novel->push();
+            }
+        } catch (Exception $e){
+            abort(403, '처리 중 에러가 발생했습니다 관리자에게 문의하세요.');
+        }
+
     }
 
 

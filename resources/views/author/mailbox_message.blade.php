@@ -1,168 +1,145 @@
 @extends('layouts.app')
 
 @section('content')
-<!--CONTENT CONTAINER-->
-			<!--===================================================-->
-			<div id="content-container">
+    <div id="content-container">
 
-				<!--Page Title-->
-				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-				<div id="page-title">
-					<h1 class="page-header text-overflow">
-						<span class="label label-normal label-info">Family</span>
-						{{$mailbox_message->subject}}
-					</h1>
-
-					<!--Searchbox-->
-					<div class="searchbox">
-						<div class="input-group custom-search-form">
-							<input type="text" class="form-control" placeholder="Search..">
-							<span class="input-group-btn">
-								<button class="text-muted" type="button"><i class="fa fa-search"></i></button>
-							</span>
-						</div>
-					</div>
-				</div>
-				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-				<!--End page title-->
-
-				<!--Page content-->
-				<!--===================================================-->
-				<div id="page-content">
-
-									<!-- VIEW MESSAGE -->
-									<!--===================================================-->
-									<div class="panel panel-default panel-left">
-										<div class="panel-body">
-											<div class="row">
-												<div class="col-sm-7">
-
-													<!--Sender Information-->
-													<div class="media">
-														<span class="media-left">
-															<img src="img/av4.png" class="img-circle img-sm" alt="Profile Picture">
-														</span>
-														<div class="media-body">
-															<div class="text-bold">@if($mailbox_message->users) {{ $mailbox_message->users->name }} @endif</div>
-															<small class="text-muted">{{ $mailbox_message->from}}</small>
-														</div>
-													</div>
-												</div>
-												<hr class="hr-sm visible-xs">
-												<div class="col-sm-5 clearfix">
-
-													<!--Details Information-->
-													<div class="pull-right text-right">
-														<p class="mar-no"><small class="text-muted">{{ $mailbox_message->created_at}}</small></p>
-														<a href="#">
-															<strong>Holiday.zip</strong>
-															<i class="fa fa-paperclip fa-lg fa-fw"></i>
-														</a>
-													</div>
-												</div>
-											</div>
-											<div class="row pad-ver">
-												<div class="col-xs-7">
-
-													<!--Mail toolbar-->
-													<button class="btn btn-default"><i class="fa fa-print"></i></button>
-													<div class="btn-group btn-group">
-														<button class="btn btn-default"><i class="fa fa-exclamation-circle"></i></button>
-														<button class="btn btn-default"><i class="fa fa-trash"></i></button>
-													</div>
-												</div>
-												<div class="col-xs-5 clearfix">
-													<div class="pull-right">
-
-														<!--Reply & forward buttons-->
-														<div class="btn-group btn-group">
-															<a class="btn btn-default" href="#">
-															<i class="fa fa-reply"></i>
-															</a>
-															<a class="btn btn-default" href="#">
-															<i class="fa fa-share"></i>
-															</a>
-														</div>
-													</div>
-												</div>
-											</div>
-
-											<!--Message-->
-											<!--===================================================-->
-											<div class="pad-all bord-all bg-gray-light">
-                                                {{ $mailbox_message->body}}
-											</div>
-											<!--===================================================-->
-											<!--End Message-->
-
-											<!-- Attach Files-->
-											<!--===================================================-->
-											<div class="pad-ver">
-												<h4><i class="fa fa-paperclip fa-fw"></i> Attachments <span>(2)</span></h4>
-
-												<ul class="mail-attach-list list-ov">
-													<li class=" clearfix">
-
-														<!--Download button-->
-														<div class="mail-attach-btn"><a href="#" class="btn btn-purple btn-sm">Download</a></div>
-
-														<!--File information-->
-														<div class="mail-attach-file">
-															<span class="mail-attach-label">
-																<span class="label label-info text-uppercase">Images</span>
-															</span>
-															<div class="media-body">
-																<div class="text-bold"><a href="#">IMG_007.jpg</a></div>
-																<small class="text-muted">(15 KB)</small>
-															</div>
-														</div>
-													</li>
-													<li class="clearfix">
-
-														<!--Download button-->
-														<div class="mail-attach-btn"><a href="#" class="btn btn-purple btn-sm">Download</a></div>
-
-														<!--File information-->
-														<div class="mail-attach-file">
-															<span class="mail-attach-label">
-																<span class="label label-warning  text-uppercase">Video</span>
-															</span>
-															<div class="media-body">
-																<div class="text-bold"><a href="#">VID_007.mp4</a></div>
-																<small class="text-muted">(178 MB)</small>
-															</div>
-														</div>
-													</li>
-												</ul>
-											</div>
-											<!--===================================================-->
-											<!-- End Attach Files-->
+        <div id="page-title">
+            <h1 class="page-header text-overflow">받은 쪽지</h1>
+        </div>
 
 
-											<!--Quick reply : Summernote Placeholder -->
-											<div id="demo-mail-textarea" class="mail-message-reply bg-gray-light">
-												<strong>Reply</strong> or <strong>Forward</strong> this message...
-											</div>
-
-											<!--Send button-->
-											<div class="pad-ver">
-												<button id="demo-mail-send-btn" type="button" class="btn btn-primary hide">
-													<span class="fa fa-paper-plane"></span>
-													Send Message
-												</button>
-											</div>
-										</div>
-									</div>
-									<!--===================================================-->
-									<!-- END VIEW MESSAGE -->
+        <ol class="breadcrumb">
+            <li><a href="#">작가홈</a></li>
+            <li class="active"><a href="#">받은 쪽지</a></li>
+        </ol>
 
 
-				</div>
-				<!--===================================================-->
-				<!--End page content-->
+        <div id="page-content">
+
+            <div class="panel">
+                <div class="panel-body">
 
 
-			</div>
-			<!--===================================================-->
-			<!--END CONTENT CONTAINER-->
+                    <div class="row">
+                        <div class="col-sm-7">
+
+                            <!--Sender Information-->
+                            <div class="media">
+                                <div class="media-body">
+                                    <div class="text-bold request-subject">{{ $men_to_men_request->mailboxs->subject }}</div>
+                                    <h4>{{ $men_to_men_request->mailboxs->users->name }}</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="hr-sm visible-xs">
+                        <div class="col-sm-5 clearfix">
+
+                            <!--Details Information-->
+                            <div class="pull-right text-right">
+                                <p class="mar-no">
+                                <div class="text-muted">{{$men_to_men_request->mailboxs->created_at}}</div>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Message-->
+                    <!--===================================================-->
+                    <div class="pad-all bord-all bg-gray-light">
+                        {{$men_to_men_request->mailboxs->body}}
+                    </div>
+
+                    @if($men_to_men_request->mailboxs->answer)
+                        <div class="pad-top">
+                            <h5>답변시간 <span>{{$men_to_men_request->mailboxs->updated_at}}</span></h5>
+
+                        </div>
+
+                        <div class="pad-all bord-all bg-gray-light margin-top-10">
+                            {{$men_to_men_request->mailboxs->answer}}
+                        </div>
+                    @endif
+
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <a href="{{route('author.novel_memo_create')}}">
+                                <button class="btn btn-primary">쪽지 보내기</button>
+                            </a>
+                        </div>
+                        <hr class="hr-sm visible-xs">
+                        <div class="col-sm-12 clearfix">
+                            <div class="pull-left">
+
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="hr-sm">
+
+                    <!--Mail list group-->
+                    <ul id="demo-mail-list" class="mail-list">
+                    @foreach($men_to_men_requests as $request)
+                        @if($men_to_men_request->id == $request->id)
+                            @continue
+                        @endif
+                        <!--Mail list item-->
+                            <li class="mail-list-unread">
+                                {{--<div class="mail-from">--}}
+                                {{--<button @if($request->answer!=null) class="btn btn-xs btn-danger">완료</button>--}}
+                                {{--</div>@else class="btn btn-xs btn-success">대기</button>--}}
+                                {{--</div>@endif--}}
+                                <div class="mail-from">
+                                    <a>{{ $request->mailboxs->users->name }}</a>
+                                    {{--<button class="btn btn-xs btn-success">대기</button>--}}
+                                </div>
+
+                                <div class="mail-time">{{$request->created_at}}</div>
+
+                                <div class="mail-subject">
+                                    <a href="{{ route('author.mailbox_message',['id' => $request->id]) }}/?page={{$page}}">{{$request->mailboxs->subject}} </a>
+                                </div>
+                            </li>
+                    @endforeach
+
+                    <!--Mail list item-
+                    <li class="mail-starred">
+                        <div class="mail-from"><button class="btn btn-xs btn-success">완료</button></div>
+                        <div class="mail-time">2014-10-06</div>
+
+                        <div class="mail-subject">
+                            <a href="novel_request.php">Tracking Your Order - Shoes Store Online</a>
+                        </div>
+                    </li>
+
+                    <!--Mail list item
+                    <li class="mail-list-unread mail-starred">
+                        <div class="mail-from"><button class="btn btn-xs btn-success">완료</button></div>
+                        <div class="mail-time">2014-10-06</div>
+
+                        <div class="mail-subject">
+                            <a href="novel_request_view.php">Reset your account password</a>
+                        </div>
+                    </li>-->
+
+                    </ul>
+                    <div class="fixed-table-pagination" style="display: block;">
+                        <div class="pull-left">
+                            @include('pagination', ['collection' => $men_to_men_requests, 'url' => route('author.mailbox_message',['id'=>$men_to_men_request->id])])
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!--===================================================-->
+            <!-- END OF MAIL INBOX -->
+
+
+        </div>
+
+
+    </div>
 @endsection

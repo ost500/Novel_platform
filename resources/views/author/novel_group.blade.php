@@ -25,31 +25,42 @@
                         <div class="panel-body">
                             <div class="table-responsive">
                                 <div class="padding-bottom-5">
-                                    <a href="novel_inning_write.blade.php">
-                                        <a href="{{route('author.inning',['id'=> $novel_group->id])}}">
-                                            <button class="btn btn-primary">챕터추가</button>
-                                        </a>
+                                    <a href="{{route('author.inning',['id'=> $novel_group->id])}}">
+                                        <button class="btn btn-primary">회차추가</button>
                                     </a>
+                                    {{--  <button type="button" class="btn btn-primary ">유료연재약관</button>--}}
+
                                 </div>
                                 <table class="table table-bordered" id="novel_group">
                                     <tbody>
 
                                     <tr v-for="novel in novels">
                                         <td class="text-center col-md-1">@{{ novel.inning }}회</td>
-                                        <td class="col-md-8">@{{ novel.title }}
-                                            <button v-if="novel.adult != 0" class="btn btn-xs btn-danger btn-circle">19금</button>
+                                        <td class="col-md-8"><a href="# "
+                                                                v-on:click="go_to_novel(novel.id)">@{{ novel.title }}</a>
+                                            <button v-if="novel.adult != 0" class="btn btn-xs btn-danger btn-circle">
+                                                19금
+                                            </button>
                                         </td>
                                         <td class="text-center">
-                                            <button class="btn btn-primary">유료화</button>
+                                            <button type="button" class="btn btn-primary"
+                                                    v-if="novel.non_free_agreement==0"
+                                                    v-on:click="show_nonFreeAgreement(novel.id)">유료화
+                                            </button>
                                             <button class="btn btn-info">공개</button>
                                             {{--<a href="/author/update_inning/"@{{ novel.id }}>--}}
                                             <a v-on:click="go_to_update(novel.id)">
                                                 <button class="btn btn-success">수정</button>
                                             </a>
                                             <button class="btn btn-warning" v-on:click="destroy(novel.id)">삭제</button>
+                                            <button v-if="novel.adult==0" class="btn btn-danger"
+                                                    v-on:click="make_adult(novel.id)">19금
+                                            </button>
+                                            <button v-else class="btn btn-danger" v-on:click="cancel_adult(novel.id)">
+                                                19금 취소
+                                            </button>
                                         </td>
                                     </tr>
-
 
 
                                     </tbody>
@@ -78,6 +89,10 @@
                 this.reload();
             },
             methods: {
+
+                show_nonFreeAgreement: function (id) {
+                    nonFreeAgreement(id);
+                },
 
                 destroy: function (e) {
                     var destroy_confirm;
@@ -120,11 +135,101 @@
                                             this.formErrors = errors;
                                         });
 
-                            } else {
+                            }
+                        }
+                    });
+
+
+                },
+                make_adult: function (e) {
+
+
+                    bootbox.confirm({
+                        message: "19금 회차로 변경 하시겠습니까?",
+
+                        buttons: {
+                            confirm: {
+                                label: "변경"
+                            },
+                            cancel: {
+                                label: '취소'
+                            }
+                        },
+
+                        callback: function (result) {
+
+
+                            if (result) {
+
+
+
+                                app_novel.$http.put("{{ url('/novels/make_adult') }}/" + e, "",{headers: {'X-CSRF-TOKEN': '{!! csrf_token() !!}'}})
+                                        .then(function (response) {
+                                            this.reload();
+                                            $.niftyNoty({
+                                                type: 'warning',
+                                                icon: 'fa fa-check',
+                                                //message : "Hello " + name + ".<br> You've chosen <strong>" + answer + "</strong>",
+                                                message: "변경 되었습니다.",
+                                                //container : 'floating',
+                                                container: 'page',
+                                                timer: 4000
+                                            });
+
+                                        })
+                                        .catch(function (data, status, request) {
+                                            var errors = data.data;
+                                            this.formErrors = errors;
+                                        });
 
                             }
+                        }
+                    });
 
 
+                },
+                cancel_adult: function (e) {
+
+
+                    bootbox.confirm({
+                        message: "19금 취소 하시겠습니까?",
+
+                        buttons: {
+                            confirm: {
+                                label: "변경"
+                            },
+                            cancel: {
+                                label: '취소'
+                            }
+                        },
+
+                        callback: function (result) {
+
+
+                            if (result) {
+
+
+
+                                app_novel.$http.put("{{ url('/novels/cancel_adult') }}/" + e, "",{headers: {'X-CSRF-TOKEN': '{!! csrf_token() !!}'}})
+                                        .then(function (response) {
+                                            this.reload();
+                                            $.niftyNoty({
+                                                type: 'warning',
+                                                icon: 'fa fa-check',
+                                                //message : "Hello " + name + ".<br> You've chosen <strong>" + answer + "</strong>",
+                                                message: "변경 되었습니다.",
+                                                //container : 'floating',
+                                                container: 'page',
+                                                timer: 4000
+                                            });
+
+                                        })
+                                        .catch(function (data, status, request) {
+                                            var errors = data.data;
+                                            this.formErrors = errors;
+                                        });
+
+                            }
                         }
                     });
 
@@ -139,7 +244,10 @@
                 },
 
                 go_to_update: function (e) {
-                    window.location.assign('{{ url('/author/update_inning/') }}'+"/" + e);
+                    window.location.assign('{{ url('/author/management/update_novel/') }}' + "/" + e);
+                },
+                go_to_novel: function (e) {
+                    window.location.assign('{{ url('/author/management/show_novel/') }}' + "/" + e);
                 },
             }
 

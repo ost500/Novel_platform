@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\NovelGroup
@@ -40,9 +41,27 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereKeyword6($value)
  * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereKeyword7($value)
  * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereCoverPhoto($value)
+ * @property integer $max_inning
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Review[] $reviews
+ * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereMaxInning($value)
+ * @property string $cover_photo2
+ * @property string $latest_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\NovelGroup[] $favorites
+ * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereCoverPhoto2($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereLatestAt($value)
+ * @property bool $completed
+ * @property bool $secret
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Mailbox[] $mailboxes
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\MailLog[] $maillogs
+ * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereCompleted($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereSecret($value)
+ * @property string $deleted_at
+ * @property-read \App\PublishNovelGroup $publish_novel_groups
+ * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereDeletedAt($value)
  */
 class NovelGroup extends Model
 {
+    use SoftDeletes;
     /**
      * The attributes that are mass assignable.
      *
@@ -58,10 +77,30 @@ class NovelGroup extends Model
     }
     public function users()
     {
-        return $this->belongsTo(User::class, 'id');
+        return $this->belongsTo(User::class, 'user_id','id');
     }
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
+    public function mailboxes()
+    {
+        return $this->hasMany(Mailbox::class);
+    }
+
+    public function maillogs()
+    {
+        return $this->hasMany(MailLog::class);
+    }
+
+    public function publish_novel_groups()
+    {
+        return $this->hasOne(PublishNovelGroup::class);
     }
 }

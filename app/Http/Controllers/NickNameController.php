@@ -6,6 +6,7 @@ use App\NickName;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
+use Validator;
 
 class NickNameController extends Controller
 {
@@ -45,6 +46,13 @@ class NickNameController extends Controller
      */
     public function store(Request $request)
     {
+
+        Validator::make($request->all(), [
+            'nickname' => 'required|max:255',
+        ], [
+            'nickname.required' => '입력하세요',
+            'nickname.max' => '필명이 너무 깁니다',
+        ])->validate();
 
         $new_nickname = new NickName();
         $new_nickname->user_id = Auth::user()->id;
@@ -88,6 +96,15 @@ class NickNameController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        Validator::make($request->all(), [
+            'nickname' => 'required|max:255',
+        ], [
+            'nickname.required' => '입력하세요',
+            'nickname.max' => '필명이 너무 깁니다',
+        ])->validate();
+
+
         echo $request->has('nickname');
         echo $request->nickname;
         echo $id;

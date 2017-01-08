@@ -39,6 +39,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Query\Builder|\App\User whereAccountNumber($value)
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\NickName[] $nicknames
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\MenToMenQuestionAnswer[] $question_answers
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Review[] $reviews
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Mailbox[] $mailbox
+ * @property boolean $author_agreement
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\MailLog[] $maillogs
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Favorite[] $favorites
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereAuthorAgreement($value)
  */
 class User extends Authenticatable
 {
@@ -66,22 +72,27 @@ class User extends Authenticatable
     {
         return $this->hasMany(NovelGroup::class);
     }
+
     public function novels()
     {
         return $this->hasMany(Novel::class);
     }
+
     public function comments()
     {
         return $this->hasMany(Comment::class);
     }
+
     public function reviews()
     {
         return $this->hasMany(Review::class);
     }
+
     public function nicknames()
     {
         return $this->hasMany(NickName::class);
     }
+
     public function question_answers()
     {
         return $this->hasMany(MenToMenQuestionAnswer::class);
@@ -89,6 +100,25 @@ class User extends Authenticatable
 
     public function mailbox()
     {
-        return $this->hasMany(Mailbox::class,'to','email');
+        return $this->hasMany(Mailbox::class, 'from', 'id');
+    }
+
+    public function maillogs()
+    {
+        return $this->hasMany(MailLog::class);
+    }
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
+    public function isAdmin()
+    {
+        if ($this->name == 'Admin') {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

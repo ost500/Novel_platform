@@ -23,6 +23,7 @@
     <script src="/js/vue.js"></script>
     <script src="/js/vue-resource.min.js"></script>
     <script src="/js/jquery-2.1.1.min.js"></script>
+    <link href="/css/common.css" rel="stylesheet">
 
     <script src="/plugins/bootstrap-timepicker/bootstrap-timepicker.js"></script>
 
@@ -102,7 +103,7 @@
     </header>
 
     <div class="boxed">
-
+        @include('partials.flash')
         @yield('content')
 
         <nav id="mainnav-container">
@@ -120,25 +121,37 @@
                         <div class="nano-content">
                             <ul id="mainnav-menu" class="list-group">
 
-                                <!--Category name-->
                                 <li class="list-header"></li>
 
-
-                                <!--Menu list item-->
-                                <li class="active-link">
-                                    <a href="#">
+                                <li class="{{ (Request::is('admin/users')||Request::is('admin/users/*'))?"active-link":"" }}">
+                                    <a href="{{ route('admin.users') }}">
                                         <i class="fa fa-book"></i>
-						<span class="menu-title">
-							<strong>작품관리</strong>
-						</span>
-                                        <i class="arrow"></i>
+                                        <span class="menu-title">
+                                            <strong>회원관리</strong>
+                                        </span>
                                     </a>
+                                </li>
 
-                                    <ul class="collapse">
-                                        <li><a href="{{ route('author_index') }}">작품목록</a></li>
-                                        <li><a href="{{ route('author.novel_group_create') }}">작품등록</a></li>
+                                <li class="list-divider"></li>
 
-                                    </ul>
+                                <li class="{{ (Request::is('admin/sales'))?"active-link":"" }}">
+                                    <a href="{{ route('admin.sales') }}">
+                                        <i class="fa fa-book"></i>
+                                        <span class="menu-title">
+                                            <strong>매출관리</strong>
+                                        </span>
+                                    </a>
+                                </li>
+
+                                <li class="list-divider"></li>
+
+                                <li class="{{ (Request::is('admin/novel')||Request::is('admin/novel/*'))?"active-link":"" }}">
+                                    <a href="{{ route('admin.novel') }}">
+                                        <i class="fa fa-book"></i>
+                                        <span class="menu-title">
+                                            <strong>작품관리</strong>
+                                        </span>
+                                    </a>
                                 </li>
 
 
@@ -147,9 +160,9 @@
                                 <li>
                                     <a href="widgets.html">
                                         <i class="fa fa-money"></i>
-						<span class="menu-title">
-							<strong>수익내역</strong>
-						</span>
+                                        <span class="menu-title">
+                                            <strong>정산관리</strong>
+                                        </span>
                                         <i class="arrow"></i>
                                     </a>
 
@@ -163,74 +176,91 @@
 
                                 <li class="list-divider"></li>
 
-                                <li>
+                                <li class="{{Request::is('admin/partnership/*')?"active-link":"" }}">
                                     <a href="index.html">
                                         <i class="fa fa-share"></i>
-						<span class="menu-title">
-							<strong>제휴연재신청</strong>
-						</span>
+                                        <span class="menu-title">
+                                            <strong>제휴연재관리</strong>
+                                        </span>
                                         <i class="arrow"></i>
                                     </a>
 
-                                    <ul class="collapse">
-                                        <li><a href="novel.html">연재신청</a></li>
-                                        <li><a href="novel_write.html">연재신청내역</a></li>
+                                    <ul class="collapse {{ (Request::is('admin/partnership/*') )?"in":"" }}">
+                                        <li><a href="{{ route('admin.partner_manage_company') }}">연재업체관리</a></li>
+                                        <li><a href="{{ route('admin.partner_manage_apply') }}">연재신청관리</a></li>
+                                        <li><a href="{{ route('admin.partner_test_inning') }}">회차별 심사</a></li>
+                                        <li><a href="{{ route('admin.partner_approve_inning') }}">회차별 심사 승인</a></li>
                                     </ul>
                                 </li>
 
                                 <li class="list-divider"></li>
 
-                                <li>
-                                    <a href="{{ route('author.novel_memo')}}">
+                                <li class="{{ (Request::is('admin/memo')||Request::is('admin/memo/*')||Request::is('admin/novel_memo_send')||Request::is('admin/memo_create')||Request::is('admin/specific_mail')||Request::is('admin/memo_detail/*'))?"active-link":"" }}">
+                                    <a href="{{ route('admin.memo')}}">
                                         <i class="fa fa-envelope"></i>
-						<span class="menu-title">
-							<strong>쪽지함</strong>
-						</span>
-                                    </a>
-                                </li>
-
-                                <li class="list-divider"></li>
-
-                                <li>
-                                    <a href="{{ route('author.novel_request_list')}}">
-                                        <i class="fa fa-send"></i>
-						<span class="menu-title">
-							<strong>1:1문의</strong>
-						</span>
-                                    </a>
-                                </li>
-
-                                <li class="list-divider"></li>
-
-                                <li>
-                                    <a href="{{ route('author.novel_faq')}}">
-                                        <i class="fa fa-send"></i>
-						<span class="menu-title">
-							<strong>FAQ</strong>
-						</span>
-                                    </a>
-                                </li>
-
-                                <li class="list-divider"></li>
-
-
-                                <li>
-                                    <a href="/">
-                                        <i class="fa fa-user"></i>
-						<span class="menu-title">
-							<strong>내정보</strong>
-						</span>
+                                        <span class="menu-title">
+                                            <strong>쪽지함</strong>
+                                        </span>
                                         <i class="arrow"></i>
                                     </a>
 
-
-                                    <ul class="collapse">
-                                        <li><a href="{{ route("author.profile") }}">작가정보관리</a></li>
-                                        <li><a href="{{ route("author.nickname") }}">필명관리</a></li>
+                                    <ul class="collapse  {{ (Request::is('admin/memo')||Request::is('admin/memo/*')||Request::is('admin/novel_memo_send')||Request::is('admin/memo_create')||Request::is('admin/specific_mail')||Request::is('admin/memo_detail/*'))?"in":"" }}">
+                                        <li><a href="{{ route('admin.memo')}}">받은 쪽지함</a></li>
+                                        <li><a href="{{ route('admin.novel_memo_send')}}">보낸 쪽지함</a></li>
+                                        <li><a href="{{ route('admin.memo_create')}}">쪽지보내기</a></li>
                                     </ul>
                                 </li>
 
                                 <li class="list-divider"></li>
+
+                                <li class="{{ (Request::is('admin/request')||Request::is('admin/request/*'))?"active-link":"" }}">
+                                    <a href="{{ route('admin.request')}}">
+                                        <i class="fa fa-send"></i>
+                                        <span class="menu-title">
+                                            <strong>1:1문의</strong>
+                                        </span>
+                                        <i class="arrow"></i>
+                                    </a>
+                                    <ul class="collapse  {{ (Request::is('admin/request')||Request::is('admin/request/*'))?"in":"" }}">
+                                        <li><a href="{{ route('admin.request')}}">1:1문의</a></li>
+                                    </ul>
+                                </li>
+
+                                <li class="list-divider"></li>
+
+                                <li  class="{{ (Request::is('admin/keywords')||Request::is('admin/keywords/*')||Request::is('admin/keywords/create'))?"active-link":"" }}">
+                                    <a href="{{ route('admin.keywords')}}">
+                                        <i class="fa fa-send"></i>
+                                        <span class="menu-title">
+                                            <strong>키워드</strong>
+                                        </span>
+                                        <i class="arrow"></i>
+                                    </a>
+                                    <ul class="collapse  {{ (Request::is('admin/keywords')||Request::is('admin/keywords/*')||Request::is('admin/keywords/create'))?"in":"" }}">
+                                        <li><a href="{{ route('admin.keywords')}}">키워드</a></li>
+                                        <li><a href="{{ route('admin.keywords.create')}}">키워드 등록</a></li>
+                                    </ul>
+                                </li>
+                                <li class="list-divider"></li>
+
+                                <li  class="{{ (Request::is('admin/faqs')||Request::is('admin/faqs/*')||Request::is('admin/faqs/create'))?"active-link":"" }}">
+                                    <a href="{{ route('admin.faqs')}}">
+                                        <i class="fa fa-send"></i>
+                                        <span class="menu-title">
+                                            <strong>FAQ</strong>
+                                        </span>
+                                        <i class="arrow"></i>
+                                        </a>
+                                        <ul class="collapse  {{ (Request::is('admin/faqs')||Request::is('admin/faqs/*')||Request::is('admin/faqs/create'))?"in":"" }}">
+                                            <li><a href="{{ route('admin.faqs')}}">FAQ</a></li>
+                                            <li><a href="{{ route('admin.faqs.create')}}">FAQ 등록</a></li>
+                                        </ul>
+                                </li>
+
+
+                                <li class="list-divider"></li>
+
+
 
 
                             </ul>
@@ -253,17 +283,17 @@
 
 <!-- FOOTER -->
 <!--===================================================-->
-<footer id="footer">
+{{--<footer id="footer">--}}
 
 
-    <!-- Visible when footer positions are static -->
-    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-    <div class="hide-fixed pull-right pad-rgt"></div>
+    {{--<!-- Visible when footer positions are static -->--}}
+    {{--<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->--}}
+    {{--<div class="hide-fixed pull-right pad-rgt"></div>--}}
 
-    <p class="pad-lft"></p>
+    {{--<p class="pad-lft"></p>--}}
 
 
-</footer>
+{{--</footer>--}}
 <!--===================================================-->
 <!-- END FOOTER -->
 
@@ -427,10 +457,8 @@
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/nifty.min.js"></script>
 
-<!--������� �ʿ�-->
 <script src="/plugins/bootstrap-select/bootstrap-select.min.js"></script>
 <script src="/plugins/bootbox/bootbox.min.js"></script>
-<!--������� �ʿ�-->
 
 
 <script src="/js/ui-modals.js"></script>

@@ -17,6 +17,7 @@
     <link href="/css/nifty.css" rel="stylesheet">
     <link href="/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link href="/plugins/pace/pace.min.css" rel="stylesheet">
+    <link href="/css/common.css" rel="stylesheet">
 
     <!-- Scripts -->
     <script src="/plugins/pace/pace.min.js"></script>
@@ -32,6 +33,8 @@
     <link href="/css/jquery-ui/jquery-ui.theme.min.css" rel="stylesheet">
     <link href="/css/jquery-ui/jquery-ui.theme.min.css" rel="stylesheet">
     <link href="/plugins/bootstrap-timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
+    {{--jquery contextMenu--}}
+    <link href="/plugins/jquery-contextMenu/jquery.contextMenu.css" rel="stylesheet">
 
     <script>
         window.Laravel = <?php echo json_encode([
@@ -126,16 +129,16 @@
 
 
                                 <!--Menu list item-->
-                                <li class="active-link">
+                                    <li class="{{ (Request::is('author/management/novelgroups')||Request::is('author/management/novelgroups/create')||Request::is('author/management/create_novel/*')||Request::is('author/management/novelgroups/*')||Request::is('author/management/update_novel/*')||Request::is('author/management/show_novel/*'))?"active-link":"" }}">
                                     <a href="#">
                                         <i class="fa fa-book"></i>
-						<span class="menu-title">
-							<strong>작품관리</strong>
-						</span>
+                                        <span class="menu-title">
+                                            <strong>작품관리</strong>
+                                        </span>
                                         <i class="arrow"></i>
                                     </a>
 
-                                    <ul class="collapse">
+                                    <ul class="collapse {{ (Request::is('author/management/novelgroups')||Request::is('author/management/novelgroups/create')||Request::is('author/management/create_novel/*')||Request::is('author/management/novelgroups/*')||Request::is('author/management/update_novel/*')||Request::is('author/management/show_novel/*'))?"in":"" }}">
                                         <li><a href="{{ route('author_index') }}">작품목록</a></li>
                                         <li><a href="{{ route('author.novel_group_create') }}">작품등록</a></li>
 
@@ -148,14 +151,13 @@
                                 <li>
                                     <a href="widgets.html">
                                         <i class="fa fa-money"></i>
-						<span class="menu-title">
-							<strong>수익내역</strong>
-						</span>
+                                        <span class="menu-title">
+                                            <strong>수익내역</strong>
+                                        </span>
                                         <i class="arrow"></i>
                                     </a>
 
                                     <ul class="collapse">
-                                        <li><a href="novel.html">환급신청</a></li>
                                         <li><a href="novel_write.html">여우수익내역</a></li>
                                         <li><a href="novel_write.html">퍼블리싱내역</a></li>
                                         <li><a href="novel_write.html">환급정산내역</a></li>
@@ -164,68 +166,80 @@
 
                                 <li class="list-divider"></li>
 
-                                <li>
+                                <li class="{{Request::is('author/partnership/*')?"active-link":"" }}">
                                     <a href="index.html">
                                         <i class="fa fa-share"></i>
-						<span class="menu-title">
-							<strong>제휴연재신청</strong>
-						</span>
+                                    <span class="menu-title">
+                                        <strong>제휴연재신청</strong>
+                                    </span>
                                         <i class="arrow"></i>
                                     </a>
 
-                                    <ul class="collapse">
-                                        <li><a href="novel.html">연재신청</a></li>
-                                        <li><a href="novel_write.html">연재신청내역</a></li>
+                                    <ul class="collapse {{ (Request::is('author/partnership/*') )?"in":"" }}">
+                                        <li><a href="{{ route('author.partner_apply') }}">연재신청</a></li>
+                                        <li><a href="{{ route('author.partner_apply_list') }}">연재신청내역</a></li>
                                     </ul>
                                 </li>
 
                                 <li class="list-divider"></li>
 
-                                <li>
+                                <li class="{{ (Request::is('author/mailbox/receive_mail')||Request::is('author/mailbox/receive_mail/*')||Request::is('author/mailbox/sent_mail')||Request::is('author/mailbox/sent_mail/*')||Request::is('author/mailbox/create_mail')||Request::is('author/mailbox_message/*'))?"active-link":"" }}">
+
                                     <a href="{{ route('author.novel_memo')}}">
                                         <i class="fa fa-envelope"></i>
-						<span class="menu-title">
-							<strong>쪽지함</strong>
-						</span>
+                                        <span class="menu-title">
+                                            <strong>쪽지함</strong>
+                                        </span>
+                                        <i class="arrow"></i>
                                     </a>
+                                    <ul class="collapse {{ (Request::is('author/mailbox/receive_mail')||Request::is('author/mailbox/receive_mail/*')||Request::is('author/mailbox/sent_mail')||Request::is('author/mailbox/sent_mail/*')||Request::is('author/mailbox/create_mail'))?"in":"" }}">
+                                        <li><a href="{{ route('author.novel_memo')}}">받은쪽지함</a></li>
+                                        <li><a href="{{ route('author.novel_memo_send')}}">보낸쪽지함</a></li>
+                                    </ul>
                                 </li>
 
                                 <li class="list-divider"></li>
 
-                                <li>
-                                    <a href="{{ route('author.novel_request_list')}}">
+                                <li class="{{ (Request::is('author/men_to_men/request_create')||Request::is('author/men_to_men/requests')||Request::is('author/men_to_men/requests/*'))?"active-link":"" }}">
+                                    <a href="{{ route('author.novel_request')}}">
                                         <i class="fa fa-send"></i>
-						<span class="menu-title">
-							<strong>1:1문의</strong>
-						</span>
+                                        <span class="menu-title">
+                                            <strong>1:1문의</strong>
+                                        </span>
+                                        <i class="arrow"></i>
                                     </a>
+
+                                    <ul class="collapse {{ (Request::is('author/men_to_men/request_create')||Request::is('author/men_to_men/requests')||Request::is('author/men_to_men/requests/*'))?"in":"" }}">
+                                        <li><a href="{{ route('author.novel_request')}}">1:1문의</a></li>
+                                        <li><a href="{{ route('author.novel_request_list')}}">1:1문의내역</a></li>
+                                    </ul>
                                 </li>
 
                                 <li class="list-divider"></li>
 
-                                <li>
-                                    <a href="{{ route('author.novel_faq')}}">
+                                <li class="{{ (Request::is('author/faqs'))?"active-link":"" }}">
+                                    <a href="{{ route('author.faqs')}}">
                                         <i class="fa fa-send"></i>
-						<span class="menu-title">
-							<strong>FAQ</strong>
-						</span>
+                                        <span class="menu-title">
+                                            <strong>FAQ</strong>
+                                        </span>
                                     </a>
                                 </li>
 
                                 <li class="list-divider"></li>
 
 
-                                <li>
+                                <li class="{{ (Request::is('author/profile/information')||Request::is('author/profile/nickname'))?"active-link":"" }}">
                                     <a href="/">
                                         <i class="fa fa-user"></i>
-						<span class="menu-title">
-							<strong>내정보</strong>
-						</span>
+                                        <span class="menu-title">
+                                            <strong>내정보</strong>
+                                        </span>
                                         <i class="arrow"></i>
                                     </a>
 
 
-                                    <ul class="collapse">
+                                    <ul class="collapse {{ (Request::is('author/profile/information')||Request::is('author/profile/nickname'))?"in":"" }}">
                                         <li><a href="{{ route("author.profile") }}">작가정보관리</a></li>
                                         <li><a href="{{ route("author.nickname") }}">필명관리</a></li>
                                     </ul>
@@ -254,17 +268,17 @@
 
 <!-- FOOTER -->
 <!--===================================================-->
-<footer id="footer">
+{{--<footer id="footer">--}}
 
 
-    <!-- Visible when footer positions are static -->
-    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-    <div class="hide-fixed pull-right pad-rgt"></div>
+    {{--<!-- Visible when footer positions are static -->--}}
+    {{--<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->--}}
+    {{--<div class="hide-fixed pull-right pad-rgt"></div>--}}
 
-    <p class="pad-lft"></p>
+    {{--<p class="pad-lft"></p>--}}
 
 
-</footer>
+{{--</footer>--}}
 <!--===================================================-->
 <!-- END FOOTER -->
 
@@ -424,14 +438,13 @@
 <!--End Small Bootstrap Modal-->
 
 
+<script src="/js/common.js"></script>
 
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/nifty.min.js"></script>
 
-<!--������� �ʿ�-->
 <script src="/plugins/bootstrap-select/bootstrap-select.min.js"></script>
 <script src="/plugins/bootbox/bootbox.min.js"></script>
-<!--������� �ʿ�-->
 
 
 <script src="/js/ui-modals.js"></script>
@@ -445,5 +458,8 @@
 
 <script src="/js/nifty.min.js"></script>
 
+{{--jquery contextMenu--}}
+<script src="/plugins/jquery-contextMenu/jquery.contextMenu.js"></script>
+<script src="/plugins/jquery-contextMenu/jquery.ui.position.js"></script>
 </body>
 </html>

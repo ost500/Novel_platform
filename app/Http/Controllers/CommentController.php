@@ -6,8 +6,11 @@ use App\Comment;
 use App\Novel;
 use App\NovelGroup;
 use Auth;
+
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
+use Validator;
 
 class CommentController extends Controller
 {
@@ -25,13 +28,13 @@ class CommentController extends Controller
 
         $my_comments = Comment::with('novels')->with('users')->get()->where('novels.user_id', Auth::user()->id);
 
-        //?‚´ ?†Œ?„¤?„ ê°?ì§?ê³? ?˜¨?‹¤
+        //?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ï¿½?ï¿½?ï¿½? ?ï¿½ï¿½?ï¿½ï¿½
 //        $my_novel = Novel::where('user_id', Auth::user()->id)->with('users')->get();
 
 
         $collection = new Collection();
 
-        //?‚´ ?†Œ?„¤?˜ ?Œ“ê¸??„ ê°?ì§?ê³? ?˜¨?‹¤
+        //?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½ï¿½??ï¿½ï¿½ ï¿½?ï¿½?ï¿½? ?ï¿½ï¿½?ï¿½ï¿½
 
         foreach ($my_comments as $novel_comm) {
             $collection->push($novel_comm);
@@ -62,7 +65,22 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        Validator::make($request->all(), [
+            'comment' => 'required|max:1000',
+        ], [
+            'comment.required' => 'ìž…ë ¥í•˜ì„¸ìš”',
+            'comment.max' => 'ëŒ“ê¸€ì´ ë„ˆë¬´ ê¹ë‹ˆë‹¤',
+        ])->validate();
+
+
+
+        $new_comment = new Comment();
+        $new_comment->comment = $request->comment;
+        $new_comment->parent_id = $request->parent_id;
+        $new_comment->novel_id = $request->novel_id;
+        $new_comment->user_id = Auth::user()->id;
+        $new_comment->save();
     }
 
     /**
@@ -93,6 +111,7 @@ class CommentController extends Controller
                 }
             }
         }
+//        $groups_comments = new Paginator($groups_comments, 2);
 
 
 //        return response()->json($groups_comments);
@@ -130,6 +149,8 @@ class CommentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Comment::destroy($id);
+        Comment::where('parent_id',$id)->delete();
+        return response()->json(['status'=>'ok']);
     }
 }

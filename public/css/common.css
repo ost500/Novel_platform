@@ -1,0 +1,17 @@
+table.novel_memo { border: 1px solid #EBEBEB; width: 100%; max-width: 100%; margin-bottom: 20px; }
+table.novel_memo tbody tr th { text-align: center; border: 1px solid #e7e7e7; padding:10px 0 10px 0;}
+table.novel_memo tbody tr th.check { width: 50px;}
+table.novel_memo tbody tr th.from { width: 200px;}
+table.novel_memo tbody tr th.content { width: 200px;}
+table.novel_memo tbody tr th.send { width: 200px;}
+table.novel_memo tbody tr th.read { width: 200px;}
+
+table.novel_memo tbody tr td { text-align: center; border: 1px solid #e7e7e7; padding:10px 0 10px 0;}
+table.novel_memo tbody tr td.check { width: 50px;}
+table.novel_memo tbody tr td.from { width: 200px;}
+table.novel_memo tbody tr td.content { width: 200px;}
+table.novel_memo tbody tr td.send { width: 200px;}
+table.novel_memo tbody tr td.read { width: 200px;}
+
+
+table.novel_memo td.text-left { text-align:left; padding-left: 5px; }

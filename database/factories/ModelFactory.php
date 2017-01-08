@@ -32,7 +32,7 @@ $factory->define(App\NovelGroup::class, function (Faker\Generator $faker) {
 
     return [
         'user_id' => $faker->randomElement($userIds),
-        'nickname' =>$faker->randomElement(['1','2','3']),
+        'nickname' => $faker->randomElement(['1', '2', '3']),
         'title' => $faker->sentence,
         'description' => $faker->paragraph,
         'keyword1' => $faker->word,
@@ -42,6 +42,8 @@ $factory->define(App\NovelGroup::class, function (Faker\Generator $faker) {
         'keyword5' => $faker->word,
         'keyword6' => $faker->word,
         'keyword7' => $faker->word,
+        'latest_at' => $faker->date('Y-m-d'),
+        'cover_photo' => "default_.jpg"
     ];
 });
 
@@ -80,12 +82,25 @@ $factory->define(App\NickName::class, function (Faker\Generator $faker) {
 
 
 $factory->define(App\Mailbox::class, function (Faker\Generator $faker) {
+    $novelIds = App\NovelGroup::pluck('id')->toArray();
+    $userId_fake1 = App\User::pluck('id')->toArray();
 
+//    $userId_fake = $faker->randomElement($userIds);
+//    while (true) {
+//        $userId_fake2 = $faker->randomElement($userIds);
+//        if ($userId_fake != $userId_fake2) {
+//            break;
+//        }
+//    }
+//    echo $userId_fake.$userId_fake2;
     return [
-        'to' => $faker->email,
-        'from' => $faker->email,
+//        'to' => $userId_fake,
+
+        'from' => $faker->randomElement($userId_fake1),
+        'novel_group_id' => $faker->randomElement($novelIds),
         'subject' => $faker->sentence,
         'body' => $faker->paragraph,
+
     ];
 });
 
@@ -116,5 +131,78 @@ $factory->define(App\Review::class, function (Faker\Generator $faker) {
         'user_id' => $faker->randomElement($userIds),
         'novel_id' => $faker->randomElement($novelIds),
         'review' => $faker->sentence,
+    ];
+});
+
+$factory->define(App\MailLog::class, function (Faker\Generator $faker) {
+    $userIds = App\User::pluck('id')->toArray();
+    $novelIds = App\NovelGroup::pluck('id')->toArray();
+    $mailIds = App\Mailbox::pluck('id')->toArray();
+
+    return [
+        'user_id' => $faker->randomElement($userIds),
+        'novel_group_id' => $faker->randomElement($novelIds),
+        'mailbox_id' => $faker->randomElement($mailIds)
+    ];
+});
+
+$factory->define(App\Favorite::class, function (Faker\Generator $faker) {
+    $userIds = App\User::pluck('id')->toArray();
+    $novelgroupIds = App\NovelGroup::pluck('id')->toArray();
+
+
+    return [
+        'user_id' => $faker->randomElement($userIds),
+        'novel_group_id' => $faker->randomElement($novelgroupIds),
+
+    ];
+});
+
+$factory->define(\App\Keyword::class, function (Faker\Generator $faker) {
+    return [
+        'category' => $faker->randomElement(['1', '2', '3', '4', '5', '6', '7']),
+        'name' => $faker->word,
+
+    ];
+});
+
+$factory->define(\App\ViewCount::class, function (Faker\Generator $faker) {
+    $novelIds = App\Novel::pluck('id')->toArray();
+    return [
+        'novel_id' => $faker->randomElement($novelIds),
+        'date' => $faker->date('Y-m-d'),
+        'count' => $faker->randomElement(range(10, 50)),
+        'separation' => $faker->randomElement(['1', '2', '3'])
+
+    ];
+});
+
+$factory->define(\App\Company::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->word,
+        'initial_inning' => $faker->randomElement(['1', '2', '3', '4', '5']),
+        'adult' => $faker->randomElement(['0', '1']),
+    ];
+});
+$factory->define(\App\PublishNovelGroup::class, function (Faker\Generator $faker) {
+    $novel_groupIds = App\NovelGroup::pluck('id')->toArray();
+
+    $random_novel_group = $faker->randomElement($novel_groupIds);
+    $random_user_id = App\NovelGroup::find($random_novel_group)->user_id;
+    return [
+        'user_id' => $random_user_id,
+        'novel_group_id' => $random_novel_group,
+        'days' => $faker->randomElement(['1', '2', '3', '4', '5', '6', '7']),
+        'novels_per_days' => $faker->randomElement(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']),
+    ];
+});
+
+$factory->define(\App\NovelGroupPublishCompany::class, function (Faker\Generator $faker) {
+    $publish_novel_groupIds = App\PublishNovelGroup::pluck('id')->toArray();
+    $companyIds = App\Company::pluck('id')->toArray();
+    return [
+        'publish_novel_group_id' => $faker->randomElement($publish_novel_groupIds),
+        'company_id' => $faker->randomElement($companyIds),
+        'status' => $faker->randomElement(['심사중', '승인', '거절']),
     ];
 });

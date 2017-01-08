@@ -1,17 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-    <div id="content-container" xmlns:v-on="http://www.w3.org/1999/xhtml">
+    <div id="content-container" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 
         <div id="page-title">
-            <h1 class="page-header text-overflow">업데이트 작업</h1>
+            <h1 class="page-header text-overflow">작품 수정</h1>
         </div>
 
 
         <ol class="breadcrumb">
             <li><a href="#">작가홈</a></li>
             <li><a href="#">작품관리</a></li>
-            <li class="active">작품회차목록</li>
+            <li class="active">작품 수정</li>
         </ol>
 
 
@@ -26,21 +26,22 @@
                 </div>
             @endif
 
-            @include('partials.flash')
 
             <div class="row" id="novel_group_edit">
                 <div class="col-sm-12">
 
                     <div class="panel">
 
-                        <form name="novel_group_update" id= "novel_group_update" class="panel-body form-horizontal form-padding" method="post" action="{{route('novelgroups.update',['id'=>$id]) }}"
+                        <form name="novel_group_update" id="novel_group_update"
+                              class="panel-body form-horizontal form-padding" method="post"
+                              action="{{route('novelgroups.update',['id'=>$id]) }}"
                               enctype="multipart/form-data">
                             <input name="_method" type="hidden" value="PUT">
                             {{ csrf_field() }}
                             {{--  <input name="novel_group_id" id="novel_group_id" type="hidden" :value="fillItem.id" >
                             <meta id="token" name="token" content="{{ csrf_token() }}">  v-on:submit.prevent="onSubmit(fillItem.id)"     --}}
 
-                            <!--Static-->
+                                    <!--Static-->
                             <!--div class="form-group">
                                 <label class="col-md-2 control-label">Static</label>
                                 <div class="col-md-9"><p class="form-control-static">Username</p></div>
@@ -56,8 +57,7 @@
                                                 :value="nick_name.id"> @{{ nick_name.nickname }} </option>
 
                                     </select>
-                                    <span v-if="formErrors['description']"
-                                          class="error text-danger">@{{ formErrors['nickname'] }}</span>
+
                                     <!--small class="help-block">This is a help text</small-->
                                 </div>
                             </div>
@@ -69,8 +69,6 @@
                                     <input type="text" name="title" id="demo-email-input" class="form-control"
                                            v-model="fillItem.title" placeholder="작품 제목을 입력해 주세요."
                                            data-bv-field="title">
-                                    <span v-if="formErrors['description']"
-                                          class="error text-danger">@{{ formErrors['title'] }}</span>
                                 </div>
                             </div>
 
@@ -80,8 +78,6 @@
                                 <div class="col-md-9">
                                     <textarea name="description" id="demo-textarea-input" rows="9" class="form-control"
                                               placeholder="작품 소개를 입력해 주세요" v-model="fillItem.description"></textarea>
-                                    <span v-if="formErrors['description']"
-                                          class="error text-danger">@{{ formErrors['description'] }}</span>
                                 </div>
                             </div>
 
@@ -92,61 +88,57 @@
                                     <select name="keyword1" class="form-control inline"
                                             v-model="fillItem.keyword1"
                                             style="width:14%;" size=10>
-                                        <option value="장르">장르</option>
-                                        <option value="현대판타지">현대판타지</option>
-                                        <option value="사극/시대물">사극/시대물</option>
-                                        <option value="동양판타지">동양판타지</option>
-                                        <option value="서양/중세">서양/중세</option>
-                                        <option value="로맨스판타지">로맨스판타지</option>
-                                        <option value="미래/SF">미래/SF</option>
+                                        <option value="">장르</option>
+                                        <option v-for="keyword in keyword1"
+                                                :value="keyword.id"> @{{keyword.name }} </option>
                                     </select>
 
                                     <select name="keyword2" class="form-control inline"
                                             v-model="fillItem.keyword2"
                                             style="width:14%;" size=10>
-                                        <option value="배경">배경</option>
-                                        <option value="필명1">필명1</option>
-                                        <option value="필명2">필명2</option>
+                                        <option value="">배경</option>
+                                        <option v-for="keyword in keyword2"
+                                                :value="keyword.id"> @{{keyword.name }} </option>
                                     </select>
 
                                     <select name="keyword3" class="form-control inline"
                                             v-model="fillItem.keyword3"
                                             style="width:14%;" size=10>
-                                        <option value="소재">소재</option>
-                                        <option value="필명1">필명1</option>
-                                        <option value="필명2">필명2</option>
+                                        <option value="">소재</option>
+                                        <option v-for="keyword in keyword3"
+                                                :value="keyword.id"> @{{keyword.name }} </option>
                                     </select>
 
                                     <select name="keyword4" class="form-control inline"
                                             v-model="fillItem.keyword4"
                                             style="width:14%;" size=10>
-                                        <option value="관계">관계</option>
-                                        <option value="필명1">필명1</option>
-                                        <option value="필명2">필명2</option>
+                                        <option value="">관계</option>
+                                        <option v-for="keyword in keyword4"
+                                                :value="keyword.id"> @{{keyword.name }} </option>
                                     </select>
 
                                     <select name="keyword5" class="form-control inline"
                                             v-model="fillItem.keyword5"
                                             style="width:14%;" size=10>
-                                        <option value="남주인공">남주인공</option>
-                                        <option value="필명1">필명1</option>
-                                        <option value="필명2">필명2</option>
+                                        <option value="">남주인공</option>
+                                        <option v-for="keyword in keyword5"
+                                                :value="keyword.id"> @{{keyword.name }} </option>
                                     </select>
 
                                     <select name="keyword6" class="form-control inline"
                                             v-model="fillItem.keyword6"
                                             style="width:14%;" size=10>
-                                        <option value="여주인공">여주인공</option>
-                                        <option value="필명1">필명1</option>
-                                        <option value="필명2">필명2</option>
+                                        <option value="">여주인공</option>
+                                        <option v-for="keyword in keyword6"
+                                                :value="keyword.id"> @{{keyword.name }} </option>
                                     </select>
 
                                     <select name="keyword7" class="form-control inline"
                                             v-model="fillItem.keyword7"
                                             style="width:14%;" size=10>
-                                        <option value="분위기/기타">분위기/기타</option>
-                                        <option value="필명1">필명1</option>
-                                        <option value="필명2">필명2</option>
+                                        <option value="">분위기/기타</option>
+                                        <option v-for="keyword in keyword7"
+                                                :value="keyword.id"> @{{keyword.name }} </option>
                                     </select>
                                 </div>
                             </div>
@@ -156,29 +148,52 @@
 
                                 <div class="col-md-9">
                                     <input type="text" id="demo-password-input" style="width:30%;"
-                                           class="form-control inline" placeholder="사용하려면 우측 표지선택 버튼을 클릭하세요.">
-                                    <button class="btn btn-primary">표지선택</button>
+                                           name="default_cover_photo" class="form-control inline"
+                                           placeholder="사용하려면 우측 표지선택 버튼을 클릭하세요.">
+                                    <button type="button" class="btn btn-primary novel-image">표지선택</button>
                                 </div>
                             </div>
-
                             <div class="form-group">
+                                <label class="col-md-2 control-label"></label>
+
+                                <div class="col-md-9" style="text-align: left">
+
+                                    <img v-if="fillItem.cover_photo != null"
+                                         v-bind:src="'/img/novel_covers/' + fillItem.cover_photo" class="index_img">
+                                    <img v-else v-bind:src="'/img/novel_covers/default_.jpg'" class="index_img">
+                                </div>
+                            </div>
+                            <div class="form-group">
+
                                 <label class="col-md-2 control-label">표지 직접등록1</label>
 
                                 <div class="col-md-9">
-                                    <input type="file"  name="cover_photo" id="cover_photo" class="form-control" >
-                                    <small class="has-warning">사이즈 : 900*900 / 최대용량 : 1M / 업로드 가능 확장자 : JPG, PNG 파일
+                                    <input type="file" name="cover_photo" id="cover_photo" class="form-control"
+                                           style="cursor: pointer">
+                                    <small class="has-warning">사이즈 : 1080*1620 / 최대용량 : 1M / 업로드 가능 확장자 : JPG, PNG 파일
                                     </small>
+
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label"></label>
+
+                                <div class="col-md-9" style="text-align: left">
+
+                                    <img v-if="fillItem.cover_photo2 != null"
+                                         v-bind:src="'/img/novel_covers/' + fillItem.cover_photo2" class="index_img">
+                                    <img v-else v-bind:src="'/img/novel_covers/default_.jpg'" class="index_img">
                                 </div>
                             </div>
-
 
                             <div class="form-group">
                                 <label class="col-md-2 control-label">표지 직접등록2</label>
 
                                 <div class="col-md-9">
-                                    <input type="file" name="cover_photo1" id="cover_photo1"
-                                           class="form-control">
-                                    <small class="has-warning">사이즈 : 900*1350 / 최대용량 : 1M / 업로드 가능 확장자 : JPG, PNG 파일
+                                    <input type="file" name="cover_photo2" id="cover_photo2"
+                                           class="form-control" style="cursor: pointer">
+                                    <small class="has-warning">사이즈 : 1080*1080 / 최대용량 : 1M / 업로드 가능 확장자 : JPG, PNG 파일
                                     </small>
                                 </div>
                             </div>
@@ -206,7 +221,7 @@
                             <div class="form-group">
                                 <div class="col-md-12 text-center">
                                     <button type="submit" class="btn btn-lg btn-primary">최신 정보</button>
-                                    <button class="btn btn-lg btn-danger">취소</button>
+                                    <button type="button" class="btn btn-lg btn-danger back">취소</button>
                                 </div>
                             </div>
                         </form>
@@ -222,24 +237,51 @@
         //
 
         var app = new Vue({
-                    el: '#novel_group_edit',
-                    data: {
-                        fillItem: { },
-                        novel_group: [],
-                        nick_names: [],
-                        formErrors: {}
-                    },
+            el: '#novel_group_edit',
+            data: {
+                fillItem: {},
+                novel_group: [],
+                nick_names: [],
+                keyword1: [],
+                keyword2: [],
+                keyword3: [],
+                keyword4: [],
+                keyword5: [],
+                keyword6: [],
+                keyword7: [],
 
-                    mounted: function () {
-                        this.$http.get('{{ route( 'novelgroups.edit',['[id'=>$id]) }}')
-                                .then(function (response) {
-                                    this.fillItem = response.data['novel_group'];
-                                    this.nick_names = response.data['nick_names']; //console.log( response.data);
-                                });
 
-                    }
+                formErrors: {},
 
-                });
+            },
+
+            mounted: function () {
+                this.$http.get('{{ route( 'novelgroups.edit',['[id'=>$id]) }}')
+                        .then(function (response) {
+                            this.fillItem = response.data['novel_group'];
+                            this.nick_names = response.data['nick_names'];
+                            this.keyword1 = response.data['keyword1'];
+                            this.keyword2 = response.data['keyword2'];
+                            this.keyword3 = response.data['keyword3'];
+                            this.keyword4 = response.data['keyword4'];
+                            this.keyword5 = response.data['keyword5'];
+                            this.keyword6 = response.data['keyword6'];
+                            this.keyword7 = response.data['keyword7'];
+
+                        });
+
+            },
+            method: {
+                /*     getCoverPhotoName:function(){
+
+                 console.log(this.fillItem.cover_photo);
+                 // return this.fillItem.cover_photo;
+                 $('#cover_photo').attr('value',this.fillItem.cover_photo);
+                 }*/
+
+            }
+
+        });
 
     </script>
 
