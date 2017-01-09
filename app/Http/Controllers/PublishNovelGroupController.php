@@ -17,21 +17,18 @@ class PublishNovelGroupController extends Controller
     public function store(Request $request)
     {
 
-        print_r($request->all());
-        print_r($request->companies);
-
-        $vali = Validator::make($request->all(), [
+        Validator::make($request->all(), [
+            'initial_publish'=> 'required',
             'novel_group' => 'required',
             'days' => 'required',
             'novels_per_days' => 'required',
         ], [
+            'initial_publish.required' => '초기연재편수를 선택하세요',
             'novel_group.required' => '작품을 선택하세요',
             'days.required' => '일(날짜)를 입력하세요',
             'novels_per_days.required' => '편수를 입력하세요',
-        ]);
+        ])->validate();
 
-
-        $vali->validate();
 
         $companies = Company::get();
         //company condition validation check
@@ -43,13 +40,13 @@ class PublishNovelGroupController extends Controller
                 // check novel_group has adult or not
 
                 if ($company->initial_inning > $novel_group->novels->count()) {
-                    $errors = array(["연재업체 " . $company->name . "는 초기연재 " . $company->initial_inning . "회를 요구합니다. "]);
+                    $initial_inning_errors = ['initial_inning' => "연재업체 " . $company->name . "는 초기연재 " . $company->initial_inning . "회를 요구합니다. "];
 
-                    return redirect()->back()->withInput()->withErrors($errors);
+                    return response()->json($initial_inning_errors, 422);
                 }
                 if ($company->adult == 1 && $novel_group_has_adult) {
-                    $errors = array(["연재업체 " . $company->name . "는 19금 작품 제휴가 불가능 합니다"]);
-                    return redirect()->back()->withInput()->withErrors($errors);
+                    $adult_errors = ['adult' => "연재업체 " . $company->name . "는 19금 작품 제휴가 불가능 합니다"];
+                    return response()->json($adult_errors, 422);
                 }
             }
         }
@@ -60,6 +57,8 @@ class PublishNovelGroupController extends Controller
         $new_publish_novel_group->user_id = Auth::user()->id;
         $new_publish_novel_group->days = $request->days;
         $new_publish_novel_group->novels_per_days = $request->novels_per_days;
+        $new_publish_novel_group->event = $request->event;
+        $new_publish_novel_group->initial_novels = $request->initial_publish;
         $new_publish_novel_group->save();
         //publish novel group generated
 
@@ -90,12 +89,12 @@ class PublishNovelGroupController extends Controller
 //        return redirect()->back();
     }
 
-    public function show_novels($publish_novel_group_id,$company_id,$publish_company_id )
+    public function show_novels($publish_novel_group_id, $company_id, $publish_company_id)
     {
-       // $novel_group = PublishNovelGroup::find($publish_novel_group_id)->novels()->with('companies')->get();
-        $novels= Novel::where('novel_group_id',$publish_novel_group_id)->get();
+        // $novel_group = PublishNovelGroup::find($publish_novel_group_id)->novels()->with('companies')->get();
+        $novels = Novel::where('novel_group_id', $publish_novel_group_id)->get();
         //return \Response::json($novels);
-        return view('admin.partnership.novels',compact('novels','company_id','publish_novel_group_id','publish_company_id'));
+        return view('admin.partnership.novels', compact('novels', 'company_id', 'publish_novel_group_id', 'publish_company_id'));
     }
 
 }

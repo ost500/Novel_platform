@@ -24,19 +24,15 @@
                     <div class="panel">
                         <div class="panel-body">
                             <div class="table-responsive">
-                                <div id="manage_apply">
-                                    <table class="table table-striped table-hover">
-                                        <thead>
-                                        <tr>
-                                            @foreach($companies as $company)
+                                <div id="approve_inning">
 
-                                                <button class="btn btn-primary"
-                                                        onclick="window.location.href='{{route('admin.partner_approve_inning',['id'=>$company->id]) }}'">{{$company->name}}</button>
+                                    @foreach($companies as $company)
 
-                                            @endforeach
-                                        </tr>
-                                        </thead>
-                                    </table>
+                                        <button class="btn btn-primary"
+                                                onclick="window.location.href='{{route('admin.partner_approve_inning',['id'=>$company->id]) }}'">{{$company->name}}</button>
+
+                                    @endforeach
+
                                     <table class="table table-striped table-hover">
                                         <thead>
                                         <tr>
@@ -53,35 +49,41 @@
                                         </tr>
                                         </thead>
                                         <tbody>
+                                        @if(count($apply_requests) == 0)
+                                            <tr>
+                                                <td colspan="7" class="text-center">데이터가 없습니다</td>
+                                            </tr>
+                                        @endif
                                         @foreach($apply_requests as $apply_request)
 
-                                                <tr>
-                                                    <td class="col-md-1">{{$apply_request->publish_novel_groups->novel_groups->users->name}}</td>
-                                                    <td class="col-md-2">{{$apply_request->publish_novel_groups->novel_groups->title}}</td>
-                                                    <td class="col-md-1">{{$apply_request->novels->inning}}</td>
-                                                    <td class="col-md-1 text-center">{{$apply_request->companies->name}}</td>
+
+                                            <tr>
+                                                <td class="col-md-1">{{$apply_request->publish_novel_groups->novel_groups->users->name}}</td>
+                                                <td class="col-md-2">{{$apply_request->publish_novel_groups->novel_groups->title}}</td>
+                                                <td class="col-md-1">{{$apply_request->novels->inning}}</td>
+                                                <td class="col-md-1 text-center">{{$apply_request->companies->name}}</td>
 
 
-                                                    <td class="col-md-1 text-center">{{$apply_request->created_at}}</td>
-                                                    <td class="col-md-1 text-center">{{$apply_request->pass}}</td>
-                                                    <td class="col-md-1 text-center">
-                                                        {{--<button class="btn btn-sm btn-warning">심사중</button>--}}
-                                                        @if($apply_request->status == '심사중')
-                                                            <span id="response{{$apply_request->id}}"></span>
-                                                            <button class="btn btn-sm btn-primary"
-                                                                    id="approve{{$apply_request->id}}"
-                                                                    v-on:click="approve_deny('{{$apply_request->id}}',1)">@{{approve_status}}</button>
-                                                            <button class="btn btn-sm btn-danger"
-                                                                    id="deny{{$apply_request->id}}"
-                                                                    v-on:click="approve_deny('{{$apply_request->id}}',0)">@{{deny_status}}</button>
-                                                        @elseif($apply_request->status == '거절')
-                                                            <span style="cursor:pointer;"
-                                                                  v-on:click="{{"deny_reason(".$apply_request->id." ,'".$apply_request->reject_reason."')"}}">{{$apply_request->status}}</span>
-                                                        @else
-                                                            <span>{{$apply_request->status}}</span>
-                                                        @endif
-                                                    </td>
-                                                </tr>
+                                                <td class="col-md-1 text-center">{{$apply_request->created_at}}</td>
+                                                <td class="col-md-1 text-center">{{$apply_request->pass}}</td>
+                                                <td class="col-md-1 text-center">
+                                                    {{--<button class="btn btn-sm btn-warning">심사중</button>--}}
+                                                    @if($apply_request->status == '심사중')
+                                                        <span id="response{{$apply_request->id}}"></span>
+                                                        <button class="btn btn-sm btn-primary"
+                                                                id="approve{{$apply_request->id}}"
+                                                                v-on:click="approve_deny('{{$apply_request->id}}',1)">@{{approve_status}}</button>
+                                                        <button class="btn btn-sm btn-danger"
+                                                                id="deny{{$apply_request->id}}"
+                                                                v-on:click="approve_deny('{{$apply_request->id}}',0)">@{{deny_status}}</button>
+                                                    @elseif($apply_request->status == '거절')
+                                                        <span style="cursor:pointer;"
+                                                              v-on:click="{{"deny_reason(".$apply_request->id." ,'".$apply_request->reject_reason."')"}}">{{$apply_request->status}}</span>
+                                                    @else
+                                                        <span>{{$apply_request->status}}</span>
+                                                    @endif
+                                                </td>
+                                            </tr>
 
 
                                         @endforeach
@@ -115,7 +117,7 @@
     </div>
     <script type="text/javascript">
         var app = new Vue({
-            el: '#manage_apply',
+            el: '#approve_inning',
             data: {
                 approve_status: '승인',
                 deny_status: '거절',
