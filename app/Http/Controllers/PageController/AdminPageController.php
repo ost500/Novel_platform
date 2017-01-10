@@ -9,6 +9,7 @@ use App\Keyword;
 use App\MailLog;
 use App\PublishNovel;
 use DateTime;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use App\MenToMenQuestionAnswer;
 use App\Novel;
@@ -19,7 +20,7 @@ use App\Faq;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Auth;
-
+use Illuminate\Database\Eloquent\Collection;
 
 class AdminPageController extends Controller
 {
@@ -279,16 +280,24 @@ class AdminPageController extends Controller
         $apply_requests = NovelGroupPublishCompany::where([['status', '=', '승인'], ['today_done', $today_done]])->with('novel_groups.users')->with('publish_novel_groups')->with('companies');
 
         //[company id filter]
-        if ( $id != null and $id !='today_done') {
-            //  $apply_requests= PublishNovelGroup::with('novel_groups')->with('users')->with(['companies'=> function($q){ $q->where('company_id','2'); } ])->paginate(5);
-//            $apply_requests = $apply_requests->whereHas('companies', function ($q) use ($id) {
-//                    $q->where('companies.id', $id);
-//            });
+        if ($id != null and $id != 'today_done') {
+          /*  $apply_requests= PublishNovelGroup::with('novel_groups')->with('users')->with(['companies'=> function($q){ $q->where('company_id','2'); } ])->paginate(5);
+           $apply_requests = $apply_requests->whereHas('companies', function ($q) use ($id) {
+                  $q->where('companies.id', $id);
+           });*/
             $apply_requests->where('company_id', $id);
 
         }
 
-        $apply_requests = $apply_requests->paginate(10);
+        $apply_requests = $apply_requests->get();
+        $apply_requests = $apply_requests->filter(function ($item) {
+            if (checkPublishNovelGroup($item->publish_novel_group_id, $item->company_id)) {
+                return $item;
+            }
+        });
+        $total= $apply_requests->count();
+        $apply_requests = new LengthAwarePaginator($apply_requests,$total,10);
+       // dd($apply_requests);
         return view('admin.partnership.test_inning', compact('apply_requests', 'companies', 'id'));
 
     }
@@ -304,7 +313,7 @@ class AdminPageController extends Controller
 
         if ($id) {
 
-            $apply_requests->where('company_id', $id)->where('status','심사중');
+            $apply_requests->where('company_id', $id)->where('status', '심사중');
 
         }
 

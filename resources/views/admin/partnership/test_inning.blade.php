@@ -40,12 +40,14 @@
                                                 onclick="window.location.href='{{route('admin.partner_test_inning',['id'=>'today_done']) }}'">
                                             오늘 완료
                                         </button>
-                                        {{-- <button type="button" class="btn btn-info novel-agree" style="float: right;">Total {{ $apply_requests->total() }} Results Found</button>--}}
+                                        <input type="text" name="search" id="search" v-model="search" placeholder="Search By Group Name" class="form-input" style="float: right">
+                                        @{{search}}
+                                       {{-- <button type="button" class="btn btn-info novel-agree" style="float: right;">Total {{$apply_requests->total() }} Results Found</button>--}}
                                     </div>
 
                                     @if(count($apply_requests) > 0)
                                         @foreach($apply_requests as $apply_request)
-                                            @if(checkPublishNovelGroup($apply_request->publish_novel_group_id,$apply_request->company_id))
+                                         {{--   @if(checkPublishNovelGroup($apply_request->publish_novel_group_id,$apply_request->company_id))--}}
                                                 <table class="table" id="tab{{$apply_request->id}}">
                                                     <tbody>
 
@@ -63,7 +65,7 @@
                                                             </a>
                                                         </td>
 
-                                                        <td>
+                                                        <td class="text-center col-md-6">
                                                             <table class="table-no-border" style="width:100%;">
 
                                                                 <tr>
@@ -75,11 +77,7 @@
                                                                 </tr>
                                                                 <tr>
                                                                     <td>
-                                                                        작가명:{{$apply_request->novel_groups->users->name}}
-                                                                        ,
-                                                                        연재요청업체명: {{$apply_request->companies->name}},
-                                                                        상태:{{$apply_request->status}},
-                                                                        신청일:{{$apply_request->created_at}}
+
                                                                     </td>
 
                                                                 </tr>
@@ -96,21 +94,41 @@
                                                                 </tr>
                                                             </table>
                                                         </td>
+                                                        <td>
+                                                            <table class="table-no-border" style="width:100%;">
+
+                                                                <tr>
+                                                                    <td>
+                                                                        작가명:{{$apply_request->novel_groups->users->name}}</td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td>
+                                                                        연재요청업체명: {{$apply_request->companies->name}}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>상태:{{$apply_request->status}}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>신청일:{{$apply_request->created_at}}</td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
                                                     </tr>
                                                     <tr>
-                                                        <td colspan="2"
+                                                        <td colspan="3"
                                                             id="response{{$apply_request->id}}"
                                                             v-if="{{$apply_request->id }} == novel_show.id && novel_show.TF"></td>
-                                                        <td colspan="2"
+                                                        <td colspan="3"
                                                             id="response{{$apply_request->id}}" v-else hidden></td>
                                                     </tr>
                                                     <tr>
-                                                        <td colspan="2"></td>
+                                                        <td colspan="3"></td>
                                                     </tr>
 
                                                     </tbody>
                                                 </table>
-                                            @endif
+                                          {{--  @endif--}}
                                         @endforeach
                                     @else
                                         <table class="table">
@@ -134,10 +152,10 @@
 
                                 <div class="pull-right">
                                     @if(!$id)
-
-                                        @include('pagination', ['collection' => $apply_requests, 'url' => route('admin.partner_test_inning')])
+                                      {{-- {{ $apply_requests->links()}}--}}
+                                     @include('pagination', ['collection' => $apply_requests, 'url' => route('admin.partner_test_inning')])
                                     @else
-                                        @include('pagination', ['collection' => $apply_requests, 'url' => route('admin.partner_test_inning',['id'=>$id])])
+                                       @include('pagination', ['collection' => $apply_requests, 'url' => route('admin.partner_test_inning',['id'=>$id])])
 
                                     @endif
                                 </div>
@@ -163,9 +181,11 @@
                 info: {
                     status: ''
                 },
-                novel_info: {novel_id: '', publish_novel_group_id: '', company_id: '', status: '준비'},
+                novel_info: {novel_id: '', publish_novel_group_id: '', company_id: '', status: '심사중'},
                 novel_show: {'id': 0, 'TF': false},
-                today_info: {'publish_company_id': ''}
+                today_info: {'publish_company_id': ''},
+                search:''
+
             },
             mounted: function () {
 
@@ -179,16 +199,17 @@
                  */
 
                 displayNovels: function (publish_company_id, publish_novel_group_id, company_id) {
-                    if (this.novel_show.TF == true && this.novel_show.id == publish_company_id) {
+
+                    //hide novels box if novel group name clicked again otherwise get novels
+                   if (this.novel_show.TF == true && this.novel_show.id == publish_company_id) {
                         this.novel_show.TF = false;
                         this.novel_show.id = 0;
                     } else {
 
                         this.$http.get('{{url('publishnovelgroups')}}/' + publish_novel_group_id + '/' + company_id + '/' + publish_company_id)
                                 .then(function (response) {
-
                                     this.novel_show.id = publish_company_id;
-                                    this.novel_show.TF = true;
+                                   this.novel_show.TF = true;
 
                                     $('#response' + publish_company_id).html(response.data);
 
@@ -217,7 +238,8 @@
                                 app.displayNovels(publish_company_id, publish_novel_group_id, company_id);
                                 console.log(response.data.group_display);
                                 if (!response.data.group_display) {
-                                    $('#tab' + publish_company_id).hide();
+                                    //$('#tab' + publish_company_id).hide();
+                                    location.reload();
                                 }
                                 // $('#response' + company_id).html(response.data.data);
                                 /* $.niftyNoty({
@@ -239,7 +261,8 @@
                     app.today_info.publish_company_id = publish_company_id;
                     app.$http.post('{{ route('publishnovelgroups.today_done') }}', app.today_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                             .then(function (response) {
-                                document.getElementById('tab' + publish_company_id).style.display = 'none';
+                              //  document.getElementById('tab' + publish_company_id).style.display = 'none';
+                                location.reload();
                             })
                             .catch(function (data, status, request) {
                                 var errors = data.data;
