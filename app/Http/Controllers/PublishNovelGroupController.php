@@ -55,10 +55,10 @@ class PublishNovelGroupController extends Controller
         $new_publish_novel_group = new PublishNovelGroup();
         $new_publish_novel_group->novel_group_id = $request->novel_group;
         $new_publish_novel_group->user_id = Auth::user()->id;
-        $new_publish_novel_group->days = $request->days;
-        $new_publish_novel_group->novels_per_days = $request->novels_per_days;
+
+
         $new_publish_novel_group->event = $request->event;
-        $new_publish_novel_group->initial_novels = $request->initial_publish;
+
         $new_publish_novel_group->save();
         //publish novel group generated
 
@@ -69,6 +69,10 @@ class PublishNovelGroupController extends Controller
             $new_novel_group_publish_company = new NovelGroupPublishCompany();
             $new_novel_group_publish_company->publish_novel_group_id = $new_publish_novel_group->id;
             $new_novel_group_publish_company->company_id = $company->id;
+            $new_novel_group_publish_company->days = $request->days;
+            $new_novel_group_publish_company->novels_per_days = $request->novels_per_days;
+            $new_novel_group_publish_company->initial_novels = $request->initial_publish;
+            
             if ($request->input('company' . $company->id)) {
                 $new_novel_group_publish_company->status = "심사중";
             } else {

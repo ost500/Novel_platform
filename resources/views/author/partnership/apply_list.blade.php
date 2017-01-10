@@ -155,7 +155,7 @@
                                     var name = $('#name').val();
                                     var answer = $("input[name='awesomeness']:checked").val();
 
-                                    apply.$http.put("{{url('publishnovelgroups')}}/" + e, {""}, {headers: {'X-CSRF-TOKEN': '{!! csrf_token() !!}'}})
+                                    apply.$http.put("{{url('publishnovelgroups')}}/" + e, "", {headers: {'X-CSRF-TOKEN': '{!! csrf_token() !!}'}})
                                             .then(function (response) {
                                                 location.reload();
 

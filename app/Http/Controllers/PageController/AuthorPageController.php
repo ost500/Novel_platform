@@ -278,9 +278,7 @@ class AuthorPageController extends Controller
 
     public function partner_apply_list(Request $request)
     {
-//        $my_publish_novel_groups = PublishNovelGroup::where('user_id', Auth::user()->id)
-//            ->with('novel_groups')
-//            ->with('companies')->latest()->get();
+
         $my_publish_novel_groups = NovelGroupPublishCompany::select('publish_novel_groups.*', 'novel_group_publish_companies.*')->join('publish_novel_groups', 'publish_novel_groups.id', '=', 'novel_group_publish_companies.publish_novel_group_id')
             ->where('user_id', Auth::user()->id)->with('publish_novel_groups.novel_groups')
             ->with('companies')
@@ -295,17 +293,6 @@ class AuthorPageController extends Controller
         } elseif ($request->order == 3) {
             $my_publish_novel_groups = $my_publish_novel_groups->sortBy('status');
         }
-
-
-//            ->join('publish_novel_groups', 'novel_groups.id', '=', 'publish_novel_groups.novel_group_id')
-
-//            ->where('publish_novel_groups', '!=', null);
-
-//        $my_publish_novel_groups =
-//            PublishNovelGroup::join('novel_groups', 'novel_groups.id', '=', 'publish_novel_groups.novel_group_id')
-//                ->join('novel_group_publish_companies', 'novel_group_publish_companies.publish_novel_group_id', '=', 'publish_novel_groups.id')
-//                ->join('companies', 'companies.id', '=', 'novel_group_publish_companies.company_id')
-//                ->where('user_id', Auth::user()->id)->get();
 
 
         return view('author.partnership.apply_list', compact('my_publish_novel_groups', 'companies'));
