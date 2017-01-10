@@ -111,15 +111,21 @@ class PublishNovelGroupController extends Controller
 //        return redirect()->back();
     }
 
-    public function show_novels($publish_novel_group_id, $company_id, $publish_company_id)
+    public function show_novels(Request $request)
     {
         // $novel_group = PublishNovelGroup::find($publish_novel_group_id)->novels()->with('companies')->get();
         // $novels= Novel::where('novel_group_id',$publish_novel_group_id)->with('publish_novels')->get();
-        $novels = Novel::where('novel_group_id', $publish_novel_group_id)->with(['publish_novels' => function ($q) use ($company_id, $publish_novel_group_id) {
-            $q->where(['company_id' => $company_id, 'publish_novel_group_id' => $publish_novel_group_id]);
-        }])->get();
+        $company_id = $request->company_id;
+        $publish_novel_group_id = $request->publish_novel_group_id;
+        $novel_group_id = $request->novel_group_id;
+        $publish_company_id = $request->publish_company_id;
 
-        return view('admin.partnership.novels', compact('novels', 'company_id', 'publish_novel_group_id', 'publish_company_id'));
+        $novels = Novel::where('novel_group_id', $request->novel_group_id)
+            ->with(['publish_novels' => function ($q) use ($company_id, $publish_novel_group_id) {
+                $q->where(['company_id' => $company_id, 'publish_novel_group_id' => $publish_novel_group_id]);
+            }])->get();
+
+        return view('admin.partnership.novels', compact('novels', 'company_id', 'novel_group_id', 'publish_company_id', 'publish_novel_group_id'));
     }
 
     public function today_done(Request $request)

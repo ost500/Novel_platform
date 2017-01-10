@@ -53,7 +53,7 @@ Route::resource('nickname', 'NickNameController');
 
 Route::post('publishnovelgroups', ['as' => 'publishnovelgroups.store', 'uses' => "PublishNovelGroupController@store"]);
 Route::put('publishnovelgroups/{novel_group_publish_company_id}', ['as' => 'publishnovelgroups.apply_each_company', 'uses' => "PublishNovelGroupController@apply_each_company"]);
-Route::get('publishnovelgroups/{publish_novel_group_id}/{company_id}/{publish_company_id}', ['as' => 'publishnovelgroups.show_novels', 'uses' => "PublishNovelGroupController@show_novels"]);
+Route::get('publishnovelgroups/', ['as' => 'publishnovelgroups.show_novels', 'uses' => "PublishNovelGroupController@show_novels"]);
 Route::post('publishnovelgroups/today_done', ['as' => 'publishnovelgroups.today_done', 'uses' => "PublishNovelGroupController@today_done"]);
 Route::get('publishnovelgroups/search_by_group/{search}', ['as' => 'publishnovelgroups.search_by_group', 'uses' => "PublishNovelGroupController@search_by_group"]);
 //Route::get('/author/create', ['as' => 'author.create', 'uses' => 'PageController\AuthorPageController@create']);

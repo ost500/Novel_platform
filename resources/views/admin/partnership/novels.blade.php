@@ -16,12 +16,12 @@
                 @endif
             </td>
             <td>  @if(count($novel->publish_novels) >0 )
-                       {{$novel->publish_novels->status}}
+                    {{$novel->publish_novels->status}}
                 @endif
             </td>
             <td class="text-center">
                 <button class="btn btn-info"
-                        onclick="app.storePublishNovel({{$novel->id.','.$publish_novel_group_id.','.$company_id.','.$publish_company_id}})">
+                        onclick="app.storePublishNovel({{$novel->id.','.$publish_novel_group_id.','.$company_id.','.$publish_company_id.','.$novel->novel_group_id}})">
                     회차 심사
                 </button>
             </td>

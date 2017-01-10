@@ -45,7 +45,8 @@
                                         <div style="float: right;width:14%">
                                             <input type="text" name="search" id="search" v-model="search"
                                                    placeholder="Search By Group Name" class="form-input"
-                                                   style="float:left;margin-top: 2%;" v-on:keyup.enter="searchByGroupName">
+                                                   style="float:left;margin-top: 2%;"
+                                                   v-on:keyup.enter="searchByGroupName">
 
                                             <button type=" submit" class="btn btn-info novel-agree"
                                                     style="margin-left: 6%;" v-on:click="searchByGroupName">Search
@@ -65,9 +66,9 @@
                                                     <td class="text-center col-md-2">
                                                         <a style="cursor:pointer"
                                                            v-on:click="displayNovels('{{$apply_request->publish_novel_group_id}}')">
-                                                            @if($apply_request->novel_groups->cover_photo != null)
+                                                            @if($apply_request->publish_novel_groups->novel_groups->cover_photo != null)
                                                                 <img class="index_img"
-                                                                     src="/img/novel_covers/{{$apply_request->novel_groups->cover_photo}}">
+                                                                     src="/img/novel_covers/{{$apply_request->publish_novel_groups->novel_groups->cover_photo}}">
                                                             @else
                                                                 <img class="index_img"
                                                                      src="/img/novel_covers/default_.jpg">
@@ -81,7 +82,7 @@
                                                             <tr>
                                                                 <td><h4>
                                                                         <a style="cursor:pointer"
-                                                                           v-on:click="displayNovels('{{$apply_request->id }}','{{$apply_request->publish_novel_group_id}}','{{$apply_request->company_id }}')">{{$apply_request->novel_groups->title }}</a>
+                                                                           v-on:click="displayNovels('{{$apply_request->id }}','{{$apply_request->publish_novel_groups->novel_groups->id}}','{{$apply_request->company_id }}','{{$apply_request->publish_novel_groups->id}}')">{{$apply_request->publish_novel_groups->novel_groups->title }}</a>
                                                                     </h4>
                                                                 </td>
                                                             </tr>
@@ -109,7 +110,7 @@
 
                                                             <tr>
                                                                 <td>
-                                                                    작가명:{{$apply_request->novel_groups->users->name}}</td>
+                                                                    작가명:{{$apply_request->publish_novel_groups->novel_groups->users->name}}</td>
                                                             </tr>
 
                                                             <tr>
@@ -208,7 +209,7 @@
                  company_id is from novel_group_publish_companies table
                  */
 
-                displayNovels: function (publish_company_id, publish_novel_group_id, company_id) {
+                displayNovels: function (publish_company_id, novel_group_id, company_id, publish_novel_group_id) {
 
                     //hide novels box if novel group name clicked again otherwise get novels
                     if (this.novel_show.TF == true && this.novel_show.id == publish_company_id) {
@@ -216,7 +217,7 @@
                         this.novel_show.id = 0;
                     } else {
 
-                        this.$http.get('{{url('publishnovelgroups')}}/' + publish_novel_group_id + '/' + company_id + '/' + publish_company_id)
+                        this.$http.get('{{url('publishnovelgroups')}}?novel_group_id=' + novel_group_id + '&company_id=' + company_id + '&publish_company_id=' + publish_company_id + '&publish_novel_group_id=' + publish_novel_group_id)
                                 .then(function (response) {
                                     this.novel_show.id = publish_company_id;
                                     this.novel_show.TF = true;
@@ -236,7 +237,7 @@
 
                  */
 
-                storePublishNovel: function (novel_id, publish_novel_group_id, company_id, publish_company_id) {
+                storePublishNovel: function (novel_id, publish_novel_group_id, company_id, publish_company_id, novel_group_id) {
                     app.novel_info.novel_id = novel_id;
                     app.novel_info.publish_novel_group_id = publish_novel_group_id;
                     app.novel_info.company_id = company_id;
@@ -245,7 +246,7 @@
                                 //show new unpublished novel list
                                 this.novel_show.TF = false;
                                 this.novel_show.id = 0;
-                                app.displayNovels(publish_company_id, publish_novel_group_id, company_id);
+                                app.displayNovels(publish_company_id, novel_group_id, company_id, publish_novel_group_id);
                                 /*    console.log(response.data.group_display);
                                  if (!response.data.group_display) {
                                  //$('#tab' + publish_company_id).hide();
@@ -274,19 +275,19 @@
                 },
                 searchByGroupName: function (e) {
 
-                  // var search=document.getElementById('search').value;
-                    window.location.href='{{url('admin/partnership/test_inning') }}?search='+app.search;
+                    // var search=document.getElementById('search').value;
+                    window.location.href = '{{url('admin/partnership/test_inning') }}?search=' + app.search;
 
-                   /* app.$http.post('{{--{{ route('publishnovelgroups.search_by_group') }}--}}', app.search, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
-                            .then(function (response) {
-                                console.log(response);
-                                //  document.getElementById('tab' + publish_company_id).style.display = 'none';
-                                // location.reload();
-                            })
-                            .catch(function (data, status, request) {
-                                var errors = data.data;
-                            });
-*/
+                    /* app.$http.post('{{--{{ route('publishnovelgroups.search_by_group') }}--}}', app.search, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                     .then(function (response) {
+                     console.log(response);
+                     //  document.getElementById('tab' + publish_company_id).style.display = 'none';
+                     // location.reload();
+                     })
+                     .catch(function (data, status, request) {
+                     var errors = data.data;
+                     });
+                     */
 
                 }
 

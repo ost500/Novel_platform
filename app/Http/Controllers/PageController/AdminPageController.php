@@ -282,7 +282,7 @@ class AdminPageController extends Controller
         }
 
         //get company wise published groups based on today's done
-        $apply_requests = NovelGroupPublishCompany::where([['status', '=', '승인'], ['today_done', $today_done]])->with('novel_groups.users')->with('publish_novel_groups')->with('companies');
+        $apply_requests = NovelGroupPublishCompany::where([['status', '=', '승인'], ['today_done', $today_done]])->with('publish_novel_groups.users')->with('publish_novel_groups.novel_groups')->with('companies');
 
         //[company id filter]
         if ($id != null and $id != 'today_done') {
@@ -303,6 +303,8 @@ class AdminPageController extends Controller
         }
 
       $apply_requests = $apply_requests->paginate(10);
+
+//        return response()->json($apply_requests);
       /*  $apply_requests = $apply_requests->filter(function ($item) {
             if (checkPublishNovelGroup($item->publish_novel_group_id, $item->company_id)) {
                 return $item;

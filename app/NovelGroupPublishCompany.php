@@ -51,11 +51,6 @@ class NovelGroupPublishCompany extends Model
         return $this->belongsTo(PublishNovelGroup::class, 'publish_novel_group_id');
     }
 
-    public function novel_groups()
-    {
-        return $this->belongsTo(NovelGroup::class, 'publish_novel_group_id');
-    }
-
     public function companies()
     {
         return $this->hasOne(Company::class, 'id','company_id');
