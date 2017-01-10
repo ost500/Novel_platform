@@ -243,8 +243,9 @@ class AdminPageController extends Controller
     {
 
         $companies = Company::orderBy('name')->get();
-        $apply_requests = NovelGroupPublishCompany::where('status', '!=', '신청하기')->with('novel_groups.users')->with('publish_novel_groups')->with('companies');
+        $apply_requests = NovelGroupPublishCompany::where('status', '!=', '신청하기')->with('publish_novel_groups.users')->with('publish_novel_groups.novel_groups')->with('companies');
 
+//        return response()->json($apply_requests->get());
         if ($id) {
             //  $apply_requests= PublishNovelGroup::with('novel_groups')->with('users')->with(['companies'=> function($q){ $q->where('company_id','2'); } ])->paginate(5);
 //            $apply_requests = $apply_requests->whereHas('companies', function ($q) use ($id) {

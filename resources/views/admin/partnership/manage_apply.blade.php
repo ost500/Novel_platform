@@ -54,16 +54,16 @@
                                         <tbody>
                                         @foreach($apply_requests as $apply_request)
                                             <tr>
-                                                <td class="col-md-1">{{$apply_request->novel_groups->users->name}}</td>
-                                                <td class="col-md-2">{{$apply_request->novel_groups->title}}</td>
+                                                <td class="col-md-1">{{$apply_request->publish_novel_groups->users->name}}</td>
+                                                <td class="col-md-2">{{$apply_request->publish_novel_groups->novel_groups->title}}</td>
                                                 <td class="col-md-2">{{$apply_request->companies->name}}</td>
-                                                <td class="col-md-1 text-center">{{$apply_request->companies->initial_inning}}
+                                                <td class="col-md-1 text-center">{{$apply_request->initial_novels}}
                                                     편
                                                 </td>
-                                                <td class="col-md-1 text-center">{{$apply_request->publish_novel_groups->days}}
+                                                <td class="col-md-1 text-center">{{$apply_request->days}}
                                                     일
                                                 </td>
-                                                <td class="col-md-1 text-center">{{$apply_request->publish_novel_groups->novels_per_days}}
+                                                <td class="col-md-1 text-center">{{$apply_request->novels_per_days}}
                                                     편
                                                 </td>
                                                 <td class="col-md-1 text-center">{{$apply_request->created_at}}</td>
