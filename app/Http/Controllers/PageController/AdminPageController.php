@@ -293,10 +293,10 @@ class AdminPageController extends Controller
             $apply_requests->where('company_id', $id);
 
         }
-
+       // dd($apply_requests->get());
         //Search by group name
         if($search){
-            $apply_requests = $apply_requests->whereHas('novel_groups', function ($query) use ($search) {
+            $apply_requests = $apply_requests->whereHas('publish_novel_groups.novel_groups', function ($query) use ($search) {
                 $query->where('title', 'like','%'.$search.'%');
             });
 
