@@ -264,7 +264,7 @@ class AdminPageController extends Controller
     public function partner_test_inning(Request $request, $id = null)
     {
 
-        $search= $request->get('search');
+        $search = $request->get('search');
 
         //update today_done=0 to make group visible
         NovelGroupPublishCompany::where('today_done', '1')->whereDate('updated_at', '!=', Carbon::today()->toDateString())->update(['today_done' => 0]);
@@ -280,43 +280,50 @@ class AdminPageController extends Controller
 
             $today_done = true;
         }
+        //where conditions based on search data
+        if (!$search) { //if search is empty [default]
+            $condition = [['status', '=', '승인'], ['today_done', $today_done]];
+
+        } else {
+            //otherwise search all
+            $condition = ['status' => '승인'];
+        }
 
         //get company wise published groups based on today's done
-        $apply_requests = NovelGroupPublishCompany::where([['status', '=', '승인'], ['today_done', $today_done]])->with('publish_novel_groups.users')->with('publish_novel_groups.novel_groups')->with('companies');
+        $apply_requests = NovelGroupPublishCompany::where($condition)->with('publish_novel_groups.users')->with('publish_novel_groups.novel_groups')->with('companies');
 
         //[company id filter]
         if ($id != null and $id != 'today_done') {
-          /*  $apply_requests= PublishNovelGroup::with('novel_groups')->with('users')->with(['companies'=> function($q){ $q->where('company_id','2'); } ])->paginate(5);
-           $apply_requests = $apply_requests->whereHas('companies', function ($q) use ($id) {
-                  $q->where('companies.id', $id);
-           });*/
+            /*  $apply_requests= PublishNovelGroup::with('novel_groups')->with('users')->with(['companies'=> function($q){ $q->where('company_id','2'); } ])->paginate(5);
+             $apply_requests = $apply_requests->whereHas('companies', function ($q) use ($id) {
+                    $q->where('companies.id', $id);
+             });*/
             $apply_requests->where('company_id', $id);
 
         }
-       // dd($apply_requests->get());
+        // dd($apply_requests->get());
         //Search by group name
-        if($search){
+        if ($search) {
             $apply_requests = $apply_requests->whereHas('publish_novel_groups.novel_groups', function ($query) use ($search) {
-                $query->where('title', 'like','%'.$search.'%');
+                $query->where('title', 'like', '%' . $search . '%');
             });
 
         }
 
-      $apply_requests = $apply_requests->paginate(10);
+        $apply_requests = $apply_requests->paginate(10);
 
 //        return response()->json($apply_requests);
-      /*  $apply_requests = $apply_requests->filter(function ($item) {
-            if (checkPublishNovelGroup($item->publish_novel_group_id, $item->company_id)) {
-                return $item;
-            }
-        });
-        $total= $apply_requests->count();
-        $apply_requests = new LengthAwarePaginator($apply_requests,$total,10);*/
-       // dd($apply_requests);
+        /*  $apply_requests = $apply_requests->filter(function ($item) {
+              if (checkPublishNovelGroup($item->publish_novel_group_id, $item->company_id)) {
+                  return $item;
+              }
+          });
+          $total= $apply_requests->count();
+          $apply_requests = new LengthAwarePaginator($apply_requests,$total,10);*/
+        // dd($apply_requests);
         return view('admin.partnership.test_inning', compact('apply_requests', 'companies', 'id'));
 
     }
-
 
 
     public function partner_approve_inning($id = null)

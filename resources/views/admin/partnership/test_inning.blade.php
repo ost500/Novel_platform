@@ -125,6 +125,10 @@
                                                             </tr>
                                                         </table>
                                                     </td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td v-if="{{$apply_request->id }} == novel_show.id && novel_show.TF"> {{$apply_request->days.' 일 - '.$apply_request->novels_per_days.' 회차'  }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="3"
@@ -278,7 +282,8 @@
                     // var search=document.getElementById('search').value;
                     window.location.href = '{{url('admin/partnership/test_inning') }}?search=' + app.search;
 
-                    /* app.$http.post('{{--{{ route('publishnovelgroups.search_by_group') }}--}}', app.search, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                    /* app.$http.post('
+                    {{--{{ route('publishnovelgroups.search_by_group') }}--}}', app.search, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                      .then(function (response) {
                      console.log(response);
                      //  document.getElementById('tab' + publish_company_id).style.display = 'none';
