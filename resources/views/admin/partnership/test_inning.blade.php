@@ -42,16 +42,19 @@
                                             오늘 완료
                                         </button>
 
-                                        <div style="float: right;width:14%">
-                                            <input type="text" name="search" id="search" v-model="search"
-                                                   placeholder="Search By Group Name" class="form-input"
-                                                   style="float:left;margin-top: 2%;"
-                                                   v-on:keyup.enter="searchByGroupName">
+                                        <div style="float: right;width:30%">
+                                            <div class="input-group mar-btm">
+                                                <input type="text" name="search"
+                                                       id="search" v-model="search"
+                                                       placeholder=""
 
-                                            <button type=" submit" class="btn btn-info novel-agree"
-                                                    style="margin-left: 6%;" v-on:click="searchByGroupName">Search
+                                                       v-on:keyup.enter="searchByGroupName" class="form-control">
+											<span class="input-group-btn">
+												<button type="submit" class="btn btn-danger btn-labeled fa fa-search" v-on:click="searchByGroupName">검색</button>
+											</span>
+                                            </div>
 
-                                            </button>
+
                                         </div>
                                         {{-- <button type="button" class="btn btn-info novel-agree" style="float: right;">Total {{$apply_requests->total() }} Results Found</button>--}}
                                     </div>
