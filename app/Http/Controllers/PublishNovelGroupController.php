@@ -11,6 +11,7 @@ use App\PublishNovelGroup;
 use Auth;
 use Illuminate\Http\Request;
 use Validator;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class PublishNovelGroupController extends Controller
 {

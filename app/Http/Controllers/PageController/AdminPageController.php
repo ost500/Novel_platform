@@ -21,6 +21,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Auth;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Input;
 
 class AdminPageController extends Controller
 {
@@ -260,8 +261,11 @@ class AdminPageController extends Controller
 
     }
 
-    public function partner_test_inning($id = null)
+    public function partner_test_inning(Request $request, $id = null)
     {
+
+        $search= $request->get('search');
+
         //update today_done=0 to make group visible
         NovelGroupPublishCompany::where('today_done', '1')->whereDate('updated_at', '!=', Carbon::today()->toDateString())->update(['today_done' => 0]);
 
@@ -290,18 +294,28 @@ class AdminPageController extends Controller
 
         }
 
-        $apply_requests = $apply_requests->get();
-        $apply_requests = $apply_requests->filter(function ($item) {
+        //Search by group name
+        if($search){
+            $apply_requests = $apply_requests->whereHas('novel_groups', function ($query) use ($search) {
+                $query->where('title', 'like','%'.$search.'%');
+            });
+
+        }
+
+      $apply_requests = $apply_requests->paginate(10);
+      /*  $apply_requests = $apply_requests->filter(function ($item) {
             if (checkPublishNovelGroup($item->publish_novel_group_id, $item->company_id)) {
                 return $item;
             }
         });
         $total= $apply_requests->count();
-        $apply_requests = new LengthAwarePaginator($apply_requests,$total,10);
+        $apply_requests = new LengthAwarePaginator($apply_requests,$total,10);*/
        // dd($apply_requests);
         return view('admin.partnership.test_inning', compact('apply_requests', 'companies', 'id'));
 
     }
+
+
 
     public function partner_approve_inning($id = null)
     {
