@@ -83,6 +83,7 @@ class PublishNovelGroupController extends Controller
 
     public function apply_each_company($novel_group_publish_company_id)
     {
+        echo $novel_group_publish_company_id;
         $put_NGPC = NovelGroupPublishCompany::find($novel_group_publish_company_id);
         $put_NGPC->status = "심사중";
         $put_NGPC->save();

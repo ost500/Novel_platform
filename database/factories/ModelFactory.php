@@ -194,6 +194,7 @@ $factory->define(\App\PublishNovelGroup::class, function (Faker\Generator $faker
         'novel_group_id' => $random_novel_group,
         'days' => $faker->randomElement(['1', '2', '3', '4', '5', '6', '7']),
         'novels_per_days' => $faker->randomElement(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']),
+        'initial_novels' => $faker->randomElement(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']),
     ];
 });
 

@@ -14,7 +14,7 @@ class AddPublishNovelGroupEvent extends Migration
     public function up()
     {
         Schema::table('publish_novel_groups', function (Blueprint $table) {
-            $table->boolean('event');
+            $table->boolean('event')->default(false);
             $table->integer('initial_novels');
         });
     }

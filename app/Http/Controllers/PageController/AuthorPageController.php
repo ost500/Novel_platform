@@ -278,10 +278,10 @@ class AuthorPageController extends Controller
 
     public function partner_apply_list(Request $request)
     {
-        $my_publish_novel_groups = PublishNovelGroup::where('user_id', Auth::user()->id)
-            ->with('novel_groups')
-            ->with('companies')->latest()->get();
-        $my_publish_novel_groups = NovelGroupPublishCompany::join('publish_novel_groups', 'publish_novel_groups.id', '=', 'novel_group_publish_companies.publish_novel_group_id')
+//        $my_publish_novel_groups = PublishNovelGroup::where('user_id', Auth::user()->id)
+//            ->with('novel_groups')
+//            ->with('companies')->latest()->get();
+        $my_publish_novel_groups = NovelGroupPublishCompany::select('publish_novel_groups.*', 'novel_group_publish_companies.*')->join('publish_novel_groups', 'publish_novel_groups.id', '=', 'novel_group_publish_companies.publish_novel_group_id')
             ->where('user_id', Auth::user()->id)->with('publish_novel_groups.novel_groups')
             ->with('companies')
             ->get();
