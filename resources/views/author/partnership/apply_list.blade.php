@@ -130,20 +130,20 @@
                         '<form class="form-horizontal"> ' + '<div class="form-group"> ' +
                         '<label class="col-md-4 control-label" for="name">초기연재편수</label> ' +
                         '<div class="col-md-4"> ' +
-                        '<input id="name" name="name" type="text" placeholder="ex) 1" class="form-control input-md"> ' +
-                        '<span class="help-block"><small id="apply1" hidden>숫자를 입력해 주세요</small></span> </div> ' +
+                        '<input id="initial_inning" name="initial_inning" type="text" placeholder="ex) 1" class="form-control input-md"> ' +
+                        '<span class="help-block"><small id="apply1" ></small></span> </div> ' +
                         '</div> ' +
                         '<div class="form-group"> ' +
                         '<label class="col-md-4 control-label" for="name">일(날짜)</label> ' +
                         '<div class="col-md-4"> ' +
-                        '<input id="name" name="name" type="text" placeholder="ex) 2" class="form-control input-md"> ' +
-                        '<span class="help-block"><small id="apply1" hidden>숫자를 입력해 주세요</small></span> </div> ' +
+                        '<input id="days" name="days" type="text" placeholder="ex) 2" class="form-control input-md"> ' +
+                        '<span class="help-block"><small id="apply2" ></small></span> </div> ' +
                         '</div> ' +
                         '<div class="form-group"> ' +
                         '<label class="col-md-4 control-label" for="name">편수</label> ' +
                         '<div class="col-md-4"> ' +
-                        '<input id="name" name="name" type="text" placeholder="ex) 3" class="form-control input-md"> ' +
-                        '<span class="help-block"><small id="apply1" hidden>숫자를 입력해 주세요</small></span> </div> ' +
+                        '<input id="novels_per_days" name="novels_per_days" type="text" placeholder="ex) 3" class="form-control input-md"> ' +
+                        '<span class="help-block"><small id="apply3" ></small></span> </div> ' +
                         '</div> ' +
 
                         '</div> </div>' + '</form> </div> </div>',
@@ -152,67 +152,41 @@
                                 label: "Save",
                                 className: "btn-purple",
                                 callback: function () {
-                                    var name = $('#name').val();
-                                    var answer = $("input[name='awesomeness']:checked").val();
+                                    var initial_inning = $('#initial_inning').val();
+                                    var days = $('#days').val();
+                                    var novels_per_days = $('#novels_per_days').val();
+                                    console.log(initial_inning);
+                                    console.log(days);
+                                    console.log(novels_per_days);
 
-                                    apply.$http.put("{{url('publishnovelgroups')}}/" + e, "", {headers: {'X-CSRF-TOKEN': '{!! csrf_token() !!}'}})
+                                    apply.$http.put("{{url('publishnovelgroups')}}/" + e, {
+                                        "initial_inning": initial_inning,
+                                        "days": days,
+                                        "novels_per_days": novels_per_days
+                                    }, {headers: {'X-CSRF-TOKEN': '{!! csrf_token() !!}'}})
                                             .then(function (response) {
+                                                console.log(response);
                                                 location.reload();
-
                                             })
                                             .catch(function (data, status, request) {
-                                                var errors = data.data;
-                                                this.formErrors = errors;
+                                                console.log(data);
+                                                apply.apply_company(e);
+                                                $("#apply1").html(data.data.initial_inning);
+                                                $("#apply2").html(data.data.days);
+                                                $("#apply3").html(data.data.novels_per_days);
+                                                $('#initial_inning').val(initial_inning);
+                                                $('#days').val(days);
+                                                $('#novels_per_days').val(novels_per_days);
+
                                             });
 
 
-
-
-                                    $.niftyNoty({
-                                        type: 'purple',
-                                        icon: 'fa fa-check',
-                                        message: "Hello " + name + ".<br> You've chosen <strong>" + answer + "</strong>",
-                                        container: 'floating',
-                                        timer: 4000
-                                    });
                                 }
                             }
                         }
                     });
 
 
-                    bootbox.confirm({
-                        message: "제휴 연재 신청을 하시겠습니까?",
-
-                        buttons: {
-                            confirm: {
-                                label: "신청"
-                            },
-                            cancel: {
-                                label: '취소'
-                            }
-                        },
-
-                        callback: function (result) {
-
-                            if (result) {
-                                {{--Vue.http.headers.common['X-CSRF-TOKEN'] = "{!! csrf_token() !!}";--}}
-                                //                    var csrfToken = form.querySelector('input[name="_token"]').value;
-
-                                apply.$http.put("{{url('publishnovelgroups')}}/" + e, "", {headers: {'X-CSRF-TOKEN': '{!! csrf_token() !!}'}})
-                                        .then(function (response) {
-                                            location.reload();
-
-                                        })
-                                        .catch(function (data, status, request) {
-                                            var errors = data.data;
-                                            this.formErrors = errors;
-                                        });
-
-                            }
-
-                        }
-                    });
                 },
             }
         })

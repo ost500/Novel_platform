@@ -24,6 +24,11 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\PublishNovel whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\PublishNovel whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property int $company_id
+ * @property string $reject_reason
+ * @property-read \App\Company $companies
+ * @method static \Illuminate\Database\Query\Builder|\App\PublishNovel whereCompanyId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\PublishNovel whereRejectReason($value)
  */
 class PublishNovel extends Model
 {

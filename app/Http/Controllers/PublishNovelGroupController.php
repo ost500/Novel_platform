@@ -18,7 +18,7 @@ class PublishNovelGroupController extends Controller
     {
 
         Validator::make($request->all(), [
-            'initial_publish'=> 'required',
+            'initial_publish' => 'required',
             'novel_group' => 'required',
             'days' => 'required',
             'novels_per_days' => 'required',
@@ -72,7 +72,7 @@ class PublishNovelGroupController extends Controller
             $new_novel_group_publish_company->days = $request->days;
             $new_novel_group_publish_company->novels_per_days = $request->novels_per_days;
             $new_novel_group_publish_company->initial_novels = $request->initial_publish;
-            
+
             if ($request->input('company' . $company->id)) {
                 $new_novel_group_publish_company->status = "심사중";
             } else {
@@ -85,10 +85,26 @@ class PublishNovelGroupController extends Controller
 
     }
 
-    public function apply_each_company($novel_group_publish_company_id)
+    public function apply_each_company($novel_group_publish_company_id, Request $request)
     {
-        echo $novel_group_publish_company_id;
+
+        Validator::make($request->all(), [
+            'initial_inning' => 'required|numeric',
+            'days' => 'required|numeric',
+            'novels_per_days' => 'required|numeric',
+        ], [
+            'initial_inning.required' => '초기연재편수를 입력하세요',
+            'initial_inning.numeric' => '숫자를 선택하세요',
+            'days.required' => '일(날짜)를 입력하세요',
+            'days.numeric' => '숫자를 입력하세요',
+            'novels_per_days.required' => '편수를 입력하세요',
+            'novels_per_days.numeric' => '숫자를 입력하세요',
+        ])->validate();
+
         $put_NGPC = NovelGroupPublishCompany::find($novel_group_publish_company_id);
+        $put_NGPC->days = $request->days;
+        $put_NGPC->initial_novels = $request->initial_inning;
+        $put_NGPC->novels_per_days = $request->novels_per_days;
         $put_NGPC->status = "심사중";
         $put_NGPC->save();
 //        return redirect()->back();
