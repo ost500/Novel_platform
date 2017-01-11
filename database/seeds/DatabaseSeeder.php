@@ -62,6 +62,38 @@ class DatabaseSeeder extends Seeder
             $new_novel2->user_id = $novel_group->user_id;
             $new_novel2->save();
 
+            $new_novel3 = $novel_group->novels()->save(factory(App\Novel::class)->make());
+            $new_novel3->user_id = $novel_group->user_id;
+            $new_novel3->save();
+
+            $new_novel4 = $novel_group->novels()->save(factory(App\Novel::class)->make());
+            $new_novel4->user_id = $novel_group->user_id;
+            $new_novel4->save();
+
+            $new_novel5 = $novel_group->novels()->save(factory(App\Novel::class)->make());
+            $new_novel5->user_id = $novel_group->user_id;
+            $new_novel5->save();
+
+            $new_novel6 = $novel_group->novels()->save(factory(App\Novel::class)->make());
+            $new_novel6->user_id = $novel_group->user_id;
+            $new_novel6->save();
+
+            $new_novel7 = $novel_group->novels()->save(factory(App\Novel::class)->make());
+            $new_novel7->user_id = $novel_group->user_id;
+            $new_novel7->save();
+
+            $new_novel8 = $novel_group->novels()->save(factory(App\Novel::class)->make());
+            $new_novel8->user_id = $novel_group->user_id;
+            $new_novel8->save();
+
+            $new_novel9 = $novel_group->novels()->save(factory(App\Novel::class)->make());
+            $new_novel9->user_id = $novel_group->user_id;
+            $new_novel9->save();
+
+            $new_novel10= $novel_group->novels()->save(factory(App\Novel::class)->make());
+            $new_novel10->user_id = $novel_group->user_id;
+            $new_novel10->save();
+
         }
 
         $this->command->info('novel table seeded');

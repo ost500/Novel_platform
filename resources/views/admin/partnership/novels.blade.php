@@ -11,8 +11,13 @@
                     </button>
                 @endif
             </td>
-            <td> @if(count($novel->publish_novels) >0 )
+            <td>@if(count($novel->publish_novels) >0 )
                     {{$novel->publish_novels->updated_at}}
+                @else
+
+                          <span class="text-danger">   {{ $publish_array[$novel->id] }} </span>
+
+                 {{--   @php echo Carbon\Carbon::today(); @endphp--}}
                 @endif
             </td>
             <td>  @if(count($novel->publish_novels) >0 )
@@ -20,10 +25,17 @@
                 @endif
             </td>
             <td class="text-center">
+                @if(count($novel->publish_novels) == 0 && $publish_array[$novel->id] != '')
                 <button class="btn btn-info"
                         onclick="app.storePublishNovel({{$novel->id.','.$publish_novel_group_id.','.$company_id.','.$publish_company_id.','.$novel->novel_group_id}})">
                     회차 심사
                 </button>
+                @elseif(count($novel->publish_novels) != 0 )
+                    <button class="btn btn-danger"
+                            onclick="app.removePublishNovel({{$novel->id.','.$publish_novel_group_id.','.$company_id.','.$publish_company_id.','.$novel->novel_group_id}})">
+                        Cancel
+                    </button>
+                @endif
             </td>
 
         </tr>

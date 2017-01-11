@@ -9,6 +9,7 @@ use App\NovelGroupPublishCompany;
 use App\PublishNovel;
 use App\PublishNovelGroup;
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Validator;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -120,12 +121,61 @@ class PublishNovelGroupController extends Controller
         $novel_group_id = $request->novel_group_id;
         $publish_company_id = $request->publish_company_id;
 
+
         $novels = Novel::where('novel_group_id', $request->novel_group_id)
             ->with(['publish_novels' => function ($q) use ($company_id, $publish_novel_group_id) {
                 $q->where(['company_id' => $company_id, 'publish_novel_group_id' => $publish_novel_group_id]);
             }])->get();
 
-        return view('admin.partnership.novels', compact('novels', 'company_id', 'novel_group_id', 'publish_company_id', 'publish_novel_group_id'));
+        $publish_company = NovelGroupPublishCompany::where(['publish_novel_group_id' => $publish_novel_group_id, 'company_id' => $company_id])->first();
+        $publish_date = PublishNovel::select('updated_at')->latest('updated_at')->where(['publish_novel_group_id' => $publish_novel_group_id, 'company_id' => $company_id])->first();
+
+        $novels_per_days = $publish_company->novels_per_days;
+
+        if (count($publish_date) > 0) {
+
+            $carbon_publish_date = new Carbon($publish_date->updated_at);
+            $new_publish_date = $carbon_publish_date->addDays($publish_company->days);
+        } else {
+            $new_publish_date = '';
+        }
+
+        $publish_array = array();
+        $index = 1;
+        $next_limit=$novels_per_days + $publish_company->novels_per_days;
+        foreach ($novels as $novel) {
+            // while($index <= $novels_per_days)
+            if ($index <= $novels_per_days) {
+                if (count($publish_date) > 0) {
+                    $publish_array[$novel->id] = $publish_date->updated_at;
+                } else {
+                    $publish_array[$novel->id] = '';
+                }
+
+                /* if ($index == $novels_per_days && $index != $publish_company->novels_per_days* $publish_company->days) {
+                     $novels_per_days = $novels_per_days + $publish_company->novels_per_days;
+                     $carbon_publish_date = new Carbon($publish_date->updated_at);
+                     $next_publish_date = $carbon_publish_date->addDays(1);
+                     $publish_date->updated_at=$next_publish_date;
+                 }*/
+                //}
+            } else {
+
+               if(count($novel->publish_novels) > 0 ) { $next_limit=$next_limit+1; }
+
+                if ($index <= $next_limit) {
+                    $publish_array[$novel->id] = $new_publish_date;
+                } else {
+                    $publish_array[$novel->id] ='';
+                }
+
+
+            }
+
+            $index = $index + 1;
+
+        }
+        return view('admin.partnership.novels', compact('novels', 'company_id', 'novel_group_id', 'publish_company_id', 'publish_novel_group_id', 'publish_array', 'new_publish_date', 'novels_per_days'));
     }
 
     public function today_done(Request $request)
