@@ -127,6 +127,13 @@ class NovelGroupController extends Controller
             'nickname' => 'required|max:255',
             'title' => 'required',
             'description' => 'required',
+            'keyword1' => 'required',
+            'keyword2' => 'required',
+            'keyword3' => 'required',
+            'keyword4' => 'required',
+            'keyword5' => 'required',
+            'keyword6' => 'required',
+            'keyword7' => 'required',
             'cover_photo' => 'mimes:jpeg,png|image|max:1024|dimensions:max_width=1080,max_height=1620',
             'cover_photo2' => 'mimes:jpeg,png|image|max:1024|dimensions:max_width=1080,max_height=1080',
 
@@ -138,6 +145,13 @@ class NovelGroupController extends Controller
             'cover_photo.max' => '표지1 용량은 1M를 넘지 않아야 합니다',
             'cover_photo2.dimensions' => '표지2 크기는 1080*1080 이어야 합니다',
             'cover_photo2.max' => '표지2 용량은 1M를 넘지 않아야 합니다',
+            'keyword1.required' => '첫번째 키워드를 입력해 주세요',
+            'keyword2.required' => '두번째 키워드를 입력해 주세요',
+            'keyword3.required' => '세번째 키워드를 입력해 주세요',
+            'keyword4.required' => '네번째 키워드를 입력해 주세요',
+            'keyword5.required' => '다섯번째 키워드를 입력해 주세요',
+            'keyword6.required' => '여섯번째 키워드를 입력해 주세요',
+            'keyword7.required' => '일곱번째 키워드를 입력해 주세요',
 
         ])->validate();
 

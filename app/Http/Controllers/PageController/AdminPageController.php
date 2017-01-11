@@ -240,20 +240,19 @@ class AdminPageController extends Controller
      * @param null $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function partner_manage_apply($id = null)
+    public function partner_manage_apply(Request $request, $id = null)
     {
 
         $companies = Company::orderBy('name')->get();
-        $apply_requests = NovelGroupPublishCompany::where('status', '!=', '신청하기')->with('publish_novel_groups.users')->with('publish_novel_groups.novel_groups')->with('companies');
+        $apply_requests = NovelGroupPublishCompany::join('publish_novel_groups', 'publish_novel_groups.id', '=', 'novel_group_publish_companies.publish_novel_group_id')
+            ->where('status', '!=', '신청하기')->with('publish_novel_groups.users')->with('publish_novel_groups.novel_groups')->with('companies');
 
 //        return response()->json($apply_requests->get());
         if ($id) {
-            //  $apply_requests= PublishNovelGroup::with('novel_groups')->with('users')->with(['companies'=> function($q){ $q->where('company_id','2'); } ])->paginate(5);
-//            $apply_requests = $apply_requests->whereHas('companies', function ($q) use ($id) {
-//                    $q->where('companies.id', $id);
-//            });
             $apply_requests->where('company_id', $id);
-
+        }
+        if ($request->order == "event") {
+            $apply_requests->orderBy('event','desc');
         }
 
         $apply_requests = $apply_requests->paginate(10);
