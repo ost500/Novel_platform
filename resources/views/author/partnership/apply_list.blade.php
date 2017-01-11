@@ -41,6 +41,7 @@
                                             <th class="text-center">초기 연재 회차</th>
                                             <th class="text-center">일</th>
                                             <th class="text-center">편수</th>
+                                            <th class="text-center">이벤트</th>
                                             <th class="text-center">신청일</th>
                                             <th class="text-center">처리일</th>
                                             {{--@foreach($companies as $company)--}}
@@ -89,7 +90,10 @@
                                                 <td class="col-md-1 text-center">{{$my_publish_novel_group->novels_per_days}}
                                                     회차
                                                 </td>
-                                                <td class="col-md-1 text-center">{{$my_publish_novel_group->created_at}}</td>
+
+                                                <td class="col-md-1 text-center">@if($my_publish_novel_group->event)수락@else거절@endif</td>
+
+                                               <td class="col-md-1 text-center">{{$my_publish_novel_group->created_at}}</td>
                                                 <td class="col-md-1 text-center">{{$my_publish_novel_group->updated_at}}</td>
 
 

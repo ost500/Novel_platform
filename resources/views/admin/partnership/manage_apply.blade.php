@@ -25,18 +25,12 @@
                         <div class="panel-body">
                             <div class="table-responsive">
                                 <div id="manage_apply">
-                                    <table class="table table-striped table-hover">
-                                        <thead>
-                                        <tr>
-                                            @foreach($companies as $company)
 
-                                                <button class="btn btn-primary"
-                                                        onclick="window.location.href='{{route('admin.partner_manage_apply',['id'=>$company->id]) }}'">{{$company->name}}</button>
+                                    @foreach($companies as $company)
+                                        <button class="btn btn-primary"
+                                                onclick="window.location.href='{{route('admin.partner_manage_apply',['id'=>$company->id]) }}'">{{$company->name}}</button>
+                                    @endforeach
 
-                                            @endforeach
-                                        </tr>
-                                        </thead>
-                                    </table>
                                     <table class="table table-striped table-hover">
                                         <thead>
                                         <tr>
@@ -46,6 +40,10 @@
                                             <th class="text-center">초기연재회차</th>
                                             <th class="text-center">일</th>
                                             <th class="text-center">편수</th>
+                                            <th class="text-center">
+                                                <a href="{{route('admin.partner_manage_apply',['id'=>null])."?order=event" }}">이벤트
+                                                    <i class="fa fa-sort" aria-hidden="true"></i></a>
+                                            </th>
                                             <th class="text-center">신청일</th>
                                             <th class="text-center">처리일</th>
                                             <th class="text-center">상태</th>
@@ -66,6 +64,8 @@
                                                 <td class="col-md-1 text-center">{{$apply_request->novels_per_days}}
                                                     편
                                                 </td>
+                                                <td class="col-md-1 text-center">@if($apply_request->publish_novel_groups->event)
+                                                        수락@else거절@endif</td>
                                                 <td class="col-md-1 text-center">{{$apply_request->created_at}}</td>
                                                 <td class="col-md-1 text-center">{{$apply_request->updated_at}}</td>
                                                 <td class="col-md-2 text-center">
@@ -79,7 +79,8 @@
                                                                 id="deny{{$apply_request->id}}"
                                                                 v-on:click="approve_deny('{{$apply_request->id}}',0)">@{{deny_status}}</button>
                                                     @elseif($apply_request->status == '거절')
-                                                        <span style="cursor:pointer;" v-on:click="{{"deny_reason(".$apply_request->id." ,'".$apply_request->reject_reason."')"}}">{{$apply_request->status}}</span>
+                                                        <span style="cursor:pointer;"
+                                                              v-on:click="{{"deny_reason(".$apply_request->id." ,'".$apply_request->reject_reason."')"}}">{{$apply_request->status}}</span>
                                                     @else
                                                         <span>{{$apply_request->status}}</span>
                                                     @endif
@@ -143,7 +144,7 @@
                         },
                         value: reason,
                         callback: function (result) {
-                            if(result){
+                            if (result) {
                                 console.log('hi');
                                 //deny_info
                                 app.info.status = "거절";
