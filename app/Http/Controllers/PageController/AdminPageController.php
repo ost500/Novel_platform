@@ -279,9 +279,17 @@ class AdminPageController extends Controller
 
             $today_done = true;
         }
+        //where conditions based on search data
+        if (!$search) { //if search is empty [default]
+            $condition = [['status', '=', '승인'], ['today_done', $today_done]];
+
+        } else {
+            //otherwise search all
+            $condition = ['status' => '승인'];
+        }
 
         //get company wise published groups based on today's done
-        $apply_requests = NovelGroupPublishCompany::where([['status', '=', '승인'], ['today_done', $today_done]])->with('publish_novel_groups.users')->with('publish_novel_groups.novel_groups')->with('companies');
+        $apply_requests = NovelGroupPublishCompany::where($condition)->with('publish_novel_groups.users')->with('publish_novel_groups.novel_groups')->with('companies');
 
         //[company id filter]
         if ($id != null and $id != 'today_done') {
