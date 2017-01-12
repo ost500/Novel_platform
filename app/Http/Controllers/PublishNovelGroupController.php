@@ -9,6 +9,7 @@ use App\NovelGroupPublishCompany;
 use App\PublishNovel;
 use App\PublishNovelGroup;
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Validator;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -122,12 +123,97 @@ class PublishNovelGroupController extends Controller
         $novel_group_id = $request->novel_group_id;
         $publish_company_id = $request->publish_company_id;
 
+
         $novels = Novel::where('novel_group_id', $request->novel_group_id)
             ->with(['publish_novels' => function ($q) use ($company_id, $publish_novel_group_id) {
                 $q->where(['company_id' => $company_id, 'publish_novel_group_id' => $publish_novel_group_id]);
             }])->get();
 
-        return view('admin.partnership.novels', compact('novels', 'company_id', 'novel_group_id', 'publish_company_id', 'publish_novel_group_id'));
+        $publish_company = NovelGroupPublishCompany::where(['publish_novel_group_id' => $publish_novel_group_id, 'company_id' => $company_id])->first();
+        $publish_date = PublishNovel::select('updated_at')->latest('updated_at')->where(['publish_novel_group_id' => $publish_novel_group_id, 'company_id' => $company_id])->first();
+
+        $novels_per_days = $publish_company->novels_per_days;
+
+        if (count($publish_date) > 0) {
+            // if $publish_date is not same as today
+            if ($publish_date->updated_at->toDateString() != Carbon::now()->toDateString()) {
+                $set_date = Carbon::now()->toDateString();
+            } else {
+                $set_date = $publish_date->updated_at;
+            }
+            $carbon_publish_date = new Carbon($set_date);
+            $new_publish_date = $carbon_publish_date->addDays($publish_company->days);
+        } else {
+            $new_publish_date = '';
+        }
+
+        $publish_array = array();
+        $index = 1;
+      //  $counter = 0;
+       // $increase_limit = 0;
+        $next_limit = $novels_per_days + $publish_company->novels_per_days;
+        foreach ($novels as $novel) {
+            // while($index <= $novels_per_days)
+            if ($index <= $novels_per_days) {
+                if (count($publish_date) > 0 && count($novel->publish_novels) > 0) {
+                    //updated at is not same as today
+                    if ($publish_date->updated_at->toDateString() != Carbon::now()->toDateString()) {
+                        $publish_array[$novel->id] = Carbon::today();
+                     //   $counter = $counter + 1;
+                       // $increase_limit = $counter;
+                    } else {
+                        $publish_array[$novel->id] = $publish_date->updated_at;
+                    }
+
+                } else {
+                    // $increase_limit=$increase_limit+1;
+                    // $next_limit = $next_limit + 1;
+                    $publish_array[$novel->id] = Carbon::today();
+
+                }
+
+                /* if ($index == $novels_per_days && $index != $publish_company->novels_per_days* $publish_company->days) {
+                     $novels_per_days = $novels_per_days + $publish_company->novels_per_days;
+                     $carbon_publish_date = new Carbon($publish_date->updated_at);
+                     $next_publish_date = $carbon_publish_date->addDays(1);
+                     $publish_date->updated_at=$next_publish_date;
+                 }*/
+                //}
+            } else {
+                //increase the suggestion date limit
+                if (count($novel->publish_novels) > 0) {
+                 //   $next_limit = $next_limit + $increase_limit + 1;
+                    $next_limit = $next_limit  + 1;
+
+                }
+
+                if ($index <= $next_limit) {
+                    /*if ($counter > 0 && count($novel->publish_novels) == 0) {
+
+                        $publish_array[$novel->id] = Carbon::today();
+                        $counter = $counter - 1;;
+                    } else {
+
+                        $publish_array[$novel->id] = $new_publish_date;
+                   }*/
+                    $publish_array[$novel->id] = $new_publish_date;
+
+                } else {
+                    $publish_array[$novel->id] = '';
+                }
+
+
+            }
+
+            $index = $index + 1;
+
+        }
+
+        if (Auth::user()->name == "Admin") {
+            return view('admin.partnership.novels', compact('novels', 'company_id', 'novel_group_id', 'publish_company_id', 'publish_novel_group_id', 'publish_array'));
+        }
+
+        return view('author.partnership.novels', compact('novels', 'company_id', 'novel_group_id', 'publish_company_id', 'publish_novel_group_id', 'publish_array'));
     }
 
     public function today_done(Request $request)
@@ -136,6 +222,12 @@ class PublishNovelGroupController extends Controller
         NovelGroupPublishCompany::where('id', $request->publish_company_id)->update(['today_done' => 1]);
         return \Response::json(['status' => 'ok']);
         //return view('admin.partnership.novels',compact('novels','company_id','publish_novel_group_id','publish_company_id'));
+    }
+
+    public function stop(Request $request)
+    {
+        NovelGroupPublishCompany::where('id', $request->publish_company_id)->update(['stop' => 1]);
+        return \Response::json(['status' => 'ok']);
     }
 
 }

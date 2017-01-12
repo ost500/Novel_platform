@@ -1,4 +1,4 @@
-@extends('layouts.admin_layout')
+@extends('layouts.app')
 @section('content')
 
 
@@ -29,17 +29,17 @@
 
                                     <div class="col-md-12 pad-no padding-bottom-5">
                                         <button type="button" class="btn btn-purple"
-                                                onclick="window.location.href='{{route('admin.partner_test_inning') }}'">
+                                                onclick="window.location.href='{{route('author.partner_test_inning') }}'">
                                             기본
                                         </button>
                                         @foreach($companies as $company)
                                             <button class="btn btn-primary"
-                                                    onclick="window.location.href='{{route('admin.partner_test_inning',['id'=>$company->id]) }}'">{{$company->name}}</button>
+                                                    onclick="window.location.href='{{route('author.partner_test_inning',['id'=>$company->id]) }}'">{{$company->name}}</button>
 
                                         @endforeach
                                         <button type="button" class="btn btn-info"
-                                                onclick="window.location.href='{{route('admin.partner_test_inning',['id'=>'today_done']) }}'">
-                                            오늘 완료
+                                                onclick="window.location.href='{{route('author.partner_test_inning',['id'=>'stopped']) }}'">
+                                            제휴연재중단
                                         </button>
 
                                         <div style="float: right;width:30%">
@@ -50,7 +50,9 @@
 
                                                        v-on:keyup.enter="searchByGroupName" class="form-control">
 											<span class="input-group-btn">
-												<button type="submit" class="btn btn-danger btn-labeled fa fa-search" v-on:click="searchByGroupName">검색</button>
+												<button type="submit" class="btn btn-danger btn-labeled fa fa-search"
+                                                        v-on:click="searchByGroupName">검색
+                                                </button>
 											</span>
                                             </div>
 
@@ -97,11 +99,11 @@
                                                             </tr>
                                                             <tr>
                                                                 <td>
-                                                                    @if($apply_request->today_done == 0)
+                                                                    @if($apply_request->stop == 0)
                                                                         <button type="button"
                                                                                 class="btn btn-primary "
-                                                                                v-on:click="todayDone('{{$apply_request->id }}')">
-                                                                            오늘 완료
+                                                                                v-on:click="stop('{{$apply_request->id }}')">
+                                                                            제휴 연재 중단
                                                                         </button>
                                                                     @endif
                                                                 </td>
@@ -125,6 +127,13 @@
                                                             </tr>
                                                             <tr>
                                                                 <td>신청일:{{$apply_request->created_at}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                @if($apply_request->stop == 0)
+                                                                    <td> 제휴연재 : 진행중 </td>
+                                                                @else
+                                                                    <td> 제휴연재 : 중단</td>
+                                                                @endif
                                                             </tr>
                                                         </table>
                                                     </td>
@@ -171,9 +180,9 @@
                                 <div class="pull-right">
                                     @if(!$id)
                                         {{-- {{ $apply_requests->links()}}--}}
-                                        @include('pagination', ['collection' => $apply_requests, 'url' => route('admin.partner_test_inning')])
+                                        @include('pagination', ['collection' => $apply_requests, 'url' => route('author.partner_test_inning')])
                                     @else
-                                        @include('pagination', ['collection' => $apply_requests, 'url' => route('admin.partner_test_inning',['id'=>$id])])
+                                        @include('pagination', ['collection' => $apply_requests, 'url' => route('author.partner_test_inning',['id'=>$id])])
 
                                     @endif
                                 </div>
@@ -194,15 +203,9 @@
         var app = new Vue({
             el: '#manage_apply',
             data: {
-                approve_status: '승인',
-                deny_status: '거절',
-                info: {
-                    status: ''
-                },
-                novel_info: {novel_id: '', publish_novel_group_id: '', company_id: '', status: '심사중'},
-                novel_update_info: {publish_novel_id: '', status: '심사중'},
+                novel_info: {publish_novel_id: '', status: '재심사'},
                 novel_show: {'id': 0, 'TF': false},
-                today_info: {'publish_company_id': ''},
+                stop_info: {'publish_company_id': ''},
                 search: ''
 
             },
@@ -218,6 +221,7 @@
                  */
 
                 displayNovels: function (publish_company_id, novel_group_id, company_id, publish_novel_group_id) {
+
 
                     //hide novels box if novel group name clicked again otherwise get novels
                     if (this.novel_show.TF == true && this.novel_show.id == publish_company_id) {
@@ -237,39 +241,16 @@
                     }
                 },
 
-                /*
+                /* Update publish Novel on request again
                  novel_id is id from novels table
                  publish_novel_group_id is id from publish_novel_groups table
                  company_id is from novel_group_publish_companies table
                  publish_company_id is id from novel_group_publish_companies table
 
                  */
-
-                storePublishNovel: function (novel_id, publish_novel_group_id, company_id, publish_company_id, novel_group_id) {
-                    app.novel_info.novel_id = novel_id;
-                    app.novel_info.publish_novel_group_id = publish_novel_group_id;
-                    app.novel_info.company_id = company_id;
-                    app.$http.post('{{ route('publish_novel.store') }}', app.novel_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
-                            .then(function (response) {
-                                //show new unpublished novel list
-                                this.novel_show.TF = false;
-                                this.novel_show.id = 0;
-                                app.displayNovels(publish_company_id, novel_group_id, company_id, publish_novel_group_id);
-                                /*    console.log(response.data.group_display);
-                                 if (!response.data.group_display) {
-                                 //$('#tab' + publish_company_id).hide();
-                                 location.reload();
-                                 }*/
-
-                            })
-                            .catch(function (data, status, request) {
-                                var errors = data.data;
-                            });
-
-                },
                 updatePublishNovel: function (publish_novel_id, publish_novel_group_id, company_id, publish_company_id, novel_group_id) {
-                    app.novel_update_info.publish_novel_id = publish_novel_id;
-                    app.$http.post('{{ route('publish_novel.update_status') }}', app.novel_update_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                    app.novel_info.publish_novel_id = publish_novel_id;
+                    app.$http.post('{{ route('publish_novel.update_status') }}', app.novel_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                             .then(function (response) {
                                 //show new unpublished novel list
                                 this.novel_show.TF = false;
@@ -287,25 +268,10 @@
                             });
 
                 },
-
-                removePublishNovel: function (publish_novel_id, publish_novel_group_id, company_id, publish_company_id, novel_group_id) {
-                    app.$http.delete('{{ url('publish_novel') }}/'+ publish_novel_id, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
-                            .then(function (response) {
-                                //show new unpublished novel list
-                                this.novel_show.TF = false;
-                                this.novel_show.id = 0;
-                                app.displayNovels(publish_company_id, novel_group_id, company_id, publish_novel_group_id);
-                            })
-                            .catch(function (data) {
-                                var errors = data.data;
-                            });
-
-                },
-
-
-                todayDone: function (publish_company_id) {
-                    app.today_info.publish_company_id = publish_company_id;
-                    app.$http.post('{{ route('publishnovelgroups.today_done') }}', app.today_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                //Stop Publishing
+                stop: function (publish_company_id) {
+                    app.stop_info.publish_company_id = publish_company_id;
+                    app.$http.post('{{ route('publishnovelgroups.stop') }}', app.stop_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                             .then(function (response) {
                                 //  document.getElementById('tab' + publish_company_id).style.display = 'none';
                                 location.reload();
@@ -313,13 +279,12 @@
                             .catch(function (data, status, request) {
                                 var errors = data.data;
                             });
-
-
                 },
+
                 searchByGroupName: function (e) {
 
                     // var search=document.getElementById('search').value;
-                    window.location.href = '{{url('admin/partnership/test_inning') }}?search=' + app.search;
+                    window.location.href = '{{url('author/partnership/test_inning') }}?search=' + app.search;
 
                     /* app.$http.post('
                     {{--{{ route('publishnovelgroups.search_by_group') }}--}}', app.search, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
