@@ -17,19 +17,20 @@ class PublishNovelController extends Controller
         //get novels count
         $novels_count = \App\Novel::where('novel_group_id', $request->publish_novel_group_id)->count('id');
         //get publish novels count
-        $publish_novels_count = \App\PublishNovel::where(['publish_novel_group_id'=>$request->publish_novel_group_id,'company_id'=>$request->company_id])->count();
+        $publish_novels_count = \App\PublishNovel::where(['publish_novel_group_id' => $request->publish_novel_group_id, 'company_id' => $request->company_id])->count();
 
         //if count is same means all novels are published and return false to remove group
         if ($publish_novels_count == $novels_count) {
 
-            $group_display= false;
-        }else{ $group_display= true; }
+            $group_display = false;
+        } else {
+            $group_display = true;
+        }
 
 
-        return response()->json(['status'=>'ok','group_display'=>$group_display]);
+        return response()->json(['status' => 'ok', 'group_display' => $group_display]);
 
     }
-
 
 
     public function update(Request $request, $id)
@@ -62,6 +63,10 @@ class PublishNovelController extends Controller
         return response()->json(['data' => $request->status, 'status' => 'ok']);
     }
 
-
-
+    public function update_status(Request $request)
+    {
+        PublishNovel::where('id',$request->publish_novel_id)->update([
+            'status'=>$request->status
+        ]);
+    }
 }

@@ -317,5 +317,64 @@ class AuthorPageController extends Controller
         return view('author.partnership.proceed', compact('apply_requests', 'companies'));
     }
 
+    public function partner_test_inning(Request $request, $id = null)
+    {
+
+        $search = $request->get('search');
+
+        //update today_done=0 to make group visible
+       /* NovelGroupPublishCompany::where('today_done', '1')->whereDate('updated_at', '!=', Carbon::today()->toDateString())->update(['today_done' => 0]);*/
+
+        //Get companies list
+        $companies = Company::orderBy('name')->get();
+
+        // [Stop filter]
+
+        $stop = false;
+
+        if ($id == 'stopped') {
+
+            $stop = true;
+        }
+        //where conditions based on search data
+        if (!$search) { //if search is empty [default]
+            $condition = [['status', '=', '승인'], ['stop', $stop]];
+
+        } else {
+            //otherwise search all
+            $condition = ['status' => '승인'];
+        }
+
+        //get company wise published groups based on today's done
+        $apply_requests = NovelGroupPublishCompany::where($condition)->with('publish_novel_groups.users')->with('publish_novel_groups.novel_groups')->with('companies');
+
+        //[company id filter]
+        if ($id != null and $id != 'stopped') {
+            $apply_requests->where('company_id', $id);
+        }
+
+        //Search by group name
+        if ($search) {
+            $apply_requests = $apply_requests->whereHas('publish_novel_groups.novel_groups', function ($query) use ($search) {
+                $query->where('title', 'like', '%' . $search . '%');
+            });
+
+        }
+
+        $apply_requests = $apply_requests->paginate(10);
+
+//        return response()->json($apply_requests);
+         /* $apply_requests = $apply_requests->filter(function ($item) {
+              if (checkPublishNovelGroup($item->publish_novel_group_id, $item->company_id)) {
+                  return $item;
+              }
+          });
+          $total= $apply_requests->count();
+          $apply_requests = new LengthAwarePaginator($apply_requests,$total,10);*/
+        // dd($apply_requests);
+        return view('author.partnership.test_inning', compact('apply_requests', 'companies', 'id'));
+
+    }
+
 
 }

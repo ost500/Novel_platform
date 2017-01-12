@@ -149,7 +149,7 @@ class PublishNovelGroupController extends Controller
                 if (count($publish_date) > 0) {
                     $publish_array[$novel->id] = $publish_date->updated_at;
                 } else {
-                    $publish_array[$novel->id] = '';
+                    $publish_array[$novel->id] = Carbon::today();
                 }
 
                 /* if ($index == $novels_per_days && $index != $publish_company->novels_per_days* $publish_company->days) {
@@ -175,7 +175,12 @@ class PublishNovelGroupController extends Controller
             $index = $index + 1;
 
         }
-        return view('admin.partnership.novels', compact('novels', 'company_id', 'novel_group_id', 'publish_company_id', 'publish_novel_group_id', 'publish_array', 'new_publish_date', 'novels_per_days'));
+
+        if (Auth::user()->name == "Admin") {
+            return view('admin.partnership.novels', compact('novels', 'company_id', 'novel_group_id', 'publish_company_id', 'publish_novel_group_id', 'publish_array'));
+        }
+
+        return view('author.partnership.novels', compact('novels', 'company_id', 'novel_group_id', 'publish_company_id', 'publish_novel_group_id', 'publish_array'));
     }
 
     public function today_done(Request $request)
@@ -184,6 +189,12 @@ class PublishNovelGroupController extends Controller
         NovelGroupPublishCompany::where('id', $request->publish_company_id)->update(['today_done' => 1]);
         return \Response::json(['status' => 'ok']);
         //return view('admin.partnership.novels',compact('novels','company_id','publish_novel_group_id','publish_company_id'));
+    }
+
+    public function stop(Request $request)
+    {
+        NovelGroupPublishCompany::where('id', $request->publish_company_id)->update(['stop' => 1]);
+        return \Response::json(['status' => 'ok']);
     }
 
 }

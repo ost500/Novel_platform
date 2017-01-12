@@ -178,6 +178,7 @@
                                     <ul class="collapse {{ (Request::is('author/partnership/*') )?"in":"" }}">
                                         <li><a href="{{ route('author.partner_apply') }}">연재신청</a></li>
                                         <li><a href="{{ route('author.partner_apply_list') }}">연재신청내역</a></li>
+                                        <li><a href="{{ route('author.partner_test_inning') }}">회차별 심사</a></li>
                                     </ul>
                                 </li>
 
