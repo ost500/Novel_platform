@@ -68,7 +68,7 @@
                                                 <td class="col-md-1 text-center">{{$apply_request->pass}}</td>
                                                 <td class="col-md-1 text-center">
                                                     {{--<button class="btn btn-sm btn-warning">심사중</button>--}}
-                                                    @if($apply_request->status == '심사중')
+                                                    @if($apply_request->status == '심사중' /*or $apply_request->status == '재심사'*/)
                                                         <span id="response{{$apply_request->id}}"></span>
                                                         <button class="btn btn-sm btn-primary"
                                                                 id="approve{{$apply_request->id}}"

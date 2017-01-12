@@ -15,9 +15,9 @@
                     {{$novel->publish_novels->updated_at}}
                 @else
 
-                          <span class="text-danger">   {{ $publish_array[$novel->id] }} </span>
+                    <span class="text-danger">   {{ $publish_array[$novel->id] }} </span>
 
-                 {{--   @php echo Carbon\Carbon::today(); @endphp--}}
+                    {{--   @php echo Carbon\Carbon::today(); @endphp--}}
                 @endif
             </td>
             <td>  @if(count($novel->publish_novels) >0 )
@@ -26,11 +26,16 @@
             </td>
             <td class="text-center">
                 @if(count($novel->publish_novels) == 0 && $publish_array[$novel->id] != '')
-                <button class="btn btn-info"
-                        onclick="app.storePublishNovel({{$novel->id.','.$publish_novel_group_id.','.$company_id.','.$publish_company_id.','.$novel->novel_group_id}})">
-                    회차 심사
-                </button>
-                @elseif(count($novel->publish_novels) != 0 )
+                    <button class="btn btn-info"
+                            onclick="app.storePublishNovel({{$novel->id.','.$publish_novel_group_id.','.$company_id.','.$publish_company_id.','.$novel->novel_group_id}})">
+                        회차 심사
+                    </button>
+               @elseif(count($novel->publish_novels) != 0 &&  $novel->publish_novels->status == '재심사' )
+                    <button class="btn btn-mint"
+                            onclick="app.updatePublishNovel({{$novel->publish_novels->id.','.$publish_novel_group_id.','.$company_id.','.$publish_company_id.','.$novel->novel_group_id}})">
+                        Republish
+                    </button>
+                @elseif(count($novel->publish_novels) != 0 && $novel->publish_novels->status != '거절' && $novel->publish_novels->status != '승인')
                     <button class="btn btn-danger"
                             onclick="app.removePublishNovel({{$novel->id.','.$publish_novel_group_id.','.$company_id.','.$publish_company_id.','.$novel->novel_group_id}})">
                         Cancel
