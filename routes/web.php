@@ -88,6 +88,7 @@ Route::get('/author/men_to_men/requests/{id}', ['as' => 'author.novel_request_vi
 Route::get('/author/novel_faq', ['as' => 'author.novel_faq', 'uses' => 'PageController\AuthorPageController@faq_index']);
 
 Route::get('/author/partnership/apply', ['as' => 'author.partner_apply', 'uses' => 'PageController\AuthorPageController@partner_apply']);
+Route::get('/author/partnership/apply/proper_company', ['as' => 'author.partner_apply.proper_company', 'uses' => 'PageController\AuthorPageController@partner_apply_proper_company']);
 Route::get('/author/partnership/apply_list', ['as' => 'author.partner_apply_list', 'uses' => 'PageController\AuthorPageController@partner_apply_list']);
 Route::get('/author/partnership/proceed/', ['as' => 'author.partner_proceed', 'uses' => 'PageController\AuthorPageController@partner_proceed']);
 
