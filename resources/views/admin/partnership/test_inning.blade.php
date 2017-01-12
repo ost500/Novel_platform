@@ -288,6 +288,21 @@
 
                 },
 
+                removePublishNovel: function (publish_novel_id, publish_novel_group_id, company_id, publish_company_id, novel_group_id) {
+                    app.$http.delete('{{ url('publish_novel') }}/'+ publish_novel_id, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                            .then(function (response) {
+                                //show new unpublished novel list
+                                this.novel_show.TF = false;
+                                this.novel_show.id = 0;
+                                app.displayNovels(publish_company_id, novel_group_id, company_id, publish_novel_group_id);
+                            })
+                            .catch(function (data) {
+                                var errors = data.data;
+                            });
+
+                },
+
+
                 todayDone: function (publish_company_id) {
                     app.today_info.publish_company_id = publish_company_id;
                     app.$http.post('{{ route('publishnovelgroups.today_done') }}', app.today_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})

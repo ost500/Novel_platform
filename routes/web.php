@@ -40,6 +40,7 @@ Route::delete('maillogs/{id}', ['as' => 'maillog.destroy', 'uses' => 'MailLogCon
 Route::put('publish_novel/{id}', ['as' => 'publish_novel.update', 'uses' => 'PublishNovelController@update']);
 Route::post('publish_novel', ['as' => 'publish_novel.store', 'uses' => "PublishNovelController@store"]);
 Route::post('publish_novel/update_status', ['as' => 'publish_novel.update_status', 'uses' => "PublishNovelController@update_status"]);
+Route::delete('publish_novel/{id}', ['as' => 'publish_novel.destroy', 'uses' => "PublishNovelController@destroy"]);
 
 Route::resource('users', 'UserController', ['except' => ['update']]);
 Route::post('mailboxes', ['as' => 'mailbox.store', 'uses' => 'MailboxController@store']);
