@@ -241,15 +241,34 @@
                     }
                 },
 
-                /*
+                /* Update publish Novel on request again
                  novel_id is id from novels table
                  publish_novel_group_id is id from publish_novel_groups table
                  company_id is from novel_group_publish_companies table
                  publish_company_id is id from novel_group_publish_companies table
 
                  */
+                updatePublishNovel: function (publish_novel_id, publish_novel_group_id, company_id, publish_company_id, novel_group_id) {
+                    app.novel_info.publish_novel_id = publish_novel_id;
+                    app.$http.post('{{ route('publish_novel.update_status') }}', app.novel_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                            .then(function (response) {
+                                //show new unpublished novel list
+                                this.novel_show.TF = false;
+                                this.novel_show.id = 0;
+                                app.displayNovels(publish_company_id, novel_group_id, company_id, publish_novel_group_id);
+                                /*    console.log(response.data.group_display);
+                                 if (!response.data.group_display) {
+                                 //$('#tab' + publish_company_id).hide();
+                                 location.reload();
+                                 }*/
 
+                            })
+                            .catch(function (data, status, request) {
+                                var errors = data.data;
+                            });
 
+                },
+                //Stop Publishing
                 stop: function (publish_company_id) {
                     app.stop_info.publish_company_id = publish_company_id;
                     app.$http.post('{{ route('publishnovelgroups.stop') }}', app.stop_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
@@ -260,9 +279,8 @@
                             .catch(function (data, status, request) {
                                 var errors = data.data;
                             });
-
-
                 },
+
                 searchByGroupName: function (e) {
 
                     // var search=document.getElementById('search').value;
