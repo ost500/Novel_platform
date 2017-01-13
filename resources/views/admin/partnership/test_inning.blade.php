@@ -126,6 +126,13 @@
                                                             <tr>
                                                                 <td>신청일:{{$apply_request->created_at}}</td>
                                                             </tr>
+                                                            <tr>
+                                                                @if($apply_request->today_done == 0)
+                                                                    <td> 제휴연재 : 진행중 </td>
+                                                                @else
+                                                                    <td> 제휴연재 : Today's done</td>
+                                                                @endif
+                                                            </tr>
                                                         </table>
                                                     </td>
 

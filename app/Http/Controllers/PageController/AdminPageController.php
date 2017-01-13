@@ -252,7 +252,7 @@ class AdminPageController extends Controller
             $apply_requests->where('company_id', $id);
         }
         if ($request->order == "event") {
-            $apply_requests->orderBy('event','desc');
+            $apply_requests->orderBy('event', 'desc');
         }
 
         $apply_requests = $apply_requests->paginate(10);
@@ -265,8 +265,16 @@ class AdminPageController extends Controller
 
         $search = $request->get('search');
 
-        //update today_done=0 to make group visible
-        NovelGroupPublishCompany::where('today_done', '1')->whereDate('updated_at', '!=', Carbon::today()->toDateString())->update(['today_done' => 0]);
+        //update today_done=0 to make company visible after days would be over
+        // NovelGroupPublishCompany::where('today_done', '1')->whereDate('updated_at', '!=', Carbon::today()->toDateString())->update(['today_done' => 0]);
+        $todays_done_publish_company = NovelGroupPublishCompany::where('today_done', '1')->whereDate('updated_at', '!=', Carbon::today()->toDateString())->get();
+        $todays_done_publish_company->filter(function ($item) {
+            $carbon_date = new Carbon($item->updated_at);
+            if ($carbon_date->toDateString() == Carbon::today()->subDays($item->days)->toDateString()) {
+                $item->today_done = 0;
+                $item->save();
+            }
+        });
 
         //Get companies list
         $companies = Company::orderBy('name')->get();
