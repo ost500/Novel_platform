@@ -78,7 +78,7 @@ class PublishNovelGroupController extends Controller
                 $new_novel_group_publish_company->days = $request->days;
                 $new_novel_group_publish_company->novels_per_days = $request->novels_per_days;
                 $new_novel_group_publish_company->initial_novels = $request->initial_publish;
-                $new_novel_group_publish_company->status = "심사중";
+                $new_novel_group_publish_company->status = "대기중";
                 $new_novel_group_publish_company->event = $request->event;
                 $new_novel_group_publish_company->save();
             }

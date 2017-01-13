@@ -68,6 +68,8 @@
                                                         <button class="btn btn-success">{{$my_publish_novel_group->status}}</button>
                                                     @elseif($my_publish_novel_group->status == "심사중")
                                                         <button class="btn btn-warning">{{$my_publish_novel_group->status}}</button>
+                                                    @elseif($my_publish_novel_group->status == "대기중")
+                                                        <button class="btn btn-info">{{$my_publish_novel_group->status}}</button>
                                                     @else
                                                         <form
                                                                 {{--action="{{route("publishnovelgroups.apply_each_company",['novel_group_publish_company_id'=>$each_company->pivot->id])}}"--}}
