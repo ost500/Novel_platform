@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <div id="apply">
+    <div id="apply" xmlns:v-on="http://symfony.com/schema/routing" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 
         <div id="content-container">
 
@@ -41,47 +41,18 @@
                             <div class="form-group pad-ver">
                                 <label class="col-lg-1 control-label text-left" for="inputSubject">작품선택</label>
                                 <div class="col-lg-11">
-                                    <select name="novel_group" class="form-control">
-                                        <option value="">작품선택</option>
-                                        @foreach($my_novel_groups as $my_novel_group)
+                                    <select v-model="clicked_novel_group" name="novel_group" class="form-control"
+                                            v-on:change="novel_group_checked">
 
-                                            <option value="{{$my_novel_group->id}}"
-                                                    @if($my_novel_group->id == old('novel_group')) selected @endif>{{$my_novel_group->title}}</option>
-                                        @endforeach
+                                        <option v-for="novel_group in novel_groups"
+                                                v-bind:value="novel_group.id"
+                                        >@{{ novel_group.title }}</option>
                                     </select>
                                 </div>
                             </div>
-                            <hr>
 
-                            <div class="form-group pad-ver">
-                                <label class="col-lg-1 control-label text-left" for="inputSubject">제휴업체</label>
-                                <div class="col-lg-11 text-center">
-
-                                        @foreach($companies as $company)
-                                            <div class="col-sm-2">
-                                                <div>
-                                                    <img src="http://211.110.165.137/img/novel_covers/default_.jpg"
-                                                         width="150">
-                                                </div>
-                                                <div class="padding-top-10">
-                                                    <label class="form-checkbox form-icon form-text">
-                                                        <input type="checkbox" name="company{{$company->id}}"
-                                                               value="true"
-                                                               @if(old('company'.$company->id)) checked @endif
-                                                        > {{ $company->name }}</label>
-                                                </div>
-                                                <div class="padding-top-10">초기연재 {{$company->initial_inning}}편</div>
-                                                <div class="padding-top-10">@if($company->adult)19금 불가@endif</div>
-                                            </div>
-                                        @endforeach
-
-
-
-                                </div>
-                            </div>
 
                             <hr>
-
 
 
                             <div class="form-group pad-ver">
@@ -128,6 +99,50 @@
                                 </div>
                             </div>
 
+
+                            <hr>
+
+                            <div class="form-group pad-ver">
+                                <label class="col-lg-1 control-label text-left" for="inputSubject">제휴업체</label>
+                                <div class="col-lg-11 text-center">
+
+
+                                    <div class="col-sm-2" v-for="company in companies">
+                                        <div>
+                                            <img src="http://211.110.165.137/img/novel_covers/default_.jpg"
+                                                 width="150">
+                                        </div>
+                                        <div class="padding-top-10">
+                                            <label class="form-checkbox form-icon form-text">
+                                                <input type="checkbox" :name="'company'+company.id"
+                                                       value="true" v-on:change="company_check(company)"
+                                                > @{{ company.name }}</label>
+                                        </div>
+                                        <div class="padding-top-10">초기연재 @{{company.initial_inning}}편</div>
+                                        <div class="padding-top-10" v-if="company.adult==1">19금 불가</div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <div id="adult_confirm">
+                                <hr>
+
+                                <div class="form-group pad-ver" v-if="adult_publish===true">
+                                    <label class="col-lg-1 control-label text-left" for="inputSubject">19금 연재</label>
+                                    <div class="col-lg-11">
+                                        <div class="padding-top-10">
+                                            해당 제휴 업체는 19금 소설을 연재하실 수 없습니다
+                                            <label class="form-checkbox form-icon form-text">
+
+                                                <input id="adult_checkbox" type="checkbox"
+
+                                                > 확인 </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </form>
                         <div id="demo-mail-compose"></div>
 
@@ -159,15 +174,88 @@
             el: '#apply',
             data: {
                 formErrors: false,
-                errors: {}
+                errors: {},
+                novel_groups: [
+                    {title: "작품선택", id: ""},
+                        @foreach($my_novel_groups as $my_novel_group)
+                    {
+                        title: "{{$my_novel_group->title}}",
+                        id: "{{$my_novel_group->id}}"
+                    },
+                    @endforeach
+                ],
+                companies: [
+                        @foreach($companies as $company)
+                    {
+                        id: "{{ $company->id }}",
+                        form_name: "company{{ $company->id }}",
+                        name: "{{ $company->name }}",
+                        initial_inning: "{{ $company->initial_inning }}",
+                        adult: "{{ $company->adult }}",
+                        company_picture: "{{ $company->adult }}"
+                    },
+                    @endforeach
+                ],
+
+                clicked_novel_group: "",
+                adult_publish: false,
+
 
             },
             mounted: function () {
 
             },
             methods: {
+                company_check: function (company) {
+                    company.selected = !company.selected;
+
+
+                    this.companies.some(function (element) {
+
+                        console.log(element);
+
+                        if (element.selected == true && element.adult == 1) {
+                            console.log(element + "v2");
+                            apply.adult_publish = true;
+
+                            return (element.selected == true);
+                        }
+                        apply.adult_publish = false;
+                    });
+
+                    console.log(this.adult_publish);
+
+
+                },
+
+                novel_group_checked: function () {
+                    console.log('hi');
+                    console.log(this.clicked_novel_group);
+                    this.$http.get('{{ route('author.partner_apply.proper_company')."?novel_group="}}' + this.clicked_novel_group)
+                            .then(function (response) {
+                                console.log(response);
+                                apply.companies = [];
+                                response.data.forEach(function (element) {
+                                    element.selected = false;
+                                    apply.companies.push(element);
+
+                                    console.log(element);
+                                });
+                                console.log(this.companies);
+                            })
+                },
 
                 post: function () {
+                    if(this.adult_publish){
+                        console.log($("#adult_checkbox").is(':checked'));
+                        if($("#adult_checkbox").is(':checked') == false){
+                            bootbox.alert("해당 업체는 19금 연재가 불가능합니다." +
+                                    " 15세 개정판으로 연재 신청해 주십시오", function () {
+
+                            });
+                            return;
+                        }
+                    }
 
 
                     bootbox.dialog({

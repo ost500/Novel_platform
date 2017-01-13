@@ -270,10 +270,51 @@ class AuthorPageController extends Controller
     {
         $companies = Company::get();
 
-        $my_novel_groups = NovelGroup::where('user_id', Auth::user()->id)->with('publish_novel_groups')->get()->where('publish_novel_groups', null);
+        $my_novel_groups = NovelGroup::where('user_id', Auth::user()->id)->with('publish_novel_groups')->get();
 
 
         return view('author.partnership.apply', compact('companies', 'my_novel_groups'));
+    }
+
+    public function partner_apply_proper_company(Request $request)
+    {
+
+
+        $exclude_company = NovelGroup::find($request->novel_group);
+
+        $companies = Company::get();
+
+        $exclude = [];
+
+        //if the novel group includes adult version then exclude adult not allowed company
+        if ($exclude_company->novels->where('adult', 1)->count()) {
+            $exclude_adult = Company::where('adult', 1)->pluck('id');
+            foreach ($exclude_adult as $adult) {
+                $exclude[] = $adult;
+            }
+        }
+
+        //if the novel_group already published other company, check it out
+        if ($exclude_company->publish_novel_groups != null) {
+            $exclude_published_company = $exclude_company->publish_novel_groups->companies;
+            //companies which already published are stored into $exclude
+            foreach ($exclude_published_company as $company) {
+                $exclude[] = $company->id;
+            }
+        }
+
+        //if count of novels are less than initail_inning of the company
+        foreach ($companies as $company) {
+            if ($exclude_company->novels->count() < $company->initial_inning) {
+                $exclude[] = $company->id;
+            }
+        }
+
+
+        //exclude that
+        $companies = Company::whereNotIn('id', $exclude)->get();
+
+        return response()->json($companies);
     }
 
     public function partner_apply_list(Request $request)
