@@ -40,7 +40,7 @@
 											<tbody>
 												@foreach($companies as $company)
 												<tr>
-													<td class="col-md-2"><a href="">{{$company->name}} <!--업체명1--></a></td>
+													<td  class="text-center"><a href="">{{$company->name}} <!--업체명1--></a></td>
 													<td class="text-center">
 														@if($company->company_picture)
 															<img  class="index_img"  src="/img/company_pictures/{{$company->company_picture}}" width="100">

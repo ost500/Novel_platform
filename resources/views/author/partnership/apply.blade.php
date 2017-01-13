@@ -46,7 +46,7 @@
 
                                         <option v-for="novel_group in novel_groups"
                                                 v-bind:value="novel_group.id"
-                                        >@{{ novel_group.title }}</option>
+                                                >@{{ novel_group.title }}</option>
                                     </select>
                                 </div>
                             </div>
@@ -110,13 +110,14 @@
                                     <div class="col-sm-2" v-for="company in companies">
                                         <div>
                                             <img src="http://211.110.165.137/img/novel_covers/default_.jpg"
-                                                 width="150">
+                                                 width="150" v-if="company.company_picture == ''">
+                                            <img :src="'/img/company_pictures/'+company.company_picture" width="150" class="index_img" v-else>
                                         </div>
                                         <div class="padding-top-10">
                                             <label class="form-checkbox form-icon form-text">
                                                 <input type="checkbox" :name="'company'+company.id"
                                                        value="true" v-on:change="company_check(company)"
-                                                > @{{ company.name }}</label>
+                                                        > @{{ company.name }}</label>
                                         </div>
                                         <div class="padding-top-10">초기연재 @{{company.initial_inning}}편</div>
                                         <div class="padding-top-10" v-if="company.adult==1">19금 불가</div>
@@ -195,7 +196,7 @@
                         name: "{{ $company->name }}",
                         initial_inning: "{{ $company->initial_inning }}",
                         adult: "{{ $company->adult }}",
-                        company_picture: "{{ $company->adult }}"
+                        company_picture: "{{ $company->company_picture }}"
                     },
                     @endforeach
                 ],
