@@ -309,6 +309,18 @@
 
                 },
 
+                downloadNovel_ePub: function (novel_id) {
+                    window.location.href = '{{url('publish_novel/e_pub') }}/' + novel_id;
+                       /* this.$http.get('{{url('publish_novel/e_pub')}}/'+novel_id )
+                                .then(function (response) {
+
+                                   // $('#response' + publish_company_id).html(response.data);
+                                    console.log(response);
+
+                                });*/
+                },
+
+
 
                 todayDone: function (publish_company_id) {
                     app.today_info.publish_company_id = publish_company_id;
@@ -325,22 +337,9 @@
                 },
                 searchByGroupName: function (e) {
 
-                    // var search=document.getElementById('search').value;
-                    window.location.href = '{{url('admin/partnership/test_inning') }}?search=' + app.search;
+                   window.location.href = '{{url('admin/partnership/test_inning') }}?search=' + app.search;
 
-                    /* app.$http.post('
-                    {{--{{ route('publishnovelgroups.search_by_group') }}--}}', app.search, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
-                     .then(function (response) {
-                     console.log(response);
-                     //  document.getElementById('tab' + publish_company_id).style.display = 'none';
-                     // location.reload();
-                     })
-                     .catch(function (data, status, request) {
-                     var errors = data.data;
-                     });
-                     */
-
-                }
+               }
 
 
             }

@@ -1,4 +1,6 @@
+<link rel='stylesheet' href="/plugins/font-awesome/css/font-awesome.css" />
 <table class="table table-bordered" id="novel_group">
+
     <tbody>
     @foreach($novels as $novel)
         {{--  @if(!checkPublishNovel($novel->id,$publish_novel_group_id,$company_id))--}}
@@ -11,7 +13,7 @@
                     </button>
                 @endif
 
-               {{-- <span class="glyphicon glyphicon-download-alt" ></span>--}}
+              <span style="margin-left:1%;cursor: pointer;"  class="glyphicon glyphicon-download-alt" onclick="app.downloadNovel_ePub({{$novel->id}})" ></span>
             </td>
             <td class="col-md-2 text-center" >@if(count($novel->publish_novels) >0 )
                     {{$novel->publish_novels->updated_at}}
