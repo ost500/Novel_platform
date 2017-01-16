@@ -54,7 +54,7 @@ class PublishNovelGroupController extends Controller
         }
 
         //publish novel group generated
-        $new_publish_novel_group = PublishNovelGroup::where('novel_group_id',$request->novel_group);
+        $new_publish_novel_group = PublishNovelGroup::where('novel_group_id', $request->novel_group);
 
         if ($new_publish_novel_group->count() == 0) {
             $new_publish_novel_group = new PublishNovelGroup();
@@ -123,88 +123,77 @@ class PublishNovelGroupController extends Controller
         $novel_group_id = $request->novel_group_id;
         $publish_company_id = $request->publish_company_id;
 
-
+        //get novels from a specific group_id amd company_id along with publish novels
         $novels = Novel::where('novel_group_id', $request->novel_group_id)
             ->with(['publish_novels' => function ($q) use ($company_id, $publish_novel_group_id) {
                 $q->where(['company_id' => $company_id, 'publish_novel_group_id' => $publish_novel_group_id]);
             }])->get();
 
+        //get $publish_company data[days and novel_per_days] for a specific group_id amd company_id [will be used for date suggestion]
         $publish_company = NovelGroupPublishCompany::where(['publish_novel_group_id' => $publish_novel_group_id, 'company_id' => $company_id])->first();
-        $publish_date = PublishNovel::select('updated_at')->latest('updated_at')->where(['publish_novel_group_id' => $publish_novel_group_id, 'company_id' => $company_id])->first();
-
         $novels_per_days = $publish_company->novels_per_days;
 
+        //get the latest published date[i.e updated_at] for a a specific group_id amd company_id
+        $publish_date = PublishNovel::select('updated_at')->latest('updated_at')->where(['publish_novel_group_id' => $publish_novel_group_id, 'company_id' => $company_id])->first();
+
+        /*
+         *new publishing date [i.e. suggestion]
+         *if $publish_date exists then create new publishing date [i.e. suggestion] otherwise set new publishing date to empty
+        */
         if (count($publish_date) > 0) {
-            // if $publish_date is not same as today
+            // if $publish_date is not same as today then set the publish_date to today'date otherwise keep the original
             if ($publish_date->updated_at->toDateString() != Carbon::now()->toDateString()) {
-                $set_date = Carbon::now()->toDateString();
+                $set_publish_date = Carbon::now()->toDateString();
             } else {
-                $set_date = $publish_date->updated_at;
+                $set_publish_date = $publish_date->updated_at;
             }
-            $carbon_publish_date = new Carbon($set_date);
+            //create the new publishing date [suggestion date] by adding the days [from $publish_company] to previous publish date
+            $carbon_publish_date = new Carbon($set_publish_date);
             $new_publish_date = $carbon_publish_date->addDays($publish_company->days);
         } else {
             $new_publish_date = '';
         }
 
+        //create the array of all new publishing dates [suggestion dates] which will have suggestion date for each  novel per day
         $publish_array = array();
         $index = 1;
-      //  $counter = 0;
-       // $increase_limit = 0;
+        //set the next limit[$next_limit] up to where suggestion is to be shown based on novels per day
         $next_limit = $novels_per_days + $publish_company->novels_per_days;
+
+        //set the suggestion for novels based on $next_limit index
         foreach ($novels as $novel) {
-            // while($index <= $novels_per_days)
+            //up to novels per day
             if ($index <= $novels_per_days) {
+                //if publish novel exists for the current novel  the set the suggestion date
                 if (count($publish_date) > 0 && count($novel->publish_novels) > 0) {
-                    //updated at is not same as today
+                    // if $publish_date is not same as today then set the suggestion to today'date otherwise set from db
                     if ($publish_date->updated_at->toDateString() != Carbon::now()->toDateString()) {
                         $publish_array[$novel->id] = Carbon::today();
-                     //   $counter = $counter + 1;
-                       // $increase_limit = $counter;
+
                     } else {
                         $publish_array[$novel->id] = $publish_date->updated_at;
                     }
 
                 } else {
-                    // $increase_limit=$increase_limit+1;
-                    // $next_limit = $next_limit + 1;
+                    //if publish novel don't exists for first novel the set the suggestion date to today's date [up to novels per day]
                     $publish_array[$novel->id] = Carbon::today();
-
                 }
 
-                /* if ($index == $novels_per_days && $index != $publish_company->novels_per_days* $publish_company->days) {
-                     $novels_per_days = $novels_per_days + $publish_company->novels_per_days;
-                     $carbon_publish_date = new Carbon($publish_date->updated_at);
-                     $next_publish_date = $carbon_publish_date->addDays(1);
-                     $publish_date->updated_at=$next_publish_date;
-                 }*/
-                //}
-            } else {
-                //increase the suggestion date limit
+            } else { //for remaining novels
+                //increase the next limit [ up to where  up to where suggestion is to be shown is to be shown] if publish novel exists for the current novel
                 if (count($novel->publish_novels) > 0) {
-                 //   $next_limit = $next_limit + $increase_limit + 1;
-                    $next_limit = $next_limit  + 1;
-
+                    $next_limit = $next_limit + 1;
                 }
-
+                //now up to the  next limit  set the  new publishing date [or suggestion date] fot current novel
                 if ($index <= $next_limit) {
-                    /*if ($counter > 0 && count($novel->publish_novels) == 0) {
-
-                        $publish_array[$novel->id] = Carbon::today();
-                        $counter = $counter - 1;;
-                    } else {
-
-                        $publish_array[$novel->id] = $new_publish_date;
-                   }*/
                     $publish_array[$novel->id] = $new_publish_date;
 
                 } else {
+                    //if limit is over then set suggestion to empty
                     $publish_array[$novel->id] = '';
                 }
-
-
             }
-
+            //increase the default index
             $index = $index + 1;
 
         }

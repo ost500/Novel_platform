@@ -64,7 +64,7 @@
                                                 <td class="col-md-1 text-center">{{$apply_request->companies->name}}</td>
 
 
-                                                <td class="col-md-1 text-center">{{$apply_request->created_at}}</td>
+                                                <td class="col-md-1 text-center">{{$apply_request->updated_at}}</td>
                                                 <td class="col-md-1 text-center">{{$apply_request->pass}}</td>
                                                 <td class="col-md-1 text-center">
                                                     {{--<button class="btn btn-sm btn-warning">심사중</button>--}}
