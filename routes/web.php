@@ -134,5 +134,6 @@ Route::get('/', ['as' => 'root', 'uses' => 'MainController\MainController@main']
 
 
 Route::get('/series/{free_or_charged?}', ['as' => 'series', 'uses' => 'MainController\MainController@series']);
+Route::get('/bests/{free_or_charged?}', ['as' => 'bests', 'uses' => 'MainController\MainController@bests']);
 
 

@@ -60,4 +60,23 @@ class MainController extends Controller
         return view('main.series', compact('free_or_charged', 'novel_groups'));
     }
 
+    public function bests(Request $request, $free_or_charged = false)
+    {
+        if (!$free_or_charged) {
+            //charged
+            $novel_groups = NovelGroup::selectRaw('novel_group_id, novel_groups.*, sum(today_count) as sum, max(non_free_agreement) as non_free')
+                ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
+                ->groupBy('novel_group_id')->orderBy('sum', 'desc')->havingRaw('max(non_free_agreement) > 0')
+                ->with('nicknames')->paginate(10);
+        } else {
+            $novel_groups = NovelGroup::selectRaw('novel_group_id, novel_groups.*, max(novels.created_at) as new, max(non_free_agreement) as non_free')
+                ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
+                ->groupBy('novel_group_id')->orderBy('new','desc')->havingRaw('max(non_free_agreement) = 0')
+                ->with('nicknames')->withCount('novels')->paginate(3);
+        }
+        $page = $request->page;
+//        return response()->json($novel_groups);
+        return view('main.bests', compact('free_or_charged', 'novel_groups','page'));
+    }
+
 }
