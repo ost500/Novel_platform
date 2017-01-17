@@ -35,13 +35,6 @@ $factory->define(App\NovelGroup::class, function (Faker\Generator $faker) {
         'nickname_id' => $faker->randomElement(['1', '2', '3']),
         'title' => $faker->sentence,
         'description' => $faker->paragraph,
-        'keyword1' => $faker->word,
-        'keyword2' => $faker->word,
-        'keyword3' => $faker->word,
-        'keyword4' => $faker->word,
-        'keyword5' => $faker->word,
-        'keyword6' => $faker->word,
-        'keyword7' => $faker->word,
         'latest_at' => $faker->date('Y-m-d'),
         'cover_photo' => "default_.jpg"
     ];
