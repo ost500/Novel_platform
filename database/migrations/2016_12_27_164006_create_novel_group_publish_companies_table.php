@@ -17,7 +17,7 @@ class CreateNovelGroupPublishCompaniesTable extends Migration
             $table->increments('id');
             $table->integer('publish_novel_group_id')->unsigned()->index();;
             $table->integer('company_id')->unsigned()->index();;
-            $table->enum('status',array('신청하기','심사중','승인','거절'));
+            $table->enum('status',array('신청하기','심사중','승인','거절','대기중','신청불가'));
             $table->timestamps();
 
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');

@@ -36,4 +36,9 @@ class NickName extends Model
         $nick_main->main = true;
         $nick_main->save();
     }
+
+    public function novel_groups()
+    {
+        return $this->hasOne('novel_groups');
+    }
 }

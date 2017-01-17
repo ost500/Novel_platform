@@ -14,6 +14,8 @@
     <link href="/css/app.css" rel="stylesheet">
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;subset=latin" rel="stylesheet">
     <link href="/css/bootstrap.css" rel="stylesheet">
+
+    <link href="/css/extra.css" rel="stylesheet">
     <link href="/css/nifty.css" rel="stylesheet">
     <link href="/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link href="/plugins/pace/pace.min.css" rel="stylesheet">
@@ -454,9 +456,12 @@
 
 
 
-<script src="/js/bootstrap.min.js"></script>
-<script src="/js/nifty.min.js"></script>
 
+{{--laravel 기본 스크립트--}}
+<script src="/js/app.js"></script>
+{{--<script src="/js/bootstrap.min.js"></script>--}}
+
+<script src="/js/nifty.min.js"></script>
 <script src="/plugins/bootstrap-select/bootstrap-select.min.js"></script>
 <script src="/plugins/bootbox/bootbox.min.js"></script>
 
@@ -464,13 +469,12 @@
 <script src="/js/ui-modals.js"></script>
 <script src="/js/ui-alerts.js"></script>
 
-{{--laravel 기본 스크립트--}}
-<script src="/js/app.js"></script>
+
 
 {{--jquery UI--}}
 <script src="/js/jquery-ui/jquery-ui.min.js"></script>
 
-<script src="/js/nifty.min.js"></script>
+
 
 </body>
 </html>

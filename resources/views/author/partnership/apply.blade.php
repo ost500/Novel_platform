@@ -40,7 +40,6 @@
 
                             <div class="form-group pad-ver">
                                 <label class="col-lg-1 control-label text-left" for="inputSubject">작품선택</label>
-
                                 <div class="col-lg-11">
                                     <select v-model="clicked_novel_group" name="novel_group" class="form-control"
                                             v-on:change="novel_group_checked">
@@ -58,7 +57,6 @@
 
                             <div class="form-group pad-ver">
                                 <label class="col-lg-1 control-label text-left" for="inputSubject">초기연재편수</label>
-
                                 <div class="col-lg-11">
                                     <select name="initial_publish" class="form-control">
                                         <option value="">선택</option>
@@ -74,7 +72,6 @@
 
                             <div class="form-group pad-ver">
                                 <label class="col-lg-1 control-label text-left" for="inputSubject">일(날짜)</label>
-
                                 <div class="col-lg-11">
                                     <select name="days" class="form-control">
                                         <option value="">선택</option>
@@ -90,7 +87,6 @@
 
                             <div class="form-group pad-ver">
                                 <label class="col-lg-1 control-label text-left" for="inputSubject">편수</label>
-
                                 <div class="col-lg-11">
                                     <select name="novels_per_days" class="form-control">
                                         <option value="">선택</option>
@@ -108,7 +104,6 @@
 
                             <div class="form-group pad-ver">
                                 <label class="col-lg-1 control-label text-left" for="inputSubject">제휴업체</label>
-
                                 <div class="col-lg-11 text-center">
 
 
@@ -136,15 +131,17 @@
 
                                 <div class="form-group pad-ver" v-if="adult_publish===true">
                                     <label class="col-lg-1 control-label text-left" for="inputSubject">19금 연재</label>
-
                                     <div class="col-lg-11">
                                         <div class="padding-top-10">
-                                            해당 제휴 업체는 19금 소설을 연재하실 수 없습니다
-                                            <label class="form-checkbox form-icon form-text">
+                                            해당 제휴 업체는 19금 소설 연재가 불가능한 업체입니다. 추후 성인 회차를 추가할 계획이 있으십니까?
 
-                                                <input id="adult_checkbox" type="checkbox"
+                                                <label  style="margin-left:20px" class="form-radio form-icon active form-text">
+                                                    <input type="radio" name="ico-w-label" checked="">
+                                                    예</label>
 
-                                                        > 확인 </label>
+                                                <label class="form-radio form-icon form-text">
+                                                    <input id="adult_checkbox" type="radio" name="ico-w-label"> 아니오</label>
+
                                         </div>
                                     </div>
                                 </div>
@@ -256,8 +253,7 @@
                     if (this.adult_publish) {
                         console.log($("#adult_checkbox").is(':checked'));
                         if ($("#adult_checkbox").is(':checked') == false) {
-                            bootbox.alert("해당 업체는 19금 연재가 불가능합니다." +
-                                    " 15세 개정판으로 연재 신청해 주십시오", function () {
+                            bootbox.alert("19금 연재 불가 업체가 선택되었습니다. <br> 추후 성인 회차를 추가하실 예정이시면, '15세 개정판'을 생성하신 후에,<br>  '15세 개정판'으로 제휴 연재 신청해주시기 바랍니다.", function () {
 
                             });
                             return;
