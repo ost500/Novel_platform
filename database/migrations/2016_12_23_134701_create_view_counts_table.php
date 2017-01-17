@@ -17,7 +17,7 @@ class CreateViewCountsTable extends Migration
             $table->increments('id');
             $table->integer('novel_id')->unsigned()->index();
             $table->date('date');
-            $table->integer('count');
+            $table->integer('count')->default(1);
             $table->integer('separation');
             $table->timestamps();
             $table->foreign('novel_id')->references('id')->on('novels')->onDelete('cascade');

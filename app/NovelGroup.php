@@ -68,17 +68,19 @@ class NovelGroup extends Model
      * @var array
      */
     protected $fillable = [
-        'nickname', 'title', 'description','keyword1','keyword2','keyword3','keyword4','keyword5','keyword6','keyword7','novel_group_id','cover_photo',
+        'nickname', 'title', 'description', 'keyword1', 'keyword2', 'keyword3', 'keyword4', 'keyword5', 'keyword6', 'keyword7', 'novel_group_id', 'cover_photo',
     ];
 
     public function novels()
     {
         return $this->hasMany(Novel::class);
     }
+
     public function users()
     {
-        return $this->belongsTo(User::class, 'user_id','id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
     public function reviews()
     {
         return $this->hasMany(Review::class);
@@ -102,5 +104,10 @@ class NovelGroup extends Model
     public function publish_novel_groups()
     {
         return $this->hasOne(PublishNovelGroup::class);
+    }
+
+    public function nicknames()
+    {
+        return $this->belongsTo(NickName::class, 'nickname_id', 'id');
     }
 }

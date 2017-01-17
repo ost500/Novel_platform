@@ -32,7 +32,7 @@ $factory->define(App\NovelGroup::class, function (Faker\Generator $faker) {
 
     return [
         'user_id' => $faker->randomElement($userIds),
-        'nickname' => $faker->randomElement(['1', '2', '3']),
+        'nickname_id' => $faker->randomElement(['1', '2', '3']),
         'title' => $faker->sentence,
         'description' => $faker->paragraph,
         'keyword1' => $faker->word,
