@@ -713,6 +713,8 @@
 }
 
 .novel-list .thumb img {
+    width: 72px;
+    height: 105px;
     display: block;
     border: 1px solid #dfdada;
 }

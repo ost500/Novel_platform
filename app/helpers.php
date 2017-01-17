@@ -47,3 +47,33 @@ function checkPublishNovelGroup($publish_novel_group_id,$company_id)
     }
     return true;
 }
+
+function time_elapsed_string($datetime, $full = false)
+{
+    $now = new DateTime;
+    $ago = new DateTime($datetime);
+    $diff = $now->diff($ago);
+
+    $diff->w = floor($diff->d / 7);
+    $diff->d -= $diff->w * 7;
+
+    $string = array(
+        'y' => '년',
+        'm' => '월',
+        'w' => '주',
+        'd' => '일',
+        'h' => '시간',
+        'i' => '분',
+        's' => '초',
+    );
+    foreach ($string as $k => &$v) {
+        if ($diff->$k) {
+            $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? '' : '');
+        } else {
+            unset($string[$k]);
+        }
+    }
+
+    if (!$full) $string = array_slice($string, 0, 1);
+    return $string ? implode(', ', $string) . ' 전' : '방금 전';
+}

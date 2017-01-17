@@ -145,7 +145,8 @@
                                                 <img src="imgs/thumb/alarm1.png" alt="">
                                             </div>
                                             <div class="post">
-                                                <p class="post-content"><a href="#mode_nav">고백게임 작가 이비안의 신작 <b class="novel-title">탐닉의 밤</b>이 신규 등록되었습니다.</a></p>
+                                                <p class="post-content"><a href="#mode_nav">고백게임 작가 이비안의 신작 <b
+                                                                class="novel-title">탐닉의 밤</b>이 신규 등록되었습니다.</a></p>
                                                 <p class="post-datetime">1시간 전</p>
                                             </div>
                                         </li>
@@ -154,7 +155,8 @@
                                                 <img src="imgs/thumb/alarm2.png" alt="">
                                             </div>
                                             <div class="post">
-                                                <p class="post-content"><a href="#mode_nav">지난달 베스트 1위 작품 공개! 2016년 5월의 판매 1위는?</a></p>
+                                                <p class="post-content"><a href="#mode_nav">지난달 베스트 1위 작품 공개! 2016년 5월의
+                                                        판매 1위는?</a></p>
                                                 <p class="post-datetime">2시간 전</p>
                                             </div>
                                         </li>
@@ -163,7 +165,8 @@
                                                 <img src="imgs/thumb/alarm3.png" alt="">
                                             </div>
                                             <div class="post">
-                                                <p class="post-content"><a href="#mode_nav">6월 둘째 주, 유료연재 주간 베스트 작품 TOP 5를 소개합니다!</a></p>
+                                                <p class="post-content"><a href="#mode_nav">6월 둘째 주, 유료연재 주간 베스트 작품 TOP
+                                                        5를 소개합니다!</a></p>
                                                 <p class="post-datetime">1일 전</p>
                                             </div>
                                         </li>
@@ -172,7 +175,8 @@
                                                 <img src="imgs/thumb/alarm4.png" alt="">
                                             </div>
                                             <div class="post">
-                                                <p class="post-content"><a href="#mode_nav">오늘 가장 많이 읽은 유료연재 소설은?</a></p>
+                                                <p class="post-content"><a href="#mode_nav">오늘 가장 많이 읽은 유료연재 소설은?</a>
+                                                </p>
                                                 <p class="post-datetime">1일 전</p>
                                             </div>
                                         </li>
@@ -216,10 +220,10 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#mode_nav">연재</a>
+                    <a href="{{route('series')}}">연재</a>
                     <ul class="gnb-depth2">
-                        <li><a href="#mode_nav">유료소설</a></li>
-                        <li><a href="#mode_nav">무료소설</a></li>
+                        <li><a href="{{route('series')}}">유료소설</a></li>
+                        <li><a href="{{route('series',['free_or_charged'=>'free'])}}">무료소설</a></li>
                     </ul>
                 </li>
                 <li>
@@ -350,12 +354,16 @@
 <script src="js/common.js"></script>
 <!--[if lte IE 9]>
 <script src="js/jquery.placeholder.min.js"></script>
-<script> $( document ).ready(function() { $('input, textarea').placeholder(); }); </script>
+<script> $(document).ready(function () {
+    $('input, textarea').placeholder();
+}); </script>
 <![endif]-->
 <!--[if lte IE 8]>
 <script src="js/selectivizr-min.js"></script>
 <script src="js/checked-polyfill.min.js"></script>
-<script> $( document ).ready(function() { $('input:radio, input:checkbox').checkedPolyfill(); }); </script>
+<script> $(document).ready(function () {
+    $('input:radio, input:checkbox').checkedPolyfill();
+}); </script>
 <![endif]-->
 </body>
 </html>
