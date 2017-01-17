@@ -133,3 +133,6 @@ Route::get('/admin/partnership/approve_inning/{id?}', ['as' => 'admin.partner_ap
 
 //main
 Route::get('/', ['as' => 'root', 'uses' => 'MainController\MainController@main']);
+
+//EachController
+Route::get('/novel_group/{id}', ['as' => 'novel_group', 'uses' => 'MainController\EachController@novel_group']);
