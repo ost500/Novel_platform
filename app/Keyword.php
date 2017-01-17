@@ -31,4 +31,11 @@ class Keyword extends Model
     protected $fillable = [
         'category', 'name',
     ];
+
+    public function novel_groups()
+    {
+        return $this->belongsToMany(NovelGroup::class,
+            'novel_group_publish_keywords', 'keyword_id', 'novel_group_id')
+            ->withPivot('keyword_id', 'novel_group_id','created_at');
+    }
 }

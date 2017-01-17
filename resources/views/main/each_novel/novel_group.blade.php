@@ -7,16 +7,16 @@
                 <!-- 연재소개 -->
                 <section class="novel-detail">
                     <div class="novel-detail-content">
-                        <p class="thumb"><span><img src="imgs/novel_covers/{{ $novel_group->cover_photo }}" alt="공녀 엘린느"></span></p>
+                        <p class="thumb"><span><img src="/img/novel_covers/{{ $novel_group->cover_photo }}" alt="공녀 엘린느" ></span></p>
                         <div class="post">
                             <div class="post-header">
-                                <h2 class="title">{{ $novel_group->title }}</h2>
-                                <p class="writer">{{ $novel_group->nicknames->nicknames }} <a href="#mode_nav"><i class="memo-icon">쪽지</i></a></p>
+                                <h2 class="title">{{str_limit($novel_group->title, 35)}}</h2>
+                                <p class="writer">{{$novel_group->nicknames->nickname }} <a href="#mode_nav"><i class="memo-icon">쪽지</i></a></p>
                                 <p class="post-info">
-                                    <span>로맨스판타지</span>
-                                    <span>총 {{$novel_group->max_innng}}화</span>
-                                    <span>조회수 78,912</span>
-                                    <span>선호작 4,028명</span>
+                                    <span>{{$novel_group->keywords[0]->name }}</span>
+                                    <span>총{{$novel_group->max_inning}}화</span>
+                                    <span>조회수{{ $novel_group->getNovelGroupViewCount($novel_group->id)}}</span>
+                                    <span>선호작 {{$novel_group->getNovelGroupFavoriteCount($novel_group->id)}} 명</span>
                                 </p>
                             </div>
                             <div class="post-content">
@@ -64,7 +64,7 @@
                                         <span class="no">{{$loop->count - $loop->index}} 화</span>
                                         <span class="datetime">{{$novel->created_at}}</span>
                                     </div>
-                                    <div class="col-title"><a href="#mode_nav">{{$novel->created_at}}<i class="up-icon">Up</i></a></div>
+                                    <div class="col-title"><a href="#mode_nav">{{str_limit($novel->title, 60)}}<i class="up-icon">Up</i></a></div>
                                     <div class="col-charge">@if($novel->non_free_agreement > 0) 유료 @else <span class="free">무료</span> @endif {{-- <span class="open">열림</span>--}}</div>
                                 </li>
                                 @endforeach
@@ -83,49 +83,19 @@
                                     <li>
                                         <a href="#mode_nav">
                                             <div class="thumb">
-                                                <span><img src="imgs/thumb/novel_more1.png" alt=""></span>
+                                                <span><img src="/img/novel_covers/{{ $author_novel_group->cover_photo }}" alt=""></span>
                                             </div>
                                             <div class="post">
-                                                <strong class="title">{{$author_novel_group->title}}</strong>
+                                                <strong class="title">{{str_limit($author_novel_group->title, 20)}}</strong>
                                                 <p class="post-content">
                                                     로맨스판타지<br>
                                                     총 {{$author_novel_group->max_inning}}화<br>
-                                                    선호작 6,289명
+                                                    선호작{{$author_novel_group->favorite_count}}명
                                                 </p>
                                             </div>
                                         </a>
                                     </li>
                                     @endforeach
-                                    <li>
-                                        <a href="#mode_nav">
-                                            <div class="thumb">
-                                                <span><img src="imgs/thumb/novel_more2.png" alt=""></span>
-                                            </div>
-                                            <div class="post">
-                                                <strong class="title">연리초</strong>
-                                                <p class="post-content">
-                                                    시대로맨스<br>
-                                                    총 152화<br>
-                                                    선호작 3,117명
-                                                </p>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#mode_nav">
-                                            <div class="thumb">
-                                                <span><img src="imgs/thumb/novel_more3.png" alt=""></span>
-                                            </div>
-                                            <div class="post">
-                                                <strong class="title">가란잠</strong>
-                                                <p class="post-content">
-                                                    시대로맨스<br>
-                                                    총 98화<br>
-                                                    선호작 4993명
-                                                </p>
-                                            </div>
-                                        </a>
-                                    </li>
                                 </ul>
                                 <a href="#mode_nav" class="recommend-more-btn">더보기</a>
                             </div>
@@ -148,13 +118,13 @@
                         <section class="hash-tag">
                             <h2 class="hash-tag-title">해시태그</h2>
                             <ul class="hash-tag-list">
-                                <li><a href="#mode_nav">{{$novel_group->keyword1}}</a></li>
-                                <li><a href="#mode_nav">{{$novel_group->keyword2}}정략결혼</a></li>
-                                <li><a href="#mode_nav">{{$novel_group->keyword3}}회귀물</a></li>
-                                <li><a href="#mode_nav">{{$novel_group->keyword4}}황제 / 황태자</a></li>
-                                <li><a href="#mode_nav">{{$novel_group->keyword5}}나쁜남자</a></li>
-                                <li><a href="#mode_nav">{{$novel_group->keyword6}}후회남</a></li>
-                                <li><a href="#mode_nav">{{$novel_group->keyword7}}까칠남</a></li>
+                                @foreach($novel_group->keywords as $keyword)
+                                    @if($loop->iteration ==1)
+                                         @continue
+                                    @endif
+                                <li><a href="#mode_nav">{{$keyword->name}}</a></li>
+                                @endforeach
+
                             </ul>
                         </section>
                         <!-- //해시태그 -->

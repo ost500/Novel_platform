@@ -137,7 +137,6 @@ Route::group(['prefix' => 'series'], function () {
     Route::get('free', ['as' => 'series.free', 'uses' => 'MainController\MainController@series_free']);
     Route::get('charged', ['as' => 'series.charged', 'uses' => 'MainController\MainController@series_charged']);
 });
-Route::get('/', ['as' => 'root', 'uses' => 'MainController\MainController@main']);
 
 //EachController
 Route::get('/novel_group/{id}', ['as' => 'novel_group', 'uses' => 'MainController\EachController@novel_group']);
