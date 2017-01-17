@@ -37,11 +37,11 @@
                               action="{{route('novelgroups.update',['id'=>$id]) }}"
                               enctype="multipart/form-data">
                             <input name="_method" type="hidden" value="PUT">
-                            {{ csrf_field() }}
-                            {{--  <input name="novel_group_id" id="novel_group_id" type="hidden" :value="fillItem.id" >
-                            <meta id="token" name="token" content="{{ csrf_token() }}">  v-on:submit.prevent="onSubmit(fillItem.id)"     --}}
+                        {{ csrf_field() }}
+                        {{--  <input name="novel_group_id" id="novel_group_id" type="hidden" :value="fillItem.id" >
+                        <meta id="token" name="token" content="{{ csrf_token() }}">  v-on:submit.prevent="onSubmit(fillItem.id)"     --}}
 
-                                    <!--Static-->
+                        <!--Static-->
                             <!--div class="form-group">
                                 <label class="col-md-2 control-label">Static</label>
                                 <div class="col-md-9"><p class="form-control-static">Username</p></div>
@@ -51,8 +51,9 @@
                                 <label class="col-md-2 control-label" for="demo-text-input">필명</label>
 
                                 <div class="col-md-9">
-                                    <select class="form-control" name="nickname" v-model="fillItem.nickname">
-                                        <option value="">필명선택</option>
+                                    <select class="form-control" name="nickname_id">
+                                        {{--<option value="">필명선택</option>--}}
+                                        <option v-model="fillItem.nicknames.id" selected> @{{ fillItem.nicknames.nickname }} </option>
                                         <option v-for="nick_name in nick_names"
                                                 :value="nick_name.id"> @{{ nick_name.nickname }} </option>
 

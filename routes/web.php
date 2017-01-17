@@ -132,7 +132,7 @@ Route::get('/admin/partnership/approve_inning/{id?}', ['as' => 'admin.partner_ap
 //main
 Route::get('/', ['as' => 'root', 'uses' => 'MainController\MainController@main']);
 
-Route::group(['prefix' => 'series'], function () {
-    Route::get('free', ['as' => 'series.free', 'uses' => 'MainController\MainController@series_free']);
-    Route::get('charged', ['as' => 'series.charged', 'uses' => 'MainController\MainController@series_charged']);
-});
+
+Route::get('/series/{free_or_charged?}', ['as' => 'series', 'uses' => 'MainController\MainController@series']);
+
+

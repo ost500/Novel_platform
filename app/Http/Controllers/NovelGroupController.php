@@ -238,7 +238,7 @@ class NovelGroupController extends Controller
     {
 
         // $novel_group= $request->user()->novel_groups()->with('users.nicknames')->where('id',$id)->first();
-        $novel_group = NovelGroup::where('id', $id)->first();
+        $novel_group = NovelGroup::where('id', $id)->with('nicknames')->first();
         $nicknames = $request->user()->nicknames()->get();
         $keyword1 = Keyword::select('id', 'name')->where('category', '1')->get();
         $keyword2 = Keyword::select('id', 'name')->where('category', '2')->get();
@@ -275,14 +275,14 @@ class NovelGroupController extends Controller
         $input = $request->except('_token', '_method', 'default_cover_photo');
 
         Validator::make($request->all(), [
-            'nickname' => 'required|max:255',
+            'nickname_id' => 'required',
             'title' => 'required',
             'description' => 'required',
             'cover_photo' => 'mimes:jpeg,png|image|max:1024|dimensions:max_width=1080,max_height=1620',
             'cover_photo2' => 'mimes:jpeg,png|image|max:1024|dimensions:max_width=1080,max_height=1080',
 
         ], [
-            'nickname.required' => '필명은 필수 입니다.',
+            'nickname_id.required' => '필명은 필수 입니다.',
             'title.required' => '제목은 필수 입니다.',
             'description.required' => '설명은 필수 입니다.',
             'cover_photo.dimensions' => '표지1 크기는 1080*1620 이어야 합니다',
