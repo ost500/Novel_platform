@@ -40,7 +40,6 @@ Route::post('publish_novel/update_status', ['as' => 'publish_novel.update_status
 Route::delete('publish_novel/{id}', ['as' => 'publish_novel.destroy', 'uses' => "PublishNovelController@destroy"]);
 Route::get('publish_novel/e_pub/{id}', ['as' => 'publish_novel.e_pub', 'uses' => "PublishNovelController@e_pub"]);
 
-
 Route::resource('users', 'UserController', ['except' => ['update']]);
 Route::post('mailboxes', ['as' => 'mailbox.store', 'uses' => 'MailboxController@store']);
 Route::post('mailboxes/specific_mail', ['as' => 'mailbox.store_specific_mail', 'uses' => 'MailboxController@store_specific_mail']);
@@ -132,6 +131,12 @@ Route::get('/admin/partnership/approve_inning/{id?}', ['as' => 'admin.partner_ap
 
 
 //main
+Route::get('/', ['as' => 'root', 'uses' => 'MainController\MainController@main']);
+
+Route::group(['prefix' => 'series'], function () {
+    Route::get('free', ['as' => 'series.free', 'uses' => 'MainController\MainController@series_free']);
+    Route::get('charged', ['as' => 'series.charged', 'uses' => 'MainController\MainController@series_charged']);
+});
 Route::get('/', ['as' => 'root', 'uses' => 'MainController\MainController@main']);
 
 //EachController
