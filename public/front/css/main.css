@@ -1,0 +1,249 @@
+/**
+ * 메인
+ */
+
+/* 정오 */
+.noon {
+    min-width: 954px;
+    background: #3b322b;
+}
+
+.noon-title {
+    overflow: hidden;
+    height: 87px;
+    color: #998878;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 95px;
+    text-align: center;
+}
+
+.noon-title > span {
+    color: #b68957;
+}
+
+.noon-list {
+    padding-bottom: 35px;
+}
+
+.noon-list > li {
+    float: left;
+    margin-left: 49px;
+}
+
+.noon-list > li:first-child {
+    margin-left: 0;
+}
+
+.noon-list > li > a {
+    display: block;
+}
+
+.noon-list > li p {
+    margin: 0;
+    text-align: center;
+}
+
+.noon-list > li .thumb {
+    width: 150px;
+    height: 219px;
+    margin-bottom: 8px;
+    background: #473c34;
+}
+
+.noon-list > li .thumb:after {
+    content: '';
+    display: block;
+    height: 8px;
+    background: url(../imgs/common/noon_thumb_bg.png) repeat-x 0 100%;
+}
+
+.noon-list > li .thumb img {
+    width: 150px;
+    height: 219px;
+    display: block;
+    border: 1px solid #473c34;
+}
+
+.noon-list > li .book-title {
+    margin-top: 3px;
+    color: #fff;
+    font-size: 16px;
+}
+
+.noon-list > li .author {
+    margin-top: 8px;
+    color: #b8a390;
+    font-size: 14px;
+}
+
+.noon-list > li > a:hover .book-title {
+    color: #5db38e;
+}
+
+/* 최신글 그룹 */
+.latest-group {
+    float: left;
+    width: 609px;
+}
+
+/* 유료소설 */
+.latest-wrap--charge {
+    margin-top: 40px;
+}
+
+.latest--rank--charge {
+    margin-top: -20px;
+    margin-left: -54px;
+    padding-top: 60px;
+    padding-left: 244px;
+    padding-bottom: 60px;
+}
+
+.latest--rank--charge > li {
+    width: 92px;
+    margin-top: 20px;
+    margin-left: 54px;
+}
+
+.latest--rank--charge > li:nth-child(6n) {
+    clear: none;
+}
+
+.latest--rank--charge > li:nth-child(6n+1) {
+    clear: both;
+}
+
+.latest--rank--charge > li:before {
+    display: block;
+    padding-top: 4px;
+    padding-bottom: 10px;
+    color: #949494;
+    font-family: 'nm';
+    font-size: 20px;
+    font-style: italic;
+    text-align: center;
+    line-height: 1;
+}
+
+.latest--rank--charge > li .author {
+    color: #998878;
+}
+
+.latest--rank--charge > li .thumb {
+    width: 92px;
+    height: 135px;
+    margin-bottom: 8px;
+    background-color: #ddd7d8;
+}
+
+.latest--rank--charge > li .thumb:after {
+    content: '';
+    display: block;
+    height: 8px;
+    background: url(../imgs/common/charge_thumb_bg.png) repeat-x 0 100%;
+}
+
+.latest--rank--charge > li .thumb img {
+    width: 92px;
+    height: 135px;
+    display: block;
+    border: 1px solid #e5e0e1;
+}
+
+.latest--rank--charge > li:nth-child(1) .thumb img {
+    width: 150px;
+    height: 219px;
+    display: block;
+    border: 1px solid #e5e0e1;
+}
+
+.latest--rank--charge > li:nth-child(1) {
+    position: absolute;
+    left: 0;
+    width: 150px;
+    margin-left: 40px;
+}
+
+.latest--rank--charge > li:nth-child(1) .thumb {
+    width: 150px;
+    height: 219px;
+    margin-bottom: 12px;
+    background-color: #ddd7d8;
+}
+
+.latest--rank--charge > li .thumb:after {
+    content: '';
+    display: block;
+    height: 12px;
+    background: url(../imgs/common/charge1_thumb_bg.png) repeat-x 0 100%;
+}
+
+.latest--rank--charge > li:before {
+    font-size: 22px;
+    line-height: 22px;
+}
+
+.latest--rank--charge > li:nth-child(1):before {
+    font-size: 28px;
+    padding-top: 0;
+    padding-bottom: 14px;
+}
+
+.latest--rank--charge > li:nth-child(1):after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 25px;
+    margin-top: -26px;
+    background: url(../imgs/common/charge_crown_icon.png) no-repeat 58% 0;
+}
+
+/* 무료,새소설,독자추천 */
+.latest-content:after {
+    content: '';
+    display: table;
+    clear: both;
+}
+
+/* 무료소설 */
+.latest-wrap--free {
+    margin-top: -10px;
+}
+
+/* 독자추천 */
+.recommend--main {
+    float: right;
+    width: 278px;
+}
+
+/* 회원님을위한 추천 */
+.custom-latest-wrap {
+    margin-top: 50px;
+    border: 1px solid #cdc7c8;
+}
+
+.custom-latest-title {
+    padding-top: 20px;
+    color: #998878;
+    font-size: 18px;
+    font-weight: 400;
+    text-align: center;
+    line-height: 1em;
+}
+
+.custom-latest-title > span {
+    font-weight: normal;
+    color: #5db38e;
+}
+
+.custom-latest-wrap .latest {
+    padding-top: 30px;
+    padding-left: 38px;
+}
+
+.custom-latest-wrap .latest > li:nth-child(6n) {
+    clear: none;
+}

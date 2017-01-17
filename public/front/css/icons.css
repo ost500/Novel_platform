@@ -1,0 +1,133 @@
+@charset "UTF-8";
+
+/**
+ * 아이콘
+ */
+
+/* 아이콘 */
+[class*="-icon"] { overflow: hidden; display: inline-block; white-space: nowrap; vertical-align: middle; }
+[class*="-icon"]:before { content: ''; display: inline-block; vertical-align: top; }
+
+/* 이전으로 */
+.prev-icon { width: 15px; height: 15px; }
+.prev-icon:before { width: 15px; height: 15px; background: url(../imgs/common/prev_page.png); }
+
+/* 메모 */
+.memo-icon { width: 17px; height: 19px; }
+.memo-icon:before { width: 17px; height: 19px; background: url(../imgs/common/memo_icon.png); }
+
+/* 선호 */
+.scrap-icon { width: 26px; height: 26px; }
+.scrap-icon:before { width: 26px; height: 26px; background: url(../imgs/common/scrap_icon.png); }
+
+/* 선호 활성 */
+.scrap-active-icon { width: 26px; height: 26px; }
+.scrap-active-icon:before { width: 26px; height: 26px; background: url(../imgs/common/scrap_icon_active.png); }
+
+/* 공유 */
+.share-icon { width: 26px; height: 26px; }
+.share-icon:before { width: 26px; height: 26px; background: url(../imgs/common/share_icon.png); }
+
+/* UP */
+.up-icon { width: 23px; height: 17px; }
+.up-icon:before { width: 23px; height: 17px; background: url(../imgs/common/up_icon.png); }
+
+/* 게시물 선호작등록 */
+.scrap2-icon { width: 19px; height: 19px; }
+.scrap2-icon:before { width: 19px; height: 19px; background: url(../imgs/common/scrap2_icon.png); }
+
+/* 게시물 선호작등록 활성 */
+.scrap2-active-icon { width: 19px; height: 19px; }
+.scrap2-active-icon:before { width: 19px; height: 19px; background: url(../imgs/common/scrap2_icon_active.png); }
+
+/* 게시물 공유 */
+.share2-icon { width: 19px; height: 19px; }
+.share2-icon:before { width: 19px; height: 19px; background: url(../imgs/common/share2_icon.png); }
+
+/* 게시물 쪽지보내기 */
+.memo2-icon { width: 19px; height: 19px; }
+.memo2-icon:before { width: 19px; height: 19px; background: url(../imgs/common/memo2_icon.png); }
+
+/* 댓글없음 */
+.no-data-icon { width: 40px; height: 40px; }
+.no-data-icon:before { width: 40px; height: 40px; background: url(../imgs/common/no_data_icon.png); }
+
+/* 더하기,파일첨부 */
+.plus-icon { width: 10px; height: 10px; }
+.plus-icon:before { width: 10px; height: 10px; background: url(../imgs/common/plus_icon.png); vertical-align: top; }
+
+/* TOP */
+.gotop-icon { width: 13px; height: 8px; }
+.gotop-icon:before { width: 13px; height: 8px; background: url(../imgs/common/gotop_icon.png); }
+
+/* 마이페이지용 */
+.scrap3-icon { width: 24px; height: 24px; }
+.scrap3-icon:before { width: 24px; height: 24px; background: url(../imgs/common/scrap3_icon.png); }
+.marble3-icon { width: 24px; height: 24px; }
+.marble3-icon:before { width: 24px; height: 24px; background: url(../imgs/common/marble3_icon.png); }
+.piece3-icon { width: 24px; height: 24px; }
+.piece3-icon:before { width: 24px; height: 24px; background: url(../imgs/common/piece3_icon.png); }
+
+/* 새글 */
+.new-icon { width: 12px; height: 11px; }
+.new-icon:before { width: 12px; height: 11px; background: url(../imgs/common/new_icon.png); }
+
+/* END */
+.end-icon { width: 14px; height: 13px; }
+.end-icon:before { width: 14px; height: 13px; background: url(../imgs/common/end_icon.png); }
+
+/* Setup */
+.setup-icon { width: 27px; height: 27px; }
+.setup-icon:before { width: 27px; height: 27px; background: url(../imgs/common/setup_icon.png); }
+
+/* 하트,좋아요 */
+.like-icon { width: 22px; height: 19px; }
+.like-icon:before { width: 22px; height: 19px; background: url(../imgs/common/like_icon.png); }
+
+/* 하트,좋아요 활성 */
+.like-active-icon { width: 22px; height: 19px; }
+.like-active-icon:before { width: 22px; height: 19px; background: url(../imgs/common/like_icon_active.png); }
+
+/* 신고 */
+.report-icon { width: 22px; height: 19px; }
+.report-icon:before { width: 22px; height: 19px; background: url(../imgs/common/report_icon.png); }
+
+/* 신고 댓글 */
+.report2-icon { width: 13px; height: 11px; }
+.report2-icon:before { width: 13px; height: 11px; background: url(../imgs/common/report2_icon.png); }
+
+/* 비밀 */
+.secret-icon { width: 11px; height: 11px; }
+.secret-icon:before { width: 11px; height: 11px; background: url(../imgs/common/secret_icon.png); }
+
+/* Setup 다른색 */
+.setup2-icon { width: 27px; height: 27px; }
+.setup2-icon:before { width: 27px; height: 27px; background: url(../imgs/common/setup2_icon.png); }
+
+/* 하단화살표,다른회차 */
+.arrow-icon { width: 27px; height: 27px; }
+.arrow-icon:before { width: 27px; height: 27px; background: url(../imgs/common/arrow_icon.png) no-repeat 50% 50%; }
+
+/* 좌화살표,이전회차 */
+.prev-episode-icon { width: 61px; height: 61px; }
+.prev-episode-icon:before { width: 61px; height: 61px; background: url(../imgs/common/prev_episode_icon.png); }
+
+/* 우화살표,다음회차 */
+.next-episode-icon { width: 61px; height: 61px; }
+.next-episode-icon:before { width: 61px; height: 61px; background: url(../imgs/common/next_episode_icon.png); }
+
+/* 결제아이콘 */
+.naverpay-icon { width: 91px; height: 21px; }
+.naverpay-icon:before { width: 91px; height: 21px; background: url(../imgs/common/naverpay_icon.png); }
+.kakaopay-icon { width: 79px; height: 21px; }
+.kakaopay-icon:before { width: 79px; height: 21px; background: url(../imgs/common/kakaopay_icon.png); }
+.tmoney-icon { width: 69px; height: 21px; }
+.tmoney-icon:before { width: 69px; height: 21px; background: url(../imgs/common/tmoney_icon.png); }
+
+/* 경고 */
+.alert-icon { width: 14px; height: 12px; }
+.alert-icon:before { width: 14px; height: 12px; background: url(../imgs/common/alert_icon.png); }
+
+/* 인증 */
+.valid-icon { width: 14px; height: 11px; }
+.valid-icon:before { width: 14px; height: 11px; background: url(../imgs/common/valid_icon.png); }

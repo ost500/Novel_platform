@@ -4,14 +4,14 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>여우정원</title>
-    <link rel="stylesheet" href="/front/css/font/nanum_barun_gothic.css">
-    <link rel="stylesheet" href="/front/css/font/nanum_gothic.css">
-    <link rel="stylesheet" href="/front/css/font/nanum_myeongjo.css">
-    <link rel="stylesheet" href="/front/css/icons.css">
-    <link rel="stylesheet" href="/front/css/style.css">
-    <link rel="stylesheet" href="/front/css/sub.css">
-    <link rel="stylesheet" href="/front/css/main.css">
-    <link rel="stylesheet" href="/front/css/register.css">
+    <link rel="stylesheet" href="/front/css/font/nanum_barun_gothic.css" type="text/css">
+    <link rel="stylesheet" href="/front/css/font/nanum_gothic.css" type="text/css">
+    <link rel="stylesheet" href="/front/css/font/nanum_myeongjo.css" type="text/css">
+    <link rel="stylesheet" href="/front/css/icons.css" type="text/css">
+    <link rel="stylesheet" href="/front/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/front/css/sub.css?v={{time()}}" type="text/css">
+    <link rel="stylesheet" href="/front/css/main.css?v={{time()}}" type="text/css">
+    <link rel="stylesheet" href="/front/css/register.css" type="text/css">
     <script src="/front/js/jquery-1.12.4.min.js"></script>
     <!--[if lte IE 8]>
     <script src="/front/js/html5shiv.min.js"></script>
@@ -44,7 +44,7 @@
         <div class="usermenu">
             <!-- 방문자버튼 -->
             <div class="login-area">
-                <button type="button" class="userbtn userbtn--open is-new" id="more_btns_open">사용자메뉴<i>109</i></button>
+                <button type="button" class="userbtn userbtn--open" id="more_btns_open">사용자메뉴</button>
                 <div class="more-btns" id="more_btns">
                     <div class="layer-popup-wrap">
                         <a href="#mode_nav" class="userbtn userbtn--myinfo">마이메뉴</a>
@@ -72,7 +72,7 @@
                         <!-- //마이페이지팝업 -->
                     </div>
                     <div class="layer-popup-wrap">
-                        <a href="#mode_nav" class="userbtn userbtn--memo is-new">쪽지<i>6</i></a>
+                        <a href="#mode_nav" class="userbtn userbtn--memo">쪽지</a>
                         <!-- 쪽지팝업 -->
                         <section class="layer-popup layer-popup--memo">
                             <div class="inner">
@@ -133,7 +133,7 @@
                         <!-- //쪽지팝업 -->
                     </div>
                     <div class="layer-popup-wrap">
-                        <a href="#mode_nav" class="userbtn userbtn--alarm is-new">알림<i>3</i></a>
+                        <a href="#mode_nav" class="userbtn userbtn--alarm">알림</a>
                         <!-- 소식팝업 -->
                         <section class="layer-popup layer-popup--news">
                             <div class="inner">
@@ -145,8 +145,7 @@
                                                 <img src="imgs/thumb/alarm1.png" alt="">
                                             </div>
                                             <div class="post">
-                                                <p class="post-content"><a href="#mode_nav">고백게임 작가 이비안의 신작 <b
-                                                                class="novel-title">탐닉의 밤</b>이 신규 등록되었습니다.</a></p>
+                                                <p class="post-content"><a href="#mode_nav">고백게임 작가 이비안의 신작 <b class="novel-title">탐닉의 밤</b>이 신규 등록되었습니다.</a></p>
                                                 <p class="post-datetime">1시간 전</p>
                                             </div>
                                         </li>
@@ -155,8 +154,7 @@
                                                 <img src="imgs/thumb/alarm2.png" alt="">
                                             </div>
                                             <div class="post">
-                                                <p class="post-content"><a href="#mode_nav">지난달 베스트 1위 작품 공개! 2016년 5월의
-                                                        판매 1위는?</a></p>
+                                                <p class="post-content"><a href="#mode_nav">지난달 베스트 1위 작품 공개! 2016년 5월의 판매 1위는?</a></p>
                                                 <p class="post-datetime">2시간 전</p>
                                             </div>
                                         </li>
@@ -165,8 +163,7 @@
                                                 <img src="imgs/thumb/alarm3.png" alt="">
                                             </div>
                                             <div class="post">
-                                                <p class="post-content"><a href="#mode_nav">6월 둘째 주, 유료연재 주간 베스트 작품 TOP
-                                                        5를 소개합니다!</a></p>
+                                                <p class="post-content"><a href="#mode_nav">6월 둘째 주, 유료연재 주간 베스트 작품 TOP 5를 소개합니다!</a></p>
                                                 <p class="post-datetime">1일 전</p>
                                             </div>
                                         </li>
@@ -175,8 +172,7 @@
                                                 <img src="imgs/thumb/alarm4.png" alt="">
                                             </div>
                                             <div class="post">
-                                                <p class="post-content"><a href="#mode_nav">오늘 가장 많이 읽은 유료연재 소설은?</a>
-                                                </p>
+                                                <p class="post-content"><a href="#mode_nav">오늘 가장 많이 읽은 유료연재 소설은?</a></p>
                                                 <p class="post-datetime">1일 전</p>
                                             </div>
                                         </li>
@@ -301,7 +297,6 @@
 <!-- //헤더 -->
 
 @yield('content')
-
 <!-- 푸터 -->
 <div class="footer">
     <!-- 푸터공지 -->
@@ -315,16 +310,13 @@
         <!-- 푸터고객링크 -->
         <nav>
             <ul class="customer-link">
-                <li><a href="#mode_nav">회사소개</a></li>
-                <li><a href="#mode_nav">제휴안내</a></li>
                 <li><a href="#mode_nav">이용약관</a></li>
-                <li><a href="#mode_nav">유료이용약관</a></li>
-                <li><a href="#mode_nav">개인정보</a></li>
-                <li><a href="#mode_nav">처리방침</a></li>
+                <li><a href="#mode_nav">개인정보취급방침</a></li>
                 <li><a href="#mode_nav">고객센터</a></li>
-                <li><a href="#mode_nav">캐시충전</a></li>
+                <li><a href="#mode_nav">구슬충전</a></li>
             </ul>
         </nav>
+
         <!-- //푸터고객링크 -->
 
         <!-- 푸터사이트정보 -->
@@ -346,7 +338,7 @@
                 <button type="button">패밀리사이트</button>
                 <ul>
                     <li><a href="#mode_nav">패밀리 사이트1</a></li>
-                    <li><a href="#mode_nav">형제사이트 1</a></li>
+                    <li><a href="#mode_nav">패밀리 사이트2</a></li>
                 </ul>
             </div>
         </div>
@@ -355,12 +347,15 @@
     <!-- //푸터내용 -->
 </div>
 <!-- //푸터 -->
-<script src="/front/js/common.js"></script>
+<script src="js/common.js"></script>
 <!--[if lte IE 9]>
-<script src="/front/js/jquery.placeholder.min.js"></script>
-<script> $(document).ready(function () {
-    $('input, textarea').placeholder();
-}); </script>
+<script src="js/jquery.placeholder.min.js"></script>
+<script> $( document ).ready(function() { $('input, textarea').placeholder(); }); </script>
+<![endif]-->
+<!--[if lte IE 8]>
+<script src="js/selectivizr-min.js"></script>
+<script src="js/checked-polyfill.min.js"></script>
+<script> $( document ).ready(function() { $('input:radio, input:checkbox').checkedPolyfill(); }); </script>
 <![endif]-->
 </body>
 </html>
