@@ -80,6 +80,7 @@
 
 .lnb + .content {
     margin-left: 178px;
+    min-height: 700px;
 }
 
 .container--novel .content {

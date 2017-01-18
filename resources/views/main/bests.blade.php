@@ -9,20 +9,55 @@
                     <h2 class="lnb-title">베스트</h2>
                     <ul class="lnb-depth1">
                         <li>
-                            <a href="#mode_nav" class="is-active">유료소설 베스트</a>
+                            <a href="{{route('bests')}}" @if(!$free_or_charged)class="is-active"@endif>유료소설 베스트</a>
                             <ul class="lnb-depth2">
-                                <li><a href="#mode_nav" class="is-active">투데이베스트</a></li>
-                                <li><a href="#mode_nav">주간베스트</a></li>
-                                <li><a href="#mode_nav">월간베스트</a></li>
-                                <li><a href="#mode_nav">스터디셀러</a></li>
-                                <li><a href="#mode_nav">장르별베스트</a></li>
-                                <li><a href="#mode_nav">완결베스트</a></li>
+                                <li><a href="{{route('bests')}}?period=today_count"
+                                       @if(!$free_or_charged && $period=='today_count')class="is-active"@endif>투데이베스트</a>
+                                </li>
+                                <li><a href="{{route('bests')}}?period=week_count"
+                                       @if(!$free_or_charged && $period=='week_count')class="is-active"@endif>주간베스트</a>
+                                </li>
+                                <li><a href="{{route('bests')}}?period=month_count"
+                                       @if(!$free_or_charged && $period=='month_count' && $option!='completed')class="is-active"@endif>월간베스트</a>
+                                </li>
+                                <li><a href="{{route('bests')}}?period=year_count&option=steady"
+                                       @if(!$free_or_charged && $period=='year_count')class="is-active"@endif>스테디셀러</a>
+                                </li>
+                                <li><a href="{{route('bests')}}?period=today_count"
+                                       @if(!$free_or_charged && $period=='today_count')class="is-active"@endif>장르별베스트</a>
+                                </li>
+                                <li><a href="{{route('bests')}}?period=month_count&option=completed"
+                                       @if(!$free_or_charged && $period=='month_count' && $option='completed')class="is-active"@endif>완결베스트</a>
+                                </li>
                             </ul>
                         </li>
                     </ul>
                     <ul class="lnb-depth1">
                         <li>
-                            <a href="#mode_nav">무료소설 베스트</a>
+                            <a href="{{route('bests',['free_or_charged'=>'free'])}}"
+                               @if($free_or_charged)class="is-active"@endif>무료소설 베스트</a>
+                            <ul class="lnb-depth2">
+                                <li><a href="{{route('bests',['free_or_charged'=>'free'])}}?period=today_count"
+                                       @if($free_or_charged && $period=='today_count')class="is-active"@endif>투데이베스트</a>
+                                </li>
+                                <li><a href="{{route('bests',['free_or_charged'=>'free'])}}?period=week_count"
+                                       @if($free_or_charged && $period=='week_count')class="is-active"@endif>주간베스트</a>
+                                </li>
+                                <li><a href="{{route('bests',['free_or_charged'=>'free'])}}?period=month_count"
+                                       @if($free_or_charged && $period=='month_count' && $option!='completed')class="is-active"@endif>월간베스트</a>
+                                </li>
+                                <li>
+                                    <a href="{{route('bests',['free_or_charged'=>'free'])}}?period=year_count&option=steady"
+                                       @if($free_or_charged && $period=='year_count')class="is-active"@endif>스테디셀러</a>
+                                </li>
+                                <li><a href="{{route('bests',['free_or_charged'=>'free'])}}?period=today_count"
+                                       @if($free_or_charged && $period=='today_count')class="is-active"@endif>장르별베스트</a>
+                                </li>
+                                <li>
+                                    <a href="{{route('bests',['free_or_charged'=>'free'])}}?period=month_count&option=completed"
+                                       @if($free_or_charged && $period=='month_count' && $option='completed')class="is-active"@endif>완결베스트</a>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                 </nav>
@@ -37,18 +72,20 @@
                         <li>
                             <div class="rank">{{(10 * $page) + $loop->index + 1}}</div>
                             <div class="thumb">
-                                <span><a href="#mode_nav"><img src="imgs/thumb/novel1.png" alt="꽃에 미치다"></a></span>
+                                <span><a href="#mode_nav"><img src="/img/novel_covers/{{$novel_group->cover_photo}}"
+                                                               alt="{{$novel_group->title}}"></a></span>
                             </div>
                             <div class="post">
                                 <div class="post-header">
-                                    <strong class="title"><a href="#mode_nav">꽃에 미치다</a></strong>
-                                    <span class="writer">선움</span>
-                                    <span class="datetime">5분 전</span>
+                                    <strong class="title"><a href="#mode_nav">{{$novel_group->title}}</a></strong>
+                                    <span class="writer">{{ $novel_group->nicknames->nickname }}</span>
+                                    <span class="datetime">{{ time_elapsed_string($novel_group->new) }}</span>
                                 </div>
-                                <p class="post-content">[악녀여주를 탈탈턴다/엑스트라빙의/케미터짐/우정물/능글능글남주/츤데레남주/사이다후추후추/개그후추후추] 못 볼 것을
-                                    보게 된
-                                    도로시는 눈을 살포시 감고는 읊조렸다.<br>“눈이 썩었어요.”</p>
-                                <p class="post-info"><span>로맨스판타지</span> <span>총 188화</span> <span>조회수 2,121,988</span>
+                                <p class="post-content"><?php echo nl2br($novel_group->description, false); ?></p>
+                                <p class="post-info">@foreach($novel_group->keywords as $keyword)
+                                        <span>{{$keyword->name}}</span>@endforeach
+                                    <span>총 {{$novel_group->novels_count}}화</span>
+                                    <span>조회수 {{$novel_group->total_count}}</span>
                                 </p>
                             </div>
                         </li>
@@ -59,11 +96,21 @@
                 <div class="bestpage-nav">
                     <nav>
                         <ul>
-                            <li><a href="#mode_nav" class="current-page">1-20위</a></li>
-                            <li><a href="#mode_nav">21-40위</a></li>
-                            <li><a href="#mode_nav">41-60위</a></li>
-                            <li><a href="#mode_nav">61-80위</a></li>
-                            <li><a href="#mode_nav">81-100위</a></li>
+                            <li>
+                                <a href="{{route('bests',['free_or_charged'=>'free'])."?period=".$period."&option=".$option}}&page=1"
+                                   @if($page =='1')class="current-page"@endif>1-20위</a></li>
+                            <li>
+                                <a href="{{route('bests',['free_or_charged'=>'free'])."?period=".$period."&option=".$option}}&page=2"
+                                   @if($page =='2')class="current-page"@endif>21-40위</a></li>
+                            <li>
+                                <a href="{{route('bests',['free_or_charged'=>'free'])."?period=".$period."&option=".$option}}&page=3"
+                                   @if($page =='3')class="current-page"@endif>41-60위</a></li>
+                            <li>
+                                <a href="{{route('bests',['free_or_charged'=>'free'])."?period=".$period."&option=".$option}}&page=4"
+                                   @if($page =='4')class="current-page"@endif>61-80위</a></li>
+                            <li>
+                                <a href="{{route('bests',['free_or_charged'=>'free'])."?period=".$period."&option=".$option}}&page=5"
+                                   @if($page =='5')class="current-page"@endif>81-100위</a></li>
                         </ul>
                     </nav>
                 </div>

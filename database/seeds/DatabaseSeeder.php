@@ -57,8 +57,7 @@ class DatabaseSeeder extends Seeder
 
             $new_novel = $novel_group->novels()->save(factory(App\Novel::class)->make());
             $new_novel->user_id = $novel_group->user_id;
-            if($index % 2 == 1)
-            {
+            if ($index % 2 == 1) {
                 $new_novel->non_free_agreement = true;
             }
             $new_novel->save();
@@ -95,7 +94,7 @@ class DatabaseSeeder extends Seeder
             $new_novel9->user_id = $novel_group->user_id;
             $new_novel9->save();
 
-            $new_novel10= $novel_group->novels()->save(factory(App\Novel::class)->make());
+            $new_novel10 = $novel_group->novels()->save(factory(App\Novel::class)->make());
             $new_novel10->user_id = $novel_group->user_id;
             $new_novel10->save();
 
@@ -127,7 +126,6 @@ class DatabaseSeeder extends Seeder
         $this->command->info('comments table seeded');
 
 
-
         //MenToMen QuestionAnswer table
         App\MenToMenQuestionAnswer::truncate();
         factory(App\MenToMenQuestionAnswer::class, 10)->create();
@@ -143,23 +141,23 @@ class DatabaseSeeder extends Seeder
         $this->call(ReviewTableSeeder::class);
 
         $ng = NovelGroup::get();
-        foreach($ng as $novelgroup)
-        {
+        foreach ($ng as $novelgroup) {
             $this->inning_order($novelgroup->id);
         }
 
         $this->call(MailBoxTableSeeder::class);
         $this->call(MailLogTableSeeder::class);
-        
+
         $this->call(FavoriteTableSeeder::class);
         //KeywordTable
         $this->call(KeywordsTableSeeder::class);
         $this->command->info('Keywords seeded');
         $this->command->info('inning ordering');
+        $this->call(NovelGroupKeywordSeeder::class);
 
     }
-    
-    
+
+
     public function inning_order($id)
     {
         $novel_group = NovelGroup::find($id);
