@@ -75,6 +75,7 @@ class AuthorPageController extends Controller
         $this_week_count = $novel->week_count = $novel->week_count + 1;
         $this_month_count = $novel->month_count = $novel->month_count + 1;
         $this_year_count = $novel->year_count = $novel->year_count + 1;
+        $this_total_count = $novel->total_count = $novel->total_count + 1;
         $novel->save();
 
 

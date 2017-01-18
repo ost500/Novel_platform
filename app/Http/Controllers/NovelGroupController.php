@@ -7,6 +7,7 @@ use App\Keyword;
 use App\Mailbox;
 use App\MailLog;
 use App\Novel;
+use App\NovelGroupKeyword;
 use App\User;
 use Auth;
 use Carbon\Carbon;
@@ -122,9 +123,8 @@ class NovelGroupController extends Controller
      */
     public function store(Request $request)
     {
-        //
         Validator::make($request->all(), [
-            'nickname' => 'required|max:255',
+            'nickname_id' => 'required',
             'title' => 'required',
             'description' => 'required',
             'keyword1' => 'required',
@@ -138,7 +138,7 @@ class NovelGroupController extends Controller
             'cover_photo2' => 'mimes:jpeg,png|image|max:1024|dimensions:max_width=1080,max_height=1080',
 
         ], [
-            'nickname.required' => '필명은 필수 입니다.',
+            'nickname_id.required' => '필명은 필수 입니다.',
             'title.required' => '제목은 필수 입니다.',
             'description.required' => '설명은 필수 입니다.',
             'cover_photo.dimensions' => '표지1 크기는 1080*1620 이어야 합니다',
@@ -155,9 +155,26 @@ class NovelGroupController extends Controller
 
         ])->validate();
 
-        $input = $request->all();
+//        $input = $request->all();
         //if validation is passed then insert the record
-        $new_novel_group = $request->user()->novel_groups()->create($input);
+//        $new_novel_group = $request->user()->novel_groups()->create($input);
+
+        $new_novel_group = new NovelGroup();
+        $new_novel_group->nickname_id = $request->nickname_id;
+        $new_novel_group->user_id = $request->user()->id;
+        $new_novel_group->title = $request->title;
+        $new_novel_group->description = $request->description;
+        $new_novel_group->cover_photo = $request->cover_photo;
+        $new_novel_group->cover_photo2 = $request->cover_photo2;
+        $new_novel_group->save();
+
+        for ($i = 1; $i <= 7; $i++) {
+            $new_novel_group_keyword = new NovelGroupKeyword();
+            $new_novel_group_keyword->novel_group_id = $new_novel_group->id;
+            $new_novel_group_keyword->keyword_id = $request->input('keyword' . $i);
+            $new_novel_group_keyword->save();
+        }
+
 
         //upload the picture
         if ($request->hasFile('cover_photo') or $request->hasFile('cover_photo2')) {
@@ -432,7 +449,7 @@ class NovelGroupController extends Controller
                 $new_novel->novel_group_id = $new_novel_group->id;
                 $new_novel->push();
             }
-        } catch (Exception $e){
+        } catch (Exception $e) {
             abort(403, '처리 중 에러가 발생했습니다 관리자에게 문의하세요.');
         }
 

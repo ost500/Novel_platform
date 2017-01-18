@@ -47,7 +47,7 @@
 
                                 <div class="col-md-9">
 
-                                    <select class="form-control" name="nickname">
+                                    <select class="form-control" name="nickname_id">
                                         <option value="">필명선택</option>
                                         @if(old('nickname'))
 
