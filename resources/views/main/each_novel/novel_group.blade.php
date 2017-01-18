@@ -1,19 +1,24 @@
 @extends('../layouts.main_layout')
 @section('content')
-    <div class="container">
-        <div class="wrap">
+    <div class="container" xmlns:v-on="http://www.w3.org/1999/xhtml">
+        <div class="wrap" id="novel_group">
             <!-- 서브컨텐츠 -->
             <div class="content" id="content">
                 <!-- 연재소개 -->
                 <section class="novel-detail">
                     <div class="novel-detail-content">
-                        <p class="thumb"><span><img src="/img/novel_covers/{{ $novel_group->cover_photo }}" alt="공녀 엘린느" ></span></p>
+                        <p class="thumb"><span><img src="/img/novel_covers/{{ $novel_group->cover_photo }}"
+                                                    alt="공녀 엘린느"></span></p>
+
                         <div class="post">
                             <div class="post-header">
                                 <h2 class="title">{{str_limit($novel_group->title, 35)}}</h2>
-                                <p class="writer">{{$novel_group->nicknames->nickname }} <a href="#mode_nav"><i class="memo-icon">쪽지</i></a></p>
+
+                                <p class="writer">{{$novel_group->nicknames->nickname }} <a href="#mode_nav"><i
+                                                class="memo-icon">쪽지</i></a></p>
+
                                 <p class="post-info">
-                                    <span>{{$novel_group->keywords[0]->name }}</span>
+                                    <span>@if(count($novel_group->keywords) >0) {{$novel_group->keywords[0]->name }} @endif</span>
                                     <span>총{{$novel_group->max_inning}}화</span>
                                     <span>조회수{{ $novel_group->getNovelGroupViewCount($novel_group->id)}}</span>
                                     <span>선호작 {{$novel_group->getNovelGroupFavoriteCount($novel_group->id)}} 명</span>
@@ -28,9 +33,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="novel-view"><a href="{{route('each_novel.novel_group_inning',['id'=>$novel_group->novels[0]->id])}}" class="btn btn--special">첫화보기</a></div>
+                    <div class="novel-view"><a
+                                href="{{route('each_novel.novel_group_inning',['id'=>$novel_group->novels[0]->id])}}"
+                                class="btn btn--special">첫화보기</a></div>
                     <div class="scrap-btns">
-                        <a href="#mode_nav" class="is-active"><i class="scrap-active-icon"></i>선호작추가</a>
+
+                        <a href="#" v-on:click="addToFavorite('{{$novel_group->id}}')" id="add_favorite"
+                           v-show="add_favorite_disp"><i class="scrap-active-icon"></i>선호작추가</a>
+                        <a href="#" class="is-active" v-on:click="removeFromFavorite()" id="remove_favorite"
+                           v-show="remove_favorite_disp"><i class="scrap-active-icon"></i>선호작추가</a>
                         <a href="#mode_nav"><i class="share-icon"></i>공유하기</a>
                     </div>
                 </section>
@@ -47,7 +58,8 @@
                                         <span class="no">8화</span>
                                         <span class="datetime">2016.06.16</span>
                                     </div>
-                                    <div class="col-title"><a href="#mode_nav">2. 데뷔, 그리고 약혼 (3) <i class="up-icon">Up</i></a></div>
+                                    <div class="col-title"><a href="#mode_nav">2. 데뷔, 그리고 약혼 (3) <i
+                                                    class="up-icon">Up</i></a></div>
                                     <div class="col-charge"><span class="open">열림</span></div>
                                 </li>
                             </ul>
@@ -59,14 +71,17 @@
                             <h2 class="episode-title">연재회차</h2>
                             <ul class="episode-list">
                                 @foreach($novel_group->novels as $novel)
-                                <li>
-                                    <div class="col-no">
-                                        <span class="no">{{$loop->count - $loop->index}} 화</span>
-                                        <span class="datetime">{{$novel->created_at}}</span>
-                                    </div>
-                                    <div class="col-title"><a href="#mode_nav">{{str_limit($novel->title, 60)}}<i class="up-icon">Up</i></a></div>
-                                    <div class="col-charge">@if($novel->non_free_agreement > 0) 유료 @else <span class="free">무료</span> @endif {{-- <span class="open">열림</span>--}}</div>
-                                </li>
+                                    <li>
+                                        <div class="col-no">
+                                            <span class="no">{{$loop->count - $loop->index}} 화</span>
+                                            <span class="datetime">{{$novel->created_at}}</span>
+                                        </div>
+                                        <div class="col-title"><a href="#mode_nav">{{str_limit($novel->title, 60)}}<i
+                                                        class="up-icon">Up</i></a></div>
+                                        <div class="col-charge">@if($novel->non_free_agreement > 0) 유료 @else <span
+                                                    class="free">무료</span> @endif {{-- <span class="open">열림</span>--}}
+                                        </div>
+                                    </li>
                                 @endforeach
 
                             </ul>
@@ -80,21 +95,23 @@
                                 <h2 class="recommend-title">작가의 다른 작품</h2>
                                 <ul class="recommend-list">
                                     @foreach($author_novel_groups as $author_novel_group)
-                                    <li>
-                                        <a href="#mode_nav">
-                                            <div class="thumb">
-                                                <span><img src="/img/novel_covers/{{ $author_novel_group->cover_photo }}" alt=""></span>
-                                            </div>
-                                            <div class="post">
-                                                <strong class="title">{{str_limit($author_novel_group->title, 20)}}</strong>
-                                                <p class="post-content">
-                                                    로맨스판타지<br>
-                                                    총 {{$author_novel_group->max_inning}}화<br>
-                                                    선호작{{$author_novel_group->favorite_count}}명
-                                                </p>
-                                            </div>
-                                        </a>
-                                    </li>
+                                        <li>
+                                            <a href="#mode_nav">
+                                                <div class="thumb">
+                                                    <span><img src="/img/novel_covers/{{ $author_novel_group->cover_photo }}"
+                                                               alt=""></span>
+                                                </div>
+                                                <div class="post">
+                                                    <strong class="title">{{str_limit($author_novel_group->title, 20)}}</strong>
+
+                                                    <p class="post-content">
+                                                        로맨스판타지<br>
+                                                        총 {{$author_novel_group->max_inning}}화<br>
+                                                        선호작{{$author_novel_group->favorite_count}}명
+                                                    </p>
+                                                </div>
+                                            </a>
+                                        </li>
                                     @endforeach
                                 </ul>
                                 <a href="#mode_nav" class="recommend-more-btn">더보기</a>
@@ -103,10 +120,11 @@
                             <div class="page-nav page-nav--small">
                                 <nav>
                                     <ul>
-                                        <li><a href="#mode_nav" class="prev-page"><span>이전</span></a></li>
-                                        <li><a href="#mode_nav" class="current-page">1</a></li>
-                                        <li><a href="#mode_nav">2</a></li>
-                                        <li><a href="#mode_nav" class="next-page"><span>다음</span></a></li>
+                                        {{ $author_novel_groups->render() }}
+                                        {{--  <li><a href="#mode_nav" class="prev-page"><span>이전</span></a></li>
+                                          <li><a href="#mode_nav" class="current-page">1</a></li>
+                                          <li><a href="#mode_nav">2</a></li>
+                                          <li><a href="#mode_nav" class="next-page"><span>다음</span></a></li>--}}
                                     </ul>
                                 </nav>
                             </div>
@@ -120,9 +138,9 @@
                             <ul class="hash-tag-list">
                                 @foreach($novel_group->keywords as $keyword)
                                     @if($loop->iteration ==1)
-                                         @continue
+                                        @continue
                                     @endif
-                                <li><a href="#mode_nav">{{$keyword->name}}</a></li>
+                                    <li><a href="#mode_nav">{{$keyword->name}}</a></li>
                                 @endforeach
 
                             </ul>
@@ -150,4 +168,76 @@
     </div>
     <!-- //컨테이너 -->
     <!-- 푸터 -->
+
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#novel_group',
+            data: {
+                favorites_info: {novel_group_id: ''},
+                add_favorite_disp: true,
+                remove_favorite_disp: false,
+                search: ''
+
+            },
+            mounted: function () {
+
+                this.checkFavorite();
+            },
+            methods: {
+
+                checkFavorite: function () {
+
+                    var display = '@if(Auth::check()){{$novel_group->checkUserFavourite($novel_group->id)}}@endif';
+                    if (display) {
+                        this.add_favorite_disp = false;
+                        this.remove_favorite_disp = true;
+                    }
+                },
+
+                addToFavorite: function (novel_group_id) {
+                    app.favorites_info.novel_group_id = novel_group_id;
+                    app.$http.post('{{ route('favorites.store') }}', app.favorites_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                            .then(function (response) {
+                                //  document.getElementById('tab' + publish_company_id).style.display = 'none';
+                                console.log(response);
+                                app.add_favorite_disp = false;
+                                app.remove_favorite_disp = true;
+                                // location.reload();
+                            })
+                            .catch(function (errors) {
+                                // console.log(errors);
+
+                               // alert('login');
+                              //  bootbox.alert(alert_message, function () {
+                                    /* $.niftyNoty({
+                                     type: 'info',
+                                     icon: 'fa fa-info',
+                                     message: 'Thank you',
+                                     container: 'floating',
+                                     timer: 3000
+                                     });*/
+                              //  });
+                            });
+                },
+                removeFromFavorite: function () {
+                    app.$http.delete('{{ route('favorites.destroy',['id'=>$novel_group->id]) }}', {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                            .then(function (response) {
+                                //  document.getElementById('tab' + publish_company_id).style.display = 'none';
+                                console.log(response);
+                                app.add_favorite_disp = true;
+                                app.remove_favorite_disp = false;
+                                // location.reload();
+                            })
+                            .catch(function (errors) {
+
+                                console.log(errors);
+                            });
+                }
+
+            }
+
+        });
+
+    </script>
+
 @endsection

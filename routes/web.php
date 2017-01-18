@@ -30,6 +30,7 @@ Route::resource('reviews', 'ReviewController');
 Route::resource('comments', 'CommentController');
 Route::resource('mentomen', 'MenToMenQuestionAnswerController');
 Route::resource('faqs', 'FaqController');
+Route::resource('favorites', 'FavoriteController', ['only' => ['store','destroy']]);
 Route::resource('keywords', 'KeywordController');
 Route::resource('companies', 'CompanyController');
 Route::resource('publish_companies', 'NovelGroupPublishCompanyController', ['only' => ['update']]);
@@ -140,3 +141,5 @@ Route::get('/bests/{free_or_charged?}', ['as' => 'bests', 'uses' => 'MainControl
 //EachController
 Route::get('/novel_group/{id}', ['as' => 'each_novel.novel_group', 'uses' => 'MainController\EachController@novel_group']);
 Route::get('/novel_group_inning/{id}', ['as' => 'each_novel.novel_group_inning', 'uses' => 'MainController\EachController@novel_group_inning']);
+
+//Route::post('/novel_group/favorite', ['as' => 'each_novel.novel_group_favorite', 'uses' => 'MainController\EachController@novel_group_favorite']);

@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Auth;
 
 /**
  * App\NovelGroup
@@ -133,5 +134,10 @@ class NovelGroup extends Model
         if($favorite_count) {
             return $favorite_count->favorite_count;
         }
+    }
+    public function checkUserFavourite($novel_group_id){
+
+        $favorite=Favorite::where(['novel_group_id'=>$novel_group_id,'user_id'=>Auth::user()->id])->first();
+        if($favorite){  return true; }
     }
 }
