@@ -56,8 +56,8 @@ class MainController extends Controller
                 ->groupBy('novel_group_id')->orderBy('new','desc')->havingRaw('max(non_free_agreement) = 0')
                 ->with('nicknames')->withCount('novels')->paginate(3);
         }
-//        return response()->json($novel_groups);
-        return view('main.series', compact('free_or_charged', 'novel_groups'));
+        return response()->json($novel_groups);
+//        return view('main.series', compact('free_or_charged', 'novel_groups'));
     }
 
     public function bests(Request $request, $free_or_charged = false)

@@ -53,9 +53,14 @@ class DatabaseSeeder extends Seeder
 
         // novels table
         App\Novel::truncate();
-        foreach ($novel_groups as $novel_group) {
+        foreach ($novel_groups as $index => $novel_group) {
+
             $new_novel = $novel_group->novels()->save(factory(App\Novel::class)->make());
             $new_novel->user_id = $novel_group->user_id;
+            if($index % 2 == 1)
+            {
+                $new_novel->non_free_agreement = true;
+            }
             $new_novel->save();
 
             $new_novel2 = $novel_group->novels()->save(factory(App\Novel::class)->make());

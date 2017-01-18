@@ -213,10 +213,10 @@
         <div class="wrap" id="gnb_wrap">
             <ul class="gnb-depth1 clr">
                 <li>
-                    <a href="#mode_nav">베스트</a>
+                    <a href="{{route('bests')}}">베스트</a>
                     <ul class="gnb-depth2">
-                        <li><a href="#mode_nav">유료소설 베스트</a></li>
-                        <li><a href="#mode_nav">무료소설 베스트</a></li>
+                        <li><a href="{{route('bests')}}">유료소설 베스트</a></li>
+                        <li><a href="{{route('bests',['free_or_charged'=>'free'])}}">무료소설 베스트</a></li>
                     </ul>
                 </li>
                 <li>
