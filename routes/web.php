@@ -138,4 +138,5 @@ Route::get('/series/{free_or_charged?}', ['as' => 'series', 'uses' => 'MainContr
 Route::get('/bests/{free_or_charged?}', ['as' => 'bests', 'uses' => 'MainController\MainController@bests']);
 
 //EachController
-Route::get('/novel_group/{id}', ['as' => 'novel_group', 'uses' => 'MainController\EachController@novel_group']);
+Route::get('/novel_group/{id}', ['as' => 'each_novel.novel_group', 'uses' => 'MainController\EachController@novel_group']);
+Route::get('/novel_group_inning/{id}', ['as' => 'each_novel.novel_group_inning', 'uses' => 'MainController\EachController@novel_group_inning']);

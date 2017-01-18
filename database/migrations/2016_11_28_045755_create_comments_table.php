@@ -17,7 +17,7 @@ class CreateCommentsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned()->index();
             $table->integer('novel_id')->unsigned()->index();
-            $table->integer('parent_id')->default(null)->unsigned()->index();
+            $table->integer('parent_id')->nullable()->unsigned()->index();
             $table->text('comment');
             $table->timestamps();
 

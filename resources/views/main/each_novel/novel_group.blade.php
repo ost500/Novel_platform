@@ -28,7 +28,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="novel-view"><a href="#mode_nav" class="btn btn--special">첫화보기</a></div>
+                    <div class="novel-view"><a href="{{route('each_novel.novel_group_inning',['id'=>$novel_group->novels[0]->id])}}" class="btn btn--special">첫화보기</a></div>
                     <div class="scrap-btns">
                         <a href="#mode_nav" class="is-active"><i class="scrap-active-icon"></i>선호작추가</a>
                         <a href="#mode_nav"><i class="share-icon"></i>공유하기</a>
