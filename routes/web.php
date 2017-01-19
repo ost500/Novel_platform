@@ -30,7 +30,7 @@ Route::resource('reviews', 'ReviewController');
 Route::resource('comments', 'CommentController');
 Route::resource('mentomen', 'MenToMenQuestionAnswerController');
 Route::resource('faqs', 'FaqController');
-Route::resource('favorites', 'FavoriteController', ['only' => ['store','destroy']]);
+Route::resource('favorites', 'FavoriteController', ['only' => ['store', 'destroy']]);
 Route::resource('keywords', 'KeywordController');
 Route::resource('companies', 'CompanyController');
 Route::resource('publish_companies', 'NovelGroupPublishCompanyController', ['only' => ['update']]);
@@ -142,7 +142,8 @@ Route::get('/bests/{free_or_charged?}', ['as' => 'bests', 'uses' => 'MainControl
 
 //Community
 Route::group(['prefix' => 'community'], function () {
-    Route::get('freeboard',  ['as' => 'free_board', 'uses' => 'MainController\CommunityController@free_board']);
+    Route::get('freeboard', ['as' => 'free_board', 'uses' => 'MainController\CommunityController@free_board']);
+    Route::get('freeboard/{id}', ['as' => 'free_board.detail', 'uses' => 'MainController\CommunityController@free_board_detail']);
 });
 
 //EachController

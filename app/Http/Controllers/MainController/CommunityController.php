@@ -27,4 +27,19 @@ class CommunityController extends Controller
 //        return response()->json($weekly_best);
         return view('main.community.free_board', compact('articles', 'weekly_best', 'search_option', 'search_text'));
     }
+
+    public function free_board_detail($id)
+    {
+        $article = FreeBoard::with('comments.users')->with('likes')->withCount('likes')->withCount('comments')->findOrFail($id);
+        $next_article_id = FreeBoard::where('id', '>', $article->id)->min('id');
+        $next_article = FreeBoard::with('users')->find($next_article_id);
+        $prev_article_id = FreeBoard::where('id', '<', $article->id)->max('id');
+        $prev_article = FreeBoard::with('users')->find($prev_article_id);
+
+        //view_count +1
+        $article->view_count = $article->view_count + 1;
+        $article->save();
+//        return response()->json($prev_article);
+        return view('main.community.free_board_detail', compact('article', 'next_article', 'prev_article'));
+    }
 }
