@@ -106,7 +106,8 @@ class DatabaseSeeder extends Seeder
         $this->call(PublishNovelGroupsTableSeeder::class);
         // NovelGroupPublishCompanies table
         $this->call(NovelGroupPublishCompaniesTableSeeder::class);
-
+        // NovelGroupPublishCompanies table
+        $this->call(RecentlyVisitedNovelsTableSeeder::class);
 
         // comment table
         $novels = App\Novel::get();

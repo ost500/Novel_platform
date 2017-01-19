@@ -202,3 +202,13 @@ $factory->define(\App\NovelGroupPublishCompany::class, function (Faker\Generator
         'initial_novels' => $faker->randomElement(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']),
     ];
 });
+
+$factory->define(App\RecentlyVisitedNovel::class, function (Faker\Generator $faker) {
+    $userIds = App\User::pluck('id')->toArray();
+    $novel_ids = App\Novel::pluck('id')->toArray();
+
+    return [
+        'user_id' => $faker->randomElement($userIds),
+        'novel_id' => $faker->randomElement($novel_ids),
+    ];
+});
