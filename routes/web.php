@@ -30,7 +30,7 @@ Route::resource('reviews', 'ReviewController');
 Route::resource('comments', 'CommentController');
 Route::resource('mentomen', 'MenToMenQuestionAnswerController');
 Route::resource('faqs', 'FaqController');
-Route::resource('favorites', 'FavoriteController', ['only' => ['store','destroy']]);
+Route::resource('favorites', 'FavoriteController', ['only' => ['store', 'destroy']]);
 Route::resource('keywords', 'KeywordController');
 Route::resource('companies', 'CompanyController');
 Route::resource('publish_companies', 'NovelGroupPublishCompanyController', ['only' => ['update']]);
@@ -134,9 +134,17 @@ Route::get('/admin/partnership/approve_inning/{id?}', ['as' => 'admin.partner_ap
 //main
 Route::get('/', ['as' => 'root', 'uses' => 'MainController\MainController@main']);
 
-
+//Series
 Route::get('/series/{free_or_charged?}', ['as' => 'series', 'uses' => 'MainController\MainController@series']);
+//Bests
 Route::get('/bests/{free_or_charged?}', ['as' => 'bests', 'uses' => 'MainController\MainController@bests']);
+
+
+//Community
+Route::group(['prefix' => 'community'], function () {
+    Route::get('freeboard', ['as' => 'free_board', 'uses' => 'MainController\CommunityController@free_board']);
+    Route::get('freeboard/{id}', ['as' => 'free_board.detail', 'uses' => 'MainController\CommunityController@free_board_detail']);
+});
 
 //EachController
 Route::get('/novel_group/{id}', ['as' => 'each_novel.novel_group', 'uses' => 'MainController\EachController@novel_group']);

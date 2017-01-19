@@ -121,4 +121,19 @@ class User extends Authenticatable
             return false;
         }
     }
+
+    public function free_boards()
+    {
+        return $this->hasMany(FreeBoard::class);
+    }
+
+    public function free_board_comments()
+    {
+        return $this->hasMany(FreeBoardComment::class);
+    }
+
+    public function free_board_likes()
+    {
+        return $this->hasMany(FreeBoardLike::class);
+    }
 }

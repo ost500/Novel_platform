@@ -154,6 +154,7 @@ class DatabaseSeeder extends Seeder
         $this->command->info('Keywords seeded');
         $this->command->info('inning ordering');
         $this->call(NovelGroupKeywordSeeder::class);
+        $this->call(FreeBoardSeeder::class);
 
     }
 

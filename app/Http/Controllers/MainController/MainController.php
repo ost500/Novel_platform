@@ -78,7 +78,7 @@ class MainController extends Controller
         }
 
         //nickname, keyword, novels_count
-        $novel_groups = $novel_groups->with('nicknames')->with('keywords')->withCount('novels')->paginate(10);
+        $novel_groups = $novel_groups->with('nicknames')->with('keywords')->withCount('novels')->paginate(3);
 //        return response()->json($novel_groups);
         return view('main.series', compact('free_or_charged', 'novel_groups', 'genre', 'order'));
     }

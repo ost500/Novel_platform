@@ -106,11 +106,15 @@
                 <div class="sort-nav sort-nav--novel">
                     <nav>
                         <ul>
-                            <li><a href="{{route('series',['free_or_charged'=>$free_or_charged])."?genre=".$genre}}" @if(!isset($order))class="is-active"@endif>업데이트순</a></li>
+                            <li><a href="{{route('series',['free_or_charged'=>$free_or_charged])."?genre=".$genre}}"
+                                   @if(!isset($order))class="is-active"@endif>업데이트순</a></li>
                             <li>
-                                <a href="{{route('series',['free_or_charged'=>$free_or_charged])."?genre=".$genre."&order=favorite"}}" @if($order=="favorite")class="is-active"@endif>선호작순</a>
+                                <a href="{{route('series',['free_or_charged'=>$free_or_charged])."?genre=".$genre."&order=favorite"}}"
+                                   @if($order=="favorite")class="is-active"@endif>선호작순</a>
                             </li>
-                            <li><a href="{{route('series',['free_or_charged'=>$free_or_charged])."?genre=".$genre."&order=view"}}" @if($order=="view")class="is-active"@endif>조회순</a></li>
+                            <li>
+                                <a href="{{route('series',['free_or_charged'=>$free_or_charged])."?genre=".$genre."&order=view"}}"
+                                   @if($order=="view")class="is-active"@endif>조회순</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -121,12 +125,12 @@
                     @foreach($novel_groups as $novel_group)
                         <li>
                             <div class="thumb">
-                                <span><a href="#mode_nav"><img src="/img/novel_covers/{{$novel_group->cover_photo}}"
+                                <span><a href="{{ route('each_novel.novel_group',['id'=>$novel_group->id]) }}"><img src="/img/novel_covers/{{$novel_group->cover_photo}}"
                                                                alt="망의 연월"></a></span>
                             </div>
                             <div class="post">
                                 <div class="post-header">
-                                    <strong class="title"><a href="#mode_nav">{{$novel_group->title}}</a></strong>
+                                    <strong class="title"><a href="{{ route('each_novel.novel_group',['id'=>$novel_group->id]) }}">{{$novel_group->title}}</a></strong>
                                     <span class="writer">{{ $novel_group->nicknames->nickname }}</span>
                                     <span class="datetime">{{ time_elapsed_string($novel_group->new) }}</span>
                                 </div>
@@ -142,7 +146,7 @@
                 </ul>
                 <!-- //작품목록 -->
                 <!-- 페이징 -->
-            @include('pagination_front', ['collection' => $novel_groups, 'url' => route('series')])
+            @include('pagination_front', ['collection' => $novel_groups, 'url' => route('series',['free_or_charged'=>$free_or_charged])."?genre=".$genre."&order=".$order])
             <!-- //페이징 -->
             </div>
             <!-- //서브컨텐츠 -->

@@ -222,3 +222,31 @@ $factory->define(App\Notification::class, function (Faker\Generator $faker) {
         'content'=>$faker->paragraph,
     ];
 });
+
+$factory->define(\App\FreeBoard::class, function (Faker\Generator $faker) {
+    $userId = App\User::pluck('id')->toArray();
+    return [
+        'user_id' => $faker->randomElement($userId),
+        'title' => $faker->sentence(),
+        'content' => $faker->paragraph(),
+    ];
+});
+
+$factory->define(\App\FreeBoardComment::class, function (Faker\Generator $faker) {
+    $userId = App\User::pluck('id')->toArray();
+    $freeboardId = App\FreeBoard::pluck('id')->toArray();
+    return [
+        'user_id' => $faker->randomElement($userId),
+        'free_board_id' => $faker->randomElement($freeboardId),
+        'comment' => $faker->sentence(),
+    ];
+});
+
+$factory->define(\App\FreeBoardLike::class, function (Faker\Generator $faker) {
+    $userId = App\User::pluck('id')->toArray();
+    $freeboardId = App\FreeBoard::pluck('id')->toArray();
+    return [
+        'user_id' => $faker->randomElement($userId),
+        'free_board_id' => $faker->randomElement($freeboardId),
+    ];
+});
