@@ -35,6 +35,15 @@ class Comment extends Model
     use SoftDeletes;
     protected $dates = ['deleted_at'];
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'user_id', 'novel_id','parent_id','comment',
+    ];
+
     public function users()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');

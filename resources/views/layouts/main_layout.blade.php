@@ -12,7 +12,10 @@
     <link rel="stylesheet" href="/front/css/sub.css?v={{time()}}" type="text/css">
     <link rel="stylesheet" href="/front/css/main.css?v={{time()}}" type="text/css">
     <link rel="stylesheet" href="/front/css/register.css" type="text/css">
+
     <script src="/front/js/jquery-1.12.4.min.js"></script>
+    <script src="/js/vue.js"></script>
+    <script src="/js/vue-resource.min.js"></script>
     <!--[if lte IE 8]>
     <script src="/front/js/html5shiv.min.js"></script>
     <script src="/front/js/respond.min.js"></script>

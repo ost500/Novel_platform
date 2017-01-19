@@ -30,6 +30,7 @@ Route::resource('reviews', 'ReviewController');
 Route::resource('comments', 'CommentController');
 Route::resource('mentomen', 'MenToMenQuestionAnswerController');
 Route::resource('faqs', 'FaqController');
+Route::resource('favorites', 'FavoriteController', ['only' => ['store','destroy']]);
 Route::resource('keywords', 'KeywordController');
 Route::resource('companies', 'CompanyController');
 Route::resource('publish_companies', 'NovelGroupPublishCompanyController', ['only' => ['update']]);
@@ -138,10 +139,14 @@ Route::get('/series/{free_or_charged?}', ['as' => 'series', 'uses' => 'MainContr
 //Bests
 Route::get('/bests/{free_or_charged?}', ['as' => 'bests', 'uses' => 'MainController\MainController@bests']);
 
-//EachController
-Route::get('/novel_group/{id}', ['as' => 'novel_group', 'uses' => 'MainController\EachController@novel_group']);
+
 //Community
 Route::group(['prefix' => 'community'], function () {
     Route::get('freeboard',  ['as' => 'free_board', 'uses' => 'MainController\CommunityController@free_board']);
 });
 
+//EachController
+Route::get('/novel_group/{id}', ['as' => 'each_novel.novel_group', 'uses' => 'MainController\EachController@novel_group']);
+Route::get('/novel_group_inning/{id}', ['as' => 'each_novel.novel_group_inning', 'uses' => 'MainController\EachController@novel_group_inning']);
+
+//Route::post('/novel_group/favorite', ['as' => 'each_novel.novel_group_favorite', 'uses' => 'MainController\EachController@novel_group_favorite']);
