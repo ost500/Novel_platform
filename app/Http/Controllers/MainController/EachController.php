@@ -22,14 +22,16 @@ class EachController extends Controller
     public function novel_group($id)
     {
 
-        $novel_group = NovelGroup::where('id', $id)->with('keywords')->with(['novels'=>function($query){ $query->orderBy('created_at', 'desc');}] )->with('nicknames')->first();
+        $novel_group = NovelGroup::where('id', $id)->with('keywords')->with(['novels' => function ($query) {
+            $query->orderBy('created_at', 'desc');
+        }])->with('nicknames')->first();
         //if user is logged in then get his recently visited novel
-        if(Auth::check()){
-        //$favorite_display=$novel_group->checkUserFavourite($novel_group->id);
-            $recently_visited_novel=RecentlyVisitedNovel::where(['user_id'=>Auth::user()->id,'novel_group_id' =>$novel_group->id])->with('novels')->first();
-        }else{
-        //$favorite_display=false;
-            $recently_visited_novel='';
+        if (Auth::check()) {
+            //$favorite_display=$novel_group->checkUserFavourite($novel_group->id);
+            $recently_visited_novel = RecentlyVisitedNovel::where(['user_id' => Auth::user()->id, 'novel_group_id' => $novel_group->id])->with('novels')->first();
+        } else {
+            //$favorite_display=false;
+            $recently_visited_novel = '';
         }
         /*$novel_group = NovelGroup::selectRaw('novel_group_id, novel_groups.*, count(novel_group_id) as favourite_count')
             ->join('novels', 'favorites.novel_group_id', '=', 'novel_groups.id')
@@ -48,11 +50,11 @@ class EachController extends Controller
 
         // return response()->json($author_novel_groups);
 
-        return view('main.each_novel.novel_group', compact('novel_group', 'author_novel_groups','recently_visited_novel'));
+        return view('main.each_novel.novel_group', compact('novel_group', 'author_novel_groups', 'recently_visited_novel'));
     }
 
 
-    public function novel_group_inning( Request $request, $novel_id)
+    public function novel_group_inning($novel_id)
     {
         //get the novel data
         $novel_group_inning = Novel::where('id', $novel_id)->with('comments')->first();
@@ -63,8 +65,9 @@ class EachController extends Controller
             $already_have_recently_visited = RecentlyVisitedNovel::where(['user_id' => Auth::user()->id, 'novel_group_id' => $novel_group_inning->novel_group_id])->first();
             //if recently visited item already exist for a particular group and user then update the item for new visited novel, otherwise create new recently visited
             if (empty($already_have_recently_visited)) {
-               dd( $novel_id);
-                $request->user()->recently_visited_novels()->create([
+
+                RecentlyVisitedNovel::create([
+                    'user_id' => Auth::user()->id,
                     'novel_id' => $novel_id,
                     'novel_group_id' => $novel_group_inning->novel_group_id
                 ]);
@@ -75,7 +78,7 @@ class EachController extends Controller
             }
         }
 
-       //get the all comments of a novel
+        //get the all comments of a novel
         $novel_group_inning_comments = new Collection();
         foreach ($novel_group_inning->comments as $comment) {
             if ($comment->parent_id == 0) {

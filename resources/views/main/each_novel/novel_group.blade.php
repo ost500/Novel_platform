@@ -26,9 +26,9 @@
                             </div>
                             <div class="post-content">
                                 <p>
-                                    {{$novel_group->description}}
+                                    {{ substr($novel_group->description, 0,59)  }}
                                     <button class="more-btn hidden-content-view">더보기</button>
-                                    <span class="hidden-content">숨은내용 나옵니다.<br>숨은내용 나옵니다. 숨은내용 나옵니다. End</span>
+                                    <span class="hidden-content">{{substr($novel_group->description,59)}} </span>
                                 </p>
                             </div>
                         </div>
@@ -51,44 +51,47 @@
                     <div class="episode-list-group">
                         <!-- 최근읽은회차 -->
                         @if($recently_visited_novel)
-                        <section class="episode-list-wrap episode-list-wrap--latest">
-                            <h2 class="episode-title">최근 읽은 회차</h2>
-                            <ul class="episode-list">
-                                <li>
-                                    <div class="col-no">
-                                        <span class="no">8화</span>
-                                        <span class="datetime">{{$recently_visited_novel->novels->created_at}}</span>
-                                    </div>
-                                    <div class="col-title"><a href="#mode_nav">{{str_limit($recently_visited_novel->novels->title,60)}} <i
-                                                    class="up-icon">Up</i></a></div>
-                                    <div class="col-charge"><span class="open">열림</span></div>
-                                </li>
-                            </ul>
-                        </section>
-                        @endif
-                        <!-- //최근읽은회차 -->
-
-                        <!-- 연재회차 -->
-                        <section class="episode-list-wrap">
-                            <h2 class="episode-title">연재회차</h2>
-                            <ul class="episode-list">
-                                @foreach($novel_group->novels as $novel)
+                            <section class="episode-list-wrap episode-list-wrap--latest">
+                                <h2 class="episode-title">최근 읽은 회차</h2>
+                                <ul class="episode-list">
                                     <li>
                                         <div class="col-no">
-                                            <span class="no">{{$loop->count - $loop->index}} 화</span>
-                                            <span class="datetime">{{$novel->created_at}}</span>
+                                            <span class="no">8화</span>
+                                            <span class="datetime">{{$recently_visited_novel->novels->created_at}}</span>
                                         </div>
-                                        <div class="col-title"><a href="{{route('each_novel.novel_group_inning',['id'=>$novel->id])}}">{{str_limit($novel->title, 60)}}{{--<i
-                                                        class="up-icon">Up</i>--}}</a></div>
-                                        <div class="col-charge">@if($novel->non_free_agreement > 0) 유료 @else <span
-                                                    class="free">무료</span> @endif {{-- <span class="open">열림</span>--}}
-                                        </div>
+                                        <div class="col-title"><a
+                                                    href="{{route('each_novel.novel_group_inning',['id'=>$recently_visited_novel->novel_id])}}">{{str_limit($recently_visited_novel->novels->title,60)}}
+                                                <i
+                                                        class="up-icon">Up</i></a></div>
+                                        <div class="col-charge"><span class="open">열림</span></div>
                                     </li>
-                                @endforeach
+                                </ul>
+                            </section>
+                            @endif
+                                    <!-- //최근읽은회차 -->
 
-                            </ul>
-                        </section>
-                        <!-- //연재회차 -->
+                            <!-- 연재회차 -->
+                            <section class="episode-list-wrap">
+                                <h2 class="episode-title">연재회차</h2>
+                                <ul class="episode-list">
+                                    @foreach($novel_group->novels as $novel)
+                                        <li>
+                                            <div class="col-no">
+                                                <span class="no">{{$loop->count - $loop->index}} 화</span>
+                                                <span class="datetime">{{$novel->created_at}}</span>
+                                            </div>
+                                            <div class="col-title"><a
+                                                        href="{{route('each_novel.novel_group_inning',['id'=>$novel->id])}}">{{str_limit($novel->title, 60)}}{{--<i
+                                                        class="up-icon">Up</i>--}}</a></div>
+                                            <div class="col-charge">@if($novel->non_free_agreement > 0) 유료 @else <span
+                                                        class="free">무료</span> @endif {{-- <span class="open">열림</span>--}}
+                                            </div>
+                                        </li>
+                                    @endforeach
+
+                                </ul>
+                            </section>
+                            <!-- //연재회차 -->
                     </div>
                     <div class="episode-list-aside">
                         <!-- 작가다른작품 -->
@@ -209,16 +212,16 @@
                             .catch(function (errors) {
                                 // console.log(errors);
 
-                               // alert('login');
-                              //  bootbox.alert(alert_message, function () {
-                                    /* $.niftyNoty({
-                                     type: 'info',
-                                     icon: 'fa fa-info',
-                                     message: 'Thank you',
-                                     container: 'floating',
-                                     timer: 3000
-                                     });*/
-                              //  });
+                                // alert('login');
+                                //  bootbox.alert(alert_message, function () {
+                                /* $.niftyNoty({
+                                 type: 'info',
+                                 icon: 'fa fa-info',
+                                 message: 'Thank you',
+                                 container: 'floating',
+                                 timer: 3000
+                                 });*/
+                                //  });
                             });
                 },
                 removeFromFavorite: function () {
