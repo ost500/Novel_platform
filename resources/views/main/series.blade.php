@@ -125,12 +125,12 @@
                     @foreach($novel_groups as $novel_group)
                         <li>
                             <div class="thumb">
-                                <span><a href="#mode_nav"><img src="/img/novel_covers/{{$novel_group->cover_photo}}"
+                                <span><a href="{{ route('each_novel.novel_group',['id'=>$novel_group->id]) }}"><img src="/img/novel_covers/{{$novel_group->cover_photo}}"
                                                                alt="망의 연월"></a></span>
                             </div>
                             <div class="post">
                                 <div class="post-header">
-                                    <strong class="title"><a href="#mode_nav">{{$novel_group->title}}</a></strong>
+                                    <strong class="title"><a href="{{ route('each_novel.novel_group',['id'=>$novel_group->id]) }}">{{$novel_group->title}}</a></strong>
                                     <span class="writer">{{ $novel_group->nicknames->nickname }}</span>
                                     <span class="datetime">{{ time_elapsed_string($novel_group->new) }}</span>
                                 </div>
