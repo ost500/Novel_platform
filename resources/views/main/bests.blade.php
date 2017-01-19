@@ -27,7 +27,7 @@
                                        @if(!$free_or_charged && $period=='today_count')class="is-active"@endif>장르별베스트</a>
                                 </li>
                                 <li><a href="{{route('bests')}}?period=month_count&option=completed"
-                                       @if(!$free_or_charged && $period=='month_count' && $option='completed')class="is-active"@endif>완결베스트</a>
+                                       @if(!$free_or_charged && $period=='month_count' && $option=='completed')class="is-active"@endif>완결베스트</a>
                                 </li>
                             </ul>
                         </li>
@@ -55,7 +55,7 @@
                                 </li>
                                 <li>
                                     <a href="{{route('bests',['free_or_charged'=>'free'])}}?period=month_count&option=completed"
-                                       @if($free_or_charged && $period=='month_count' && $option='completed')class="is-active"@endif>완결베스트</a>
+                                       @if($free_or_charged && $period=='month_count' && $option=='completed')class="is-active"@endif>완결베스트</a>
                                 </li>
                             </ul>
                         </li>
@@ -70,7 +70,7 @@
                 <ul class="novel-list novel-list--best">
                     @foreach($novel_groups as $novel_group)
                         <li>
-                            <div class="rank">{{(10 * $page) + $loop->index + 1}}</div>
+                            <div class="rank">{{(10 * ($page-1)) + $loop->index + 1}}</div>
                             <div class="thumb">
                                 <span><a href="#mode_nav"><img src="/img/novel_covers/{{$novel_group->cover_photo}}"
                                                                alt="{{$novel_group->title}}"></a></span>
@@ -97,19 +97,19 @@
                     <nav>
                         <ul>
                             <li>
-                                <a href="{{route('bests',['free_or_charged'=>'free'])."?period=".$period."&option=".$option}}&page=1"
+                                <a href="{{route('bests',['free_or_charged'=>$free_or_charged])."?period=".$period."&option=".$option}}&page=1"
                                    @if($page =='1')class="current-page"@endif>1-20위</a></li>
                             <li>
-                                <a href="{{route('bests',['free_or_charged'=>'free'])."?period=".$period."&option=".$option}}&page=2"
+                                <a href="{{route('bests',['free_or_charged'=>$free_or_charged])."?period=".$period."&option=".$option}}&page=2"
                                    @if($page =='2')class="current-page"@endif>21-40위</a></li>
                             <li>
-                                <a href="{{route('bests',['free_or_charged'=>'free'])."?period=".$period."&option=".$option}}&page=3"
+                                <a href="{{route('bests',['free_or_charged'=>$free_or_charged])."?period=".$period."&option=".$option}}&page=3"
                                    @if($page =='3')class="current-page"@endif>41-60위</a></li>
                             <li>
-                                <a href="{{route('bests',['free_or_charged'=>'free'])."?period=".$period."&option=".$option}}&page=4"
+                                <a href="{{route('bests',['free_or_charged'=>$free_or_charged])."?period=".$period."&option=".$option}}&page=4"
                                    @if($page =='4')class="current-page"@endif>61-80위</a></li>
                             <li>
-                                <a href="{{route('bests',['free_or_charged'=>'free'])."?period=".$period."&option=".$option}}&page=5"
+                                <a href="{{route('bests',['free_or_charged'=>$free_or_charged])."?period=".$period."&option=".$option}}&page=5"
                                    @if($page =='5')class="current-page"@endif>81-100위</a></li>
                         </ul>
                     </nav>
