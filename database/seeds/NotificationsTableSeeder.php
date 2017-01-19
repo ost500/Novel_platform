@@ -13,6 +13,6 @@ class NotificationsTableSeeder extends Seeder
     {
 
         \App\Notification::truncate();
-        factory(App\RecentlyVisitedNovel::class,10)->create();
+        factory(App\Notification::class,10)->create();
     }
 }
