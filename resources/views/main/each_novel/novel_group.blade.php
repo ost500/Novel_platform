@@ -39,7 +39,7 @@
                     <div class="scrap-btns">
 
                         <a href="#" v-on:click="addToFavorite('{{$novel_group->id}}')" id="add_favorite"
-                           v-show="add_favorite_disp"><i class="scrap-active-icon"></i>선호작추가</a>
+                           v-show="add_favorite_disp"><i class="scrap-icon"></i>선호작추가</a>
                         <a href="#" class="is-active" v-on:click="removeFromFavorite()" id="remove_favorite"
                            v-show="remove_favorite_disp"><i class="scrap-active-icon"></i>선호작추가</a>
                         <a href="#mode_nav"><i class="share-icon"></i>공유하기</a>
@@ -50,20 +50,22 @@
                 <div class="episode-list-content">
                     <div class="episode-list-group">
                         <!-- 최근읽은회차 -->
+                        @if($recently_visited_novel)
                         <section class="episode-list-wrap episode-list-wrap--latest">
                             <h2 class="episode-title">최근 읽은 회차</h2>
                             <ul class="episode-list">
                                 <li>
                                     <div class="col-no">
                                         <span class="no">8화</span>
-                                        <span class="datetime">2016.06.16</span>
+                                        <span class="datetime">{{$recently_visited_novel->novels->created_at}}</span>
                                     </div>
-                                    <div class="col-title"><a href="#mode_nav">2. 데뷔, 그리고 약혼 (3) <i
+                                    <div class="col-title"><a href="#mode_nav">{{str_limit($recently_visited_novel->novels->title,60)}} <i
                                                     class="up-icon">Up</i></a></div>
                                     <div class="col-charge"><span class="open">열림</span></div>
                                 </li>
                             </ul>
                         </section>
+                        @endif
                         <!-- //최근읽은회차 -->
 
                         <!-- 연재회차 -->
@@ -76,8 +78,8 @@
                                             <span class="no">{{$loop->count - $loop->index}} 화</span>
                                             <span class="datetime">{{$novel->created_at}}</span>
                                         </div>
-                                        <div class="col-title"><a href="#mode_nav">{{str_limit($novel->title, 60)}}<i
-                                                        class="up-icon">Up</i></a></div>
+                                        <div class="col-title"><a href="{{route('each_novel.novel_group_inning',['id'=>$novel->id])}}">{{str_limit($novel->title, 60)}}{{--<i
+                                                        class="up-icon">Up</i>--}}</a></div>
                                         <div class="col-charge">@if($novel->non_free_agreement > 0) 유료 @else <span
                                                     class="free">무료</span> @endif {{-- <span class="open">열림</span>--}}
                                         </div>
