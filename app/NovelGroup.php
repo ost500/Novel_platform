@@ -114,7 +114,7 @@ class NovelGroup extends Model
 
     public function recently_visited_novels()
     {
-        return $this->hasOne(RecentlyVisitedNovel::class);
+        return $this->hasMany(RecentlyVisitedNovel::class);
     }
 
     public function keywords()

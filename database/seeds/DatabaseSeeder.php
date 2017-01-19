@@ -109,6 +109,9 @@ class DatabaseSeeder extends Seeder
         // NovelGroupPublishCompanies table
         $this->call(RecentlyVisitedNovelsTableSeeder::class);
 
+        // Notifications table
+        $this->call(NotificationsTableSeeder::class);
+
         // comment table
         $novels = App\Novel::get();
 
@@ -133,11 +136,7 @@ class DatabaseSeeder extends Seeder
 
         $this->command->info('MenToMenQuestionAnswers table seeded');
 
-        //Faq table
-        Faq::truncate();
-        factory(Faq::class, 20)->create();
-
-        $this->command->info('faqs table seeded');
+        $this->call(FaqsTableSeeder::class);
 
         $this->call(ReviewTableSeeder::class);
 
