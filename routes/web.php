@@ -133,9 +133,15 @@ Route::get('/admin/partnership/approve_inning/{id?}', ['as' => 'admin.partner_ap
 //main
 Route::get('/', ['as' => 'root', 'uses' => 'MainController\MainController@main']);
 
-
+//Series
 Route::get('/series/{free_or_charged?}', ['as' => 'series', 'uses' => 'MainController\MainController@series']);
+//Bests
 Route::get('/bests/{free_or_charged?}', ['as' => 'bests', 'uses' => 'MainController\MainController@bests']);
 
 //EachController
 Route::get('/novel_group/{id}', ['as' => 'novel_group', 'uses' => 'MainController\EachController@novel_group']);
+//Community
+Route::group(['prefix' => 'community'], function () {
+    Route::get('freeboard',  ['as' => 'free_board', 'uses' => 'MainController\CommunityController@free_board']);
+});
+

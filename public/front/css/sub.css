@@ -1129,6 +1129,7 @@
 
 /* 게시판목록 하단 */
 .list-bottom-btns {
+    z-index: -1;
     position: absolute;
     left: 0;
     right: 0;
@@ -1943,7 +1944,6 @@
     width: 172px;
     height: 257px;
 }
-
 
 .novel-detail .post {
     display: table-cell;

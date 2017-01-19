@@ -106,11 +106,15 @@
                 <div class="sort-nav sort-nav--novel">
                     <nav>
                         <ul>
-                            <li><a href="{{route('series',['free_or_charged'=>$free_or_charged])."?genre=".$genre}}" @if(!isset($order))class="is-active"@endif>업데이트순</a></li>
+                            <li><a href="{{route('series',['free_or_charged'=>$free_or_charged])."?genre=".$genre}}"
+                                   @if(!isset($order))class="is-active"@endif>업데이트순</a></li>
                             <li>
-                                <a href="{{route('series',['free_or_charged'=>$free_or_charged])."?genre=".$genre."&order=favorite"}}" @if($order=="favorite")class="is-active"@endif>선호작순</a>
+                                <a href="{{route('series',['free_or_charged'=>$free_or_charged])."?genre=".$genre."&order=favorite"}}"
+                                   @if($order=="favorite")class="is-active"@endif>선호작순</a>
                             </li>
-                            <li><a href="{{route('series',['free_or_charged'=>$free_or_charged])."?genre=".$genre."&order=view"}}" @if($order=="view")class="is-active"@endif>조회순</a></li>
+                            <li>
+                                <a href="{{route('series',['free_or_charged'=>$free_or_charged])."?genre=".$genre."&order=view"}}"
+                                   @if($order=="view")class="is-active"@endif>조회순</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -142,7 +146,7 @@
                 </ul>
                 <!-- //작품목록 -->
                 <!-- 페이징 -->
-            @include('pagination_front', ['collection' => $novel_groups, 'url' => route('series')])
+            @include('pagination_front', ['collection' => $novel_groups, 'url' => route('series',['free_or_charged'=>$free_or_charged])."?genre=".$genre."&order=".$order])
             <!-- //페이징 -->
             </div>
             <!-- //서브컨텐츠 -->

@@ -17,6 +17,12 @@ class FreeBoardSeeder extends Seeder
             $free_board = $user->free_boards()->save(factory(App\FreeBoard::class)->make());
             $free_board->comments()->save(factory(App\FreeBoardComment::class)->make());
             $free_board->likes()->save(factory(App\FreeBoardLike::class)->make());
+            $free_board = $user->free_boards()->save(factory(App\FreeBoard::class)->make());
+            $free_board->comments()->save(factory(App\FreeBoardComment::class)->make());
+            $free_board->likes()->save(factory(App\FreeBoardLike::class)->make());
+            $free_board = $user->free_boards()->save(factory(App\FreeBoard::class)->make());
+            $free_board->comments()->save(factory(App\FreeBoardComment::class)->make());
+            $free_board->likes()->save(factory(App\FreeBoardLike::class)->make());
         }
 
     }
