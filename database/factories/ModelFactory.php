@@ -125,6 +125,7 @@ $factory->define(App\Review::class, function (Faker\Generator $faker) {
         'user_id' => $faker->randomElement($userIds),
         'novel_id' => $faker->randomElement($novelIds),
         'review' => $faker->sentence,
+        'title' => $faker->sentence,
     ];
 });
 

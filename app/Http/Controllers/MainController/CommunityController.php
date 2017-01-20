@@ -4,6 +4,7 @@ namespace App\Http\Controllers\MainController;
 
 use App\FreeBoard;
 use App\Http\Controllers\Controller;
+use App\Review;
 use Illuminate\Http\Request;
 
 class CommunityController extends Controller
@@ -41,5 +42,14 @@ class CommunityController extends Controller
         $article->save();
 //        return response()->json($prev_article);
         return view('main.community.free_board_detail', compact('article', 'next_article', 'prev_article'));
+    }
+
+    public function reader_reco(Request $request)
+    {
+        $reviews = Review::latest()->with('users')->paginate(10);
+
+        $genre = isset($request->genre) ? $request->genre : "%";
+
+        return view('main.community.reader_reco', compact('reviews', 'genre'));
     }
 }
