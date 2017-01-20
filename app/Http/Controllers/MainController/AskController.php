@@ -16,7 +16,7 @@ class AskController extends Controller
 
     public function questions()
     {
-       $questions= MenToMenQuestionAnswer::paginate(10);
+       $questions= MenToMenQuestionAnswer::orderBy('created_at','desc')->paginate(10);
         return view('main.ask.questions',compact('questions'));
     }
 
@@ -27,9 +27,8 @@ class AskController extends Controller
 
     public function notifications()
     {
-        $notifications=Notification::paginate(5);
+        $notifications=Notification::orderBy('created_at','desc')->paginate(10);
         return view('main.ask.notifications',compact('notifications'));
     }
-
 
 }
