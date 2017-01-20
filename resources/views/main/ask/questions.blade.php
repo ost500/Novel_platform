@@ -41,7 +41,9 @@
                     @endforeach
                 </table>
                 <!-- //게시판목록 -->
-
+                <div class="page-nav">
+                    @include('pagination_front', ['collection' => $questions, 'url' => route('ask.questions'),'page'=>'?page='])
+                </div>
             </div>
             <!-- //서브컨텐츠 -->
             <!-- 따라다니는퀵메뉴 -->

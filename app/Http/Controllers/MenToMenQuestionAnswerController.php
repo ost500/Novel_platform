@@ -51,9 +51,13 @@ class MenToMenQuestionAnswerController extends Controller
             ]
         )->validate();
 
-        $men_to_menRequest =$request->user()->question_answers()->create($request->all());
+        $input=$request->except('ask_question');
+      //  dd($input);
+        $men_to_menRequest =$request->user()->question_answers()->create($input);
 
         flash('1:1문의를 등록했습니다.');
+        // if request is from front end
+        if($request->get('ask_question')){ return redirect()->route('ask.ask_question');}
 
         return \Response::json(["status"=>"200", "id"=> $men_to_menRequest->id ]);
     }
