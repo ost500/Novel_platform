@@ -103,7 +103,7 @@ $factory->define(App\MenToMenQuestionAnswer::class, function (Faker\Generator $f
     $userIds = App\User::pluck('id')->toArray();
     return [
         'user_id' => $faker->randomElement($userIds),
-        'category' => $faker->randomElement(['사이트이용','회원정보','구매/결제','작가/연재','APP','건의사항','기타']),
+        'category' => $faker->randomElement(['사이트 이용','회원정보','구매/결제','작가/연재','APP','건의사항','기타']),
         'title' => $faker->sentence,
         'question' => $faker->paragraph,
         'answer' => $faker->randomElement([$faker->paragraph, ' ']),
@@ -113,7 +113,7 @@ $factory->define(App\MenToMenQuestionAnswer::class, function (Faker\Generator $f
 
 $factory->define(App\Faq::class, function (Faker\Generator $faker) {
     return [
-        'faq_category' => $faker->randomElement(['사이트이용','회원정보','구매/결제','작가/연재','APP','건의사항','기타']),
+        'faq_category' => $faker->randomElement(['사이트 이용','회원정보','구매/결제','작가/연재','APP','건의사항','기타','독자']),
         'title' => $faker->sentence,
         'description' => $faker->paragraph,
     ];

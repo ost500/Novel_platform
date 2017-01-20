@@ -156,4 +156,8 @@ Route::group(['prefix' => 'community'], function () {
 Route::get('/novel_group/{id}', ['as' => 'each_novel.novel_group', 'uses' => 'MainController\EachController@novel_group']);
 Route::get('/novel_group_inning/{id}', ['as' => 'each_novel.novel_group_inning', 'uses' => 'MainController\EachController@novel_group_inning']);
 
-//Route::post('/novel_group/favorite', ['as' => 'each_novel.novel_group_favorite', 'uses' => 'MainController\EachController@novel_group_favorite']);
+//AskController
+Route::get('/frequently_asked_questions', ['as' => 'ask.faqs', 'uses' => 'MainController\AskController@faqs']);
+Route::get('/questions', ['as' => 'ask.questions', 'uses' => 'MainController\AskController@questions']);
+Route::get('/ask_question', ['as' => 'ask.ask_question', 'uses' => 'MainController\AskController@ask_question']);
+Route::get('/notifications', ['as' => 'ask.notifications', 'uses' => 'MainController\AskController@notifications']);

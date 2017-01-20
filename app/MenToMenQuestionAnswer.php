@@ -34,7 +34,7 @@ class MenToMenQuestionAnswer extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'title', 'question','answer','status',
+        'user_id','category','title', 'question','answer','status',
     ];
 
     public function users()
