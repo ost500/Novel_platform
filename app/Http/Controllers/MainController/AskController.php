@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\MainController;
 
 use Illuminate\Http\Request;
+use App\Notification;
 use App\Http\Controllers\Controller;
 
 class AskController extends Controller
@@ -24,7 +25,8 @@ class AskController extends Controller
 
     public function notifications()
     {
-        return view('main.ask.notifications');
+        $notifications=Notification::paginate(5);
+        return view('main.ask.notifications',compact('notifications'));
     }
 
 

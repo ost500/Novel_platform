@@ -146,7 +146,7 @@
                 </ul>
                 <!-- //작품목록 -->
                 <!-- 페이징 -->
-            @include('pagination_front', ['collection' => $novel_groups, 'url' => route('series',['free_or_charged'=>$free_or_charged])."?genre=".$genre."&order=".$order])
+            @include('pagination_front', ['collection' => $novel_groups, 'url' => route('series',['free_or_charged'=>$free_or_charged])."?genre=".$genre."&order=".$order,'page'=>'&page='])
             <!-- //페이징 -->
             </div>
             <!-- //서브컨텐츠 -->
