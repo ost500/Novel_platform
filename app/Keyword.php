@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Keyword whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Keyword whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\NovelGroup[] $novel_groups
  */
 class Keyword extends Model
 {

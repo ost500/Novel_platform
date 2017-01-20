@@ -4,6 +4,23 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\FreeBoardLike
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property int $free_board_id
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property-read \App\User $users
+ * @property-read \App\FreeBoard $freeboards
+ * @method static \Illuminate\Database\Query\Builder|\App\FreeBoardLike whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\FreeBoardLike whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\FreeBoardLike whereFreeBoardId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\FreeBoardLike whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\FreeBoardLike whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class FreeBoardLike extends Model
 {
     public function users()

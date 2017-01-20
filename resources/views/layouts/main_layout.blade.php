@@ -239,7 +239,7 @@
                 <li>
                     <a href="#mode_nav">커뮤니티</a>
                     <ul class="gnb-depth2">
-                        <li><a href="#mode_nav">자유게시판</a></li>
+                        <li><a href="{{route('free_board')}}">자유게시판</a></li>
                         <li><a href="#mode_nav">독자추천</a></li>
                     </ul>
                 </li>

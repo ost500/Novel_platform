@@ -1447,6 +1447,7 @@
 }
 
 .comment-content {
+    width: 100%;
     padding-top: 10px;
     line-height: 1.3;
 }
@@ -1939,8 +1940,9 @@
 }
 
 .novel-detail .thumb img {
-    display: b
-width: 172px;
+    display: block;
+    border: 1px solid #dfdada;
+    width: 172px;
     height: 257px;
 }
 
