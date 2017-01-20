@@ -63,19 +63,24 @@
             <div class="content" id="content">
                 <!-- 작품목록 -->
                 <ul class="novel-list">
-                    @foreach($reviews as $review)
+                    @foreach ($reviews as $review)
                         <li>
                             <div class="thumb">
-                            <span><a href="#mode_nav"><img src="/img/novel_covers/"
-                                                           alt="망의 연월"></a></span>
+                            <span><a href="#mode_nav"><img
+                                            src="/img/novel_covers/{{$review->novel_groups->cover_photo}}"
+                                            alt="망의 연월"></a></span>
                             </div>
                             <div class="post">
                                 <div class="post-header">
                                     <strong class="title"><a href="#mode_nav">{{$review->title}}</a></strong>
                                     <span class="writer">{{$review->users->name}}</span>
                                 </div>
-                                <p class="post-content">남주 : 담견, 운의 대장군<br>여주 : 서하, 세연의 대신녀<br>키워드</p>
-                                <p class="post-info"><span>동양판타지</span> <span>조회수 103</span> <span>작성일 2016.06.21</span>
+                                <p class="post-content">{{ $review->review }}</p>
+                                <p class="post-info">
+                                    @foreach ($review->novel_groups->keywords as $keyword)
+                                        <span>{{ $keyword->name }}</span>
+                                    @endforeach
+                                    <span>조회수 {{$review->novel_groups->view_count}}</span> <span>작성일 2016.06.21</span>
                                 </p>
                             </div>
                         </li>

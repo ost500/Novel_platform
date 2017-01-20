@@ -36,9 +36,9 @@ class Review extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function novels()
+    public function novel_groups()
     {
-        return $this->belongsTo(Novel::class, 'novel_id', 'id');
+        return $this->belongsTo(NovelGroup::class, 'novel_group_id', 'id');
     }
 
     public function myself()

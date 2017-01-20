@@ -46,10 +46,15 @@ class CommunityController extends Controller
 
     public function reader_reco(Request $request)
     {
-        $reviews = Review::latest()->with('users')->paginate(config('define.pagination_long'));
+        $reviews = Review::latest()->with('users')->with('novel_groups.keywords')->paginate(config('define.pagination_long'));
+        $reviews = Review::selectRaw('reviews.id, reviews.*, novel_groups.*, sum(total_count) as total_count')
+            ->join('novel_groups', 'novel_groups.id', '=', 'reviews.novel_group_id')
+            ->join('novels', 'novel_groups.id', '=', 'novels.novel_group_id')
+            ->groupBy('reviews.id')->orderBy('reviews.created_at', 'desc')
+            ->paginate(config('define.pagination_long'));
 
         $genre = isset($request->genre) ? $request->genre : "%";
-
+//        return response()->json($reviews);
         return view('main.community.reader_reco', compact('reviews', 'genre'));
     }
 }

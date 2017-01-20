@@ -69,10 +69,7 @@ class Novel extends Model
         return $this->hasMany(Comment::class)->with('users');
     }
 
-    public function reviews()
-    {
-        return $this->hasMany(Review::class)->with('users');
-    }
+    
     public function view_counts()
     {
         return $this->hasMany(ViewCount::class);

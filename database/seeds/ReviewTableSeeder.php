@@ -11,10 +11,10 @@ class ReviewTableSeeder extends Seeder
      */
     public function run()
     {
-        $novels = App\Novel::get();
+        $novelGroups = App\NovelGroup::get();
 
         App\Review::truncate();
-        foreach ($novels as $novel) {
+        foreach ($novelGroups as $novel) {
             $novel->reviews()->save(factory(App\Review::class)->make());
 
             $novel->reviews()->save(factory(App\Review::class)->make());

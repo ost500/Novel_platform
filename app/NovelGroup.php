@@ -121,27 +121,31 @@ class NovelGroup extends Model
     {
         return $this->belongsToMany(Keyword::class,
             'novel_group_keywords', 'novel_group_id', 'keyword_id')
-            ->withPivot('id','novel_group_id','keyword_id','created_at','updated_at');
+            ->withPivot('id', 'novel_group_id', 'keyword_id', 'created_at', 'updated_at');
     }
 
-   public function getNovelGroupViewCount($novel_group_id)
+    public function getNovelGroupViewCount()
     {
-        $total_view_count= Novel::selectRaw(' sum(total_count) as total_view_count ')->where('novel_group_id',$novel_group_id)->first();
-        if($total_view_count) {
+        $total_view_count = Novel::selectRaw(' sum(total_count) as total_view_count ')->where('novel_group_id', $this->id)->first();
+        if ($total_view_count) {
             return $total_view_count->total_view_count;
         }
     }
 
     public function getNovelGroupFavoriteCount($novel_group_id)
     {
-        $favorite_count= Favorite::selectRaw('  count(novel_group_id) as favorite_count ')->where('novel_group_id',$novel_group_id)->first();
-        if($favorite_count) {
+        $favorite_count = Favorite::selectRaw('  count(novel_group_id) as favorite_count ')->where('novel_group_id', $novel_group_id)->first();
+        if ($favorite_count) {
             return $favorite_count->favorite_count;
         }
     }
-    public function checkUserFavourite($novel_group_id){
 
-        $favorite=Favorite::where(['novel_group_id'=>$novel_group_id,'user_id'=>Auth::user()->id])->first();
-        if($favorite){  return true; }
+    public function checkUserFavourite($novel_group_id)
+    {
+
+        $favorite = Favorite::where(['novel_group_id' => $novel_group_id, 'user_id' => Auth::user()->id])->first();
+        if ($favorite) {
+            return true;
+        }
     }
 }

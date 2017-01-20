@@ -121,11 +121,11 @@ $factory->define(App\Faq::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Review::class, function (Faker\Generator $faker) {
     $userIds = App\User::pluck('id')->toArray();
-    $novelIds = App\Novel::pluck('id')->toArray();
+    $novelgroupIds = App\NovelGroup::pluck('id')->toArray();
 
     return [
         'user_id' => $faker->randomElement($userIds),
-        'novel_id' => $faker->randomElement($novelIds),
+        'novel_group_id' => $faker->randomElement($novelgroupIds),
         'review' => $faker->sentence,
         'title' => $faker->sentence,
     ];

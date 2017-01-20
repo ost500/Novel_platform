@@ -11,29 +11,41 @@
             <!-- 서브컨텐츠 -->
             <div class="content" id="content">
                 <!-- 위클리베스트게시물 -->
-                <section class="weekly-best">
-                    <h2 class="title">
-                        <span class="str1">Weekly</span>
-                        <span class="str2">Best</span>
-                    </h2>
-                    <div class="list-wrap">
-                        <ol class="list">
-                            @foreach($weekly_best[0] as $best)
-                                <li><a href="{{route('free_board.detail',['id'=>$best->id])}}">{{$best->title}}</a><span
-                                            class="writer">{{str_limit($best->users->name,10)}}</span>
-                                </li>
-                            @endforeach
-                        </ol>
-                        <ol start="6" class="list">
-                            @foreach($weekly_best[1] as $best)
-                                <li><a href="{{route('free_board.detail',['id'=>$best->id])}}">{{$best->title}}</a><span
-                                            class="writer">{{str_limit($best->users->name,10)}}</span>
-                                </li>
-                            @endforeach
-                        </ol>
-                    </div>
-                </section>
-                <!-- //위클리베스트게시물 -->
+                @if($weekly_best->offsetExists(0))
+                    <section class="weekly-best">
+                        <h2 class="title">
+                            <span class="str1">Weekly</span>
+                            <span class="str2">Best</span>
+                        </h2>
+
+                        <div class="list-wrap">
+                            <ol class="list">
+
+                                @foreach($weekly_best[0] as $best)
+                                    <li>
+                                        <a href="{{route('free_board.detail',['id'=>$best->id])}}">{{$best->title}}</a><span
+                                                class="writer">{{str_limit($best->users->name,10)}}</span>
+                                    </li>
+                                @endforeach
+
+                            </ol>
+                            <ol start="6" class="list">
+                                @if($weekly_best->offsetExists(1))
+                                    @foreach($weekly_best[1] as $best)
+                                        <li>
+                                            <a href="{{route('free_board.detail',['id'=>$best->id])}}">{{$best->title}}</a><span
+                                                    class="writer">{{str_limit($best->users->name,10)}}</span>
+                                        </li>
+                                    @endforeach
+                                @endif
+
+                            </ol>
+                        </div>
+
+                    </section>
+            @endif
+
+            <!-- //위클리베스트게시물 -->
 
                 <!-- 게시판목록 -->
                 <table class="bbs-list bbs-list--free">
