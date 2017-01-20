@@ -36,7 +36,8 @@ $factory->define(App\NovelGroup::class, function (Faker\Generator $faker) {
         'title' => $faker->sentence,
         'description' => $faker->paragraph,
         'latest_at' => $faker->date('Y-m-d'),
-        'cover_photo' => "default_.jpg"
+        'cover_photo' => "default_.jpg",
+        'completed' => $faker->randomElement(['0', '1'])
     ];
 });
 

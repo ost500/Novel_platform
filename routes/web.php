@@ -139,6 +139,8 @@ Route::get('/', ['as' => 'root', 'uses' => 'MainController\MainController@main']
 Route::get('/series/{free_or_charged?}', ['as' => 'series', 'uses' => 'MainController\MainController@series']);
 //Bests
 Route::get('/bests/{free_or_charged?}', ['as' => 'bests', 'uses' => 'MainController\MainController@bests']);
+//completed
+Route::get('/completed/{free_or_charged?}', ['as' => 'completed', 'uses' => 'MainController\MainController@completed']);
 
 
 //Community

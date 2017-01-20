@@ -20,7 +20,7 @@ class CommunityController extends Controller
             $articles = $articles->where('content', 'like', '%' . $search_text . '%');
         }
 
-        $articles = $articles->latest()->with('users')->withCount('comments')->paginate(5);
+        $articles = $articles->latest()->with('users')->withCount('comments')->paginate(config('define.pagination_long'));
         $weekly_best = FreeBoard::orderby('week_view_count', 'desc')->latest()->with('users')->withCount('comments')->take(10)->get()
             ->split(2);
 
@@ -46,7 +46,7 @@ class CommunityController extends Controller
 
     public function reader_reco(Request $request)
     {
-        $reviews = Review::latest()->with('users')->paginate(10);
+        $reviews = Review::latest()->with('users')->paginate(config('define.pagination_long'));
 
         $genre = isset($request->genre) ? $request->genre : "%";
 

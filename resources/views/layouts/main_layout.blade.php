@@ -232,8 +232,8 @@
                 <li>
                     <a href="#mode_nav">완결</a>
                     <ul class="gnb-depth2">
-                        <li><a href="#mode_nav">유료완결</a></li>
-                        <li><a href="#mode_nav">무료완결</a></li>
+                        <li><a href="{{route('completed')}}">유료완결</a></li>
+                        <li><a href="{{route('completed',['free_or_charged'=>'free'])}}">무료완결</a></li>
                     </ul>
                 </li>
                 <li>

@@ -50,12 +50,14 @@ class MainController extends Controller
             //charged
             $novel_groups = NovelGroup::selectRaw('novel_group_id, novel_groups.*, max(novels.created_at) as new, max(non_free_agreement) as non_free, sum(total_count) as total_count')
                 ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
+                ->where('completed', 0)
                 ->groupBy('novel_group_id')->havingRaw('max(non_free_agreement) > 0');
 
         } else {
             //free
             $novel_groups = NovelGroup::selectRaw('novel_group_id, novel_groups.*, max(novels.created_at) as new, max(non_free_agreement) as non_free, sum(total_count) as total_count')
                 ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
+                ->where('completed', 0)
                 ->groupBy('novel_group_id')->havingRaw('max(non_free_agreement) = 0');
 
         }
@@ -78,7 +80,7 @@ class MainController extends Controller
         }
 
         //nickname, keyword, novels_count
-        $novel_groups = $novel_groups->with('nicknames')->with('keywords')->withCount('novels')->paginate(3);
+        $novel_groups = $novel_groups->with('nicknames')->with('keywords')->withCount('novels')->paginate(config('define.pagination_long'));
 //        return response()->json($novel_groups);
         return view('main.series', compact('free_or_charged', 'novel_groups', 'genre', 'order'));
     }
@@ -120,10 +122,52 @@ class MainController extends Controller
         $page = isset($request->page) ? $request->page : '1';
 //        $novel_groups = $novel_groups->toSql();
 //        echo $novel_groups;
-        $novel_groups = $novel_groups->with('nicknames')->with('keywords')->withCount('novels')->paginate(100);
+        $novel_groups = $novel_groups->with('nicknames')->with('keywords')->withCount('novels')->paginate(config('define.pagination_long'));
 
 //        return response()->json($novel_groups);
         return view('main.bests', compact('free_or_charged', 'novel_groups', 'page', 'period', 'option'));
+    }
+
+    public function completed(Request $request, $free_or_charged = false)
+    {
+
+        if (!$free_or_charged) {
+            //charged
+            $novel_groups = NovelGroup::selectRaw('novel_group_id, novel_groups.*, max(novels.created_at) as new, max(non_free_agreement) as non_free, sum(total_count) as total_count')
+                ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
+                ->where('completed', 1)
+                ->groupBy('novel_group_id')->havingRaw('max(non_free_agreement) > 0');
+
+        } else {
+            //free
+            $novel_groups = NovelGroup::selectRaw('novel_group_id, novel_groups.*, max(novels.created_at) as new, max(non_free_agreement) as non_free, sum(total_count) as total_count')
+                ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
+                ->where('completed', 1)
+                ->groupBy('novel_group_id')->havingRaw('max(non_free_agreement) = 0');
+
+        }
+
+        //genre
+        $genre = isset($request->genre) ? $request->genre : '%';
+        $novel_groups = $novel_groups->whereHas('keywords', function ($q) use ($genre) {
+            $q->where('name', 'like', $genre);
+        });
+
+        //order
+        $order = $request->order;
+        if ($order == "view") {
+            $novel_groups = $novel_groups->orderBy('total_count', 'desc');
+        } elseif ($order == "favorite") {
+            $novel_groups = $novel_groups->withCount('favorites');
+            $novel_groups = $novel_groups->orderBy('favorites_count', 'desc');
+        } else {
+            $novel_groups = $novel_groups->orderBy('new', 'desc');
+        }
+
+        //nickname, keyword, novels_count
+        $novel_groups = $novel_groups->with('nicknames')->with('keywords')->withCount('novels')->paginate(config('define.pagination_long'));
+//        return response()->json($novel_groups);
+        return view('main.completed', compact('free_or_charged', 'novel_groups', 'genre', 'order'));
     }
 
 }
