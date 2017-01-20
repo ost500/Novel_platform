@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFaqsTable extends Migration
+class AddMenToMenQuestionAnswersCategory extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreateFaqsTable extends Migration
      */
     public function up()
     {
-        Schema::create('faqs', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('faq_category');
-            $table->string('title');
-            $table->text('description');
-            $table->timestamps();
+        Schema::table('men_to_men_question_answers', function (Blueprint $table) {
+            $table->string('category')->after('user_id');
         });
     }
 
@@ -29,6 +25,8 @@ class CreateFaqsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('faqs');
+        Schema::table('men_to_men_question_answers', function (Blueprint $table) {
+            $table->dropColumn('category');
+        });
     }
 }

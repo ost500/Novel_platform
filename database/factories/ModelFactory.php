@@ -103,6 +103,7 @@ $factory->define(App\MenToMenQuestionAnswer::class, function (Faker\Generator $f
     $userIds = App\User::pluck('id')->toArray();
     return [
         'user_id' => $faker->randomElement($userIds),
+        'category' => $faker->randomElement(['사이트이용','회원정보','구매/결제','작가/연재','APP','건의사항','기타']),
         'title' => $faker->sentence,
         'question' => $faker->paragraph,
         'answer' => $faker->randomElement([$faker->paragraph, ' ']),
@@ -112,7 +113,7 @@ $factory->define(App\MenToMenQuestionAnswer::class, function (Faker\Generator $f
 
 $factory->define(App\Faq::class, function (Faker\Generator $faker) {
     return [
-        'faq_category' => $faker->randomElement(['1', '2', '3']),
+        'faq_category' => $faker->randomElement(['사이트이용','회원정보','구매/결제','작가/연재','APP','건의사항','기타']),
         'title' => $faker->sentence,
         'description' => $faker->paragraph,
     ];
@@ -202,6 +203,25 @@ $factory->define(\App\NovelGroupPublishCompany::class, function (Faker\Generator
         'days' => $faker->randomElement(['1', '2', '3', '4', '5', '6', '7']),
         'novels_per_days' => $faker->randomElement(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']),
         'initial_novels' => $faker->randomElement(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']),
+    ];
+});
+
+$factory->define(App\RecentlyVisitedNovel::class, function (Faker\Generator $faker) {
+    $userIds = App\User::pluck('id')->toArray();
+    $novel_ids = App\Novel::pluck('id')->toArray();
+    $novel_groupIds = App\NovelGroup::pluck('id')->toArray();
+    return [
+        'user_id' => $faker->randomElement($userIds),
+        'novel_id' => $faker->randomElement($novel_ids),
+        'novel_group_id' => $faker->randomElement($novel_groupIds),
+    ];
+});
+
+$factory->define(App\Notification::class, function (Faker\Generator $faker) {
+    return [
+        'category' => $faker->word,
+        'title' => $faker->sentence,
+        'content'=>$faker->paragraph,
     ];
 });
 

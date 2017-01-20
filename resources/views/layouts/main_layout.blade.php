@@ -84,7 +84,7 @@
                                     <ul class="alarm-list">
                                         <li class="is-new">
                                             <div class="thumb">
-                                                <img src="imgs/thumb/memo1.png" alt="">
+                                                <img src="/front/imgs/thumb/memo1.png" alt="">
                                             </div>
                                             <div class="post">
                                                 <p class="post-content"><a href="#mode_nav">와이엠북스입니다.</a></p>
@@ -93,7 +93,7 @@
                                         </li>
                                         <li class="is-new">
                                             <div class="thumb">
-                                                <img src="imgs/thumb/memo2.png" alt="">
+                                                <img src="/front/imgs/thumb/memo2.png" alt="">
                                             </div>
                                             <div class="post">
                                                 <p class="post-content"><a href="#mode_nav">앞편좀 하루 열어주세요.</a></p>
@@ -102,7 +102,7 @@
                                         </li>
                                         <li class="is-new">
                                             <div class="thumb">
-                                                <img src="imgs/thumb/memo3.png" alt="">
+                                                <img src="/front/imgs/thumb/memo3.png" alt="">
                                             </div>
                                             <div class="post">
                                                 <p class="post-content"><a href="#mode_nav">안녕하세요. 이비안입니다.</a></p>
@@ -111,7 +111,7 @@
                                         </li>
                                         <li>
                                             <div class="thumb">
-                                                <img src="imgs/thumb/memo4.png" alt="">
+                                                <img src="/front/imgs/thumb/memo4.png" alt="">
                                             </div>
                                             <div class="post">
                                                 <p class="post-content"><a href="#mode_nav">작가님, 소울에임 편집팀입니다.</a></p>
@@ -120,7 +120,7 @@
                                         </li>
                                         <li>
                                             <div class="thumb">
-                                                <img src="imgs/thumb/memo1.png" alt="">
+                                                <img src="/front/imgs/thumb/memo1.png" alt="">
                                             </div>
                                             <div class="post">
                                                 <p class="post-content"><a href="#mode_nav">감사합니다.</a></p>
@@ -145,7 +145,7 @@
                                     <ul class="alarm-list">
                                         <li class="is-new">
                                             <div class="thumb">
-                                                <img src="imgs/thumb/alarm1.png" alt="">
+                                                <img src="/front/imgs/thumb/alarm1.png" alt="">
                                             </div>
                                             <div class="post">
                                                 <p class="post-content"><a href="#mode_nav">고백게임 작가 이비안의 신작 <b
@@ -155,7 +155,7 @@
                                         </li>
                                         <li class="is-new">
                                             <div class="thumb">
-                                                <img src="imgs/thumb/alarm2.png" alt="">
+                                                <img src="/front/imgs/thumb/alarm2.png" alt="">
                                             </div>
                                             <div class="post">
                                                 <p class="post-content"><a href="#mode_nav">지난달 베스트 1위 작품 공개! 2016년 5월의
@@ -165,7 +165,7 @@
                                         </li>
                                         <li class="is-new">
                                             <div class="thumb">
-                                                <img src="imgs/thumb/alarm3.png" alt="">
+                                                <img src="/front/imgs/thumb/alarm3.png" alt="">
                                             </div>
                                             <div class="post">
                                                 <p class="post-content"><a href="#mode_nav">6월 둘째 주, 유료연재 주간 베스트 작품 TOP
@@ -175,7 +175,7 @@
                                         </li>
                                         <li>
                                             <div class="thumb">
-                                                <img src="imgs/thumb/alarm4.png" alt="">
+                                                <img src="/front/imgs/thumb/alarm4.png" alt="">
                                             </div>
                                             <div class="post">
                                                 <p class="post-content"><a href="#mode_nav">오늘 가장 많이 읽은 유료연재 소설은?</a>
@@ -185,7 +185,7 @@
                                         </li>
                                         <li>
                                             <div class="thumb">
-                                                <img src="imgs/thumb/alarm5.png" alt="">
+                                                <img src="/front/imgs/thumb/alarm5.png" alt="">
                                             </div>
                                             <div class="post">
                                                 <p class="post-content"><a href="#mode_nav">로맨스판타지 10% 할인 이벤트!</a></p>
@@ -354,7 +354,7 @@
     <!-- //푸터내용 -->
 </div>
 <!-- //푸터 -->
-<script src="js/common.js"></script>
+<script src="/front/js/common.js"></script>
 <!--[if lte IE 9]>
 <script src="js/jquery.placeholder.min.js"></script>
 <script> $(document).ready(function () {

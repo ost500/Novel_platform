@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFaqsTable extends Migration
+class AddFaqsBest extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreateFaqsTable extends Migration
      */
     public function up()
     {
-        Schema::create('faqs', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('faq_category');
-            $table->string('title');
-            $table->text('description');
-            $table->timestamps();
+        Schema::table('faqs', function (Blueprint $table) {
+            $table->boolean('best')->default(0)->after('description');
         });
     }
 
@@ -29,6 +25,8 @@ class CreateFaqsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('faqs');
+        Schema::table('faqs', function (Blueprint $table) {
+            $table->dropColumn('best');
+        });
     }
 }

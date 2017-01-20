@@ -112,6 +112,10 @@ class NovelGroup extends Model
         return $this->belongsTo(NickName::class, 'nickname_id', 'id');
     }
 
+    public function recently_visited_novels()
+    {
+        return $this->hasMany(RecentlyVisitedNovel::class);
+    }
 
     public function keywords()
     {
