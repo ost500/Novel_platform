@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\MainController;
 
+use App\Faq;
 use App\MenToMenQuestionAnswer;
 use Illuminate\Http\Request;
 use App\Notification;
@@ -11,7 +12,10 @@ class AskController extends Controller
 {
     public function faqs()
     {
-        return view('main.ask.frequently_asked_questions');
+       // $faqs= Faq::orderBy('created_at','desc')->paginate(10);
+        $best_faqs= Faq::Where([['best','=', 1 ],['faq_category','<>','독자']])->get();
+
+        return view('main.ask.frequently_asked_questions',compact('best_faqs'));
     }
 
     public function questions()

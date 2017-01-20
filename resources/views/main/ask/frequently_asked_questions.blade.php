@@ -4,7 +4,7 @@
         <div class="wrap">
             <!-- LNB -->
             @include('main.ask.left_sidebar')
-            <!-- //LNB -->
+                    <!-- //LNB -->
 
             <!-- 서브컨텐츠 -->
             <div class="content" id="content">
@@ -41,48 +41,16 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td class="col-category">사이트 이용</td>
-                        <td class="col-subject">
-                            <a href="#mode_nav">여우정원을 처음 이용하는데 이용방법을 잘 모르겠어요.</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-category">회원정보</td>
-                        <td class="col-subject">
-                            <a href="#mode_nav">아이디와 비밀번호를 잊어버렸어요.</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-category">회원정보</td>
-                        <td class="col-subject">
-                            <a href="#mode_nav">성인인증은 어떻게 받나요?</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-category">구매/결제</td>
-                        <td class="col-subject">
-                            <a href="#mode_nav">구슬이 뭔가요?</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-category">작가/연재</td>
-                        <td class="col-subject">
-                            <a href="#mode_nav">작가 신청은 어떻게 하나요?</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-category">작가/연재</td>
-                        <td class="col-subject">
-                            <a href="#mode_nav">글을 연재하고 싶어요. 작품 등록은 어떻게 하나요?</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-category">APP</td>
-                        <td class="col-subject">
-                            <a href="#mode_nav">APP 사용법을 잘 모르겠어요.</a>
-                        </td>
-                    </tr>
+                    @foreach($best_faqs as $best_faq)
+                        <tr>
+                            <td class="col-category">{{$best_faq->faq_category}}</td>
+                            <td class="col-subject">
+                                <a href="#">{{$best_faq->title}}</a>
+
+                            </td>
+                        </tr>
+                    @endforeach
+
                     </tbody>
                 </table>
                 <!-- //게시판목록 -->
