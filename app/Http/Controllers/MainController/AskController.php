@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\MainController;
 
+use App\MenToMenQuestionAnswer;
 use Illuminate\Http\Request;
 use App\Notification;
 use App\Http\Controllers\Controller;
@@ -15,7 +16,8 @@ class AskController extends Controller
 
     public function questions()
     {
-        return view('main.ask.questions');
+       $questions= MenToMenQuestionAnswer::paginate(10);
+        return view('main.ask.questions',compact('questions'));
     }
 
     public function ask_question()

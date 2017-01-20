@@ -29,23 +29,16 @@
                     </tr>
                     </thead>
                     <tbody>
+                    @foreach($questions as $question)
                     <tr>
-                        <td class="col-category">사이트 이용</td>
+                        <td class="col-category">{{$question->category}}</td>
                         <td class="col-subject">
-                            <a href="#mode_nav">오류가 있는 것 같아요.</a>
+                            <a href="#mode_nav">{{$question->title}}</a>
                         </td>
-                        <td class="col-datetime">05:03:21</td>
-                        <td class="col-state"><span>읽지않음</span></td>
+                        <td class="col-datetime">{{$question->created_at}}</td>
+                        <td class="col-state"><span @if($question->status) class="is-answer" @endif>읽지않음</span></td>
                     </tr>
-                    <tr>
-                        <td class="col-category">구매결제</td>
-                        <td class="col-subject">
-                            <a href="#mode_nav">두 번 중복 결제 되었어요.</a>
-                        </td>
-                        <td class="col-datetime">2016.07.21</td>
-                        <td class="col-state"><span class="is-answer">답변완료</span></td>
-                    </tr>
-                    </tbody>
+                    @endforeach
                 </table>
                 <!-- //게시판목록 -->
 

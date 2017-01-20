@@ -132,7 +132,7 @@ class DatabaseSeeder extends Seeder
 
         //MenToMen QuestionAnswer table
         App\MenToMenQuestionAnswer::truncate();
-        factory(App\MenToMenQuestionAnswer::class, 10)->create();
+        factory(App\MenToMenQuestionAnswer::class, 15)->create();
 
         $this->command->info('MenToMenQuestionAnswers table seeded');
 
