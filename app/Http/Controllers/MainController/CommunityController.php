@@ -47,15 +47,32 @@ class CommunityController extends Controller
 
     public function reader_reco(Request $request)
     {
-        $reviews = Review::latest()->with('users')->with('novel_groups.keywords')->paginate(config('define.pagination_long'));
         $reviews = Review::selectRaw('reviews.id, reviews.*, novel_groups.*, sum(total_count) as total_count')
             ->join('novel_groups', 'novel_groups.id', '=', 'reviews.novel_group_id')
             ->join('novels', 'novel_groups.id', '=', 'novels.novel_group_id')
-            ->groupBy('reviews.id')->orderBy('reviews.created_at', 'desc')
-            ->paginate(config('define.pagination_long'));
+            ->groupBy('reviews.id')->orderBy('reviews.created_at', 'desc');
 
+        $search_option = $request->search_option;
+        $search_text = $request->search_text;
+
+        if ($search_option == 'title') {
+            $reviews = $reviews->where('reviews.title', 'like', '%' . $search_text . '%');
+        } else if ($search_option == 'content') {
+            $reviews = $reviews->where('review', 'like', '%' . $search_text . '%');
+        }
+
+
+        //genre
         $genre = isset($request->genre) ? $request->genre : "%";
+
+        $reviews = $reviews->whereHas('novel_groups.keywords', function ($q) use ($genre) {
+            $q->where('name', 'like', $genre);
+        });
+
+        $reviews = $reviews->paginate(3);
+
+
 //        return response()->json($reviews);
-        return view('main.community.reader_reco', compact('reviews', 'genre'));
+        return view('main.community.reader_reco', compact('reviews', 'genre', 'search_option', 'search_text', 'page'));
     }
 }
