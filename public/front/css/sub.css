@@ -497,6 +497,10 @@
 .latest-wrap {
     position: relative;
 }
+.latest-wrap--mypage .latest > li .thumb >img {
+    width: 92px;
+    height: 135px;
+}
 
 .latest-title {
     overflow: hidden;

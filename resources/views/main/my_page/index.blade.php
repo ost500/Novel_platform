@@ -4,19 +4,20 @@
         <div class="wrap">
             <!-- LNB -->
             @include('main.my_page.left_sidebar')
-            <!-- //LNB -->
+                    <!-- //LNB -->
 
             <!-- 서브컨텐츠 -->
             <div class="content" id="content">
                 <!-- 내정보 -->
                 <section class="myinfo">
                     <h2 class="hidden">My정보</h2>
+
                     <div class="myinfo-box">
                         <!-- 회원정보 -->
                         <div class="col-member">
-                            <strong class="user-name">김달</strong>
+                            <strong class="user-name">{{$my_profile->name}}</strong>
                             <span class="user-id">kimdal</span>
-                            <span class="user-email">kimdal@naver.com</span>
+                            <span class="user-email">{{$my_profile->email}}</span>
                             <a href="#mode_nav" class="btn btn--special">로그아웃</a>
                             <a href="#mode_nav" class="setup-btn"><i class="setup-icon">설정</i></a>
                         </div>
@@ -48,41 +49,24 @@
                 <section class="latest-wrap latest-wrap--mypage">
                     <h2 class="latest-title">최근 구매 내역</h2>
                     <ul class="latest">
-                        <li>
-                            <a href="#mode_nav">
-                                <p class="thumb"><img src="imgs/thumb/buy_book1.png" alt=""></p>
-                                <p class="book-title">고백게임</p>
-                                <p class="author">이비안</p>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#mode_nav">
-                                <p class="thumb"><img src="imgs/thumb/buy_book2.png" alt=""></p>
-                                <p class="book-title">낙원연가</p>
-                                <p class="author">Girdap</p>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#mode_nav">
-                                <p class="thumb"><img src="imgs/thumb/buy_book3.png" alt=""></p>
-                                <p class="book-title">공녀 엘린느</p>
-                                <p class="author">박초율</p>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#mode_nav">
-                                <p class="thumb"><img src="imgs/thumb/buy_book4.png" alt=""></p>
-                                <p class="book-title">초콜릿 객잔 702번지</p>
-                                <p class="author">림랑</p>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#mode_nav">
-                                <p class="thumb"><img src="imgs/thumb/buy_book5.png" alt=""></p>
-                                <p class="book-title">연애한도초과</p>
-                                <p class="author">김현서</p>
-                            </a>
-                        </li>
+                        @if(count($recently_purchased_novels)  > 0)
+                        @foreach($recently_purchased_novels as $recently_purchased_novel )
+                            <li>
+                                <a href="{{route('each_novel.novel_group',['id'=>$recently_purchased_novel->id])}}">
+                                    <p class="thumb"><img
+                                                src="/img/novel_covers/{{$recently_purchased_novel->cover_photo}}"
+                                                alt=""></p>
+
+                                    <p class="book-title">{{str_limit($recently_purchased_novel->title,5)}}</p>
+
+                                    <p class="author">{{$recently_purchased_novel->nicknames->nickname}}</p>
+                                </a>
+                            </li>
+                        @endforeach
+                        @else
+                            <div style="text-align:center;"> You have no purchased novels. Please purchase one. </div>
+                        @endif
+
                     </ul>
                     <a href="#mode_nav" class="latest-more-btn">더보기</a>
                 </section>
@@ -92,41 +76,21 @@
                 <section class="latest-wrap latest-wrap--mypage">
                     <h2 class="latest-title">선호작 업데이트</h2>
                     <ul class="latest">
+                        @if(count($recently_updated_favorites)  > 0)
+                        @foreach($recently_updated_favorites as $recently_updated_favorite )
                         <li>
-                            <a href="#mode_nav">
-                                <p class="thumb"><img src="imgs/thumb/scrap_book1.png" alt=""></p>
-                                <p class="book-title">순수의 욕망</p>
-                                <p class="author">럼</p>
+                            <a href="{{route('each_novel.novel_group',['id'=>$recently_updated_favorite->id])}}">
+                                <p class="thumb"><img src="/img/novel_covers/{{$recently_updated_favorite->cover_photo}}" alt=""></p>
+
+                                <p class="book-title">{{str_limit($recently_updated_favorite->title,5)}}</p>
+
+                                <p class="author">{{$recently_updated_favorite->nicknames->nickname}}</p>
                             </a>
                         </li>
-                        <li>
-                            <a href="#mode_nav">
-                                <p class="thumb"><img src="imgs/thumb/scrap_book2.png" alt=""></p>
-                                <p class="book-title">달꽃너울</p>
-                                <p class="author">Milkymoon</p>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#mode_nav">
-                                <p class="thumb"><img src="imgs/thumb/scrap_book3.png" alt=""></p>
-                                <p class="book-title">울지마 유령</p>
-                                <p class="author">림랑</p>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#mode_nav">
-                                <p class="thumb"><img src="imgs/thumb/scrap_book4.png" alt=""></p>
-                                <p class="book-title">한설</p>
-                                <p class="author">Milkymoon</p>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#mode_nav">
-                                <p class="thumb"><img src="imgs/thumb/scrap_book5.png" alt=""></p>
-                                <p class="book-title">늑대의 주인</p>
-                                <p class="author">이에르바</p>
-                            </a>
-                        </li>
+                        @endforeach
+                            @else
+                                <div style="text-align:center;"> You have no favourite novels yet. Please make some favourite. </div>
+                            @endif
                     </ul>
                     <a href="#mode_nav" class="latest-more-btn">더보기</a>
                 </section>
