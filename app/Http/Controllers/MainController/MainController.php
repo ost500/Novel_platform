@@ -32,7 +32,7 @@ class MainController extends Controller
 
         $latests = NovelGroup::latest()->take(5)->get();
 
-        $reader_reviews = Review::take(6)->with('novels.novel_groups')->get();
+        $reader_reviews = Review::take(6)->with('novel_groups')->get();
 
         $recommendations = NovelGroup::selectRaw('novel_group_id, novel_groups.*, sum(week_count) as sum, max(non_free_agreement) as non_free')
             ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
