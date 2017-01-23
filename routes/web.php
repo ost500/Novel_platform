@@ -155,3 +155,7 @@ Route::get('/frequently_asked_questions', ['as' => 'ask.faqs', 'uses' => 'MainCo
 Route::get('/questions', ['as' => 'ask.questions', 'uses' => 'MainController\AskController@questions']);
 Route::get('/ask_question', ['as' => 'ask.ask_question', 'uses' => 'MainController\AskController@ask_question']);
 Route::get('/notifications', ['as' => 'ask.notifications', 'uses' => 'MainController\AskController@notifications']);
+
+//MyPageController
+Route::get('/my_page', ['as' => 'my_page.index', 'uses' => 'MainController\MyPageController@index']);
+Route::get('/my_page/favourites', ['as' => 'my_page.favourites', 'uses' => 'MainController\MyPageController@favourites']);
