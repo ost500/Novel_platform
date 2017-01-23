@@ -24,9 +24,10 @@ class CommunityController extends Controller
         $weekly_best = FreeBoard::orderby('week_view_count', 'desc')->latest()->with('users')->withCount('comments')->take(10)->get()
             ->split(2);
 
+        $page = $request->page;
 
 //        return response()->json($weekly_best);
-        return view('main.community.free_board', compact('articles', 'weekly_best', 'search_option', 'search_text'));
+        return view('main.community.free_board', compact('articles', 'weekly_best', 'search_option', 'search_text', 'page'));
     }
 
     public function free_board_detail($id)

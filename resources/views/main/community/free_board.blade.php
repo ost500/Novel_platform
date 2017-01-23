@@ -86,7 +86,7 @@
                 </div>
                 <!-- //하단버튼 -->
                 <!-- 페이징 -->
-            @include('pagination_front', ['collection' => $articles, 'url' => route('free_board')."?search_option=".$search_option."&search_text=".$search_text])
+            @include('pagination_front', ['collection' => $articles, 'url' => route('free_board')."?search_option=".$search_option."&search_text=".$search_text."&"])
             {{--<div class="page-nav">--}}
             {{--<nav>--}}
             {{--<ul>--}}
