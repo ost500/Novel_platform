@@ -63,10 +63,10 @@
                     <!-- 댓글쓰기 -->
                     <div class="bbs-comment-form">
                         <form
-                              method="post"
-                              action="{{route('freeboard.comment',['id'=>$article->id])}}"
+                                method="post"
+                                action="{{route('freeboard.comment',['id'=>$article->id])}}"
 
-                              class="comment-form">
+                                class="comment-form">
                             {!! csrf_field() !!}
                             <div class="comment-form-wrap">
                                 <textarea name="comment" class="textarea2" placeholder="남을 상처주지 않는 바르고 고운 말을 씁시다."
@@ -88,22 +88,22 @@
                 <!-- //게시판상세 -->
                 <!-- 이전글다음글 -->
                 <ul class="prev-next">
-                    @if($next_article != null)
-                        <li>
-                            <span class="head head--prev">다음글</span>
-                            <span class="subject"><a
-                                        href="{{ route('free_board.detail',['id'=>$next_article->id]) }}">{{$next_article->title}}</a></span>
-                            <span class="writer">{{$next_article->users->name}}</span>
-                            <span class="datetime">{{ $next_article->created_at->format('Y-m-d') }}</span>
-                        </li>
-                    @endif
                     @if($prev_article != null)
                         <li>
-                            <span class="head head--next">이전글</span>
+                            <span class="head head--prev">이전글</span>
                             <span class="subject"><a
                                         href="{{ route('free_board.detail',['id'=>$prev_article->id]) }}">{{$prev_article->title}}</a></span>
                             <span class="writer">{{$prev_article->users->name}}</span>
                             <span class="datetime">{{ $prev_article->created_at->format('Y-m-d') }}</span>
+                        </li>
+                    @endif
+                    @if($next_article != null)
+                        <li>
+                            <span class="head head--next">다음글</span>
+                            <span class="subject"><a
+                                        href="{{ route('free_board.detail',['id'=>$next_article->id]) }}">{{$next_article->title}}</a></span>
+                            <span class="writer">{{$next_article->users->name}}</span>
+                            <span class="datetime">{{ $next_article->created_at->format('Y-m-d') }}</span>
                         </li>
                     @endif
                 </ul>

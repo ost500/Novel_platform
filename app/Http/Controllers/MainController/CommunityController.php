@@ -47,7 +47,7 @@ class CommunityController extends Controller
 
     public function reader_reco(Request $request)
     {
-        $reviews = Review::selectRaw('reviews.id, reviews.*, novel_groups.*, sum(total_count) as total_count')
+        $reviews = Review::selectRaw('reviews.*, novel_groups.*, reviews.id, sum(total_count) as total_count')
             ->join('novel_groups', 'novel_groups.id', '=', 'reviews.novel_group_id')
             ->join('novels', 'novel_groups.id', '=', 'novels.novel_group_id')
             ->groupBy('reviews.id')->orderBy('reviews.created_at', 'desc');
@@ -74,5 +74,30 @@ class CommunityController extends Controller
 
 //        return response()->json($reviews);
         return view('main.community.reader_reco', compact('reviews', 'genre', 'search_option', 'search_text', 'page'));
+    }
+
+    public function reader_reco_detail($id)
+    {
+        $review = Review::findOrFail($id);
+        $review->view_count = $review->view_count + 1;
+        $review->save();
+
+        $review = Review::with('novel_groups.keywords')->with('novel_groups.favorites')->with('users')->with('comments.users')
+            ->join('novel_groups', 'novel_groups.id', '=', 'reviews.novel_group_id')
+            ->join('novels', 'novel_groups.id', '=', 'novels.novel_group_id')
+            ->join('favorites', 'novel_groups.id', '=', 'favorites.novel_group_id')
+            ->selectRaw('reviews.id as review_id, reviews.*, reviews.title as review_title, novel_groups.*, sum(total_count) as total_count, reviews.id')
+            ->where('reviews.id', $id)
+            ->groupBy('reviews.id')->get()[0];
+
+        $next_review_id = Review::where('id', '>', $review->review_id)->min('id');
+        $next_review = Review::with('users')->find($next_review_id);
+        $prev_review_id = Review::where('id', '<', $review->review_id)->max('id');
+        $prev_review = Review::with('users')->find($prev_review_id);
+
+//        return response()->json($review);
+//        return response()->json($prev_review);
+//        return response()->json($review->id);
+        return view('main.community.reader_reco_detail', compact('review', 'next_review', 'prev_review'));
     }
 }

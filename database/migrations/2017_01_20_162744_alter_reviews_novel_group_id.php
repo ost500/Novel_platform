@@ -30,10 +30,10 @@ class AlterReviewsNovelGroupId extends Migration
      */
     public function down()
     {
-        Schema::table('reviews', function (Blueprint $table) {
-            $table->integer('novel_id')->unsigned()->index()->after('user_id');
-            $table->foreign('novel_id')->references('id')->on('novels')->onDelete('cascade');
-        });
+//        Schema::table('reviews', function (Blueprint $table) {
+//            $table->integer('novel_id')->unsigned()->index()->after('user_id');
+//            $table->foreign('novel_id')->references('id')->on('novels')->onDelete('cascade');
+//        });
         Schema::table('reviews', function (Blueprint $table) {
             $table->dropForeign('reviews_novel_group_id_foreign');
             $table->dropColumn('novel_group_id');

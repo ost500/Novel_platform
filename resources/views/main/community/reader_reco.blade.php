@@ -66,13 +66,13 @@
                     @foreach ($reviews as $review)
                         <li>
                             <div class="thumb">
-                            <span><a href="#mode_nav"><img
+                            <span><a href="{{ route('reader_reco.detail', ['id' => $review->id]) }}"><img
                                             src="/img/novel_covers/{{$review->novel_groups->cover_photo}}"
                                             alt="망의 연월"></a></span>
                             </div>
                             <div class="post">
                                 <div class="post-header">
-                                    <strong class="title"><a href="#mode_nav">{{$review->title}}</a></strong>
+                                    <strong class="title"><a href="{{ route('reader_reco.detail', ['id' => $review->id]) }}">{{$review->title}}</a></strong>
                                     <span class="writer">{{$review->users->name}}</span>
                                 </div>
                                 <p class="post-content">{{ $review->review }}</p>

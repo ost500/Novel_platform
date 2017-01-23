@@ -34,15 +34,15 @@
 <!-- 모드 -->
 <div class="mode-nav" id="mode_nav">
     <ul class="wrap">
-        <li class="nav1 is-active"><a href="#mode_nav">여우정원 홈</a></li>
-        <li class="nav2"><a href="#mode_nav">여우정원 작가홈</a></li>
+        <li class="nav1 is-active"><a href="{{ route('root') }}">여우정원 홈</a></li>
+        <li class="nav2"><a href="{{ route('author.index') }}">여우정원 작가홈</a></li>
     </ul>
 </div>
 <!-- //모드 -->
 <!-- 헤더 -->
 <header class="header" id="header">
     <div class="header-top wrap">
-        <h1 class="logo wrap"><a href="#mode_nav">여우정원</a></h1>
+        <h1 class="logo wrap"><a href="{{ route('root') }}">여우정원</a></h1>
         <!-- 사용자메뉴 -->
         <div class="usermenu">
             <!-- 방문자버튼 -->

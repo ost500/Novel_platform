@@ -45,4 +45,9 @@ class Review extends Model
     {
         return $this->belongsTo(Review::class, 'id')->with('users')->with('novels');
     }
+
+    public function comments()
+    {
+        return $this->hasMany(ReviewComment::class);
+    }
 }
