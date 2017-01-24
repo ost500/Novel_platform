@@ -58,13 +58,13 @@ function time_elapsed_string($datetime, $full = false)
     $diff->d -= $diff->w * 7;
 
     $string = array(
-        'y' => '?…„',
-        'm' => '?›”',
-        'w' => 'ì£?',
-        'd' => '?¼',
-        'h' => '?‹œê°?',
-        'i' => 'ë¶?',
-        's' => 'ì´?',
+        'y' => 'ë…„',
+        'm' => 'ì›”',
+        'w' => 'ì£¼',
+        'd' => 'ì¼',
+        'h' => 'ì‹œê°„',
+        'i' => 'ë¶„',
+        's' => 'ì´ˆ',
     );
     foreach ($string as $k => &$v) {
         if ($diff->$k) {
@@ -75,5 +75,5 @@ function time_elapsed_string($datetime, $full = false)
     }
 
     if (!$full) $string = array_slice($string, 0, 1);
-    return $string ? implode(', ', $string) . ' ? „' : 'ë°©ê¸ˆ ? „';
+    return $string ? implode(', ', $string) . ' ì „' : 'ë°©ê¸ˆ ì „';
 }

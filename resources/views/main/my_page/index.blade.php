@@ -18,7 +18,7 @@
                             <strong class="user-name">{{$my_profile->name}}</strong>
                             <span class="user-id">kimdal</span>
                             <span class="user-email">{{$my_profile->email}}</span>
-                            <a href="#mode_nav" class="btn btn--special">로그아웃</a>
+                            <a href="{{url('/logout')}}" class="btn btn--special">로그아웃</a>
                             <a href="#mode_nav" class="setup-btn"><i class="setup-icon">설정</i></a>
                         </div>
                         <!-- 보유구슬 -->
@@ -50,21 +50,21 @@
                     <h2 class="latest-title">최근 구매 내역</h2>
                     <ul class="latest">
                         @if(count($recently_purchased_novels)  > 0)
-                        @foreach($recently_purchased_novels as $recently_purchased_novel )
-                            <li>
-                                <a href="{{route('each_novel.novel_group',['id'=>$recently_purchased_novel->id])}}">
-                                    <p class="thumb"><img
-                                                src="/img/novel_covers/{{$recently_purchased_novel->cover_photo}}"
-                                                alt=""></p>
+                            @foreach($recently_purchased_novels as $recently_purchased_novel )
+                                <li>
+                                    <a href="{{route('each_novel.novel_group',['id'=>$recently_purchased_novel->id])}}">
+                                        <p class="thumb"><img
+                                                    src="/img/novel_covers/{{$recently_purchased_novel->cover_photo}}"
+                                                    alt=""></p>
 
-                                    <p class="book-title">{{str_limit($recently_purchased_novel->title,5)}}</p>
+                                        <p class="book-title">{{str_limit($recently_purchased_novel->title,5)}}</p>
 
-                                    <p class="author">{{$recently_purchased_novel->nicknames->nickname}}</p>
-                                </a>
-                            </li>
-                        @endforeach
+                                        <p class="author">{{$recently_purchased_novel->nicknames->nickname}}</p>
+                                    </a>
+                                </li>
+                            @endforeach
                         @else
-                            <div style="text-align:center;"> You have no purchased novels. Please purchase one. </div>
+                            <div style="text-align:center;"> You have no purchased novels. Please purchase one.</div>
                         @endif
 
                     </ul>
@@ -77,22 +77,26 @@
                     <h2 class="latest-title">선호작 업데이트</h2>
                     <ul class="latest">
                         @if(count($recently_updated_favorites)  > 0)
-                        @foreach($recently_updated_favorites as $recently_updated_favorite )
-                        <li>
-                            <a href="{{route('each_novel.novel_group',['id'=>$recently_updated_favorite->id])}}">
-                                <p class="thumb"><img src="/img/novel_covers/{{$recently_updated_favorite->cover_photo}}" alt=""></p>
+                            @foreach($recently_updated_favorites as $recently_updated_favorite )
+                                <li>
+                                    <a href="{{route('each_novel.novel_group',['id'=>$recently_updated_favorite->id])}}">
+                                        <p class="thumb"><img
+                                                    src="/img/novel_covers/{{$recently_updated_favorite->cover_photo}}"
+                                                    alt=""></p>
 
-                                <p class="book-title">{{str_limit($recently_updated_favorite->title,5)}}</p>
+                                        <p class="book-title">{{str_limit($recently_updated_favorite->title,5)}}</p>
 
-                                <p class="author">{{$recently_updated_favorite->nicknames->nickname}}</p>
-                            </a>
-                        </li>
-                        @endforeach
-                            @else
-                                <div style="text-align:center;"> You have no favourite novels yet. Please make some favourite. </div>
-                            @endif
+                                        <p class="author">{{$recently_updated_favorite->nicknames->nickname}}</p>
+                                    </a>
+                                </li>
+                            @endforeach
+                        @else
+                            <div style="text-align:center;"> You have no favourite novels yet. Please make some
+                                favourite.
+                            </div>
+                        @endif
                     </ul>
-                    <a href="#mode_nav" class="latest-more-btn">더보기</a>
+                    <a href="{{route('my_page.favourites')}}" class="latest-more-btn">더보기</a>
                 </section>
                 <!-- //선호작업데이트 -->
             </div>
