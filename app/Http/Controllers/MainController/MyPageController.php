@@ -105,4 +105,32 @@ class MyPageController extends Controller
         $query_string = '?filter=' . $filter . '&keyword=' . $keyword_name;
         return view('main.my_page.favorites', compact('my_favorites', 'keywords', 'query_string', 'keyword_name', 'filter', 'week_gap'));
     }
+
+
+    public function new_novels(Request $request)
+    {
+
+
+        $new_novels=NovelGroup::selectRaw('novel_groups.*,novels.novel_group_id,max(novels.created_at) as new')
+            ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
+            ->groupBy('novels.novel_group_id')
+            ->with('nicknames')
+            ->orderBy('new', 'desc')->paginate(10);
+
+
+
+
+        
+
+
+        return view('main.my_page.novel.new_novels',compact('new_novels'));
+    }
+
+
+
+
 }
+
+
+
+

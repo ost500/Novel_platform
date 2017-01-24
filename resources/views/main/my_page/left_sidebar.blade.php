@@ -17,10 +17,16 @@
                             @endif
                         </li>
                         <li>
-                            <a href="#mode_nav">이용정보</a>
+                            <a href="">이용정보</a>
                         </li>
                         <li>
-                            <a href="#mode_nav">소설</a>
+                            <a href="{{route('my_page.novels.new_novels')}}">소설</a>
+                            @if(Request::is('my_page/novels/new_novels'))
+                                <ul class="lnb-depth2">
+                                    <li><a href="#mode_nav">소식</a></li>
+                                    <li><a href="{{route('my_page.novels.new_novels')}}"  @if(Request::is('my_page/novels/new_novels'))class="is-active" @endif>신작알림</a></li>
+                                </ul>
+                                @endif
                         </li>
                         <li>
                             <a href="#mode_nav">개인</a>

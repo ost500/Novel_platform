@@ -179,3 +179,4 @@ Route::group(['prefix' => 'my_info', 'middleware' => ['auth']], function () {
 //MyPageController
 Route::get('/my_page', ['as' => 'my_page.index', 'uses' => 'MainController\MyPageController@index']);
 Route::get('/my_page/favorites', ['as' => 'my_page.favorites', 'uses' => 'MainController\MyPageController@favorites']);
+Route::get('/my_page/novels/new_novels', ['as' => 'my_page.novels.new_novels', 'uses' => 'MainController\MyPageController@new_novels']);
