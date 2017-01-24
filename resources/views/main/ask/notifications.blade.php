@@ -41,7 +41,7 @@
 
                 <!-- 페이징 -->
                 <div class="page-nav">
-                    @include('pagination_front', ['collection' => $notifications, 'url' => route('ask.notifications'),'page'=>'?page='])
+                    @include('pagination_front', ['collection' => $notifications, 'url' => route('ask.notifications').'?'])
                 </div>
                 <!-- //페이징 -->
 

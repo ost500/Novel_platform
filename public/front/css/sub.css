@@ -498,6 +498,11 @@
     position: relative;
 }
 
+.latest-wrap--mypage .latest > li .thumb > img {
+    width: 92px;
+    height: 135px;
+}
+
 .latest-title {
     overflow: hidden;
     padding-top: 10px;
@@ -836,6 +841,11 @@
     height: 79px;
     margin-bottom: 4px;
     background-color: #dfdada;
+}
+
+.novel-list--scrap .thumb > span > a > img {
+    width: 55px;
+    height: 79px;
 }
 
 .novel-list--scrap .thumb > span:after {

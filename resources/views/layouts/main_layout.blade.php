@@ -66,7 +66,7 @@
                                     </li>
                                     <li class="link3">
                                         MY정보<br>
-                                        <a href="#mode_nav">관리하기</a>
+                                        <a href="{{route('my_page.index')}}">관리하기</a>
                                     </li>
                                 </ul>
                                 <div class="logout-btn"><a href="#mode_nav">로그아웃</a></div>

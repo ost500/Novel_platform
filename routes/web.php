@@ -175,3 +175,7 @@ Route::group(['prefix' => 'my_info', 'middleware' => ['auth']], function () {
     Route::post('member_leave', ['as' => 'my_info.member_leave', 'uses' => 'UserController@member_leave']);
 
 });
+
+//MyPageController
+Route::get('/my_page', ['as' => 'my_page.index', 'uses' => 'MainController\MyPageController@index']);
+Route::get('/my_page/favourites', ['as' => 'my_page.favourites', 'uses' => 'MainController\MyPageController@favourites']);
