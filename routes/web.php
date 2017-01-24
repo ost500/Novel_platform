@@ -167,15 +167,17 @@ Route::get('/notifications', ['as' => 'ask.notifications', 'uses' => 'MainContro
 
 //my information
 Route::group(['prefix' => 'my_info', 'middleware' => ['auth']], function () {
-    Route::get('password_again', ['as' => 'my_info.password_again', 'uses' => 'MainController\MyInfoController@password_again']);
-    Route::post('password_again', ['as' => 'my_info.password_again.post', 'uses' => 'MainController\MyInfoController@password_again_post']);
-    Route::get('edit', ['as' => 'my_info.edit', 'uses' => 'MainController\MyInfoController@edit']);
-    Route::post('edit', ['as' => 'my_info.edit.post', 'uses' => 'UserController@my_info_update']);
-    Route::get('member_leave/password_again', ['as' => 'my_info.member_leave.password_again', 'uses' => 'MainController\MyInfoController@member_leave_password_again']);
-    Route::post('member_leave', ['as' => 'my_info.member_leave', 'uses' => 'UserController@member_leave']);
+    //MyPageController
+    Route::get('/', ['as' => 'my_page.index', 'uses' => 'MainController\MyPageController@index']);
+    Route::get('/favourites', ['as' => 'my_page.favourites', 'uses' => 'MainController\MyPageController@favourites']);
+
+
+    Route::get('/personal/password_again', ['as' => 'my_info.password_again', 'uses' => 'MainController\MyInfoController@password_again']);
+    Route::post('/personal/password_again', ['as' => 'my_info.password_again.post', 'uses' => 'MainController\MyInfoController@password_again_post']);
+    Route::get('/personal/edit', ['as' => 'my_info.edit', 'uses' => 'MainController\MyInfoController@edit']);
+    Route::post('/personal/edit', ['as' => 'my_info.edit.post', 'uses' => 'UserController@my_info_update']);
+    Route::get('/personal/member_leave/password_again', ['as' => 'my_info.member_leave.password_again', 'uses' => 'MainController\MyInfoController@member_leave_password_again']);
+    Route::post('/personal/member_leave', ['as' => 'my_info.member_leave', 'uses' => 'UserController@member_leave']);
 
 });
 
-//MyPageController
-Route::get('/my_page', ['as' => 'my_page.index', 'uses' => 'MainController\MyPageController@index']);
-Route::get('/my_page/favourites', ['as' => 'my_page.favourites', 'uses' => 'MainController\MyPageController@favourites']);

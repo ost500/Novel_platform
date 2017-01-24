@@ -50,7 +50,7 @@
                 <button type="button" class="userbtn userbtn--open" id="more_btns_open">사용자메뉴</button>
                 <div class="more-btns" id="more_btns">
                     <div class="layer-popup-wrap">
-                        <a href="#mode_nav" class="userbtn userbtn--myinfo">마이메뉴</a>
+                        <a href="{{ route('my_page.index') }}" class="userbtn userbtn--myinfo">마이메뉴</a>
                         <!-- 마이페이지팝업 -->
                         <section class="layer-popup layer-popup--myinfo">
                             <div class="inner">

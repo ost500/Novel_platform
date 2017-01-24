@@ -3,8 +3,8 @@
     <div class="container">
         <div class="wrap">
             <!-- LNB -->
-            @include('main.my_page.left_sidebar')
-                    <!-- //LNB -->
+        @include('main.my_page.left_sidebar')
+        <!-- //LNB -->
 
             <!-- 서브컨텐츠 -->
             <div class="content" id="content">
