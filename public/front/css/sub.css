@@ -2959,6 +2959,7 @@
 }
 
 .new-work-list .author-new-work-list > li .thumb img {
+    width:52px;
     border: 1px solid #cdc7c8;
 }
 
