@@ -167,16 +167,19 @@ Route::get('/notifications', ['as' => 'ask.notifications', 'uses' => 'MainContro
 
 //my information
 Route::group(['prefix' => 'my_info', 'middleware' => ['auth']], function () {
-    Route::get('password_again', ['as' => 'my_info.password_again', 'uses' => 'MainController\MyInfoController@password_again']);
-    Route::post('password_again', ['as' => 'my_info.password_again.post', 'uses' => 'MainController\MyInfoController@password_again_post']);
-    Route::get('edit', ['as' => 'my_info.edit', 'uses' => 'MainController\MyInfoController@edit']);
-    Route::post('edit', ['as' => 'my_info.edit.post', 'uses' => 'UserController@my_info_update']);
-    Route::get('member_leave/password_again', ['as' => 'my_info.member_leave.password_again', 'uses' => 'MainController\MyInfoController@member_leave_password_again']);
-    Route::post('member_leave', ['as' => 'my_info.member_leave', 'uses' => 'UserController@member_leave']);
+    //MyPageController
+    Route::get('/', ['as' => 'my_page.index', 'uses' => 'MainController\MyPageController@index']);
+    Route::get('/favorites', ['as' => 'my_page.favorites', 'uses' => 'MainController\MyPageController@favorites']);
+    Route::get('/novels/new_novels', ['as' => 'my_page.novels.new_novels', 'uses' => 'MainController\MyPageController@new_novels']);
 
+    Route::group(['prefix' => 'personal'], function () {
+        Route::get('/post_manage', ['as' => 'my_info.post_manage', 'uses' => 'MainController\MyInfoController@post_manage']);
+        Route::get('/password_again', ['as' => 'my_info.password_again', 'uses' => 'MainController\MyInfoController@password_again']);
+        Route::post('/password_again', ['as' => 'my_info.password_again.post', 'uses' => 'MainController\MyInfoController@password_again_post']);
+        Route::get('/edit', ['as' => 'my_info.edit', 'uses' => 'MainController\MyInfoController@edit']);
+        Route::post('/edit', ['as' => 'my_info.edit.post', 'uses' => 'UserController@my_info_update']);
+        Route::get('/member_leave/password_again', ['as' => 'my_info.member_leave.password_again', 'uses' => 'MainController\MyInfoController@member_leave_password_again']);
+        Route::post('/member_leave', ['as' => 'my_info.member_leave', 'uses' => 'UserController@member_leave']);
+    });
 });
 
-//MyPageController
-Route::get('/my_page', ['as' => 'my_page.index', 'uses' => 'MainController\MyPageController@index']);
-Route::get('/my_page/favorites', ['as' => 'my_page.favorites', 'uses' => 'MainController\MyPageController@favorites']);
-Route::get('/my_page/novels/new_novels', ['as' => 'my_page.novels.new_novels', 'uses' => 'MainController\MyPageController@new_novels']);

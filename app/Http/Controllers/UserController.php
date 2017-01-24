@@ -137,13 +137,16 @@ class UserController extends Controller
         }
 
 
-        Validator::make($request->all(), [
-            'nickname' => 'min:1|max:8',
-        ], [
-            'nickname.min' => '닉네임은 1자리 이상만 가능합니다',
-            'nickname.max' => '닉네임은 8자리 이하만 가능합니다',
-        ])->validate();
+
         if ($user->nickname != $request->nickname) {
+            Validator::make($request->all(), [
+                'nickname' => 'min:1|max:8',
+            ], [
+                'nickname.min' => '닉네임은 1자리 이상만 가능합니다',
+                'nickname.max' => '닉네임은 8자리 이하만 가능합니다',
+            ])->validate();
+
+
             // if nickname refreshed
             if ($user->nickname_at > Carbon::now()->addMonth(1) || $user->nickname_at == null) {
                 // if nickname edited time took more than 1 month || nickname first changed
