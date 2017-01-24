@@ -14,10 +14,10 @@
                         <ul>
 
                             <li>
-                                <a href="{{route('my_page.favorites')}}" @if(!$keyword_name) class="is-active" @endif>전체</a></li>
+                                <a href="{{route('my_page.favorites').'?filter='.$filter}}" @if(!$keyword_name) class="is-active" @endif>전체</a></li>
                             @foreach($keywords as $keyword)
 
-                                <li><a href="{{route('my_page.favorites').'?keyword='.$keyword->name }}"
+                                <li><a href="{{route('my_page.favorites').'?filter='.$filter.'&keyword='.$keyword->name }}"
                                        @if($keyword_name == $keyword->name) class="is-active" @endif>{{$keyword->name}}</a>
                                 </li>
                             @endforeach
@@ -52,7 +52,7 @@
                             </li>
                         @endforeach
                     @else
-                        <div style="text-align:center;"> No Results Found!!.
+                        <div style="text-align:center;padding: 20px;"> 해당 조건의 작품이 없습니다.
                         </div>
                     @endif
 

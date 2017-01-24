@@ -48,16 +48,41 @@ class MyPageController extends Controller
     public function favorites(Request $request)
     {
 
-        //Make filter
-        $keyword_name = $request->get('keyword');
-        if ($keyword_name) {
-            //get id from keyword
-            $keyword_id = Keyword::select('id')->where('name', $keyword_name)->get();
-            //make the condition
-            $condition = ['favorites.user_id' => Auth::user()->id, 'novel_group_keywords.keyword_id' => $keyword_id[0]->id];
+        //Make filters
+        $keyword_name = $request->get('keyword'); //Filter by keyword
+        $filter = $request->get('filter'); //Filter by completed or secret
 
-        } else {
-            $condition = ['favorites.user_id' => Auth::user()->id];
+
+        if ($filter == 'completed') {
+            if ($keyword_name) {
+                //get id from keyword
+                $keyword_id = Keyword::select('id')->where('name', $keyword_name)->get();
+                //make the condition
+                $condition = ['favorites.user_id' => Auth::user()->id, 'novel_group_keywords.keyword_id' => $keyword_id[0]->id, 'novel_groups.completed' => 1];
+            } else {
+                $condition = ['favorites.user_id' => Auth::user()->id, 'novel_groups.completed' => 1];
+            }
+
+        } else if ($filter == 'secret') {
+
+            if ($keyword_name) {
+                //get id from keyword
+                $keyword_id = Keyword::select('id')->where('name', $keyword_name)->get();
+                //make the condition
+                $condition = [['favorites.user_id', '=', Auth::user()->id], ['novel_groups.secret', '<>', null], ['novel_group_keywords.keyword_id', '=', $keyword_id[0]->id]];
+            } else {
+                $condition = [['favorites.user_id', '=', Auth::user()->id], ['novel_groups.secret', '<>', null]];
+
+            }
+        } else { //for all
+            if ($keyword_name) {
+                //get id from keyword
+                $keyword_id = Keyword::select('id')->where('name', $keyword_name)->get();
+                //make the condition
+                $condition = ['favorites.user_id' => Auth::user()->id, 'novel_group_keywords.keyword_id' => $keyword_id[0]->id];
+            } else {
+                $condition = ['favorites.user_id' => Auth::user()->id];
+            }
         }
 
 
@@ -77,7 +102,7 @@ class MyPageController extends Controller
         $week_gap = Carbon::today()->subDays(7);
 
 
-        $query_string = '?keyword=' . $keyword_name;
-        return view('main.my_page.favorites', compact('my_favorites', 'keywords', 'query_string', 'keyword_name', 'week_gap'));
+        $query_string = '?filter=' . $filter . '&keyword=' . $keyword_name;
+        return view('main.my_page.favorites', compact('my_favorites', 'keywords', 'query_string', 'keyword_name', 'filter', 'week_gap'));
     }
 }

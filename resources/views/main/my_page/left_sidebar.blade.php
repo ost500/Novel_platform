@@ -10,9 +10,9 @@
                             <a href="{{route('my_page.favorites')}}" class="{{Request::is('my_page/favorites')?"is-active":""}}">선호작</a>
                             @if(Request::is('my_page/favorites'))
                             <ul class="lnb-depth2">
-                                <li><a href="{{route('my_page.favorites')}}" class="{{Request::is('my_page/favorites')?"is-active":""}}">최근 업데이트</a></li>
-                                <li><a href="#mode_nav">완결작품</a></li>
-                                <li><a href="#mode_nav">비밀글 관리</a></li>
+                                <li><a href="{{route('my_page.favorites').'?filter='}}"  @if($filter=='') class="is-active" @endif>최근 업데이트</a></li>
+                                <li><a href="{{route('my_page.favorites').'?filter=completed'}}" @if($filter=='completed') class="is-active" @endif>완결작품</a></li>
+                                <li><a href="{{route('my_page.favorites').'?filter=secret'}}" @if($filter=='secret') class="is-active" @endif >비밀글 관리</a></li>
                             </ul>
                             @endif
                         </li>

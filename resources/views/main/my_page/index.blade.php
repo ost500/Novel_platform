@@ -91,8 +91,7 @@
                                 </li>
                             @endforeach
                         @else
-                            <div style="text-align:center;"> You have no favorite novels yet. Please make some
-                                favorite.
+                            <div style="text-align:center;padding: 20px;"> 해당 조건의 작품이 없습니다.
                             </div>
                         @endif
                     </ul>
