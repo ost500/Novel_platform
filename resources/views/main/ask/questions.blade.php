@@ -42,7 +42,7 @@
                 </table>
                 <!-- //게시판목록 -->
                 <div class="page-nav">
-                    @include('pagination_front', ['collection' => $questions, 'url' => route('ask.questions'),'page'=>'?page='])
+                    @include('pagination_front', ['collection' => $questions, 'url' => route('ask.questions').'?'])
                 </div>
             </div>
             <!-- //서브컨텐츠 -->

@@ -56,7 +56,7 @@
                 </table>
                 <!-- //게시판목록 -->
                 <div class="page-nav">
-                    @include('pagination_front', ['collection' => $faqs, 'url' => route('ask.faqs').$query_string,'page'=>'&page='])
+                    @include('pagination_front', ['collection' => $faqs, 'url' => route('ask.faqs').$query_string.'&'])
                 </div>
             </div>
             <!-- //서브컨텐츠 -->
