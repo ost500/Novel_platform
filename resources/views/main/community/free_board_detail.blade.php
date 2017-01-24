@@ -4,20 +4,8 @@
     <div class="container">
         <div class="wrap">
             <!-- LNB -->
-            <div class="lnb">
-                <nav>
-                    <h2 class="lnb-title">커뮤니티</h2>
-                    <ul class="lnb-depth1">
-                        <li>
-                            <a href="#mode_nav" class="is-active">자유게시판</a>
-                        </li>
-                        <li>
-                            <a href="#mode_nav">독자추천</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-            <!-- //LNB -->
+        @include('main.community.LNB')
+        <!-- //LNB -->
 
             <!-- 서브컨텐츠 -->
             <div class="content" id="content">
@@ -44,7 +32,7 @@
                             <a href="#mode_nav" class="report-btn"><i class="report-icon"></i> 게시물 신고</a>
                         </div>
                     </div>
-                    <div class="bbs-view-btns"><a href="#mode_nav" class="btn">목록</a></div>
+                    <div class="bbs-view-btns"><a href="{{ route('free_board') }}" class="btn">목록</a></div>
                     <!-- 댓글목록 -->
                     <section class="bbs-comment">
                         <div class="comments">
@@ -74,12 +62,21 @@
                     <!-- //댓글목록 -->
                     <!-- 댓글쓰기 -->
                     <div class="bbs-comment-form">
-                        <form name="comment_form" action="#" class="comment-form">
+                        <form
+                                method="post"
+                                action="{{route('freeboard.comment',['id'=>$article->id])}}"
+
+                                class="comment-form">
+                            {!! csrf_field() !!}
                             <div class="comment-form-wrap">
-                                <textarea class="textarea2" placeholder="남을 상처주지 않는 바르고 고운 말을 씁시다."
-                                          title="댓글내용"></textarea>
+                                <textarea name="comment" class="textarea2" placeholder="남을 상처주지 않는 바르고 고운 말을 씁시다."
+                                          title="댓글내용"
+                                          @if($errors->count() > 0)autofocus @endif>{{ old('comment') }}</textarea>
                                 <div class="comment-form-btns">
-                                <span class="submit">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                    <span class="submit">
                                     <button type="submit" class="btn">등록</button>
                                 </span>
                                 </div>
@@ -91,22 +88,22 @@
                 <!-- //게시판상세 -->
                 <!-- 이전글다음글 -->
                 <ul class="prev-next">
-                    @if($next_article != null)
-                        <li>
-                            <span class="head head--prev">다음글</span>
-                            <span class="subject"><a
-                                        href="{{ route('free_board.detail',['id'=>$next_article->id]) }}">{{$next_article->title}}</a></span>
-                            <span class="writer">{{$next_article->users->name}}</span>
-                            <span class="datetime">{{ $next_article->created_at->format('Y-m-d') }}</span>
-                        </li>
-                    @endif
                     @if($prev_article != null)
                         <li>
-                            <span class="head head--next">이전글</span>
+                            <span class="head head--prev">이전글</span>
                             <span class="subject"><a
                                         href="{{ route('free_board.detail',['id'=>$prev_article->id]) }}">{{$prev_article->title}}</a></span>
                             <span class="writer">{{$prev_article->users->name}}</span>
                             <span class="datetime">{{ $prev_article->created_at->format('Y-m-d') }}</span>
+                        </li>
+                    @endif
+                    @if($next_article != null)
+                        <li>
+                            <span class="head head--next">다음글</span>
+                            <span class="subject"><a
+                                        href="{{ route('free_board.detail',['id'=>$next_article->id]) }}">{{$next_article->title}}</a></span>
+                            <span class="writer">{{$next_article->users->name}}</span>
+                            <span class="datetime">{{ $next_article->created_at->format('Y-m-d') }}</span>
                         </li>
                     @endif
                 </ul>

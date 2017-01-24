@@ -82,12 +82,12 @@ class EachController extends Controller
         $novel_group_inning_comments = new Collection();
         foreach ($novel_group_inning->comments as $comment) {
             if ($comment->parent_id == 0) {
-                //ºÎ¸ð°¡ ¾ø´Â ´ñ±Ûµé¸¸ ºÒ·¯¿Â´Ù
+                //ï¿½Î¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ûµé¸¸ ï¿½Ò·ï¿½ï¿½Â´ï¿½
                 $single_comment = $comment->myself;
                 $single_comment->put('children', $comment->children);
-                //ÀÚ½ÄµéÀ» ´Þ¾ÆÁØ´Ù
+                //ï¿½Ú½Äµï¿½ï¿½ï¿½ ï¿½Þ¾ï¿½ï¿½Ø´ï¿½
                 $novel_group_inning_comments->push($single_comment);
-                //ÄÝ·º¼Ç¿¡ ³Ö¾îÁØ´Ù
+                //ï¿½Ý·ï¿½ï¿½Ç¿ï¿½ ï¿½Ö¾ï¿½ï¿½Ø´ï¿½
             }
         }
 

@@ -94,7 +94,7 @@
                             <li>
                                 <a href="#mode_nav">
                                     <div class="thumb">
-                                        <span><img src="img/novel_covers/{{$reader_review->novels->novel_groups->cover_photo}}"
+                                        <span><img src="img/novel_covers/{{$reader_review->novel_groups->cover_photo}}"
                                                    alt=""></span>
                                     </div>
                                     <div class="post">
