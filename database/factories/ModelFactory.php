@@ -23,7 +23,8 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'phone_num' => $faker->phoneNumber,
         'bank' => "IBK",
         'account_holder' => $faker->name,
-        'account_number' => $faker->bankAccountNumber
+        'account_number' => $faker->bankAccountNumber,
+        'nickname' => $faker->name
     ];
 });
 
