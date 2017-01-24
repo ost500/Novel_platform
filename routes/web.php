@@ -167,4 +167,4 @@ Route::get('/notifications', ['as' => 'ask.notifications', 'uses' => 'MainContro
 
 //MyPageController
 Route::get('/my_page', ['as' => 'my_page.index', 'uses' => 'MainController\MyPageController@index']);
-Route::get('/my_page/favourites', ['as' => 'my_page.favourites', 'uses' => 'MainController\MyPageController@favourites']);
+Route::get('/my_page/favorites', ['as' => 'my_page.favorites', 'uses' => 'MainController\MyPageController@favorites']);

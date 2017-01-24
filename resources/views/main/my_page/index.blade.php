@@ -91,12 +91,12 @@
                                 </li>
                             @endforeach
                         @else
-                            <div style="text-align:center;"> You have no favourite novels yet. Please make some
-                                favourite.
+                            <div style="text-align:center;"> You have no favorite novels yet. Please make some
+                                favorite.
                             </div>
                         @endif
                     </ul>
-                    <a href="{{route('my_page.favourites')}}" class="latest-more-btn">더보기</a>
+                    <a href="{{route('my_page.favorites')}}" class="latest-more-btn">더보기</a>
                 </section>
                 <!-- //선호작업데이트 -->
             </div>
