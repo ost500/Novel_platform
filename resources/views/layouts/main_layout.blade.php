@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="/front/css/register.css" type="text/css">
 
     <script src="/front/js/jquery-1.12.4.min.js"></script>
+    <script src="/front/js/jquery.easing.min.js"></script>
     <script src="/js/vue.js"></script>
     <script src="/js/vue-resource.min.js"></script>
     <!--[if lte IE 8]>
@@ -47,160 +48,178 @@
         <div class="usermenu">
             <!-- 방문자버튼 -->
             <div class="login-area">
-                <button type="button" class="userbtn userbtn--open" id="more_btns_open">사용자메뉴</button>
-                <div class="more-btns" id="more_btns">
-                    <div class="layer-popup-wrap">
-                        <a href="{{ route('my_page.index') }}" class="userbtn userbtn--myinfo">마이메뉴</a>
-                        <!-- 마이페이지팝업 -->
-                        <section class="layer-popup layer-popup--myinfo">
-                            <div class="inner">
-                                <h2 class="myinfo-user-name">Kimdal</h2>
-                                <ul class="myinfo-nav clr">
-                                    <li class="link1">
-                                        보유구슬<br>
-                                        <a href="#mode_nav">1,170개</a>
-                                    </li>
-                                    <li class="link2">
-                                        선호작<br>
-                                        <a href="#mode_nav">32작품</a>
-                                    </li>
-                                    <li class="link3">
-                                        MY정보<br>
-                                        <a href="{{route('my_page.index')}}">관리하기</a>
-                                    </li>
-                                </ul>
-                                <div class="logout-btn"><a href="#mode_nav">로그아웃</a></div>
-                            </div>
-                        </section>
-                        <!-- //마이페이지팝업 -->
-                    </div>
-                    <div class="layer-popup-wrap">
-                        <a href="#mode_nav" class="userbtn userbtn--memo">쪽지</a>
-                        <!-- 쪽지팝업 -->
-                        <section class="layer-popup layer-popup--memo">
-                            <div class="inner">
-                                <div class="alarm-container">
-                                    <h2 class="alarm-title">받은쪽지함</h2>
-                                    <ul class="alarm-list">
-                                        <li class="is-new">
-                                            <div class="thumb">
-                                                <img src="/front/imgs/thumb/memo1.png" alt="">
-                                            </div>
-                                            <div class="post">
-                                                <p class="post-content"><a href="#mode_nav">와이엠북스입니다.</a></p>
-                                                <p class="post-datetime">2016.11.16</p>
-                                            </div>
+                @if(Auth::check())
+                    <button type="button" class="userbtn userbtn--open" id="more_btns_open">사용자메뉴</button>
+                    <div class="more-btns" id="more_btns">
+                        <div class="layer-popup-wrap">
+                            <a href="{{ route('my_page.index') }}" class="userbtn userbtn--myinfo">마이메뉴</a>
+                            <!-- 마이페이지팝업 -->
+                            <section class="layer-popup layer-popup--myinfo">
+                                <div class="inner">
+                                    <h2 class="myinfo-user-name">Kimdal</h2>
+                                    <ul class="myinfo-nav clr">
+                                        <li class="link1">
+                                            보유구슬<br>
+                                            <a href="#mode_nav">1,170개</a>
                                         </li>
-                                        <li class="is-new">
-                                            <div class="thumb">
-                                                <img src="/front/imgs/thumb/memo2.png" alt="">
-                                            </div>
-                                            <div class="post">
-                                                <p class="post-content"><a href="#mode_nav">앞편좀 하루 열어주세요.</a></p>
-                                                <p class="post-datetime">2016.11.16</p>
-                                            </div>
+                                        <li class="link2">
+                                            선호작<br>
+                                            <a href="#mode_nav">32작품</a>
                                         </li>
-                                        <li class="is-new">
-                                            <div class="thumb">
-                                                <img src="/front/imgs/thumb/memo3.png" alt="">
-                                            </div>
-                                            <div class="post">
-                                                <p class="post-content"><a href="#mode_nav">안녕하세요. 이비안입니다.</a></p>
-                                                <p class="post-datetime">2016.11.15</p>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="thumb">
-                                                <img src="/front/imgs/thumb/memo4.png" alt="">
-                                            </div>
-                                            <div class="post">
-                                                <p class="post-content"><a href="#mode_nav">작가님, 소울에임 편집팀입니다.</a></p>
-                                                <p class="post-datetime">2016.11.15</p>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="thumb">
-                                                <img src="/front/imgs/thumb/memo1.png" alt="">
-                                            </div>
-                                            <div class="post">
-                                                <p class="post-content"><a href="#mode_nav">감사합니다.</a></p>
-                                                <p class="post-datetime">2016.11.14</p>
-                                            </div>
+                                        <li class="link3">
+                                            MY정보<br>
+                                            <a href="{{route('my_page.index')}}">관리하기</a>
                                         </li>
                                     </ul>
-                                    <a href="#mode_nav" class="alarm-more-btn">더보기</a>
+                                    <div class="logout-btn"><a href="{{url('/logout')}}" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">로그아웃</a></div>
+                                    <form id="logout-form" action="{{ url('/logout') }}" method="POST"
+                                          style="display: none;">
+                                        {{ csrf_field() }}
+                                    </form>
                                 </div>
-                                <a href="#mode_nav" class="alarm-bottom-more-btn">더보기</a>
-                            </div>
-                        </section>
-                        <!-- //쪽지팝업 -->
-                    </div>
-                    <div class="layer-popup-wrap">
-                        <a href="#mode_nav" class="userbtn userbtn--alarm">알림</a>
-                        <!-- 소식팝업 -->
-                        <section class="layer-popup layer-popup--news">
-                            <div class="inner">
-                                <div class="alarm-container">
-                                    <h2 class="alarm-title">소식</h2>
-                                    <ul class="alarm-list">
-                                        <li class="is-new">
-                                            <div class="thumb">
-                                                <img src="/front/imgs/thumb/alarm1.png" alt="">
-                                            </div>
-                                            <div class="post">
-                                                <p class="post-content"><a href="#mode_nav">고백게임 작가 이비안의 신작 <b
-                                                                class="novel-title">탐닉의 밤</b>이 신규 등록되었습니다.</a></p>
-                                                <p class="post-datetime">1시간 전</p>
-                                            </div>
-                                        </li>
-                                        <li class="is-new">
-                                            <div class="thumb">
-                                                <img src="/front/imgs/thumb/alarm2.png" alt="">
-                                            </div>
-                                            <div class="post">
-                                                <p class="post-content"><a href="#mode_nav">지난달 베스트 1위 작품 공개! 2016년 5월의
-                                                        판매 1위는?</a></p>
-                                                <p class="post-datetime">2시간 전</p>
-                                            </div>
-                                        </li>
-                                        <li class="is-new">
-                                            <div class="thumb">
-                                                <img src="/front/imgs/thumb/alarm3.png" alt="">
-                                            </div>
-                                            <div class="post">
-                                                <p class="post-content"><a href="#mode_nav">6월 둘째 주, 유료연재 주간 베스트 작품 TOP
-                                                        5를 소개합니다!</a></p>
-                                                <p class="post-datetime">1일 전</p>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="thumb">
-                                                <img src="/front/imgs/thumb/alarm4.png" alt="">
-                                            </div>
-                                            <div class="post">
-                                                <p class="post-content"><a href="#mode_nav">오늘 가장 많이 읽은 유료연재 소설은?</a>
-                                                </p>
-                                                <p class="post-datetime">1일 전</p>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="thumb">
-                                                <img src="/front/imgs/thumb/alarm5.png" alt="">
-                                            </div>
-                                            <div class="post">
-                                                <p class="post-content"><a href="#mode_nav">로맨스판타지 10% 할인 이벤트!</a></p>
-                                                <p class="post-datetime">2일 전</p>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    <a href="#mode_nav" class="alarm-more-btn">더보기</a>
+                            </section>
+                            <!-- //마이페이지팝업 -->
+                        </div>
+                        <div class="layer-popup-wrap">
+                            <a href="#mode_nav" class="userbtn userbtn--memo">쪽지</a>
+                            <!-- 쪽지팝업 -->
+                            <section class="layer-popup layer-popup--memo">
+                                <div class="inner">
+                                    <div class="alarm-container">
+                                        <h2 class="alarm-title">받은쪽지함</h2>
+                                        <ul class="alarm-list">
+                                            <li class="is-new">
+                                                <div class="thumb">
+                                                    <img src="/front/imgs/thumb/memo1.png" alt="">
+                                                </div>
+                                                <div class="post">
+                                                    <p class="post-content"><a href="#mode_nav">와이엠북스입니다.</a></p>
+                                                    <p class="post-datetime">2016.11.16</p>
+                                                </div>
+                                            </li>
+                                            <li class="is-new">
+                                                <div class="thumb">
+                                                    <img src="/front/imgs/thumb/memo2.png" alt="">
+                                                </div>
+                                                <div class="post">
+                                                    <p class="post-content"><a href="#mode_nav">앞편좀 하루 열어주세요.</a></p>
+                                                    <p class="post-datetime">2016.11.16</p>
+                                                </div>
+                                            </li>
+                                            <li class="is-new">
+                                                <div class="thumb">
+                                                    <img src="/front/imgs/thumb/memo3.png" alt="">
+                                                </div>
+                                                <div class="post">
+                                                    <p class="post-content"><a href="#mode_nav">안녕하세요. 이비안입니다.</a></p>
+                                                    <p class="post-datetime">2016.11.15</p>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="thumb">
+                                                    <img src="/front/imgs/thumb/memo4.png" alt="">
+                                                </div>
+                                                <div class="post">
+                                                    <p class="post-content"><a href="#mode_nav">작가님, 소울에임 편집팀입니다.</a>
+                                                    </p>
+                                                    <p class="post-datetime">2016.11.15</p>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="thumb">
+                                                    <img src="/front/imgs/thumb/memo1.png" alt="">
+                                                </div>
+                                                <div class="post">
+                                                    <p class="post-content"><a href="#mode_nav">감사합니다.</a></p>
+                                                    <p class="post-datetime">2016.11.14</p>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <a href="#mode_nav" class="alarm-more-btn">더보기</a>
+                                    </div>
+                                    <a href="#mode_nav" class="alarm-bottom-more-btn">더보기</a>
                                 </div>
-                                <a href="#mode_nav" class="alarm-bottom-more-btn">더보기</a>
-                            </div>
-                        </section>
-                        <!-- //알림팝업 -->
+                            </section>
+                            <!-- //쪽지팝업 -->
+                        </div>
+                        <div class="layer-popup-wrap">
+                            <a href="#mode_nav" class="userbtn userbtn--alarm">알림</a>
+                            <!-- 소식팝업 -->
+                            <section class="layer-popup layer-popup--news">
+                                <div class="inner">
+                                    <div class="alarm-container">
+                                        <h2 class="alarm-title">소식</h2>
+                                        <ul class="alarm-list">
+                                            <li class="is-new">
+                                                <div class="thumb">
+                                                    <img src="/front/imgs/thumb/alarm1.png" alt="">
+                                                </div>
+                                                <div class="post">
+                                                    <p class="post-content"><a href="#mode_nav">고백게임 작가 이비안의 신작 <b
+                                                                    class="novel-title">탐닉의 밤</b>이 신규 등록되었습니다.</a></p>
+                                                    <p class="post-datetime">1시간 전</p>
+                                                </div>
+                                            </li>
+                                            <li class="is-new">
+                                                <div class="thumb">
+                                                    <img src="/front/imgs/thumb/alarm2.png" alt="">
+                                                </div>
+                                                <div class="post">
+                                                    <p class="post-content"><a href="#mode_nav">지난달 베스트 1위 작품 공개! 2016년
+                                                            5월의
+                                                            판매 1위는?</a></p>
+                                                    <p class="post-datetime">2시간 전</p>
+                                                </div>
+                                            </li>
+                                            <li class="is-new">
+                                                <div class="thumb">
+                                                    <img src="/front/imgs/thumb/alarm3.png" alt="">
+                                                </div>
+                                                <div class="post">
+                                                    <p class="post-content"><a href="#mode_nav">6월 둘째 주, 유료연재 주간 베스트 작품
+                                                            TOP
+                                                            5를 소개합니다!</a></p>
+                                                    <p class="post-datetime">1일 전</p>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="thumb">
+                                                    <img src="/front/imgs/thumb/alarm4.png" alt="">
+                                                </div>
+                                                <div class="post">
+                                                    <p class="post-content"><a href="#mode_nav">오늘 가장 많이 읽은 유료연재
+                                                            소설은?</a>
+                                                    </p>
+                                                    <p class="post-datetime">1일 전</p>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="thumb">
+                                                    <img src="/front/imgs/thumb/alarm5.png" alt="">
+                                                </div>
+                                                <div class="post">
+                                                    <p class="post-content"><a href="#mode_nav">로맨스판타지 10% 할인 이벤트!</a>
+                                                    </p>
+                                                    <p class="post-datetime">2일 전</p>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <a href="#mode_nav" class="alarm-more-btn">더보기</a>
+                                    </div>
+                                    <a href="#mode_nav" class="alarm-bottom-more-btn">더보기</a>
+                                </div>
+                            </section>
+                            <!-- //알림팝업 -->
+                        </div>
                     </div>
-                </div>
+                @else
+                <!-- 방문자버튼 -->
+
+                    <a href="#mode_nav" class="userbtn userbtn--login" data-modal-id="login_form"
+                       @if($errors->has('email') || $errors->has('password')) data-modal-start @endif >로그인</a>
+
+                @endif
             </div>
             <!-- 검색버튼 -->
             <div class="search-area">
@@ -257,6 +276,55 @@
         <div class="gnb-bg"></div>
     </nav>
     <!-- //GNB -->
+    <!-- 로그인모달 -->
+    <div id="login_form" class="login-modal" tabindex="0">
+        <section class="login-form">
+            <h2 class="hidden">로그인</h2>
+            <div class="wrap">
+                <div class="login-aside">
+                    <strong class="title">여우정원 계정</strong>
+                    <p class="title-desc">지금 여우정원에서 다양한 로맨스 소설을 만나보세요.</p>
+                    <p class="str str--intro">
+                        <strong>여우정원은</strong> 로맨스를 사랑하는 독자와 작가를 위한 로맨스 전문연재 사이트입니다.
+                    </p>
+                    <p class="str str--register">
+                        <strong>회원가입</strong> 아직 여우정원의 회원이 아니라면 지금 바로 계정을 생성해 보세요.
+                    </p>
+                </div>
+                <form role="form" method="POST" action="{{ url('/login') }}" class="login-form-box">
+                    {{ csrf_field() }}
+                    <fieldset>
+                        <legend class="un-hidden">Login</legend>
+                        <div class="field">
+                            <input id="email" type="email" name="email" class="text2" title="아이디"
+                                   value="{{ old('email') }}" placeholder="여우정원계정">
+                            @if ($errors->has('email'))<span
+                                    class="alert-msg is-active">{{ $errors->first('email') }}</span>@endif
+                        </div>
+                        <div class="field">
+                            <input id="password" type="password" class="text2" title="비밀번호" name="password" required
+                                   placeholder="비밀번호(4~16자리)">
+                            @if ($errors->has('password'))<span
+                                    class="alert-msg is-active">{{ $errors->first('password') }}</span>@endif
+                        </div>
+                        <div class="submit">
+                            <button type="submit" class="btn btn--submit">로그인</button>
+                        </div>
+                        <div class="auto-login">
+                            <span class="checkbox1"><input type="checkbox" name="remember" id="auto_login_check"><label
+                                        for="auto_login_check">로그인 상태 유지</label></span>
+                            <p class="auto-login-notice" id="auto_login_notice">개인정보 보호를 위해 개인 PC에서만 사용하세요.</p>
+                        </div>
+                        <div class="aside-link">
+                            <a href="#mode_nav">아이디 찾기</a><i></i><a href="{{ url('/password/reset') }}">비밀번호 찾기</a>
+
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </section>
+    </div>
+    <!-- //로그인모달 -->
     <!-- 통합검색모달 -->
     <div id="search_form" class="search-modal" tabindex="0">
         <form name="search_form" action="#" class="search-form">
