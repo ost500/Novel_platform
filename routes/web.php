@@ -170,7 +170,7 @@ Route::group(['prefix' => 'my_info', 'middleware' => ['auth']], function () {
     //MyPageController
     Route::get('/', ['as' => 'my_page.index', 'uses' => 'MainController\MyPageController@index']);
     Route::get('/favourites', ['as' => 'my_page.favourites', 'uses' => 'MainController\MyPageController@favourites']);
-
+    Route::get('/novels/new_novels', ['as' => 'my_page.novels.new_novels', 'uses' => 'MainController\MyPageController@new_novels']);
 
     Route::get('/personal/password_again', ['as' => 'my_info.password_again', 'uses' => 'MainController\MyInfoController@password_again']);
     Route::post('/personal/password_again', ['as' => 'my_info.password_again.post', 'uses' => 'MainController\MyInfoController@password_again_post']);
