@@ -149,10 +149,10 @@ Route::group(['prefix' => 'community'], function () {
     Route::get('freeboard/{id}', ['as' => 'free_board.detail', 'uses' => 'MainController\CommunityController@free_board_detail']);
     // same url diffrent request for the redirection after login
     Route::post('freeboard/{id}', ['as' => 'freeboard.comment', 'middleware' => 'auth', 'uses' => 'FreeBoardCommentController@store']);
+
     Route::get('reader_reco', ['as' => 'reader_reco', 'uses' => 'MainController\CommunityController@reader_reco']);
     Route::get('reader_reco/{id}', ['as' => 'reader_reco.detail', 'uses' => 'MainController\CommunityController@reader_reco_detail']);
     Route::post('reader_reco/{id}', ['as' => 'reader_reco.comment', 'middleware' => 'auth', 'uses' => 'ReviewCommentController@store']);
-    Route::get('reader_reco/{id}', ['as' => 'reader_reco.detail', 'uses' => 'MainController\CommunityController@reader_reco_detail']);
 });
 
 //EachController
@@ -164,6 +164,17 @@ Route::get('/frequently_asked_questions', ['as' => 'ask.faqs', 'uses' => 'MainCo
 Route::get('/questions', ['as' => 'ask.questions', 'uses' => 'MainController\AskController@questions']);
 Route::get('/ask_question', ['as' => 'ask.ask_question', 'uses' => 'MainController\AskController@ask_question']);
 Route::get('/notifications', ['as' => 'ask.notifications', 'uses' => 'MainController\AskController@notifications']);
+
+//my information
+Route::group(['prefix' => 'my_info', 'middleware' => ['auth']], function () {
+    Route::get('password_again', ['as' => 'my_info.password_again', 'uses' => 'MainController\MyInfoController@password_again']);
+    Route::post('password_again', ['as' => 'my_info.password_again.post', 'uses' => 'MainController\MyInfoController@password_again_post']);
+    Route::get('edit', ['as' => 'my_info.edit', 'uses' => 'MainController\MyInfoController@edit']);
+    Route::post('edit', ['as' => 'my_info.edit.post', 'uses' => 'UserController@my_info_update']);
+    Route::get('member_leave/password_again', ['as' => 'my_info.member_leave.password_again', 'uses' => 'MainController\MyInfoController@member_leave_password_again']);
+    Route::post('member_leave', ['as' => 'my_info.member_leave', 'uses' => 'UserController@member_leave']);
+
+});
 
 //MyPageController
 Route::get('/my_page', ['as' => 'my_page.index', 'uses' => 'MainController\MyPageController@index']);

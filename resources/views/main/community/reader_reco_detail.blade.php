@@ -9,15 +9,49 @@
                     <h2 class="lnb-title">커뮤니티</h2>
                     <ul class="lnb-depth1">
                         <li>
-                            <a href="#mode_nav">자유게시판</a>
+                            <a href="{{route('free_board')}}">자유게시판</a>
                         </li>
                         <li>
-                            <a href="#mode_nav" class="is-active">독자추천</a>
+                            <a href="{{route('reader_reco')}}" class="is-active">독자추천</a>
                             <ul class="lnb-depth2">
-                                <li><a href="#mode_nav" class="is-active">전체</a></li>
-                                <li><a href="#mode_nav">현대로맨스</a></li>
-                                <li><a href="#mode_nav">시대로맨스</a></li>
-                                <li><a href="#mode_nav">로맨스판타지</a></li>
+                                <li><a href="{{route('reader_reco')}}"
+                                       @if($review->novel_groups->keywords[0]->name=='%')class="is-active"@endif>전체</a></li>
+                                <li><a href="{{route('reader_reco')}}?genre=현대판타지"
+                                       @if($review->novel_groups->keywords[0]->name=='현대판타지')class="is-active"@endif>현대판타지</a></li>
+                                <li><a href="{{route('reader_reco')}}?genre=사극/현대물"
+                                       @if($review->novel_groups->keywords[0]->name=='사극/현대물')class="is-active"@endif>사극/현대물</a>
+                                </li>
+                                <li><a href="{{route('reader_reco')}}?genre=동양판타지"
+                                       @if($review->novel_groups->keywords[0]->name=='동양판타지')class="is-active"@endif>동양판타지</a>
+                                </li>
+                                <li><a href="{{route('reader_reco')}}?genre=서양/중세"
+                                       @if($review->novel_groups->keywords[0]->name=='서양/중세')class="is-active"@endif>서양/중세</a>
+                                </li>
+                                <li><a href="{{route('reader_reco')}}?genre=로맨스판타지"
+                                       @if($review->novel_groups->keywords[0]->name=='로맨스판타지')class="is-active"@endif>로맨스판타지</a>
+                                </li>
+                                <li><a href="{{route('reader_reco')}}?genre=미래/SF"
+                                       @if($review->novel_groups->keywords[0]->name=='미래/SF')class="is-active"@endif>미래/SF</a>
+                                </li>
+                                <li><a href="{{route('reader_reco')}}?genre=메디컬로맨스"
+                                       @if($review->novel_groups->keywords[1]->name=='메디컬로맨스')class="is-active"@endif>메디컬로맨스</a>
+                                </li>
+                                <li><a href="{{route('reader_reco')}}?genre=전문직로맨스"
+                                       @if($review->novel_groups->keywords[1]->name=='전문직로맨스')class="is-active"@endif>전문직로맨스</a>
+                                </li>
+                                <li><a href="{{route('reader_reco')}}?genre=캠퍼스로맨스"
+                                       @if($review->novel_groups->keywords[1]->name=='캠퍼스로맨스')class="is-active"@endif>캠퍼스로맨스</a>
+                                </li>
+                                <li><a href="{{route('reader_reco')}}?genre=학원로맨스"
+                                       @if($review->novel_groups->keywords[1]->name=='학원로맨스')class="is-active"@endif>학원로맨스</a>
+                                </li>
+                                <li><a href="{{route('reader_reco')}}?genre=할리퀸로맨스"
+                                       @if($review->novel_groups->keywords[1]->name=='할리퀸로맨스')class="is-active"@endif>할리퀸로맨스</a>
+                                </li>
+                                <li><a href="{{route('reader_reco')}}?genre=스포츠"
+                                       @if($review->novel_groups->keywords[1]->name=='스포츠')class="is-active"@endif>스포츠</a></li>
+                                <li><a href="{{route('reader_reco')}}?genre=연예계"
+                                       @if($review->novel_groups->keywords[1]->name=='연예계')class="is-active"@endif>연예계</a></li>
                             </ul>
                         </li>
                     </ul>

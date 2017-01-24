@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use Carbon\Carbon;
+use Hash;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -79,17 +81,17 @@ class UserController extends Controller
             'account_holder' => 'max:600',
             'account_number' => 'digits_between:0,20',
         ], [
-            'name.required' => '�씠由꾩쓣 �엯�젰�븯�꽭�슂',
-            'name.max' => '�씠由꾩씠 �꼫臾� 源곷땲�떎',
-            'phone_num.digits_between' => '�뿰�씫泥섍� �꼫臾� 源곷땲�떎',
-            'phone_num.numeric' => '�뿰�씫泥섎뒗 �닽�옄留� �엯�젰�븷 �닔 �엳�뒿�땲�떎',
+            'name.required' => '이름을 입력하세요',
+            'name.max' => '이름이 너무 깁니다',
+            'phone_num.digits_between' => '연락처가 너무 깁니다',
+            'phone_num.numeric' => '연락처는 숫자만 입력할 수 있습니다',
 
-            'email.required' => '�씠硫붿씪�쓣 �엯�젰�븯�꽭�슂',
-            'email.max' => '�씠硫붿씪�씠 �꼫臾� 源곷땲�떎',
-            'bank.max' => '���뻾紐낆씠 �꼫臾� 源곷땲�떎',
-            'account_holder.max' => '�삁湲덉＜媛� �꼫臾� 源곷땲�떎',
-            'account_number.numeric' => '怨꾩쥖踰덊샇�뒗 �닽�옄留� �엯�젰�븷 �닔 �엳�뒿�땲�떎',
-            'account_number.digits_between' => '怨꾩쥖踰덊샇媛� �꼫臾� 源곷땲�떎',
+            'email.required' => '이메일을 입력하세요',
+            'email.max' => '이메일이 너무 깁니다',
+            'bank.max' => '은행명이 너무 깁니다',
+            'account_holder.max' => '예금주가 너무 깁니다',
+            'account_number.numeric' => '계좌번호는 숫자만 입력할 수 있습니다',
+            'account_number.digits_between' => '계좌번호가 너무 깁니다',
 
         ])->validate();
 
@@ -101,6 +103,66 @@ class UserController extends Controller
         $user->account_holder = $request->account_holder;
         $user->account_number = $request->account_number;
         $user->save();
+//        return response()->json($request);
+    }
+
+    public function my_info_update(Request $request)
+    {
+
+
+        $user = Auth::user();
+
+
+        if ($request->password != null && $request->current_password != null) {
+
+            Validator::make($request->all(), [
+                'password' => 'min:6|confirmed',
+
+            ], [
+                'password.min' => '비밀번호는 6자리 이상만 가능합니다',
+                'password.confirmed' => '비밀번호가 일치하지 않습니다',
+
+            ])->validate();
+
+            //request of password and current_password exist
+            //check the password
+            if (Hash::check($request->current_password, $user->password)) {
+                //if it is right
+                $user->password = bcrypt($request->password);
+            } else {
+                // if it is not
+                $error = ['current_password' => "비밀번호가 일치하지 않습니다."];
+                return redirect()->back()->withErrors($error);
+            }
+        }
+
+
+        Validator::make($request->all(), [
+            'nickname' => 'min:1|max:8',
+        ], [
+            'nickname.min' => '닉네임은 1자리 이상만 가능합니다',
+            'nickname.max' => '닉네임은 8자리 이하만 가능합니다',
+        ])->validate();
+        if ($user->nickname != $request->nickname) {
+            // if nickname refreshed
+            if ($user->nickname_at > Carbon::now()->addMonth(1) || $user->nickname_at == null) {
+                // if nickname edited time took more than 1 month || nickname first changed
+                $user->nickname = $request->nickname;
+                $user->nickname_at = Carbon::now();
+            } else {
+                // else editing now allowed
+                $error = ['nickname' => "닉네임은 2회부터 30일에 한번만 변경 가능합니다"];
+                return redirect()->back()->withErrors($error);
+            }
+        }
+
+        $user->comment_show = $request->comment_show;
+        $user->mail_available = $request->mail_available;
+        $user->event_mail_available = $request->event_mail_available;
+
+        $user->save();
+        flash('성공적으로 정보를 변경했습니다');
+        return redirect()->back();
 //        return response()->json($request);
     }
 
@@ -128,5 +190,26 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function member_leave(Request $request)
+    {
+        Validator::make($request->all(), [
+            'password' => 'required',
+        ], [
+            'password.required' => '비밀번호를 입력해 주세요'
+        ])->validate();
+
+        if (Hash::check($request->password, Auth::user()->password)) {
+            Auth::user()->delete();
+            flash('회원 탈퇴 했습니다');
+            return redirect()->route('root');
+        }
+
+        $error = ['password' => "비밀번호가 일치하지 않습니다."];
+
+        return redirect()->back()->withErrors($error);
+
+
     }
 }
