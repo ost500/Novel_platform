@@ -72,10 +72,9 @@ class NovelGroupController extends Controller
                 foreach ($novel->comments as $commenat) {
                     $comments_count++;
                 }
-                foreach ($novel->reviews as $n) {
-                    $review_count++;
-                }
-
+            }
+            foreach ($novel_group->reviews as $n) {
+                $review_count++;
             }
             // 소설이 없다면
             if ($novel_group->novels->count() != 0) {

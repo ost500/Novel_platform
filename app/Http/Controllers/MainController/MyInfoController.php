@@ -43,4 +43,8 @@ class MyInfoController extends Controller
 
         return view('main.my_page.my_info.edit', compact('me'));
     }
+    public function post_manage(Request $request)
+    {
+        return view('main.my_page.my_info.post_manage');
+    }
 }
