@@ -117,12 +117,6 @@ class MyPageController extends Controller
             ->with('nicknames')
             ->orderBy('new', 'desc')->paginate(10);
 
-
-
-
-        
-
-
         return view('main.my_page.novel.new_novels',compact('new_novels'));
     }
 
