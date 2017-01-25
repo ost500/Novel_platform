@@ -17,6 +17,7 @@ class MailBoxTableSeeder extends Seeder
         
         $users->each(function ($user) {
             $user->mailbox()->save(factory(App\Mailbox::class)->make());
+            $user->mailbox()->save(factory(App\Mailbox::class)->make());
         });
 
         $this->command->info('Mails table seeded');
@@ -24,6 +25,7 @@ class MailBoxTableSeeder extends Seeder
         //Mailbox table
 
         $users->each(function ($user) {
+            $user->mailbox()->save(factory(App\Mailbox::class)->make());
             $user->mailbox()->save(factory(App\Mailbox::class)->make());
         });
 

@@ -20,8 +20,6 @@ class AddUsersTable extends Migration
             $table->boolean('auth_email')->default(false);
             $table->boolean('auth_name')->default(false);
             $table->string('auth_mail_code')->nullable();
-
-
             $table->boolean('comment_show')->default(true);
             $table->boolean('mail_available')->default(true);
             $table->boolean('event_mail_available')->default(false);

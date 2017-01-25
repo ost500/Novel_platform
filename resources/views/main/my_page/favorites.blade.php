@@ -14,10 +14,12 @@
                         <ul>
 
                             <li>
-                                <a href="{{route('my_page.favorites').'?filter='.$filter}}" @if(!$keyword_name) class="is-active" @endif>전체</a></li>
+                                <a href="{{route('my_page.favorites').'?filter='.$filter}}"
+                                   @if(!$keyword_name) class="is-active" @endif>전체</a></li>
                             @foreach($keywords as $keyword)
 
-                                <li><a href="{{route('my_page.favorites').'?filter='.$filter.'&keyword='.$keyword->name }}"
+                                <li>
+                                    <a href="{{route('my_page.favorites').'?filter='.$filter.'&keyword='.$keyword->name }}"
                                        @if($keyword_name == $keyword->name) class="is-active" @endif>{{$keyword->name}}</a>
                                 </li>
                             @endforeach
@@ -32,16 +34,17 @@
                         @foreach($my_favorites as $my_favorite )
                             <li>
                                 <div class="thumb">
-                                    <span><a href="{{route('each_novel.novel_group',['id'=>$my_favorite->id])}}"><img
-                                                    src="/img/novel_covers/{{$my_favorite->cover_photo}}"
-                                                    alt="망의 연월"></a></span>
+                                    <span><a href="{{route('each_novel.novel_group',['id'=>$my_favorite->id])}}">
+                                            <img src="/img/novel_covers/{{$my_favorite->cover_photo}}" alt="망의 연월"></a></span>
                                 </div>
                                 <div class="post">
                                     <div class="post-header">
                                         <strong class="title"><a
                                                     href="{{route('each_novel.novel_group',['id'=>$my_favorite->id])}}">{{str_limit($my_favorite->title,60)}}</a>
                                             @if($week_gap < $my_favorite->new)<i class="new-icon">New</i>@endif
-                                            @if($my_favorite->completed)<i class="end-icon">End</i>@endif @if($my_favorite->secret)<i class="secret-icon">Secret</i>@endif</strong>
+                                            @if($my_favorite->completed)<i
+                                                    class="end-icon">End</i>@endif @if($my_favorite->secret)<i
+                                                    class="secret-icon">Secret</i>@endif</strong>
                                         <span class="writer">{{$my_favorite->nicknames->nickname}}</span>
                                         <span class="datetime">{{time_elapsed_string($my_favorite->new)}}</span>
                                     </div>

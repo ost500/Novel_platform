@@ -34,7 +34,7 @@ class PublishNovelController extends Controller
             //if deny_reason exists
             $publish_novel->reject_reason = $request->deny_reason;
 
-            //mail
+            //mails
             $mailbox = new Mailbox();
             $mailbox->subject = $publish_novel->publish_novel_groups->novel_groups->title .
                 "의 " . $publish_novel->novels->inning . "화 가 연재 거부 됐습니다";

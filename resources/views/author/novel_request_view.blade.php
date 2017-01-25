@@ -106,21 +106,21 @@
                         @endforeach
 
                                 <!--Mail list item-
-                    <li class="mail-starred">
-                        <div class="mail-from"><button class="btn btn-xs btn-success">완료</button></div>
-                        <div class="mail-time">2014-10-06</div>
+                    <li class="mails-starred">
+                        <div class="mails-from"><button class="btn btn-xs btn-success">완료</button></div>
+                        <div class="mails-time">2014-10-06</div>
 
-                        <div class="mail-subject">
+                        <div class="mails-subject">
                             <a href="novel_request.php">Tracking Your Order - Shoes Store Online</a>
                         </div>
                     </li>
 
                     <!--Mail list item
-                    <li class="mail-list-unread mail-starred">
-                        <div class="mail-from"><button class="btn btn-xs btn-success">완료</button></div>
-                        <div class="mail-time">2014-10-06</div>
+                    <li class="mails-list-unread mails-starred">
+                        <div class="mails-from"><button class="btn btn-xs btn-success">완료</button></div>
+                        <div class="mails-time">2014-10-06</div>
 
-                        <div class="mail-subject">
+                        <div class="mails-subject">
                             <a href="novel_request_view.php">Reset your account password</a>
                         </div>
                     </li>-->

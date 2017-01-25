@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\MainController;
 
 use App\Keyword;
+use Barryvdh\Reflection\DocBlock\Type\Collection;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -52,39 +53,20 @@ class MyPageController extends Controller
         $keyword_name = $request->get('keyword'); //Filter by keyword
         $filter = $request->get('filter'); //Filter by completed or secret
 
-
         if ($filter == 'completed') {
-            if ($keyword_name) {
-                //get id from keyword
-                $keyword_id = Keyword::select('id')->where('name', $keyword_name)->get();
-                //make the condition
-                $condition = ['favorites.user_id' => Auth::user()->id, 'novel_group_keywords.keyword_id' => $keyword_id[0]->id, 'novel_groups.completed' => 1];
-            } else {
-                $condition = ['favorites.user_id' => Auth::user()->id, 'novel_groups.completed' => 1];
-            }
-
+            $condition = [['favorites.user_id', '=', Auth::user()->id], ['novel_groups.completed', '=', 1]];
         } else if ($filter == 'secret') {
-
-            if ($keyword_name) {
-                //get id from keyword
-                $keyword_id = Keyword::select('id')->where('name', $keyword_name)->get();
-                //make the condition
-                $condition = [['favorites.user_id', '=', Auth::user()->id], ['novel_groups.secret', '<>', null], ['novel_group_keywords.keyword_id', '=', $keyword_id[0]->id]];
-            } else {
-                $condition = [['favorites.user_id', '=', Auth::user()->id], ['novel_groups.secret', '<>', null]];
-
-            }
-        } else { //for all
-            if ($keyword_name) {
-                //get id from keyword
-                $keyword_id = Keyword::select('id')->where('name', $keyword_name)->get();
-                //make the condition
-                $condition = ['favorites.user_id' => Auth::user()->id, 'novel_group_keywords.keyword_id' => $keyword_id[0]->id];
-            } else {
-                $condition = ['favorites.user_id' => Auth::user()->id];
-            }
+            $condition = [['favorites.user_id', '=', Auth::user()->id], ['novel_groups.secret', '<>', null]];
+        } else {
+            $condition = [['favorites.user_id', '=', Auth::user()->id]];
         }
 
+        if ($keyword_name) {
+            //get id from keyword
+            $keyword_id = Keyword::select('id')->where('name', $keyword_name)->get();
+            //make the condition
+            $condition[] = ['novel_group_keywords.keyword_id', '=', $keyword_id[0]->id];
+        }
 
         //get the keywords of first category
         $keywords = Keyword::where('category', 1)->get();
@@ -110,17 +92,27 @@ class MyPageController extends Controller
     public function new_novels(Request $request)
     {
 
-
-        $new_novels=NovelGroup::selectRaw('novel_groups.*,novels.novel_group_id,max(novels.created_at) as new')
+       //get new novels
+        $new_novels = NovelGroup::selectRaw('novel_groups.*,novels.novel_group_id,max(novels.created_at) as new')
             ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
             ->groupBy('novels.novel_group_id')
             ->with('nicknames')
-            ->orderBy('new', 'desc')->paginate(10);
+            ->orderBy('new', 'desc')->paginate(10)->unique('user_id');
 
-        return view('main.my_page.novel.new_novels',compact('new_novels'));
+        //get other novels of each author
+        $other_novels = array();
+        foreach ($new_novels as $novel) {
+
+            $other_novels[$novel->user_id] =   NovelGroup::selectRaw('novel_groups.*,novels.novel_group_id,max(novels.created_at) as new')
+                ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
+                ->groupBy('novels.novel_group_id')
+                ->where([['novel_groups.user_id', '=', $novel->user_id], ['novel_groups.id', '<>', $novel->id]])
+                ->with('nicknames')
+                ->orderBy('new', 'desc')->take(2)->get();
+        }
+       // return response()->json(['aa'=>$new_novels,'bb'=>$other_novels]);
+        return view('main.my_page.novel.new_novels', compact('new_novels', 'other_novels'));
     }
-
-
 
 
 }

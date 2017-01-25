@@ -42,7 +42,7 @@ class MailboxController extends Controller
         if ($request->hasFile('attachment')) {
             $attachment = $request->file('attachment');
             $original_filename = $attachment->getClientOriginalName();
-            //dd($mail->id);
+            //dd($mails->id);
             $filename = $new_mail->id . $original_filename;
             //set file name for database
             $new_mail->attachment = $filename;
@@ -100,7 +100,7 @@ class MailboxController extends Controller
         if ($request->hasFile('attachment')) {
             $attachment = $request->file('attachment');
             $original_filename = $attachment->getClientOriginalName();
-            //dd($mail->id);
+            //dd($mails->id);
             $filename = $new_mail->id . $original_filename;
             //set file name for database
             $new_mail->attachment = $filename;
@@ -144,11 +144,29 @@ class MailboxController extends Controller
         $maillogs = MailLog::where('mailbox_id', $id)->get();
         if (count($maillogs) > 0) {
             return response()->json(['error' => 1, 'message' => '이미 읽거나 보내진 쪽지는 삭제할 수 없습니다.', 'status' => "401"]);
-        }else {
+        } else {
             Mailbox::destroy($id);
             flash("삭제 되었습니다");
             return response()->json(['error' => 0, 'message' => 'success', 'status' => "200"]);
         }
+    }
+
+    public function destroy_sent_bulk(Request $request)
+    {
+        $ids = $request->get('ids');
+        foreach ($ids as $id) {
+            $maillogs = MailLog::where('mailbox_id', $id)->with('mailboxs')->get();
+
+            if (count($maillogs) > 0) {
+                flash($maillogs[0]->mailboxs->subject."이미 읽거나 보내진 쪽지는 삭제할 수 없습니다.","danger");
+                \Session::flash('mail_id', $id);
+                return response()->json(['error' => 1, 'message' => 'fail', 'status' => "401"]);
+            }
+
+            Mailbox::destroy($id);
+        }
+        flash("삭제 되었습니다","success");
+        return response()->json(['error' => 0, 'message' => 'success', 'status' => "200"]);
     }
 
 }
