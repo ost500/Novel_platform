@@ -13,7 +13,7 @@
                 <article class="bbs-view">
                     <h2 class="bbs-view-title">{{ $article->title }}</h2>
                     <div class="bbs-view-info">
-                        <div class="writer">{{ $article->users->name }}</div>
+                        <div class="writer">{{ $article['users']['name'] }}</div>
                         <div class="etc"><span>작성일 {{ $article->created_at }}</span>
                             <span>조회수 {{ $article->view_count }}</span></div>
                     </div>
@@ -45,7 +45,7 @@
                                     <li>
                                         <div class="comment-wrap">
                                             <div class="comment-info"><span
-                                                        class="writer">{{ $comment->users->name }}</span><span
+                                                        class="writer">{{ $comment['users']['name'] }}</span><span
                                                         class="datetime">{{ $comment->created_at }}</span></div>
                                             <div class="comment-btns"><a href="#mode_nav">답글</a><a
                                                         href="#mode_nav">신고</a>
@@ -90,10 +90,10 @@
                 <ul class="prev-next">
                     @if($prev_article != null)
                         <li>
-                            <span class="head head--prev">이전글</span>
+                            <span class="head head--prevnext">이전글</span>
                             <span class="subject"><a
                                         href="{{ route('free_board.detail',['id'=>$prev_article->id]) }}">{{$prev_article->title}}</a></span>
-                            <span class="writer">{{$prev_article->users->name}}</span>
+                            <span class="writer">{{$prev_article['users']['name']}}</span>
                             <span class="datetime">{{ $prev_article->created_at->format('Y-m-d') }}</span>
                         </li>
                     @endif
@@ -102,7 +102,7 @@
                             <span class="head head--next">다음글</span>
                             <span class="subject"><a
                                         href="{{ route('free_board.detail',['id'=>$next_article->id]) }}">{{$next_article->title}}</a></span>
-                            <span class="writer">{{$next_article->users->name}}</span>
+                            <span class="writer">{{$next_article['users']['name']}}</span>
                             <span class="datetime">{{ $next_article->created_at->format('Y-m-d') }}</span>
                         </li>
                     @endif

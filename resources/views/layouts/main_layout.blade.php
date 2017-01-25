@@ -287,16 +287,18 @@
                     <p class="str str--intro">
                         <strong>여우정원은</strong> 로맨스를 사랑하는 독자와 작가를 위한 로맨스 전문연재 사이트입니다.
                     </p>
+                    <a href="{{ route('register') }}">
                     <p class="str str--register">
                         <strong>회원가입</strong> 아직 여우정원의 회원이 아니라면 지금 바로 계정을 생성해 보세요.
                     </p>
+                    </a>
                 </div>
                 <form role="form" method="POST" action="{{ url('/login') }}" class="login-form-box">
                     {{ csrf_field() }}
                     <fieldset>
                         <legend class="un-hidden">Login</legend>
                         <div class="field">
-                            <input id="email" type="email" name="email" class="text2" title="아이디"
+                            <input id="email" type="text" name="name" class="text2" title="아이디"
                                    value="{{ old('email') }}" placeholder="여우정원계정">
                             @if ($errors->has('email'))<span
                                     class="alert-msg is-active">{{ $errors->first('email') }}</span>@endif
