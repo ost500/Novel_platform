@@ -67,8 +67,8 @@
 
 
                     <div class="right-btns">
-                        <button type="button" class="btn">차단</button>
-                        <button type="button" class="btn">신고</button>
+                        <button type="button" class="btn" v-on:click="addToSpam('spam')"  @if(count($my_box_mails) == 0)  disabled @endif >차단</button>
+                        <button type="button" class="btn" @if(count($my_box_mails) == 0)  disabled @endif >신고</button>
                     </div>
 
                     <!-- //하단버튼 -->
@@ -103,42 +103,38 @@
     var app = new Vue({
         el: '#my_box',
         data: {
-            info: {ids: ''}
+            info: {ids: '',type:''}
         },
 
         methods: {
             destroy: function () {
 
-                /*     bootbox.confirm({
-                 message: "삭제 하시겠습니까?",
-                 buttons: {
-                 confirm: {
-                 label: "삭제"
-                 },
-                 cancel: {
-                 label: '취소'
-                 }
-                 },
-                 callback: function (result) {
-                 if (result) {*/
-
-                var checked_data = $(".checkboxes:checked").map(function () {
+                this.info.ids = $(".checkboxes:checked").map(function () {
                     return this.value;
                 }).get();
-                this.info.ids = checked_data;
                 app.$http.post('{{ route('mailbox.destroy') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                         .then(function (response) {
-                            //    console.log(response);
                             location.reload();
 
                         }).catch(function (errors) {
                             console.log(errors);
                         });
-                /*         }
+            },
+            addToSpam: function (type) {
 
-                 }
-                 });*/
+                this.info.ids = $(".checkboxes:checked").map(function () {
+                    return this.value;
+                }).get();
+                this.info.type = type;
+                app.$http.put('{{ route('maillog.update') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                        .then(function (response) {
+                            location.reload();
+
+                        }).catch(function (errors) {
+                            console.log(errors);
+                        });
             }
+
         }
     });
 

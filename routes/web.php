@@ -35,6 +35,7 @@ Route::resource('keywords', 'KeywordController');
 Route::resource('companies', 'CompanyController');
 Route::resource('publish_companies', 'NovelGroupPublishCompanyController', ['only' => ['update']]);
 Route::delete('maillogs/{id}', ['as' => 'maillog.destroy', 'uses' => 'MailLogController@destroy']);
+Route::put('maillogs', ['as' => 'maillog.update', 'uses' => 'MailLogController@update']);
 Route::put('publish_novel/{id}', ['as' => 'publish_novel.update', 'uses' => 'PublishNovelController@update']);
 Route::post('publish_novel', ['as' => 'publish_novel.store', 'uses' => "PublishNovelController@store"]);
 Route::post('publish_novel/update_status', ['as' => 'publish_novel.update_status', 'uses' => "PublishNovelController@update_status"]);
@@ -47,6 +48,7 @@ Route::post('mailboxes', ['as' => 'mailbox.store', 'uses' => 'MailboxController@
 Route::post('mailboxes/specific_mail', ['as' => 'mailbox.store_specific_mail', 'uses' => 'MailboxController@store_specific_mail']);
 Route::post('mailboxes/destroy', ['as' => 'mailbox.destroy', 'uses' => 'MailboxController@destroy']);
 Route::delete('mailboxes/destroy_sent/{id}', ['as' => 'mailbox.destroy_sent', 'uses' => 'MailboxController@destroy_sent']);
+Route::post('mailboxes/destroy_sent_bulk', ['as' => 'mailbox.destroy_sent_bulk', 'uses' => 'MailboxController@destroy_sent_bulk']);
 
 Route::put('users/update', ['as' => 'users.update', 'uses' => 'UserController@update']);
 Route::put('users/update_agreement', ['as' => 'users.update_agreement', 'uses' => 'UserController@update_agreement']);

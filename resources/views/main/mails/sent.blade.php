@@ -10,6 +10,12 @@
 
         <!-- 서브컨텐츠 -->
         <div class="content" id="content">
+            @if(Session::has('flash_message'))
+                {{-- important, success, warning, danger and info --}}
+                <div id="msg_box" class="alert alert-@if(Session::has('flash_message_level')){{Session('flash_message_level')}} @endif">
+                    {{Session('flash_message')}}
+                </div>
+                @endif
             <!-- 페이지헤더 -->
             <div class="list-header">
                 <h2 class="title">보낸쪽지함 </h2>
@@ -32,7 +38,7 @@
                     <tbody>
                     @if(count($sent_mails) > 0)
                         @foreach($sent_mails as $sent_mail)
-                            <tr @if($week_gap < $sent_mail->created_at) class="is-new" @endif>
+                            <tr class="@if($week_gap < $sent_mail->created_at) is-new @endif @if(Session('mail_id') ==$sent_mail->id)   @endif"     >
                                 <td class="col-check"><label class="checkbox2 ">
                                         <input type="checkbox" class="checkboxes" data-check-item
                                                value="{{$sent_mail->id}}"><span></span></label>
@@ -54,9 +60,9 @@
                 </table>
                 <!-- 하단버튼 -->
 
-                <div class="left-btns">
+              {{--  <div class="left-btns">
                     <button type="button" class="btn" v-on:click="destroy()"  @if(count($sent_mails) == 0)  disabled @endif>삭제</button>
-                </div>
+                </div>--}}
 
 
 
@@ -111,15 +117,14 @@
                  callback: function (result) {
                  if (result) {*/
 
-                var checked_data = $(".checkboxes:checked").map(function () {
+                this.info.ids = $(".checkboxes:checked").map(function () {
                     return this.value;
                 }).get();
-                this.info.ids = checked_data;
-                app.$http.post('{{ route('mailbox.destroy') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+
+                app.$http.post('{{ route('mailbox.destroy_sent_bulk') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                         .then(function (response) {
                             //    console.log(response);
-                            location.reload();
-
+                                location.reload();
                         }).catch(function (errors) {
                             console.log(errors);
                         });

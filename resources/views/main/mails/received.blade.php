@@ -10,7 +10,7 @@
 
         <!-- 서브컨텐츠 -->
         <div class="content" id="content">
-               @if(Session::has('flash_message'))
+            @if(Session::has('flash_message'))
                 {{-- important, success, warning, danger and info --}}
                 <div class="alert alert-success">
                     {{Session('flash_message')}}
@@ -29,7 +29,7 @@
                         <thead>
                         <tr>
                             <th><label class="checkbox2">
-                                  <input type="checkbox" id="list_all_check">
+                                    <input type="checkbox" id="list_all_check">
                                     <span></span><span class="hidden">전체선택</span></label></th>
                             <th>보낸사람</th>
                             <th colspan="2">내용</th>
@@ -62,14 +62,16 @@
                     <!-- 하단버튼 -->
 
                     <div class="left-btns">
-                        <button type="button" class="btn" v-on:click="destroy()"  @if(count($received_mails) == 0)  disabled @endif>삭제</button>
-                        <button type="button" class="btn">보관</button>
+                        <button type="button" class="btn" v-on:click="destroy()"
+                                @if(count($received_mails) == 0)  disabled @endif>삭제
+                        </button>
+                        <button type="button" class="btn" v-on:click="myBoxOrSpam('mybox')" @if(count($received_mails) == 0)  disabled @endif >보관</button>
                     </div>
 
 
                     <div class="right-btns">
-                        <button type="button" class="btn">차단</button>
-                        <button type="button" class="btn">신고</button>
+                        <button type="button" class="btn" v-on:click="myBoxOrSpam('spam')" @if(count($received_mails) == 0)  disabled @endif >차단</button>
+                        <button type="button" class="btn" @if(count($received_mails) == 0)  disabled @endif>신고</button>
                     </div>
 
                     <!-- //하단버튼 -->
@@ -104,41 +106,40 @@
     var app = new Vue({
         el: '#received',
         data: {
-            info: {ids: ''}
+            info: {ids: '',type:''}
         },
 
         methods: {
             destroy: function () {
 
-                /*     bootbox.confirm({
-                 message: "삭제 하시겠습니까?",
-                 buttons: {
-                 confirm: {
-                 label: "삭제"
-                 },
-                 cancel: {
-                 label: '취소'
-                 }
-                 },
-                 callback: function (result) {
-                 if (result) {*/
-
-                var checked_data = $(".checkboxes:checked").map(function () {
+                this.info.ids = $(".checkboxes:checked").map(function () {
                     return this.value;
                 }).get();
-                this.info.ids = checked_data;
+
                 app.$http.post('{{ route('mailbox.destroy') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                         .then(function (response) {
-                            //    console.log(response);
                             location.reload();
 
                         }).catch(function (errors) {
                             console.log(errors);
                         });
-                /*         }
+            },
+            myBoxOrSpam: function (type) {
 
-                 }
-                 });*/
+                this.info.ids = $(".checkboxes:checked").map(function () {
+                    return this.value;
+                }).get();
+                this.info.type = type;
+                app.$http.put('{{ route('maillog.update') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                        .then(function (response) {
+                            location.reload();
+
+                        }).catch(function (errors) {
+                            console.log(errors);
+                        });
+            },
+            spam: function () {
+
             }
         }
     });

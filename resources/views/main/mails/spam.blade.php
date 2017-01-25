@@ -62,13 +62,13 @@
                     <!-- 하단버튼 -->
 
                     <div class="left-btns">
-                        <button type="button" class="btn" v-on:click="destroy()"   @if(count($spam_mails) == 0)  disabled @endif>삭제</button>
-                        <button type="button" class="btn">보관</button>
+                        <button type="button" class="btn" v-on:click="destroy()"   @if(count($spam_mails) == 0)  disabled @endif >삭제</button>
+                        <button type="button" class="btn" v-on:click="addToMyBox('mybox')"  @if(count($spam_mails) == 0)  disabled @endif >보관</button>
                     </div>
 
 
                     <div class="right-btns">
-                        <button type="button" class="btn">신고</button>
+                        <button type="button" class="btn"  @if(count($spam_mails) == 0)  disabled @endif >신고</button>
                     </div>
 
                     <!-- //하단버튼 -->
@@ -103,41 +103,36 @@
     var app = new Vue({
         el: '#spam',
         data: {
-            info: {ids: ''}
+            info: {ids: '',type:''}
         },
 
         methods: {
             destroy: function () {
 
-                /*     bootbox.confirm({
-                 message: "삭제 하시겠습니까?",
-                 buttons: {
-                 confirm: {
-                 label: "삭제"
-                 },
-                 cancel: {
-                 label: '취소'
-                 }
-                 },
-                 callback: function (result) {
-                 if (result) {*/
-
-                var checked_data = $(".checkboxes:checked").map(function () {
+                this.info.ids = $(".checkboxes:checked").map(function () {
                     return this.value;
                 }).get();
-                this.info.ids = checked_data;
                 app.$http.post('{{ route('mailbox.destroy') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                         .then(function (response) {
-                            //    console.log(response);
                             location.reload();
 
                         }).catch(function (errors) {
                             console.log(errors);
                         });
-                /*         }
+            },
+            addToMyBox: function (type) {
 
-                 }
-                 });*/
+                this.info.ids = $(".checkboxes:checked").map(function () {
+                    return this.value;
+                }).get();
+                this.info.type = type;
+                app.$http.put('{{ route('maillog.update') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                        .then(function (response) {;
+                            location.reload();
+
+                        }).catch(function (errors) {
+                            console.log(errors);
+                        });
             }
         }
     });

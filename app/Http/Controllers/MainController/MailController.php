@@ -16,6 +16,7 @@ class MailController extends Controller
         $received_mails = Auth::user()->maillogs()->with('mailboxs.users')->where(['spam'=>0,'mybox'=>0])->latest()->paginate(10);
         //calculate the one week gap from today to check new items within 7 days
         $week_gap = Carbon::today()->subDays(7);
+
         return view('main.mails.received',compact('received_mails','week_gap'));
     }
     public function sent(Request $request)
