@@ -140,7 +140,7 @@
                                                 </div>
                                             </li>
                                         </ul>
-                                        <a href="#mode_nav" class="alarm-more-btn">더보기</a>
+                                        <a href="{{ route('mails.received') }}" class="alarm-more-btn">더보기</a>
                                     </div>
                                     <a href="#mode_nav" class="alarm-bottom-more-btn">더보기</a>
                                 </div>

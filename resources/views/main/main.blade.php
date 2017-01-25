@@ -113,12 +113,23 @@
 
             <!-- 회원님을위한추천 -->
             <section class="custom-latest-wrap">
-                <h2 class="custom-latest-title"><span>Kimdal</span>님을 위한 추천</h2>
+
+                @if(Auth::check())
+                    <h2 class="custom-latest-title"><span>
+                            {{ Auth::user()->name }}
+                            </span>님을 위한 추천</h2>
+                @else
+                    <h2 class="custom-latest-title"><span>
+                            추천
+                            </span>인기 소설</h2>
+                @endif
+
                 <ul class="latest">
                     @foreach($recommendations as $recommendation)
                         <li>
                             <a href="#mode_nav">
-                                <p class="thumb"><img src="img/novel_covers/{{$recommendation->cover_photo}}" alt=""></p>
+                                <p class="thumb"><img src="img/novel_covers/{{$recommendation->cover_photo}}" alt="">
+                                </p>
                                 <p class="book-title">{{ str_limit($recommendation->title, 15) }}</p>
                                 <p class="author">{{ str_limit($recommendation->nicknames->nickname, 10) }}</p>
                             </a>
