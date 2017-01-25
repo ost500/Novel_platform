@@ -19,12 +19,12 @@ class AddUsersTable extends Migration
             $table->date('nickname_at')->nullable();
             $table->boolean('auth_email')->default(false);
             $table->boolean('auth_name')->default(false);
-            $table->string('auth_meail_code')->nullable()->default(str_random(30));
+            $table->string('auth_mail_code')->nullable();
 
 
             $table->boolean('comment_show')->default(true);
             $table->boolean('mail_available')->default(true);
-            $table->boolean('event_mail_available')->default(true);
+            $table->boolean('event_mail_available')->default(false);
             $table->softDeletes();
         });
     }
@@ -39,7 +39,7 @@ class AddUsersTable extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('auth_email');
             $table->dropColumn('auth_name');
-            $table->dropColumn('auth_meail_code');
+            $table->dropColumn('auth_mail_code');
             $table->dropColumn('comment_show');
             $table->dropColumn('mail_available');
             $table->dropColumn('event_mail_available');

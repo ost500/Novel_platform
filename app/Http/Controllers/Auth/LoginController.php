@@ -22,6 +22,7 @@ class LoginController extends Controller
 
     use AuthenticatesUsers {
         sendFailedLoginResponse as sendFailed;
+        username as id;
     }
 
     /**
@@ -49,5 +50,10 @@ class LoginController extends Controller
                 $this->username() => "로그인에 실패했습니다",
                 
             ]);
+    }
+
+    public function username()
+    {
+        return 'name';
     }
 }

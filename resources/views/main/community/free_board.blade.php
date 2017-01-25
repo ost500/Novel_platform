@@ -24,7 +24,7 @@
                                 @foreach($weekly_best[0] as $best)
                                     <li>
                                         <a href="{{route('free_board.detail',['id'=>$best->id])}}">{{$best->title}}</a><span
-                                                class="writer">{{str_limit($best->users->name,10)}}</span>
+                                                class="writer">{{str_limit($best['users']['name'],10)}}</span>
                                     </li>
                                 @endforeach
 
@@ -34,7 +34,7 @@
                                     @foreach($weekly_best[1] as $best)
                                         <li>
                                             <a href="{{route('free_board.detail',['id'=>$best->id])}}">{{$best->title}}</a><span
-                                                    class="writer">{{str_limit($best->users->name,10)}}</span>
+                                                    class="writer">{{str_limit($best['users']['name'],10)}}</span>
                                         </li>
                                     @endforeach
                                 @endif
@@ -69,7 +69,7 @@
                                         class="comment-cnt">{{ $article->comments_count }}</span>
                                 <i class="new-icon">새글</i>
                             </td>
-                            <td class="col-name">{{ $article->users->name }}</td>
+                            <td class="col-name">{{ $article['users']['name'] }}</td>
                             <td class="col-datetime">{{ $article->created_at->format('Y-m-d') }}</td>
                             <td class="col-view">{{ $article->view_count }}</td>
                         </tr>

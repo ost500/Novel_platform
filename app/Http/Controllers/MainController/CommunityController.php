@@ -47,10 +47,11 @@ class CommunityController extends Controller
 
     public function reader_reco(Request $request)
     {
-        $reviews = Review::selectRaw('reviews.*, novel_groups.*, reviews.id, sum(total_count) as total_count')
+        $reviews = Review::selectRaw('reviews.*, novel_groups.*, sum(total_count) as total_count, reviews.id')
             ->join('novel_groups', 'novel_groups.id', '=', 'reviews.novel_group_id')
             ->join('novels', 'novel_groups.id', '=', 'novels.novel_group_id')
-            ->groupBy('reviews.id')->orderBy('reviews.created_at', 'desc');
+            ->groupBy('reviews.id')->orderBy('reviews.created_at', 'desc')
+            ->with('users');
 
         $search_option = $request->search_option;
         $search_text = $request->search_text;

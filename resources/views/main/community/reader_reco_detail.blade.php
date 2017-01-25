@@ -34,7 +34,7 @@
                                        @if($review->novel_groups->keywords[0]->name=='미래/SF')class="is-active"@endif>미래/SF</a>
                                 </li>
                                 <li><a href="{{route('reader_reco')}}?genre=메디컬로맨스"
-                                       @if($review->novel_groups->keywords[1]->name=='메디컬로맨스')class="is-active"@endif>메디컬로맨스</a>
+                                       @if($review->novel_groups->keywords[]->name=='메디컬로맨스')class="is-active"@endif>메디컬로맨스</a>
                                 </li>
                                 <li><a href="{{route('reader_reco')}}?genre=전문직로맨스"
                                        @if($review->novel_groups->keywords[1]->name=='전문직로맨스')class="is-active"@endif>전문직로맨스</a>
