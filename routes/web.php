@@ -176,7 +176,7 @@ Route::group(['prefix' => 'my_info', 'middleware' => ['auth']], function () {
 
     Route::group(['prefix' => 'personal'], function () {
         Route::get('/post_manage', ['as' => 'my_info.post_manage', 'uses' => 'MainController\MyInfoController@post_manage']);
-        Route::get('/password_again', ['as' => 'my_info.password_again', 'uses' => 'MainController\MyInfoController@password_again']);
+        Route::get('/review_manage', ['as' => 'my_info.review_manage', 'uses' => 'MainController\MyInfoController@review_manage']);        Route::get('/password_again', ['as' => 'my_info.password_again', 'uses' => 'MainController\MyInfoController@password_again']);
         Route::post('/password_again', ['as' => 'my_info.password_again.post', 'uses' => 'MainController\MyInfoController@password_again_post']);
         Route::get('/edit', ['as' => 'my_info.edit', 'uses' => 'MainController\MyInfoController@edit']);
         Route::post('/edit', ['as' => 'my_info.edit.post', 'uses' => 'UserController@my_info_update']);
