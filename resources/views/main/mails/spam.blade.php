@@ -29,7 +29,7 @@
                         <thead>
                         <tr>
                             <th><label class="checkbox2">
-                                   <input type="checkbox" id="list_all_check">
+                                    <input type="checkbox" id="list_all_check">
                                     <span></span><span class="hidden">전체선택</span></label></th>
                             <th>보낸사람</th>
                             <th colspan="2">내용</th>
@@ -62,13 +62,17 @@
                     <!-- 하단버튼 -->
 
                     <div class="left-btns">
-                        <button type="button" class="btn" v-on:click="destroy()"   @if(count($spam_mails) == 0)  disabled @endif >삭제</button>
-                        <button type="button" class="btn" v-on:click="addToMyBox('mybox')"  @if(count($spam_mails) == 0)  disabled @endif >보관</button>
+                        <button type="button" class="btn" v-on:click="destroy()"
+                                @if(count($spam_mails) == 0)  disabled @endif >삭제
+                        </button>
+                        <button type="button" class="btn" v-on:click="addToMyBox('mybox')"
+                                @if(count($spam_mails) == 0)  disabled @endif >보관
+                        </button>
                     </div>
 
 
                     <div class="right-btns">
-                        <button type="button" class="btn"  @if(count($spam_mails) == 0)  disabled @endif >신고</button>
+                        <button type="button" class="btn" @if(count($spam_mails) == 0)  disabled @endif >신고</button>
                     </div>
 
                     <!-- //하단버튼 -->
@@ -103,7 +107,7 @@
     var app = new Vue({
         el: '#spam',
         data: {
-            info: {ids: '',type:''}
+            info: {ids: '', type: ''}
         },
 
         methods: {
@@ -112,13 +116,15 @@
                 this.info.ids = $(".checkboxes:checked").map(function () {
                     return this.value;
                 }).get();
-                app.$http.post('{{ route('mailbox.destroy') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
-                        .then(function (response) {
-                            location.reload();
+                if (this.info.ids.length > 0) {
+                    app.$http.post('{{ route('mailbox.destroy') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                            .then(function (response) {
+                                //location.reload();
 
-                        }).catch(function (errors) {
-                            console.log(errors);
-                        });
+                            }).catch(function (errors) {
+                                console.log(errors);
+                            });
+                }
             },
             addToMyBox: function (type) {
 
@@ -126,13 +132,15 @@
                     return this.value;
                 }).get();
                 this.info.type = type;
-                app.$http.put('{{ route('maillog.update') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
-                        .then(function (response) {;
-                            location.reload();
+                if (this.info.ids.length > 0) {
+                    app.$http.put('{{ route('maillog.update') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                            .then(function (response) {
+                              location.reload();
 
-                        }).catch(function (errors) {
-                            console.log(errors);
-                        });
+                            }).catch(function (errors) {
+                                console.log(errors);
+                            });
+                }
             }
         }
     });

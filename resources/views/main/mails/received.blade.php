@@ -65,12 +65,16 @@
                         <button type="button" class="btn" v-on:click="destroy()"
                                 @if(count($received_mails) == 0)  disabled @endif>삭제
                         </button>
-                        <button type="button" class="btn" v-on:click="myBoxOrSpam('mybox')" @if(count($received_mails) == 0)  disabled @endif >보관</button>
+                        <button type="button" class="btn" v-on:click="myBoxOrSpam('mybox')"
+                                @if(count($received_mails) == 0)  disabled @endif >보관
+                        </button>
                     </div>
 
 
                     <div class="right-btns">
-                        <button type="button" class="btn" v-on:click="myBoxOrSpam('spam')" @if(count($received_mails) == 0)  disabled @endif >차단</button>
+                        <button type="button" class="btn" v-on:click="myBoxOrSpam('spam')"
+                                @if(count($received_mails) == 0)  disabled @endif >차단
+                        </button>
                         <button type="button" class="btn" @if(count($received_mails) == 0)  disabled @endif>신고</button>
                     </div>
 
@@ -106,7 +110,7 @@
     var app = new Vue({
         el: '#received',
         data: {
-            info: {ids: '',type:''}
+            info: {ids: '', type: ''}
         },
 
         methods: {
@@ -115,14 +119,15 @@
                 this.info.ids = $(".checkboxes:checked").map(function () {
                     return this.value;
                 }).get();
+                if (this.info.ids.length > 0) {
+                    app.$http.post('{{ route('mailbox.destroy') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                            .then(function (response) {
+                                location.reload();
 
-                app.$http.post('{{ route('mailbox.destroy') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
-                        .then(function (response) {
-                            location.reload();
-
-                        }).catch(function (errors) {
-                            console.log(errors);
-                        });
+                            }).catch(function (errors) {
+                                console.log(errors);
+                            });
+                }
             },
             myBoxOrSpam: function (type) {
 
@@ -130,13 +135,15 @@
                     return this.value;
                 }).get();
                 this.info.type = type;
-                app.$http.put('{{ route('maillog.update') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
-                        .then(function (response) {
-                            location.reload();
+                if (this.info.ids.length > 0) {
+                    app.$http.put('{{ route('maillog.update') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                            .then(function (response) {
+                                location.reload();
 
-                        }).catch(function (errors) {
-                            console.log(errors);
-                        });
+                            }).catch(function (errors) {
+                                console.log(errors);
+                            });
+                }
             },
             spam: function () {
 

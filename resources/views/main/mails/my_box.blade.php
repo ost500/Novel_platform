@@ -15,7 +15,7 @@
                 <div class="alert alert-success">
                     {{Session('flash_message')}}
                 </div>
-             @endif
+                @endif
                         <!-- 페이지헤더 -->
                 <div class="list-header">
                     <h2 class="title">보관쪽지함 </h2>
@@ -25,7 +25,7 @@
                 <!-- 게시판목록 -->
                 <form name="memo_list" action="#">
                     <table class="bbs-list bbs-list--memo">
-                        <caption>보관쪽지함  목록</caption>
+                        <caption>보관쪽지함 목록</caption>
                         <thead>
                         <tr>
                             <th><label class="checkbox2">
@@ -62,12 +62,16 @@
                     <!-- 하단버튼 -->
 
                     <div class="left-btns">
-                        <button type="button" class="btn" v-on:click="destroy()"  @if(count($my_box_mails) == 0)  disabled @endif>삭제</button>
+                        <button type="button" class="btn" v-on:click="destroy()"
+                                @if(count($my_box_mails) == 0)  disabled @endif>삭제
+                        </button>
                     </div>
 
 
                     <div class="right-btns">
-                        <button type="button" class="btn" v-on:click="addToSpam('spam')"  @if(count($my_box_mails) == 0)  disabled @endif >차단</button>
+                        <button type="button" class="btn" v-on:click="addToSpam('spam')"
+                                @if(count($my_box_mails) == 0)  disabled @endif >차단
+                        </button>
                         <button type="button" class="btn" @if(count($my_box_mails) == 0)  disabled @endif >신고</button>
                     </div>
 
@@ -103,7 +107,7 @@
     var app = new Vue({
         el: '#my_box',
         data: {
-            info: {ids: '',type:''}
+            info: {ids: '', type: ''}
         },
 
         methods: {
@@ -112,13 +116,15 @@
                 this.info.ids = $(".checkboxes:checked").map(function () {
                     return this.value;
                 }).get();
-                app.$http.post('{{ route('mailbox.destroy') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
-                        .then(function (response) {
-                            location.reload();
+                if (this.info.ids.length > 0) {
+                    app.$http.post('{{ route('mailbox.destroy') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                            .then(function (response) {
+                                location.reload();
 
-                        }).catch(function (errors) {
-                            console.log(errors);
-                        });
+                            }).catch(function (errors) {
+                                console.log(errors);
+                            });
+                }
             },
             addToSpam: function (type) {
 
@@ -126,19 +132,21 @@
                     return this.value;
                 }).get();
                 this.info.type = type;
-                app.$http.put('{{ route('maillog.update') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
-                        .then(function (response) {
-                            location.reload();
+                if (this.info.ids.length > 0) {
+                    app.$http.put('{{ route('maillog.update') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                            .then(function (response) {
+                                location.reload();
 
-                        }).catch(function (errors) {
-                            console.log(errors);
-                        });
+                            }).catch(function (errors) {
+                                console.log(errors);
+                            });
+                }
             }
 
         }
     });
 
-    $(".alert").delay(4000).slideUp(200, function() {
+    $(".alert").delay(4000).slideUp(200, function () {
         $(this).alert('close');
     });
 </script>
