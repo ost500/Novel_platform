@@ -279,21 +279,21 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#mode_nav">완결</a>
+                    <a href="{{route('completed')}}">완결</a>
                     <ul class="gnb-depth2">
                         <li><a href="{{route('completed')}}">유료완결</a></li>
                         <li><a href="{{route('completed',['free_or_charged'=>'free'])}}">무료완결</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="#mode_nav">커뮤니티</a>
+                    <a href="{{route('free_board')}}">커뮤니티</a>
                     <ul class="gnb-depth2">
                         <li><a href="{{route('free_board')}}">자유게시판</a></li>
                         <li><a href="{{route('reader_reco')}}">독자추천</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="#mode_nav">고객센터</a>
+                    <a href="{{route('ask.faqs').'?best'}}">고객센터</a>
                     <ul class="gnb-depth2">
                         <li><a href="{{route('ask.faqs').'?best'}}">자주묻는 질문</a></li>
                         <li><a href="{{route('ask.questions')}}">1:1 문의</a></li>
