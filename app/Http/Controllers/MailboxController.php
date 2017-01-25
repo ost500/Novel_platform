@@ -42,7 +42,7 @@ class MailboxController extends Controller
         if ($request->hasFile('attachment')) {
             $attachment = $request->file('attachment');
             $original_filename = $attachment->getClientOriginalName();
-            //dd($mail->id);
+            //dd($mails->id);
             $filename = $new_mail->id . $original_filename;
             //set file name for database
             $new_mail->attachment = $filename;
@@ -100,7 +100,7 @@ class MailboxController extends Controller
         if ($request->hasFile('attachment')) {
             $attachment = $request->file('attachment');
             $original_filename = $attachment->getClientOriginalName();
-            //dd($mail->id);
+            //dd($mails->id);
             $filename = $new_mail->id . $original_filename;
             //set file name for database
             $new_mail->attachment = $filename;

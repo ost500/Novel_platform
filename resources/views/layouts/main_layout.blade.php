@@ -20,6 +20,9 @@
     <!--[if lte IE 8]>
     <script src="/front/js/html5shiv.min.js"></script>
     <script src="/front/js/respond.min.js"></script>
+    <script src="/front/js/bootbox.min.js"></script>
+
+
     <![endif]-->
 </head>
 <body>
@@ -82,7 +85,7 @@
                             <!-- //마이페이지팝업 -->
                         </div>
                         <div class="layer-popup-wrap">
-                            <a href="#mode_nav" class="userbtn userbtn--memo">쪽지</a>
+                            <a href="{{route('mails.received')}}" class="userbtn userbtn--memo">쪽지</a>
                             <!-- 쪽지팝업 -->
                             <section class="layer-popup layer-popup--memo">
                                 <div class="inner">

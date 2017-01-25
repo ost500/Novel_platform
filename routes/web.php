@@ -183,3 +183,7 @@ Route::group(['prefix' => 'my_info', 'middleware' => ['auth']], function () {
     });
 });
 
+//Mails Controller
+Route::group(['prefix' => 'mails', 'middleware' => ['auth']], function () {
+    Route::get('/received', ['as' => 'mails.received', 'uses' => 'MainController\MailController@received']);
+});

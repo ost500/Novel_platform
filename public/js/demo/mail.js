@@ -15,7 +15,7 @@
 	// MAILBOX-COMPOSE.HTML
 	// =================================================================
 
-	if ($('#demo-mail-compose').length) {
+	if ($('#demo-mails-compose').length) {
 
 
 		// SUMMERNOTE
@@ -23,7 +23,7 @@
 		// Require Summernote
 		// http://hackerwins.github.io/summernote/
 		// =================================================================
-		$('#demo-mail-compose').summernote({
+		$('#demo-mails-compose').summernote({
 			height:500
 		});
 
@@ -66,13 +66,13 @@
 	// Require Summernote
 	// http://hackerwins.github.io/summernote/
 	// =================================================================
-	if( $('#demo-mail-textarea').length ){
-		$('#demo-mail-textarea').on('click', function(){
+	if( $('#demo-mails-textarea').length ){
+		$('#demo-mails-textarea').on('click', function(){
 			$(this).empty().summernote({
 			height:300,
 			focus: true
 			});
-			$('#demo-mail-send-btn').removeClass('hide');
+			$('#demo-mails-send-btn').removeClass('hide');
 		});
 		return;
 	}
@@ -83,16 +83,16 @@
 
 	// MAILBOX.HTML
 	// =================================================================
-	var mSelAllCb 	= $('#demo-checked-all-mail').find('.form-checkbox');
-	var mListCb 	= $('.demo-cb-mail');
-	var mReadCb 	= $('#demo-mail-list').find('li:not(.mail-list-unread)');
-	var mUnreadCb 	= $('#demo-mail-list').find('.mail-list-unread');
-	var mStarBtn 	= $('#demo-mail-list').find('.mail-star a');
+	var mSelAllCb 	= $('#demo-checked-all-mails').find('.form-checkbox');
+	var mListCb 	= $('.demo-cb-mails');
+	var mReadCb 	= $('#demo-mails-list').find('li:not(.mails-list-unread)');
+	var mUnreadCb 	= $('#demo-mails-list').find('.mail-list-unread');
+	var mStarBtn 	= $('#demo-mails-list').find('.mails-star a');
 
 
 	// Select / deselect all checkboxes.
 	// =================================================================
-	$('#demo-checked-all-mail').on('click', function(e){
+	$('#demo-checked-all-mails').on('click', function(e){
 		if(!mSelAllCb.niftyCheck('isChecked')){
 			mListCb.niftyCheck('toggleOn');
 			mSelAllCb.niftyCheck('toggleOn');
@@ -146,7 +146,7 @@
 	// =================================================================
 	$('#demo-select-starred-list').on('click', function(e){
 		mListCb.niftyCheck('toggleOff');
-		$('#demo-mail-list').find('.mail-starred .demo-cb-mail').niftyCheck('toggleOn');
+		$('#demo-mails-list').find('.mails-starred .demo-cb-mails').niftyCheck('toggleOn');
 	});
 
 
@@ -170,7 +170,7 @@
 
 	// Loading overlay.
 	// =================================================================
-	$('#demo-mail-ref-btn').niftyOverlay().on('click', function(){
+	$('#demo-mails-ref-btn').niftyOverlay().on('click', function(){
 		var $el = $(this), relTime;
 
 		$el.niftyOverlay('show');
