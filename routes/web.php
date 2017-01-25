@@ -186,4 +186,7 @@ Route::group(['prefix' => 'my_info', 'middleware' => ['auth']], function () {
 //Mails Controller
 Route::group(['prefix' => 'mails', 'middleware' => ['auth']], function () {
     Route::get('/received', ['as' => 'mails.received', 'uses' => 'MainController\MailController@received']);
+    Route::get('/sent', ['as' => 'mails.sent', 'uses' => 'MainController\MailController@sent']);
+    Route::get('/spam', ['as' => 'mails.spam', 'uses' => 'MainController\MailController@spam']);
+    Route::get('/my_box', ['as' => 'mails.my_box', 'uses' => 'MainController\MailController@my_box']);
 });

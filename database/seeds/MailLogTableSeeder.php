@@ -19,6 +19,9 @@ class MailLogTableSeeder extends Seeder
             $user->maillogs()->save(factory(App\MailLog::class)->make());
             $user->maillogs()->save(factory(App\MailLog::class)->make());
             $user->maillogs()->save(factory(App\MailLog::class)->make());
+            $user->maillogs()->save(factory(App\MailLog::class)->make());
+            $user->maillogs()->save(factory(App\MailLog::class)->make());
+            $user->maillogs()->save(factory(App\MailLog::class)->make());
         });
     }
 }
