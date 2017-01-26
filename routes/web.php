@@ -192,3 +192,9 @@ Route::group(['prefix' => 'mails', 'middleware' => ['auth']], function () {
     Route::get('/spam', ['as' => 'mails.spam', 'uses' => 'MainController\MailController@spam']);
     Route::get('/my_box', ['as' => 'mails.my_box', 'uses' => 'MainController\MailController@my_box']);
 });
+
+//Mails Controller
+Route::group(['prefix' => 'search'], function () {
+    Route::post('/', ['as' => 'search.index', 'uses' => 'MainController\SearchController@index']);
+    Route::get('/', ['as' => 'search', 'uses' => 'MainController\SearchController@index']);
+});
