@@ -56,7 +56,7 @@
                                 <ul class="episode-list">
                                     <li>
                                         <div class="col-no">
-                                            <span class="no">8화</span>
+                                            <span class="no">{{ $recently_visited_novel->novels->inning }}화</span>
                                             <span class="datetime">{{$recently_visited_novel->novels->created_at}}</span>
                                         </div>
                                         <div class="col-title"><a
@@ -77,7 +77,7 @@
                                 @foreach($novel_group->novels as $novel)
                                     <li>
                                         <div class="col-no">
-                                            <span class="no">{{$loop->count - $loop->index}} 화</span>
+                                            <span class="no">{{$novel->inning}} 화</span>
                                             <span class="datetime">{{$novel->created_at}}</span>
                                         </div>
                                         <div class="col-title"><a
