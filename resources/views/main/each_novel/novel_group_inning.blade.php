@@ -1,6 +1,7 @@
 @extends('layouts.main_layout')
 @section('content')
-    <div class="container container--novel">
+    <div class="container container--novel" id="inning" xmlns:v-on="http://www.w3.org/1999/xhtml"
+         xmlns:v-bind="http://www.w3.org/1999/xhtml">
         <div class="wrap">
             <!-- 서브컨텐츠 -->
             <div class="content" id="content">
@@ -64,13 +65,12 @@
 
                     <!-- 댓글쓰기 -->
                     <div class="episode-comment-form">
-                        <form name="comment_form" action="{{route('comments.store')}}" class="comment-form"
-                              method="post">
-                            {{csrf_field()}}
+                        <form name="comment_form" id="comment_form" action="" class="comment-form"
+                              method="post" v-on:submit.prevent="commentStore()">
                             <div class="comment-form-wrap">
-                                <textarea name="comment" id="comment" class="textarea2"
+                                <textarea name="comment" id="comment" class="textarea2" v-model="info.comment"
                                           placeholder="남을 상처주지 않는 바르고 고운 말을 씁시다." title="댓글내용"></textarea>
-                                <input type="hidden" name="novel_id" id="novel_id" value="{{$novel_group_inning->id}}"/>
+                                {{--    <input type="hidden" name="novel_id" id="novel_id"  v-model="info.novel_id"/>--}}
                                 {{--<input type="hidden" name="parent_id" id="parent_id" value="0"/>--}}
 
                                 <div class="comment-form-btns">
@@ -162,4 +162,26 @@
     </div>
     <!-- //컨테이너 -->
     <!-- 푸터 -->
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#inning',
+            data: {
+                info: {comment: '', novel_id: '{{$novel_group_inning->id}}'}
+            },
+
+            methods: {
+                commentStore: function () {
+
+                    app.$http.post('{{ route('comments.store') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                            .then(function (response) {
+                                location.reload();
+
+                            }).catch(function (errors) {
+                                console.log(errors);
+                            });
+                }
+            }
+        });
+
+    </script>
 @endsection

@@ -66,6 +66,8 @@ class CommentController extends Controller
     public function store(Request $request)
     {
 
+        if(!Auth::check()){ return redirect('/login'); }
+
         Validator::make($request->all(), [
             'comment' => 'required|max:1000',
         ], [
@@ -81,6 +83,9 @@ class CommentController extends Controller
         $new_comment->novel_id = $request->novel_id;
         $new_comment->user_id = Auth::user()->id;
         $new_comment->save();
+        return response()->json(['status'=>'ok']);
+
+
     }
 
     /**
