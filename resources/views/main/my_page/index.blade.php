@@ -1,5 +1,5 @@
-@extends('../layouts.main_layout')
-@section    ('content')
+@extends ('../layouts.main_layout')
+@section ('content')
     <div class="container">
         <div class="wrap">
             <!-- LNB -->
@@ -16,7 +16,7 @@
                         <!-- 회원정보 -->
                         <div class="col-member">
                             <strong class="user-name">{{$my_profile->name}}</strong>
-                            <span class="user-id">kimdal</span>
+                            <span class="user-id">{{ $my_profile->nickname }}</span>
                             <span class="user-email">{{$my_profile->email}}</span>
                             <a href="{{url('/logout')}}" class="btn btn--special">로그아웃</a>
                             <a href="#mode_nav" class="setup-btn"><i class="setup-icon">설정</i></a>
@@ -39,7 +39,7 @@
                         <div class="col-scrap">
                             <i class="scrap3-icon"></i>
                             <span class="item-name">선호작</span>
-                            <strong class="item-count">32작품</strong>
+                            <strong class="item-count">{{ $favorites_count }}작품</strong>
                         </div>
                     </div>
                 </section>

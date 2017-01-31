@@ -191,6 +191,16 @@ Route::group(['prefix' => 'my_info', 'middleware' => ['auth']], function () {
         Route::get('/member_leave/password_again', ['as' => 'my_info.member_leave.password_again', 'uses' => 'MainController\MyInfoController@member_leave_password_again']);
         Route::post('/member_leave', ['as' => 'my_info.member_leave', 'uses' => 'UserController@member_leave']);
     });
+
+    Route::group(['prefix' => 'use_info'], function () {
+        Route::get('/charge_bead',['as' => 'my_info.charge_bead', 'uses'=> 'MainController\MyInfoController@charge_bead']);
+        Route::get('/charge_list',['as' => 'my_info.charge_list', 'uses'=> 'MainController\MyInfoController@charge_list']);
+        Route::get('/manage_piece',['as' => 'my_info.manage_piece', 'uses'=> 'MainController\MyInfoController@manage_piece']);
+        Route::get('/purchased_novel_list',['as' => 'my_info.purchased_novel_list', 'uses'=> 'MainController\MyInfoController@purchased_novel_list']);
+        Route::get('/received_gift',['as' => 'my_info.received_gift', 'uses'=> 'MainController\MyInfoController@received_gift']);
+        Route::get('/sent_gift',['as' => 'my_info.sent_gift', 'uses'=> 'MainController\MyInfoController@sent_gift']);
+
+    });
 });
 
 //Mails Controller

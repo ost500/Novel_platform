@@ -131,4 +131,34 @@ class MyInfoController extends Controller
 
         return view('main.my_page.my_info.free_board_review_comments_manage', compact('comments', 'filter', 'order'));
     }
+
+    public function charge_bead()
+    {
+        return view('main.my_page.use_info.charge_bead');
+    }
+
+    public function charge_list()
+    {
+        return view('main.my_page.use_info.charge_list');
+    }
+
+    public function manage_piece()
+    {
+        return view('main.my_page.use_info.manage_piece');
+    }
+
+    public function purchased_novel_list()
+    {
+        return view('main.my_page.use_info.purchased_novel_list');
+    }
+
+    public function received_gift()
+    {
+        return view('main.my_page.use_info.received_gift');
+    }
+
+    public function sent_gift()
+    {
+        return view('main.my_page.use_info.sent_gift');
+    }
 }

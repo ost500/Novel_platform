@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\MainController;
 
 use App\Http\Controllers\Controller;
+use App\Keyword;
 use App\Novel;
 use App\NovelGroup;
 use App\Review;
@@ -99,15 +100,22 @@ class MainController extends Controller
 
         if (!$free_or_charged) {
             //charged
-            $novel_groups = NovelGroup::selectRaw('novel_group_id, novel_groups.*, max(novels.created_at) as new, sum(' . $period . ') as view_count, max(non_free_agreement) as non_free, sum(today_count) as total_count')
+            $novel_groups = NovelGroup::selectRaw('novels.novel_group_id, novel_groups.*, max(novels.created_at) as new, sum(' . $period . ') as view_count, max(non_free_agreement) as non_free, sum(today_count) as total_count')
                 ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
-                ->groupBy('novel_group_id')->orderBy('view_count', 'desc')->havingRaw('max(non_free_agreement) > 0');
+                ->join('novel_group_keywords', 'novel_group_keywords.novel_group_id', '=', 'novel_groups.id')
+                ->groupBy('novels.novel_group_id')->orderBy('view_count', 'desc')
+                ->havingRaw('max(non_free_agreement) > 0');
         } else {
-            $novel_groups = NovelGroup::selectRaw('novel_group_id, novel_groups.*, max(novels.created_at) as new, sum(' . $period . ') as view_count, max(non_free_agreement) as non_free, sum(today_count) as total_count')
+            $novel_groups = NovelGroup::selectRaw('novels.novel_group_id, novel_groups.*, max(novels.created_at) as new, sum(' . $period . ') as view_count, max(non_free_agreement) as non_free, sum(today_count) as total_count')
                 ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
-                ->groupBy('novel_group_id')->orderBy('view_count', 'desc')->havingRaw('max(non_free_agreement) = 0');
+                ->join('novel_group_keywords', 'novel_group_keywords.novel_group_id', '=', 'novel_groups.id')
+                ->groupBy('novels.novel_group_id')->orderBy('view_count', 'desc')
+                ->havingRaw('max(non_free_agreement) = 0');
             //havingRaw max(non_free_agreement) == 0 means it's free
         }
+
+        //get the keywords of first category
+        $keywords = Keyword::where('category', 1)->get();
 
         $option = isset($request->option) ? $request->option : false;
         if ($option == "steady") {
@@ -116,6 +124,14 @@ class MainController extends Controller
         } else if ($option == "completed") {
             //completed
             $novel_groups = $novel_groups->where('completed', 1);
+        } else if ($keywords->contains("name", $option)) {
+            //option is equal to keyword
+            //get id from keyword
+            $keyword_id = Keyword::select('id')->where('name', $option)->get();
+
+            //make the condition
+            $novel_groups = $novel_groups->where('novel_group_keywords.keyword_id', '=', $keyword_id[0]->id);
+
         }
 
 
@@ -124,8 +140,9 @@ class MainController extends Controller
 //        echo $novel_groups;
         $novel_groups = $novel_groups->with('nicknames')->with('keywords')->withCount('novels')->paginate(config('define.pagination_long'));
 
+//        echo $keyword_id[0]->id;
 //        return response()->json($novel_groups);
-        return view('main.bests', compact('free_or_charged', 'novel_groups', 'page', 'period', 'option'));
+        return view('main.bests', compact('free_or_charged', 'novel_groups', 'page', 'period', 'option', 'keywords'));
     }
 
     public function completed(Request $request, $free_or_charged = false)
