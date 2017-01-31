@@ -83,7 +83,6 @@
                                     <span class="writer">{{$review['users']['name']}}</span>
                                 </div>
                                 <p class="post-content">{{ $review->review }}</p>
-
                                 <p class="post-info">
                                     @foreach ($review->novel_groups->keywords as $keyword)
                                         <span>{{ $keyword->name }}</span>
@@ -97,31 +96,29 @@
                 <!-- //작품목록 -->
 
                 <!-- 하단버튼 -->
-
+      
                 <!-- //하단버튼 -->
                 <!-- 페이징 -->
-
-                    @include('pagination_front', ['collection' => $reviews, 'url' => route('reader_reco')."?genre=".$genre."&search_option=".$search_option."&search_text=".$search_text."&"])
-
-                {{--<div class="page-nav">--}}
-                {{--<nav>--}}
-                {{--<ul>--}}
-                {{--<!--<li><a href="#mode_nav" class="prev-page"><span>이전</span></a></li>-->--}}
-                {{--<li><a href="#mode_nav" class="current-page">1</a></li>--}}
-                {{--<li><a href="#mode_nav">2</a></li>--}}
-                {{--<li><a href="#mode_nav">3</a></li>--}}
-                {{--<li><a href="#mode_nav">4</a></li>--}}
-                {{--<li><a href="#mode_nav">5</a></li>--}}
-                {{--<li><a href="#mode_nav">6</a></li>--}}
-                {{--<li><a href="#mode_nav">7</a></li>--}}
-                {{--<li><a href="#mode_nav">8</a></li>--}}
-                {{--<li><a href="#mode_nav">9</a></li>--}}
-                {{--<li><a href="#mode_nav">10</a></li>--}}
-                {{--<li><a href="#mode_nav" class="next-page"><span>다음</span></a></li>--}}
-                {{--</ul>--}}
-                {{--</nav>--}}
-                {{--</div>--}}
-                <!-- //페이징 -->
+            @include('pagination_front', ['collection' => $reviews, 'url' => route('reader_reco')."?genre=".$genre."&search_option=".$search_option."&search_text=".$search_text."&"])
+            {{--<div class="page-nav">--}}
+            {{--<nav>--}}
+            {{--<ul>--}}
+            {{--<!--<li><a href="#mode_nav" class="prev-page"><span>이전</span></a></li>-->--}}
+            {{--<li><a href="#mode_nav" class="current-page">1</a></li>--}}
+            {{--<li><a href="#mode_nav">2</a></li>--}}
+            {{--<li><a href="#mode_nav">3</a></li>--}}
+            {{--<li><a href="#mode_nav">4</a></li>--}}
+            {{--<li><a href="#mode_nav">5</a></li>--}}
+            {{--<li><a href="#mode_nav">6</a></li>--}}
+            {{--<li><a href="#mode_nav">7</a></li>--}}
+            {{--<li><a href="#mode_nav">8</a></li>--}}
+            {{--<li><a href="#mode_nav">9</a></li>--}}
+            {{--<li><a href="#mode_nav">10</a></li>--}}
+            {{--<li><a href="#mode_nav" class="next-page"><span>다음</span></a></li>--}}
+            {{--</ul>--}}
+            {{--</nav>--}}
+            {{--</div>--}}
+            <!-- //페이징 -->
 
                 <!-- 검색 -->
                 <form action="{{Request::url()}}" class="content-search-form">
@@ -138,21 +135,12 @@
                     </fieldset>
                 </form>
                 <!-- //검색 -->
-        </div>
-        <!-- //서브컨텐츠 -->
-        <!-- 따라다니는퀵메뉴 -->
-        <div class="aside-nav" id="aside_nav">
-            <nav>
-                <ul class="aside-menu">
-                    <li><a href="#mode_nav" class="userbtn userbtn--alarm"><span>알림</span></a></li>
-                    <li><a href="#mode_nav" class="userbtn userbtn--memo"><span>쪽지</span></a></li>
-                    <li><a href="#mode_nav" class="userbtn userbtn--myinfo"><span>마이메뉴</span></a></li>
-                    <li><a href="#mode_nav" class="userbtn userbtn--scrap"><span>선호작</span></a></li>
-                    <li><a href="#mode_nav" class="userbtn userbtn--marble"><span>보유구슬</span></a></li>
-                </ul>
-            </nav>
-        </div>
+            </div>
+            <!-- //서브컨텐츠 -->
+            <!-- 따라다니는퀵메뉴 -->
+        @include('main.quick_menu')
         <!-- //따라다니는퀵메뉴 -->
+        </div>
     </div>
 </div>
 <!-- //컨테이너 -->

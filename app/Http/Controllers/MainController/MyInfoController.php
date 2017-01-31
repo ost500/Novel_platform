@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\MainController;
 
+use App\FreeBoard;
 use App\Http\Controllers\Controller;
+use App\Review;
 use Auth;
 use Hash;
 use Illuminate\Http\Request;
@@ -14,6 +16,7 @@ class MyInfoController extends Controller
     {
         return view('main.my_page.my_info.password_again');
     }
+
     public function member_leave_password_again()
     {
         return view('main.my_page.my_info.member_leave_password_again');
@@ -43,8 +46,23 @@ class MyInfoController extends Controller
 
         return view('main.my_page.my_info.edit', compact('me'));
     }
+
     public function post_manage(Request $request)
     {
-        return view('main.my_page.my_info.post_manage');
+
+        $articles = FreeBoard::where('user_id', Auth::user()->id)->withCount('comments');
+
+        $articles = $articles->paginate(config('define.pagination_long'));
+
+        return view('main.my_page.my_info.post_manage', compact('articles'));
+    }
+
+    public function review_manage()
+    {
+        $articles = Review::where('user_id', Auth::user()->id)->withCount('comments');
+
+        $articles = $articles->paginate(config('define.pagination_long'));
+
+        return view('main.my_page.my_info.review_manage', compact('articles'));
     }
 }

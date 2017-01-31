@@ -55,7 +55,7 @@
                 <!-- //게시판목록 -->
 
                 <!-- 페이징 -->
-            @include('pagination_front', ['collection' => $articles, 'url' => route('my_info.post_manage').'?'])
+            @include('pagination_front', ['collection' => $articles, 'url' => route('my_info.review_manage').'?'])
                 <!-- //페이징 -->
             </div>
             <!-- //서브컨텐츠 -->

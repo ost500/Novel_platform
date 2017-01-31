@@ -176,11 +176,12 @@ Route::group(['prefix' => 'my_info', 'middleware' => ['auth']], function () {
     //MyPageController
     Route::get('/', ['as' => 'my_page.index', 'uses' => 'MainController\MyPageController@index']);
     Route::get('/favorites', ['as' => 'my_page.favorites', 'uses' => 'MainController\MyPageController@favorites']);
+    Route::get('/novels/new_speed', ['as' => 'my_page.novels.new_speed', 'uses' => 'MainController\MyPageController@new_speed']);
     Route::get('/novels/new_novels', ['as' => 'my_page.novels.new_novels', 'uses' => 'MainController\MyPageController@new_novels']);
 
     Route::group(['prefix' => 'personal'], function () {
         Route::get('/post_manage', ['as' => 'my_info.post_manage', 'uses' => 'MainController\MyInfoController@post_manage']);
-        Route::get('/password_again', ['as' => 'my_info.password_again', 'uses' => 'MainController\MyInfoController@password_again']);
+        Route::get('/review_manage', ['as' => 'my_info.review_manage', 'uses' => 'MainController\MyInfoController@review_manage']);        Route::get('/password_again', ['as' => 'my_info.password_again', 'uses' => 'MainController\MyInfoController@password_again']);
         Route::post('/password_again', ['as' => 'my_info.password_again.post', 'uses' => 'MainController\MyInfoController@password_again_post']);
         Route::get('/edit', ['as' => 'my_info.edit', 'uses' => 'MainController\MyInfoController@edit']);
         Route::post('/edit', ['as' => 'my_info.edit.post', 'uses' => 'UserController@my_info_update']);

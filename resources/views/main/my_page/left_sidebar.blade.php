@@ -34,13 +34,13 @@
                 <a href="{{ route('my_info.post_manage') }}" class="{{Request::is('my_info/personal/*')?"is-active":""}}">개인</a>
                 @if(Request::is('my_info/personal/*'))
                     <ul class="lnb-depth2">
-                        <li><a class="{{Request::is('my_info/personal/post_manage')?"is-active":""}}" href="#mode_nav">게시글 관리</a></li>
-                        <li><a href="#mode_nav">일반 댓글 관리</a></li>
+                        <li><a class="{{Request::is('my_info/personal/post_manage')?"is-active":""}}" href="{{ route('my_info.post_manage') }}">게시글 관리</a></li>
+                        <li><a class="{{Request::is('my_info/personal/review_manage')?"is-active":""}}" href="{{ route('my_info.review_manage') }}">추천 리뷰 관리</a></li>
                         <li><a href="#mode_nav">소설 댓글 관리</a></li>
-                        <li><a href="#mode_nav">추천 리뷰 관리</a></li>
+                        <li><a href="#mode_nav">일반 댓글 관리</a></li>
                         <li><a href="#mode_nav">1:1 문의</a></li>
                         <li><a href="{{route('my_info.password_again')}}"
-                               class="{{Request::is('my_info/personal/edit')?"is-active":""}}">정보변경</a></li>
+                               class="{{Request::is('my_info/personal/edit') || Request::is('my_info/personal/password_again')?"is-active":""}}">정보변경</a></li>
                         <li><a href="#mode_nav">쪽지</a></li>
                     </ul>
                 @endif

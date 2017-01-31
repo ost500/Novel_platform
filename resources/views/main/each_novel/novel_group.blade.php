@@ -61,7 +61,7 @@
                                 <ul class="episode-list">
                                     <li>
                                         <div class="col-no">
-                                            <span class="no">8화</span>
+                                            <span class="no">{{ $recently_visited_novel->novels->inning }}화</span>
                                             <span class="datetime">{{$recently_visited_novel->novels->created_at}}</span>
                                         </div>
                                         <div class="col-title"><a
@@ -72,31 +72,31 @@
                                     </li>
                                 </ul>
                             </section>
-                            @endif
-                                    <!-- //최근읽은회차 -->
+                    @endif
+                    <!-- //최근읽은회차 -->
 
-                            <!-- 연재회차 -->
-                            <section class="episode-list-wrap">
-                                <h2 class="episode-title">연재회차</h2>
-                                <ul class="episode-list">
-                                    @foreach($novel_group->novels as $novel)
-                                        <li>
-                                            <div class="col-no">
-                                                <span class="no">{{$loop->count - $loop->index}} 화</span>
-                                                <span class="datetime">{{$novel->created_at}}</span>
-                                            </div>
-                                            <div class="col-title"><a
-                                                        href="{{route('each_novel.novel_group_inning',['id'=>$novel->id])}}">{{str_limit($novel->title, 60)}}{{--<i
+                        <!-- 연재회차 -->
+                        <section class="episode-list-wrap">
+                            <h2 class="episode-title">연재회차</h2>
+                            <ul class="episode-list">
+                                @foreach($novel_group->novels as $novel)
+                                    <li>
+                                        <div class="col-no">
+                                            <span class="no">{{$novel->inning}} 화</span>
+                                            <span class="datetime">{{$novel->created_at}}</span>
+                                        </div>
+                                        <div class="col-title"><a
+                                                    href="{{route('each_novel.novel_group_inning',['id'=>$novel->id])}}">{{str_limit($novel->title, 60)}}{{--<i
                                                         class="up-icon">Up</i>--}}</a></div>
-                                            <div class="col-charge">@if($novel->non_free_agreement > 0) 유료 @else <span
-                                                        class="free">무료</span> @endif {{-- <span class="open">열림</span>--}}
-                                            </div>
-                                        </li>
-                                    @endforeach
+                                        <div class="col-charge">@if($novel->non_free_agreement > 0) 유료 @else <span
+                                                    class="free">무료</span> @endif {{-- <span class="open">열림</span>--}}
+                                        </div>
+                                    </li>
+                                @endforeach
 
-                                </ul>
-                            </section>
-                            <!-- //연재회차 -->
+                            </ul>
+                        </section>
+                        <!-- //연재회차 -->
                     </div>
                     <div class="episode-list-aside">
                         <!-- 작가다른작품 -->
@@ -162,18 +162,8 @@
             </div>
             <!-- //서브컨텐츠 -->
             <!-- 따라다니는퀵메뉴 -->
-            <div class="aside-nav" id="aside_nav">
-                <nav>
-                    <ul class="aside-menu">
-                        <li><a href="#mode_nav" class="userbtn userbtn--alarm"><span>알림</span></a></li>
-                        <li><a href="#mode_nav" class="userbtn userbtn--memo"><span>쪽지</span></a></li>
-                        <li><a href="#mode_nav" class="userbtn userbtn--myinfo"><span>마이메뉴</span></a></li>
-                        <li><a href="#mode_nav" class="userbtn userbtn--scrap"><span>선호작</span></a></li>
-                        <li><a href="#mode_nav" class="userbtn userbtn--marble"><span>보유구슬</span></a></li>
-                    </ul>
-                </nav>
-            </div>
-            <!-- //따라다니는퀵메뉴 -->
+        @include('main.quick_menu')
+        <!-- //따라다니는퀵메뉴 -->
         </div>
     </div>
     <!-- //컨테이너 -->

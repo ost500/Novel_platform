@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/front/css/font/nanum_gothic.css" type="text/css">
     <link rel="stylesheet" href="/front/css/font/nanum_myeongjo.css" type="text/css">
     <link rel="stylesheet" href="/front/css/icons.css" type="text/css">
-    <link rel="stylesheet" href="/front/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/front/css/style.css?v={{time()}}" type="text/css">
     <link rel="stylesheet" href="/front/css/sub.css?v={{time()}}" type="text/css">
     <link rel="stylesheet" href="/front/css/main.css?v={{time()}}" type="text/css">
     <link rel="stylesheet" href="/front/css/register.css" type="text/css">
@@ -53,28 +53,29 @@
             <div class="login-area">
                 @if(Auth::check())
                     <button type="button" class="userbtn userbtn--open" id="more_btns_open">사용자메뉴</button>
-                    <div class="more-btns" id="more_btns">
-                        <div class="layer-popup-wrap">
-                            <a href="{{ route('my_page.index') }}" class="userbtn userbtn--myinfo">마이메뉴</a>
-                            <!-- 마이페이지팝업 -->
-                            <section class="layer-popup layer-popup--myinfo">
-                                <div class="inner">
-                                    <h2 class="myinfo-user-name">Kimdal</h2>
-                                    <ul class="myinfo-nav clr">
-                                        <li class="link1">
-                                            보유구슬<br>
-                                            <a href="#mode_nav">1,170개</a>
-                                        </li>
-                                        <li class="link2">
-                                            선호작<br>
-                                            <a href="#mode_nav">32작품</a>
-                                        </li>
-                                        <li class="link3">
-                                            MY정보<br>
-                                            <a href="{{route('my_page.index')}}">관리하기</a>
-                                        </li>
-                                    </ul>
-                                    <div class="logout-btn"><a href="{{url('/logout')}}" onclick="event.preventDefault();
+
+                        <div class="more-btns" id="more_btns">
+                            <div class="layer-popup-wrap">
+                                <a href="{{ route('my_page.index') }}" class="userbtn userbtn--myinfo">마이메뉴</a>
+                                <!-- 마이페이지팝업 -->
+                                <section class="layer-popup layer-popup--myinfo">
+                                    <div class="inner">
+                                        <h2 class="myinfo-user-name">@{{ user.name.toString() }}</h2>
+                                        <ul class="myinfo-nav clr">
+                                            <li class="link1">
+                                                보유구슬<br>
+                                                <a href="#mode_nav">1,170개</a>
+                                            </li>
+                                            <li class="link2">
+                                                선호작<br>
+                                                <a href="{{ route('my_page.favorites') }}">@{{ user.favorites_count }}작품</a>
+                                            </li>
+                                            <li class="link3">
+                                                MY정보<br>
+                                                <a href="{{route('my_page.index')}}">관리하기</a>
+                                            </li>
+                                        </ul>
+                                        <div class="logout-btn"><a href="{{url('/logout')}}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">로그아웃</a></div>
                                     <form id="logout-form" action="{{ url('/logout') }}" method="POST"
                                           style="display: none;">
@@ -139,7 +140,7 @@
                                                 </div>
                                             </li>
                                         </ul>
-                                        <a href="#mode_nav" class="alarm-more-btn">더보기</a>
+                                        <a href="{{ route('mails.received') }}" class="alarm-more-btn">더보기</a>
                                     </div>
                                     <a href="#mode_nav" class="alarm-bottom-more-btn">더보기</a>
                                 </div>
@@ -216,11 +217,30 @@
                             <!-- //알림팝업 -->
                         </div>
                     </div>
+
+                    <script>
+                        var main_layout = new Vue({
+                            el: '#more_btns',
+
+                            data: {
+                                user: {"name": "{{ Auth::user()->name }}",
+                                    "favorites_count": "{{ Auth::user()->favorites->count() }}"},
+                            },
+                            mounted: function () {
+                                console.log(this.user);
+                            },
+                            methods: {
+                                submit: function (e) {
+
+                                }
+                            }
+                        });
+                    </script>
                 @else
                 <!-- 방문자버튼 -->
 
                     <a href="#mode_nav" class="userbtn userbtn--login" data-modal-id="login_form"
-                       @if($errors->has('email') || $errors->has('password')) data-modal-start @endif >로그인</a>
+                       @if($errors->has('name') || $errors->has('password')) data-modal-start @endif >로그인</a>
 
                 @endif
             </div>
@@ -252,21 +272,21 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#mode_nav">완결</a>
+                    <a href="{{route('completed')}}">완결</a>
                     <ul class="gnb-depth2">
                         <li><a href="{{route('completed')}}">유료완결</a></li>
                         <li><a href="{{route('completed',['free_or_charged'=>'free'])}}">무료완결</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="#mode_nav">커뮤니티</a>
+                    <a href="{{route('free_board')}}">커뮤니티</a>
                     <ul class="gnb-depth2">
                         <li><a href="{{route('free_board')}}">자유게시판</a></li>
                         <li><a href="{{route('reader_reco')}}">독자추천</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="#mode_nav">고객센터</a>
+                    <a href="{{route('ask.faqs').'?best'}}">고객센터</a>
                     <ul class="gnb-depth2">
                         <li><a href="{{route('ask.faqs').'?best'}}">자주묻는 질문</a></li>
                         <li><a href="{{route('ask.questions')}}">1:1 문의</a></li>
@@ -291,9 +311,9 @@
                         <strong>여우정원은</strong> 로맨스를 사랑하는 독자와 작가를 위한 로맨스 전문연재 사이트입니다.
                     </p>
                     <a href="{{ route('register') }}">
-                    <p class="str str--register">
-                        <strong>회원가입</strong> 아직 여우정원의 회원이 아니라면 지금 바로 계정을 생성해 보세요.
-                    </p>
+                        <p class="str str--register">
+                            <strong>회원가입</strong> 아직 여우정원의 회원이 아니라면 지금 바로 계정을 생성해 보세요.
+                        </p>
                     </a>
                 </div>
                 <form role="form" method="POST" action="{{ url('/login') }}" class="login-form-box">
@@ -302,9 +322,9 @@
                         <legend class="un-hidden">Login</legend>
                         <div class="field">
                             <input id="email" type="text" name="name" class="text2" title="아이디"
-                                   value="{{ old('email') }}" placeholder="여우정원계정">
-                            @if ($errors->has('email'))<span
-                                    class="alert-msg is-active">{{ $errors->first('email') }}</span>@endif
+                                   value="{{ old('name') }}" placeholder="여우정원계정">
+                            @if ($errors->has('name'))<span
+                                    class="alert-msg is-active">{{ $errors->first('name') }}</span>@endif
                         </div>
                         <div class="field">
                             <input id="password" type="password" class="text2" title="비밀번호" name="password" required

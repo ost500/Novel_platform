@@ -27,31 +27,31 @@
                     <div class="list-wrap">
                         <ol class="list">
 
-                            @foreach($weekly_best[0] as $best)
-                                <li>
-                                    <a href="{{route('free_board.detail',['id'=>$best->id])}}">{{$best->title}}</a><span
-                                            class="writer">{{str_limit($best['users']['name'],10)}}</span>
-                                </li>
-                            @endforeach
-
-                        </ol>
-                        <ol start="6" class="list">
-                            @if($weekly_best->offsetExists(1))
-                                @foreach($weekly_best[1] as $best)
+                                @foreach($weekly_best[0] as $best)
                                     <li>
                                         <a href="{{route('free_board.detail',['id'=>$best->id])}}">{{$best->title}}</a><span
                                                 class="writer">{{str_limit($best['users']['name'],10)}}</span>
                                     </li>
                                 @endforeach
-                            @endif
 
-                        </ol>
-                    </div>
+                            </ol>
+                            <ol start="6" class="list">
+                                @if($weekly_best->offsetExists(1))
+                                    @foreach($weekly_best[1] as $best)
+                                        <li>
+                                            <a href="{{route('free_board.detail',['id'=>$best->id])}}">{{$best->title}}</a><span
+                                                    class="writer">{{str_limit($best['users']['name'],10)}}</span>
+                                        </li>
+                                    @endforeach
+                                @endif
 
-                </section>
-                @endif
+                            </ol>
+                        </div>
 
-                        <!-- //위클리베스트게시물 -->
+                    </section>
+            @endif
+
+            <!-- //위클리베스트게시물 -->
 
                 <!-- 게시판목록 -->
                 <table class="bbs-list bbs-list--free">
@@ -132,23 +132,14 @@
                     </fieldset>
                 </form>
                 <!-- //검색 -->
-        </div>
-        <!-- //서브컨텐츠 -->
-        <!-- 따라다니는퀵메뉴 -->
-        <div class="aside-nav" id="aside_nav">
-            <nav>
-                <ul class="aside-menu">
-                    <li><a href="#mode_nav" class="userbtn userbtn--alarm"><span>알림</span></a></li>
-                    <li><a href="#mode_nav" class="userbtn userbtn--memo"><span>쪽지</span></a></li>
-                    <li><a href="#mode_nav" class="userbtn userbtn--myinfo"><span>마이메뉴</span></a></li>
-                    <li><a href="#mode_nav" class="userbtn userbtn--scrap"><span>선호작</span></a></li>
-                    <li><a href="#mode_nav" class="userbtn userbtn--marble"><span>보유구슬</span></a></li>
-                </ul>
-            </nav>
-        </div>
+            </div>
+            <!-- //서브컨텐츠 -->
+            <!-- 따라다니는퀵메뉴 -->
+        @include('main.quick_menu')
         <!-- //따라다니는퀵메뉴 -->
+        </div>
     </div>
-</div>
+
 <!-- //컨테이너 -->
 <script>
     /*   $(".alert-dismissable").fadeTo(2000, 500).slideUp(500, function(){

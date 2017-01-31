@@ -15,9 +15,11 @@
                             <a href="{{route('reader_reco')}}" class="is-active">독자추천</a>
                             <ul class="lnb-depth2">
                                 <li><a href="{{route('reader_reco')}}"
-                                       @if($review->novel_groups->keywords[0]->name=='%')class="is-active"@endif>전체</a></li>
+                                       @if($review->novel_groups->keywords[0]->name=='%')class="is-active"@endif>전체</a>
+                                </li>
                                 <li><a href="{{route('reader_reco')}}?genre=현대판타지"
-                                       @if($review->novel_groups->keywords[0]->name=='현대판타지')class="is-active"@endif>현대판타지</a></li>
+                                       @if($review->novel_groups->keywords[0]->name=='현대판타지')class="is-active"@endif>현대판타지</a>
+                                </li>
                                 <li><a href="{{route('reader_reco')}}?genre=사극/현대물"
                                        @if($review->novel_groups->keywords[0]->name=='사극/현대물')class="is-active"@endif>사극/현대물</a>
                                 </li>
@@ -49,9 +51,11 @@
                                        @if($review->novel_groups->keywords[1]->name=='할리퀸로맨스')class="is-active"@endif>할리퀸로맨스</a>
                                 </li>
                                 <li><a href="{{route('reader_reco')}}?genre=스포츠"
-                                       @if($review->novel_groups->keywords[1]->name=='스포츠')class="is-active"@endif>스포츠</a></li>
+                                       @if($review->novel_groups->keywords[1]->name=='스포츠')class="is-active"@endif>스포츠</a>
+                                </li>
                                 <li><a href="{{route('reader_reco')}}?genre=연예계"
-                                       @if($review->novel_groups->keywords[1]->name=='연예계')class="is-active"@endif>연예계</a></li>
+                                       @if($review->novel_groups->keywords[1]->name=='연예계')class="is-active"@endif>연예계</a>
+                                </li>
                             </ul>
                         </li>
                     </ul>
@@ -217,18 +221,8 @@
             </div>
             <!-- //서브컨텐츠 -->
             <!-- 따라다니는퀵메뉴 -->
-            <div class="aside-nav" id="aside_nav">
-                <nav>
-                    <ul class="aside-menu">
-                        <li><a href="#mode_nav" class="userbtn userbtn--alarm"><span>알림</span></a></li>
-                        <li><a href="#mode_nav" class="userbtn userbtn--memo"><span>쪽지</span></a></li>
-                        <li><a href="#mode_nav" class="userbtn userbtn--myinfo"><span>마이메뉴</span></a></li>
-                        <li><a href="#mode_nav" class="userbtn userbtn--scrap"><span>선호작</span></a></li>
-                        <li><a href="#mode_nav" class="userbtn userbtn--marble"><span>보유구슬</span></a></li>
-                    </ul>
-                </nav>
-            </div>
-            <!-- //따라다니는퀵메뉴 -->
+        @include('main.quick_menu')
+        <!-- //따라다니는퀵메뉴 -->
         </div>
     </div>
     <!-- //컨테이너 -->

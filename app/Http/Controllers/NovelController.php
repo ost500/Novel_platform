@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Comment;
+use App\Events\NewSpeedEvent;
 use App\Novel;
 use App\NovelGroup;
 use App\User;
@@ -144,6 +145,7 @@ class NovelController extends Controller
 
         flash("회차 저장을 성공했습니다");
 
+        event(new NewSpeedEvent("novel", "소설 '" . $new_novel->novel_groups->title . "'의 " . $new_novel->inning . "회 신규 회차가 등록 되었습니다.", "link", $new_novel->novel_groups->cover_photo, $new_novel->novel_groups->id));
 
     }
 
@@ -339,6 +341,7 @@ class NovelController extends Controller
         $novel->save();
 
     }
+
     public function cancel_adult($id)
     {
         $novel = Novel::find($id);
