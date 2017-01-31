@@ -36,8 +36,8 @@
                     <ul class="lnb-depth2">
                         <li><a class="{{Request::is('my_info/personal/post_manage')?"is-active":""}}" href="{{ route('my_info.post_manage') }}">게시글 관리</a></li>
                         <li><a class="{{Request::is('my_info/personal/review_manage')?"is-active":""}}" href="{{ route('my_info.review_manage') }}">추천 리뷰 관리</a></li>
-                        <li><a href="#mode_nav">소설 댓글 관리</a></li>
-                        <li><a href="#mode_nav">일반 댓글 관리</a></li>
+                        <li><a class="{{Request::is('my_info/personal/novel_comments_manage')?"is-active":""}}" href="{{ route('my_info.novel_comments_manage') }}">소설 댓글 관리</a></li>
+                        <li><a  class="{{Request::is('my_info/personal/free_board_review_comments_manage')?"is-active":""}}" href="{{ route('my_info.free_board_review_comments_manage') }}">일반 댓글 관리</a></li>
                         <li><a href="#mode_nav">1:1 문의</a></li>
                         <li><a href="{{route('my_info.password_again')}}"
                                class="{{Request::is('my_info/personal/edit') || Request::is('my_info/personal/password_again')?"is-active":""}}">정보변경</a></li>

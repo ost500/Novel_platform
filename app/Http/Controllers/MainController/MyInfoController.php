@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers\MainController;
 
+use App\Comment;
 use App\FreeBoard;
+use App\FreeBoardComment;
 use App\Http\Controllers\Controller;
 use App\Review;
+use App\ReviewComment;
+use App\User;
 use Auth;
 use Hash;
 use Illuminate\Http\Request;
 use Validator;
+use Illuminate\Database\Eloquent\Collection;
 
 class MyInfoController extends Controller
 {
@@ -64,5 +69,66 @@ class MyInfoController extends Controller
         $articles = $articles->paginate(config('define.pagination_long'));
 
         return view('main.my_page.my_info.review_manage', compact('articles'));
+    }
+
+    public function novel_comments_manage(Request $request)
+    {
+        //  $novel_comments = $request->user()->comments()->with('users')->with('novels')->paginate(config('define.pagination_long'))->count();
+
+        //get data
+        $novel_comments = Comment::join('users', 'users.id', '=', 'comments.user_id')
+            ->join('novels', 'novels.id', '=', 'comments.novel_id')
+            ->select(['comments.*', 'users.name as user_name', 'novels.title as novel_title'])
+            ->where('comments.user_id', Auth::user()->id);
+
+        //Set the Order
+        $order = $request->get('order');
+
+        if ($order == 'latest' or $order == '') {
+            $novel_comments = $novel_comments->latest();
+        } else {
+            $novel_comments->orderBy('created_at');
+        }
+
+        //Apply Pagination
+        $novel_comments = $novel_comments->paginate(config('define.pagination_long'));
+        return view('main.my_page.my_info.novel_group_comments_manage', compact('novel_comments', 'order'));
+
+    }
+
+    public function free_board_review_comments_manage(Request $request)
+    {
+        //get data based on filter
+        $filter = $request->get('filter');
+        if ($filter == 'free_board_comments' or $filter == '') {
+            /*  $comments = $request->user()->free_board_comments();*/
+            $comments = FreeBoardComment::join('users', 'users.id', '=', 'free_board_comments.user_id')
+                ->join('free_boards', 'free_boards.id', '=', 'free_board_comments.free_board_id')
+                ->select(['free_board_comments.*', 'users.name as user_name', 'free_boards.title'])
+                ->where('free_board_comments.user_id', Auth::user()->id);
+
+
+        } else {
+            /*$comments = $request->user()->review_comments();*/
+            $comments = ReviewComment::join('users', 'users.id', '=', 'review_comments.user_id')
+                ->join('reviews', 'reviews.id', '=', 'review_comments.review_id')
+                ->select(['review_comments.*', 'users.name as user_name', 'reviews.title'])
+                ->where('review_comments.user_id', Auth::user()->id);
+        }
+
+        //Set the Order
+        $order = $request->get('order');
+
+        if ($order == 'latest' or $order == '') {
+            $comments = $comments->latest();
+        } else {
+            $comments->orderBy('created_at');
+        }
+
+        //Apply Pagination
+        $comments = $comments->paginate(config('define.pagination_long'));
+
+
+        return view('main.my_page.my_info.free_board_review_comments_manage', compact('comments', 'filter', 'order'));
     }
 }
