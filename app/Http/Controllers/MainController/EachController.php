@@ -97,5 +97,10 @@ class EachController extends Controller
         return view('main.each_novel.novel_group_inning', compact('novel_group_inning', 'novel_group_inning_comments'));
     }
 
+    public function novel_group_review($novel_group_id)
+    {
+        return view('main.each_novel.novel_group_review',compact('novel_group_id'));
+    }
+
 
 }

@@ -6,6 +6,7 @@ use App\NovelGroup;
 use App\Review;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Validator;
 
 class ReviewController extends Controller
 {
@@ -38,6 +39,19 @@ class ReviewController extends Controller
     public function store(Request $request)
     {
         //
+        Validator::make($request->all(), [
+            'title' => 'required|max:255',
+            'review' => 'required',
+        ], [
+            'title.required' => '제목은 필수 입니다.',
+            'title.max' =>   '제목은 반드시 255 자리보다 작아야 합니다.',
+            'review.required' => '내용은 필수 입니다.',
+
+        ])->validate();
+
+        $request->user()->reviews()->create($request->all());
+        flash('독자추천 글이 성공적으로 등록 되었습니다');
+        return redirect()->route('reader_reco');
     }
 
     /**

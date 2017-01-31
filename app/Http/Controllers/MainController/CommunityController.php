@@ -45,6 +45,15 @@ class CommunityController extends Controller
         return view('main.community.free_board_detail', compact('article', 'next_article', 'prev_article'));
     }
 
+
+
+    public function free_board_write(Request $request)
+    {
+
+      return view('main.community.free_board_write');
+    }
+
+
     public function reader_reco(Request $request)
     {
         $reviews = Review::selectRaw('reviews.*, novel_groups.*, sum(total_count) as total_count, reviews.id')
@@ -101,4 +110,5 @@ class CommunityController extends Controller
 //        return response()->json($review->id);
         return view('main.community.reader_reco_detail', compact('review', 'next_review', 'prev_review'));
     }
+
 }

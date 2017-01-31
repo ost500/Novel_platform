@@ -31,6 +31,15 @@ class Review extends Model
     use SoftDeletes;
     protected $dates = ['deleted_at'];
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'user_id','novel_group_id', 'title','review',
+    ];
+
     public function users()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');

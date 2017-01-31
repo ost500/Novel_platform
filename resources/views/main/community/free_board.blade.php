@@ -1,51 +1,57 @@
 @extends('layouts.main_layout')
 @section('content')
 
-    <!-- 컨테이너 -->
-    <div class="container">
-        <div class="wrap">
-            <!-- LNB -->
+        <!-- 컨테이너 -->
+<div class="container">
+    <div class="wrap">
+        <!-- LNB -->
         @include('main.community.LNB')
-        <!-- //LNB -->
+                <!-- //LNB -->
 
-            <!-- 서브컨텐츠 -->
-            <div class="content" id="content">
-                <!-- 위클리베스트게시물 -->
-                @if($weekly_best->offsetExists(0))
-                    <section class="weekly-best">
-                        <h2 class="title">
-                            <span class="str1">Weekly</span>
-                            <span class="str2">Best</span>
-                        </h2>
+        <!-- 서브컨텐츠 -->
+        <div class="content" id="content">
+            @if(Session::has('flash_message'))
+                {{-- important, success, warning, danger and info --}}
+                <div class="alert alert-success">
+                    {{Session('flash_message')}}
+                </div>
+                @endif
+            <!-- 위클리베스트게시물 -->
+            @if($weekly_best->offsetExists(0))
+                <section class="weekly-best">
+                    <h2 class="title">
+                        <span class="str1">Weekly</span>
+                        <span class="str2">Best</span>
+                    </h2>
 
-                        <div class="list-wrap">
-                            <ol class="list">
+                    <div class="list-wrap">
+                        <ol class="list">
 
-                                @foreach($weekly_best[0] as $best)
+                            @foreach($weekly_best[0] as $best)
+                                <li>
+                                    <a href="{{route('free_board.detail',['id'=>$best->id])}}">{{$best->title}}</a><span
+                                            class="writer">{{str_limit($best['users']['name'],10)}}</span>
+                                </li>
+                            @endforeach
+
+                        </ol>
+                        <ol start="6" class="list">
+                            @if($weekly_best->offsetExists(1))
+                                @foreach($weekly_best[1] as $best)
                                     <li>
                                         <a href="{{route('free_board.detail',['id'=>$best->id])}}">{{$best->title}}</a><span
                                                 class="writer">{{str_limit($best['users']['name'],10)}}</span>
                                     </li>
                                 @endforeach
+                            @endif
 
-                            </ol>
-                            <ol start="6" class="list">
-                                @if($weekly_best->offsetExists(1))
-                                    @foreach($weekly_best[1] as $best)
-                                        <li>
-                                            <a href="{{route('free_board.detail',['id'=>$best->id])}}">{{$best->title}}</a><span
-                                                    class="writer">{{str_limit($best['users']['name'],10)}}</span>
-                                        </li>
-                                    @endforeach
-                                @endif
+                        </ol>
+                    </div>
 
-                            </ol>
-                        </div>
+                </section>
+                @endif
 
-                    </section>
-            @endif
-
-            <!-- //위클리베스트게시물 -->
+                        <!-- //위클리베스트게시물 -->
 
                 <!-- 게시판목록 -->
                 <table class="bbs-list bbs-list--free">
@@ -79,33 +85,37 @@
                 <!-- //게시판목록 -->
 
                 <!-- 하단버튼 -->
-                <div class="list-bottom-btns">
+                <div class="list-bottom-btns" style="z-index:0;">
                     <div class="right-btns">
-                        <a href="#mode_nav" class="btn">글쓰기</a>
+                        <a href="{{ route('free_board.write')}}" class="btn">글쓰기</a>
                     </div>
+
+                </div>
+                <div class="page-nav" style="position: relative;">
+                    @include('pagination_front', ['collection' => $articles, 'url' => route('free_board')."?search_option=".$search_option."&search_text=".$search_text."&"])
                 </div>
                 <!-- //하단버튼 -->
                 <!-- 페이징 -->
-            @include('pagination_front', ['collection' => $articles, 'url' => route('free_board')."?search_option=".$search_option."&search_text=".$search_text."&"])
-            {{--<div class="page-nav">--}}
-            {{--<nav>--}}
-            {{--<ul>--}}
-            {{--<!--<li><a href="#mode_nav" class="prev-page"><span>이전</span></a></li>-->--}}
-            {{--<li><a href="#mode_nav" class="current-page">1</a></li>--}}
-            {{--<li><a href="#mode_nav">2</a></li>--}}
-            {{--<li><a href="#mode_nav">3</a></li>--}}
-            {{--<li><a href="#mode_nav">4</a></li>--}}
-            {{--<li><a href="#mode_nav">5</a></li>--}}
-            {{--<li><a href="#mode_nav">6</a></li>--}}
-            {{--<li><a href="#mode_nav">7</a></li>--}}
-            {{--<li><a href="#mode_nav">8</a></li>--}}
-            {{--<li><a href="#mode_nav">9</a></li>--}}
-            {{--<li><a href="#mode_nav">10</a></li>--}}
-            {{--<li><a href="#mode_nav" class="next-page"><span>다음</span></a></li>--}}
-            {{--</ul>--}}
-            {{--</nav>--}}
-            {{--</div>--}}
-            <!-- //페이징 -->
+
+                {{--<div class="page-nav">--}}
+                {{--<nav>--}}
+                {{--<ul>--}}
+                {{--<!--<li><a href="#mode_nav" class="prev-page"><span>이전</span></a></li>-->--}}
+                {{--<li><a href="#mode_nav" class="current-page">1</a></li>--}}
+                {{--<li><a href="#mode_nav">2</a></li>--}}
+                {{--<li><a href="#mode_nav">3</a></li>--}}
+                {{--<li><a href="#mode_nav">4</a></li>--}}
+                {{--<li><a href="#mode_nav">5</a></li>--}}
+                {{--<li><a href="#mode_nav">6</a></li>--}}
+                {{--<li><a href="#mode_nav">7</a></li>--}}
+                {{--<li><a href="#mode_nav">8</a></li>--}}
+                {{--<li><a href="#mode_nav">9</a></li>--}}
+                {{--<li><a href="#mode_nav">10</a></li>--}}
+                {{--<li><a href="#mode_nav" class="next-page"><span>다음</span></a></li>--}}
+                {{--</ul>--}}
+                {{--</nav>--}}
+                {{--</div>--}}
+                <!-- //페이징 -->
 
                 <!-- 검색 -->
                 <form action="{{Request::url()}}" class="content-search-form">
@@ -122,23 +132,30 @@
                     </fieldset>
                 </form>
                 <!-- //검색 -->
-            </div>
-            <!-- //서브컨텐츠 -->
-            <!-- 따라다니는퀵메뉴 -->
-            <div class="aside-nav" id="aside_nav">
-                <nav>
-                    <ul class="aside-menu">
-                        <li><a href="#mode_nav" class="userbtn userbtn--alarm"><span>알림</span></a></li>
-                        <li><a href="#mode_nav" class="userbtn userbtn--memo"><span>쪽지</span></a></li>
-                        <li><a href="#mode_nav" class="userbtn userbtn--myinfo"><span>마이메뉴</span></a></li>
-                        <li><a href="#mode_nav" class="userbtn userbtn--scrap"><span>선호작</span></a></li>
-                        <li><a href="#mode_nav" class="userbtn userbtn--marble"><span>보유구슬</span></a></li>
-                    </ul>
-                </nav>
-            </div>
-            <!-- //따라다니는퀵메뉴 -->
         </div>
+        <!-- //서브컨텐츠 -->
+        <!-- 따라다니는퀵메뉴 -->
+        <div class="aside-nav" id="aside_nav">
+            <nav>
+                <ul class="aside-menu">
+                    <li><a href="#mode_nav" class="userbtn userbtn--alarm"><span>알림</span></a></li>
+                    <li><a href="#mode_nav" class="userbtn userbtn--memo"><span>쪽지</span></a></li>
+                    <li><a href="#mode_nav" class="userbtn userbtn--myinfo"><span>마이메뉴</span></a></li>
+                    <li><a href="#mode_nav" class="userbtn userbtn--scrap"><span>선호작</span></a></li>
+                    <li><a href="#mode_nav" class="userbtn userbtn--marble"><span>보유구슬</span></a></li>
+                </ul>
+            </nav>
+        </div>
+        <!-- //따라다니는퀵메뉴 -->
     </div>
-    <!-- //컨테이너 -->
-
+</div>
+<!-- //컨테이너 -->
+<script>
+    /*   $(".alert-dismissable").fadeTo(2000, 500).slideUp(500, function(){
+     $(".alert-dismissable").alert('close');
+     });*/
+    $(".alert").delay(4000).slideUp(200, function () {
+        $(this).alert('close');
+    });
+</script>
 @endsection
