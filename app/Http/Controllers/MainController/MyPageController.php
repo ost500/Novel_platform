@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\MainController;
 
 use App\Keyword;
-use Barryvdh\Reflection\DocBlock\Type\Collection;
+use App\NewSpeed;
+use App\Notification;
+
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\NovelGroup;
@@ -92,7 +95,7 @@ class MyPageController extends Controller
     public function new_novels(Request $request)
     {
 
-       //get new novels
+        //get new novels
         $new_novels = NovelGroup::selectRaw('novel_groups.*,novels.novel_group_id,max(novels.created_at) as new')
             ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
             ->groupBy('novels.novel_group_id')
@@ -103,17 +106,26 @@ class MyPageController extends Controller
         $other_novels = array();
         foreach ($new_novels as $novel) {
 
-            $other_novels[$novel->user_id] =   NovelGroup::selectRaw('novel_groups.*,novels.novel_group_id,max(novels.created_at) as new')
+            $other_novels[$novel->user_id] = NovelGroup::selectRaw('novel_groups.*,novels.novel_group_id,max(novels.created_at) as new')
                 ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
                 ->groupBy('novels.novel_group_id')
                 ->where([['novel_groups.user_id', '=', $novel->user_id], ['novel_groups.id', '<>', $novel->id]])
                 ->with('nicknames')
                 ->orderBy('new', 'desc')->take(2)->get();
         }
-       // return response()->json(['aa'=>$new_novels,'bb'=>$other_novels]);
+        // return response()->json(['aa'=>$new_novels,'bb'=>$other_novels]);
         return view('main.my_page.novel.new_novels', compact('new_novels', 'other_novels'));
     }
 
+    public function new_speed()
+    {
+
+        $new_speeds = Auth::user()->new_speeds;
+
+//        return response()->json($new_novel);
+
+        return view('main.my_page.novel.new_speed', compact('new_speeds'));
+    }
 
 }
 

@@ -138,4 +138,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(FreeBoardLike::class);
     }
+
+    public function new_speeds()
+    {
+        return $this->hasMany(NewSpeed::class);
+    }
 }

@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/front/css/font/nanum_gothic.css" type="text/css">
     <link rel="stylesheet" href="/front/css/font/nanum_myeongjo.css" type="text/css">
     <link rel="stylesheet" href="/front/css/icons.css" type="text/css">
-    <link rel="stylesheet" href="/front/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/front/css/style.css?v={{time()}}" type="text/css">
     <link rel="stylesheet" href="/front/css/sub.css?v={{time()}}" type="text/css">
     <link rel="stylesheet" href="/front/css/main.css?v={{time()}}" type="text/css">
     <link rel="stylesheet" href="/front/css/register.css" type="text/css">
