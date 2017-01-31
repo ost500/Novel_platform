@@ -177,12 +177,23 @@ Route::group(['prefix' => 'my_info', 'middleware' => ['auth']], function () {
 
     Route::group(['prefix' => 'personal'], function () {
         Route::get('/post_manage', ['as' => 'my_info.post_manage', 'uses' => 'MainController\MyInfoController@post_manage']);
-        Route::get('/review_manage', ['as' => 'my_info.review_manage', 'uses' => 'MainController\MyInfoController@review_manage']);        Route::get('/password_again', ['as' => 'my_info.password_again', 'uses' => 'MainController\MyInfoController@password_again']);
+        Route::get('/review_manage', ['as' => 'my_info.review_manage', 'uses' => 'MainController\MyInfoController@review_manage']);
+        Route::get('/password_again', ['as' => 'my_info.password_again', 'uses' => 'MainController\MyInfoController@password_again']);
         Route::post('/password_again', ['as' => 'my_info.password_again.post', 'uses' => 'MainController\MyInfoController@password_again_post']);
         Route::get('/edit', ['as' => 'my_info.edit', 'uses' => 'MainController\MyInfoController@edit']);
         Route::post('/edit', ['as' => 'my_info.edit.post', 'uses' => 'UserController@my_info_update']);
         Route::get('/member_leave/password_again', ['as' => 'my_info.member_leave.password_again', 'uses' => 'MainController\MyInfoController@member_leave_password_again']);
         Route::post('/member_leave', ['as' => 'my_info.member_leave', 'uses' => 'UserController@member_leave']);
+    });
+
+    Route::group(['prefix' => 'use_info'], function () {
+        Route::get('/charge_bead',['as' => 'my_info.charge_bead', 'uses'=> 'MainController\MyInfoController@charge_bead']);
+        Route::get('/charge_list',['as' => 'my_info.charge_list', 'uses'=> 'MainController\MyInfoController@charge_list']);
+        Route::get('/manage_piece',['as' => 'my_info.manage_piece', 'uses'=> 'MainController\MyInfoController@manage_piece']);
+        Route::get('/purchased_novel_list',['as' => 'my_info.purchased_novel_list', 'uses'=> 'MainController\MyInfoController@purchased_novel_list']);
+        Route::get('/received_gift',['as' => 'my_info.received_gift', 'uses'=> 'MainController\MyInfoController@received_gift']);
+        Route::get('/sent_gift',['as' => 'my_info.sent_gift', 'uses'=> 'MainController\MyInfoController@sent_gift']);
+
     });
 });
 

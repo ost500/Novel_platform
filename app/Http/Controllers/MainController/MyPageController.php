@@ -46,7 +46,9 @@ class MyPageController extends Controller
             ->where('favorites.user_id', $my_profile->id)->with('nicknames')
             ->orderBy('new', 'desc')->take(5)->get();
 
-        return view('main.my_page.index', compact('my_profile', 'recently_purchased_novels', 'recently_updated_favorites'));
+        $favorites_count = $my_profile->favorites->count();
+
+        return view('main.my_page.index', compact('my_profile', 'recently_purchased_novels', 'recently_updated_favorites', 'favorites_count'));
     }
 
     public function favorites(Request $request)
