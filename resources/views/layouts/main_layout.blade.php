@@ -352,40 +352,35 @@
     <!-- //로그인모달 -->
     <!-- 통합검색모달 -->
     <div id="search_form" class="search-modal" tabindex="0">
-        <form name="search_form" action="#" class="search-form">
+        <form name="search_form" action="{{route('search.index')}}" class="search-form" method="post">
+            {{csrf_field()}}
             <fieldset class="wrap clr">
                 <legend>검색</legend>
                 <div class="search-form-basic">
                     <strong class="search-form-title">일반검색</strong>
                     <span class="selectbox">
-                        <select title="검색옵션">
-                            <option>전체</option>
-                            <option>서브</option>
-                            <option>서브2</option>
+                        <select title="검색옵션" name="search_type" id="search_type" >
+                            <option value="전체">전체</option>
+                            <option value="서브">서브</option>
+                            <option value="서브2">서브2</option>
                         </select>
                     </span>
-                    <div class="input"><input type="text" class="text1" title="검색어"></div>
+                    <div class="input"><input type="text" name="title" id="title" class="text1"  title="검색어"></div>
                 </div>
                 <div class="search-form-hash-tag">
                     <strong class="search-form-title">해시태그 검색</strong>
-                    <div class="input"><input type="text" class="text1" title="해시태그 검색어"></div>
+                    <div class="input"><input type="text" name="keyword_name" id="keyword_name"  class="text1"  value="" title="해시태그 검색어"></div>
                     <div class="submit">
                         <button type="submit" class="userbtn userbtn--search-submit">검색</button>
                     </div>
                     <div class="hot-hash-tag">
                         <strong class="title">자주 찾는 해시태그</strong>
                         <div class="list">
-                            <a href="#mode_nav">#현대</a> <a href="#mode_nav">#시대</a> <a href="#mode_nav">#로맨스판타지</a><br>
-                            <a href="#mode_nav">#메디컬</a> <a href="#mode_nav">#남장여자</a> <a href="#mode_nav">#회귀물 <a
-                                        href="#mode_nav">#원나잇</a> <a href="#mode_nav">#계약물 <a href="#mode_nav">#정략결혼 <a
-                                                href="#mode_nav">#나쁜남자</a> <a href="#mode_nav">#재벌남</a> <a
-                                                href="#mode_nav">#후회남</a> <a href="#mode_nav">#철벽녀 <a href="#mode_nav">#로맨틱코미디</a>
-                                            <a href="#mode_nav">#피폐물</a> <a href="#mode_nav">#잔잔물</a> <a
-                                                    href="#mode_nav">#신파</a>
-                                        </a>
-                                    </a>
-                                </a>
-                            </a>
+                            @php $keywords= getKeywords(); @endphp
+                            @foreach($keywords as $keyword)
+                            <a href="#dddd"  onclick="searchKeyword(this)">#{{$keyword->name}}</a>
+                            @endforeach
+
                         </div>
                     </div>
                 </div>
@@ -447,6 +442,21 @@
     <!-- //푸터내용 -->
 </div>
 <!-- //푸터 -->
+<script>
+    function searchKeyword(keyword){
+
+      var keyword_text=keyword.text.replace("#", "");console.log(keyword_text);
+        $('#keyword_name').val(keyword_text);
+       /* $.post('{{--{{ route('search.index') }}--}}', {'search_type':,'keyword_name':keyword.value}, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                .then(function (response) {
+                    location.reload();
+
+                }).catch(function (errors) {
+                    console.log(errors);
+                });*/
+    }
+
+</script>
 <script src="/front/js/common.js"></script>
 <!--[if lte IE 9]>
 <script src="js/jquery.placeholder.min.js"></script>
@@ -460,6 +470,9 @@
 <script> $(document).ready(function () {
     $('input:radio, input:checkbox').checkedPolyfill();
 }); </script>
+
+
+
 <![endif]-->
 </body>
 </html>
