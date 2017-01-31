@@ -151,14 +151,18 @@ Route::group(['prefix' => 'community'], function () {
     Route::get('freeboard/{id}', ['as' => 'free_board.detail', 'uses' => 'MainController\CommunityController@free_board_detail']);
     // same url diffrent request for the redirection after login
     Route::post('freeboard/{id}', ['as' => 'freeboard.comment', 'middleware' => 'auth', 'uses' => 'FreeBoardCommentController@store']);
+    Route::get('freeboard_write', ['middleware'=>'auth','as' => 'free_board.write', 'uses' => 'MainController\CommunityController@free_board_write']);
+    Route::post('freeboard/', ['as' => 'free_board.store', 'uses' => 'FreeBoardController@store']);
 
     Route::get('reader_reco', ['as' => 'reader_reco', 'uses' => 'MainController\CommunityController@reader_reco']);
     Route::get('reader_reco/{id}', ['as' => 'reader_reco.detail', 'uses' => 'MainController\CommunityController@reader_reco_detail']);
     Route::post('reader_reco/{id}', ['as' => 'reader_reco.comment', 'middleware' => 'auth', 'uses' => 'ReviewCommentController@store']);
+
 });
 
 //EachController
 Route::get('/novel_group/{id}', ['as' => 'each_novel.novel_group', 'uses' => 'MainController\EachController@novel_group']);
+Route::get('novel_group/review/{id}', ['middleware'=>'auth','as' => 'each_novel.novel_group.review', 'uses' => 'MainController\EachController@novel_group_review']);
 Route::get('/novel_group_inning/{id}', ['as' => 'each_novel.novel_group_inning', 'uses' => 'MainController\EachController@novel_group_inning']);
 
 //AskController

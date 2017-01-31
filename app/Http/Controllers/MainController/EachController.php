@@ -57,7 +57,9 @@ class EachController extends Controller
     public function novel_group_inning($novel_id)
     {
         //get the novel data
-        $novel_group_inning = Novel::where('id', $novel_id)->with('comments')->first();
+        $novel_group_inning = Novel::where('id', $novel_id)->with(['comments' => function ($q) {
+            $q->latest();
+        }])->first();
 
         //if user is logged in save this novel to recently visited
         if (Auth::check()) {
@@ -91,7 +93,13 @@ class EachController extends Controller
             }
         }
 
+
         return view('main.each_novel.novel_group_inning', compact('novel_group_inning', 'novel_group_inning_comments'));
+    }
+
+    public function novel_group_review($novel_group_id)
+    {
+        return view('main.each_novel.novel_group_review',compact('novel_group_id'));
     }
 
 

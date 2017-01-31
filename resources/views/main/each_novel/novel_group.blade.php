@@ -33,9 +33,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="novel-view"><a
-                                href="{{route('each_novel.novel_group_inning',['id'=>$novel_group->novels[0]->id])}}"
-                                class="btn btn--special">첫화보기</a></div>
+                    <div class="novel-view">
+                        <a  href="{{route('each_novel.novel_group.review',['id'=>$novel_group->id])}}"
+                            class="btn btn--special" style="width:140px;">독자추천 글쓰기</a>
+                        <a  href="{{route('each_novel.novel_group_inning',['id'=>$novel_group->novels[0]->id])}}"
+                                class="btn btn--special">첫화보기</a>
+
+                    </div>
+
                     <div class="scrap-btns">
 
                         <a href="#" v-on:click="addToFavorite('{{$novel_group->id}}')" id="add_favorite"
