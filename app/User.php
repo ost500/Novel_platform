@@ -134,6 +134,11 @@ class User extends Authenticatable
         return $this->hasMany(FreeBoardComment::class);
     }
 
+    public function review_comments()
+    {
+        return $this->hasMany(ReviewComment::class);
+    }
+
     public function free_board_likes()
     {
         return $this->hasMany(FreeBoardLike::class);
