@@ -1,7 +1,7 @@
 @extends('layouts.main_layout')
 @section('content')
         <!-- 컨테이너 -->
-<div class="container" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<div class="container" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
     <div class="wrap" id="free_board_review_comments">
         <!-- LNB -->
         @include('main.my_page.left_sidebar')
@@ -47,16 +47,37 @@
                 </div>
                 <ul class="comment-list">
 
-                   @foreach($comments as $comment)
+                    @foreach($comments as $comment)
                         <li>
                             <div class="comment-wrap  @if($comment->parent_id != 0) is-reply @endif">
                                 <div class="comment-info"><span class="parent-subject">{{$comment->title}}</span><span
                                             class="writer">{{$comment->user_name}}</span></div>
-                                <div class="comment-btns"><a href="#mode_nav">수정</a><a href="#mode_nav" @if($comment->review_id) v-on:click="remove_comment('{{$comment->id}}','review')" @else v-on:click="remove_comment('{{$comment->id}}','free_board')"  @endif>삭제</a></div>
+                                <div class="comment-btns">
+                                    <a href="#mode_nav" v-on:click="comment_box_show({{$comment->id}})">수정</a>
+                                    <a href="#mode_nav"
+                                       @if($comment->review_id) v-on:click="remove_comment('{{$comment->id}}','review')"
+                                       @else v-on:click="remove_comment('{{$comment->id}}','free_board')" @endif >
+                                        삭제 </a>
+                                </div>
                                 <div class="comment-content">
                                     <p>{{$comment->comment}}</p>
                                 </div>
-                                <div class="comment-etc-info">@if(!isset($filter) or $filter =='free_board_comments' ) 자유게시판 @else 독자추천 @endif<span
+                                <div class="comment-content " id="comment_box{{$comment->id}}"
+                                     v-if="display.id =={{$comment->id}} && display.status">
+                                    <textarea name="comment" id="comment{{$comment->id}}" rows="3"
+                                              style="width:65%;">{{$comment->comment}}</textarea>
+
+                                    <button name="edit" id="edit{{$comment->id}}" @if($comment->review_id)
+                                    v-on:click="update_comment('{{$comment->id}}','review')"
+                                            @else    v-on:click="update_comment('{{$comment->id}}','free_board')" @endif
+                                            class="btn btn-primary inline"
+                                            style="width:100px;height:51px;vertical-align: top;">
+                                        Edit
+                                    </button>
+                                </div>
+
+                                <div class="comment-etc-info">@if(!isset($filter) or $filter =='free_board_comments' )
+                                        자유게시판 @else 독자추천 @endif<span
                                             class="datetime">{{time_elapsed_string($comment->created_at)}}</span></div>
                             </div>
                         </li>
@@ -65,9 +86,9 @@
             </div>
             <!-- //댓글목록 -->
             <!-- 페이징 -->
-             @include('pagination_front', ['collection' => $comments, 'url' => route('my_info.free_board_review_comments_manage').'?filter='.$filter.'&order='.$order.'&'])
+            @include('pagination_front', ['collection' => $comments, 'url' => route('my_info.free_board_review_comments_manage').'?filter='.$filter.'&order='.$order.'&'])
 
-            <!-- //페이징 -->
+                    <!-- //페이징 -->
         </div>
         <!-- //서브컨텐츠 -->
         <!-- 따라다니는퀵메뉴 -->
@@ -80,16 +101,44 @@
     var app = new Vue({
         el: '#free_board_review_comments',
         data: {
-           info:{ comment_id:'',comment_type:''}
+            info: {comment_id: '', comment_type: '', comment: ''},
+            display: {id: '', status: false}
         },
 
         methods: {
-           remove_comment: function (comment_id,comment_type) {
-                this.info.comment_id=comment_id;
-                this.info.comment_type=comment_type;
+
+            comment_box_show: function (comment_id) {
+                //document.getElementById('comment_box'+comment_id).style.display='block';
+                if (this.display.id == comment_id && this.display.status == true) {
+                    this.display.status = false;
+                    this.display.id = 0;
+                } else {
+
+                    this.display.id = comment_id;
+                    this.display.status = true;
+                }
+            },
+
+            remove_comment: function (comment_id, comment_type) {
+                this.info.comment_id = comment_id;
+                this.info.comment_type = comment_type;
                 app.$http.post('{{ route('free_board_review_comments.destroy_comments') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                         .then(function (response) {
-                           location.reload();
+                            location.reload();
+                        }).catch(function (errors) {
+                            console.log(errors);
+                        });
+            },
+            update_comment: function (comment_id, comment_type) {
+
+                this.info.comment_id = comment_id;
+                this.info.comment_type = comment_type;
+                this.info.comment = $('#comment' + comment_id).val();
+
+                app.$http.put('{{ route('free_board_review_comments.update_comments') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                        .then(function (response) {
+                            location.reload();
+
                         }).catch(function (errors) {
                             console.log(errors);
                         });
