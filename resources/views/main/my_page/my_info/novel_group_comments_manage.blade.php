@@ -1,14 +1,20 @@
 @extends('layouts.main_layout')
 @section('content')
     <!-- 컨테이너 -->
-    <div class="container">
-        <div class="wrap">
+<div class="container" xmlns:v-on="http://www.w3.org/1999/xhtml">
+        <div class="wrap" id="novel_group_comments">
             <!-- LNB -->
         @include('main.my_page.left_sidebar')
         <!-- //LNB -->
 
             <!-- 서브컨텐츠 -->
             <div class="content" id="content">
+                @if(Session::has('flash_message'))
+                    {{-- important, success, warning, danger and info --}}
+                    <div class="alert alert-success">
+                        {{Session('flash_message')}}
+                    </div>
+                    @endif
                 <!-- 댓글목록 -->
                 <div class="comments comments--manage">
                     <div class="comment-list-header">
@@ -31,7 +37,7 @@
                             <div class="comment-wrap">
                                 <div class="comment-info"><span class="parent-subject">{{$novel_comment->novel_title}}</span><span
                                             class="writer">{{$novel_comment->user_name}}</span></div>
-                                <div class="comment-btns"><a href="#mode_nav">수정</a><a href="#mode_nav">삭제</a></div>
+                                <div class="comment-btns"><a href="#mode_nav">수정</a><a href="#mode_nav" v-on:click="remove_comment('{{$novel_comment->id}}')">삭제</a></div>
                                 <div class="comment-content">
                                     <p>{{$novel_comment->comment}}</p>
                                 </div>
@@ -56,5 +62,27 @@
         </div>
     </div>
     <!-- //컨테이너 -->
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#novel_group_comments',
+        data: {
+        },
 
+        methods: {
+            remove_comment: function (comment_id) {
+                app.$http.delete('{{ url('comments') }}/'+comment_id, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                        .then(function (response) {
+                            location.reload();
+                        }).catch(function (errors) {
+                            console.log(errors);
+                        });
+            }
+        }
+    });
+
+    $(".alert").delay(4000).slideUp(200, function () {
+        $(this).alert('close');
+    });
+
+</script>
 @endsection

@@ -190,6 +190,7 @@ Route::group(['prefix' => 'my_info', 'middleware' => ['auth']], function () {
         Route::post('/edit', ['as' => 'my_info.edit.post', 'uses' => 'UserController@my_info_update']);
         Route::get('/member_leave/password_again', ['as' => 'my_info.member_leave.password_again', 'uses' => 'MainController\MyInfoController@member_leave_password_again']);
         Route::post('/member_leave', ['as' => 'my_info.member_leave', 'uses' => 'UserController@member_leave']);
+        Route::post('/remove_free_board_review_comments', ['as' => 'free_board_review_comments.destroy_comments', 'uses' => 'MainController\MyInfoController@destroy_comments']);
     });
 
     Route::group(['prefix' => 'use_info'], function () {

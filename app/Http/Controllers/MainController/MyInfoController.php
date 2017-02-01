@@ -128,9 +128,39 @@ class MyInfoController extends Controller
         //Apply Pagination
         $comments = $comments->paginate(config('define.pagination_long'));
 
+        /*     //get the all comments of  with child
+             if($filter == 'review_comments') {
+                 $child_comments = new collection();
+                 foreach ($comments as $comment) {
+                     echo $comment->id;
+                     if ($comment->parent_id == 0) {
+                         $single_comment=$comment->myself;
+                         $single_comment->put('children',$comment->children);
+                         $child_comments->push($single_comment);
+
+                     }
+                 }
+             }*/
 
         return view('main.my_page.my_info.free_board_review_comments_manage', compact('comments', 'filter', 'order'));
     }
+
+
+    public function destroy_comments(Request $request)
+    {
+        if ($request->get('comment_type') == 'review') {
+
+            ReviewComment::find($request->get('comment_id'))->delete();
+            ReviewComment::where('parent_id',$request->get('comment_id'))->delete();
+        } else {
+
+            FreeBoardComment::find($request->get('comment_id'))->delete();
+        }
+
+        flash('Comment Deleted.');
+        return response()->json('ok');
+    }
+
 
     public function charge_bead()
     {
