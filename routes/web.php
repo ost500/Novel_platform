@@ -45,6 +45,7 @@ Route::get('publish_novel/e_pub/{id}', ['as' => 'publish_novel.e_pub', 'uses' =>
 
 Route::resource('users', 'UserController', ['except' => ['update']]);
 //email authentication
+Route::post('email_confirm/again', ['as' => 'email_confirm.again', 'uses' => 'UserController@again']);
 Route::get('email_confirm/{confirmation_code}/{user_id}', ['as' => 'email_confirm', 'uses' => 'UserController@confirm']);
 
 Route::post('mailboxes', ['as' => 'mailbox.store', 'uses' => 'MailboxController@store']);

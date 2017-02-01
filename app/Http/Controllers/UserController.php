@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\VerifyEmail;
 use App\User;
 use Auth;
 use Carbon\Carbon;
+use Exception;
 use Hash;
 use Illuminate\Http\Request;
+use Mail;
 use Session;
 use Validator;
 
@@ -231,8 +234,28 @@ class UserController extends Controller
             $user->auth_mail_code = null;
             $user->save();
             flash('이메일 인증에 성공했습니다. 로그인해 주세요');
-            return redirect()->route('root');
+            if (Auth::check()) {
+                return redirect()->route('my_info.edit');
+            } else {
+                return redirect()->route('root', ['login' => $user->name]);
+            }
+
         } else {
+            return view('errors.503');
+        }
+
+    }
+
+    public function again()
+    {
+        try {
+            $user = Auth::user();
+
+            Mail::to($user)->send(new VerifyEmail($user));
+
+            return view('auth.auth_mail_send', compact('user'));
+
+        } catch (Exception $e) {
             return view('errors.503');
         }
 

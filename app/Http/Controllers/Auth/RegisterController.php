@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Mail\VerifyEmail;
 use App\User;
+use Auth;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
+use Mail;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -51,6 +54,9 @@ class RegisterController extends Controller
         event(new Registered($user = $this->create($request->all())));
 
         $this->guard()->login($user);
+
+        //Mail send
+        Mail::to(Auth::user())->send(new VerifyEmail(Auth::user()));
 
         return "OK";
 
@@ -111,7 +117,7 @@ class RegisterController extends Controller
             'event_mail_available' => $data['event_mail_available'],
             'birth_of_year' => $data['birth'],
             'gender' => $data['gender'],
-            'auth_mail_code' => str_random(30),
+            'auth_mail_code' => str_random(10),
         ]);
     }
 }

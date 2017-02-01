@@ -181,7 +181,7 @@
                            name="event_mail_available"
                            value="0">
                     <input type="checkbox" id="agreement_all_check" name="event_mail_available"
-                                               value="1">
+                           value="1">
                     <span></span></span>
             </div>
 
@@ -208,8 +208,12 @@
             <p id="email-addr" class="email-addr"></p>
             <p>이메일 발송 후 3시간 이내에 인증해 주시기 바랍니다.<br>이메일 주소를 인증하시면 회원가입이 완료됩니다.</p>
             <div class="sendmail-btns">
-                <a href="#register_logo" class="btn btn--retry">인증 메일 재발송</a>
-                <a href="{{ route('root') }}" class="btn btn--modify">메인으로 가기</a>
+                <form action="{{ route('email_confirm.again') }}" method="post">
+                    {!! csrf_field() !!}
+                    <button type="submit" class="btn btn--retry">인증 메일 재발송</button>
+
+                    <a href="{{ route('root') }}" class="btn btn--modify">메인으로 가기</a>
+                </form>
             </div>
         </div>
     </div>

@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
-    public function main()
+    public function main(Request $request)
     {
         $recommends = NovelGroup::take(5)->with('nicknames')->get();
 //        return response()->json($recommends);
@@ -40,8 +40,11 @@ class MainController extends Controller
             ->groupBy('novel_group_id')->orderBy('sum', 'desc')->havingRaw('max(non_free_agreement) > 0')
             ->with('nicknames')->take(8)->get();
 
+        //when it has to be logged in
+        $login = $request->login;
+        
 //        return response()->json($reader_reviews);
-        return view('main.main', compact('recommends', 'non_free_today_bests', 'free_today_bests', 'latests', 'reader_reviews', 'recommendations'));
+        return view('main.main', compact('recommends', 'non_free_today_bests', 'free_today_bests', 'latests', 'reader_reviews', 'recommendations', 'login'));
     }
 
     public function series(Request $request, $free_or_charged = false)
