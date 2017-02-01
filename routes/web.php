@@ -44,6 +44,9 @@ Route::get('publish_novel/e_pub/{id}', ['as' => 'publish_novel.e_pub', 'uses' =>
 
 
 Route::resource('users', 'UserController', ['except' => ['update']]);
+//email authentication
+Route::get('email_confirm/{confirmation_code}/{user_id}', ['as' => 'email_confirm', 'uses' => 'UserController@confirm']);
+
 Route::post('mailboxes', ['as' => 'mailbox.store', 'uses' => 'MailboxController@store']);
 Route::post('mailboxes/specific_mail', ['as' => 'mailbox.store_specific_mail', 'uses' => 'MailboxController@store_specific_mail']);
 Route::post('mailboxes/destroy', ['as' => 'mailbox.destroy', 'uses' => 'MailboxController@destroy']);
@@ -151,7 +154,7 @@ Route::group(['prefix' => 'community'], function () {
     Route::get('freeboard/{id}', ['as' => 'free_board.detail', 'uses' => 'MainController\CommunityController@free_board_detail']);
     // same url diffrent request for the redirection after login
     Route::post('freeboard/{id}', ['as' => 'freeboard.comment', 'middleware' => 'auth', 'uses' => 'FreeBoardCommentController@store']);
-    Route::get('freeboard_write', ['middleware'=>'auth','as' => 'free_board.write', 'uses' => 'MainController\CommunityController@free_board_write']);
+    Route::get('freeboard_write', ['middleware' => 'auth', 'as' => 'free_board.write', 'uses' => 'MainController\CommunityController@free_board_write']);
     Route::post('freeboard/', ['as' => 'free_board.store', 'uses' => 'FreeBoardController@store']);
 
     Route::get('reader_reco', ['as' => 'reader_reco', 'uses' => 'MainController\CommunityController@reader_reco']);
@@ -162,7 +165,7 @@ Route::group(['prefix' => 'community'], function () {
 
 //EachController
 Route::get('/novel_group/{id}', ['as' => 'each_novel.novel_group', 'uses' => 'MainController\EachController@novel_group']);
-Route::get('novel_group/review/{id}', ['middleware'=>'auth','as' => 'each_novel.novel_group.review', 'uses' => 'MainController\EachController@novel_group_review']);
+Route::get('novel_group/review/{id}', ['middleware' => 'auth', 'as' => 'each_novel.novel_group.review', 'uses' => 'MainController\EachController@novel_group_review']);
 Route::get('/novel_group_inning/{id}', ['as' => 'each_novel.novel_group_inning', 'uses' => 'MainController\EachController@novel_group_inning']);
 
 //AskController
@@ -191,12 +194,12 @@ Route::group(['prefix' => 'my_info', 'middleware' => ['auth']], function () {
     });
 
     Route::group(['prefix' => 'use_info'], function () {
-        Route::get('/charge_bead',['as' => 'my_info.charge_bead', 'uses'=> 'MainController\MyInfoController@charge_bead']);
-        Route::get('/charge_list',['as' => 'my_info.charge_list', 'uses'=> 'MainController\MyInfoController@charge_list']);
-        Route::get('/manage_piece',['as' => 'my_info.manage_piece', 'uses'=> 'MainController\MyInfoController@manage_piece']);
-        Route::get('/purchased_novel_list',['as' => 'my_info.purchased_novel_list', 'uses'=> 'MainController\MyInfoController@purchased_novel_list']);
-        Route::get('/received_gift',['as' => 'my_info.received_gift', 'uses'=> 'MainController\MyInfoController@received_gift']);
-        Route::get('/sent_gift',['as' => 'my_info.sent_gift', 'uses'=> 'MainController\MyInfoController@sent_gift']);
+        Route::get('/charge_bead', ['as' => 'my_info.charge_bead', 'uses' => 'MainController\MyInfoController@charge_bead']);
+        Route::get('/charge_list', ['as' => 'my_info.charge_list', 'uses' => 'MainController\MyInfoController@charge_list']);
+        Route::get('/manage_piece', ['as' => 'my_info.manage_piece', 'uses' => 'MainController\MyInfoController@manage_piece']);
+        Route::get('/purchased_novel_list', ['as' => 'my_info.purchased_novel_list', 'uses' => 'MainController\MyInfoController@purchased_novel_list']);
+        Route::get('/received_gift', ['as' => 'my_info.received_gift', 'uses' => 'MainController\MyInfoController@received_gift']);
+        Route::get('/sent_gift', ['as' => 'my_info.sent_gift', 'uses' => 'MainController\MyInfoController@sent_gift']);
 
     });
 });

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Auth;
 use Carbon\Carbon;
 use Hash;
 use Illuminate\Http\Request;
+use Session;
 use Validator;
 
 class UserController extends Controller
@@ -137,7 +139,6 @@ class UserController extends Controller
         }
 
 
-
         if ($user->nickname != $request->nickname) {
             Validator::make($request->all(), [
                 'nickname' => 'min:1|max:8',
@@ -213,6 +214,27 @@ class UserController extends Controller
 
         return redirect()->back()->withErrors($error);
 
+
+    }
+
+    public function confirm($confirmation_code, $user_id)
+    {
+        if (!$confirmation_code) {
+            return view('errors.503');
+        }
+
+//        $user = User::where('auth_mail_code', $confirmation_code)->get()->first();
+        $user = User::findOrFail($user_id);
+
+        if ($user->auth_mail_code == $confirmation_code) {
+            $user->auth_email = 1;
+            $user->auth_mail_code = null;
+            $user->save();
+            flash('이메일 인증에 성공했습니다. 로그인해 주세요');
+            return redirect()->route('root');
+        } else {
+            return view('errors.503');
+        }
 
     }
 }
