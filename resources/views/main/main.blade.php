@@ -9,7 +9,7 @@
                 <ul class="noon-list clr">
                     @foreach($recommends as $recommend)
                         <li>
-                            <a href="#mode_nav">
+                            <a href="{{route('each_novel.novel_group',['id'=>$recommend->id])}}">
                                 <p class="thumb"><img src="/img/novel_covers/{{$recommend->cover_photo}}" alt=""></p>
                                 <p class="book-title">{{str_limit($recommend->title, 15)}}</p>
                                 <p class="author">{{str_limit($recommend->nicknames->nickname,15)}}</p>
@@ -29,7 +29,7 @@
                 <ol class="latest latest--rank latest--rank--charge">
                     @foreach($non_free_today_bests as $today_best)
                         <li>
-                            <a href="#mode_nav">
+                            <a href="{{route('each_novel.novel_group',['id'=>$today_best->id])}}">
                                 <p class="thumb"><img src="/img/novel_covers/{{$today_best->cover_photo}}" alt=""></p>
                                 @if($loop->first)
                                     <p class="book-title">{{ str_limit($today_best->title, 17) }}</p>
@@ -41,7 +41,7 @@
                         </li>
                     @endforeach
                 </ol>
-                <a href="#mode_nav" class="latest-more-btn">더보기</a>
+                <a href="{{route('bests')}}" class="latest-more-btn">더보기</a>
             </section>
             <!-- //유료연재베스트 -->
 
@@ -54,7 +54,7 @@
                         <ol class="latest latest--rank">
                             @foreach($free_today_bests as $free_today_best)
                                 <li>
-                                    <a href="#mode_nav">
+                                    <a href="{{route('each_novel.novel_group',['id'=>$free_today_best->id])}}">
                                         <p class="thumb"><img src="img/novel_covers/{{$free_today_best->cover_photo}}"
                                                               alt=""></p>
                                         <p class="book-title">{{ str_limit($free_today_best->title, 15) }}</p>
@@ -63,7 +63,7 @@
                                 </li>
                             @endforeach
                         </ol>
-                        <a href="#mode_nav" class="latest-more-btn">더보기</a>
+                        <a href="{{route('bests').'/free'}}" class="latest-more-btn">더보기</a>
                     </section>
                     <!-- //무료연재베스트 -->
 
@@ -73,7 +73,7 @@
                         <ul class="latest">
                             @foreach($latests as $latest)
                                 <li>
-                                    <a href="#mode_nav">
+                                    <a href="{{route('each_novel.novel_group',['id'=>$latest->id])}}">
                                         <p class="thumb"><img src="img/novel_covers/{{$latest->cover_photo}}"
                                                               alt=""></p>
                                         <p class="book-title">{{ str_limit($latest->title, 15) }}</p>
@@ -82,7 +82,7 @@
                                 </li>
                             @endforeach
                         </ul>
-                        <a href="#mode_nav" class="latest-more-btn">더보기</a>
+                     {{--   <a href="{{route('bests')}}" class="latest-more-btn">더보기</a>--}}
                     </section>
                     <!-- //새로등록된소설 -->
                 </div>
@@ -92,20 +92,20 @@
                     <ul class="recommend-list">
                         @foreach($reader_reviews as $reader_review)
                             <li>
-                                <a href="#mode_nav">
+                                <a href="{{route('reader_reco.detail',['id'=>$reader_review->id])}}">
                                     <div class="thumb">
                                         <span><img src="img/novel_covers/{{$reader_review->novel_groups->cover_photo}}"
                                                    alt=""></span>
                                     </div>
                                     <div class="post">
-                                        <strong class="title">{{$reader_review->review}}</strong>
-                                        <p class="post-content">{{$reader_review->review}}</p>
+                                        <strong class="title">{{$reader_review->title}}</strong>
+                                        <p class="post-content">{{ str_limit($reader_review->review,100)}}</p>
                                     </div>
                                 </a>
                             </li>
                         @endforeach
                     </ul>
-                    <a href="#mode_nav" class="recommend-more-btn">더보기</a>
+                    <a href="{{route('reader_reco')}}" class="recommend-more-btn">더보기</a>
                 </section>
                 <!-- //독자추천 -->
             </div>
@@ -127,7 +127,7 @@
                 <ul class="latest">
                     @foreach($recommendations as $recommendation)
                         <li>
-                            <a href="#mode_nav">
+                            <a href="{{route('each_novel.novel_group',['id'=>$recommendation->id])}}">
                                 <p class="thumb"><img src="img/novel_covers/{{$recommendation->cover_photo}}" alt="">
                                 </p>
                                 <p class="book-title">{{ str_limit($recommendation->title, 15) }}</p>

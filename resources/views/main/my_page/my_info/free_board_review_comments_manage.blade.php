@@ -46,42 +46,47 @@
                     </div>
                 </div>
                 <ul class="comment-list">
-
-                    @foreach($comments as $comment)
-                        <li>
-                            <div class="comment-wrap  @if($comment->parent_id != 0) is-reply @endif">
-                                <div class="comment-info"><span class="parent-subject">{{$comment->title}}</span><span
-                                            class="writer">{{$comment->user_name}}</span></div>
-                                <div class="comment-btns">
-                                    <a href="#mode_nav" v-on:click="comment_box_show({{$comment->id}})">수정</a>
-                                    <a href="#mode_nav"
-                                       @if($comment->review_id) v-on:click="remove_comment('{{$comment->id}}','review')"
-                                       @else v-on:click="remove_comment('{{$comment->id}}','free_board')" @endif >
-                                        삭제 </a>
-                                </div>
-                                <div class="comment-content">
-                                    <p>{{$comment->comment}}</p>
-                                </div>
-                                <div class="comment-content " id="comment_box{{$comment->id}}"
-                                     v-if="display.id =={{$comment->id}} && display.status">
+                    @if(count($comments) > 0)
+                        @foreach($comments as $comment)
+                            <li>
+                                <div class="comment-wrap  @if($comment->parent_id != 0) is-reply @endif">
+                                    <div class="comment-info"><span class="parent-subject">{{$comment->title}}</span>
+                                        <span class="writer">{{$comment->user_name}}</span></div>
+                                    <div class="comment-btns">
+                                        <a href="#mode_nav" v-on:click="comment_box_show({{$comment->id}})">수정</a>
+                                        <a href="#mode_nav"
+                                           @if($comment->review_id) v-on:click="remove_comment('{{$comment->id}}','review')"
+                                           @else v-on:click="remove_comment('{{$comment->id}}','free_board')" @endif >
+                                            삭제 </a>
+                                    </div>
+                                    <div class="comment-content" v-show="!display.status">
+                                        <p>{{$comment->comment}}</p>
+                                    </div>
+                                    <div class="comment-content " id="comment_box{{$comment->id}}"
+                                         v-if="display.id =={{$comment->id}} && display.status">
                                     <textarea name="comment" id="comment{{$comment->id}}" rows="3"
                                               style="width:65%;">{{$comment->comment}}</textarea>
 
-                                    <button name="edit" id="edit{{$comment->id}}" @if($comment->review_id)
-                                    v-on:click="update_comment('{{$comment->id}}','review')"
-                                            @else    v-on:click="update_comment('{{$comment->id}}','free_board')" @endif
-                                            class="btn btn-primary inline"
-                                            style="width:100px;height:51px;vertical-align: top;">
-                                        Edit
-                                    </button>
-                                </div>
+                                        <button name="edit" id="edit{{$comment->id}}" @if($comment->review_id)
+                                        v-on:click="update_comment('{{$comment->id}}','review')"
+                                                @else    v-on:click="update_comment('{{$comment->id}}','free_board')"
+                                                @endif
+                                                class="btn btn-primary inline"
+                                                style="width:100px;height:51px;vertical-align: top;">
+                                            Edit
+                                        </button>
+                                    </div>
 
-                                <div class="comment-etc-info">@if(!isset($filter) or $filter =='free_board_comments' )
-                                        자유게시판 @else 독자추천 @endif<span
-                                            class="datetime">{{time_elapsed_string($comment->created_at)}}</span></div>
-                            </div>
-                        </li>
-                    @endforeach
+                                    <div class="comment-etc-info">@if(!isset($filter) or $filter =='free_board_comments' )
+                                            자유게시판 @else 독자추천 @endif<span
+                                                class="datetime">{{time_elapsed_string($comment->created_at)}}</span>
+                                    </div>
+                                </div>
+                            </li>
+                        @endforeach
+                    @else
+                        <div class="comment-wrap" style="text-align: center"> 첫 번째 댓글을 작성해 보세요.</div>
+                    @endif
                 </ul>
             </div>
             <!-- //댓글목록 -->
@@ -122,12 +127,14 @@
             remove_comment: function (comment_id, comment_type) {
                 this.info.comment_id = comment_id;
                 this.info.comment_type = comment_type;
-                app.$http.post('{{ route('free_board_review_comments.destroy_comments') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
-                        .then(function (response) {
-                            location.reload();
-                        }).catch(function (errors) {
-                            console.log(errors);
-                        });
+                if (confirm('Are you sure to delete this comment?')) {
+                    app.$http.post('{{ route('free_board_review_comments.destroy_comments') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                            .then(function (response) {
+                                location.reload();
+                            }).catch(function (errors) {
+                                console.log(errors);
+                            });
+                }
             },
             update_comment: function (comment_id, comment_type) {
 
