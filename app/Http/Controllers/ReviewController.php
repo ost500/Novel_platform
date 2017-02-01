@@ -44,7 +44,7 @@ class ReviewController extends Controller
             'review' => 'required',
         ], [
             'title.required' => '제목은 필수 입니다.',
-            'title.max' =>   '제목은 반드시 255 자리보다 작아야 합니다.',
+            'title.max' => '제목은 반드시 255 자리보다 작아야 합니다.',
             'review.required' => '내용은 필수 입니다.',
 
         ])->validate();
@@ -62,16 +62,10 @@ class ReviewController extends Controller
      */
     public function show($id)
     {
-        $group_novel = NovelGroup::find($id)->novels;
 
-        $groups_reviews = new Collection();
 
-        foreach ($group_novel as $novel) {
-            foreach ($novel->reviews as $review) {
-                $groups_reviews->push($review->myself);
-            }
+        $groups_reviews = Review::where('novel_group_id', $id)->with('users')->with('novel_groups')->get();
 
-        }
 
 //        return response()->json($groups_reviews);
         return view('author.review_show', compact('groups_reviews'));
@@ -109,6 +103,6 @@ class ReviewController extends Controller
     public function destroy($id)
     {
         Review::destroy($id);
-        return response()->json(['status'=>'ok']);
+        return response()->json(['status' => 'ok']);
     }
 }

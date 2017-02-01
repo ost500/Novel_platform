@@ -65,12 +65,22 @@
                                 <div class="label">이메일</div>
                                 <div class="input input--data">
                                     <span class="info">{{ $me->email }}</span>
-                                    <div class="input-desc-box"><span class="alert"><i class="alert-icon"></i>인증되지 않은 이메일 주소입니다.</span>
+                                    <div class="input-desc-box">
+                                        @if ($me->auth_email == 1)
+                                            <span class="valid"><i class="valid-icon"></i>인증된 이메일 주소입니다.</span>
+                                        @else
+                                            <span class="alert"><i class="alert-icon"></i>인증되지 않은 이메일 주소입니다.</span>
+
+                                        @endif
                                     </div>
-                                    <div class="input-btns">
-                                        <button type="button" class="btn btn--special">인증메일발송</button>
-                                        <button type="button" class="btn">취소</button>
-                                    </div>
+                                    @if ($me->auth_email != 1)
+                                        <div class="input-btns">
+                                            <form action="{{ route('email_confirm.again') }}" method="post">
+                                                {!! csrf_field() !!}
+                                                <button type="submit" class="btn btn--special">인증메일발송</button>
+                                            </form>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                             <div class="item-cols">

@@ -240,7 +240,7 @@
                 <!-- 방문자버튼 -->
 
                     <a href="#mode_nav" class="userbtn userbtn--login" data-modal-id="login_form"
-                       @if($errors->has('name') || $errors->has('password')) data-modal-start @endif >로그인</a>
+                       @if($errors->has('name') || $errors->has('password') || isset($login)) data-modal-start @endif >로그인</a>
 
                 @endif
             </div>
@@ -322,9 +322,9 @@
                         <legend class="un-hidden">Login</legend>
                         <div class="field">
                             <input id="email" type="text" name="name" class="text2" title="아이디"
-                                   value="{{ old('name') }}" placeholder="여우정원계정">
-                            @if ($errors->has('name'))<span
-                                    class="alert-msg is-active">{{ $errors->first('name') }}</span>@endif
+                                   value="{{ isset($login) ? $login : old('name') }}" placeholder="여우정원계정">
+                            @if (isset($login) || $errors->has('name'))<span
+                                    class="alert-msg is-active">{{ $login ? "이메일 인증에 성공했습니다. 로그인해 주세요" : $errors->first('name') }}</span>@endif
                         </div>
                         <div class="field">
                             <input id="password" type="password" class="text2" title="비밀번호" name="password" required

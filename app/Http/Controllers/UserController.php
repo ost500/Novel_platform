@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\VerifyEmail;
+use App\User;
 use Auth;
 use Carbon\Carbon;
+use Exception;
 use Hash;
 use Illuminate\Http\Request;
+use Mail;
+use Session;
 use Validator;
 
 class UserController extends Controller
@@ -137,7 +142,6 @@ class UserController extends Controller
         }
 
 
-
         if ($user->nickname != $request->nickname) {
             Validator::make($request->all(), [
                 'nickname' => 'min:1|max:8',
@@ -213,6 +217,47 @@ class UserController extends Controller
 
         return redirect()->back()->withErrors($error);
 
+
+    }
+
+    public function confirm($confirmation_code, $user_id)
+    {
+        if (!$confirmation_code) {
+            return view('errors.503');
+        }
+
+//        $user = User::where('auth_mail_code', $confirmation_code)->get()->first();
+        $user = User::findOrFail($user_id);
+
+        if ($user->auth_mail_code == $confirmation_code) {
+            $user->auth_email = 1;
+            $user->auth_mail_code = null;
+            $user->save();
+            flash('이메일 인증에 성공했습니다. 로그인해 주세요');
+            if (Auth::check()) {
+                return redirect()->route('my_info.edit');
+            } else {
+                return redirect()->route('root', ['login' => $user->name]);
+            }
+
+        } else {
+            return view('errors.503');
+        }
+
+    }
+
+    public function again()
+    {
+        try {
+            $user = Auth::user();
+
+            Mail::to($user)->send(new VerifyEmail($user));
+
+            return view('auth.auth_mail_send', compact('user'));
+
+        } catch (Exception $e) {
+            return view('errors.503');
+        }
 
     }
 }

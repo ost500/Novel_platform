@@ -1,0 +1,1 @@
+<a href="{{ route('email_confirm',['confirmation_code' => $code, 'user_id' => $userId]) }}">GO!!</a>
