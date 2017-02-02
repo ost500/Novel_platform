@@ -143,7 +143,10 @@ class CommentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        Comment::where('id',$id)->update(['comment' => $request->get('comment')]);
+        flash('Comment Updated ');
+        return response()->json(['status'=>'ok']);
     }
 
     /**

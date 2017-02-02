@@ -15,4 +15,13 @@ class ReviewComment extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+    public function children()
+    {
+        return $this->hasMany(ReviewComment::class, 'parent_id','id')->with('users')->with('reviews');
+    }
+
+    public function myself()
+    {
+        return $this->hasMany(ReviewComment::class, 'id')->with('users')->with('reviews');
+    }
 }

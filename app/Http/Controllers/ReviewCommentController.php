@@ -30,4 +30,11 @@ class ReviewCommentController extends Controller
         $new_comment->save();
         return redirect()->back();
     }
+
+
+    public function destroy($id)
+    {
+        ReviewComment::find($id)->delete();
+        return response()->json('ok');
+    }
 }
