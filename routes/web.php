@@ -128,7 +128,7 @@ Route::get('/admin/memo_detail/{id}', ['as' => 'admin.memo_view', 'uses' => 'Pag
 Route::get('/admin/memo_create', ['as' => 'admin.memo_create', 'uses' => 'PageController\AdminPageController@memo_create']);
 Route::get('/admin/novel_memo_send', ['as' => 'admin.novel_memo_send', 'uses' => 'PageController\AdminPageController@mailbox_send']);
 Route::get('/admin/mailbox_send_message/{id}', ['as' => 'admin.mailbox_send_message', 'uses' => 'PageController\AdminPageController@mailbox_send_message_show']);
-Route::get('/admin/specific_mail/{id?}', ['as' => 'admin.memo_create', 'uses' => 'PageController\AdminPageController@memo_create']);
+Route::get('/admin/specific_mail/{id?}', ['as' => 'admin.specific_mail', 'uses' => 'PageController\AdminPageController@specific_mailbox_create']);
 
 Route::get('/admin/partnership/manage_company', ['as' => 'admin.partner_manage_company', 'uses' => 'PageController\AdminPageController@partner_manage_company']);
 Route::get('/admin/partnership/manage_apply/{id?}', ['as' => 'admin.partner_manage_apply', 'uses' => 'PageController\AdminPageController@partner_manage_apply']);

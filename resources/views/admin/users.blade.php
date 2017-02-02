@@ -35,6 +35,7 @@
                                                 <th class="text-center">이메일</th>
                                                 <th class="text-center">연락처</th>
                                                 <th class="text-center">가입일</th>
+                                                <th class="text-center">설정</th>
                                             </tr>
                                             @foreach($users as $user)
                                                 <tr>
@@ -44,6 +45,13 @@
                                                     <td class="text-center">{{ $user->email }}</td>
                                                     <td class="text-center">{{ $user->phone_num }}</td>
                                                     <td class="text-center">{{ $user->created_at }}</td>
+                                                    <td class="text-center">
+                                                        <button class="btn btn-success"   v-on:click="send_mail('{{$user->id }}')" >쪽지보내기
+                                                        </button>
+                                                        <button class="btn btn-warning"
+                                                                v-on:click="removeUser('{{$user->id }}')">삭제
+                                                        </button>
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                             </tbody>
@@ -147,4 +155,30 @@
 
 
     </div>
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#user_list',
+            data: {
+            },
+            methods: {
+
+                send_mail:function(user_id){
+                        window.location.assign('/admin/specific_mail/'+user_id);
+                },
+
+                removeUser: function (user_id) {
+                    app.$http.delete('{{ url('users') }}/'+user_id, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                            .then(function (response) {
+                              //  console.log(response);
+                                 location.reload();
+                            })
+                            .catch(function (errors) {
+
+                                console.log(errors);
+                            });
+                }
+            }
+        });
+
+    </script>
 @endsection

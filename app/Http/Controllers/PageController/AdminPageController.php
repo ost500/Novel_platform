@@ -157,6 +157,19 @@ class AdminPageController extends Controller
         return view('admin.mailbox_message', compact('men_to_men_request', 'men_to_men_requests', 'page'));
     }
 
+
+    public function specific_mailbox_create($id = null)
+    {
+        if ($id) {
+            $user = User::where('id', $id)->first();
+
+        } else {
+            $user = null;
+        }
+        return view('admin.specific_mail', compact('user'));
+
+    }
+
     public function mailbox_send(Request $request)
     {
         $novel_mail_messages = Mailbox::where('from', Auth::user()->id)->with('users')->orderBy('created_at', 'desc')->paginate(2);

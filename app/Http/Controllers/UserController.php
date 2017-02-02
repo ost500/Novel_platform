@@ -196,7 +196,10 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+
+         User::find($id)->delete();
+        flash('유저정보가 삭제됐습니다');
+        return response()->json('ok');
     }
 
     public function member_leave(Request $request)
