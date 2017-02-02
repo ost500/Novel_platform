@@ -95,6 +95,17 @@ class MailboxController extends Controller
 
 
         $input = $request->all();
+        $check_user_exist = User::where('email', '=', $request->get('to'))->first();
+        //if email does not exist return with an error
+        if ($check_user_exist == null) {
+            $errors = '해당 이메일 주소의 사용자를 찾을 수 없습니다.';
+            if ($request->get('redirect')) {
+                return redirect()->route('mails.create')->withErrors($errors);
+            }
+
+            return redirect()->route('author.specific_mail')->withErrors($errors);
+        }
+
         $new_mail = $request->user()->mailbox()->create($input);
 
         if ($request->hasFile('attachment')) {
@@ -120,10 +131,15 @@ class MailboxController extends Controller
         $new_mail_log->save();
 
         //Response
-        flash("쪽지를 성공적으로 보냈습니다.");
+        flash("쪽지를 성공적으로 보냈습니다.", 'success');
 
         if (Auth::user()->name == "Admin") {
             return redirect()->route('admin.memo');
+        }
+
+        //
+        if ($request->get('redirect')) {
+            return redirect()->route('mails.sent');
         }
 
         return redirect()->route('author.mailbox_send_message', ['id' => $new_mail->id]);
@@ -158,14 +174,14 @@ class MailboxController extends Controller
             $maillogs = MailLog::where('mailbox_id', $id)->with('mailboxs')->get();
 
             if (count($maillogs) > 0) {
-                flash($maillogs[0]->mailboxs->subject."이미 읽거나 보내진 쪽지는 삭제할 수 없습니다.","danger");
-                \Session::flash('mail_id', $id);
+                flash($maillogs[0]->mailboxs->subject . "이미 읽거나 보내진 쪽지는 삭제할 수 없습니다.", "danger");
+                \Session::now('mail_id', $id);
                 return response()->json(['error' => 1, 'message' => 'fail', 'status' => "401"]);
             }
 
             Mailbox::destroy($id);
         }
-        flash("삭제 되었습니다","success");
+        flash("삭제 되었습니다");
         return response()->json(['error' => 0, 'message' => 'success', 'status' => "200"]);
     }
 

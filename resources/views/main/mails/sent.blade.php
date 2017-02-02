@@ -95,19 +95,6 @@
             methods: {
                 destroy: function () {
 
-                    /*     bootbox.confirm({
-                     message: "삭제 하시겠습니까?",
-                     buttons: {
-                     confirm: {
-                     label: "삭제"
-                     },
-                     cancel: {
-                     label: '취소'
-                     }
-                     },
-                     callback: function (result) {
-                     if (result) {*/
-
                     this.info.ids = $(".checkboxes:checked").map(function () {
                         return this.value;
                     }).get();
@@ -119,12 +106,13 @@
                             }).catch(function (errors) {
                         console.log(errors);
                     });
-                    /*         }
 
-                     }
-                     });*/
                 }
             }
+        });
+
+        $(".alert").delay(4000).slideUp(200, function () {
+            $(this).alert('close');
         });
     </script>
 @endsection

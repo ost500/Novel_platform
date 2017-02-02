@@ -60,7 +60,8 @@ class EachController extends Controller
         $novel_group_inning = Novel::where('id', $novel_id)->with(['comments' => function ($q) {
             $q->latest();
         }])->first();
-
+        //set default value for favorite icon
+        $show_favorite = false;
         //if user is logged in save this novel to recently visited
         if (Auth::check()) {
             //Check if recently visited item exists or not
@@ -78,28 +79,30 @@ class EachController extends Controller
                     'novel_id' => $novel_id
                 ]);
             }
+            //check if this novel_group is user's favorite or not
+            $show_favorite = NovelGroup::find($novel_group_inning->novel_group_id)->checkUserFavourite($novel_group_inning->novel_group_id);
         }
 
         //get the all comments of a novel
         $novel_group_inning_comments = new Collection();
         foreach ($novel_group_inning->comments as $comment) {
             if ($comment->parent_id == 0) {
-                //�θ� ���� ��۵鸸 �ҷ��´�
+
                 $single_comment = $comment->myself;
                 $single_comment->put('children', $comment->children);
-                //�ڽĵ��� �޾��ش�
+
                 $novel_group_inning_comments->push($single_comment);
-                //�ݷ��ǿ� �־��ش�
+
             }
         }
 
 
-        return view('main.each_novel.novel_group_inning', compact('novel_group_inning', 'novel_group_inning_comments'));
+        return view('main.each_novel.novel_group_inning', compact('novel_group_inning', 'novel_group_inning_comments', 'show_favorite'));
     }
 
     public function novel_group_review($novel_group_id)
     {
-        return view('main.each_novel.novel_group_review',compact('novel_group_id'));
+        return view('main.each_novel.novel_group_review', compact('novel_group_id'));
     }
 
 

@@ -145,7 +145,7 @@ class CommentController extends Controller
     {
 
         Comment::where('id',$id)->update(['comment' => $request->get('comment')]);
-        flash('Comment Updated ');
+        flash('댓글이 수정 되었습니다.');
         return response()->json(['status'=>'ok']);
     }
 

@@ -53,6 +53,7 @@ $factory->define(App\Novel::class, function (Faker\Generator $faker) {
         'novel_group_id' => $faker->randomElement($novel_groupIds),
         'title' => $faker->sentence,
         'content' => $faker->paragraph,
+        'author_comment' => $faker->paragraph,
 //        'non_free_agreement' => $faker->randomElement(['0', '1'])
     ];
 });
