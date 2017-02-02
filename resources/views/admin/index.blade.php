@@ -447,7 +447,7 @@
                                                 type: 'warning',
                                                 icon: 'fa fa-check',
                                                 //message : "Hello " + name + ".<br> You've chosen <strong>" + answer + "</strong>",
-                                                message: "삭제 되었습니다.",
+                                                message: response.data.message,
                                                 //container : 'floating',
                                                 container: 'page',
                                                 timer: 4000

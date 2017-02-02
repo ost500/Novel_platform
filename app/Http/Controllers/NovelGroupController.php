@@ -359,9 +359,13 @@ class NovelGroupController extends Controller
      */
     public function destroy($id)
     {
-        //
-        $novel_group = NovelGroup::find($id);
-        $novel_group->delete();
+        $novel=Novel::where('novel_group_id',$id)->first();
+        if($novel == null) {
+            $novel_group = NovelGroup::find($id);
+            $novel_group->delete();
+        }else{ return response()->json(['error'=>1,'message'=>'해당 소설을 삭제할 수 없습니다. 각 회차를 먼저 삭제해 주십시오.']);}
+
+        return response()->json(['error'=>0,'message'=>'삭제 되었습니다.']);
     }
 
     public function secret($id)
