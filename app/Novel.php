@@ -41,6 +41,16 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\ViewCount[] $view_counts
  * @property-read \App\PublishNovel $publish_novels
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\PublishNovelGroup[] $publish_novel_groups
+ * @property int $today_count
+ * @property int $week_count
+ * @property int $month_count
+ * @property int $year_count
+ * @property int $total_count
+ * @method static \Illuminate\Database\Query\Builder|\App\Novel whereTodayCount($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Novel whereWeekCount($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Novel whereMonthCount($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Novel whereYearCount($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Novel whereTotalCount($value)
  */
 class Novel extends Model
 {

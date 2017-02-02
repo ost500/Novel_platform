@@ -59,6 +59,11 @@ use Auth;
  * @property string $deleted_at
  * @property-read \App\PublishNovelGroup $publish_novel_groups
  * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereDeletedAt($value)
+ * @property int $nickname_id
+ * @property-read \App\NickName $nicknames
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\RecentlyVisitedNovel[] $recently_visited_novels
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Keyword[] $keywords
+ * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereNicknameId($value)
  */
 class NovelGroup extends Model
 {

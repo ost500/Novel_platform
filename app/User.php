@@ -46,6 +46,35 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\MailLog[] $maillogs
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Favorite[] $favorites
  * @method static \Illuminate\Database\Query\Builder|\App\User whereAuthorAgreement($value)
+ * @property string $user_name
+ * @property string $nickname
+ * @property string $nickname_at
+ * @property bool $auth_email
+ * @property bool $auth_name
+ * @property string $auth_mail_code
+ * @property bool $comment_show
+ * @property bool $mail_available
+ * @property bool $event_mail_available
+ * @property string $deleted_at
+ * @property int $birth_of_year
+ * @property bool $gender
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\FreeBoard[] $free_boards
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\FreeBoardComment[] $free_board_comments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\ReviewComment[] $review_comments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\FreeBoardLike[] $free_board_likes
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\NewSpeed[] $new_speeds
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereUserName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereNickname($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereNicknameAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereAuthEmail($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereAuthName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereAuthMailCode($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereCommentShow($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereMailAvailable($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereEventMailAvailable($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereBirthOfYear($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereGender($value)
  */
 class User extends Authenticatable
 {

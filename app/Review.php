@@ -25,6 +25,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @mixin \Eloquent
  * @property \Carbon\Carbon $deleted_at
  * @method static \Illuminate\Database\Query\Builder|\App\Review whereDeletedAt($value)
+ * @property int $novel_group_id
+ * @property string $title
+ * @property int $view_count
+ * @property-read \App\NovelGroup $novel_groups
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\ReviewComment[] $comments
+ * @method static \Illuminate\Database\Query\Builder|\App\Review whereNovelGroupId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Review whereTitle($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Review whereViewCount($value)
  */
 class Review extends Model
 {

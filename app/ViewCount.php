@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\ViewCount whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\ViewCount whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \App\Novel $novel
  */
 class ViewCount extends Model
 {

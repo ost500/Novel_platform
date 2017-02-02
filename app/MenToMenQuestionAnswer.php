@@ -25,6 +25,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\MenToMenQuestionAnswer whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\MenToMenQuestionAnswer whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $category
+ * @method static \Illuminate\Database\Query\Builder|\App\MenToMenQuestionAnswer whereCategory($value)
  */
 class MenToMenQuestionAnswer extends Model
 {
