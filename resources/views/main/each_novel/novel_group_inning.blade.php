@@ -41,14 +41,29 @@
                             <strong class="title">작가의 말</strong>
 
                             <div class="writer-comment-content">
-                                안녕하세요.<br>이번에 새로 여우정원에 입주한 초율입니다.<br>앞으로 잘 부탁드려요~
-                            </div>
-                        </div>
-                        <!-- //작가의말 -->
-                        <div class="episode-content-btns">
-                            <a href="#mode_nav" class="scrap-btn"><i class="scrap2-icon"></i> 선호작등록</a>
+                                <?php echo nl2br($novel_group_inning->author_comment, false); ?>
+                             </div>
+                         </div>
+                         <!-- //작가의말 -->
+                         <div class="episode-content-btns">
+
+                             @if($show_favorite)
+                                 <a href="" v-on:click="addToFavorite('{{$novel_group_inning->novel_group_id}}')"
+                                   id="add_favorite" style="display:none;"><i class="scrap-icon"></i> 선호작추가</a>
+
+                                <a href="#" class="is-active" v-on:click="removeFromFavorite()" id="remove_favorite">
+                                    <i class="scrap-active-icon"></i> 선호작추가</a>
+
+                            @else
+                                <a href="" v-on:click="addToFavorite('{{$novel_group_inning->novel_group_id}}')"
+                                   id="add_favorite"><i class="scrap-icon"></i> 선호작추가</a>
+
+                                <a href="" class="is-active" v-on:click="removeFromFavorite()" id="remove_favorite"
+                                   style="display:none;"><i class="scrap-active-icon"></i> 선호작추가</a>
+                            @endif
+
                             <a href="#mode_nav" class="share-btn"><i class="share2-icon"></i> 공유하기</a>
-                            <a href="#mode_nav" class="memo-btn"><i class="memo2-icon"></i> 작가에게 쪽지 보내기</a>
+                            <a href="{{route('mails.create',['id'=>$novel_group_inning->user_id])}}" class="memo-btn"><i class="memo2-icon"></i> 작가에게 쪽지 보내기</a>
 
                             <div class="right-btns">
                                 <a href="#mode_nav" class="report-btn"><i class="report-icon"></i> 게시물 신고</a>
@@ -160,8 +175,8 @@
             <!-- //서브컨텐츠 -->
             <!-- //서브컨텐츠 -->
             <!-- 따라다니는퀵메뉴 -->
-        @include('main.quick_menu')
-        <!-- //따라다니는퀵메뉴 -->
+            @include('main.quick_menu')
+                    <!-- //따라다니는퀵메뉴 -->
         </div>
     </div>
     <!-- //컨테이너 -->
@@ -170,9 +185,9 @@
         var app = new Vue({
             el: '#inning',
             data: {
-                info: {comment: '', novel_id: '{{$novel_group_inning->id}}'}
+                info: {comment: '', novel_id: '{{$novel_group_inning->id}}'},
+                favorites_info: {novel_group_id: ''}
             },
-
             methods: {
                 commentStore: function () {
 
@@ -181,6 +196,35 @@
                                 location.reload();
 
                             }).catch(function (errors) {
+                                console.log(errors);
+                            });
+                },
+
+                addToFavorite: function (novel_group_id) {
+                    app.favorites_info.novel_group_id = novel_group_id;
+                    app.$http.post('{{ route('favorites.store') }}', app.favorites_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                            .then(function (response) {
+                                //  document.getElementById('tab' + publish_company_id).style.display = 'none';
+                                console.log(response);
+                                $('#add_favorite').hide();
+                                $('#remove_favorite').show();
+                                //  location.reload();
+                            })
+                            .catch(function (errors) {
+                                alert('Please login to add it to favorites');
+                            });
+                },
+                removeFromFavorite: function () {
+                    app.$http.delete('{{ route('favorites.destroy',['id'=>$novel_group_inning->novel_group_id]) }}', {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                            .then(function (response) {
+                                //  document.getElementById('tab' + publish_company_id).style.display = 'none';
+                                console.log(response);
+                                $('#add_favorite').show();
+                                $('#remove_favorite').hide();
+                                //location.reload();
+                            })
+                            .catch(function (errors) {
+
                                 console.log(errors);
                             });
                 }

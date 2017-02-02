@@ -14,8 +14,8 @@
                             <div class="post-header">
                                 <h2 class="title">{{str_limit($novel_group->title, 35)}}</h2>
 
-                                <p class="writer">{{$novel_group->nicknames->nickname }}
-                                    <a href="{{route('mails.create',['id'=>$novel_group->user_id])}}"><i class="memo-icon">쪽지</i></a></p>
+                                <p class="writer">{{$novel_group->nicknames->nickname }} <a href="#mode_nav"><i
+                                                class="memo-icon">쪽지</i></a></p>
 
                                 <p class="post-info">
                                     <span>@if(count($novel_group->keywords) >0) {{$novel_group->keywords[0]->name }} @endif</span>
