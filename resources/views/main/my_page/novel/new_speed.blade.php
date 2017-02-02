@@ -20,18 +20,20 @@
                     @foreach ($new_speeds as $new_speed)
                         <li>
                             <div class="thumb">
-                                <img src="/img/novel_covers/{{ $new_speed->image }}" alt="">
+                                <img src="{{ $new_speed->image }}" alt="">
                             </div>
                             <div class="post">
-                                <p class="post-content"><a href="#mode_nav">{{ $new_speed->title }}</a></p>
+                                <p class="post-content"><a href="{{ $new_speed->link }}">{{ $new_speed->title }}</a></p>
                                 <p class="post-datetime">{{ time_elapsed_string($new_speed->created_at) }}</p>
                             </div>
                         </li>
                     @endforeach
                 </ul>
                 <!-- //소식 -->
+                @include('pagination_front', ['collection' => $new_speeds, 'url' => route('my_page.novels.new_speed')."?"])
             </div>
             <!-- //서브컨텐츠 -->
+
             <!-- 따라다니는퀵메뉴 -->
             <div class="aside-nav" id="aside_nav">
                 <nav>
@@ -48,54 +50,5 @@
         </div>
     </div>
     <!-- //컨테이너 -->
-    <!-- 푸터 -->
-    <div class="footer">
-        <!-- 푸터공지 -->
-        <div class="notice">
-            <div class="wrap"><a href="#mode_nav">제2회 여우정원 로맨스 콘테스트 당선작 발표</a></div>
-        </div>
-        <!-- //푸터공지 -->
 
-        <!-- 푸터내용 -->
-        <div class="wrap">
-            <!-- 푸터고객링크 -->
-            <nav>
-                <ul class="customer-link">
-                    <li><a href="#mode_nav">이용약관</a></li>
-                    <li><a href="#mode_nav">개인정보취급방침</a></li>
-                    <li><a href="#mode_nav">고객센터</a></li>
-                    <li><a href="#mode_nav">구슬충전</a></li>
-                </ul>
-            </nav>
-
-            <!-- //푸터고객링크 -->
-
-            <!-- 푸터사이트정보 -->
-            <div class="copyright">
-                <p>
-                    여우정원의 모든 글은 작성자의 허락없이 타사이트에 게시할 수 없습니다.<br>
-                    소설을 파일로 변환하여 공유, 또는 전송행위는 저작권법에 의거 고발될 수 있습니다.<br>
-                    ㈜여우정원 / 대표 고광택 / 사업자 등록번호 123-45-78901 / 통신판매업 제 2016-서울강남-123호<br>
-                    서울시 강남구 역삼동 123-4 여우빌딩 5층<br>
-                    개인정보관리책임자 security@foxygarden.com<br>
-                    Copyright ⓒ foxygarden co.,Ltd. All Rights Reserved.
-                </p>
-            </div>
-            <!-- //푸터사이트정보 -->
-
-            <!-- 패밀리사이트 -->
-            <div class="family-site">
-                <div class="select-link">
-                    <button type="button">패밀리사이트</button>
-                    <ul>
-                        <li><a href="#mode_nav">패밀리 사이트1</a></li>
-                        <li><a href="#mode_nav">패밀리 사이트2</a></li>
-                    </ul>
-                </div>
-            </div>
-            <!-- //패밀리사이트 -->
-        </div>
-        <!-- //푸터내용 -->
-    </div>
-    <!-- //푸터 -->
 @endsection

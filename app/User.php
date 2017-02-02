@@ -177,4 +177,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(NewSpeed::class);
     }
+
+    public function new_speed_logs()
+    {
+        return $this->hasMany(NewSpeedLog::class);
+    }
 }

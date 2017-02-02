@@ -1193,7 +1193,6 @@ html.is-modal body {
 .layer-popup .inner {
     position: relative;
     width: 196px;
-    min-height: 192px;
     border: 1px solid #cdc7c8;
     background: #fff;
 }

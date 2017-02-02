@@ -4,6 +4,7 @@ namespace App\Http\Controllers\MainController;
 
 use App\Keyword;
 use App\NewSpeed;
+use App\NewSpeedLog;
 use App\Notification;
 
 use Carbon\Carbon;
@@ -122,7 +123,13 @@ class MyPageController extends Controller
     public function new_speed()
     {
 
-        $new_speeds = Auth::user()->new_speeds;
+        
+
+        $new_speeds = NewSpeedLog::join('new_speeds', 'new_speeds.id', '=', 'new_speed_logs.new_speed_id')
+            ->where('new_speed_logs.user_id', Auth::user()->id)
+            ->select('new_speed_logs.user_id', 'new_speed_logs.user_id', 'new_speed_logs.created_at', 'new_speeds.title', 'new_speeds.link', 'new_speeds.image')
+            ->latest()
+            ->paginate(config('define.pagination_long'));
 
 //        return response()->json($new_novel);
 

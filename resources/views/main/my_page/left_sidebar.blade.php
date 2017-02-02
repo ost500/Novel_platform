@@ -43,7 +43,7 @@
                 @endif
             </li>
             <li>
-                <a href="{{route('my_page.novels.new_novels')}}">소설</a>
+                <a href="{{route('my_page.novels.new_speed')}}">소설</a>
                 @if(Request::is('my_info/novels/*'))
                     <ul class="lnb-depth2">
                         <li><a href="{{route('my_page.novels.new_speed')}}"

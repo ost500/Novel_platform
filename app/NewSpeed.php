@@ -32,4 +32,10 @@ class NewSpeed extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    public function new_speed_logs()
+    {
+        return $this->hasMany(NewSpeedLog::class);
+    }
+
 }

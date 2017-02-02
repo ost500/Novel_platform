@@ -34,11 +34,12 @@
                         </div>
                     </div>
                     <div class="novel-view">
-                        <a  href="{{route('each_novel.novel_group.review',['id'=>$novel_group->id])}}"
-                            class="btn btn--special" style="width:140px;">독자추천 글쓰기</a>
-                        <a  href="{{route('each_novel.novel_group_inning',['id'=>$novel_group->novels[0]->id])}}"
-                                class="btn btn--special">첫화보기</a>
-
+                        <a href="{{route('each_novel.novel_group.review',['id'=>$novel_group->id])}}"
+                           class="btn btn--special" style="width:140px;">독자추천 글쓰기</a>
+                        @if($novel_group->novels->count() > 0)
+                            <a href="{{route('each_novel.novel_group_inning',['id'=>$novel_group->novels[0]->id])}}"
+                               class="btn btn--special">첫화보기</a>
+                        @endif
                     </div>
 
                     <div class="scrap-btns">
@@ -106,7 +107,7 @@
                                 <ul class="recommend-list">
                                     @foreach($author_novel_groups as $author_novel_group)
                                         <li>
-                                            <a href="#mode_nav">
+                                            <a href="{{ route('each_novel.novel_group',['id' => $author_novel_group->id]) }}">
                                                 <div class="thumb">
                                                     <span><img src="/img/novel_covers/{{ $author_novel_group->cover_photo }}"
                                                                alt=""></span>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewSpeedEvent;
 use App\Favorite;
 use App\Keyword;
 use App\Mailbox;
@@ -220,6 +221,9 @@ class NovelGroupController extends Controller
 
         flash("생성을 성공했습니다");
         //  return redirect()->route('author_novel_group', ['id' => $new_novel_group->id]);
+
+        event(new NewSpeedEvent("new_novel_group", "작가 ".$new_novel_group->nicknames->nickname."의 신작 ".$new_novel_group->title." 이 신규 등록 되었습니다.", "link", $new_novel_group->cover_photo, $new_novel_group->id));
+
         return redirect()->route('author_index');
     }
 

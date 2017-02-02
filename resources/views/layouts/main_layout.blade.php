@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -54,28 +54,28 @@
                 @if(Auth::check())
                     <button type="button" class="userbtn userbtn--open" id="more_btns_open">사용자메뉴</button>
 
-                        <div class="more-btns" id="more_btns">
-                            <div class="layer-popup-wrap">
-                                <a href="{{ route('my_page.index') }}" class="userbtn userbtn--myinfo">마이메뉴</a>
-                                <!-- 마이페이지팝업 -->
-                                <section class="layer-popup layer-popup--myinfo">
-                                    <div class="inner">
-                                        <h2 class="myinfo-user-name">@{{ user.name.toString() }}</h2>
-                                        <ul class="myinfo-nav clr">
-                                            <li class="link1">
-                                                보유구슬<br>
-                                                <a href="#mode_nav">1,170개</a>
-                                            </li>
-                                            <li class="link2">
-                                                선호작<br>
-                                                <a href="{{ route('my_page.favorites') }}">@{{ user.favorites_count }}작품</a>
-                                            </li>
-                                            <li class="link3">
-                                                MY정보<br>
-                                                <a href="{{route('my_page.index')}}">관리하기</a>
-                                            </li>
-                                        </ul>
-                                        <div class="logout-btn"><a href="{{url('/logout')}}" onclick="event.preventDefault();
+                    <div class="more-btns" id="more_btns">
+                        <div class="layer-popup-wrap">
+                            <a href="{{ route('my_page.index') }}" class="userbtn userbtn--myinfo">마이메뉴</a>
+                            <!-- 마이페이지팝업 -->
+                            <section class="layer-popup layer-popup--myinfo">
+                                <div class="inner">
+                                    <h2 class="myinfo-user-name">@{{ user.name.toString() }}</h2>
+                                    <ul class="myinfo-nav clr">
+                                        <li class="link1">
+                                            보유구슬<br>
+                                            <a href="#mode_nav">1,170개</a>
+                                        </li>
+                                        <li class="link2">
+                                            선호작<br>
+                                            <a href="{{ route('my_page.favorites') }}">@{{ user.favorites_count }}작품</a>
+                                        </li>
+                                        <li class="link3">
+                                            MY정보<br>
+                                            <a href="{{route('my_page.index')}}">관리하기</a>
+                                        </li>
+                                    </ul>
+                                    <div class="logout-btn"><a href="{{url('/logout')}}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">로그아웃</a></div>
                                     <form id="logout-form" action="{{ url('/logout') }}" method="POST"
                                           style="display: none;">
@@ -148,70 +148,29 @@
                             <!-- //쪽지팝업 -->
                         </div>
                         <div class="layer-popup-wrap">
-                            <a href="#mode_nav" class="userbtn userbtn--alarm">알림</a>
+                            <a href="{{ route('my_page.novels.new_speed') }}" class="userbtn userbtn--alarm">알림</a>
                             <!-- 소식팝업 -->
                             <section class="layer-popup layer-popup--news">
                                 <div class="inner">
                                     <div class="alarm-container">
                                         <h2 class="alarm-title">소식</h2>
                                         <ul class="alarm-list">
-                                            <li class="is-new">
+                                            <li v-for="new_speed in new_speeds" class="is-new">
                                                 <div class="thumb">
-                                                    <img src="/front/imgs/thumb/alarm1.png" alt="">
+                                                    <img v-bind:src="new_speed.image" alt="">
                                                 </div>
                                                 <div class="post">
-                                                    <p class="post-content"><a href="#mode_nav">고백게임 작가 이비안의 신작 <b
-                                                                    class="novel-title">탐닉의 밤</b>이 신규 등록되었습니다.</a></p>
-                                                    <p class="post-datetime">1시간 전</p>
+                                                    {{--<p class="post-content"><a href="#mode_nav">고백게임 작가 이비안의 신작 <b--}}
+                                                                    {{--class="novel-title">탐닉의 밤</b>이 신규 등록되었습니다.</a></p>--}}
+                                                    <p class="post-content"><a v-bind:href="new_speed.link">@{{ new_speed.title }}</a></p>
+                                                    <p class="post-datetime">@{{ new_speed.time_ago }}</p>
                                                 </div>
                                             </li>
-                                            <li class="is-new">
-                                                <div class="thumb">
-                                                    <img src="/front/imgs/thumb/alarm2.png" alt="">
-                                                </div>
-                                                <div class="post">
-                                                    <p class="post-content"><a href="#mode_nav">지난달 베스트 1위 작품 공개! 2016년
-                                                            5월의
-                                                            판매 1위는?</a></p>
-                                                    <p class="post-datetime">2시간 전</p>
-                                                </div>
-                                            </li>
-                                            <li class="is-new">
-                                                <div class="thumb">
-                                                    <img src="/front/imgs/thumb/alarm3.png" alt="">
-                                                </div>
-                                                <div class="post">
-                                                    <p class="post-content"><a href="#mode_nav">6월 둘째 주, 유료연재 주간 베스트 작품
-                                                            TOP
-                                                            5를 소개합니다!</a></p>
-                                                    <p class="post-datetime">1일 전</p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="thumb">
-                                                    <img src="/front/imgs/thumb/alarm4.png" alt="">
-                                                </div>
-                                                <div class="post">
-                                                    <p class="post-content"><a href="#mode_nav">오늘 가장 많이 읽은 유료연재
-                                                            소설은?</a>
-                                                    </p>
-                                                    <p class="post-datetime">1일 전</p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="thumb">
-                                                    <img src="/front/imgs/thumb/alarm5.png" alt="">
-                                                </div>
-                                                <div class="post">
-                                                    <p class="post-content"><a href="#mode_nav">로맨스판타지 10% 할인 이벤트!</a>
-                                                    </p>
-                                                    <p class="post-datetime">2일 전</p>
-                                                </div>
-                                            </li>
+
                                         </ul>
-                                        <a href="#mode_nav" class="alarm-more-btn">더보기</a>
+                                        <a href="{{ route('my_page.novels.new_speed') }}" class="alarm-more-btn">더보기</a>
                                     </div>
-                                    <a href="#mode_nav" class="alarm-bottom-more-btn">더보기</a>
+                                    <a href="{{ route('my_page.novels.new_speed') }}" class="alarm-bottom-more-btn">더보기</a>
                                 </div>
                             </section>
                             <!-- //알림팝업 -->
@@ -223,15 +182,26 @@
                             el: '#more_btns',
 
                             data: {
-                                user: {"name": "{{ Auth::user()->name }}",
-                                    "favorites_count": "{{ Auth::user()->favorites->count() }}"},
+                                user: {
+                                    "name": "{{ Auth::user()->name }}",
+                                    "favorites_count": "{{ Auth::user()->favorites->count() }}"
+                                },
+                                new_speeds: "",
                             },
                             mounted: function () {
                                 console.log(this.user);
+                                this.get_new_speed();
                             },
                             methods: {
                                 submit: function (e) {
 
+                                },
+                                get_new_speed: function () {
+                                    this.$http.get('/newspeed')
+                                            .then(function (response) {
+                                                this.new_speeds = response.data;
+                                                console.log(this.new_speeds);
+                                            });
                                 }
                             }
                         });
@@ -359,17 +329,18 @@
                 <div class="search-form-basic">
                     <strong class="search-form-title">일반검색</strong>
                     <span class="selectbox">
-                        <select title="검색옵션" name="search_type" id="search_type" >
+                        <select title="검색옵션" name="search_type" id="search_type">
                             <option value="전체">전체</option>
                             <option value="서브">서브</option>
                             <option value="서브2">서브2</option>
                         </select>
                     </span>
-                    <div class="input"><input type="text" name="title" id="title" class="text1"  title="검색어"></div>
+                    <div class="input"><input type="text" name="title" id="title" class="text1" title="검색어"></div>
                 </div>
                 <div class="search-form-hash-tag">
                     <strong class="search-form-title">해시태그 검색</strong>
-                    <div class="input"><input type="text" name="keyword_name" id="keyword_name"  class="text1"  value="" title="해시태그 검색어"></div>
+                    <div class="input"><input type="text" name="keyword_name" id="keyword_name" class="text1" value=""
+                                              title="해시태그 검색어"></div>
                     <div class="submit">
                         <button type="submit" class="userbtn userbtn--search-submit">검색</button>
                     </div>
@@ -378,7 +349,7 @@
                         <div class="list">
                             @php $keywords= getKeywords(); @endphp
                             @foreach($keywords as $keyword)
-                            <a href="#dddd"  onclick="searchKeyword(this)">#{{$keyword->name}}</a>
+                                <a href="#dddd" onclick="searchKeyword(this)">#{{$keyword->name}}</a>
                             @endforeach
 
                         </div>
@@ -443,17 +414,18 @@
 </div>
 <!-- //푸터 -->
 <script>
-    function searchKeyword(keyword){
+    function searchKeyword(keyword) {
 
-      var keyword_text=keyword.text.replace("#", "");console.log(keyword_text);
+        var keyword_text = keyword.text.replace("#", "");
+        console.log(keyword_text);
         $('#keyword_name').val(keyword_text);
-       /* $.post('{{--{{ route('search.index') }}--}}', {'search_type':,'keyword_name':keyword.value}, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
-                .then(function (response) {
-                    location.reload();
+        /* $.post('{{--{{ route('search.index') }}--}}', {'search_type':,'keyword_name':keyword.value}, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+         .then(function (response) {
+         location.reload();
 
-                }).catch(function (errors) {
-                    console.log(errors);
-                });*/
+         }).catch(function (errors) {
+         console.log(errors);
+         });*/
     }
 
 </script>
@@ -470,7 +442,6 @@
 <script> $(document).ready(function () {
     $('input:radio, input:checkbox').checkedPolyfill();
 }); </script>
-
 
 
 <![endif]-->

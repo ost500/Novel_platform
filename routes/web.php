@@ -41,6 +41,8 @@ Route::post('publish_novel', ['as' => 'publish_novel.store', 'uses' => "PublishN
 Route::post('publish_novel/update_status', ['as' => 'publish_novel.update_status', 'uses' => "PublishNovelController@update_status"]);
 Route::delete('publish_novel/{id}', ['as' => 'publish_novel.destroy', 'uses' => "PublishNovelController@destroy"]);
 Route::get('publish_novel/e_pub/{id}', ['as' => 'publish_novel.e_pub', 'uses' => "PublishNovelController@e_pub"]);
+//newspeed api
+Route::get('newspeed/', ['as' => 'newspeed', 'uses' => "NewSpeedController@show"]);
 
 
 Route::resource('users', 'UserController', ['except' => ['update']]);
