@@ -158,7 +158,7 @@ class MyInfoController extends Controller
             FreeBoardComment::find($request->get('comment_id'))->delete();
         }
 
-        flash('Comment Deleted.');
+        flash('댓글이 삭제 되었습니다.');
         return response()->json('ok');
     }
 
@@ -176,7 +176,7 @@ class MyInfoController extends Controller
             FreeBoardComment::where('id', $request->get('comment_id'))->update(['comment' => $request->get('comment')]);
         }
 
-        flash('Comment Updated.');
+        flash('댓글이 수정 되었습니다.');
         return response()->json('ok');
     }
 

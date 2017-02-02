@@ -15,6 +15,9 @@
                     <li>
                         <a href="{{route('mails.spam')}}" class="{{Request::is('mails/spam')?"is-active":""}}" >스팸쪽지함</a>
                     </li>
+                    <li>
+                        <a href="{{route('mails.create')}}" class="{{Request::is('mails/create') || Request::is('mails/create/*')?"is-active":""}}" >쪽지보내기</a>
+                    </li>
 
                 </ul>
             </nav>
