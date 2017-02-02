@@ -4,33 +4,8 @@
     <div class="container">
         <div class="wrap">
             <!-- LNB -->
-            <div class="lnb">
-                <nav>
-                    <h2 class="lnb-title">My정보</h2>
-                    <ul class="lnb-depth1">
-                        <li>
-                            <a href="#mode_nav">마이페이지 홈</a>
-                        </li>
-                        <li>
-                            <a href="#mode_nav">선호작</a>
-                        </li>
-                        <li>
-                            <a href="#mode_nav">이용정보</a>
-                        </li>
-                        <li>
-                            <a href="#mode_nav" class="is-active">소설</a>
-                            <ul class="lnb-depth2">
-                                <li><a href="#mode_nav" class="is-active">소식</a></li>
-                                <li><a href="#mode_nav">신작알림</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#mode_nav">개인</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-            <!-- //LNB -->
+        @include('main.my_page.left_sidebar')
+        <!-- //LNB -->
 
             <!-- 서브컨텐츠 -->
             <div class="content" id="content">
