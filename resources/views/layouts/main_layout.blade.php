@@ -93,52 +93,16 @@
                                     <div class="alarm-container">
                                         <h2 class="alarm-title">받은쪽지함</h2>
                                         <ul class="alarm-list">
-                                            <li class="is-new">
-                                                <div class="thumb">
-                                                    <img src="/front/imgs/thumb/memo1.png" alt="">
-                                                </div>
-                                                <div class="post">
-                                                    <p class="post-content"><a href="#mode_nav">와이엠북스입니다.</a></p>
-                                                    <p class="post-datetime">2016.11.16</p>
-                                                </div>
-                                            </li>
-                                            <li class="is-new">
+                                            <li v-for="new_mail in new_mails.data" v-bind:class="{'is-new' : !new_mail.read}">
                                                 <div class="thumb">
                                                     <img src="/front/imgs/thumb/memo2.png" alt="">
                                                 </div>
                                                 <div class="post">
-                                                    <p class="post-content"><a href="#mode_nav">앞편좀 하루 열어주세요.</a></p>
-                                                    <p class="post-datetime">2016.11.16</p>
+                                                    <p class="post-content"><a href="#mode_nav">@{{ new_mail.mailboxs.subject }}</a></p>
+                                                    <p class="post-datetime">@{{ new_mail.created_at }}</p>
                                                 </div>
                                             </li>
-                                            <li class="is-new">
-                                                <div class="thumb">
-                                                    <img src="/front/imgs/thumb/memo3.png" alt="">
-                                                </div>
-                                                <div class="post">
-                                                    <p class="post-content"><a href="#mode_nav">안녕하세요. 이비안입니다.</a></p>
-                                                    <p class="post-datetime">2016.11.15</p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="thumb">
-                                                    <img src="/front/imgs/thumb/memo4.png" alt="">
-                                                </div>
-                                                <div class="post">
-                                                    <p class="post-content"><a href="#mode_nav">작가님, 소울에임 편집팀입니다.</a>
-                                                    </p>
-                                                    <p class="post-datetime">2016.11.15</p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="thumb">
-                                                    <img src="/front/imgs/thumb/memo1.png" alt="">
-                                                </div>
-                                                <div class="post">
-                                                    <p class="post-content"><a href="#mode_nav">감사합니다.</a></p>
-                                                    <p class="post-datetime">2016.11.14</p>
-                                                </div>
-                                            </li>
+
                                         </ul>
                                         <a href="{{ route('mails.received') }}" class="alarm-more-btn">더보기</a>
                                     </div>
@@ -187,10 +151,12 @@
                                     "favorites_count": "{{ Auth::user()->favorites->count() }}"
                                 },
                                 new_speeds: "",
+                                new_mails: "",
                             },
                             mounted: function () {
                                 console.log(this.user);
                                 this.get_new_speed();
+                                this.get_new_mails();
                             },
                             methods: {
                                 submit: function (e) {
@@ -201,6 +167,13 @@
                                             .then(function (response) {
                                                 this.new_speeds = response.data;
                                                 console.log(this.new_speeds);
+                                            });
+                                },
+                                get_new_mails: function () {
+                                    this.$http.get('/newmail')
+                                            .then(function (response) {
+                                                this.new_mails = response.data;
+                                                console.log(this.new_mails);
                                             });
                                 }
                             }

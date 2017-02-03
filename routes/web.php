@@ -43,6 +43,8 @@ Route::delete('publish_novel/{id}', ['as' => 'publish_novel.destroy', 'uses' => 
 Route::get('publish_novel/e_pub/{id}', ['as' => 'publish_novel.e_pub', 'uses' => "PublishNovelController@e_pub"]);
 //newspeed api
 Route::get('newspeed/', ['as' => 'newspeed', 'uses' => "NewSpeedController@show"]);
+//new mail api
+Route::get('newmail/', ['as' => 'newmail', 'uses' => "MailLogController@show"]);
 
 
 Route::resource('users', 'UserController', ['except' => ['update']]);

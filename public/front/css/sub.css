@@ -1176,6 +1176,11 @@
 
     float: right;
 }
+
+.right-top-margin-btns{
+    margin-top: 20px;
+    float: right;
+}
 /* 자유게시판 */
 .bbs-list--free .col-subject {
     padding-left: 5px;

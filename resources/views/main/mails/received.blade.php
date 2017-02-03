@@ -39,13 +39,13 @@
                         <tbody>
                         @if(count($received_mails) > 0)
                             @foreach($received_mails as $received_mail)
-                                <tr @if($week_gap < $received_mail->created_at) class="is-new" @endif>
+                                <tr @if($received_mail->read == null) class="is-new" @endif>
                                     <td class="col-check"><label class="checkbox2 ">
                                             <input type="checkbox" class="checkboxes" data-check-item
                                                    value="{{$received_mail->id}}"><span></span></label>
                                     </td>
                                     <td class="col-name">{{$received_mail->mailboxs->users->name}}</td>
-                                    <td class="col-thumb"><img src="/front/imgs/thumb/memo1.png" alt=""></td>
+                                    <td class="col-thumb"><img src="/front/imgs/thumb/memo2.png" alt=""></td>
                                     <td class="col-subject">
                                         <a href="#mode_nav">{{$received_mail->mailboxs->subject}}</a>
                                     </td>
@@ -71,7 +71,7 @@
                     </div>
 
 
-                    <div class="right-btns">
+                    <div class="right-top-margin-btns">
                         <button type="button" class="btn" v-on:click="myBoxOrSpam('spam')"
                                 @if(count($received_mails) == 0)  disabled @endif >차단
                         </button>

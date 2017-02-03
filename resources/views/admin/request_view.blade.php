@@ -62,7 +62,7 @@
                         </div>
                         <div class="pad-top">
                             <button id="answer_box_btn" class="btn btn-primary inline"
-                                    style="width:100px;height:48px; vertical-align:top;">수정
+                                    style="width:100px;height:48px; vertical-align:top;">답변
                             </button>
                         </div>
                     @endif
