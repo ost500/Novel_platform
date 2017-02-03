@@ -48,18 +48,18 @@
                          <div class="episode-content-btns">
 
                              @if($show_favorite)
-                                 <a href="" v-on:click="addToFavorite('{{$novel_group_inning->novel_group_id}}')"
-                                   id="add_favorite" style="display:none;"><i class="scrap-icon"></i> 선호작추가</a>
+                                 <a v-on:click="addToFavorite('{{$novel_group_inning->novel_group_id}}')"
+                                   id="add_favorite" style="display:none;cursor:pointer;"><i class="scrap-icon"></i> 선호작추가</a>
 
-                                <a href="#" class="is-active" v-on:click="removeFromFavorite()" id="remove_favorite">
+                                 <a  class="is-active" v-on:click="removeFromFavorite()" id="remove_favorite" style="cursor:pointer;">
                                     <i class="scrap-active-icon"></i> 선호작추가</a>
 
                             @else
-                                <a href="" v-on:click="addToFavorite('{{$novel_group_inning->novel_group_id}}')"
-                                   id="add_favorite"><i class="scrap-icon"></i> 선호작추가</a>
+                                <a  v-on:click="addToFavorite('{{$novel_group_inning->novel_group_id}}')"
+                                   id="add_favorite" style="cursor:pointer;"><i class="scrap-icon"></i> 선호작추가</a>
 
-                                <a href="" class="is-active" v-on:click="removeFromFavorite()" id="remove_favorite"
-                                   style="display:none;"><i class="scrap-active-icon"></i> 선호작추가</a>
+                                <a  class="is-active" v-on:click="removeFromFavorite()" id="remove_favorite"
+                                   style="display:none;cursor:pointer;"><i class="scrap-active-icon"></i> 선호작추가</a>
                             @endif
 
                             <a href="#mode_nav" class="share-btn"><i class="share2-icon"></i> 공유하기</a>
