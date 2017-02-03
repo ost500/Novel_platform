@@ -15,7 +15,7 @@ class MainController extends Controller
 {
     public function main(Request $request)
     {
-        $recommends = NovelGroup::take(5)->with('nicknames')->get();
+        $recommends = NovelGroup::take(5)->where('secret',null)->with('nicknames')->get();
 //        return response()->json($recommends);
 //        $today_best = ViewCount::selectRaw('novel_group_id, novel_groups.*, sum(count) as sum')
 //            ->join('novels', 'novels.id', '=', 'novel_id')
@@ -24,20 +24,23 @@ class MainController extends Controller
 //            ->get();
         $non_free_today_bests = NovelGroup::selectRaw('novel_group_id, novel_groups.*, sum(today_count) as sum, max(non_free_agreement) as non_free')
             ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
-            ->groupBy('novel_group_id')->orderBy('sum', 'desc')->havingRaw('max(non_free_agreement) > 0')
+            ->groupBy('novel_group_id')->where('secret',null)->orderBy('sum', 'desc')->havingRaw('max(non_free_agreement) > 0')
             ->with('nicknames')->take(10)->get();
         $free_today_bests = NovelGroup::selectRaw('novel_group_id, novel_groups.*, sum(today_count) as sum, max(non_free_agreement) as non_free')
             ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
-            ->groupBy('novel_group_id')->orderBy('sum', 'desc')->havingRaw('max(non_free_agreement) = 0')
+            ->groupBy('novel_group_id')->where('secret',null)->orderBy('sum', 'desc')->havingRaw('max(non_free_agreement) = 0')
             ->with('nicknames')->take(10)->get();
 
-        $latests = NovelGroup::latest()->take(5)->get();
+        $latests = NovelGroup::where('secret',null)->latest()->take(5)->get();
 
-        $reader_reviews = Review::take(6)->with('novel_groups')->get();
+        //$reader_reviews = Review::take(6)->with('novel_groups')->get();
+        $reader_reviews = Review::selectRaw('reviews.*')
+            ->join('novel_groups', 'reviews.novel_group_id', '=', 'novel_groups.id')
+            ->where('secret',null)->take(6)->get();
 
         $recommendations = NovelGroup::selectRaw('novel_group_id, novel_groups.*, sum(week_count) as sum, max(non_free_agreement) as non_free')
             ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
-            ->groupBy('novel_group_id')->orderBy('sum', 'desc')->havingRaw('max(non_free_agreement) > 0')
+            ->groupBy('novel_group_id')->where('secret',null)->orderBy('sum', 'desc')->havingRaw('max(non_free_agreement) > 0')
             ->with('nicknames')->take(8)->get();
 
         //when it has to be logged in
@@ -54,14 +57,14 @@ class MainController extends Controller
             //charged
             $novel_groups = NovelGroup::selectRaw('novel_group_id, novel_groups.*, max(novels.created_at) as new, max(non_free_agreement) as non_free, sum(total_count) as total_count')
                 ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
-                ->where('completed', 0)
+                ->where([['completed','=', 0],['secret','=', null]])
                 ->groupBy('novel_group_id')->havingRaw('max(non_free_agreement) > 0');
 
         } else {
             //free
             $novel_groups = NovelGroup::selectRaw('novel_group_id, novel_groups.*, max(novels.created_at) as new, max(non_free_agreement) as non_free, sum(total_count) as total_count')
                 ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
-                ->where('completed', 0)
+                ->where([['completed','=', 0],['secret','=', null]])
                 ->groupBy('novel_group_id')->havingRaw('max(non_free_agreement) = 0');
 
         }
@@ -106,13 +109,17 @@ class MainController extends Controller
             $novel_groups = NovelGroup::selectRaw('novels.novel_group_id, novel_groups.*, max(novels.created_at) as new, sum(' . $period . ') as view_count, max(non_free_agreement) as non_free, sum(today_count) as total_count')
                 ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
                 ->join('novel_group_keywords', 'novel_group_keywords.novel_group_id', '=', 'novel_groups.id')
-                ->groupBy('novels.novel_group_id')->orderBy('view_count', 'desc')
+                ->groupBy('novels.novel_group_id')
+                ->where('secret',null)
+                ->orderBy('view_count', 'desc')
                 ->havingRaw('max(non_free_agreement) > 0');
         } else {
             $novel_groups = NovelGroup::selectRaw('novels.novel_group_id, novel_groups.*, max(novels.created_at) as new, sum(' . $period . ') as view_count, max(non_free_agreement) as non_free, sum(today_count) as total_count')
                 ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
                 ->join('novel_group_keywords', 'novel_group_keywords.novel_group_id', '=', 'novel_groups.id')
-                ->groupBy('novels.novel_group_id')->orderBy('view_count', 'desc')
+                ->groupBy('novels.novel_group_id')
+                ->where('secret',null)
+                ->orderBy('view_count', 'desc')
                 ->havingRaw('max(non_free_agreement) = 0');
             //havingRaw max(non_free_agreement) == 0 means it's free
         }
@@ -155,14 +162,14 @@ class MainController extends Controller
             //charged
             $novel_groups = NovelGroup::selectRaw('novel_group_id, novel_groups.*, max(novels.created_at) as new, max(non_free_agreement) as non_free, sum(total_count) as total_count')
                 ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
-                ->where('completed', 1)
+                ->where([['completed','=', 1],['secret','=', null]])
                 ->groupBy('novel_group_id')->havingRaw('max(non_free_agreement) > 0');
 
         } else {
             //free
             $novel_groups = NovelGroup::selectRaw('novel_group_id, novel_groups.*, max(novels.created_at) as new, max(non_free_agreement) as non_free, sum(total_count) as total_count')
                 ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
-                ->where('completed', 1)
+                ->where([['completed','=', 1],['secret','=', null]])
                 ->groupBy('novel_group_id')->havingRaw('max(non_free_agreement) = 0');
 
         }

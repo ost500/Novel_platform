@@ -26,7 +26,7 @@
             <!-- 유료연재베스트 -->
             <section class="latest-wrap latest-wrap--charge">
                 <h2 class="latest-title"><span>유료연재</span> 투데이 베스트</h2>
-                <ol class="latest latest--rank latest--rank--charge">
+                <ol class="latest latest--rank latest--rank--charge" @if(count($non_free_today_bests) < 7 ) style="padding-bottom: 110px" @endif >
                     @foreach($non_free_today_bests as $today_best)
                         <li>
                             <a href="{{route('each_novel.novel_group',['id'=>$today_best->id])}}">
