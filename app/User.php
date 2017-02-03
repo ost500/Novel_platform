@@ -75,6 +75,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Query\Builder|\App\User whereDeletedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\User whereBirthOfYear($value)
  * @method static \Illuminate\Database\Query\Builder|\App\User whereGender($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\NewSpeedLog[] $new_speed_logs
  */
 class User extends Authenticatable
 {

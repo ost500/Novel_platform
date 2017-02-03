@@ -183,6 +183,7 @@ Route::group(['prefix' => 'my_info', 'middleware' => ['auth']], function () {
     Route::get('/', ['as' => 'my_page.index', 'uses' => 'MainController\MyPageController@index']);
     Route::get('/favorites', ['as' => 'my_page.favorites', 'uses' => 'MainController\MyPageController@favorites']);
     Route::get('/novels/new_speed', ['as' => 'my_page.novels.new_speed', 'uses' => 'MainController\MyPageController@new_speed']);
+    Route::get('/novels/new_speed/read/{id}', ['as' => 'my_page.novels.new_speed.read', 'uses' => 'MainController\MyPageController@new_speed_read']);
     Route::get('/novels/new_novels', ['as' => 'my_page.novels.new_novels', 'uses' => 'MainController\MyPageController@new_novels']);
 
     Route::group(['prefix' => 'personal'], function () {

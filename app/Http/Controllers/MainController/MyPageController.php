@@ -123,17 +123,28 @@ class MyPageController extends Controller
     public function new_speed()
     {
 
-        
 
         $new_speeds = NewSpeedLog::join('new_speeds', 'new_speeds.id', '=', 'new_speed_logs.new_speed_id')
             ->where('new_speed_logs.user_id', Auth::user()->id)
-            ->select('new_speed_logs.user_id', 'new_speed_logs.user_id', 'new_speed_logs.created_at', 'new_speeds.title', 'new_speeds.link', 'new_speeds.image')
+            ->select('new_speed_logs.user_id', 'new_speed_logs.user_id', 'new_speed_logs.created_at', 'new_speeds.title', 'new_speeds.link', 'new_speeds.image', 'new_speed_logs.id', 'new_speed_logs.read')
             ->latest()
             ->paginate(config('define.pagination_long'));
 
 //        return response()->json($new_novel);
 
         return view('main.my_page.novel.new_speed', compact('new_speeds'));
+    }
+
+    public function new_speed_read($id)
+    {
+        $new_speed_log = NewSpeedLog::find($id);
+
+        $new_speed_log->read = true;
+        $new_speed_log->save();
+
+        $link = $new_speed_log->new_speed->link;
+
+        return redirect()->to($link);
     }
 
 }

@@ -23,7 +23,10 @@
                                 <img src="{{ $new_speed->image }}" alt="">
                             </div>
                             <div class="post">
-                                <p class="post-content"><a href="{{ $new_speed->link }}">{{ $new_speed->title }}</a></p>
+                                <p class="post-content">
+                                    <a @if (!$new_speed->read)style="color: #5db38e" @endif
+                                    href="{{ route('my_page.novels.new_speed.read', ['id' => $new_speed->id]) }}">{{ $new_speed->title }}</a>
+                                </p>
                                 <p class="post-datetime">{{ time_elapsed_string($new_speed->created_at) }}</p>
                             </div>
                         </li>

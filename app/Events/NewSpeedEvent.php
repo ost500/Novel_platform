@@ -4,6 +4,7 @@ namespace App\Events;
 
 use App\Favorite;
 use App\NewSpeed;
+use App\NewSpeedLog;
 use App\User;
 use Auth;
 use Illuminate\Broadcasting\Channel;
@@ -66,13 +67,19 @@ class NewSpeedEvent
 
         }
 
+        
+        $newSpeed = new NewSpeed();
+        $newSpeed->user_id = Auth::user()->id;
+        $newSpeed->title = $this->title;
+        $newSpeed->link = $this->link;
+        $newSpeed->image = $this->image;
+        $newSpeed->save();
+
 
         foreach ($toWhom as $whom) {
-            $new = new NewSpeed();
+            $new = new NewSpeedLog();
             $new->user_id = $whom->user_id;
-            $new->title = $this->title;
-            $new->link = $this->link;
-            $new->image = $this->image;
+            $new->new_speed_id = $newSpeed->id;
             $new->read = false;
             $new->save();
         }

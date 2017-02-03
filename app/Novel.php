@@ -51,6 +51,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Novel whereMonthCount($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Novel whereYearCount($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Novel whereTotalCount($value)
+ * @property \Carbon\Carbon $deleted_at
+ * @method static \Illuminate\Database\Query\Builder|\App\Novel whereDeletedAt($value)
  */
 class Novel extends Model
 {

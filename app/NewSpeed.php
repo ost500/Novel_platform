@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\NewSpeed whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\NewSpeed whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\NewSpeedLog[] $new_speed_logs
  */
 class NewSpeed extends Model
 {

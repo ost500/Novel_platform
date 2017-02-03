@@ -50,9 +50,9 @@
         <!-- 사용자메뉴 -->
         <div class="usermenu">
             <!-- 방문자버튼 -->
-            <div class="login-area">
+            <div class="login-area" id="login-area">
                 @if(Auth::check())
-                    <button type="button" class="userbtn userbtn--open" id="more_btns_open">사용자메뉴</button>
+                    <button type="button" class="userbtn userbtn--open" v-bind:class="{'is-new' : new_speeds.news_count > 0 }" id="more_btns_open">사용자메뉴<i>@{{ new_speeds.news_count }}</i></button>
 
                     <div class="more-btns" id="more_btns">
                         <div class="layer-popup-wrap">
@@ -148,21 +148,21 @@
                             <!-- //쪽지팝업 -->
                         </div>
                         <div class="layer-popup-wrap">
-                            <a href="{{ route('my_page.novels.new_speed') }}" class="userbtn userbtn--alarm">알림</a>
+                            <a href="{{ route('my_page.novels.new_speed') }}" class="userbtn userbtn--alarm" v-bind:class="{'is-new' : new_speeds.news_count > 0 }">알림<i>@{{ new_speeds.news_count }}</i></a>
                             <!-- 소식팝업 -->
                             <section class="layer-popup layer-popup--news">
                                 <div class="inner">
                                     <div class="alarm-container">
                                         <h2 class="alarm-title">소식</h2>
                                         <ul class="alarm-list">
-                                            <li v-for="new_speed in new_speeds" class="is-new">
+                                            <li v-for="new_speed in new_speeds" v-bind:class="{'is-new' : !new_speed.read}">
                                                 <div class="thumb">
                                                     <img v-bind:src="new_speed.image" alt="">
                                                 </div>
                                                 <div class="post">
                                                     {{--<p class="post-content"><a href="#mode_nav">고백게임 작가 이비안의 신작 <b--}}
                                                                     {{--class="novel-title">탐닉의 밤</b>이 신규 등록되었습니다.</a></p>--}}
-                                                    <p class="post-content"><a v-bind:href="new_speed.link">@{{ new_speed.title }}</a></p>
+                                                    <p class="post-content"><a v-bind:href="'{{ route('my_page.novels.new_speed.read', ['id' => '']) }}/' + new_speed.id">@{{ new_speed.title }}</a></p>
                                                     <p class="post-datetime">@{{ new_speed.time_ago }}</p>
                                                 </div>
                                             </li>
@@ -179,7 +179,7 @@
 
                     <script>
                         var main_layout = new Vue({
-                            el: '#more_btns',
+                            el: '#login-area',
 
                             data: {
                                 user: {
