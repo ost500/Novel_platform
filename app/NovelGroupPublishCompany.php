@@ -33,6 +33,10 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\NovelGroupPublishCompany whereDays($value)
  * @method static \Illuminate\Database\Query\Builder|\App\NovelGroupPublishCompany whereNovelsPerDays($value)
  * @method static \Illuminate\Database\Query\Builder|\App\NovelGroupPublishCompany whereInitialNovels($value)
+ * @property bool $stop
+ * @property bool $event
+ * @method static \Illuminate\Database\Query\Builder|\App\NovelGroupPublishCompany whereStop($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\NovelGroupPublishCompany whereEvent($value)
  */
 class NovelGroupPublishCompany extends Model
 {

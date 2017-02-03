@@ -20,6 +20,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Faq whereDescription($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Faq whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Faq whereUpdatedAt($value)
+ * @property bool $best
+ * @method static \Illuminate\Database\Query\Builder|\App\Faq whereBest($value)
  */
 class Faq extends Model
 {

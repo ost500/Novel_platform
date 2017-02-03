@@ -41,6 +41,10 @@ Route::post('publish_novel', ['as' => 'publish_novel.store', 'uses' => "PublishN
 Route::post('publish_novel/update_status', ['as' => 'publish_novel.update_status', 'uses' => "PublishNovelController@update_status"]);
 Route::delete('publish_novel/{id}', ['as' => 'publish_novel.destroy', 'uses' => "PublishNovelController@destroy"]);
 Route::get('publish_novel/e_pub/{id}', ['as' => 'publish_novel.e_pub', 'uses' => "PublishNovelController@e_pub"]);
+//newspeed api
+Route::get('newspeed/', ['as' => 'newspeed', 'uses' => "NewSpeedController@show"]);
+//new mail api
+Route::get('newmail/', ['as' => 'newmail', 'uses' => "MailLogController@show"]);
 
 
 Route::resource('users', 'UserController', ['except' => ['update']]);
@@ -182,6 +186,7 @@ Route::group(['prefix' => 'my_info', 'middleware' => ['auth']], function () {
     Route::get('/', ['as' => 'my_page.index', 'uses' => 'MainController\MyPageController@index']);
     Route::get('/favorites', ['as' => 'my_page.favorites', 'uses' => 'MainController\MyPageController@favorites']);
     Route::get('/novels/new_speed', ['as' => 'my_page.novels.new_speed', 'uses' => 'MainController\MyPageController@new_speed']);
+    Route::get('/novels/new_speed/read/{id}', ['as' => 'my_page.novels.new_speed.read', 'uses' => 'MainController\MyPageController@new_speed_read']);
     Route::get('/novels/new_novels', ['as' => 'my_page.novels.new_novels', 'uses' => 'MainController\MyPageController@new_novels']);
 
     Route::group(['prefix' => 'personal'], function () {

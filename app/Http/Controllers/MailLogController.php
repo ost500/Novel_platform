@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Mailbox;
 use App\MailLog;
+use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class MailLogController extends Controller
 {
@@ -41,5 +43,21 @@ class MailLogController extends Controller
         }
 
         return response()->json("ok");
+    }
+
+    public function show()
+    {
+        $mails = Auth::user()->maillogs()
+            ->with('mailboxs.users')
+            ->where(['spam' => 0, 'mybox' => 0]);
+        $received_mails = $mails
+            ->latest()->take(5)->get();
+
+
+        // unread count
+        $mail_unread_count = $mails->where('read', null)->get()->count();
+
+
+        return response()->json(['data' => $received_mails, 'count' => $mail_unread_count]);
     }
 }

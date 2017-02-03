@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\NickName whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\NickName whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \App\NovelGroup $novel_groups
  */
 class NickName extends Model
 {
@@ -39,6 +40,6 @@ class NickName extends Model
 
     public function novel_groups()
     {
-        return $this->hasOne('novel_groups');
+        return $this->hasOne(NovelGroup::class);
     }
 }

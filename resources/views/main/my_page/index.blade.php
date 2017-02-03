@@ -64,7 +64,7 @@
                                 </li>
                             @endforeach
                         @else
-                            <div style="text-align:center;"> You have no purchased novels. Please purchase one.</div>
+                            <div style="text-align:center;">최근 구매 내역이 없습니다</div>
                         @endif
 
                     </ul>

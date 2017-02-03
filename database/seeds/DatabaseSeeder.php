@@ -156,6 +156,8 @@ class DatabaseSeeder extends Seeder
         $this->call(NovelGroupKeywordSeeder::class);
         $this->call(FreeBoardSeeder::class);
         $this->call(ReviewCommentSeeder::class);
+        $this->call(NewSpeedSeeder::class);
+        $this->call(NewSpeedLogSeeder::class);
 
     }
 

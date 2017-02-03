@@ -268,3 +268,27 @@ $factory->define(App\ReviewComment::class, function (Faker\Generator $faker) {
         'comment' => $faker->sentence,
     ];
 });
+
+$factory->define(App\NewSpeed::class, function (Faker\Generator $faker) {
+    $userIds = App\User::pluck('id')->toArray();
+
+
+    return [
+        'user_id' => $faker->randomElement($userIds),
+        'title' => $faker->sentence(),
+        'link' => route('root'),
+        'image' => '/img/novel_covers/default_1.jpg',
+
+    ];
+});
+
+$factory->define(App\NewSpeedLog::class, function (Faker\Generator $faker) {
+    $userIds = App\User::pluck('id')->toArray();
+    $newSpeeds = App\NewSpeed::pluck('id')->toArray();
+
+    return [
+        'user_id' => $faker->randomElement($userIds),
+        'new_speed_id' => $faker->randomElement($newSpeeds),
+        'read' => 0
+    ];
+});
