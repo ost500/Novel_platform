@@ -26,7 +26,7 @@ class FreeBoardCommentController extends Controller
         ])->validate();
 
        //if posting is blocked then redirect back
-        if (Auth::user()->isPostingBlocked()) {
+        if (Auth::user()->isCommentBlocked()) {
             $errors= '자유게시판에 댓글 기능이 관리자에 의해 금지 됐습니다';
             return redirect()->back()->withErrors($errors);
         }

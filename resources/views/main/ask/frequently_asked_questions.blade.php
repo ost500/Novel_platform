@@ -47,7 +47,7 @@
                         <tr>
                             <td class="col-category">{{$faq->faq_category}}</td>
                             <td class="col-subject">
-                                <a href="#">{{$faq->title}}</a>
+                                <a href="{{route('ask.faq_detail',['id'=>$faq->id])}}">{{$faq->title}}</a>
 
                             </td>
                         </tr>

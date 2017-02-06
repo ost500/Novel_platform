@@ -29,7 +29,7 @@
                         <tr>
                             <td class="col-category">{{$notification->category}}</td>
                             <td class="col-subject">
-                                <a href="#mode_nav">{{$notification->title}}</a>
+                                <a href="{{route('ask.notification_detail',['id'=>$notification->id])}}">{{$notification->title}}</a>
                             </td>
                             <td class="col-datetime">{{$notification->created_at}}</td>
                         </tr>
