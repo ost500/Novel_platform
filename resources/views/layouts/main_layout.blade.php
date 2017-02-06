@@ -168,8 +168,8 @@
 
                     data: {
                         user: {
-                            "name": "{{ Auth::user()->name }}",
-                            "favorites_count": "{{ Auth::user()->favorites->count() }}"
+                            "name": "@if(Auth::check()){{ Auth::user()->name }}@endif",
+                            "favorites_count": "@if(Auth::check()){{ Auth::user()->favorites->count() }}@endif"
                         },
                         new_speeds: "",
                         new_mails: "",
@@ -292,7 +292,9 @@
                                 <input id="email" type="text" name="name" class="text2" title="아이디"
                                        autofocus value="{{ old('name') }}" placeholder="여우정원계정">
                                 <span class="alert-msg is-active">{{$errors->first('name')}}</span>
-
+                            @else
+                                <input id="email" type="text" name="name" class="text2" title="아이디"
+                                       autofocus value="{{ old('name') }}" placeholder="여우정원계정">
 
                             @endif
                         </div>

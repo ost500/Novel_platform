@@ -39,7 +39,7 @@
                         <tbody>
                         @if(count($received_mails) > 0)
                             @foreach($received_mails as $received_mail)
-                                <tr>
+                                <tr @if($received_mail->read == null) class="is-new" @endif>
                                     <td class="col-check"><label class="checkbox2 ">
                                             <input type="checkbox" class="checkboxes" data-check-item
                                                    value="{{$received_mail->id}}"><span></span></label>

@@ -389,8 +389,8 @@ class NovelGroupController extends Controller
 
 
         $new_mail = new Mailbox();
-        $new_mail->subject = "'" . $novel_group->title . "'이 비밀이 됩니다.";
-        $new_mail->body = $novel_group->secret . " '" . $novel_group->title . "'이 비밀이 됩니다.";
+        $new_mail->subject = "'" . $novel_group->title . "'이(가) 비밀 글이 됩니다.";
+        $new_mail->body = $novel_group->secret . " 이후로 '" . $novel_group->title . "'이(가) 비밀 글이 됩니다.";
         $new_mail->from = Auth::user()->id;
         $new_mail->novel_group_id = $novel_group->id;
         $new_mail->save();
@@ -420,8 +420,8 @@ class NovelGroupController extends Controller
 
 
         $new_mail = new Mailbox();
-        $new_mail->subject = "'" . $novel_group->title . "'이 비밀 해제 됩니다.";
-        $new_mail->body = $novel_group->secret . " '" . $novel_group->title . "'이 비밀 해제 됩니다.";
+        $new_mail->subject = "'" . $novel_group->title . "'이(가) 비밀 해제 됩니다.";
+        $new_mail->body = $novel_group->secret . " 이후로'" . $novel_group->title . "'이(가) 비밀 해제 됩니다.";
         $new_mail->from = Auth::user()->id;
         $new_mail->novel_group_id = $novel_group->id;
         $new_mail->save();
