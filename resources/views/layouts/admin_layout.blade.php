@@ -258,6 +258,21 @@
                                             <li><a href="{{ route('admin.faqs.create')}}">FAQ 등록</a></li>
                                         </ul>
                                 </li>
+                                <li class="list-divider"></li>
+
+                                <li  class="{{ (Request::is('admin/notifications')||Request::is('admin/notifications/*')||Request::is('admin/notifications/create'))?"active-link":"" }}">
+                                    <a href="{{ route('admin.notifications')}}">
+                                        <i class="fa fa-send"></i>
+                                        <span class="menu-title">
+                                            <strong>공지사항 관리</strong>
+                                        </span>
+                                        <i class="arrow"></i>
+                                        </a>
+                                        <ul class="collapse  {{ (Request::is('admin/notifications')||Request::is('admin/notifications/*')||Request::is('admin/notifications/create'))?"in":"" }}">
+                                            <li><a href="{{ route('admin.notifications')}}">공지사항</a></li>
+                                            <li><a href="{{ route('admin.faqs.create')}}">공지사항 등록</a></li>
+                                        </ul>
+                                </li>
 
 
                                 <li class="list-divider"></li>

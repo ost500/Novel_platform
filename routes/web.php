@@ -108,40 +108,45 @@ Route::get('/author/partnership/proceed/', ['as' => 'author.partner_proceed', 'u
 Route::get('/author/partnership/test_inning/{id?}', ['as' => 'author.partner_test_inning', 'uses' => 'PageController\AuthorPageController@partner_test_inning']);
 
 Route::get('/author/faqs', ['as' => 'author.faqs', 'uses' => 'PageController\AuthorPageController@faq_index']);
-Route::get('/admin/faqs', ['as' => 'admin.faqs', 'uses' => 'PageController\AdminPageController@faq_index']);
-Route::get('/admin/faqs/create', ['as' => 'admin.faqs.create', 'uses' => 'PageController\AdminPageController@faq_create']);
-Route::get('/admin/faqs/{id}/edit', ['as' => 'admin.faqs.edit', 'uses' => 'PageController\AdminPageController@faq_edit']);
 
-Route::get('/admin/keywords', ['as' => 'admin.keywords', 'uses' => 'PageController\AdminPageController@keyword_index']);
-Route::get('/admin/keywords/create', ['as' => 'admin.keywords.create', 'uses' => 'PageController\AdminPageController@keyword_create']);
+Route::group(['prefix' => 'admin'], function () {
+
+    Route::get('/keywords', ['as' => 'admin.keywords', 'uses' => 'PageController\AdminPageController@keyword_index']);
+    Route::get('/keywords/create', ['as' => 'admin.keywords.create', 'uses' => 'PageController\AdminPageController@keyword_create']);
 
 
-Route::get('/admin/index', ['as' => 'admin.index', 'uses' => 'PageController\AdminPageController@index']);
-Route::get('/admin/novel', ['as' => 'admin.novel', 'uses' => 'PageController\AdminPageController@index']);
-Route::get('/admin/novel/{id}', ['as' => 'admin.novel_inning', 'uses' => 'PageController\AdminPageController@novel_inning']);
-Route::get('/admin/novel/inning/{id}', ['as' => 'admin.novel_inning_view', 'uses' => 'PageController\AdminPageController@novel_inning_view']);
+    Route::get('/index', ['as' => 'admin.index', 'uses' => 'PageController\AdminPageController@index']);
+    Route::get('/novel', ['as' => 'admin.novel', 'uses' => 'PageController\AdminPageController@index']);
+    Route::get('/novel/{id}', ['as' => 'admin.novel_inning', 'uses' => 'PageController\AdminPageController@novel_inning']);
+    Route::get('/novel/inning/{id}', ['as' => 'admin.novel_inning_view', 'uses' => 'PageController\AdminPageController@novel_inning_view']);
 
-Route::get('/admin/users', ['as' => 'admin.users', 'uses' => 'PageController\AdminPageController@users']);
-Route::get('/admin/user/{id}', ['as' => 'admin.profile', 'uses' => 'PageController\AdminPageController@profile']);
-Route::get('/admin/sales', ['as' => 'admin.sales', 'uses' => 'PageController\AdminPageController@sales']);
-Route::get('/admin/request', ['as' => 'admin.request', 'uses' => 'PageController\AdminPageController@request']);
-Route::get('/admin/request/{id}', ['as' => 'admin.request_view', 'uses' => 'PageController\AdminPageController@request_view']);
-Route::post('/admin/request/{id}/answer', ['as' => 'admin.request_answer', 'uses' => 'MenToMenQuestionAnswerController@answer']);
+    Route::get('/users', ['as' => 'admin.users', 'uses' => 'PageController\AdminPageController@users']);
+    Route::get('/user/{id}', ['as' => 'admin.profile', 'uses' => 'PageController\AdminPageController@profile']);
+    Route::get('/sales', ['as' => 'admin.sales', 'uses' => 'PageController\AdminPageController@sales']);
+    Route::get('/request', ['as' => 'admin.request', 'uses' => 'PageController\AdminPageController@request']);
+    Route::get('/request/{id}', ['as' => 'admin.request_view', 'uses' => 'PageController\AdminPageController@request_view']);
+    Route::post('/request/{id}/answer', ['as' => 'admin.request_answer', 'uses' => 'MenToMenQuestionAnswerController@answer']);
 
-Route::get('/admin/memo', ['as' => 'admin.memo', 'uses' => 'PageController\AdminPageController@memo']);
-Route::get('/admin/memo_detail/{id}', ['as' => 'admin.memo_view', 'uses' => 'PageController\AdminPageController@memo_view']);
-Route::get('/admin/memo_create', ['as' => 'admin.memo_create', 'uses' => 'PageController\AdminPageController@memo_create']);
-Route::get('/admin/novel_memo_send', ['as' => 'admin.novel_memo_send', 'uses' => 'PageController\AdminPageController@mailbox_send']);
-Route::get('/admin/mailbox_send_message/{id}', ['as' => 'admin.mailbox_send_message', 'uses' => 'PageController\AdminPageController@mailbox_send_message_show']);
-Route::get('/admin/specific_mail/{id?}', ['as' => 'admin.specific_mail', 'uses' => 'PageController\AdminPageController@specific_mailbox_create']);
+    Route::get('/memo', ['as' => 'admin.memo', 'uses' => 'PageController\AdminPageController@memo']);
+    Route::get('/memo_detail/{id}', ['as' => 'admin.memo_view', 'uses' => 'PageController\AdminPageController@memo_view']);
+    Route::get('/memo_create', ['as' => 'admin.memo_create', 'uses' => 'PageController\AdminPageController@memo_create']);
+    Route::get('/novel_memo_send', ['as' => 'admin.novel_memo_send', 'uses' => 'PageController\AdminPageController@mailbox_send']);
+    Route::get('/mailbox_send_message/{id}', ['as' => 'admin.mailbox_send_message', 'uses' => 'PageController\AdminPageController@mailbox_send_message_show']);
+    Route::get('/specific_mail/{id?}', ['as' => 'admin.specific_mail', 'uses' => 'PageController\AdminPageController@specific_mailbox_create']);
 
-Route::get('/admin/partnership/manage_company', ['as' => 'admin.partner_manage_company', 'uses' => 'PageController\AdminPageController@partner_manage_company']);
-Route::get('/admin/partnership/manage_apply/{id?}', ['as' => 'admin.partner_manage_apply', 'uses' => 'PageController\AdminPageController@partner_manage_apply']);
-Route::get('/admin/partnership/create_company', ['as' => 'admin.partner_create_company', 'uses' => 'PageController\AdminPageController@partner_create_company']);
-Route::get('/admin/partnership/edit_company/{id}', ['as' => 'admin.partner_edit_company', 'uses' => 'PageController\AdminPageController@partner_edit_company']);
-Route::get('/admin/partnership/test_inning/{id?}', ['as' => 'admin.partner_test_inning', 'uses' => 'PageController\AdminPageController@partner_test_inning']);
-Route::get('/admin/partnership/approve_inning/{id?}', ['as' => 'admin.partner_approve_inning', 'uses' => 'PageController\AdminPageController@partner_approve_inning']);
+    Route::get('/partnership/manage_company', ['as' => 'admin.partner_manage_company', 'uses' => 'PageController\AdminPageController@partner_manage_company']);
+    Route::get('/partnership/manage_apply/{id?}', ['as' => 'admin.partner_manage_apply', 'uses' => 'PageController\AdminPageController@partner_manage_apply']);
+    Route::get('/partnership/create_company', ['as' => 'admin.partner_create_company', 'uses' => 'PageController\AdminPageController@partner_create_company']);
+    Route::get('/partnership/edit_company/{id}', ['as' => 'admin.partner_edit_company', 'uses' => 'PageController\AdminPageController@partner_edit_company']);
+    Route::get('/partnership/test_inning/{id?}', ['as' => 'admin.partner_test_inning', 'uses' => 'PageController\AdminPageController@partner_test_inning']);
+    Route::get('/partnership/approve_inning/{id?}', ['as' => 'admin.partner_approve_inning', 'uses' => 'PageController\AdminPageController@partner_approve_inning']);
 
+    Route::get('/faqs', ['as' => 'admin.faqs', 'uses' => 'PageController\AdminPageController@faq_index']);
+    Route::get('/faqs/create', ['as' => 'admin.faqs.create', 'uses' => 'PageController\AdminPageController@faq_create']);
+    Route::get('/faqs/{id}/edit', ['as' => 'admin.faqs.edit', 'uses' => 'PageController\AdminPageController@faq_edit']);
+
+    Route::get('/notifications', ['as' => 'admin.notifications', 'uses' => 'PageController\AdminPageController@notifications']);
+});
 
 //main
 Route::get('/', ['as' => 'root', 'uses' => 'MainController\MainController@main']);

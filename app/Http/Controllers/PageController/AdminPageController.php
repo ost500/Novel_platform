@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\PageController;
 
+use App\Notification;
 use App\NovelGroupPublishCompany;
 use App\Company;
 use App\Http\Controllers\Controller;
@@ -108,7 +109,7 @@ class AdminPageController extends Controller
 
     public function users()
     {
-        $users = User::paginate(10);
+        $users = User::paginate(config('define.pagination_long'));
         return view('admin.users', compact('users', 'users'));
     }
 
@@ -119,7 +120,7 @@ class AdminPageController extends Controller
 
     public function request(Request $request)
     {
-        $men_to_men_requests = MenToMenQuestionAnswer::orderBy('id', 'desc')->paginate(10);
+        $men_to_men_requests = MenToMenQuestionAnswer::orderBy('id', 'desc')->paginate(config('define.pagination_long'));
         // return \Response::json($men_to_men_requests);
         return view('admin.request', compact('men_to_men_requests'));
     }
@@ -127,13 +128,13 @@ class AdminPageController extends Controller
     public function request_view(Request $request, $id)
     {
         $men_to_men_request = MenToMenQuestionAnswer::where('id', $id)->with('users')->first();
-        $men_to_men_requests = MenToMenQuestionAnswer::orderBy('id', 'desc')->paginate(5);
+        $men_to_men_requests = MenToMenQuestionAnswer::orderBy('id', 'desc')->paginate(config('define.pagination_long'));
         return view('admin.request_view', compact('men_to_men_request', 'men_to_men_requests'));
     }
 
     public function memo(Request $request)
     {
-        $novel_mail_messages = Auth::user()->maillogs()->with('mailboxs')->latest()->paginate(2);
+        $novel_mail_messages = Auth::user()->maillogs()->with('mailboxs')->latest()->paginate(config('define.pagination_long'));
         $page = $request->page;
 //        $page = new Paginator($novel_mail_messages, 2);
 //        return response()->json($novel_mail_messages);
@@ -151,7 +152,7 @@ class AdminPageController extends Controller
 
 //        $mailbox_message = Mailbox::where('id', $id)->with('users')->first();
         $men_to_men_request = MailLog::where('id', $id)->with('mailboxs.users')->with('users')->first();
-        $men_to_men_requests = $request->user()->maillogs()->with('mailboxs.users')->orderBy('id', 'desc')->paginate(2);
+        $men_to_men_requests = $request->user()->maillogs()->with('mailboxs.users')->orderBy('id', 'desc')->paginate(config('define.pagination_long'));
         $page = $request->page;
 //                return response()->json($men_to_men_request);
         return view('admin.mailbox_message', compact('men_to_men_request', 'men_to_men_requests', 'page'));
@@ -172,7 +173,7 @@ class AdminPageController extends Controller
 
     public function mailbox_send(Request $request)
     {
-        $novel_mail_messages = Mailbox::where('from', Auth::user()->id)->with('users')->orderBy('created_at', 'desc')->paginate(2);
+        $novel_mail_messages = Mailbox::where('from', Auth::user()->id)->with('users')->orderBy('created_at', 'desc')->paginate(config('define.pagination_long'));
         $page = $request->page;
 //                return response()->json($novel_mail_messages);
         return view('admin.novel_memo_send', compact('novel_mail_messages', 'page'));
@@ -183,11 +184,11 @@ class AdminPageController extends Controller
 
 //        $mailbox_message = Mailbox::where('id', $id)->with('users')->first();
         $men_to_men_request = Mailbox::where('id', $id)->with('users')->with('maillogs.users')->with('novel_groups')->first();
-        $men_to_men_requests = $request->user()->mailbox()->orderBy('id', 'desc')->paginate(2);
+        $men_to_men_requests = $request->user()->mailbox()->orderBy('id', 'desc')->paginate(config('define.pagination_long'));
         $page = $request->page;
         $maillog_page = $request->maillog_page;
 
-        $mail_logs = MailLog::where('mailbox_id', $id)->with('users')->with('novel_groups')->paginate(5, ["*"], "maillog_page");
+        $mail_logs = MailLog::where('mailbox_id', $id)->with('users')->with('novel_groups')->paginate(config('define.pagination_long'), ["*"], "maillog_page");
 //        return response()->json($men_to_men_request);
         return view('admin.mailbox_send_message', compact('men_to_men_request', 'men_to_men_requests', 'page', 'mail_logs', 'maillog_page'));
     }
@@ -268,7 +269,7 @@ class AdminPageController extends Controller
             $apply_requests->orderBy('event', 'desc');
         }
 
-        $apply_requests = $apply_requests->paginate(10);
+        $apply_requests = $apply_requests->paginate(config('define.pagination_long'));
         return view('admin.partnership.manage_apply', compact('apply_requests', 'companies'));
 
     }
@@ -330,7 +331,7 @@ class AdminPageController extends Controller
 
         }
 
-        $apply_requests = $apply_requests->paginate(10);
+        $apply_requests = $apply_requests->paginate(config('define.pagination_long'));
 
 //        return response()->json($apply_requests);
         /*  $apply_requests = $apply_requests->filter(function ($item) {
@@ -402,5 +403,11 @@ class AdminPageController extends Controller
         return $string ? implode(', ', $string) . ' 전' : '방금 전';
     }
 
+    public function notifications()
+    {
+        $notis = Notification::paginate(config('define.pagination_long'));
+
+        return view('admin.notification.notifications', compact('notis'));
+    }
 
 }
