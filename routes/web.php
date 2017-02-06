@@ -60,6 +60,7 @@ Route::post('mailboxes/destroy_sent_bulk', ['as' => 'mailbox.destroy_sent_bulk',
 
 Route::put('users/update', ['as' => 'users.update', 'uses' => 'UserController@update']);
 Route::put('users/update_agreement', ['as' => 'users.update_agreement', 'uses' => 'UserController@update_agreement']);
+Route::put('users/update_block', ['as' => 'users.update_block', 'uses' => 'UserController@update_block']);
 
 Route::resource('nickname', 'NickNameController');
 

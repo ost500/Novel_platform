@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 
@@ -22,6 +23,7 @@ class LoginController extends Controller
 
     use AuthenticatesUsers {
         sendFailedLoginResponse as sendFailed;
+        attemptLogin as attempt;
         username as id;
         showLoginForm as loginForm;
     }
@@ -47,6 +49,25 @@ class LoginController extends Controller
     {
         return redirect('/?loginView=true');
     }
+
+    protected function attemptLogin(Request $request)
+    {
+        //check if user is blocked or not
+        $user=User::where('name',$request->only($this->username()))->first();
+        //if user exists and login is blocked then return back
+        if($user && $user->block_login){  return redirect()->back()
+            ->withInput($request->only($this->username(), 'remember'))
+            ->withErrors([
+                $this->username() => "로그인이 제한 됐습니다",
+
+            ]);}
+
+        return $this->guard()->attempt(
+            $this->credentials($request), $request->has('remember')
+        );
+    }
+
+
 
     public function sendFailedLoginResponse(Request $request)
     {

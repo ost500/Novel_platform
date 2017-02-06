@@ -197,7 +197,7 @@ class UserController extends Controller
     public function destroy($id)
     {
 
-         User::find($id)->delete();
+        User::find($id)->delete();
         flash('유저정보가 삭제됐습니다');
         return response()->json('ok');
     }
@@ -262,5 +262,23 @@ class UserController extends Controller
             return view('errors.503');
         }
 
+    }
+
+
+    public function update_block(Request $request)
+    {
+
+        if ($request->get('block_unblock')) {
+
+            User::where('id', $request->get('user_id'))->update([
+                $request->get('block_type') => 1
+            ]);
+        } else {
+
+            User::where('id', $request->get('user_id'))->update([
+                $request->get('block_type') => 0
+            ]);
+        }
+        return response()->json(['block_unblock' =>$request->get('block_unblock'),'message'=> 'ok']);
     }
 }
