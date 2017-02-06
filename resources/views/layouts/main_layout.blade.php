@@ -54,7 +54,7 @@
                 @if(Auth::check())
                     <button type="button" class="userbtn userbtn--open"
                             v-bind:class="{'is-new' : new_speeds.news_count > 0 }" id="more_btns_open">
-                        사용자메뉴<i>@{{ new_speeds.news_count }}</i></button>
+                        사용자메뉴<i>@{{ new_speeds.news_count + new_mails.count }}</i></button>
 
                     <div class="more-btns" id="more_btns">
                         <div class="layer-popup-wrap">
@@ -88,7 +88,8 @@
                             <!-- //마이페이지팝업 -->
                         </div>
                         <div class="layer-popup-wrap">
-                            <a href="{{route('mails.received')}}" class="userbtn userbtn--memo">쪽지</a>
+                            <a href="{{route('mails.received')}}" class="userbtn userbtn--memo"
+                               v-bind:class="{'is-new' : new_mails.count > 0 }">쪽지<i>@{{ new_mails.count }}</i></a>
                             <!-- 쪽지팝업 -->
                             <section class="layer-popup layer-popup--memo">
                                 <div class="inner">
@@ -102,7 +103,7 @@
                                                 </div>
                                                 <div class="post">
                                                     <p class="post-content"><a
-                                                                href="#mode_nav">@{{ new_mail.mailboxs.subject }}</a>
+                                                                v-bind:href="'{{ route('mails.detail', ['id' => '']) }}/' + new_mail.id">@{{ new_mail.mailboxs.subject }}</a>
                                                     </p>
                                                     <p class="post-datetime">@{{ new_mail.created_at }}</p>
                                                 </div>
@@ -151,44 +152,7 @@
                         </div>
                     </div>
 
-                    <script>
-                        var main_layout = new Vue({
-                            el: '#login-area',
 
-                            data: {
-                                user: {
-                                    "name": "{{ Auth::user()->name }}",
-                                    "favorites_count": "{{ Auth::user()->favorites->count() }}"
-                                },
-                                new_speeds: "",
-                                new_mails: "",
-                            },
-                            mounted: function () {
-                                console.log(this.user);
-                                this.get_new_speed();
-                                this.get_new_mails();
-                            },
-                            methods: {
-                                submit: function (e) {
-
-                                },
-                                get_new_speed: function () {
-                                    this.$http.get('/newspeed')
-                                            .then(function (response) {
-                                                this.new_speeds = response.data;
-                                                console.log(this.new_speeds);
-                                            });
-                                },
-                                get_new_mails: function () {
-                                    this.$http.get('/newmail')
-                                            .then(function (response) {
-                                                this.new_mails = response.data;
-                                                console.log(this.new_mails);
-                                            });
-                                }
-                            }
-                        });
-                    </script>
                 @else
                 <!-- 방문자버튼 -->
 
@@ -197,6 +161,45 @@
 
                 @endif
             </div>
+
+            <script>
+                var main_layout = new Vue({
+                    el: '#login-area',
+
+                    data: {
+                        user: {
+                            "name": "{{ Auth::user()->name }}",
+                            "favorites_count": "{{ Auth::user()->favorites->count() }}"
+                        },
+                        new_speeds: "",
+                        new_mails: "",
+                    },
+                    mounted: function () {
+                        console.log(this.user);
+                        this.get_new_speed();
+                        this.get_new_mails();
+                    },
+                    methods: {
+                        submit: function (e) {
+
+                        },
+                        get_new_speed: function () {
+                            this.$http.get('/newspeed')
+                                    .then(function (response) {
+                                        this.new_speeds = response.data;
+                                        console.log(this.new_speeds);
+                                    });
+                        },
+                        get_new_mails: function () {
+                            this.$http.get('/newmail')
+                                    .then(function (response) {
+                                        this.new_mails = response.data;
+                                        console.log(this.new_mails);
+                                    });
+                        }
+                    }
+                });
+            </script>
             <!-- 검색버튼 -->
             <div class="search-area">
                 <a href="#search_form" class="userbtn userbtn--search" data-modal-id="search_form">검색</a>

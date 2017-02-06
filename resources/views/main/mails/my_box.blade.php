@@ -39,7 +39,7 @@
                         <tbody>
                         @if(count($my_box_mails) > 0)
                             @foreach($my_box_mails as $my_box_mail)
-                                <tr @if($week_gap < $my_box_mail->created_at) class="is-new" @endif>
+                                <tr>
                                     <td class="col-check"><label class="checkbox2 ">
                                             <input type="checkbox" class="checkboxes" data-check-item
                                                    value="{{$my_box_mail->id}}"><span></span></label>
@@ -47,7 +47,7 @@
                                     <td class="col-name">{{$my_box_mail->mailboxs->users->name}}</td>
                                     <td class="col-thumb"><img src="/front/imgs/thumb/memo1.png" alt=""></td>
                                     <td class="col-subject">
-                                        <a href="#mode_nav">{{$my_box_mail->mailboxs->subject}}</a>
+                                        <a href="{{ route('mails.detail', ['id' => $my_box_mail->id]) }}">{{$my_box_mail->mailboxs->subject}}</a>
                                     </td>
                                     <td class="col-datetime">{{$my_box_mail->created_at}}</td>
                                 </tr>

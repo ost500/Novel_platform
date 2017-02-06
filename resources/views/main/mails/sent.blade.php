@@ -39,7 +39,7 @@
                         <tbody>
                         @if(count($sent_mails) > 0)
                             @foreach($sent_mails as $sent_mail)
-                                <tr class="@if($week_gap < $sent_mail->created_at) is-new @endif @if(Session('mail_id') ==$sent_mail->id)   @endif">
+                                <tr>
                                     <td class="col-check"><label class="checkbox2 ">
                                             <input type="checkbox" class="checkboxes" data-check-item
                                                    value="{{$sent_mail->id}}"><span></span></label>
@@ -47,7 +47,7 @@
                                     <td class="col-name">{{$sent_mail->users->name}}</td>
                                     <td class="col-thumb"><img src="/front/imgs/thumb/memo1.png" alt=""></td>
                                     <td class="col-subject">
-                                        <a href="#mode_nav">{{$sent_mail->subject}}</a>
+                                        <a href="{{ route('mails.sent_detail', ['id' => $sent_mail->id])  }}">{{$sent_mail->subject}}</a>
                                     </td>
                                     <td class="col-datetime">{{$sent_mail->created_at}}</td>
                                 </tr>

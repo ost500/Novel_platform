@@ -39,15 +39,15 @@
                         <tbody>
                         @if(count($spam_mails) > 0)
                             @foreach($spam_mails as $spam_mail)
-                                <tr @if($week_gap < $spam_mail->created_at) class="is-new" @endif>
+                                <tr>
                                     <td class="col-check"><label class="checkbox2 ">
                                             <input type="checkbox" class="checkboxes" data-check-item
                                                    value="{{$spam_mail->id}}"><span></span></label>
                                     </td>
                                     <td class="col-name">{{$spam_mail->mailboxs->users->name}}</td>
-                                    <td class="col-thumb"><img src="/front/imgs/thumb/memo1.png" alt=""></td>
+                                    <td class="col-thumb"><img src="/front/imgs/thumb/memo4.png" alt=""></td>
                                     <td class="col-subject">
-                                        <a href="#mode_nav">{{$spam_mail->mailboxs->subject}}</a>
+                                        <a href="{{ route('mails.detail', ['id' => $spam_mail->id]) }}">{{$spam_mail->mailboxs->subject}}</a>
                                     </td>
                                     <td class="col-datetime">{{$spam_mail->created_at}}</td>
                                 </tr>

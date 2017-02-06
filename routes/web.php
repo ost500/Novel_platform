@@ -222,6 +222,8 @@ Route::group(['prefix' => 'mails', 'middleware' => ['auth']], function () {
     Route::get('/spam', ['as' => 'mails.spam', 'uses' => 'MainController\MailController@spam']);
     Route::get('/my_box', ['as' => 'mails.my_box', 'uses' => 'MainController\MailController@my_box']);
     Route::get('/create/{id?}', ['as' => 'mails.create', 'uses' => 'MainController\MailController@create']);
+    Route::get('/detail/{id}', ['as' => 'mails.detail', 'uses' => 'MainController\MailController@detail']);
+    Route::get('/sent_detail/{id}', ['as' => 'mails.sent_detail', 'uses' => 'MainController\MailController@sent_detail']);
 });
 
 //Mails Controller
