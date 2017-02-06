@@ -90,7 +90,7 @@
                 <ul class="prev-next">
                     @if($prev_article != null)
                         <li>
-                            <span class="head head--prevnext">이전글</span>
+                            <span class="head head--prev">이전글</span>
                             <span class="subject"><a
                                         href="{{ route('free_board.detail',['id'=>$prev_article->id]) }}">{{$prev_article->title}}</a></span>
                             <span class="writer">{{$prev_article['users']['name']}}</span>

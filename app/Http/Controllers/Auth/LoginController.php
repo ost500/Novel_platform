@@ -25,6 +25,7 @@ class LoginController extends Controller
         sendFailedLoginResponse as sendFailed;
         attemptLogin as attempt;
         username as id;
+        showLoginForm as loginForm;
     }
 
     /**
@@ -42,6 +43,11 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest', ['except' => 'logout']);
+    }
+
+    public function showLoginForm()
+    {
+        return redirect('/?loginView=true');
     }
 
     protected function attemptLogin(Request $request)

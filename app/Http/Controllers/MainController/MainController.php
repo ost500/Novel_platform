@@ -45,9 +45,11 @@ class MainController extends Controller
 
         //when it has to be logged in
         $login = $request->login;
+        $loginView = $request->loginView;
         
+
 //        return response()->json($reader_reviews);
-        return view('main.main', compact('recommends', 'non_free_today_bests', 'free_today_bests', 'latests', 'reader_reviews', 'recommendations', 'login'));
+        return view('main.main', compact('recommends', 'non_free_today_bests', 'free_today_bests', 'latests', 'reader_reviews', 'recommendations', 'login', 'loginView'));
     }
 
     public function series(Request $request, $free_or_charged = false)
