@@ -52,7 +52,9 @@
             <!-- 방문자버튼 -->
             <div class="login-area" id="login-area">
                 @if(Auth::check())
-                    <button type="button" class="userbtn userbtn--open" v-bind:class="{'is-new' : new_speeds.news_count > 0 }" id="more_btns_open">사용자메뉴<i>@{{ new_speeds.news_count }}</i></button>
+                    <button type="button" class="userbtn userbtn--open"
+                            v-bind:class="{'is-new' : new_speeds.news_count > 0 }" id="more_btns_open">
+                        사용자메뉴<i>@{{ new_speeds.news_count }}</i></button>
 
                     <div class="more-btns" id="more_btns">
                         <div class="layer-popup-wrap">
@@ -93,12 +95,15 @@
                                     <div class="alarm-container">
                                         <h2 class="alarm-title">받은쪽지함</h2>
                                         <ul class="alarm-list">
-                                            <li v-for="new_mail in new_mails.data" v-bind:class="{'is-new' : !new_mail.read}">
+                                            <li v-for="new_mail in new_mails.data"
+                                                v-bind:class="{'is-new' : !new_mail.read}">
                                                 <div class="thumb">
                                                     <img src="/front/imgs/thumb/memo2.png" alt="">
                                                 </div>
                                                 <div class="post">
-                                                    <p class="post-content"><a href="#mode_nav">@{{ new_mail.mailboxs.subject }}</a></p>
+                                                    <p class="post-content"><a
+                                                                href="#mode_nav">@{{ new_mail.mailboxs.subject }}</a>
+                                                    </p>
                                                     <p class="post-datetime">@{{ new_mail.created_at }}</p>
                                                 </div>
                                             </li>
@@ -112,21 +117,25 @@
                             <!-- //쪽지팝업 -->
                         </div>
                         <div class="layer-popup-wrap">
-                            <a href="{{ route('my_page.novels.new_speed') }}" class="userbtn userbtn--alarm" v-bind:class="{'is-new' : new_speeds.news_count > 0 }">알림<i>@{{ new_speeds.news_count }}</i></a>
+                            <a href="{{ route('my_page.novels.new_speed') }}" class="userbtn userbtn--alarm"
+                               v-bind:class="{'is-new' : new_speeds.news_count > 0 }">알림<i>@{{ new_speeds.news_count }}</i></a>
                             <!-- 소식팝업 -->
                             <section class="layer-popup layer-popup--news">
                                 <div class="inner">
                                     <div class="alarm-container">
                                         <h2 class="alarm-title">소식</h2>
                                         <ul class="alarm-list">
-                                            <li v-for="new_speed in new_speeds" v-bind:class="{'is-new' : !new_speed.read}">
+                                            <li v-for="new_speed in new_speeds"
+                                                v-bind:class="{'is-new' : !new_speed.read}">
                                                 <div class="thumb">
                                                     <img v-bind:src="new_speed.image" alt="">
                                                 </div>
                                                 <div class="post">
                                                     {{--<p class="post-content"><a href="#mode_nav">고백게임 작가 이비안의 신작 <b--}}
-                                                                    {{--class="novel-title">탐닉의 밤</b>이 신규 등록되었습니다.</a></p>--}}
-                                                    <p class="post-content"><a v-bind:href="'{{ route('my_page.novels.new_speed.read', ['id' => '']) }}/' + new_speed.id">@{{ new_speed.title }}</a></p>
+                                                    {{--class="novel-title">탐닉의 밤</b>이 신규 등록되었습니다.</a></p>--}}
+                                                    <p class="post-content"><a
+                                                                v-bind:href="'{{ route('my_page.novels.new_speed.read', ['id' => '']) }}/' + new_speed.id">@{{ new_speed.title }}</a>
+                                                    </p>
                                                     <p class="post-datetime">@{{ new_speed.time_ago }}</p>
                                                 </div>
                                             </li>
@@ -134,7 +143,8 @@
                                         </ul>
                                         <a href="{{ route('my_page.novels.new_speed') }}" class="alarm-more-btn">더보기</a>
                                     </div>
-                                    <a href="{{ route('my_page.novels.new_speed') }}" class="alarm-bottom-more-btn">더보기</a>
+                                    <a href="{{ route('my_page.novels.new_speed') }}"
+                                       class="alarm-bottom-more-btn">더보기</a>
                                 </div>
                             </section>
                             <!-- //알림팝업 -->
@@ -183,7 +193,7 @@
                 <!-- 방문자버튼 -->
 
                     <a href="#mode_nav" class="userbtn userbtn--login" data-modal-id="login_form"
-                       @if($errors->has('name') || $errors->has('password') || isset($login)) data-modal-start @endif >로그인</a>
+                       @if($errors->has('name') || $errors->has('password') || isset($login) || isset($loginView)) data-modal-start @endif >로그인</a>
 
                 @endif
             </div>
@@ -264,10 +274,24 @@
                     <fieldset>
                         <legend class="un-hidden">Login</legend>
                         <div class="field">
-                            <input id="email" type="text" name="name" class="text2" title="아이디"
-                                   value="{{ isset($login) ? $login : old('name') }}" placeholder="여우정원계정">
-                            @if (isset($login) || $errors->has('name'))<span
-                                    class="alert-msg is-active">{{ $login ? "이메일 인증에 성공했습니다. 로그인해 주세요" : $errors->first('name') }}</span>@endif
+                            {{--이메일 인증 성공--}}
+                            @if (isset($login))
+                                <input id="email" type="text" name="name" class="text2" title="아이디"
+                                       autofocus value="{{ $login }}" placeholder="여우정원계정">
+                                <span class="alert-msg is-active">{{"이메일 인증에 성공했습니다. 로그인해 주세요"}}</span>
+                                {{--로그인 폼 출력--}}
+                            @elseif (isset($loginView))
+                                <input id="email" type="text" name="name" class="text2" title="아이디"
+                                       value="" placeholder="여우정원계정">
+                                <span class="alert-msg is-active"></span>
+                                {{--로그인 밸리데이션 에러--}}
+                            @elseif ($errors->has('name'))
+                                <input id="email" type="text" name="name" class="text2" title="아이디"
+                                       autofocus value="{{ old('name') }}" placeholder="여우정원계정">
+                                <span class="alert-msg is-active">{{$errors->first('name')}}</span>
+
+
+                            @endif
                         </div>
                         <div class="field">
                             <input id="password" type="password" class="text2" title="비밀번호" name="password" required

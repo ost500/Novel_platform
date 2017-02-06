@@ -23,6 +23,7 @@ class LoginController extends Controller
     use AuthenticatesUsers {
         sendFailedLoginResponse as sendFailed;
         username as id;
+        showLoginForm as loginForm;
     }
 
     /**
@@ -40,6 +41,11 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest', ['except' => 'logout']);
+    }
+
+    public function showLoginForm()
+    {
+        return redirect('/?loginView=true');
     }
 
     public function sendFailedLoginResponse(Request $request)
