@@ -17,7 +17,8 @@
                                 <p class="episode-title">프롤로그</p>
                             </div>
                             <div class="controls">
-                                <span class="more-btn"><a href="#mode_nav"><i class="arrow-icon">다른 회차보기</i></a></span>
+                                    <span class="more-btn"><a href="#mode_nav"><i class="arrow-icon">다른
+                                                회차보기</i></a></span>
                                 <span class="setup-btn"><a href="#mode_nav"><i class="setup2-icon">설정</i></a></span>
                             </div>
                         </header>
@@ -42,28 +43,31 @@
 
                             <div class="writer-comment-content">
                                 <?php echo nl2br($novel_group_inning->author_comment, false); ?>
-                             </div>
-                         </div>
-                         <!-- //작가의말 -->
-                         <div class="episode-content-btns">
+                            </div>
+                        </div>
+                        <!-- //작가의말 -->
+                        <div class="episode-content-btns">
 
-                             @if($show_favorite)
-                                 <a v-on:click="addToFavorite('{{$novel_group_inning->novel_group_id}}')"
-                                   id="add_favorite" style="display:none;cursor:pointer;"><i class="scrap-icon"></i> 선호작추가</a>
+                            @if($show_favorite)
+                                <a v-on:click="addToFavorite('{{$novel_group_inning->novel_group_id}}')"
+                                   id="add_favorite" style="display:none;cursor:pointer;"><i class="scrap-icon"></i>
+                                    선호작추가</a>
 
-                                 <a  class="is-active" v-on:click="removeFromFavorite()" id="remove_favorite" style="cursor:pointer;">
+                                <a class="is-active" v-on:click="removeFromFavorite()" id="remove_favorite"
+                                   style="cursor:pointer;">
                                     <i class="scrap-active-icon"></i> 선호작추가</a>
 
                             @else
-                                <a  v-on:click="addToFavorite('{{$novel_group_inning->novel_group_id}}')"
+                                <a v-on:click="addToFavorite('{{$novel_group_inning->novel_group_id}}')"
                                    id="add_favorite" style="cursor:pointer;"><i class="scrap-icon"></i> 선호작추가</a>
 
-                                <a  class="is-active" v-on:click="removeFromFavorite()" id="remove_favorite"
+                                <a class="is-active" v-on:click="removeFromFavorite()" id="remove_favorite"
                                    style="display:none;cursor:pointer;"><i class="scrap-active-icon"></i> 선호작추가</a>
                             @endif
 
                             <a href="#mode_nav" class="share-btn"><i class="share2-icon"></i> 공유하기</a>
-                            <a href="{{route('mails.create',['id'=>$novel_group_inning->user_id])}}" class="memo-btn"><i class="memo2-icon"></i> 작가에게 쪽지 보내기</a>
+                            <a href="{{route('mails.create',['id'=>$novel_group_inning->user_id])}}"
+                               class="memo-btn"><i class="memo2-icon"></i> 작가에게 쪽지 보내기</a>
 
                             <div class="right-btns">
                                 <a href="#mode_nav" class="report-btn"><i class="report-icon"></i> 게시물 신고</a>
@@ -77,25 +81,37 @@
                         <!-- //이전다음버튼 -->
                     </div>
                     <!-- //원글 -->
+                    @if(Session::has('flash_message'))
+                        {{-- important, success, warning, danger and info --}}
+                        <div class="alert alert-@if(Session::has('flash_message_level')){{Session('flash_message_level')}} @endif "
+                             style="margin-top:1%; ">
+                            {{Session('flash_message')}}
+                        </div>
+                    @endif
+                    <div class="alert alert-danger" id="validateError" style="display:none;margin-top:1%;">
+                        <ul>
+                            <li v-if="errorsInfo['comment']">@{{ errorsInfo.comment.toString() }}</li>
+                        </ul>
+                    </div>
 
                     <!-- 댓글쓰기 -->
                     <div class="episode-comment-form">
                         <form name="comment_form" id="comment_form" action="" class="comment-form"
                               method="post" v-on:submit.prevent="commentStore()">
                             <div class="comment-form-wrap">
-                                <textarea name="comment" id="comment" class="textarea2" v-model="info.comment"
-                                          placeholder="남을 상처주지 않는 바르고 고운 말을 씁시다." title="댓글내용"></textarea>
+                                 <textarea name="comment" id="comment" class="textarea2" v-model="info.comment"
+                                           placeholder="남을 상처주지 않는 바르고 고운 말을 씁시다." title="댓글내용" >{{ old('comment') }}</textarea>
                                 {{--    <input type="hidden" name="novel_id" id="novel_id"  v-model="info.novel_id"/>--}}
                                 {{--<input type="hidden" name="parent_id" id="parent_id" value="0"/>--}}
 
                                 <div class="comment-form-btns">
-                                <span class="options">
-                                    <label class="checkbox2"><input name="secret" id="secret" type="checkbox">
-                                        <span>비밀글</span></label>
-                                </span>
-                                <span class="submit">
-                                    <button type="submit" class="btn">등록</button>
-                                </span>
+                                       <span class="options">
+                                           <label class="checkbox2"><input name="secret" id="secret" type="checkbox">
+                                               <span>비밀글</span></label>
+                                       </span>
+                                       <span class="submit">
+                                           <button type="submit" class="btn">등록</button>
+                                       </span>
                                 </div>
                             </div>
                         </form>
@@ -128,7 +144,8 @@
                                                             class="writer">{{$novel_group_inning_comment[0]->users->name}}</span><span
                                                             class="datetime">{{$novel_group_inning_comment[0]->created_at}}</span>
                                                 </div>
-                                                <div class="comment-btns"><a href="#mode_nav">댓글</a><a href="#mode_nav">수정</a><a
+                                                <div class="comment-btns"><a href="#mode_nav">댓글</a><a
+                                                            href="#mode_nav">수정</a><a
                                                             href="#mode_nav">삭제</a><a href="#mode_nav">신고</a></div>
                                                 <div class="comment-content">
                                                     <p>{{$novel_group_inning_comment[0]->comment}}</p>
@@ -186,9 +203,11 @@
             el: '#inning',
             data: {
                 info: {comment: '', novel_id: '{{$novel_group_inning->id}}'},
-                favorites_info: {novel_group_id: ''}
+                favorites_info: {novel_group_id: ''},
+                errorsInfo: {}
             },
             methods: {
+
                 commentStore: function () {
 
                     app.$http.post('{{ route('comments.store') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
@@ -196,7 +215,8 @@
                                 location.reload();
 
                             }).catch(function (errors) {
-                                console.log(errors);
+                                this.errorsInfo = errors.data;
+                                $('#validateError').show();
                             });
                 },
 
@@ -231,5 +251,8 @@
             }
         });
 
+        $(".alert").delay(5000).slideUp(200, function () {
+            $(this).alert('close');
+        });
     </script>
 @endsection
