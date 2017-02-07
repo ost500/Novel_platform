@@ -54,7 +54,7 @@ class AskController extends Controller
 
     public function notifications()
     {
-        $notifications = Notification::orderBy('created_at', 'desc')->paginate(10);
+        $notifications = Notification::orderBy('created_at', 'desc')->where('posting', 1)->paginate(10);
         return view('main.ask.notifications', compact('notifications'));
     }
 
@@ -81,7 +81,7 @@ class AskController extends Controller
 
         //next notification
         $next_question_id = MenToMenQuestionAnswer::where('id', '>', $question->id)->min('id');
-        $next_question= MenToMenQuestionAnswer::with('users')->find($next_question_id);
+        $next_question = MenToMenQuestionAnswer::with('users')->find($next_question_id);
 
         //previous notification
         $pre_question_id = MenToMenQuestionAnswer::where('id', '<', $question->id)->max('id');
@@ -98,7 +98,7 @@ class AskController extends Controller
 
         //next notification
         $next_faq_id = Faq::where('id', '>', $faq->id)->min('id');
-        $next_faq= Faq::find($next_faq_id);
+        $next_faq = Faq::find($next_faq_id);
 
         //previous notification
         $pre_faq_id = Faq::where('id', '<', $faq->id)->max('id');

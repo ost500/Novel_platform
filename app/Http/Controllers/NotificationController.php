@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewSpeedEvent;
 use App\Notification;
 use Illuminate\Http\Request;
 use Validator;
@@ -24,6 +25,8 @@ class NotificationController extends Controller
         ])->validate();
 
         $noti = Notification::create($request->all());
+
+        event(new NewSpeedEvent("noti", "[공지사항] " . $noti->title, route('ask.notification_detail', ['id' => $noti->id]), "/front/imgs/thumb/memo3.png"));
 
         return redirect()->route('admin.notifications.detail', ['id' => $noti->id]);
     }
