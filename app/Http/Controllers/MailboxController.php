@@ -70,7 +70,7 @@ class MailboxController extends Controller
 
 
 //        $new_mail_log->
-        flash("Mail created.");
+        flash("쪽지가 보내졌습니다");
 
         if (Auth::user()->name == "Admin") {
             return redirect()->route('admin.memo');

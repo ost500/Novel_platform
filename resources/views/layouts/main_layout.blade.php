@@ -126,7 +126,7 @@
                                     <div class="alarm-container">
                                         <h2 class="alarm-title">소식</h2>
                                         <ul class="alarm-list">
-                                            <li v-for="new_speed in new_speeds"
+                                            <li v-for="new_speed in new_speeds.data"
                                                 v-bind:class="{'is-new' : !new_speed.read}">
                                                 <div class="thumb">
                                                     <img v-bind:src="new_speed.image" alt="">

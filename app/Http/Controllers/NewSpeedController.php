@@ -27,16 +27,14 @@ class NewSpeedController extends Controller
             ->get();
 
 
-
-
         foreach ($new_speeds as $new_speed) {
             $new_speed->time_ago = time_elapsed_string($new_speed->created_at);
         }
 
         $new_speed_read_count = NewSpeedLog::where('user_id', Auth::user()->id)->where('read', 0)->get()->count();
 
-        $new_speeds->put('news_count', $new_speed_read_count);
+        
 
-        return response()->json($new_speeds);
+        return response()->json(['data' => $new_speeds, 'news_count' => $new_speed_read_count]);
     }
 }

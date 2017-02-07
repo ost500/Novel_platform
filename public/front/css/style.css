@@ -1255,6 +1255,7 @@ html.is-modal body {
 
 .layer-popup .logout-btn {
     margin-top: 20px;
+    margin-bottom: 20px;
     text-align: center;
 }
 
