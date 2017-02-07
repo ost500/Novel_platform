@@ -270,7 +270,7 @@
                                         </a>
                                         <ul class="collapse  {{ (Request::is('admin/notifications')||Request::is('admin/notifications/*')||Request::is('admin/notifications/create'))?"in":"" }}">
                                             <li><a href="{{ route('admin.notifications')}}">공지사항</a></li>
-                                            <li><a href="{{ route('admin.faqs.create')}}">공지사항 등록</a></li>
+                                            <li><a href="{{ route('admin.notifications.create')}}">공지사항 등록</a></li>
                                         </ul>
                                 </li>
 

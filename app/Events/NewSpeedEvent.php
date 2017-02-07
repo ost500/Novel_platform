@@ -56,8 +56,7 @@ class NewSpeedEvent
 
         } elseif ($this->type == "noti") {
 
-            $toWhom = User::get();
-
+            $toWhom = User::select('id as user_id')->get();
 
         } elseif ($this->type == "new_novel_group") {
 
@@ -67,7 +66,7 @@ class NewSpeedEvent
 
         }
 
-        
+
         $newSpeed = new NewSpeed();
         $newSpeed->user_id = Auth::user()->id;
         $newSpeed->title = $this->title;

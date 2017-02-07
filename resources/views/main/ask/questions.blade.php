@@ -37,7 +37,13 @@
                                 <a href="{{route('ask.question_detail',['id'=>$question->id])}}">{{$question->title}}</a>
                             </td>
                             <td class="col-datetime">{{$question->created_at}}</td>
-                            <td class="col-state"><span @if($question->status == 1)) class="is-answer" @endif>읽지않음</span></td>
+                            <td class="col-state">
+                                @if($question->status == 1)
+                                    <span class="is-answer">답변완료</span>
+                                @else
+                                    <span >답변대기</span>
+                                @endif
+                            </td>
                         </tr>
                     @endforeach
                 </table>

@@ -54,7 +54,7 @@ class AskController extends Controller
 
     public function notifications()
     {
-        $notifications = Notification::orderBy('created_at', 'desc')->paginate(10);
+        $notifications = Notification::orderBy('created_at', 'desc')->where('posting', 1)->paginate(10);
         return view('main.ask.notifications', compact('notifications'));
     }
 
