@@ -15,7 +15,10 @@ use Validator;
 class CommentController extends Controller
 {
 
-
+    public function __construct()
+    {
+        $this->middleware('auth')->only('store');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -66,8 +69,6 @@ class CommentController extends Controller
     public function store(Request $request)
     {
 
-
-
         Validator::make($request->all(), [
             'comment' => 'required|max:1000',
         ], [
@@ -75,9 +76,6 @@ class CommentController extends Controller
             'comment.max' => '댓글이 너무 깁니다',
         ])->validate();
 
-        if (!Auth::check()) {
-            return redirect('/login');
-        }
 
        //if commenting is blocked then redirect
         if (Auth::user()->isCommentBlocked()) {
@@ -91,7 +89,7 @@ class CommentController extends Controller
         $new_comment->novel_id = $request->novel_id;
         $new_comment->user_id = Auth::user()->id;
         $new_comment->save();
-        return response()->json(['status' => 'ok']);
+        return response()->json(['error'=>1,'status' => 'ok']);
 
 
     }
