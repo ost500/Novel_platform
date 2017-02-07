@@ -16,12 +16,20 @@ class FreeBoardCommentController extends Controller
 
     public function store(Request $request, $id)
     {
+
+
         Validator::make($request->all(), [
             'comment' => 'required|max:1000',
         ], [
             'comment.required' => '댓글을 입력하세요',
             'comment.max' => '글이 너무 깁니다',
         ])->validate();
+
+       //if posting is blocked then redirect back
+        if (Auth::user()->isCommentBlocked()) {
+            $errors= '자유게시판에 댓글 기능이 관리자에 의해 금지 됐습니다';
+            return redirect()->back()->withErrors($errors);
+        }
 
         $new_comment = new FreeBoardComment();
         $new_comment->user_id = Auth::user()->id;

@@ -183,4 +183,31 @@ class User extends Authenticatable
     {
         return $this->hasMany(NewSpeedLog::class);
     }
+
+    public function isCommentBlocked()
+    {
+        if ($this->block_comment == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function isMailBlocked()
+    {
+        if ($this->block_send_mail == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function isPostingBlocked()
+    {
+        if ($this->block_free_board_review == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

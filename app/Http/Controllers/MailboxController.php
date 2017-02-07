@@ -14,6 +14,12 @@ use Illuminate\Http\Request;
 
 class MailboxController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
     public function store(Request $request)
     {
 
@@ -75,6 +81,7 @@ class MailboxController extends Controller
 
     public function store_specific_mail(Request $request)
     {
+
         //dd($request->all());
         Validator::make($request->all(), [
             'to' => 'required|email',
@@ -93,6 +100,11 @@ class MailboxController extends Controller
             ]
         )->validate();
 
+        //if mail sending is blocked then redirect back
+        if (Auth::user()->isMailBlocked()) {
+            $errors= '쪽지 보내기 기능이 관리자에 의해 금지 됐습니다';
+            return redirect()->route('mails.create')->withErrors($errors);
+        }
 
         $input = $request->all();
         $check_user_exist = User::where('email', '=', $request->get('to'))->first();

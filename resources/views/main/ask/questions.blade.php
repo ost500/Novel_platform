@@ -34,10 +34,10 @@
                         <tr>
                             <td class="col-category">{{$question->category}}</td>
                             <td class="col-subject">
-                                <a href="#mode_nav">{{$question->title}}</a>
+                                <a href="{{route('ask.question_detail',['id'=>$question->id])}}">{{$question->title}}</a>
                             </td>
                             <td class="col-datetime">{{$question->created_at}}</td>
-                            <td class="col-state"><span @if($question->status) class="is-answer" @endif>읽지않음</span></td>
+                            <td class="col-state"><span @if($question->status == 1)) class="is-answer" @endif>읽지않음</span></td>
                         </tr>
                     @endforeach
                 </table>

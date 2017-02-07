@@ -184,7 +184,9 @@ Route::get('/frequently_asked_questions', ['as' => 'ask.faqs', 'uses' => 'MainCo
 Route::get('/questions', ['as' => 'ask.questions', 'uses' => 'MainController\AskController@questions']);
 Route::get('/ask_question', ['as' => 'ask.ask_question', 'uses' => 'MainController\AskController@ask_question']);
 Route::get('/notifications', ['as' => 'ask.notifications', 'uses' => 'MainController\AskController@notifications']);
-
+Route::get('/notification_detail/{id}', ['as' => 'ask.notification_detail', 'uses' => 'MainController\AskController@notification_detail']);
+Route::get('/question_detail/{id}', ['as' => 'ask.question_detail', 'uses' => 'MainController\AskController@question_detail']);
+Route::get('/faq_detail/{id}', ['as' => 'ask.faq_detail', 'uses' => 'MainController\AskController@faq_detail']);
 //my information
 Route::group(['prefix' => 'my_info', 'middleware' => ['auth']], function () {
     //MyPageController
