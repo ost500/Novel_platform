@@ -11,7 +11,8 @@
         "doctrine/dbal": "v2.5.5",
         "grandt/phpepub": "> 4.0.3",
         "guzzlehttp/guzzle": "^6.2",
-        "aws/aws-sdk-php": "^3.21"
+        "aws/aws-sdk-php": "^3.21",
+        "faustbrian/laravel-social-share": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="/front/css/sub.css?v={{time()}}" type="text/css">
     <link rel="stylesheet" href="/front/css/main.css?v={{time()}}" type="text/css">
     <link rel="stylesheet" href="/front/css/register.css" type="text/css">
-
+    <link rel="stylesheet" href="/plugins/font-awesome/css/font-awesome.min.css" type="text/css">
     <script src="/front/js/jquery-1.12.4.min.js"></script>
     <script src="/front/js/jquery.easing.min.js"></script>
     <script src="/js/vue.js"></script>
@@ -105,6 +105,7 @@
                                                     <p class="post-content"><a
                                                                 v-bind:href="'{{ route('mails.detail', ['id' => '']) }}/' + new_mail.id">@{{ new_mail.mailboxs.subject }}</a>
                                                     </p>
+
                                                     <p class="post-datetime">@{{ new_mail.created_at }}</p>
                                                 </div>
                                             </li>
@@ -137,6 +138,7 @@
                                                     <p class="post-content"><a
                                                                 v-bind:href="'{{ route('my_page.novels.new_speed.read', ['id' => '']) }}/' + new_speed.id">@{{ new_speed.title }}</a>
                                                     </p>
+
                                                     <p class="post-datetime">@{{ new_speed.time_ago }}</p>
                                                 </div>
                                             </li>
@@ -153,8 +155,8 @@
                     </div>
 
 
-                @else
-                <!-- 방문자버튼 -->
+                    @else
+                            <!-- 방문자버튼 -->
 
                     <a href="#mode_nav" class="userbtn userbtn--login" data-modal-id="login_form"
                        @if($errors->has('name') || $errors->has('password') || isset($login) || isset($loginView)) data-modal-start @endif >로그인</a>
@@ -211,6 +213,7 @@
     <!-- GNB -->
     <nav class="gnb" id="gnb">
         <h2 class="hidden">주요서비스</h2>
+
         <div class="wrap" id="gnb_wrap">
             <ul class="gnb-depth1 clr">
                 <li>
@@ -256,13 +259,17 @@
     </nav>
     <!-- //GNB -->
     <!-- 로그인모달 -->
+
     <div id="login_form" class="login-modal" tabindex="0">
         <section class="login-form">
             <h2 class="hidden">로그인</h2>
+
             <div class="wrap">
                 <div class="login-aside">
                     <strong class="title">여우정원 계정</strong>
+
                     <p class="title-desc">지금 여우정원에서 다양한 로맨스 소설을 만나보세요.</p>
+
                     <p class="str str--intro">
                         <strong>여우정원은</strong> 로맨스를 사랑하는 독자와 작가를 위한 로맨스 전문연재 사이트입니다.
                     </p>
@@ -310,6 +317,7 @@
                         <div class="auto-login">
                             <span class="checkbox1"><input type="checkbox" name="remember" id="auto_login_check"><label
                                         for="auto_login_check">로그인 상태 유지</label></span>
+
                             <p class="auto-login-notice" id="auto_login_notice">개인정보 보호를 위해 개인 PC에서만 사용하세요.</p>
                         </div>
                         <div class="aside-link">
@@ -337,10 +345,12 @@
                             <option value="서브2">서브2</option>
                         </select>
                     </span>
+
                     <div class="input"><input type="text" name="title" id="title" class="text1" title="검색어"></div>
                 </div>
                 <div class="search-form-hash-tag">
                     <strong class="search-form-title">해시태그 검색</strong>
+
                     <div class="input"><input type="text" name="keyword_name" id="keyword_name" class="text1" value=""
                                               title="해시태그 검색어"></div>
                     <div class="submit">
@@ -348,6 +358,7 @@
                     </div>
                     <div class="hot-hash-tag">
                         <strong class="title">자주 찾는 해시태그</strong>
+
                         <div class="list">
                             @php $keywords= getKeywords(); @endphp
                             @foreach($keywords as $keyword)
@@ -365,7 +376,7 @@
 <!-- //헤더 -->
 
 @yield('content')
-<!-- 푸터 -->
+        <!-- 푸터 -->
 <div class="footer">
     <!-- 푸터공지 -->
     <div class="notice">
@@ -421,7 +432,8 @@
         var keyword_text = keyword.text.replace("#", "");
         console.log(keyword_text);
         $('#keyword_name').val(keyword_text);
-        /* $.post('{{--{{ route('search.index') }}--}}', {'search_type':,'keyword_name':keyword.value}, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+        /* $.post('
+        {{--{{ route('search.index') }}--}}', {'search_type':,'keyword_name':keyword.value}, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
          .then(function (response) {
          location.reload();
 

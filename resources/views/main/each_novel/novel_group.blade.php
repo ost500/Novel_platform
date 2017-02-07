@@ -48,7 +48,7 @@
                            v-show="add_favorite_disp"><i class="scrap-icon"></i>선호작추가</a>
                         <a href="#" class="is-active" v-on:click="removeFromFavorite()" id="remove_favorite"
                            v-show="remove_favorite_disp"><i class="scrap-active-icon"></i>선호작추가</a>
-                        <a href="#mode_nav"><i class="share-icon"></i>공유하기</a>
+                        <a href="#share_form" data-modal-id="share_form"><i class="share-icon"></i>공유하기</a>
                     </div>
                 </section>
                 <!-- //연재소개 -->
@@ -73,31 +73,32 @@
                                     </li>
                                 </ul>
                             </section>
-                    @endif
-                    <!-- //최근읽은회차 -->
+                            @endif
+                                    <!-- //최근읽은회차 -->
 
-                        <!-- 연재회차 -->
-                        <section class="episode-list-wrap">
-                            <h2 class="episode-title">연재회차</h2>
-                            <ul class="episode-list">
-                                @foreach($novel_group->novels as $novel)
-                                    <li>
-                                        <div class="col-no">
-                                            <span class="no">{{$novel->inning}} 화</span>
-                                            <span class="datetime">{{$novel->created_at}}</span>
-                                        </div>
-                                        <div class="col-title"><a
-                                                    href="{{route('each_novel.novel_group_inning',['id'=>$novel->id])}}">{{str_limit($novel->title, 60)}}{{--<i
+                            <!-- 연재회차 -->
+                            <section class="episode-list-wrap">
+                                <h2 class="episode-title">연재회차</h2>
+                                <ul class="episode-list">
+                                    @foreach($novel_group->novels as $novel)
+                                        <li>
+                                            <div class="col-no">
+                                                <span class="no">{{$novel->inning}} 화</span>
+                                                <span class="datetime">{{$novel->created_at}}</span>
+                                            </div>
+                                            <div class="col-title"><a
+                                                        href="{{route('each_novel.novel_group_inning',['id'=>$novel->id])}}">{{str_limit($novel->title, 60)}}{{--<i
                                                         class="up-icon">Up</i>--}}</a></div>
-                                        <div class="col-charge">@if($novel->non_free_agreement > 0) 유료 @else <span
-                                                    class="free">무료</span> @endif {{-- <span class="open">열림</span>--}}
-                                        </div>
-                                    </li>
-                                @endforeach
+                                            <div class="col-charge">@if($novel->non_free_agreement > 0) 유료 @else <span
+                                                        class="free">무료</span> @endif {{-- <span class="open">열림</span>--}}
+                                            </div>
+                                        </li>
+                                    @endforeach
 
-                            </ul>
-                        </section>
-                        <!-- //연재회차 -->
+                                </ul>
+                            </section>
+                            <!-- //연재회차 -->
+
                     </div>
                     <div class="episode-list-aside">
                         <!-- 작가다른작품 -->
@@ -160,16 +161,92 @@
                     </div>
                 </div>
                 <!-- //연재회차,작가다른작품,해시태그 -->
+
             </div>
             <!-- //서브컨텐츠 -->
             <!-- 따라다니는퀵메뉴 -->
-        @include('main.quick_menu')
-        <!-- //따라다니는퀵메뉴 -->
+            @include('main.quick_menu')
+                    <!-- //따라다니는퀵메뉴 -->
         </div>
+
     </div>
     <!-- //컨테이너 -->
     <!-- 푸터 -->
+    <div id="share_form" class="share-modal" tabindex="0">
+        <form name="share_form" action="{{route('search.index')}}" class="share-form" method="post">
+            {{csrf_field()}}
+            <fieldset class="wrap clr">
+                <div id="social-links" style="width:100%;height:350px;padding:2%;align-items: center;">
+                    <h2 style="color:#998878;border-bottom:1px solid #cdc7c8;">Share With Social Media</h2>
 
+                    <div style="float:left;padding:3%">
+                        <ul>
+                            <li style="vertical-align:super"><a
+                                        href="{{$share->facebook(route('each_novel.novel_group', $novel_group->id))}}"
+                                        class="social-button " id="" style="width:2%;margin:2%;">
+                                    <i class="fa fa-facebook-square fa-5x" aria-hidden="true"> </i>
+                                    <span style="vertical-align:super">Share your favorite novels with friends on Facebook.</span>
+                                </a>
+                            </li>
+                            <li><a href="{{$share->twitter(route('each_novel.novel_group', $novel_group->id))}}"
+                                   class="social-button " id="" style="width:2%;margin:2%;">
+                                    <i class="fa fa-twitter-square fa-5x" aria-hidden="true"> </i>
+                                    <span style="vertical-align:super">Share your favorite novels with friends on twitter.</span>
+                                </a>
+                            </li>
+                            <li><a href="{{$share->googleplus(route('each_novel.novel_group', $novel_group->id))}}"
+                                   class="social-button " id="" style="width:2%;margin:2%;">
+                                    <i class="fa fa-google-plus-square fa-5x" aria-hidden="true"> </i>
+                                    <span style="vertical-align:super">Share your favorite novels with friends on Google+.</span>
+                                </a>
+                            </li>
+                            <li><a href="{{$share->linkedin(route('each_novel.novel_group', $novel_group->id))}}"
+                                   class="social-button " id="" style="width:2%;margin:2%;">
+                                    <i class="fa fa-linkedin-square fa-5x" aria-hidden="true"> </i>
+                                    <span> Share your favorite novels with friends on Linkedin.</span>
+                                </a>
+                            </li>
+                            <li><a href="{{$share->gmail(route('each_novel.novel_group', $novel_group->id))}}"
+                                   class="social-button " id="" style="width:2%;margin:2%;">
+                                    <i class="fa fa-google fa-5x" aria-hidden="true"> </i>
+                                    <span>Share your favorite novels with friends on Gmail.</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div style="float:right;padding:3%;">
+                        <ul>
+                            <li><a href="{{$share->reddit(route('each_novel.novel_group', $novel_group->id))}}"
+                                   class="social-button " id="" style="width:2%;margin:2%;">
+                                    <i class="fa fa-reddit-square fa-5x" aria-hidden="true"> </i>
+                                    <span style="font-size:12px;">Share your favorite novels with friends on Reddit.</span>
+                                </a>
+                            </li>
+                            <li><a href="{{$share->pinterest(route('each_novel.novel_group', $novel_group->id))}}"
+                                   class="social-button " id="" style="width:2%;margin:2%;">
+                                    <i class="fa fa-pinterest-square fa-5x" aria-hidden="true"> </i>
+                                      <span style="font-size:12px;">Share your favorite novels with friends on Pinterest.</span>
+                                </a>
+                            </li>
+                            <li><a href="{{$share->delicious(route('each_novel.novel_group', $novel_group->id))}}"
+                                   class="social-button " id="" style="width:2%;margin:2%;">
+                                    <i class="fa fa-delicious fa-5x" aria-hidden="true"> </i>
+                                    <span style="font-size:12px;">Share your favorite novels with friends on Delicious.</span>
+                                </a>
+                            </li>
+                            <li><a href="{{$share->tumblr(route('each_novel.novel_group', $novel_group->id))}}"
+                                   class="social-button " id="" style="width:2%;margin:2%;">
+                                    <i class="fa fa-tumblr-square fa-5x" aria-hidden="true"> </i>
+                                    <span style="">Share your favorite novels with friends on Tumblr.</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
     <script type="text/javascript">
         var app = new Vue({
             el: '#novel_group',
