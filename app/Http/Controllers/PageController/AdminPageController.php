@@ -405,9 +405,33 @@ class AdminPageController extends Controller
 
     public function notifications()
     {
-        $notis = Notification::paginate(config('define.pagination_long'));
+        $notis = Notification::latest()->paginate(config('define.pagination_long'));
 
         return view('admin.notification.notifications', compact('notis'));
+    }
+
+    public function notifications_create()
+    {
+
+        return view('admin.notification.create');
+    }
+
+    public function notifications_detail(Request $request, $id)
+    {
+
+        $noti = Notification::find($id);
+        $notifications = Notification::latest()->paginate(config('define.pagination_long'));
+
+        $page = $request->page;
+
+        return view('admin.notification.detail', compact('noti', 'notifications', 'page'));
+    }
+
+    public function notifications_update($id)
+    {
+        $noti = Notification::find($id);
+
+        return view('admin.notification.update', compact('noti'));
     }
 
 }

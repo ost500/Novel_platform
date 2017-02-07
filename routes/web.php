@@ -146,6 +146,16 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/faqs/{id}/edit', ['as' => 'admin.faqs.edit', 'uses' => 'PageController\AdminPageController@faq_edit']);
 
     Route::get('/notifications', ['as' => 'admin.notifications', 'uses' => 'PageController\AdminPageController@notifications']);
+    Route::get('/notifications/create', ['as' => 'admin.notifications.create', 'uses' => 'PageController\AdminPageController@notifications_create']);
+    Route::post('/notifications/create', ['as' => 'admin.notifications.create.post', 'uses' => 'NotificationController@store']);
+
+    Route::get('/notifications/{id}', ['as' => 'admin.notifications.detail', 'uses' => 'PageController\AdminPageController@notifications_detail'])
+        ->where(['id' => '[0-9]+']);
+
+    Route::get('/notifications/{id}/edit', ['as' => 'admin.notifications.update', 'uses' => 'PageController\AdminPageController@notifications_update'])
+        ->where(['id' => '[0-9]+']);
+    Route::put('/notifications/{id}/edit', ['as' => 'admin.notifications.update.put', 'uses' => 'NotificationController@update'])
+        ->where(['id' => '[0-9]+']);
 });
 
 //main

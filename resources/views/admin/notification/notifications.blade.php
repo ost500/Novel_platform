@@ -42,7 +42,9 @@
                                             <tr>
                                                 <td class="col-md-1 text-center">{{$noti->id}}</td>
                                                 <td class="col-md-2 text-center">{{$noti->category}}</td>
-                                                <td class="col-md-3">{{$noti->title}}</td>
+                                                <td class="col-md-3">
+                                                    <a href="{{ route('admin.notifications.detail', ['id' => $noti->id]) }}">{{$noti->title}}</a>
+                                                </td>
                                                 <td class="col-md-2 text-center">
                                                     @if($noti->posting)
                                                         <button class="btn btn-success">
@@ -73,7 +75,7 @@
                                 </div>
 
                                 <div class="pull-right">
-                                    {{--@include('pagination', ['collection' => $apply_requests, 'url' => route('admin.partner_manage_apply')])--}}
+                                    @include('pagination', ['collection' => $notis, 'url' => route('admin.notifications')])
 
                                 </div>
                             </div>
