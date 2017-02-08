@@ -65,7 +65,8 @@
                                    style="display:none;cursor:pointer;"><i class="scrap-active-icon"></i> 선호작추가</a>
                             @endif
 
-                            <a href="#mode_nav" class="share-btn"><i class="share2-icon"></i> 공유하기</a>
+                            <a href="#share_form" data-modal-id="share_form"><i class="share2-icon"></i> 공유하기</a>
+
                             <a href="{{route('mails.create',['id'=>$novel_group_inning->user_id])}}"
                                class="memo-btn"><i class="memo2-icon"></i> 작가에게 쪽지 보내기</a>
 
@@ -199,6 +200,9 @@
     </div>
     <!-- //컨테이너 -->
     <!-- 푸터 -->
+    <!-- Social Share-->
+    @include('social_share', ['url' =>route('each_novel.novel_group_inning', $novel_group_inning->id),'title'=>$novel_group_inning->title,'thumbnail'=>''])
+    <!--Social Share -->
     <script type="text/javascript">
         var app = new Vue({
             el: '#inning',
@@ -237,7 +241,7 @@
                                 //  location.reload();
                             })
                             .catch(function (errors) {
-                                alert('Please login to add it to favorites');
+                                window.location.assign('/login?loginView=true');
                             });
                 },
                 removeFromFavorite: function () {
@@ -251,7 +255,7 @@
                             })
                             .catch(function (errors) {
 
-                                console.log(errors);
+                                window.location.assign('/login?loginView=true');
                             });
                 }
             }

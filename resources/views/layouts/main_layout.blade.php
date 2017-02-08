@@ -371,6 +371,7 @@
             </fieldset>
         </form>
     </div>
+    @yield('header')
     <!-- //통합검색모달 -->
 </header>
 <!-- //헤더 -->

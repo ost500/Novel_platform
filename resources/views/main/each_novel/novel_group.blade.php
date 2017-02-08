@@ -172,150 +172,69 @@
     </div>
     <!-- //컨테이너 -->
     <!-- 푸터 -->
-    <div id="share_form" class="share-modal" tabindex="0">
-        <form name="share_form" action="{{route('search.index')}}" class="share-form" method="post">
-            {{csrf_field()}}
-            <fieldset class="wrap clr">
-                <div id="social-links" style="width:100%;height:350px;padding:2%;align-items: center;">
-                    <h2 style="color:#998878;border-bottom:1px solid #cdc7c8;">Share With Social Media</h2>
+@section('header')
+  {{--  @php $thumbnail = 'http://homestead.app/img/novel_covers/{{$novel_group->cover_photo}}' @endphp--}}
+    @include('social_share', ['url' =>route('each_novel.novel_group', $novel_group->id),'title'=>$novel_group->title,'thumbnail'=>''])
+@endsection
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#novel_group',
+        data: {
+            favorites_info: {novel_group_id: ''},
+            add_favorite_disp: true,
+            remove_favorite_disp: false,
+            search: ''
 
-                    <div style="float:left;padding:3%">
-                        <ul>
-                            <li style="vertical-align:super"><a
-                                        href="{{$share->facebook(route('each_novel.novel_group', $novel_group->id))}}"
-                                        class="social-button " id="" style="width:2%;margin:2%;">
-                                    <i class="fa fa-facebook-square fa-5x" aria-hidden="true"> </i>
-                                    <span style="vertical-align:super">Share your favorite novels with friends on Facebook.</span>
-                                </a>
-                            </li>
-                            <li><a href="{{$share->twitter(route('each_novel.novel_group', $novel_group->id))}}"
-                                   class="social-button " id="" style="width:2%;margin:2%;">
-                                    <i class="fa fa-twitter-square fa-5x" aria-hidden="true"> </i>
-                                    <span style="vertical-align:super">Share your favorite novels with friends on twitter.</span>
-                                </a>
-                            </li>
-                            <li><a href="{{$share->googleplus(route('each_novel.novel_group', $novel_group->id))}}"
-                                   class="social-button " id="" style="width:2%;margin:2%;">
-                                    <i class="fa fa-google-plus-square fa-5x" aria-hidden="true"> </i>
-                                    <span style="vertical-align:super">Share your favorite novels with friends on Google+.</span>
-                                </a>
-                            </li>
-                            <li><a href="{{$share->linkedin(route('each_novel.novel_group', $novel_group->id))}}"
-                                   class="social-button " id="" style="width:2%;margin:2%;">
-                                    <i class="fa fa-linkedin-square fa-5x" aria-hidden="true"> </i>
-                                    <span> Share your favorite novels with friends on Linkedin.</span>
-                                </a>
-                            </li>
-                            <li><a href="{{$share->gmail(route('each_novel.novel_group', $novel_group->id))}}"
-                                   class="social-button " id="" style="width:2%;margin:2%;">
-                                    <i class="fa fa-google fa-5x" aria-hidden="true"> </i>
-                                    <span>Share your favorite novels with friends on Gmail.</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div style="float:right;padding:3%;">
-                        <ul>
-                            <li><a href="{{$share->reddit(route('each_novel.novel_group', $novel_group->id))}}"
-                                   class="social-button " id="" style="width:2%;margin:2%;">
-                                    <i class="fa fa-reddit-square fa-5x" aria-hidden="true"> </i>
-                                    <span style="font-size:12px;">Share your favorite novels with friends on Reddit.</span>
-                                </a>
-                            </li>
-                            <li><a href="{{$share->pinterest(route('each_novel.novel_group', $novel_group->id))}}"
-                                   class="social-button " id="" style="width:2%;margin:2%;">
-                                    <i class="fa fa-pinterest-square fa-5x" aria-hidden="true"> </i>
-                                      <span style="font-size:12px;">Share your favorite novels with friends on Pinterest.</span>
-                                </a>
-                            </li>
-                            <li><a href="{{$share->delicious(route('each_novel.novel_group', $novel_group->id))}}"
-                                   class="social-button " id="" style="width:2%;margin:2%;">
-                                    <i class="fa fa-delicious fa-5x" aria-hidden="true"> </i>
-                                    <span style="font-size:12px;">Share your favorite novels with friends on Delicious.</span>
-                                </a>
-                            </li>
-                            <li><a href="{{$share->tumblr(route('each_novel.novel_group', $novel_group->id))}}"
-                                   class="social-button " id="" style="width:2%;margin:2%;">
-                                    <i class="fa fa-tumblr-square fa-5x" aria-hidden="true"> </i>
-                                    <span style="">Share your favorite novels with friends on Tumblr.</span>
-                                </a>
-                            </li>
+        },
+        mounted: function () {
 
-                        </ul>
-                    </div>
-                </div>
-            </fieldset>
-        </form>
-    </div>
-    <script type="text/javascript">
-        var app = new Vue({
-            el: '#novel_group',
-            data: {
-                favorites_info: {novel_group_id: ''},
-                add_favorite_disp: true,
-                remove_favorite_disp: false,
-                search: ''
+            this.checkFavorite();
+        },
+        methods: {
 
-            },
-            mounted: function () {
+            checkFavorite: function () {
 
-                this.checkFavorite();
-            },
-            methods: {
-
-                checkFavorite: function () {
-
-                    var display = '@if(Auth::check()){{$novel_group->checkUserFavourite($novel_group->id)}}@endif';
-                    if (display) {
-                        this.add_favorite_disp = false;
-                        this.remove_favorite_disp = true;
-                    }
-                },
-
-                addToFavorite: function (novel_group_id) {
-                    app.favorites_info.novel_group_id = novel_group_id;
-                    app.$http.post('{{ route('favorites.store') }}', app.favorites_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
-                            .then(function (response) {
-                                //  document.getElementById('tab' + publish_company_id).style.display = 'none';
-                                console.log(response);
-                                app.add_favorite_disp = false;
-                                app.remove_favorite_disp = true;
-                                // location.reload();
-                            })
-                            .catch(function (errors) {
-                                // console.log(errors);
-
-                                // alert('login');
-                                //  bootbox.alert(alert_message, function () {
-                                /* $.niftyNoty({
-                                 type: 'info',
-                                 icon: 'fa fa-info',
-                                 message: 'Thank you',
-                                 container: 'floating',
-                                 timer: 3000
-                                 });*/
-                                //  });
-                            });
-                },
-                removeFromFavorite: function () {
-                    app.$http.delete('{{ route('favorites.destroy',['id'=>$novel_group->id]) }}', {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
-                            .then(function (response) {
-                                //  document.getElementById('tab' + publish_company_id).style.display = 'none';
-                                console.log(response);
-                                app.add_favorite_disp = true;
-                                app.remove_favorite_disp = false;
-                                // location.reload();
-                            })
-                            .catch(function (errors) {
-
-                                console.log(errors);
-                            });
+                var display = '@if(Auth::check()){{$novel_group->checkUserFavourite($novel_group->id)}}@endif';
+                if (display) {
+                    this.add_favorite_disp = false;
+                    this.remove_favorite_disp = true;
                 }
+            },
 
+            addToFavorite: function (novel_group_id) {
+                app.favorites_info.novel_group_id = novel_group_id;
+                app.$http.post('{{ route('favorites.store') }}', app.favorites_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                        .then(function (response) {
+                            //  document.getElementById('tab' + publish_company_id).style.display = 'none';
+                            console.log(response);
+                            app.add_favorite_disp = false;
+                            app.remove_favorite_disp = true;
+                            // location.reload();
+                        })
+                        .catch(function (errors) {
+                            window.location.assign('/login?loginView=true');
+                        });
+            },
+            removeFromFavorite: function () {
+                app.$http.delete('{{ route('favorites.destroy',['id'=>$novel_group->id]) }}', {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                        .then(function (response) {
+                            //  document.getElementById('tab' + publish_company_id).style.display = 'none';
+                            console.log(response);
+                            app.add_favorite_disp = true;
+                            app.remove_favorite_disp = false;
+                            // location.reload();
+                        })
+                        .catch(function (errors) {
+
+                            window.location.assign('/login?loginView=true');
+                        });
             }
 
-        });
+        }
 
-    </script>
+    });
+
+
+</script>
 
 @endsection
