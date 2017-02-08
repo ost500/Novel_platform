@@ -20,7 +20,6 @@ class CreatePiecesTable extends Migration
             $table->text('content');
             $table->integer('numbers')->unsigned();
             $table->dateTime('deadline')->default(null);
-            $table->enum('status', ['수령', '반송', '대기']);
             $table->timestamps();
 
         });
