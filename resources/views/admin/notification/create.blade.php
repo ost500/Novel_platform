@@ -59,6 +59,10 @@
                                                                                                name="posting" value="0">
                                             공지 안함(알림만)</label>
 
+                                        <label class="form-check form-normal form-text"><input type="checkbox"
+                                                                                               name="popup" >
+                                            PopUp</label>
+
                                     </div>
                                 </div>
                             </div>
@@ -77,6 +81,14 @@
                                     <textarea name="content" id="demo-textarea-input" rows="9" class="form-control"
                                               placeholder="내용을 입력해 주세요">{{ old('content') }}</textarea>
                                 </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label" for="demo-textarea-input">picture</label>
+                             <div class="col-md-9">
+                                <input type="file" name="picture" id="picture" class="form-control"
+                                       placeholder="첨부파일" >
+                                <small class="has-warning">최대용량 : 1M / 업로드 가능 확장자 : JPG, PNG 파일</small>
+                             </div>
                             </div>
 
 

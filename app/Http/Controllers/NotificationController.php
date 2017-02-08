@@ -24,7 +24,23 @@ class NotificationController extends Controller
 
         ])->validate();
 
-        $noti = Notification::create($request->all());
+         $input = $request->all();
+
+        if($request->popup == "on"){ $input['popup'] = true; }
+
+        $noti = Notification::create($input);
+
+    /*    if ($request->hasFile('picture')) {
+            $attachment = $request->file('picture');
+            $original_filename = $attachment->getClientOriginalName();
+            //dd($mails->id);
+            $filename = $noti->id . $original_filename;
+            //set file name for database
+            $noti->picture = $filename;
+            //upload file to destination path
+            $destinationPath = public_path('/img/notification_pictures/');
+            $attachment->move($destinationPath, $filename);
+        }*/
 
         event(new NewSpeedEvent("noti", "[공지사항] " . $noti->title, route('ask.notification_detail', ['id' => $noti->id]), "/front/imgs/thumb/memo3.png"));
 
