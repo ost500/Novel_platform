@@ -292,3 +292,50 @@ $factory->define(App\NewSpeedLog::class, function (Faker\Generator $faker) {
         'read' => 0
     ];
 });
+
+$factory->define(App\Payment::class, function (Faker\Generator $faker) {
+    $userIds = App\User::pluck('id')->toArray();
+
+    return [
+        'user_id' => $faker->randomElement($userIds),
+        'content' => $faker->sentence(),
+        'numbers' => $faker->randomNumber(),
+        'method' => $faker->randomElement(['휴대폰', '가상계좌', '계좌이체', '휴대폰', '네이버페이', '카카오페이', '해피머니']),
+    ];
+});
+
+$factory->define(App\Piece::class, function (Faker\Generator $faker) {
+    $userIds = App\User::pluck('id')->toArray();
+
+    return [
+        'user_id' => $faker->randomElement($userIds),
+        'content' => $faker->sentence(),
+        'numbers' => $faker->randomNumber(),
+        'deadline' => $faker->dateTimeBetween('+1 months', '+3 months'),
+        'status' => $faker->randomElement(['수령', '반송', '대기']),
+
+    ];
+});
+
+$factory->define(App\PurchasedNovel::class, function (Faker\Generator $faker) {
+    $userIds = App\User::pluck('id')->toArray();
+    $novelIds = App\Novel::pluck('id')->toArray();
+
+    return [
+        'user_id' => $faker->randomElement($userIds),
+        'novel_id' => $faker->randomElement($novelIds),
+        'method' => $faker->randomElement(['조각', '구슬']),
+        'status' => $faker->randomElement([1, 0]),
+    ];
+});
+
+$factory->define(App\Present::class, function (Faker\Generator $faker) {
+    $userIds = App\User::pluck('id')->toArray();
+    $fromUserIds = App\User::pluck('id')->toArray();
+
+    return [
+        'user_id' => $faker->randomElement($userIds),
+        'from_id' => $faker->randomElement($fromUserIds),
+        'content' => $faker->sentence(),
+    ];
+});

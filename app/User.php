@@ -184,6 +184,31 @@ class User extends Authenticatable
         return $this->hasMany(NewSpeedLog::class);
     }
 
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    public function pieces()
+    {
+        return $this->hasMany(Piece::class);
+    }
+
+    public function presents()
+    {
+        return $this->hasMany(Present::class);
+    }
+
+    public function presentsFrom()
+    {
+        return $this->hasMany(Present::class, 'from_id', 'id');
+    }
+
+    public function purchasedNovels()
+    {
+        return $this->hasMany(PurchasedNovel::class);
+    }
+
     public function isCommentBlocked()
     {
         if ($this->block_comment == 1) {
