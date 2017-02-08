@@ -100,7 +100,8 @@
                               method="post" v-on:submit.prevent="commentStore()">
                             <div class="comment-form-wrap">
                                  <textarea name="comment" id="comment" class="textarea2" v-model="info.comment"
-                                           placeholder="남을 상처주지 않는 바르고 고운 말을 씁시다." title="댓글내용" >{{ old('comment') }}</textarea>
+                                           placeholder="남을 상처주지 않는 바르고 고운 말을 씁시다."
+                                           title="댓글내용">{{ old('comment') }}</textarea>
                                 {{--    <input type="hidden" name="novel_id" id="novel_id"  v-model="info.novel_id"/>--}}
                                 {{--<input type="hidden" name="parent_id" id="parent_id" value="0"/>--}}
 
@@ -216,6 +217,11 @@
 
                             }).catch(function (errors) {
                                 this.errorsInfo = errors.data;
+                                if (this.errorsInfo.error) {
+                                    window.location.assign('/login?loginView=true');
+                                    exit();
+                                }
+
                                 $('#validateError').show();
                             });
                 },

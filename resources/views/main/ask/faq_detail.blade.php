@@ -44,7 +44,7 @@
                     <li>
                         <span class="head head--prev">이전글</span>
                             <span class="subject"><a
-                                        href="{{ route('ask.faq_detail',['id'=>$pre_faq->id]) }}">{{$pre_faq->title}}</a></span>
+                                        href="{{ route('ask.faq_detail',['id'=>$pre_faq->id]).$query_string }}">{{$pre_faq->title}}</a></span>
                         <span class="writer">admin</span>
                         <span class="datetime">{{ $pre_faq->created_at->format('Y-m-d') }}</span>
                     </li>
@@ -53,7 +53,7 @@
                     <li>
                         <span class="head head--next">다음글</span>
                     <span class="subject">
-                      <a href="{{ route('ask.faq_detail',['id'=>$next_faq->id]) }}">{{$next_faq->title}}</a></span>
+                      <a href="{{ route('ask.faq_detail',['id'=>$next_faq->id]).$query_string }}">{{$next_faq->title}}</a></span>
                         <span class="writer">admin</span>
                         <span class="datetime">{{ $next_faq->created_at->format('Y-m-d') }}</span>
                     </li>

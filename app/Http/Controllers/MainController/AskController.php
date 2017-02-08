@@ -91,20 +91,43 @@ class AskController extends Controller
     }
 
 
-    public function faq_detail($id)
+    public function faq_detail(Request $request, $id)
     {
+
+        //Set the Filters for Category,Search and Best faqs
+        $category = $request->get('category');
+        $search = $request->get('search');
+
+        if ($category) {
+
+            $filter = ['faq_category', '=', $category];
+            $query_string = '?category=' . $category;
+
+        } elseif ($search) {
+
+            $filter = ['title', 'like', '%' . $search . '%'];
+            $query_string = '?search=' . $search;
+
+        } else {
+
+            $filter = ['best','=', 1];
+            $query_string = '?best';
+
+        }
+
+
         //current notification
         $faq = Faq::where('id', $id)->first();
 
         //next notification
-        $next_faq_id = Faq::where('id', '>', $faq->id)->min('id');
+        $next_faq_id = Faq::where([['id', '>', $id], $filter])->min('id');
         $next_faq = Faq::find($next_faq_id);
 
         //previous notification
-        $pre_faq_id = Faq::where('id', '<', $faq->id)->max('id');
+        $pre_faq_id = Faq::where([['id', '<', $id], $filter])->max('id');
         $pre_faq = Faq::find($pre_faq_id);
 
-        return view('main.ask.faq_detail', compact('faq', 'next_faq', 'pre_faq'));
+        return view('main.ask.faq_detail', compact('faq', 'next_faq', 'pre_faq', 'query_string'));
     }
 
 }

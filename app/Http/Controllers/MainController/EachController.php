@@ -4,6 +4,7 @@ namespace App\Http\Controllers\MainController;
 
 use App\Favorite;
 use App\RecentlyVisitedNovel;
+use BrianFaust\SocialShare\Share;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\NovelGroup;
@@ -46,11 +47,11 @@ class EachController extends Controller
             ->where([['novel_groups.user_id', '=', $novel_group->user_id], ['novel_groups.id', '<>', $id]])
             ->orderBy('created_at', 'desc')
             ->paginate(3);
+      //Social Share
+        $share =new Share();
 
 
-        // return response()->json($author_novel_groups);
-
-        return view('main.each_novel.novel_group', compact('novel_group', 'author_novel_groups', 'recently_visited_novel'));
+        return view('main.each_novel.novel_group', compact('novel_group', 'author_novel_groups', 'recently_visited_novel','share'));
     }
 
 
