@@ -158,6 +158,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ReviewCommentSeeder::class);
         $this->call(NewSpeedSeeder::class);
         $this->call(NewSpeedLogSeeder::class);
+        $this->call(PaymentSeeder::class);
 
     }
 

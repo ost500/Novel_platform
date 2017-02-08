@@ -26,9 +26,19 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td class="col-no-data" colspan="4">보낸 내역이 없습니다.</td>
-                    </tr>
+                    @if($presents->count() == 0)
+                        <tr>
+                            <td class="col-no-data" colspan="4">보낸 내역이 없습니다.</td>
+                        </tr>
+                    @endif
+                    @foreach ($presents as $present)
+                        <tr>
+                            <td class="col-datetime2">{{ $present->created_at }}</td>
+                            <td class="col-subject">{{ $present->content }}</td>
+                            <td class="col-from">{{ $present->users->name }}</td>
+                            <td class="col-state"><span>수령</span></td>
+                        </tr>
+                    @endforeach
                     </tbody>
                 </table>
                 <!-- //게시판목록 -->
@@ -42,15 +52,7 @@
                 </div>
                 <!-- //하단버튼 -->
                 <!-- 페이징 -->
-                <div class="page-nav">
-                    <nav>
-                        <ul>
-                            <!--<li><a href="#mode_nav" class="prev-page"><span>이전</span></a></li>-->
-                            <li><a href="#mode_nav" class="current-page">1</a></li>
-                            <li><a href="#mode_nav" class="next-page"><span>다음</span></a></li>
-                        </ul>
-                    </nav>
-                </div>
+            @include('pagination_front', ['collection' => $presents, 'url' => route('my_info.sent_gift')."?"])
                 <!-- //페이징 -->
 
                 <!-- 공지 -->

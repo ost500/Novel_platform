@@ -6,6 +6,10 @@ use App\Comment;
 use App\FreeBoard;
 use App\FreeBoardComment;
 use App\Http\Controllers\Controller;
+use App\Payment;
+use App\Piece;
+use App\Present;
+use App\PurchasedNovel;
 use App\Review;
 use App\ReviewComment;
 use App\User;
@@ -79,7 +83,7 @@ class MyInfoController extends Controller
         $novel_comments = Comment::join('users', 'users.id', '=', 'comments.user_id')
             ->join('novels', 'novels.id', '=', 'comments.novel_id')
             ->join('novel_groups', 'novel_groups.id', '=', 'novels.novel_group_id')
-            ->select(['comments.*', 'users.name as user_name', 'novels.title as novel_title','novels.inning','novel_groups.title as novel_group_title' ])
+            ->select(['comments.*', 'users.name as user_name', 'novels.title as novel_title', 'novels.inning', 'novel_groups.title as novel_group_title'])
             ->where('comments.user_id', Auth::user()->id);
 
         //Set the Order
@@ -166,7 +170,6 @@ class MyInfoController extends Controller
     {
 
 
-
         if ($request->get('comment_type') == 'review') {
 
             ReviewComment::where('id', $request->get('comment_id'))->update(['comment' => $request->get('comment')]);
@@ -188,26 +191,38 @@ class MyInfoController extends Controller
 
     public function charge_list()
     {
-        return view('main.my_page.use_info.charge_list');
+        $pays = Payment::where('user_id', Auth::user()->id)->paginate(config('define.pagination_long'));
+
+        return view('main.my_page.use_info.charge_list', compact('pays'));
     }
 
     public function manage_piece()
     {
-        return view('main.my_page.use_info.manage_piece');
+        $pieces = Piece::where('user_id', Auth::user()->id)->paginate(config('define.pagination_long'));
+
+        return view('main.my_page.use_info.manage_piece', compact('pieces'));
     }
 
     public function purchased_novel_list()
     {
-        return view('main.my_page.use_info.purchased_novel_list');
+        $purchasedNovels = PurchasedNovel::where('user_id', Auth::user()->id)->with('novels')->paginate(config('define.pagination_long'));
+
+        return view('main.my_page.use_info.purchased_novel_list', compact('purchasedNovels'));
     }
 
     public function received_gift()
     {
-        return view('main.my_page.use_info.received_gift');
+        $presents = Present::where('user_id', Auth::user()->id)->with('users')->with('fromUser')->paginate(config('define.pagination_long'));
+
+//        return response()->json($presents);
+
+        return view('main.my_page.use_info.received_gift', compact('presents'));
     }
 
     public function sent_gift()
     {
-        return view('main.my_page.use_info.sent_gift');
+        $presents = Present::where('from_id', Auth::user()->id)->paginate(config('define.pagination_long'));
+
+        return view('main.my_page.use_info.sent_gift', compact('presents'));
     }
 }
