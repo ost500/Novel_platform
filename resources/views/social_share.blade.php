@@ -2,7 +2,7 @@
     <form name="share_form"  class="share-form">
         <fieldset class="wrap clr">
             <div id="social-links">
-                <h2 class="share-title">Share With Social Media</h2>
+                <h2 class="share-title">SNS 공유하기</h2>
 
                 <div style="float:left;padding:3%">
                     <ul>

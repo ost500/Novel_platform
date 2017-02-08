@@ -45,12 +45,12 @@
                             <td class="col-state">
                                 @if($present->status == '대기')
                                     <span id="response{{$present->id}}"></span>
-                                    <button class="btn btn-sm btn-primary" style="padding-left:9px;padding-right:9px;"
+                                    <button class="btn btn-sm btn-primary" style="padding-left:9px;padding-right:9px;font-size: small;"
                                             id="approve{{$present->id}}"
                                             v-on:click="approve_deny('{{$present->id}}','수령',1)"> 수령
                                     </button>
 
-                                    <button class="btn btn-sm btn-danger" style="padding-left:9px;padding-right:9px;"
+                                    <button class="btn btn-sm btn-danger" style="padding-left:9px;padding-right:9px;font-size: small;"
                                             id="deny{{$present->id}}"
                                             v-on:click="approve_deny('{{$present->id}}','반송',0)"> 반송
                                     </button>
