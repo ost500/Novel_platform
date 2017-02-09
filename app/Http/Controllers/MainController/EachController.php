@@ -50,7 +50,6 @@ class EachController extends Controller
       //Social Share
         $share =new Share();
 
-
         return view('main.each_novel.novel_group', compact('novel_group', 'author_novel_groups', 'recently_visited_novel','share'));
     }
 
@@ -96,9 +95,10 @@ class EachController extends Controller
 
             }
         }
+        //Social Share
+        $share =new Share();
 
-
-        return view('main.each_novel.novel_group_inning', compact('novel_group_inning', 'novel_group_inning_comments', 'show_favorite'));
+        return view('main.each_novel.novel_group_inning', compact('novel_group_inning', 'novel_group_inning_comments', 'show_favorite','share'));
     }
 
     public function novel_group_review($novel_group_id)

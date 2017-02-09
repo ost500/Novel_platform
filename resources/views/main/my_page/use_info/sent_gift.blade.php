@@ -1,13 +1,19 @@
 @extends('../layouts.main_layout')
 @section('content')
-    <div class="container">
-        <div class="wrap">
+    <div class="container" xmlns:v-on="http://www.w3.org/1999/xhtml">
+        <div class="wrap" id="sent_gifts">
             <!-- LNB -->
-        @include('main.my_page.left_sidebar')
-        <!-- //LNB -->
+            @include('main.my_page.left_sidebar')
+                    <!-- //LNB -->
 
             <!-- 서브컨텐츠 -->
             <div class="content" id="content">
+                @if(Session::has('flash_message'))
+                    {{-- important, success, warning, danger and info --}}
+                    <div class="alert alert-success">
+                        {{Session('flash_message')}}
+                    </div>
+                    @endif
                 <!-- 페이지헤더 -->
                 <div class="list-header">
                     <h2 class="title">보낸 선물 내역</h2>
@@ -36,7 +42,22 @@
                             <td class="col-datetime2">{{ $present->created_at }}</td>
                             <td class="col-subject">{{ $present->content }}</td>
                             <td class="col-from">{{ $present->users->name }}</td>
-                            <td class="col-state"><span>수령</span></td>
+                            <td class="col-state">
+                                @if($present->status == '대기')
+                                    <span id="response{{$present->id}}"></span>
+                                    <button class="btn btn-sm btn-primary" style="padding-left:9px;padding-right:9px;font-size: small;"
+                                            id="approve{{$present->id}}"
+                                            v-on:click="approve_deny('{{$present->id}}','수령',1)"> 수령
+                                    </button>
+
+                                    <button class="btn btn-sm btn-danger" style="padding-left:9px;padding-right:9px;font-size: small;"
+                                            id="deny{{$present->id}}"
+                                            v-on:click="approve_deny('{{$present->id}}','반송',0)"> 반송
+                                    </button>
+                                @else
+                                    <span>{{ $present->status }}</span>
+                                @endif
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -52,8 +73,8 @@
                 </div>
                 <!-- //하단버튼 -->
                 <!-- 페이징 -->
-            @include('pagination_front', ['collection' => $presents, 'url' => route('my_info.sent_gift')."?"])
-                <!-- //페이징 -->
+                @include('pagination_front', ['collection' => $presents, 'url' => route('my_info.sent_gift')."?"])
+                        <!-- //페이징 -->
 
                 <!-- 공지 -->
                 <p class="mypage-notice mypage-notice--gift2">
@@ -75,6 +96,7 @@
                             <div class="item-list">
                                 <div class="item-cols">
                                     <label for="gift_user" class="label">받는사람</label>
+
                                     <div class="input input--user-search">
                                         <div class="search-input">
                                             <input type="text" id="gift_user" class="text1"
@@ -97,6 +119,7 @@
                                 </div>
                                 <div class="item-cols">
                                     <label for="gift_msg" class="label">전할문구</label>
+
                                     <div class="input input--fullsize">
                                         <input type="text" id="gift_msg" class="text2"
                                                placeholder="공백 포함 최대 30자까지 가능합니다.">
@@ -104,6 +127,7 @@
                                 </div>
                                 <div class="item-cols">
                                     <label for="gift_marble" class="label">구슬선물</label>
+
                                     <div class="input">
                                         <input type="text" id="gift_marble" class="text2" size="25">
                                         <span class="input-desc">구매한 구슬만 선물이 가능합니다.</span>
@@ -124,12 +148,57 @@
             </section>
             <!-- //구슬선물하기 팝업 -->
             <!-- 따라다니는퀵메뉴 -->
-        @include('main.quick_menu')
-        <!-- //따라다니는퀵메뉴 -->
+            @include('main.quick_menu')
+                    <!-- //따라다니는퀵메뉴 -->
         </div>
     </div>
     <!-- //컨테이너 -->
     <!-- 푸터 -->
+    <script type="text/javascript">
+        var app_gift = new Vue({
+            el: '#sent_gifts',
+            data: {
+                info: {
+                    status: ''
+                },
+                alert_msg: ''
+            },
+            mounted: function () {
 
+            },
+            methods: {
+
+                approve_deny: function (present_id, status, type) {
+                    // if type==1 is approve else deny
+                    if (type == 1) {
+                        app_gift.alert_msg = "승인 하시겠습니까?";
+                    }
+                    else {
+                        app_gift.alert_msg = "반송 하시겠습니까?";
+                    }
+
+                    if (confirm(app_gift.alert_msg)) {
+
+                        //approve info
+                        app_gift.info.status = status;
+                        app_gift.$http.put('{{ url('presents') }}/' + present_id, app_gift.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                                .then(function (response) {
+                                    /*   $('#approve' + present_id).hide();
+                                     $('#deny' + present_id).hide();
+                                     $('#response' + present_id).html(response.data.data);*/
+                                    location.reload();
+                                })
+                                .catch(function (data, status, request) {
+                                    var errors = data.data;
+                                });
+
+                    }
+                }
+            }
+        });
+        $(".alert").delay(4000).slideUp(200, function () {
+            $(this).alert('close');
+        });
+    </script>
 
 @endsection

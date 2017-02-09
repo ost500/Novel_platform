@@ -34,6 +34,7 @@ Route::resource('favorites', 'FavoriteController', ['only' => ['store', 'destroy
 Route::resource('keywords', 'KeywordController');
 Route::resource('companies', 'CompanyController');
 Route::resource('publish_companies', 'NovelGroupPublishCompanyController', ['only' => ['update']]);
+Route::resource('presents', 'PresentController', ['only' => ['update']]);
 Route::delete('maillogs/{id}', ['as' => 'maillog.destroy', 'uses' => 'MailLogController@destroy']);
 Route::put('maillogs', ['as' => 'maillog.update', 'uses' => 'MailLogController@update']);
 Route::put('publish_novel/{id}', ['as' => 'publish_novel.update', 'uses' => 'PublishNovelController@update']);

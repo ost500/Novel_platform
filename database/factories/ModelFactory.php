@@ -312,7 +312,7 @@ $factory->define(App\Piece::class, function (Faker\Generator $faker) {
         'content' => $faker->sentence(),
         'numbers' => $faker->randomNumber(),
         'deadline' => $faker->dateTimeBetween('+1 months', '+3 months'),
-        'status' => $faker->randomElement(['수령', '반송', '대기']),
+
 
     ];
 });
@@ -337,5 +337,6 @@ $factory->define(App\Present::class, function (Faker\Generator $faker) {
         'user_id' => $faker->randomElement($userIds),
         'from_id' => $faker->randomElement($fromUserIds),
         'content' => $faker->sentence(),
+        'status' => $faker->randomElement(['수령', '반송', '대기']),
     ];
 });
