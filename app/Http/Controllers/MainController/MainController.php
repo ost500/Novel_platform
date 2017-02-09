@@ -4,6 +4,7 @@ namespace App\Http\Controllers\MainController;
 
 use App\Http\Controllers\Controller;
 use App\Keyword;
+use App\Notification;
 use App\Novel;
 use App\NovelGroup;
 use App\Review;
@@ -43,13 +44,15 @@ class MainController extends Controller
             ->groupBy('novel_group_id')->where('secret',null)->orderBy('sum', 'desc')->havingRaw('max(non_free_agreement) > 0')
             ->with('nicknames')->take(8)->get();
 
+        $notification_popups=Notification::where('popup',true)->latest()->get();
+
         //when it has to be logged in
         $login = $request->login;
         $loginView = $request->loginView;
         
 
 //        return response()->json($reader_reviews);
-        return view('main.main', compact('recommends', 'non_free_today_bests', 'free_today_bests', 'latests', 'reader_reviews', 'recommendations', 'login', 'loginView'));
+        return view('main.main', compact('recommends', 'non_free_today_bests', 'free_today_bests', 'latests', 'reader_reviews', 'recommendations', 'login', 'loginView','notification_popups'));
     }
 
     public function series(Request $request, $free_or_charged = false)

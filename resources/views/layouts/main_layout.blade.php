@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="/front/css/register.css" type="text/css">
     <link rel="stylesheet" href="/plugins/font-awesome/css/font-awesome.min.css" type="text/css">
     <script src="/front/js/jquery-1.12.4.min.js"></script>
+    <script src="/front/js/move_layer.js"></script>
     <script src="/front/js/jquery.easing.min.js"></script>
     <script src="/js/vue.js"></script>
     <script src="/js/vue-resource.min.js"></script>
