@@ -5,7 +5,7 @@
 <div class="container">
     <div class="wrap">
         <!-- LNB -->
-        @include('main.ask.left_sidebar')>
+        @include('main.ask.left_sidebar')
         <!-- //LNB -->
 
         <!-- 서브컨텐츠 -->

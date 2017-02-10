@@ -340,3 +340,16 @@ $factory->define(App\Present::class, function (Faker\Generator $faker) {
         'status' => $faker->randomElement(['수령', '반송', '대기']),
     ];
 });
+
+$factory->define(App\Accusation::class, function (Faker\Generator $faker) {
+    $userIds = App\User::pluck('id')->toArray();
+    $accuUserIds = App\User::pluck('id')->toArray();
+
+    return [
+        'user_id' => $faker->randomElement($userIds),
+        'accu_id' => $faker->randomElement($accuUserIds),
+        'contents' => $faker->sentence(),
+        'title' => $faker->sentence(),
+        'category' => $faker->sentence(),
+    ];
+});

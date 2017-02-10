@@ -120,7 +120,8 @@
                     <!-- //게시물본문 -->
                     <div class="bbs-view-content-btns">
                         <div class="right-btns">
-                            <a href="#mode_nav" class="report-btn"><i class="report-icon"></i>게시물 신고</a>
+                            <a href="{{ route('accusations', ['id' => $review->users->id]) }}" class="report-btn"><i
+                                        class="report-icon"></i>게시물 신고</a>
                         </div>
                     </div>
                     <div class="bbs-view-btns">
@@ -157,7 +158,7 @@
                                                         class="datetime">{{ $comment->created_at }}</span>
                                             </div>
                                             <div class="comment-btns"><a href="#mode_nav">답글</a><a
-                                                        href="#mode_nav">신고</a>
+                                                        href="{{ route('accusations', ['id' => $comment->users->id]) }}">신고</a>
                                             </div>
                                             <div class="comment-content">
                                                 <p><?php echo nl2br($comment->comment); ?></p>

@@ -110,7 +110,7 @@ class AskController extends Controller
 
         } else {
 
-            $filter = ['best','=', 1];
+            $filter = ['best', '=', 1];
             $query_string = '?best';
 
         }
@@ -128,6 +128,12 @@ class AskController extends Controller
         $pre_faq = Faq::find($pre_faq_id);
 
         return view('main.ask.faq_detail', compact('faq', 'next_faq', 'pre_faq', 'query_string'));
+    }
+
+    public function accusations($id)
+    {
+        $accu_id = $id;
+        return view('main.ask.accusations', compact('accu_id'));
     }
 
 }
