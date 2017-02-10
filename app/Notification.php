@@ -29,7 +29,7 @@ class Notification extends Model
      * @var array
      */
     protected $fillable = [
-       'category','title', 'content', 'posting'
+       'category','title', 'content', 'posting','popup','picture'
     ];
 
 }

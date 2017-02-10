@@ -34,7 +34,7 @@
 
                         <form class="panel-body form-horizontal form-padding"
                               action="{{route('admin.notifications.create.post')}}"
-                              method="post">
+                              method="post" enctype="multipart/form-data">
                             {!! csrf_field() !!}
                             <div class="form-group">
                                 <label class="col-md-2 control-label" for="demo-email-input">분류</label>
