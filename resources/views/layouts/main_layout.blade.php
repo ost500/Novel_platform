@@ -155,8 +155,8 @@
                     </div>
 
 
-                    @else
-                            <!-- 방문자버튼 -->
+                @else
+                <!-- 방문자버튼 -->
 
                     <a href="#mode_nav" class="userbtn userbtn--login" data-modal-id="login_form"
                        @if($errors->has('name') || $errors->has('password') || isset($login) || isset($loginView)) data-modal-start @endif >로그인</a>
@@ -292,7 +292,7 @@
                                 {{--로그인 폼 출력--}}
                             @elseif (isset($loginView))
                                 <input id="email" type="text" name="name" class="text2" title="아이디"
-                                       value="" placeholder="여우정원계정">
+                                       value="{{$loginView}}" placeholder="여우정원계정">
                                 <span class="alert-msg is-active"></span>
                                 {{--로그인 밸리데이션 에러--}}
                             @elseif ($errors->has('name'))
@@ -371,13 +371,13 @@
             </fieldset>
         </form>
     </div>
-    @yield('header')
-    <!-- //통합검색모달 -->
+@yield('header')
+<!-- //통합검색모달 -->
 </header>
 <!-- //헤더 -->
 
 @yield('content')
-        <!-- 푸터 -->
+<!-- 푸터 -->
 <div class="footer">
     <!-- 푸터공지 -->
     <div class="notice">

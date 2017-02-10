@@ -13,6 +13,8 @@
 
 
 Auth::routes();
+Route::get('id_search', ['as' => 'id_search', 'uses' => 'Auth\IdSearchController@id_search']);
+Route::post('id_search', ['as' => 'id_search_post', 'uses' => 'Auth\IdSearchController@id_search_post']);
 
 //Route::get('/home', 'HomeController@index');
 Route::resource('novelgroups', 'NovelGroupController');
