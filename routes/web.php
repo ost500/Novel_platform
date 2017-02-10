@@ -200,6 +200,9 @@ Route::get('/notifications', ['as' => 'ask.notifications', 'uses' => 'MainContro
 Route::get('/notification_detail/{id}', ['as' => 'ask.notification_detail', 'uses' => 'MainController\AskController@notification_detail']);
 Route::get('/question_detail/{id}', ['as' => 'ask.question_detail', 'uses' => 'MainController\AskController@question_detail']);
 Route::get('/faq_detail/{id}', ['as' => 'ask.faq_detail', 'uses' => 'MainController\AskController@faq_detail']);
+Route::get('/accusations/{id}', ['as' => 'accusations', 'uses' => 'MainController\AskController@accusations']);
+Route::post('/accusations', ['as' => 'accusations.post', 'uses' => 'AccusationController@store']);
+
 //my information
 Route::group(['prefix' => 'my_info', 'middleware' => ['auth']], function () {
     //MyPageController

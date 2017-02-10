@@ -71,7 +71,8 @@
                                class="memo-btn"><i class="memo2-icon"></i> 작가에게 쪽지 보내기</a>
 
                             <div class="right-btns">
-                                <a href="#mode_nav" class="report-btn"><i class="report-icon"></i> 게시물 신고</a>
+                                <a href="{{ route('accusations', ['id' => $novel_group_inning->user_id]) }}"
+                                   class="report-btn"><i class="report-icon"></i> 게시물 신고</a>
                             </div>
                         </div>
                         <!-- 이전다음버튼 -->
@@ -194,8 +195,8 @@
             <!-- //서브컨텐츠 -->
             <!-- //서브컨텐츠 -->
             <!-- 따라다니는퀵메뉴 -->
-            @include('main.quick_menu')
-                    <!-- //따라다니는퀵메뉴 -->
+        @include('main.quick_menu')
+        <!-- //따라다니는퀵메뉴 -->
         </div>
     </div>
     <!-- //컨테이너 -->
@@ -220,14 +221,14 @@
                                 location.reload();
 
                             }).catch(function (errors) {
-                                this.errorsInfo = errors.data;
-                                if (this.errorsInfo.error) {
-                                    window.location.assign('/login?loginView=true');
-                                    exit();
-                                }
+                        this.errorsInfo = errors.data;
+                        if (this.errorsInfo.error) {
+                            window.location.assign('/login?loginView=true');
+                            exit();
+                        }
 
-                                $('#validateError').show();
-                            });
+                        $('#validateError').show();
+                    });
                 },
 
                 addToFavorite: function (novel_group_id) {

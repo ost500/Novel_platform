@@ -47,7 +47,7 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
-        return redirect('/?loginView=true');
+        return redirect('/?loginView=');
     }
 
     protected function attemptLogin(Request $request)

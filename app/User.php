@@ -215,6 +215,16 @@ class User extends Authenticatable
         return $this->hasMany(PurchasedNovel::class);
     }
 
+    public function accuse()
+    {
+        return $this->hasMany(Accusation::class);
+    }
+
+    public function accused()
+    {
+        return $this->hasMany(Accusation::class, 'accu_id', 'id');
+    }
+
     public function isCommentBlocked()
     {
         if ($this->block_comment == 1) {
