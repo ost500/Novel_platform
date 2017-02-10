@@ -149,7 +149,9 @@
                                                 </div>
                                                 <div class="comment-btns"><a href="#mode_nav">댓글</a><a
                                                             href="#mode_nav">수정</a><a
-                                                            href="#mode_nav">삭제</a><a href="#mode_nav">신고</a></div>
+                                                            href="#mode_nav">삭제</a><a
+                                                            href="{{ route('accusations', ['id' => $novel_group_inning_comment[0]->users->id]) }}">신고</a>
+                                                </div>
                                                 <div class="comment-content">
                                                     <p>{{$novel_group_inning_comment[0]->comment}}</p>
                                                 </div>

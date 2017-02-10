@@ -47,10 +47,10 @@ class EachController extends Controller
             ->where([['novel_groups.user_id', '=', $novel_group->user_id], ['novel_groups.id', '<>', $id]])
             ->orderBy('created_at', 'desc')
             ->paginate(3);
-      //Social Share
-        $share =new Share();
+        //Social Share
+        $share = new Share();
 
-        return view('main.each_novel.novel_group', compact('novel_group', 'author_novel_groups', 'recently_visited_novel','share'));
+        return view('main.each_novel.novel_group', compact('novel_group', 'author_novel_groups', 'recently_visited_novel', 'share'));
     }
 
 
@@ -96,9 +96,11 @@ class EachController extends Controller
             }
         }
         //Social Share
-        $share =new Share();
+        $share = new Share();
 
-        return view('main.each_novel.novel_group_inning', compact('novel_group_inning', 'novel_group_inning_comments', 'show_favorite','share'));
+//        return response()->json($novel_group_inning_comments);
+
+        return view('main.each_novel.novel_group_inning', compact('novel_group_inning', 'novel_group_inning_comments', 'show_favorite', 'share'));
     }
 
     public function novel_group_review($novel_group_id)
