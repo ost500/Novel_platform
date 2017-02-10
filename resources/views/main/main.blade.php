@@ -25,26 +25,29 @@
 
     </section>
     <!-- //정오 --> {{--left:{{$pop_up_position}}}}px;--}}
-    <div id="popup"style="text-align:center;  top: 210px;	overflow: hidden;width:100%;border:0px solid black;z-index: 200;position: absolute;" onmousedown="startDrag(event,popup)">
-       {{-- @php $pop_up_position=64; @endphp--}}
+    <div id="popup" class="popup_main_container" style=""  onmousedown="startDrag(event,popup)">
+        {{-- @php $pop_up_position=64; @endphp--}}
         @foreach($notification_popups as $notification_popup)
 
-            <div id="popup{{$notification_popup->id}}" style="text-align:center;display:inline-block;z-index: 200;height:435px;width:20% ;border: 1px solid #cdc7c8;
-                 background: #f5f5f5;" onmousedown="startDrag(event,popup{{$notification_popup->id}})">
+            <div v-show="checkPopup('{{$notification_popup->id}}')"
+                 id="popup{{$notification_popup->id}}" class="popup_main" onmousedown="startDrag(event,popup{{$notification_popup->id}})">
 
-                    <a href="#" v-on:click="close({{$notification_popup->id}})" class="close">&times;</a><br>
+                <a href="#" v-on:click="close({{$notification_popup->id}})" class="close"
+                   style="margin:3px;font-size: 30px;">&times;</a><br>
 
-                    <a href="{{route('ask.notification_detail',['id'=>$notification_popup->id])}}">
-                        <p style="text-align: center;">
-                            <img src="/img/notification_pictures/{{$notification_popup->picture}}"
-                                 style="width:96%;height: 350px;" alt="">
-                        </p>
-                    </a>
-                    <form>
-                     Disable popup for today? <input type="checkbox" name="popup_disable" id="popup_disable" v-on:click="blockPopup('{{$notification_popup->id}}')">
-                    </form>
+                <a href="{{route('ask.notification_detail',['id'=>$notification_popup->id])}}">
+                    <p style="text-align: center;">
+                        <img src="/img/notification_pictures/{{$notification_popup->picture}}"
+                             style="width:96%;" alt="">
+                  </p>
+                </a>
 
-             {{--   @php $pop_up_position=$pop_up_position+300; @endphp--}}
+                <span  class="checkbox1" style="vertical-align: middle;">오늘 하루 보지 않기
+                <input type="checkbox" name="popup_disable" id="popup_disable"
+                       v-on:click="blockPopup('{{$notification_popup->id}}')">
+                </span>
+
+                {{--   @php $pop_up_position=$pop_up_position+300; @endphp--}}
             </div>
         @endforeach
     </div>
@@ -182,16 +185,30 @@
 <!-- //컨테이너 -->
 
 <script type="text/javascript">
+
     var app_main = new Vue({
         el: '#content',
         data: {
-            increment: 100,
-            pop_up_position: 365
+            popup_info: {id: '', date: ''},
+            popup_ids: []
         },
 
         mounted: function () {
-           var abc= localStorage.toLocaleString();
-           console.log(abc);
+            // localStorage.setItem('date','Wed Feb 10 2017');
+            if (localStorage.getItem('date') != new Date().toDateString()) {
+                // console.log(localStorage.getItem('date') );
+                localStorage.clear();
+            }
+
+            var already_exists = JSON.parse(localStorage.getItem('popup_ids'));
+            if (already_exists) {
+
+                already_exists.forEach(function (value, index, array, app_main) {
+                    this.popup_ids.push(value);
+                }, this);
+            }
+
+            console.log(JSON.parse(localStorage.getItem('popup_ids')));
         },
 
         methods: {
@@ -199,42 +216,52 @@
                 $('#popup' + popup_id).hide();
             },
 
+            checkPopup: function (popup_id) {
+                //get local storage data
+                var dt = JSON.parse(localStorage.getItem('popup_ids'));
+                var display = true;
+                //if popup id exists in local storage then return false or hide
+                if (dt) {
+                    dt.forEach(function (value, index, array) {
+
+                        if (value.id == popup_id) {
+
+                            display = false;
+                        }
+                    });
+                }
+                return display;
+            },
+
+
             blockPopup: function (popup_id) {
+                //Hide the current popup and add its id array
                 $('#popup' + popup_id).hide();
-                localStorage.setItem('popup_id',popup_id);
-                var abc= localStorage.getItem('popup_id');
-                console.log(abc);
-           /*         app.$http.put('{{--{{ route('maillog.update') }}--}}', popup_id, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
-                            .then(function (response) {
-                                location.reload();
-
-                            }).catch(function (errors) {
-                                console.log(errors);
-                            });*/
-
+                this.popup_ids.push({id: popup_id});
+                //add the popup array and date to storage
+                localStorage.setItem('popup_ids', JSON.stringify(this.popup_ids));
+                localStorage.setItem('date', new Date().toDateString());
+                // console.log(JSON.parse(localStorage.getItem('popup_ids')));
             }
-
-
-
 
         }
     });
 
-   /* window.onload = function() {
 
-        // Check for LocalStorage support.
-        if (localStorage) {
-            alert('fdfdf');
-      /!*      // Add an event listener for form submissions
-            document.getElementById('contactForm').addEventListener('submit', function() {
-                // Get the value of the name field.
-                var name = document.getElementById('name').value;
+    /*
+     // Check for LocalStorage support.
+     if (localStorage) {
+     alert('fdfdf');
+     // Add an event listener for form submissions
+     document.getElementById('contactForm').addEventListener('submit', function() {
+     // Get the value of the name field.
+     var name = document.getElementById('name').value;
 
-                // Save the name in localStorage.
-                localStorage.setItem('name', name);
-            });*!/
+     // Save the name in localStorage.
+     localStorage.setItem('name', name);
+     });
 
-        }else{ alert('dddddddddddd'); }*/
+     }else{ alert('dddddddddddd'); }*/
 
 
 </script>
