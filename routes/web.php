@@ -184,7 +184,6 @@ Route::group(['prefix' => 'community'], function () {
     Route::get('reader_reco', ['as' => 'reader_reco', 'uses' => 'MainController\CommunityController@reader_reco']);
     Route::get('reader_reco/{id}', ['as' => 'reader_reco.detail', 'uses' => 'MainController\CommunityController@reader_reco_detail']);
     Route::post('reader_reco/{id}', ['as' => 'reader_reco.comment', 'middleware' => 'auth', 'uses' => 'ReviewCommentController@store']);
-
 });
 
 //EachController

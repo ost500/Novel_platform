@@ -46,21 +46,39 @@ class CommunityController extends Controller
     }
 
 
-
     public function free_board_write(Request $request)
     {
 
-      return view('main.community.free_board_write');
+        return view('main.community.free_board_write');
     }
 
 
     public function reader_reco(Request $request)
     {
-        $reviews = Review::selectRaw('reviews.*, novel_groups.*, sum(total_count) as total_count, reviews.id')
-            ->join('novel_groups', 'novel_groups.id', '=', 'reviews.novel_group_id')
-            ->join('novels', 'novel_groups.id', '=', 'novels.novel_group_id')
-            ->groupBy('reviews.id')->where('novel_groups.secret',null)->orderBy('reviews.created_at', 'desc')
-            ->with('users');
+        $novel_group_id=$request->novel_group;
+        $review_user_id= $request->review_user;
+        if ($request->novel_group) {
+            $reviews = Review::selectRaw('reviews.*, novel_groups.*,  sum(total_count) as total_count, reviews.id')
+                ->join('novel_groups', 'novel_groups.id', '=', 'reviews.novel_group_id')
+                ->join('novels', 'novel_groups.id', '=', 'novels.novel_group_id')
+                ->groupBy('reviews.id')->where(['novel_groups.secret' => null, 'reviews.novel_group_id' => $novel_group_id])->orderBy('reviews.created_at', 'desc')
+                ->with('users');
+
+        } elseif ($request->review_user) {
+            $reviews = Review::selectRaw('reviews.*, novel_groups.*,users.name as user_name, sum(total_count) as total_count, reviews.id')
+                ->join('novel_groups', 'novel_groups.id', '=', 'reviews.novel_group_id')
+                ->join('novels', 'novel_groups.id', '=', 'novels.novel_group_id')
+                ->join('users', 'users.id', '=', 'reviews.user_id')
+                ->groupBy('reviews.id')->where(['novel_groups.secret' => null, 'reviews.user_id' => $review_user_id])->orderBy('reviews.created_at', 'desc')
+                ->with('users');
+        } else {
+
+            $reviews = Review::selectRaw('reviews.*, novel_groups.*, sum(total_count) as total_count, reviews.id')
+                ->join('novel_groups', 'novel_groups.id', '=', 'reviews.novel_group_id')
+                ->join('novels', 'novel_groups.id', '=', 'novels.novel_group_id')
+                ->groupBy('reviews.id')->where('novel_groups.secret', null)->orderBy('reviews.created_at', 'desc')
+                ->with('users');
+        }
 
         $search_option = $request->search_option;
         $search_text = $request->search_text;
@@ -82,9 +100,10 @@ class CommunityController extends Controller
         $reviews = $reviews->paginate(3);
 
 
-//        return response()->json($reviews);
-        return view('main.community.reader_reco', compact('reviews', 'genre', 'search_option', 'search_text', 'page'));
+      // return response()->json($reviews);
+        return view('main.community.reader_reco', compact('reviews', 'genre', 'search_option', 'search_text', 'page','novel_group_id','review_user_id'));
     }
+
 
     public function reader_reco_detail($id)
     {
@@ -92,11 +111,11 @@ class CommunityController extends Controller
         $review->view_count = $review->view_count + 1;
         $review->save();
 
-        $review = Review::with('novel_groups.keywords')->with('novel_groups.favorites')->with('users')->with('comments.users')
+        $review = Review::with('novel_groups.keywords')->with('novel_groups.favorites')->with('novel_groups.users')->with('users')->with('comments.users')
             ->join('novel_groups', 'novel_groups.id', '=', 'reviews.novel_group_id')
             ->join('novels', 'novel_groups.id', '=', 'novels.novel_group_id')
             ->join('favorites', 'novel_groups.id', '=', 'favorites.novel_group_id')
-            ->selectRaw('reviews.id as review_id, reviews.*, reviews.title as review_title, novel_groups.*, sum(total_count) as total_count, reviews.id')
+            ->selectRaw('reviews.id as review_id, reviews.*, reviews.title as review_title, sum(total_count) as total_count, reviews.id')
             ->where('reviews.id', $id)
             ->groupBy('reviews.id')->get()[0];
 

@@ -68,6 +68,15 @@
                 </div>
                 @endif
                         <!-- 작품목록 -->
+                <div class="sort-nav sort-nav--novel">
+                    <div style="float:left;margin-left: 10px;">
+                        @if($novel_group_id){{$reviews[0]->title}}의 다른 리뷰들 @endif
+                        @if($review_user_id){{$reviews[0]->user_name}}님의 리뷰들@endif
+                    </div>
+                    <div style="float:right;margin-right: 10px;">
+                        {{$reviews->Total()}}개의 결과물
+                    </div>
+                </div>
                 <ul class="novel-list">
                     @foreach ($reviews as $review)
                         <li>
@@ -83,6 +92,7 @@
                                     <span class="writer">{{$review['users']['name']}}</span>
                                 </div>
                                 <p class="post-content">{{ $review->review }}</p>
+
                                 <p class="post-info">
                                     @foreach ($review->novel_groups->keywords as $keyword)
                                         <span>{{ $keyword->name }}</span>
@@ -96,29 +106,29 @@
                 <!-- //작품목록 -->
 
                 <!-- 하단버튼 -->
-      
+
                 <!-- //하단버튼 -->
                 <!-- 페이징 -->
-            @include('pagination_front', ['collection' => $reviews, 'url' => route('reader_reco')."?genre=".$genre."&search_option=".$search_option."&search_text=".$search_text."&"])
-            {{--<div class="page-nav">--}}
-            {{--<nav>--}}
-            {{--<ul>--}}
-            {{--<!--<li><a href="#mode_nav" class="prev-page"><span>이전</span></a></li>-->--}}
-            {{--<li><a href="#mode_nav" class="current-page">1</a></li>--}}
-            {{--<li><a href="#mode_nav">2</a></li>--}}
-            {{--<li><a href="#mode_nav">3</a></li>--}}
-            {{--<li><a href="#mode_nav">4</a></li>--}}
-            {{--<li><a href="#mode_nav">5</a></li>--}}
-            {{--<li><a href="#mode_nav">6</a></li>--}}
-            {{--<li><a href="#mode_nav">7</a></li>--}}
-            {{--<li><a href="#mode_nav">8</a></li>--}}
-            {{--<li><a href="#mode_nav">9</a></li>--}}
-            {{--<li><a href="#mode_nav">10</a></li>--}}
-            {{--<li><a href="#mode_nav" class="next-page"><span>다음</span></a></li>--}}
-            {{--</ul>--}}
-            {{--</nav>--}}
-            {{--</div>--}}
-            <!-- //페이징 -->
+                @include('pagination_front', ['collection' => $reviews, 'url' => route('reader_reco')."?genre=".$genre."&search_option=".$search_option."&search_text=".$search_text."&novel_group=".$novel_group_id."&review_user=".$review_user_id."&"])
+                {{--<div class="page-nav">--}}
+                {{--<nav>--}}
+                {{--<ul>--}}
+                {{--<!--<li><a href="#mode_nav" class="prev-page"><span>이전</span></a></li>-->--}}
+                {{--<li><a href="#mode_nav" class="current-page">1</a></li>--}}
+                {{--<li><a href="#mode_nav">2</a></li>--}}
+                {{--<li><a href="#mode_nav">3</a></li>--}}
+                {{--<li><a href="#mode_nav">4</a></li>--}}
+                {{--<li><a href="#mode_nav">5</a></li>--}}
+                {{--<li><a href="#mode_nav">6</a></li>--}}
+                {{--<li><a href="#mode_nav">7</a></li>--}}
+                {{--<li><a href="#mode_nav">8</a></li>--}}
+                {{--<li><a href="#mode_nav">9</a></li>--}}
+                {{--<li><a href="#mode_nav">10</a></li>--}}
+                {{--<li><a href="#mode_nav" class="next-page"><span>다음</span></a></li>--}}
+                {{--</ul>--}}
+                {{--</nav>--}}
+                {{--</div>--}}
+                        <!-- //페이징 -->
 
                 <!-- 검색 -->
                 <form action="{{Request::url()}}" class="content-search-form">
@@ -135,13 +145,13 @@
                     </fieldset>
                 </form>
                 <!-- //검색 -->
-            </div>
-            <!-- //서브컨텐츠 -->
-            <!-- 따라다니는퀵메뉴 -->
-        @include('main.quick_menu')
-        <!-- //따라다니는퀵메뉴 -->
         </div>
+        <!-- //서브컨텐츠 -->
+        <!-- 따라다니는퀵메뉴 -->
+        @include('main.quick_menu')
+                <!-- //따라다니는퀵메뉴 -->
     </div>
+</div>
 </div>
 <!-- //컨테이너 -->
 <script>
