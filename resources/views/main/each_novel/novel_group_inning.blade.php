@@ -105,11 +105,13 @@
                                            placeholder="남을 상처주지 않는 바르고 고운 말을 씁시다."
                                            title="댓글내용">{{ old('comment') }}</textarea>
                                 {{--    <input type="hidden" name="novel_id" id="novel_id"  v-model="info.novel_id"/>--}}
-                                {{--<input type="hidden" name="parent_id" id="parent_id" value="0"/>--}}
+                                {{-- <input type="hidden" name="parent_id" id="parent_id"  v-model="info.parent_id" value="0"/>--}}
 
                                 <div class="comment-form-btns">
                                        <span class="options">
-                                           <label class="checkbox2"><input name="secret" id="secret" type="checkbox">
+                                           <label class="checkbox2"><input name="comment_secret" id="comment_secret"
+                                                                           v-model="info.comment_secret"
+                                                                           type="checkbox">
                                                <span>비밀글</span></label>
                                        </span>
                                        <span class="submit">
@@ -141,20 +143,30 @@
                             <ul class="comment-list">
                                 @if(count($novel_group_inning_comments) >0)
                                     @foreach($novel_group_inning_comments as $novel_group_inning_comment)
+                                      {{--  @if( ($novel_group_inning_comment[0]->comment_secret ==true && $novel_group_inning_comment[0]->user_id != Auth::user()->id) and ($novel_group_inning_comment[0]->comment_secret ==true && $novel_group_inning->user_id != Auth::user()->id))
+                                            비밀글 입니다
+                                            @continue;
+                                        @endif--}}
                                         <li>
                                             <div class="comment-wrap">
                                                 <div class="comment-info"><span
                                                             class="writer">{{$novel_group_inning_comment[0]->users->name}}</span><span
                                                             class="datetime">{{$novel_group_inning_comment[0]->created_at}}</span>
                                                 </div>
-                                                <div class="comment-btns"><a href="#mode_nav">댓글</a><a
-                                                            href="#mode_nav">수정</a><a
-                                                            href="#mode_nav">삭제</a><a
-                                                            href="{{ route('accusations', ['id' => $novel_group_inning_comment[0]->users->id]) }}">신고</a>
-                                                </div>
-                                                <div class="comment-content">
-                                                    <p>{{$novel_group_inning_comment[0]->comment}}</p>
-                                                </div>
+                                                @if( ($novel_group_inning_comment[0]->comment_secret ==true && $novel_group_inning_comment[0]->user_id != Auth::user()->id) and ($novel_group_inning_comment[0]->comment_secret ==true && $novel_group_inning->user_id != Auth::user()->id))
+                                                    <div class="comment-content">
+                                                        <p> 비밀글 입니다</p>
+                                                    </div>
+                                                @else
+                                                    <div class="comment-btns"><a href="#mode_nav">댓글</a><a
+                                                                href="#mode_nav">수정</a><a
+                                                                href="#mode_nav">삭제</a><a
+                                                                href="{{ route('accusations', ['id' => $novel_group_inning_comment[0]->users->id]) }}">신고</a>
+                                                    </div>
+                                                    <div class="comment-content">
+                                                        <p>{{$novel_group_inning_comment[0]->comment}}</p>
+                                                    </div>
+                                                @endif
                                             </div>
                                         </li>
                                         @foreach($novel_group_inning_comments[$loop->index]['children'] as $novel_group_inning_comment_reply)
@@ -172,6 +184,7 @@
                                                 </div>
                                             </li>
                                         @endforeach
+
                                     @endforeach
                                 @else
                                     <li>
@@ -197,40 +210,41 @@
             <!-- //서브컨텐츠 -->
             <!-- //서브컨텐츠 -->
             <!-- 따라다니는퀵메뉴 -->
-        @include('main.quick_menu')
-        <!-- //따라다니는퀵메뉴 -->
+            @include('main.quick_menu')
+                    <!-- //따라다니는퀵메뉴 -->
         </div>
     </div>
     <!-- //컨테이너 -->
     <!-- 푸터 -->
     <!-- Social Share-->
     @include('social_share', ['url' =>route('each_novel.novel_group_inning', $novel_group_inning->id),'title'=>$novel_group_inning->title,'thumbnail'=>''])
-    <!--Social Share -->
+            <!--Social Share -->
     <script type="text/javascript">
         var app = new Vue({
             el: '#inning',
             data: {
-                info: {comment: '', novel_id: '{{$novel_group_inning->id}}'},
+                info: {comment: '', novel_id: '{{$novel_group_inning->id}}', comment_secret: ''},
                 favorites_info: {novel_group_id: ''},
                 errorsInfo: {}
             },
             methods: {
 
                 commentStore: function () {
+                    console.log(this.info);
 
                     app.$http.post('{{ route('comments.store') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                             .then(function (response) {
                                 location.reload();
 
                             }).catch(function (errors) {
-                        this.errorsInfo = errors.data;
-                        if (this.errorsInfo.error) {
-                            window.location.assign('/login?loginView=true');
-                            exit();
-                        }
+                                this.errorsInfo = errors.data;
+                                if (this.errorsInfo.error) {
+                                    window.location.assign('/login?loginView=true');
+                                    exit();
+                                }
 
-                        $('#validateError').show();
-                    });
+                                $('#validateError').show();
+                            });
                 },
 
                 addToFavorite: function (novel_group_id) {
