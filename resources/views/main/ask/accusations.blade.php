@@ -40,6 +40,7 @@
                           enctype="multipart/form-data">
                         {{csrf_field()}}
                         <input hidden name="accu_id" value="{{$accu_id}}">
+                        <input hidden name="link" value="{{$link}}">
                         <div class="item-list item-list--bbs">
                             <div class="item-rows">
                                 <div class="label">안내</div>

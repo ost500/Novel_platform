@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\PageController;
 
+use App\Accusation;
 use App\Notification;
 use App\NovelGroupPublishCompany;
 use App\Company;
@@ -432,6 +433,28 @@ class AdminPageController extends Controller
         $noti = Notification::find($id);
 
         return view('admin.notification.update', compact('noti'));
+    }
+
+    public function accusations()
+    {
+        $accus = Accusation::latest()->paginate(config('define.pagination_long'));
+
+        return view('admin.accusation.accusations', compact('accus'));
+    }
+
+    public function accusations_detail(Request $request, $id)
+    {
+        $accu = Accusation::with('user')->with('accuUser')->findOrFail($id);
+
+        $accus = Accusation::latest()->paginate(config('define.pagination_long'));
+
+        $page = $request->page;
+
+        $user = $accu->accuUser;
+
+//        return response()->json($accu);
+
+        return view('admin.accusation.detail', compact('accu', 'accus', 'page', 'user'));
     }
 
 }

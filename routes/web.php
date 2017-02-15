@@ -159,6 +159,10 @@ Route::group(['prefix' => 'admin'], function () {
         ->where(['id' => '[0-9]+']);
     Route::put('/notifications/{id}/edit', ['as' => 'admin.notifications.update.put', 'uses' => 'NotificationController@update'])
         ->where(['id' => '[0-9]+']);
+
+    Route::get('/accusations/', ['as' => 'admin.accusations', 'uses' => 'PageController\AdminPageController@accusations']);
+    Route::get('/accusations/{id}', ['as' => 'admin.accusations.detail', 'uses' => 'PageController\AdminPageController@accusations_detail'])
+        ->where(['id' => '[0-9]+']);
 });
 
 //main

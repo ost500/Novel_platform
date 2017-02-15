@@ -350,7 +350,7 @@
                         callback: function (result) {
 
                             if (result) {
-                                app.$http.delete('{{ url('users') }}/' + user_id, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                                app_user.$http.delete('{{ url('users') }}/' + user_id, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                                         .then(function (response) {
                                             //  console.log(response);
                                             location.reload();

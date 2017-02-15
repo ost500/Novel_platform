@@ -38,6 +38,7 @@ class AccusationController extends Controller
         $newAccu->title = $request->title;
         $newAccu->category = $request->category;
         $newAccu->contents = $request->contents;
+        $newAccu->link = $request->link;
         $newAccu->save();
 
         flash('성공적으로 신고했습니다');
