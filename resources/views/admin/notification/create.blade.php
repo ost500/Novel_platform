@@ -71,53 +71,53 @@
 
                                 <div class="col-md-9 ">
                                     <div class="checkbox">
-                                    <label class="form-checkbox form-normal form-primary active">
-                                        <input type="checkbox" name="popup">
-                                    </label>
+                                        <label class="form-checkbox form-normal form-primary active">
+                                            <input type="checkbox" name="popup">
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
-                    </div>
 
-                    <div class="form-group">
-                        <label class="col-md-2 control-label" for="demo-email-input">제목</label>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label" for="demo-email-input">제목</label>
 
-                        <div class="col-md-9">
-                            <input type="text" name="title" id="demo-email-input" class="form-control"
-                                   placeholder="제목을 입력해 주세요." data-bv-field="title" value="{{ old('title') }}">
-                        </div>
-                    </div>
+                                <div class="col-md-9">
+                                    <input type="text" name="title" id="demo-email-input" class="form-control"
+                                           placeholder="제목을 입력해 주세요." data-bv-field="title" value="{{ old('title') }}">
+                                </div>
+                            </div>
 
-                    <div class="form-group">
-                        <label class="col-md-2 control-label" for="demo-textarea-input">내용</label>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label" for="demo-textarea-input">내용</label>
 
-                        <div class="col-md-9">
+                                <div class="col-md-9">
                                     <textarea name="content" id="demo-textarea-input" rows="9" class="form-control"
                                               placeholder="내용을 입력해 주세요">{{ old('content') }}</textarea>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-2 control-label" for="demo-textarea-input">사진</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label" for="demo-textarea-input">사진</label>
 
-                        <div class="col-md-9">
-                            <input type="file" name="picture" id="picture" class="form-control"
-                                   placeholder="첨부파일">
-                            <small class="has-warning">최대용량 : 1M / 업로드 가능 확장자 : JPG, PNG 파일</small>
-                        </div>
-                    </div>
+                                <div class="col-md-9">
+                                    <input type="file" name="picture" id="picture" class="form-control"
+                                           placeholder="첨부파일">
+                                    <small class="has-warning">최대용량 : 1M / 업로드 가능 확장자 : JPG, PNG 파일</small>
+                                </div>
+                            </div>
 
 
-                    <div class="form-group">
-                        <div class="col-md-12 text-center">
-                            <button type="submit" class="btn btn-lg btn-primary">작품저장</button>
-                            <button class="btn btn-lg btn-danger">취소</button>
-                        </div>
+                            <div class="form-group">
+                                <div class="col-md-12 text-center">
+                                    <button type="submit" class="btn btn-lg btn-primary">작품저장</button>
+                                    <button class="btn btn-lg btn-danger">취소</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                    </form>
                 </div>
             </div>
+
+
         </div>
-
-
-    </div>
     </div>
 @endsection

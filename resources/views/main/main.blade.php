@@ -42,9 +42,11 @@
                   </p>
                 </a>
 
-                <span  class="checkbox1" style="vertical-align: middle;">오늘 하루 보지 않기
-                <input type="checkbox" name="popup_disable" id="popup_disable"
+                <span  class="checkbox1" style="width:60%;">
+                <input type="checkbox" name="popup_disable" id="popup_disable" style="cursor:pointer;"
                        v-on:click="blockPopup('{{$notification_popup->id}}')">
+                    <span style="vertical-align: middle;">오늘 하루 보지 않기</span>
+
                 </span>
 
                 {{--   @php $pop_up_position=$pop_up_position+300; @endphp--}}
@@ -195,11 +197,12 @@
 
         mounted: function () {
             // localStorage.setItem('date','Wed Feb 10 2017');
+            //Clear local storage if today's dates is not same as local storage date
             if (localStorage.getItem('date') != new Date().toDateString()) {
                 // console.log(localStorage.getItem('date') );
                 localStorage.clear();
             }
-
+            //if local storage already has popup_ids then append clicked popup_id
             var already_exists = JSON.parse(localStorage.getItem('popup_ids'));
             if (already_exists) {
 
@@ -208,10 +211,11 @@
                 }, this);
             }
 
-            console.log(JSON.parse(localStorage.getItem('popup_ids')));
+            //console.log(JSON.parse(localStorage.getItem('popup_ids')));
         },
 
         methods: {
+
             close: function (popup_id) {
                 $('#popup' + popup_id).hide();
             },
