@@ -105,11 +105,11 @@
             <!-- 작품목록정렬 -->
             <div class="sort-nav sort-nav--novel">
                 <div style="float:left;margin-left: 10px;">
-                    Searched Parameters:[ @if($search_type)Search Type: {{$search_type}} , @endif
-                    @if($title) Title: {{$title}},@endif @if($keyword_name)  HashTag:{{$keyword_name}} @endif]
+                    검색 [ @if($search_type) 검색 조건: {{$search_type}} , @endif
+                    @if($title) 제목: {{$title}},@endif @if($keyword_name)  해시 태그:{{$keyword_name}} @endif]
                 </div>
                 <div style="float:right;margin-right: 10px;">
-                    Total {{$novel_groups->Total()}} results found.
+                    전체 {{$novel_groups->Total()}} 개의 결과물
                 </div>
                 <nav>
                     <ul>
