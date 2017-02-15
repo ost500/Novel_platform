@@ -34,11 +34,14 @@
 
                         <form class="panel-body form-horizontal form-padding"
                               action="{{route('admin.notifications.update.put',['id' => $noti->id])}}"
+                              enctype="multipart/form-data"
                               method="post">
                             {!! csrf_field() !!}
                             <input name="_method" type="hidden" value="PUT">
+
                             <div class="form-group">
                                 <label class="col-md-2 control-label" for="demo-email-input">분류</label>
+
                                 <div class="col-md-9">
 
                                     <input type="text" name="category" id="demo-email-input" class="form-control"
@@ -49,6 +52,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-md-2 control-label" for="demo-email-input">공지 여부</label>
+
                                 <div class="col-md-9">
                                     <div class="radio">
 
@@ -67,9 +71,21 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label" for="demo-email-input">메인화면 팝업</label>
+
+                                <div class="col-md-9 ">
+                                    <div class="checkbox">
+                                        <label class="form-checkbox form-normal form-primary active">
+                                            <input type="checkbox" name="popup" @if( $noti->popup) checked @endif>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="form-group">
                                 <label class="col-md-2 control-label" for="demo-email-input">제목</label>
+
                                 <div class="col-md-9">
                                     <input type="text" name="title" id="demo-email-input" class="form-control"
                                            placeholder="제목을 입력해 주세요." data-bv-field="title" value="{{ $noti->title }}">
@@ -78,12 +94,23 @@
 
                             <div class="form-group">
                                 <label class="col-md-2 control-label" for="demo-textarea-input">내용</label>
+
                                 <div class="col-md-9">
                                     <textarea name="content" id="demo-textarea-input" rows="9" class="form-control"
                                               placeholder="내용을 입력해 주세요">{{ $noti->content }}</textarea>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label" for="demo-textarea-input">사진</label>
 
+                                <div class="col-md-9">
+                                    <span class="thumb"><img src="/img/notification_pictures/{{ $noti->picture }}"
+                                                             style="width:20%;" alt=""></span>
+                                    <input type="file" name="picture" id="picture" class="form-control"
+                                           placeholder="첨부파일">
+                                    <small class="has-warning">최대용량 : 1M / 업로드 가능 확장자 : JPG, PNG 파일</small>
+                                </div>
+                            </div>
 
                             <div class="form-group">
                                 <div class="col-md-12 text-center">

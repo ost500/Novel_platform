@@ -1168,19 +1168,21 @@
     margin-left: 10px;
 }
 
-.left-btns{
+.left-btns {
     margin-top: 20px;
     float: left;
 }
-.right-btns{
+
+.right-btns {
 
     float: right;
 }
 
-.right-top-margin-btns{
+.right-top-margin-btns {
     margin-top: 20px;
     float: right;
 }
+
 /* 자유게시판 */
 .bbs-list--free .col-subject {
     padding-left: 5px;
@@ -2972,7 +2974,7 @@
 }
 
 .new-work-list .author-new-work-list > li .thumb img {
-    width:52px;
+    width: 52px;
     border: 1px solid #cdc7c8;
 }
 
@@ -3317,20 +3319,24 @@
     background-color: #dff0d8;
     border-color: #d6e9c6;
 }
+
 .alert-danger {
     color: #a94442;
     background-color: #f2dede;
     border-color: #ebccd1;
 }
+
 .alert {
     padding: 15px;
     margin-bottom: 20px;
     border: 1px solid transparent;
     border-radius: 4px;
 }
-.alert-dismissable{
+
+.alert-dismissable {
     padding-right: 35px;
 }
+
 .alert-dismissable .close {
     position: relative;
     top: -2px;
@@ -3347,4 +3353,24 @@
     text-shadow: 0 1px 0 #fff;
     filter: alpha(opacity=20);
     opacity: .2;
+}
+
+.popup_main_container {
+    text-align: center;
+    top: 210px;
+    overflow: hidden;
+    width: 100%;
+    border: 0px solid black;
+    z-index: 200;
+    position: absolute;
+}
+.popup_main{
+    text-align: center;
+    display: inline-block;
+    z-index: 200;
+    width: 20%;
+    border: 1px solid #cdc7c8;
+    background: #f5f5f5;
+    margin: 3px;
+    padding: 2px;
 }

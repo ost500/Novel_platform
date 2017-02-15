@@ -38,6 +38,7 @@
                             {!! csrf_field() !!}
                             <div class="form-group">
                                 <label class="col-md-2 control-label" for="demo-email-input">분류</label>
+
                                 <div class="col-md-9">
 
                                     <input type="text" name="category" id="demo-email-input" class="form-control"
@@ -48,6 +49,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-md-2 control-label" for="demo-email-input">공지 여부</label>
+
                                 <div class="col-md-9">
                                     <div class="radio">
 
@@ -59,16 +61,26 @@
                                                                                                name="posting" value="0">
                                             공지 안함(알림만)</label>
 
-                                        <label class="form-check form-normal form-text"><input type="checkbox"
-                                                                                               name="popup" >
-                                            PopUp</label>
 
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label" for="demo-email-input">메인화면 팝업</label>
+
+                                <div class="col-md-9 ">
+                                    <div class="checkbox">
+                                        <label class="form-checkbox form-normal form-primary active">
+                                            <input type="checkbox" name="popup">
+                                        </label>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-md-2 control-label" for="demo-email-input">제목</label>
+
                                 <div class="col-md-9">
                                     <input type="text" name="title" id="demo-email-input" class="form-control"
                                            placeholder="제목을 입력해 주세요." data-bv-field="title" value="{{ old('title') }}">
@@ -77,18 +89,20 @@
 
                             <div class="form-group">
                                 <label class="col-md-2 control-label" for="demo-textarea-input">내용</label>
+
                                 <div class="col-md-9">
                                     <textarea name="content" id="demo-textarea-input" rows="9" class="form-control"
                                               placeholder="내용을 입력해 주세요">{{ old('content') }}</textarea>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-2 control-label" for="demo-textarea-input">picture</label>
-                             <div class="col-md-9">
-                                <input type="file" name="picture" id="picture" class="form-control"
-                                       placeholder="첨부파일" >
-                                <small class="has-warning">최대용량 : 1M / 업로드 가능 확장자 : JPG, PNG 파일</small>
-                             </div>
+                                <label class="col-md-2 control-label" for="demo-textarea-input">사진</label>
+
+                                <div class="col-md-9">
+                                    <input type="file" name="picture" id="picture" class="form-control"
+                                           placeholder="첨부파일">
+                                    <small class="has-warning">최대용량 : 1M / 업로드 가능 확장자 : JPG, PNG 파일</small>
+                                </div>
                             </div>
 
 
