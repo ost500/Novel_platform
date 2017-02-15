@@ -117,7 +117,6 @@
                 </div>
 
 
-
                 <div id="mainnav-menu-wrap">
                     <div class="nano">
                         <div class="nano-content">
@@ -230,7 +229,7 @@
 
                                 <li class="list-divider"></li>
 
-                                <li  class="{{ (Request::is('admin/keywords')||Request::is('admin/keywords/*')||Request::is('admin/keywords/create'))?"active-link":"" }}">
+                                <li class="{{ (Request::is('admin/keywords')||Request::is('admin/keywords/*')||Request::is('admin/keywords/create'))?"active-link":"" }}">
                                     <a href="{{ route('admin.keywords')}}">
                                         <i class="fa fa-send"></i>
                                         <span class="menu-title">
@@ -245,39 +244,53 @@
                                 </li>
                                 <li class="list-divider"></li>
 
-                                <li  class="{{ (Request::is('admin/faqs')||Request::is('admin/faqs/*')||Request::is('admin/faqs/create'))?"active-link":"" }}">
+                                <li class="{{ (Request::is('admin/faqs')||Request::is('admin/faqs/*')||Request::is('admin/faqs/create'))?"active-link":"" }}">
                                     <a href="{{ route('admin.faqs')}}">
                                         <i class="fa fa-send"></i>
                                         <span class="menu-title">
                                             <strong>FAQ</strong>
                                         </span>
                                         <i class="arrow"></i>
-                                        </a>
-                                        <ul class="collapse  {{ (Request::is('admin/faqs')||Request::is('admin/faqs/*')||Request::is('admin/faqs/create'))?"in":"" }}">
-                                            <li><a href="{{ route('admin.faqs')}}">FAQ</a></li>
-                                            <li><a href="{{ route('admin.faqs.create')}}">FAQ 등록</a></li>
-                                        </ul>
+                                    </a>
+                                    <ul class="collapse  {{ (Request::is('admin/faqs')||Request::is('admin/faqs/*')||Request::is('admin/faqs/create'))?"in":"" }}">
+                                        <li><a href="{{ route('admin.faqs')}}">FAQ</a></li>
+                                        <li><a href="{{ route('admin.faqs.create')}}">FAQ 등록</a></li>
+                                    </ul>
                                 </li>
                                 <li class="list-divider"></li>
 
-                                <li  class="{{ (Request::is('admin/notifications')||Request::is('admin/notifications/*')||Request::is('admin/notifications/create'))?"active-link":"" }}">
+                                <li class="{{ (Request::is('admin/notifications')||Request::is('admin/notifications/*')||Request::is('admin/notifications/create'))?"active-link":"" }}">
                                     <a href="{{ route('admin.notifications')}}">
                                         <i class="fa fa-send"></i>
                                         <span class="menu-title">
                                             <strong>공지사항 관리</strong>
                                         </span>
                                         <i class="arrow"></i>
-                                        </a>
-                                        <ul class="collapse  {{ (Request::is('admin/notifications')||Request::is('admin/notifications/*')||Request::is('admin/notifications/create'))?"in":"" }}">
-                                            <li><a href="{{ route('admin.notifications')}}">공지사항</a></li>
-                                            <li><a href="{{ route('admin.notifications.create')}}">공지사항 등록</a></li>
-                                        </ul>
+                                    </a>
+                                    <ul class="collapse  {{ (Request::is('admin/notifications')||Request::is('admin/notifications/*')||Request::is('admin/notifications/create'))?"in":"" }}">
+                                        <li><a href="{{ route('admin.notifications')}}">공지사항</a></li>
+                                        <li><a href="{{ route('admin.notifications.create')}}">공지사항 등록</a></li>
+                                    </ul>
                                 </li>
 
 
                                 <li class="list-divider"></li>
 
+                                <li class="{{ (Request::is('admin/notifications')||Request::is('admin/notifications/*')||Request::is('admin/notifications/create'))?"active-link":"" }}">
+                                    <a href="{{ route('admin.notifications')}}">
+                                        <i class="fa fa-send"></i>
+                                        <span class="menu-title">
+                                            <strong>신고 관리</strong>
+                                        </span>
+                                        <i class="arrow"></i>
+                                    </a>
+                                    <ul class="collapse  {{ (Request::is('admin/accusations')||Request::is('admin/accusations/*')||Request::is('admin/notifications/create'))?"in":"" }}">
+                                        <li><a href="{{ route('admin.accusations')}}">신고 리스트</a></li>
 
+                                    </ul>
+                                </li>
+
+                                <li class="list-divider"></li>
 
 
                             </ul>
@@ -294,7 +307,6 @@
     </div>
 
 
-
 </div>
 
 
@@ -303,11 +315,11 @@
 {{--<footer id="footer">--}}
 
 
-    {{--<!-- Visible when footer positions are static -->--}}
-    {{--<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->--}}
-    {{--<div class="hide-fixed pull-right pad-rgt"></div>--}}
+{{--<!-- Visible when footer positions are static -->--}}
+{{--<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->--}}
+{{--<div class="hide-fixed pull-right pad-rgt"></div>--}}
 
-    {{--<p class="pad-lft"></p>--}}
+{{--<p class="pad-lft"></p>--}}
 
 
 {{--</footer>--}}
@@ -470,8 +482,6 @@
 <!--End Small Bootstrap Modal-->
 
 
-
-
 {{--laravel 기본 스크립트--}}
 <script src="/js/app.js"></script>
 {{--<script src="/js/bootstrap.min.js"></script>--}}
@@ -485,10 +495,8 @@
 <script src="/js/ui-alerts.js"></script>
 
 
-
 {{--jquery UI--}}
 <script src="/js/jquery-ui/jquery-ui.min.js"></script>
-
 
 
 </body>

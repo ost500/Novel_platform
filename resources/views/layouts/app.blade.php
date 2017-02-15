@@ -453,7 +453,7 @@
 <script src="/js/ui-alerts.js"></script>
 
 {{--laravel 기본 스크립트--}}
-<script src="/js/app.js"></script>
+{{--<script src="/js/app.js"></script>--}}
 
 {{--jquery UI--}}
 <script src="/js/jquery-ui/jquery-ui.min.js"></script>

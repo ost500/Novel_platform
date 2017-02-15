@@ -130,10 +130,12 @@ class AskController extends Controller
         return view('main.ask.faq_detail', compact('faq', 'next_faq', 'pre_faq', 'query_string'));
     }
 
-    public function accusations($id)
+    public function accusations(Request $request, $id)
     {
+        $link = url()->previous();
+
         $accu_id = $id;
-        return view('main.ask.accusations', compact('accu_id'));
+        return view('main.ask.accusations', compact('accu_id', 'link'));
     }
 
 }
