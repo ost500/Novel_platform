@@ -102,6 +102,8 @@ class EachController extends Controller
 
             }
         }
+
+       // dd($novel_group_inning_comments);
         //Social Share
         $share = new Share();
 
