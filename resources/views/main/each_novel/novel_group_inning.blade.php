@@ -77,8 +77,14 @@
                         </div>
                         <!-- 이전다음버튼 -->
                         <div class="prev-next-episode">
-                            <a href="#mode_nav" class="prev-btn"><i class="prev-episode-icon">이전회</i></a>
-                            <a href="#mode_nav" class="next-btn"><i class="next-episode-icon">다음회</i></a>
+                            @if($prev_inning_id)
+                                <a href="{{ route('each_novel.novel_group_inning', ['id' => $prev_inning_id]) }}"
+                                   class="prev-btn"><i class="prev-episode-icon">이전회</i></a>
+                            @endif
+                            @if($next_inning_id)
+                                <a href="{{ route('each_novel.novel_group_inning', ['id' => $next_inning_id]) }}"
+                                   class="next-btn"><i class="next-episode-icon">다음회</i></a>
+                            @endif
                         </div>
                         <!-- //이전다음버튼 -->
                     </div>
