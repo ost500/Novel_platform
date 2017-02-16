@@ -168,7 +168,8 @@
                                                 @if(Auth::check())
                                                     @if( ($novel_group_inning_comment[0]->comment_secret ==true && $novel_group_inning_comment[0]->user_id != Auth::user()->id) and ($novel_group_inning_comment[0]->comment_secret ==true && $novel_group_inning->user_id != Auth::user()->id))
                                                         <div class="comment-content">
-                                                            <p> 비밀글 입니다</p>
+                                                            <p><i class="fa fa-user-secret" aria-hidden="true"></i>
+                                                                비밀글 입니다</p>
                                                         </div>
                                                     @else
 
@@ -191,18 +192,19 @@
 
 
                                                         <div class="comment-content" v-show="!display.status">
-                                                            <p>{{$novel_group_inning_comment[0]->comment}}</p>
+                                                            <p> {{$novel_group_inning_comment[0]->comment}}</p>
                                                         </div>
                                                     @endif
                                                 @else
                                                     @if($novel_group_inning_comment[0]->comment_secret ==true)
                                                         <div class="comment-content">
-                                                            <p> 비밀글 입니다</p>
+                                                            <p><i class="fa fa-user-secret" aria-hidden="true"></i>
+                                                                비밀글 입니다</p>
                                                         </div>
 
                                                     @else
                                                         <div class="comment-content">
-                                                            <p>{{$novel_group_inning_comment[0]->comment}}</p>
+                                                            <p> {{$novel_group_inning_comment[0]->comment}}</p>
                                                         </div>
                                                     @endif
                                                 @endif
@@ -279,11 +281,18 @@
                                                     @if(Auth::check())
                                                         @if( ($novel_group_inning_comment_reply->comment_secret ==true && $novel_group_inning_comment_reply->user_id != Auth::user()->id) and ($novel_group_inning_comment_reply->comment_secret ==true && $novel_group_inning->user_id != Auth::user()->id))
                                                             <div class="comment-content">
-                                                                <p> 비밀글 입니다</p>
+                                                                <p><i class="fa fa-user-secret" aria-hidden="true"></i>
+                                                                    비밀글 입니다</p>
                                                             </div>
                                                         @else
-                                                            <div class="comment-btns"><a href="#mode_nav">댓글</a><a
-                                                                        href="#mode_nav">신고</a></div>
+                                                            <div class="comment-btns">
+                                                                @if(Auth::user()->id == $novel_group_inning_comment_reply->user_id  )
+                                                                    <a v-on:click="update_box_show({{$novel_group_inning_comment_reply->id}})"
+                                                                       style="cursor: pointer;">수정</a>
+                                                                    <a v-on:click="commentDelete('{{$novel_group_inning_comment_reply->id}}')"
+                                                                       style="cursor: pointer;">삭제</a>
+                                                                @endif
+                                                                <a href="#mode_nav">신고</a></div>
                                                             <div class="comment-content">
                                                                 <p>{{$novel_group_inning_comment_reply->comment}}</p>
                                                             </div>
@@ -291,7 +300,8 @@
                                                     @else
                                                         @if($novel_group_inning_comment_reply->comment_secret ==true)
                                                             <div class="comment-content">
-                                                                <p> 비밀글 입니다</p>
+                                                                <p><i class="fa fa-user-secret" aria-hidden="true"></i>
+                                                                    비밀글 입니다</p>
                                                             </div>
 
                                                         @else
@@ -300,6 +310,36 @@
                                                             </div>
                                                         @endif
                                                     @endif
+
+                                                    <div class="comment-content "
+                                                         id="comment_box{{$novel_group_inning_comment_reply->id}}"
+                                                         v-if="display.id =={{$novel_group_inning_comment_reply->id}} && display.status">
+
+                                                         <textarea name="comment"
+                                                                   id="comment{{$novel_group_inning_comment_reply->id}}"
+                                                                   rows="3" style="width:65%;"> {{$novel_group_inning_comment_reply->comment}}
+                                                         </textarea>
+                                                        <button name="edit"
+                                                                id="edit{{$novel_group_inning_comment_reply->id}}"
+                                                                v-on:click="commentUpdate('{{$novel_group_inning_comment_reply->id}}')"
+                                                                class="btn btn-primary inline"
+                                                                style="width:100px;height:57px;vertical-align: top;">
+                                                            수정
+                                                        </button>
+                                                        <br>
+                                                           <span class="options">
+                                                            <label class="checkbox2">
+                                                                <input name="comment_secret"
+                                                                       id="comment_secret{{$novel_group_inning_comment_reply->id}}"
+                                                                       type="checkbox"
+                                                                       @if($novel_group_inning_comment_reply->comment_secret) checked @endif>
+                                                                <span>비밀글</span></label>
+                                                           </span>
+                                                    </div>
+
+
+
+
                                                 </div>
                                             </li>
 
