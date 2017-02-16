@@ -133,8 +133,12 @@
                                 <div class="sort-nav sort-nav--comment">
                                     <nav>
                                         <ul>
-                                            <li><a href="#mode_nav" class="is-active">최신순</a></li>
-                                            <li><a href="#mode_nav">등록순</a></li>
+                                            <li>
+                                                <a href="{{ route('each_novel.novel_group_inning', ['id' => $novel_group_inning->id]).'?order=latest' }}"
+                                                  @if($order == 'latest' or $order == null ) class="is-active" @endif>최신순</a></li>
+                                            <li>
+                                                <a href="{{ route('each_novel.novel_group_inning', ['id' => $novel_group_inning->id]).'?order=older' }}" @if($order == 'older') class="is-active" @endif>등록순</a>
+                                            </li>
                                         </ul>
                                     </nav>
                                 </div>
@@ -143,10 +147,10 @@
                             <ul class="comment-list">
                                 @if(count($novel_group_inning_comments) >0)
                                     @foreach($novel_group_inning_comments as $novel_group_inning_comment)
-                                      {{--  @if( ($novel_group_inning_comment[0]->comment_secret ==true && $novel_group_inning_comment[0]->user_id != Auth::user()->id) and ($novel_group_inning_comment[0]->comment_secret ==true && $novel_group_inning->user_id != Auth::user()->id))
-                                            비밀글 입니다
-                                            @continue;
-                                        @endif--}}
+                                        {{--  @if( ($novel_group_inning_comment[0]->comment_secret ==true && $novel_group_inning_comment[0]->user_id != Auth::user()->id) and ($novel_group_inning_comment[0]->comment_secret ==true && $novel_group_inning->user_id != Auth::user()->id))
+                                              비밀글 입니다
+                                              @continue;
+                                          @endif--}}
                                         <li>
                                             <div class="comment-wrap">
                                                 <div class="comment-info"><span
@@ -217,7 +221,9 @@
     <!-- //컨테이너 -->
     <!-- 푸터 -->
     <!-- Social Share-->
-    @include('social_share', ['url' =>route('each_novel.novel_group_inning', $novel_group_inning->id),'title'=>$novel_group_inning->title,'thumbnail'=>''])
+    @section('header')
+             @include('social_share', ['url' =>route('each_novel.novel_group_inning', $novel_group_inning->id),'title'=>$novel_group_inning->title,'thumbnail'=>''])
+    @endsection
             <!--Social Share -->
     <script type="text/javascript">
         var app = new Vue({
