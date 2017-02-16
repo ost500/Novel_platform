@@ -3,8 +3,8 @@
     <div class="container" xmlns:v-on="http://www.w3.org/1999/xhtml">
         <div class="wrap" id="sent_gifts">
             <!-- LNB -->
-            @include('main.my_page.left_sidebar')
-                    <!-- //LNB -->
+        @include('main.my_page.left_sidebar')
+        <!-- //LNB -->
 
             <!-- 서브컨텐츠 -->
             <div class="content" id="content">
@@ -13,8 +13,8 @@
                     <div class="alert alert-success">
                         {{Session('flash_message')}}
                     </div>
-                    @endif
-                <!-- 페이지헤더 -->
+            @endif
+            <!-- 페이지헤더 -->
                 <div class="list-header">
                     <h2 class="title">보낸 선물 내역</h2>
                 </div>
@@ -43,20 +43,9 @@
                             <td class="col-subject">{{ $present->content }}</td>
                             <td class="col-from">{{ $present->users->name }}</td>
                             <td class="col-state">
-                                @if($present->status == '대기')
-                                    <span id="response{{$present->id}}"></span>
-                                    <button class="btn btn-sm btn-primary" style="padding-left:9px;padding-right:9px;font-size: small;"
-                                            id="approve{{$present->id}}"
-                                            v-on:click="approve_deny('{{$present->id}}','수령',1)"> 수령
-                                    </button>
 
-                                    <button class="btn btn-sm btn-danger" style="padding-left:9px;padding-right:9px;font-size: small;"
-                                            id="deny{{$present->id}}"
-                                            v-on:click="approve_deny('{{$present->id}}','반송',0)"> 반송
-                                    </button>
-                                @else
-                                    <span>{{ $present->status }}</span>
-                                @endif
+                                <span>{{ $present->status }}</span>
+
                             </td>
                         </tr>
                     @endforeach
@@ -73,8 +62,8 @@
                 </div>
                 <!-- //하단버튼 -->
                 <!-- 페이징 -->
-                @include('pagination_front', ['collection' => $presents, 'url' => route('my_info.sent_gift')."?"])
-                        <!-- //페이징 -->
+            @include('pagination_front', ['collection' => $presents, 'url' => route('my_info.sent_gift')."?"])
+            <!-- //페이징 -->
 
                 <!-- 공지 -->
                 <p class="mypage-notice mypage-notice--gift2">
@@ -148,8 +137,8 @@
             </section>
             <!-- //구슬선물하기 팝업 -->
             <!-- 따라다니는퀵메뉴 -->
-            @include('main.quick_menu')
-                    <!-- //따라다니는퀵메뉴 -->
+        @include('main.quick_menu')
+        <!-- //따라다니는퀵메뉴 -->
         </div>
     </div>
     <!-- //컨테이너 -->

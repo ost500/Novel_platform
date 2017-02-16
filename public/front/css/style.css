@@ -851,6 +851,16 @@ html.is-modal body {
     margin: 2%;
 }
 
+.kakaostory-img {
+    width: 55px;
+    content: url('../imgs/common/kakao_black.jpg');
+}
+
+.kakaostory-img:hover {
+    width: 55px;
+    content: url('../imgs/common/kakao_green.jpg');
+}
+
 .share-title {
     display: block;
     padding: 12px 0;
