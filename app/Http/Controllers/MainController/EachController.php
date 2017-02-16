@@ -105,9 +105,29 @@ class EachController extends Controller
         //Social Share
         $share = new Share();
 
+
+        // Next inning
+        $next_inning = Novel::where('novel_group_id', $novel_group_inning->novel_group_id)
+            ->where('inning', '>', $novel_group_inning->inning)->orderBy('inning')->first();
+        if ($next_inning) {
+            $next_inning_id = $next_inning->id;
+        } else {
+            $next_inning_id = null;
+        }
+
+        // Previous inning
+        $prev_inning = Novel::where('novel_group_id', $novel_group_inning->novel_group_id)
+            ->where('inning', '<', $novel_group_inning->inning)->orderBy('inning', 'desc')->first();
+        if ($prev_inning) {
+            $prev_inning_id = $prev_inning->id;
+        } else {
+            $prev_inning_id = null;
+        }
+
+
 //        return response()->json($novel_group_inning_comments);
 
-        return view('main.each_novel.novel_group_inning', compact('novel_group_inning', 'novel_group_inning_comments', 'show_favorite', 'share','order'));
+        return view('main.each_novel.novel_group_inning', compact('novel_group_inning', 'novel_group_inning_comments', 'show_favorite', 'share', 'next_inning_id', 'prev_inning_id','order'));
     }
 
     public function novel_group_review($novel_group_id)
