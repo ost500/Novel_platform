@@ -87,6 +87,7 @@ class CommentController extends Controller
         $new_comment->comment = $request->comment;
         $new_comment->parent_id = $request->parent_id;
         $new_comment->novel_id = $request->novel_id;
+        $new_comment->comment_secret = $request->comment_secret;
         $new_comment->user_id = Auth::user()->id;
         $new_comment->save();
         return response()->json(['error'=>1,'status' => 'ok']);
