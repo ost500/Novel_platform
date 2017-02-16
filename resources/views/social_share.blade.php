@@ -1,63 +1,43 @@
+
 <div id="share_form" class="share-modal" tabindex="0">
     <form name="share_form"  class="share-form">
         <fieldset class="wrap clr">
             <div id="social-links">
                 <h2 class="share-title">SNS 공유하기</h2>
 
-                <div style="float:left;padding:3%">
+                <div style="padding:3%">
                     <ul>
                         <li style="vertical-align:super"><a
                                     href="{{$share->facebook($url,$title,$thumbnail)}}"
-                                    class="social-button " id="" >
+                                    class="social-button " id="social-button" >
                                 <i class="fa fa-facebook-square fa-5x" aria-hidden="true"> </i>
-                                <span style="vertical-align:super"> Facebook.</span>
+                                <span style="vertical-align:super"> 페이스북</span>
                             </a>
                         </li>
+
+
+
+                    </ul>
+                </div>
+                <div style="padding:3%;">
+                    <ul>
+
                         <li><a href="{{$share->twitter($url,$title,$thumbnail)}}"
-                               class="social-button " id="">
+                               class="social-button " id="social-button">
                                 <i class="fa fa-twitter-square fa-5x" aria-hidden="true"> </i>
-                                <span style="vertical-align:super"> Twitter.</span>
-                            </a>
-                        </li>
-                        <li><a href="{{$share->googleplus($url,$title,$thumbnail)}}"
-                               class="social-button " id="" >
-                                <i class="fa fa-google-plus-square fa-5x" aria-hidden="true"> </i>
-                                <span style="vertical-align:super"> Google+.</span>
-                            </a>
-                        </li>
-                        <li><a href="{{$share->linkedin($url,$title,$thumbnail)}}"
-                               class="social-button " id="" >
-                                <i class="fa fa-linkedin-square fa-5x" aria-hidden="true"> </i>
-                                <span> Linkedin.</span>
+                                <span style="vertical-align:super"> 트위터</span>
                             </a>
                         </li>
 
                     </ul>
                 </div>
-                <div style="float:right;padding:3%;">
+                <div style="padding:3%;">
                     <ul>
-                        <li><a href="{{$share->reddit($url,$title,$thumbnail)}}"
-                               class="social-button " id="" >
-                                <i class="fa fa-reddit-square fa-5x" aria-hidden="true"> </i>
-                                <span style="font-size:12px;">Reddit.</span>
-                            </a>
-                        </li>
-                        <li><a href="{{$share->pinterest($url,$title,$thumbnail)}}"
-                               class="social-button " id="" >
-                                <i class="fa fa-pinterest-square fa-5x" aria-hidden="true"> </i>
-                                <span style="font-size:12px;">Pinterest.</span>
-                            </a>
-                        </li>
-                        <li><a href="{{$share->delicious($url,$title,$thumbnail)}}"
-                               class="social-button " id="" >
-                                <i class="fa fa-delicious fa-5x" aria-hidden="true"> </i>
-                                <span style="font-size:12px;">Delicious.</span>
-                            </a>
-                        </li>
-                        <li><a href="{{$share->tumblr($url,$title,$thumbnail)}}"
-                               class="social-button " id="" >
-                                <i class="fa fa-tumblr-square fa-5x" aria-hidden="true"> </i>
-                                <span style="">Tumblr.</span>
+
+                        <li><a href="#" onclick="shareStory()"
+                               class="social-button ">
+                                <img class="kakaostory-img" >
+                                <span style="">카카오스토리</span>
                             </a>
                         </li>
 
@@ -74,7 +54,7 @@
         height: 550
     };
 
-    $(document).on('click', '.social-button', function(e){
+    $(document).on('click', '#social-button', function(e){
         var
                 verticalPos = Math.floor(($(window).width() - popupSize.width) / 2),
                 horisontalPos = Math.floor(($(window).height() - popupSize.height) / 2);
@@ -91,4 +71,19 @@
 
     });
 
+</script>
+
+<script src="http://developers.kakao.com/sdk/js/kakao.min.js"></script>
+
+<script type='text/javascript'>
+    //<![CDATA[
+    // 사용할 앱의 JavaScript 키를 설정해 주세요.
+    Kakao.init('d2925f47245105755b4b82b13b5a6d43');
+    function shareStory() {
+        Kakao.Story.share({
+            url: '{{$url}}',
+            text: '{{$title}}'
+        });
+    }
+    //]]>
 </script>
