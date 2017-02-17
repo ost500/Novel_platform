@@ -1,21 +1,21 @@
 @extends('layouts.main_layout')
 @section('content')
-        <!-- 컨테이너 -->
-<div class="container" xmlns:v-on="http://www.w3.org/1999/xhtml">
-    <div class="wrap" id="novel_group_comments">
-        <!-- LNB -->
+    <!-- 컨테이너 -->
+    <div class="container" xmlns:v-on="http://www.w3.org/1999/xhtml">
+        <div class="wrap" id="novel_group_comments">
+            <!-- LNB -->
         @include('main.my_page.left_sidebar')
-                <!-- //LNB -->
+        <!-- //LNB -->
 
-        <!-- 서브컨텐츠 -->
-        <div class="content" id="content">
-            @if(Session::has('flash_message'))
-                {{-- important, success, warning, danger and info --}}
-                <div class="alert alert-success">
-                    {{Session('flash_message')}}
-                </div>
-                @endif
-                        <!-- 댓글목록 -->
+            <!-- 서브컨텐츠 -->
+            <div class="content" id="content">
+                @if(Session::has('flash_message'))
+                    {{-- important, success, warning, danger and info --}}
+                    <div class="alert alert-success">
+                        {{Session('flash_message')}}
+                    </div>
+            @endif
+            <!-- 댓글목록 -->
                 <div class="comments comments--manage">
                     <div class="comment-list-header">
                         <h2 class="title">소설 댓글 관리</h2>
@@ -38,9 +38,13 @@
                             @foreach($novel_comments as $novel_comment)
                                 <li>
                                     <div class="comment-wrap">
-                                        <div class="comment-info"><span
-                                                    class="parent-subject">{{$novel_comment->inning}} {{$novel_comment->novel_title}}</span><span
-                                                    class="writer">{{$novel_comment->user_name}}</span></div>
+                                        <div class="comment-info">
+                                            <span class="parent-subject"><a
+                                                        href="{{ route('each_novel.novel_group_inning', ['id' => $novel_comment->novels_id]) }}">
+                                                    {{$novel_comment->novel_title}} {{$novel_comment->inning}}
+                                                    회</a></span><span
+                                                    class="writer">{{$novel_comment->user_name}}</span>
+                                        </div>
                                         <div class="comment-btns"><a href="#mode_nav"
                                                                      v-on:click="comment_box_show({{$novel_comment->id}})">수정</a><a
                                                     href="#mode_nav"
@@ -82,67 +86,67 @@
                     @include('pagination_front', ['collection' => $novel_comments, 'url' => route('my_info.novel_comments_manage').'?order='.$order.'&'])
                 </div>
                 <!-- //페이징 -->
-        </div>
-        <!-- //서브컨텐츠 -->
-        <!-- 따라다니는퀵메뉴 -->
+            </div>
+            <!-- //서브컨텐츠 -->
+            <!-- 따라다니는퀵메뉴 -->
         @include('main.quick_menu')
-                <!-- //따라다니는퀵메뉴 -->
+        <!-- //따라다니는퀵메뉴 -->
+        </div>
     </div>
-</div>
-<!-- //컨테이너 -->
-<script type="text/javascript">
-    var app = new Vue({
-        el: '#novel_group_comments',
-        data: {
-            info: {comment_type: '', comment: ''},
-            display: {id: '', status: false}
-        },
-
-        methods: {
-
-            comment_box_show: function (comment_id) {
-                //document.getElementById('comment_box'+comment_id).style.display='block';
-                if (this.display.id == comment_id && this.display.status == true) {
-                    this.display.status = false;
-                    this.display.id = 0;
-                } else {
-
-                    this.display.id = comment_id;
-                    this.display.status = true;
-                }
-            },
-            remove_comment: function (comment_id) {
-
-                if (confirm('삭제 하시겠습니까?')) {
-
-                    app.$http.delete('{{ url('comments') }}/' + comment_id, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
-                            .then(function (response) {
-                                location.reload();
-                            }).catch(function (errors) {
-                                console.log(errors);
-                            });
-                }
+    <!-- //컨테이너 -->
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#novel_group_comments',
+            data: {
+                info: {comment_type: '', comment: ''},
+                display: {id: '', status: false}
             },
 
-            update_comment: function (comment_id, comment_type) {
+            methods: {
 
-                this.info.comment_type = comment_type;
-                this.info.comment = $('#comment' + comment_id).val();
+                comment_box_show: function (comment_id) {
+                    //document.getElementById('comment_box'+comment_id).style.display='block';
+                    if (this.display.id == comment_id && this.display.status == true) {
+                        this.display.status = false;
+                        this.display.id = 0;
+                    } else {
 
-                app.$http.put('{{ url('comments') }}/' + comment_id, this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
-                        .then(function (response) {
-                            location.reload();
+                        this.display.id = comment_id;
+                        this.display.status = true;
+                    }
+                },
+                remove_comment: function (comment_id) {
 
-                        }).catch(function (errors) {
+                    if (confirm('삭제 하시겠습니까?')) {
+
+                        app.$http.delete('{{ url('comments') }}/' + comment_id, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                                .then(function (response) {
+                                    location.reload();
+                                }).catch(function (errors) {
                             console.log(errors);
                         });
+                    }
+                },
+
+                update_comment: function (comment_id, comment_type) {
+
+                    this.info.comment_type = comment_type;
+                    this.info.comment = $('#comment' + comment_id).val();
+
+                    app.$http.put('{{ url('comments') }}/' + comment_id, this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                            .then(function (response) {
+                                location.reload();
+
+                            }).catch(function (errors) {
+                        console.log(errors);
+                    });
+                }
             }
-        }
-    });
+        });
 
-    $(".alert").delay(4000).slideUp(200, function () {
-        $(this).alert('close');
-    });
+        $(".alert").delay(4000).slideUp(200, function () {
+            $(this).alert('close');
+        });
 
-</script>
+    </script>
 @endsection
