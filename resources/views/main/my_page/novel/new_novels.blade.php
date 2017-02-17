@@ -47,9 +47,9 @@
                                 @endforeach
 
                             </ul>
-                            <div class="new-work-close">
-                                <button type="button" class="userbtn userbtn--close">삭제</button>
-                            </div>
+                            {{--<div class="new-work-close">--}}
+                                {{--<button type="button" class="userbtn userbtn--close">삭제</button>--}}
+                            {{--</div>--}}
                         </li>
                     @endforeach
 

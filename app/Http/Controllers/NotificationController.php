@@ -15,7 +15,7 @@ class NotificationController extends Controller
             'category' => 'required|max:255',
             'title' => 'required|max:255',
             'content' => 'required',
-            'picture'=>'mimes:jpeg,png|max:1024'
+            'picture' => 'mimes:jpeg,png|max:1024'
         ], [
             'category.required' => '분류는 필수 입니다.',
             'category.max' => '분류는 반드시 255 자리보다 작아야 합니다.',
@@ -48,7 +48,7 @@ class NotificationController extends Controller
             $picture->move($destinationPath, $filename);
         }
 
-       $noti->save();
+        $noti->save();
         event(new NewSpeedEvent("noti", "[공지사항] " . $noti->title, route('ask.notification_detail', ['id' => $noti->id]), "/front/imgs/thumb/memo3.png"));
 
         return redirect()->route('admin.notifications.detail', ['id' => $noti->id]);
@@ -60,7 +60,7 @@ class NotificationController extends Controller
             'category' => 'required|max:255',
             'title' => 'required|max:255',
             'content' => 'required',
-            'picture'=>'mimes:jpeg,png|max:1024'
+            'picture' => 'mimes:jpeg,png|max:1024'
         ], [
             'category.required' => '분류는 필수 입니다.',
             'category.max' => '분류는 반드시 255 자리보다 작아야 합니다.',
@@ -81,7 +81,9 @@ class NotificationController extends Controller
 
         if ($request->popup == "on") {
             $noti->popup = true;
-        }else{ $noti->popup = false; }
+        } else {
+            $noti->popup = false;
+        }
 
 
         if ($request->hasFile('picture')) {
@@ -101,5 +103,12 @@ class NotificationController extends Controller
         $noti->save();
 
         return redirect()->route('admin.notifications.detail', ['id' => $noti->id]);
+    }
+
+    public function footer_noti()
+    {
+        $noti = Notification::latest()->select('id', 'title')->first();
+
+        return response()->json($noti);
     }
 }
