@@ -5,7 +5,7 @@
         <div class="wrap">
             <!-- LNB -->
         @include('main.my_page.left_sidebar')
-            <!-- //LNB -->
+        <!-- //LNB -->
 
             <!-- 서브컨텐츠 -->
             <div class="content" id="content">
@@ -26,7 +26,9 @@
                             <button class="btn btn--special" type="submit">확인</button>
                             <div class="input-desc-box">
                                 <span class="alert">
-                                    <i class="alert-icon"></i> {{ $errors->first('password') }}
+                                    @if( $errors->first('password'))
+                                        <i class="alert-icon"></i> {{ $errors->first('password') }}
+                                    @endif
                                 </span>
                             </div>
 
@@ -40,7 +42,7 @@
             <!-- //서브컨텐츠 -->
             <!-- 따라다니는퀵메뉴 -->
         @include('main.quick_menu')
-            <!-- //따라다니는퀵메뉴 -->
+        <!-- //따라다니는퀵메뉴 -->
         </div>
     </div>
     <!-- //컨테이너 -->

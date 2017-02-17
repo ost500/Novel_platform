@@ -26,8 +26,8 @@
                     </div>
                     <!-- //게시물본문 -->
                     <div class="bbs-view-content-btns">
-                        <a href="#mode_nav" class="like-btn"><i class="like-icon">좋아요</i><span
-                                    class="like-count">{{ $article->likes_count }}</span></a>
+                        {{--<a href="#mode_nav" class="like-btn"><i class="like-icon">좋아요</i><span--}}
+                                    {{--class="like-count">{{ $article->likes_count }}</span></a>--}}
                         <div class="right-btns">
                             <a href="{{ route('accusations', ['id' => $article->users->id]) }}" class="report-btn"><i class="report-icon"></i> 게시물 신고</a>
                         </div>

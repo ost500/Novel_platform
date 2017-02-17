@@ -14,7 +14,8 @@
                             <div class="post-header">
                                 <h2 class="title">{{str_limit($novel_group->title, 35)}}</h2>
 
-                                <p class="writer">{{$novel_group->nicknames->nickname }} <a href="#mode_nav"><i
+                                <p class="writer">{{$novel_group->nicknames->nickname }} <a
+                                            href="{{ route('mails.create', ['id' => $novel_group->users->id]) }}"><i
                                                 class="memo-icon">쪽지</i></a></p>
 
                                 <p class="post-info">
@@ -90,15 +91,15 @@
                                             <div class="col-title"><a
                                                         href="{{route('each_novel.novel_group_inning',['id'=>$novel->id])}}">{{str_limit($novel->title, 60)}}{{--<i
                                                         class="up-icon">Up</i>--}}</a></div>
-                                            <div class="col-charge">@if($novel->non_free_agreement > 0) 유료 @else <span
-                                                        class="free">무료</span> @endif {{-- <span class="open">열림</span>--}}
-                                            </div>
-                                        </li>
-                                    @endforeach
+                                        <div class="col-charge">@if($novel->non_free_agreement > 0) 유료 @else <span
+                                                    class="free">무료</span> @endif {{-- <span class="open">열림</span>--}}
+                                        </div>
+                                    </li>
+                                @endforeach
 
-                                </ul>
-                            </section>
-                            <!-- //연재회차 -->
+                            </ul>
+                        </section>
+                        <!-- //연재회차 -->
 
                     </div>
                     <div class="episode-list-aside">

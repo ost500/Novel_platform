@@ -285,7 +285,7 @@
                             <p class="auto-login-notice" id="auto_login_notice">개인정보 보호를 위해 개인 PC에서만 사용하세요.</p>
                         </div>
                         <div class="aside-link">
-                            <a href="#mode_nav">아이디 찾기</a><i></i><a href="{{ url('/password/reset') }}">비밀번호 찾기</a>
+                            <a href="{{ route('id_search') }}">아이디 찾기</a><i></i><a href="{{ url('/password/reset') }}">비밀번호 찾기</a>
 
                         </div>
                     </fieldset>

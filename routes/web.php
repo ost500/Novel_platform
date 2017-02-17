@@ -75,42 +75,43 @@ Route::post('publishnovelgroups/stop', ['as' => 'publishnovelgroups.stop', 'uses
 Route::get('publishnovelgroups/search_by_group/{search}', ['as' => 'publishnovelgroups.search_by_group', 'uses' => "PublishNovelGroupController@search_by_group"]);
 //Route::get('/author/create', ['as' => 'author.create', 'uses' => 'PageController\AuthorPageController@create']);
 //Route::get('/author/{id}/edit', 'PageController\AuthorPageController@edit');
+Route::group(['prefix' => 'author'], function () {
+    Route::get('/profile/information', ['as' => 'author.profile', 'uses' => 'PageController\AuthorPageController@profile']);
+    Route::get('/profile/nickname/', ['as' => 'author.nickname', 'uses' => 'PageController\AuthorPageController@nickname']);
 
-Route::get('/author/profile/information', ['as' => 'author.profile', 'uses' => 'PageController\AuthorPageController@profile']);
-Route::get('/author/profile/nickname/', ['as' => 'author.nickname', 'uses' => 'PageController\AuthorPageController@nickname']);
+    Route::get('/index', ['as' => 'author.index', 'uses' => 'PageController\AuthorPageController@index']);
+    Route::get('/management/novelgroups', ['as' => 'author_index', 'uses' => 'PageController\AuthorPageController@index']);
+    Route::get('/management/novelgroups/create', ['as' => 'author.novel_group_create', 'uses' => 'PageController\AuthorPageController@create']);
+    Route::get('/management/novelgroups/{id}', ['as' => 'author_novel_group', 'uses' => 'PageController\AuthorPageController@novel_gorup']);
+    Route::get('/management/novelgroups/{id}/edit', ['as' => 'author.novel_group_edit', 'uses' => 'PageController\AuthorPageController@edit']);
 
-Route::get('/author/index', ['as' => 'author.index', 'uses' => 'PageController\AuthorPageController@index']);
-Route::get('/author/management/novelgroups', ['as' => 'author_index', 'uses' => 'PageController\AuthorPageController@index']);
-Route::get('/author/management/novelgroups/create', ['as' => 'author.novel_group_create', 'uses' => 'PageController\AuthorPageController@create']);
-Route::get('/author/management/novelgroups/{id}', ['as' => 'author_novel_group', 'uses' => 'PageController\AuthorPageController@novel_gorup']);
-Route::get('/author/management/novelgroups/{id}/edit', ['as' => 'author.novel_group_edit', 'uses' => 'PageController\AuthorPageController@edit']);
+    Route::get('/management/create_novel/{id}', ['as' => 'author.inning', 'uses' => 'PageController\AuthorPageController@create_inning']);
+    Route::get('/management/update_novel/{id}', ['as' => 'author.inning.update', 'uses' => 'PageController\AuthorPageController@update_inning']);
+    Route::get('/management/show_novel/{id}', ['as' => 'author.show_inning', 'uses' => 'PageController\AuthorPageController@show_inning']);
+    Route::get('/mycomment/{id}', ['as' => 'author.mycomment', 'uses' => 'PageController\AuthorPageController@mycomment']);
 
-Route::get('/author/management/create_novel/{id}', ['as' => 'author.inning', 'uses' => 'PageController\AuthorPageController@create_inning']);
-Route::get('/author/management/update_novel/{id}', ['as' => 'author.inning.update', 'uses' => 'PageController\AuthorPageController@update_inning']);
-Route::get('/author/management/show_novel/{id}', ['as' => 'author.show_inning', 'uses' => 'PageController\AuthorPageController@show_inning']);
-Route::get('/author/mycomment/{id}', ['as' => 'author.mycomment', 'uses' => 'PageController\AuthorPageController@mycomment']);
+    Route::get('/mailbox/receive_mail', ['as' => 'author.novel_memo', 'uses' => 'PageController\AuthorPageController@mailbox_index']);
+    Route::get('/mailbox/receive_mail/{id}', ['as' => 'author.mailbox_message', 'uses' => 'PageController\AuthorPageController@mailbox_message_show']);
+    Route::get('/mailbox/sent_mail', ['as' => 'author.novel_memo_send', 'uses' => 'PageController\AuthorPageController@mailbox_send']);
+    Route::get('/mailbox/sent_mail/{id}', ['as' => 'author.mailbox_send_message', 'uses' => 'PageController\AuthorPageController@mailbox_send_message_show']);
+    Route::get('/mailbox/create_mail', ['as' => 'author.novel_memo_create', 'uses' => 'PageController\AuthorPageController@mailbox_create']);
+    Route::get('/mailbox/specific_mail/{id?}', ['as' => 'author.specific_mail', 'uses' => 'PageController\AuthorPageController@specific_mailbox_create']);
 
-Route::get('/author/mailbox/receive_mail', ['as' => 'author.novel_memo', 'uses' => 'PageController\AuthorPageController@mailbox_index']);
-Route::get('/author/mailbox/receive_mail/{id}', ['as' => 'author.mailbox_message', 'uses' => 'PageController\AuthorPageController@mailbox_message_show']);
-Route::get('/author/mailbox/sent_mail', ['as' => 'author.novel_memo_send', 'uses' => 'PageController\AuthorPageController@mailbox_send']);
-Route::get('/author/mailbox/sent_mail/{id}', ['as' => 'author.mailbox_send_message', 'uses' => 'PageController\AuthorPageController@mailbox_send_message_show']);
-Route::get('/author/mailbox/create_mail', ['as' => 'author.novel_memo_create', 'uses' => 'PageController\AuthorPageController@mailbox_create']);
-Route::get('/author/mailbox/specific_mail/{id?}', ['as' => 'author.specific_mail', 'uses' => 'PageController\AuthorPageController@specific_mailbox_create']);
-
-Route::get('/author/men_to_men/request_create', ['as' => 'author.novel_request', 'uses' => 'PageController\AuthorPageController@men_to_men_create']);
-Route::get('/author/men_to_men/requests', ['as' => 'author.novel_request_list', 'uses' => 'PageController\AuthorPageController@men_to_men_index']);
-Route::get('/author/men_to_men/requests/{id}', ['as' => 'author.novel_request_view', 'uses' => 'PageController\AuthorPageController@men_to_men_show']);
+    Route::get('/men_to_men/request_create', ['as' => 'author.novel_request', 'uses' => 'PageController\AuthorPageController@men_to_men_create']);
+    Route::get('/men_to_men/requests', ['as' => 'author.novel_request_list', 'uses' => 'PageController\AuthorPageController@men_to_men_index']);
+    Route::get('/men_to_men/requests/{id}', ['as' => 'author.novel_request_view', 'uses' => 'PageController\AuthorPageController@men_to_men_show']);
 
 
-Route::get('/author/novel_faq', ['as' => 'author.novel_faq', 'uses' => 'PageController\AuthorPageController@faq_index']);
+    Route::get('/novel_faq', ['as' => 'author.novel_faq', 'uses' => 'PageController\AuthorPageController@faq_index']);
 
-Route::get('/author/partnership/apply', ['as' => 'author.partner_apply', 'uses' => 'PageController\AuthorPageController@partner_apply']);
-Route::get('/author/partnership/apply/proper_company', ['as' => 'author.partner_apply.proper_company', 'uses' => 'PageController\AuthorPageController@partner_apply_proper_company']);
-Route::get('/author/partnership/apply_list', ['as' => 'author.partner_apply_list', 'uses' => 'PageController\AuthorPageController@partner_apply_list']);
-Route::get('/author/partnership/proceed/', ['as' => 'author.partner_proceed', 'uses' => 'PageController\AuthorPageController@partner_proceed']);
-Route::get('/author/partnership/test_inning/{id?}', ['as' => 'author.partner_test_inning', 'uses' => 'PageController\AuthorPageController@partner_test_inning']);
+    Route::get('/partnership/apply', ['as' => 'author.partner_apply', 'uses' => 'PageController\AuthorPageController@partner_apply']);
+    Route::get('/partnership/apply/proper_company', ['as' => 'author.partner_apply.proper_company', 'uses' => 'PageController\AuthorPageController@partner_apply_proper_company']);
+    Route::get('/partnership/apply_list', ['as' => 'author.partner_apply_list', 'uses' => 'PageController\AuthorPageController@partner_apply_list']);
+    Route::get('/partnership/proceed/', ['as' => 'author.partner_proceed', 'uses' => 'PageController\AuthorPageController@partner_proceed']);
+    Route::get('/partnership/test_inning/{id?}', ['as' => 'author.partner_test_inning', 'uses' => 'PageController\AuthorPageController@partner_test_inning']);
 
-Route::get('/author/faqs', ['as' => 'author.faqs', 'uses' => 'PageController\AuthorPageController@faq_index']);
+    Route::get('/faqs', ['as' => 'author.faqs', 'uses' => 'PageController\AuthorPageController@faq_index']);
+});
 
 Route::group(['prefix' => 'admin'], function () {
 
