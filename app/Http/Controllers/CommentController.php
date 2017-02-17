@@ -151,6 +151,13 @@ class CommentController extends Controller
     public function update(Request $request, $id)
     {
 
+        Validator::make($request->all(), [
+            'comment' => 'required|max:1000',
+        ], [
+            'comment.required' => '입력하세요',
+            'comment.max' => '댓글이 너무 깁니다',
+        ])->validate();
+
         Comment::where('id', $id)->update([
             'comment' => $request->get('comment'),
             'comment_secret' => $request->get('comment_secret'),
