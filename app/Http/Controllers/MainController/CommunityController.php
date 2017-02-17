@@ -97,7 +97,7 @@ class CommunityController extends Controller
             $q->where('name', 'like', $genre);
         });
 
-        $reviews = $reviews->paginate(3);
+        $reviews = $reviews->paginate(config('define.pagination_long'));
 
 
       // return response()->json($reviews);
