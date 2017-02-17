@@ -81,6 +81,7 @@
                                 <h2 class="episode-title">연재회차</h2>
                                 <ul class="episode-list">
                                     @foreach($novel_group->novels as $novel)
+                                        @if($novel->publish_reservation > $latest_time)  @continue; @endif
                                         <li>
                                             <div class="col-no">
                                                 <span class="no">{{$novel->inning}} 화</span>
