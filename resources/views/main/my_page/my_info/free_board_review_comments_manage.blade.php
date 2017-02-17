@@ -127,7 +127,7 @@
             remove_comment: function (comment_id, comment_type) {
                 this.info.comment_id = comment_id;
                 this.info.comment_type = comment_type;
-                if (confirm('Are you sure to delete this comment?')) {
+                if (confirm('삭제 하시겠습니까?')) {
                     app.$http.post('{{ route('free_board_review_comments.destroy_comments') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                             .then(function (response) {
                                 location.reload();

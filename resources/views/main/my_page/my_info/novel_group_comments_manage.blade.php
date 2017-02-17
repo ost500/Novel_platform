@@ -113,7 +113,7 @@
             },
             remove_comment: function (comment_id) {
 
-                if (confirm('Are you sure to delete this comment?')) {
+                if (confirm('삭제 하시겠습니까?')) {
 
                     app.$http.delete('{{ url('comments') }}/' + comment_id, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                             .then(function (response) {

@@ -163,13 +163,17 @@
                                             <div class="comment-wrap">
                                                 <div class="comment-info"><span
                                                             class="writer">{{$novel_group_inning_comment[0]->users->name}}</span><span
-                                                            class="datetime">{{$novel_group_inning_comment[0]->created_at}}</span>
+                                                            class="datetime"
+                                                            style="padding-right:1px;">{{$novel_group_inning_comment[0]->created_at}}</span>
+                                                    @if($novel_group_inning_comment[0]->comment_secret ==true)
+                                                        <span> <i class="fa fa-user-secret"
+                                                                  aria-hidden="true"></i></span>
+                                                    @endif
                                                 </div>
                                                 @if(Auth::check())
                                                     @if( ($novel_group_inning_comment[0]->comment_secret ==true && $novel_group_inning_comment[0]->user_id != Auth::user()->id) and ($novel_group_inning_comment[0]->comment_secret ==true && $novel_group_inning->user_id != Auth::user()->id))
                                                         <div class="comment-content">
-                                                            <p><i class="fa fa-user-secret" aria-hidden="true"></i>
-                                                                비밀글 입니다</p>
+                                                            <p> 비밀글 입니다</p>
                                                         </div>
                                                     @else
 
@@ -189,8 +193,6 @@
                                                             <a href="{{ route('accusations', ['id' => $novel_group_inning_comment[0]->users->id]) }}">신고</a>
                                                         </div>
 
-
-
                                                         <div class="comment-content" v-show="!display.status">
                                                             <p> {{$novel_group_inning_comment[0]->comment}}</p>
                                                         </div>
@@ -198,8 +200,7 @@
                                                 @else
                                                     @if($novel_group_inning_comment[0]->comment_secret ==true)
                                                         <div class="comment-content">
-                                                            <p><i class="fa fa-user-secret" aria-hidden="true"></i>
-                                                                비밀글 입니다</p>
+                                                            <p> 비밀글 입니다</p>
                                                         </div>
 
                                                     @else
@@ -209,14 +210,15 @@
                                                     @endif
                                                 @endif
 
-                                                <div class="comment-content "
+                                                <div class="comment-content " style="display:none;"
+                                                     v-show="new_box_display.status"
                                                      id="comment_box{{$novel_group_inning_comment[0]->id}}"
-                                                     v-if="new_box_display.id =={{$novel_group_inning_comment[0]->id}} && new_box_display.status">
-                                                         <textarea name="comment"
-                                                                   id="comment{{$novel_group_inning_comment[0]->id}}"
-                                                                   v-model="sub_info.comment" rows="3"
-                                                                   style="width:65%;">
-                                                         </textarea>
+                                                     v-if="new_box_display.id =={{$novel_group_inning_comment[0]->id}}">
+                                                     <textarea name="comment"
+                                                               id="comment{{$novel_group_inning_comment[0]->id}}"
+                                                               v-model="sub_info.comment" rows="3"
+                                                               style="width:65%;">
+                                                     </textarea>
 
                                                     <input type="hidden" name="parent_id"
                                                            id="parent_id{{$novel_group_inning_comment[0]->id}}"
@@ -230,25 +232,28 @@
                                                         댓글
                                                     </button>
                                                     <br>
-                                                         <span class="options">
-                                                            <label class="checkbox2">
-                                                                <input name="comment_secret"
-                                                                       id="comment_secret{{$novel_group_inning_comment[0]->id}}"
-                                                                       type="checkbox"
-                                                                       v-model="sub_info.comment_secret">
-                                                                <span>비밀글</span></label>
-                                                           </span>
+                                                     <span class="options">
+                                                        <label class="checkbox2">
+                                                            <input name="comment_secret"
+                                                                   id="comment_secret{{$novel_group_inning_comment[0]->id}}"
+                                                                   type="checkbox"
+                                                                   v-model="sub_info.comment_secret">
+                                                            <span>비밀글</span></label>
+                                                       </span>
+                                                   <span style="margin-left: 2%;"
+                                                          id="error{{$novel_group_inning_comment[0]->id}}"></span>
 
                                                 </div>
 
-                                                <div class="comment-content "
+                                                <div class="comment-content " style="display:none;"
+                                                     v-show="display.status"
                                                      id="comment_box{{$novel_group_inning_comment[0]->id}}"
-                                                     v-if="display.id =={{$novel_group_inning_comment[0]->id}} && display.status">
+                                                     v-if="display.id =={{$novel_group_inning_comment[0]->id}}">
 
-                                                         <textarea name="comment"
-                                                                   id="comment{{$novel_group_inning_comment[0]->id}}"
-                                                                   rows="3" style="width:65%;"> {{$novel_group_inning_comment[0]->comment}}
-                                                         </textarea>
+                                                     <textarea name="comment"
+                                                               id="comment{{$novel_group_inning_comment[0]->id}}"
+                                                               rows="3"
+                                                               style="width:65%;">{{$novel_group_inning_comment[0]->comment}}</textarea>
                                                     <button name="edit"
                                                             id="edit{{$novel_group_inning_comment[0]->id}}"
                                                             v-on:click="commentUpdate('{{$novel_group_inning_comment[0]->id}}')"
@@ -257,14 +262,16 @@
                                                         수정
                                                     </button>
                                                     <br>
-                                                           <span class="options">
-                                                            <label class="checkbox2">
-                                                                <input name="comment_secret"
-                                                                       id="comment_secret{{$novel_group_inning_comment[0]->id}}"
-                                                                       type="checkbox"
-                                                                       @if($novel_group_inning_comment[0]->comment_secret) checked @endif>
-                                                                <span>비밀글</span></label>
-                                                           </span>
+                                                   <span class="options">
+                                                    <label class="checkbox2">
+                                                        <input name="comment_secret"
+                                                               id="comment_secret{{$novel_group_inning_comment[0]->id}}"
+                                                               type="checkbox"
+                                                               @if($novel_group_inning_comment[0]->comment_secret) checked @endif>
+                                                        <span>비밀글</span></label>
+                                                   </span>
+                                                    <span style="margin-left: 2%;"
+                                                          id="error{{$novel_group_inning_comment[0]->id}}"></span>
                                                 </div>
 
 
@@ -276,13 +283,16 @@
                                                 <div class="comment-wrap is-reply">
                                                     <div class="comment-info"><span
                                                                 class="writer is-author">{{$novel_group_inning_comment_reply->users->name}}</span><span
-                                                                class="datetime">{{$novel_group_inning_comment_reply->created_at}}</span>
+                                                                class="datetime"
+                                                                style="padding-right:1px;">{{$novel_group_inning_comment_reply->created_at}}</span>
+                                                        @if($novel_group_inning_comment_reply->comment_secret ==true)
+                                                            <i class="fa fa-user-secret" aria-hidden="true"></i>
+                                                        @endif
                                                     </div>
                                                     @if(Auth::check())
                                                         @if( ($novel_group_inning_comment_reply->comment_secret ==true && $novel_group_inning_comment_reply->user_id != Auth::user()->id) and ($novel_group_inning_comment_reply->comment_secret ==true && $novel_group_inning->user_id != Auth::user()->id))
                                                             <div class="comment-content">
-                                                                <p><i class="fa fa-user-secret" aria-hidden="true"></i>
-                                                                    비밀글 입니다</p>
+                                                                <p> 비밀글 입니다</p>
                                                             </div>
                                                         @else
                                                             <div class="comment-btns">
@@ -292,16 +302,16 @@
                                                                     <a v-on:click="commentDelete('{{$novel_group_inning_comment_reply->id}}')"
                                                                        style="cursor: pointer;">삭제</a>
                                                                 @endif
-                                                                <a href="#mode_nav">신고</a></div>
-                                                            <div class="comment-content">
+                                                                <a href="{{ route('accusations', ['id' => $novel_group_inning_comment_reply->users->id]) }}">신고</a>
+                                                            </div>
+                                                            <div class="comment-content" v-show="!display.status">
                                                                 <p>{{$novel_group_inning_comment_reply->comment}}</p>
                                                             </div>
                                                         @endif
                                                     @else
                                                         @if($novel_group_inning_comment_reply->comment_secret ==true)
                                                             <div class="comment-content">
-                                                                <p><i class="fa fa-user-secret" aria-hidden="true"></i>
-                                                                    비밀글 입니다</p>
+                                                                <p>비밀글 입니다</p>
                                                             </div>
 
                                                         @else
@@ -311,9 +321,10 @@
                                                         @endif
                                                     @endif
 
-                                                    <div class="comment-content "
+                                                    <div class="comment-content " style="display:none;"
+                                                         v-show="display.status"
                                                          id="comment_box{{$novel_group_inning_comment_reply->id}}"
-                                                         v-if="display.id =={{$novel_group_inning_comment_reply->id}} && display.status">
+                                                         v-if="display.id =={{$novel_group_inning_comment_reply->id}}">
 
                                                          <textarea name="comment"
                                                                    id="comment{{$novel_group_inning_comment_reply->id}}"
@@ -327,17 +338,17 @@
                                                             수정
                                                         </button>
                                                         <br>
-                                                           <span class="options">
-                                                            <label class="checkbox2">
-                                                                <input name="comment_secret"
-                                                                       id="comment_secret{{$novel_group_inning_comment_reply->id}}"
-                                                                       type="checkbox"
-                                                                       @if($novel_group_inning_comment_reply->comment_secret) checked @endif>
-                                                                <span>비밀글</span></label>
-                                                           </span>
+                                                       <span class="options">
+                                                        <label class="checkbox2">
+                                                            <input name="comment_secret"
+                                                                   id="comment_secret{{$novel_group_inning_comment_reply->id}}"
+                                                                   type="checkbox"
+                                                                   @if($novel_group_inning_comment_reply->comment_secret) checked @endif>
+                                                            <span>비밀글</span></label>
+                                                       </span>
+                                                        <span style="margin-left: 2%;"
+                                                                  id="error{{$novel_group_inning_comment_reply->id}}"></span>
                                                     </div>
-
-
 
 
                                                 </div>
@@ -396,27 +407,40 @@
             methods: {
 
                 update_box_show: function (comment_id) {
-                    //document.getElementById('comment_box'+comment_id).style.display='block';
                     if (this.display.id == comment_id && this.display.status == true) {
+                        //Hide update comment box if already shown
                         this.display.status = false;
                         this.display.id = 0;
                     } else {
 
+                        //Show update comment box
                         this.display.id = comment_id;
                         this.display.status = true;
+
+                        //hide new comment box when clicked on update
+                        this.new_box_display.status = false;
+
                     }
+
+
                 },
 
                 new_box_show: function (comment_id) {
-                    //document.getElementById('comment_box'+comment_id).style.display='block';
+
                     if (this.new_box_display.id == comment_id && this.new_box_display.status == true) {
+                        //Hide new comment box if already shown
                         this.new_box_display.status = false;
                         this.new_box_display.id = 0;
                     } else {
-
+                        //Show new comment box
                         this.new_box_display.id = comment_id;
                         this.new_box_display.status = true;
+                        //hide update comment box when clicked on comment
+                        this.display.status = false;
+
                     }
+
+
                 },
 
                 commentStore: function () {
@@ -452,8 +476,8 @@
                                     window.location.assign('/login?loginView=true');
                                     exit();
                                 }
-
-                                $('#validateError').show();
+                                $("#error" + comment_id).text(errors.data['comment']);
+                                //  $('#validateError').show();
                             });
                 },
 
@@ -467,13 +491,18 @@
                                 location.reload();
                             })
                             .catch(function (errors) {
-                                console.log(errors);
-                                // window.location.assign('/login?loginView=true');
+                                this.errorsInfo = errors.data;
+                                // $('#validateError').show();
+                                $("#error" + comment_id).text(errors.data['comment']);
+                                /*     $("#error"+comment_id).delay(5000).slideUp(200, function () {
+                                 $(this).alert('close');
+                                 });*/
+
                             });
                 },
 
                 commentDelete: function (comment_id) {
-                    if (confirm('Are you sure to delete this comment?')) {
+                    if (confirm('삭제 하시겠습니까?')) {
                         app.$http.delete('{{ url('comments') }}/' + comment_id, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                                 .then(function (response) {
                                     location.reload();
@@ -489,8 +518,6 @@
                     app.favorites_info.novel_group_id = novel_group_id;
                     app.$http.post('{{ route('favorites.store') }}', app.favorites_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                             .then(function (response) {
-                                //  document.getElementById('tab' + publish_company_id).style.display = 'none';
-                                console.log(response);
                                 $('#add_favorite').hide();
                                 $('#remove_favorite').show();
                                 //  location.reload();
@@ -502,8 +529,6 @@
                 removeFromFavorite: function () {
                     app.$http.delete('{{ route('favorites.destroy',['id'=>$novel_group_inning->novel_group_id]) }}', {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                             .then(function (response) {
-                                //  document.getElementById('tab' + publish_company_id).style.display = 'none';
-                                console.log(response);
                                 $('#add_favorite').show();
                                 $('#remove_favorite').hide();
                                 //location.reload();
@@ -519,5 +544,7 @@
         $(".alert").delay(5000).slideUp(200, function () {
             $(this).alert('close');
         });
+
+
     </script>
 @endsection

@@ -29,7 +29,7 @@
         {{-- @php $pop_up_position=64; @endphp--}}
         @foreach($notification_popups as $notification_popup)
 
-            <div v-show="checkPopup('{{$notification_popup->id}}')"
+            <div v-show="checkPopup('{{$notification_popup->id}}')" style="display:none;"
                  id="popup{{$notification_popup->id}}" class="popup_main" onmousedown="startDrag(event,popup{{$notification_popup->id}})">
 
                 <a href="#" v-on:click="close({{$notification_popup->id}})" class="close"
