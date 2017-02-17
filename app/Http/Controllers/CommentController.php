@@ -80,7 +80,7 @@ class CommentController extends Controller
        //if commenting is blocked then redirect
         if (Auth::user()->isCommentBlocked()) {
            flash('댓글 기능이 관리자에 의해 금지 됐습니다','danger');
-            return response()->json(['status' => 'ok']);
+            return response()->json(['error'=>1,'message' => '댓글 기능이 관리자에 의해 금지 됐습니다']);
         }
 
         $new_comment = new Comment();
@@ -90,7 +90,7 @@ class CommentController extends Controller
         $new_comment->comment_secret = $request->comment_secret;
         $new_comment->user_id = Auth::user()->id;
         $new_comment->save();
-        return response()->json(['error'=>1,'status' => 'ok']);
+        return response()->json(['error'=>0,'status' => 'ok']);
 
 
     }
