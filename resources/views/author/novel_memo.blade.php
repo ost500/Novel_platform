@@ -48,16 +48,16 @@
                                 <tr>
                                     <td class="check"><input type="checkbox" class="checkboxes"
                                                              value="{{ $novel_mail_message->id }}"></td>
-                                    <td class="from " >
+                                    <td class="from ">
                                         <button @if(!$novel_mail_message->read) class="btn btn-xs btn-danger"
                                                 @else class="btn btn-xs btn-success" @endif >@if(!$novel_mail_message->read)
                                                 새 쪽지 @else 읽음   @endif</button>
                                     </td>
 
 
-                                    <td class="from " >
+                                    <td class="from ">
                                         <a id="demo{{ $novel_mail_message->id }}"
-                                                        href="#">@if($novel_mail_message->mailboxs->users) {{$novel_mail_message->mailboxs->users->name}} @endif</a>
+                                           href="#">@if($novel_mail_message->mailboxs->users) {{$novel_mail_message->mailboxs->users->name}} @endif</a>
                                     </td>
                                     <td class="text-left"><a
                                                 href="{{route('author.mailbox_message',['id'=> $novel_mail_message->id ])}}/?page={{$page}}">{{$novel_mail_message->mailboxs->subject}} </a>
@@ -115,26 +115,26 @@
                 callback: function (result) {
                     if (result) {
 
-                        var checked_data = $(".checkboxes:checked").map(function() {
+                        var checked_data = $(".checkboxes:checked").map(function () {
                             return this.value;
                         }).get();
 
                         $.ajax({
                             type: 'POST',
-                            data:{'ids':checked_data},
+                            data: {'ids': checked_data},
                             url: '{{ route('mailbox.destroy') }}',
                             headers: {
                                 'X-CSRF-TOKEN': window.Laravel.csrfToken
                             },
                             success: function (response) {
-                               location.reload();
-                               /* $.niftyNoty({
-                                    type: 'warning',
-                                    icon: 'fa fa-check',
-                                    message: "삭제 되었습니다.",
-                                    container: 'page',
-                                    timer: 4000
-                                });*/
+                                location.reload();
+                                /* $.niftyNoty({
+                                 type: 'warning',
+                                 icon: 'fa fa-check',
+                                 message: "삭제 되었습니다.",
+                                 container: 'page',
+                                 timer: 4000
+                                 });*/
                             },
                             error: function (data2) {
                                 console.log(data2);
@@ -145,38 +145,61 @@
                 }
             })
         });
-            //  }
+        //  }
 
 
-            $(function () {
-                @foreach($novel_mail_messages as $novel_mail_message)
-                $("#demo{{$novel_mail_message->id}}").click(function () {
-                            $.contextMenu({
-                                selector: '#demo{{$novel_mail_message->id}}',
-                                trigger: "left",
-                                callback: function (key, options) {
-                                    var m = "clicked: " + key;
-                                    console.log(this);
+        $(function () {
+            @foreach($novel_mail_messages as $novel_mail_message)
+            $("#demo{{$novel_mail_message->id}}").click(function () {
+                $.contextMenu({
+                    selector: '#demo{{$novel_mail_message->id}}',
+                    trigger: "left",
+                    callback: function (key, options) {
+                        var m = "clicked: " + key;
+                        console.log(this);
 
-                                    if (key == "mail") {
-                                        {{-- using this @{{$novel_mail_message->id}} we can go to somewhere to send a message to particular person--}}
-                                        window.location.assign("{{ route('author.novel_memo_create') }}");
-                                    }
+                        if (key == "mail") {
+                            {{-- using this @{{$novel_mail_message->id}} we can go to somewhere to send a message to particular person--}}
+                            window.location.assign("{{ route('author.specific_mail', ['id' => $novel_mail_message->mailboxs->from]) }}");
+                        }
+                        {{--if (key == "cut") {--}}
+                            {{--$.ajax({--}}
+                                {{--type: 'POST',--}}
+                                {{--data: {'search_type': "작가", 'title': "{{ $novel_mail_message->mailboxs->users-> }}"},--}}
+                                {{--url: '{{ route('search.index') }}',--}}
+                                {{--headers: {--}}
+                                    {{--'X-CSRF-TOKEN': window.Laravel.csrfToken--}}
+                                {{--},--}}
+                                {{--success: function (response) {--}}
+                                    {{--location.reload();--}}
+                                    {{--/* $.niftyNoty({--}}
+                                     {{--type: 'warning',--}}
+                                     {{--icon: 'fa fa-check',--}}
+                                     {{--message: "삭제 되었습니다.",--}}
+                                     {{--container: 'page',--}}
+                                     {{--timer: 4000--}}
+                                     {{--});*/--}}
+                                {{--},--}}
+                                {{--error: function (data2) {--}}
+                                    {{--console.log(data2);--}}
+                                {{--}--}}
+                            {{--});--}}
+                        {{--}--}}
 
-                                },
-                                items: {
-                                    "mail": {name: "쪽지 보내기", icon: "mail"},
-                                    "cut": {name: "소설 보기", icon: "cut"},
-                                }
-                            });
-                        });
-                @endforeach
-
-
-                $('.context-menu-one').on('click', function (e) {
-                            console.log('clicked', this);
-                        })
+                    },
+                    items: {
+                        "mail": {name: "쪽지 보내기", icon: "mail"},
+//                        "cut": {name: "소설 보기", icon: "cut"},
+                    }
+                });
             });
+            @endforeach
+
+
+            $('.context-menu-one').on('click', function (e) {
+                console.log('clicked', this);
+            })
+        });
     </script>
 
 

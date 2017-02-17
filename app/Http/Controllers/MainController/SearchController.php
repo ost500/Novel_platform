@@ -13,8 +13,9 @@ class SearchController extends Controller
     {
 
         //get all favorite groups of a user based on recently updated
-        $novel_groups = NovelGroup::selectRaw('novel_groups.*,novels.novel_group_id,max(novels.created_at) as new')
+        $novel_groups = NovelGroup::selectRaw('novel_groups.*, novels.novel_group_id, max(novels.created_at) as new, nick_names.nickname')
             ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
+            ->join('nick_names', 'nick_names.id', '=', 'novel_groups.nickname_id')
             ->join('novel_group_keywords', 'novel_group_keywords.novel_group_id', '=', 'novel_groups.id')
             ->groupBy('novels.novel_group_id');
 
@@ -24,14 +25,19 @@ class SearchController extends Controller
         $keyword_name = $request->get('keyword_name');
         $condition = [];
 
-        if ($search_type == '서브') {
+        if ($search_type == '소설') {
             // search in novel_groups
             $novel_groups = $novel_groups->where([['novel_groups.title', 'like', '%' . $title . '%']]);
 
-        } else if ($search_type == '서브2') {
+        } else if ($search_type == '소설 회차') {
             // search in novels
             $novel_groups = $novel_groups->where([['novels.title', 'like', '%' . $title . '%']]);
 
+        } else if ($search_type == '작가') {
+            // search in novel_groups or novels
+            $novel_groups = $novel_groups->where(function ($query) use ($title) {
+                $query->where([['nick_names.nickname', 'like', '%' . $title . '%']])->orWhere([['novels.title', 'like', '%' . $title . '%']]);
+            });
         } else {
             // search in novel_groups or novels
             $novel_groups = $novel_groups->where(function ($query) use ($title) {
