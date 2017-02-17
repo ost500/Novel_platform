@@ -17,7 +17,7 @@ class CommentController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth')->only('store');
+        $this->middleware('auth')->only('store','update','destroy');
     }
     /**
      * Display a listing of the resource.
@@ -151,8 +151,12 @@ class CommentController extends Controller
     public function update(Request $request, $id)
     {
 
-        Comment::where('id', $id)->update(['comment' => $request->get('comment')]);
-        flash('댓글이 수정 되었습니다.');
+        Comment::where('id', $id)->update([
+            'comment' => $request->get('comment'),
+            'comment_secret' => $request->get('comment_secret'),
+
+        ]);
+        flash('댓글이 수정 되었습니다.','success');
         return response()->json(['status' => 'ok']);
     }
 

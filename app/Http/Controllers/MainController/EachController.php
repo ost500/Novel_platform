@@ -54,11 +54,18 @@ class EachController extends Controller
     }
 
 
-    public function novel_group_inning($novel_id)
+    public function novel_group_inning(Request $request, $novel_id)
     {
+
+        $order = $request->order;
         //get the novel data
-        $novel_group_inning = Novel::where('id', $novel_id)->with(['comments' => function ($q) {
-            $q->latest();
+        $novel_group_inning = Novel::where('id', $novel_id)->with(['comments' => function ($q) use ($order ){
+            if($order=='older') {
+                $q->oldest();
+            } else {
+                $q->latest();
+            }
+
         }])->first();
         //set default value for favorite icon
         $show_favorite = false;
@@ -95,6 +102,8 @@ class EachController extends Controller
 
             }
         }
+
+       // dd($novel_group_inning_comments);
         //Social Share
         $share = new Share();
 
@@ -120,7 +129,7 @@ class EachController extends Controller
 
 //        return response()->json($novel_group_inning_comments);
 
-        return view('main.each_novel.novel_group_inning', compact('novel_group_inning', 'novel_group_inning_comments', 'show_favorite', 'share', 'next_inning_id', 'prev_inning_id'));
+        return view('main.each_novel.novel_group_inning', compact('novel_group_inning', 'novel_group_inning_comments', 'show_favorite', 'share', 'next_inning_id', 'prev_inning_id','order'));
     }
 
     public function novel_group_review($novel_group_id)
