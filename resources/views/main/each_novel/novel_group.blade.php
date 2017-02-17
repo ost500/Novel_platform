@@ -74,21 +74,22 @@
                                     </li>
                                 </ul>
                             </section>
-                    @endif
-                    <!-- //최근읽은회차 -->
+                            @endif
+                                    <!-- //최근읽은회차 -->
 
-                        <!-- 연재회차 -->
-                        <section class="episode-list-wrap">
-                            <h2 class="episode-title">연재회차</h2>
-                            <ul class="episode-list">
-                                @foreach($novel_group->novels as $novel)
-                                    <li>
-                                        <div class="col-no">
-                                            <span class="no">{{$novel->inning}} 화</span>
-                                            <span class="datetime">{{$novel->created_at}}</span>
-                                        </div>
-                                        <div class="col-title"><a
-                                                    href="{{route('each_novel.novel_group_inning',['id'=>$novel->id])}}">{{str_limit($novel->title, 60)}}{{--<i
+                            <!-- 연재회차 -->
+                            <section class="episode-list-wrap">
+                                <h2 class="episode-title">연재회차</h2>
+                                <ul class="episode-list">
+                                    @foreach($novel_group->novels as $novel)
+                                        @if($novel->publish_reservation > $latest_time)  @continue; @endif
+                                        <li>
+                                            <div class="col-no">
+                                                <span class="no">{{$novel->inning}} 화</span>
+                                                <span class="datetime">{{$novel->created_at}}</span>
+                                            </div>
+                                            <div class="col-title"><a
+                                                        href="{{route('each_novel.novel_group_inning',['id'=>$novel->id])}}">{{str_limit($novel->title, 60)}}{{--<i
                                                         class="up-icon">Up</i>--}}</a></div>
                                         <div class="col-charge">@if($novel->non_free_agreement > 0) 유료 @else <span
                                                     class="free">무료</span> @endif {{-- <span class="open">열림</span>--}}
@@ -166,15 +167,15 @@
             </div>
             <!-- //서브컨텐츠 -->
             <!-- 따라다니는퀵메뉴 -->
-        @include('main.quick_menu')
-        <!-- //따라다니는퀵메뉴 -->
+            @include('main.quick_menu')
+                    <!-- //따라다니는퀵메뉴 -->
         </div>
 
     </div>
     <!-- //컨테이너 -->
     <!-- 푸터 -->
 @section('header')
-    {{--  @php $thumbnail = 'http://homestead.app/img/novel_covers/{{$novel_group->cover_photo}}' @endphp--}}
+  {{--  @php $thumbnail = 'http://homestead.app/img/novel_covers/{{$novel_group->cover_photo}}' @endphp--}}
     @include('social_share', ['url' =>route('each_novel.novel_group', $novel_group->id),'title'=>$novel_group->title,'thumbnail'=>''])
 @endsection
 <script type="text/javascript">

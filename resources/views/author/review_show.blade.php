@@ -21,7 +21,6 @@
 
                 <div>
                     <span class="nick">{{ $comment->users->name }}</span> {{ $comment->created_at }}
-                    <button class="btn btn-xs btn-pink">N</button>
                     <button class="btn  btn-xs btn-danger"
                             onclick="javascript:app4_index.reviewDestroy( {{$comment->id .','.$comment->novel_groups->id}} )">
                         X

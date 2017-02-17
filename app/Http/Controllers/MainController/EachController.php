@@ -5,6 +5,7 @@ namespace App\Http\Controllers\MainController;
 use App\Favorite;
 use App\RecentlyVisitedNovel;
 use BrianFaust\SocialShare\Share;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\NovelGroup;
@@ -49,8 +50,10 @@ class EachController extends Controller
             ->paginate(3);
         //Social Share
         $share = new Share();
+        //For checking publishing time for novel inning
+        $latest_time = Carbon::now();
 
-        return view('main.each_novel.novel_group', compact('novel_group', 'author_novel_groups', 'recently_visited_novel', 'share'));
+        return view('main.each_novel.novel_group', compact('novel_group', 'author_novel_groups', 'recently_visited_novel', 'share','latest_time'));
     }
 
 
