@@ -1,31 +1,31 @@
 @extends('layouts.main_layout')
 @section('content')
 
-        <!-- 컨테이너 -->
-<div class="container">
-    <div class="wrap">
-        <!-- LNB -->
+    <!-- 컨테이너 -->
+    <div class="container">
+        <div class="wrap">
+            <!-- LNB -->
         @include('main.community.LNB')
-                <!-- //LNB -->
+        <!-- //LNB -->
 
-        <!-- 서브컨텐츠 -->
-        <div class="content" id="content">
-            @if(Session::has('flash_message'))
-                {{-- important, success, warning, danger and info --}}
-                <div class="alert alert-success">
-                    {{Session('flash_message')}}
-                </div>
+            <!-- 서브컨텐츠 -->
+            <div class="content" id="content">
+                @if(Session::has('flash_message'))
+                    {{-- important, success, warning, danger and info --}}
+                    <div class="alert alert-success">
+                        {{Session('flash_message')}}
+                    </div>
                 @endif
             <!-- 위클리베스트게시물 -->
-            @if($weekly_best->offsetExists(0))
-                <section class="weekly-best">
-                    <h2 class="title">
-                        <span class="str1">Weekly</span>
-                        <span class="str2">Best</span>
-                    </h2>
+                @if($weekly_best->offsetExists(0))
+                    <section class="weekly-best">
+                        <h2 class="title">
+                            <span class="str1">Weekly</span>
+                            <span class="str2">Best</span>
+                        </h2>
 
-                    <div class="list-wrap">
-                        <ol class="list">
+                        <div class="list-wrap">
+                            <ol class="list">
 
                                 @foreach($weekly_best[0] as $best)
                                     <li>
@@ -73,7 +73,9 @@
                                 <a href="{{ route('free_board.detail',['id'=>$article->id]) }}">{{ $article->title }}</a>
                                 <span class="hidden">댓글 </span><span
                                         class="comment-cnt">{{ $article->comments_count }}</span>
-                                <i class="new-icon">새글</i>
+                                @if($article->created_at->istoday() )
+                                    <i class="new-icon">새글</i>
+                                @endif
                             </td>
                             <td class="col-name">{{ $article['users']['name'] }}</td>
                             <td class="col-datetime">{{ $article->created_at->format('Y-m-d') }}</td>
@@ -97,25 +99,25 @@
                 <!-- //하단버튼 -->
                 <!-- 페이징 -->
 
-                {{--<div class="page-nav">--}}
-                {{--<nav>--}}
-                {{--<ul>--}}
-                {{--<!--<li><a href="#mode_nav" class="prev-page"><span>이전</span></a></li>-->--}}
-                {{--<li><a href="#mode_nav" class="current-page">1</a></li>--}}
-                {{--<li><a href="#mode_nav">2</a></li>--}}
-                {{--<li><a href="#mode_nav">3</a></li>--}}
-                {{--<li><a href="#mode_nav">4</a></li>--}}
-                {{--<li><a href="#mode_nav">5</a></li>--}}
-                {{--<li><a href="#mode_nav">6</a></li>--}}
-                {{--<li><a href="#mode_nav">7</a></li>--}}
-                {{--<li><a href="#mode_nav">8</a></li>--}}
-                {{--<li><a href="#mode_nav">9</a></li>--}}
-                {{--<li><a href="#mode_nav">10</a></li>--}}
-                {{--<li><a href="#mode_nav" class="next-page"><span>다음</span></a></li>--}}
-                {{--</ul>--}}
-                {{--</nav>--}}
-                {{--</div>--}}
-                <!-- //페이징 -->
+            {{--<div class="page-nav">--}}
+            {{--<nav>--}}
+            {{--<ul>--}}
+            {{--<!--<li><a href="#mode_nav" class="prev-page"><span>이전</span></a></li>-->--}}
+            {{--<li><a href="#mode_nav" class="current-page">1</a></li>--}}
+            {{--<li><a href="#mode_nav">2</a></li>--}}
+            {{--<li><a href="#mode_nav">3</a></li>--}}
+            {{--<li><a href="#mode_nav">4</a></li>--}}
+            {{--<li><a href="#mode_nav">5</a></li>--}}
+            {{--<li><a href="#mode_nav">6</a></li>--}}
+            {{--<li><a href="#mode_nav">7</a></li>--}}
+            {{--<li><a href="#mode_nav">8</a></li>--}}
+            {{--<li><a href="#mode_nav">9</a></li>--}}
+            {{--<li><a href="#mode_nav">10</a></li>--}}
+            {{--<li><a href="#mode_nav" class="next-page"><span>다음</span></a></li>--}}
+            {{--</ul>--}}
+            {{--</nav>--}}
+            {{--</div>--}}
+            <!-- //페이징 -->
 
                 <!-- 검색 -->
                 <form action="{{Request::url()}}" class="content-search-form">
@@ -140,13 +142,13 @@
         </div>
     </div>
 
-<!-- //컨테이너 -->
-<script>
-    /*   $(".alert-dismissable").fadeTo(2000, 500).slideUp(500, function(){
-     $(".alert-dismissable").alert('close');
-     });*/
-    $(".alert").delay(4000).slideUp(200, function () {
-        $(this).alert('close');
-    });
-</script>
+    <!-- //컨테이너 -->
+    <script>
+        /*   $(".alert-dismissable").fadeTo(2000, 500).slideUp(500, function(){
+         $(".alert-dismissable").alert('close');
+         });*/
+        $(".alert").delay(4000).slideUp(200, function () {
+            $(this).alert('close');
+        });
+    </script>
 @endsection
