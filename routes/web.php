@@ -174,6 +174,8 @@ Route::get('/series/{free_or_charged?}', ['as' => 'series', 'uses' => 'MainContr
 Route::get('/bests/{free_or_charged?}', ['as' => 'bests', 'uses' => 'MainController\MainController@bests']);
 //completed
 Route::get('/completed/{free_or_charged?}', ['as' => 'completed', 'uses' => 'MainController\MainController@completed']);
+//footer notification
+Route::get('/footer_noti', ['as' => 'footer_noti', 'uses' => 'NotificationController@footer_noti']);
 
 
 //Community

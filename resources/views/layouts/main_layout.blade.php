@@ -165,48 +165,11 @@
                 @endif
             </div>
 
-            <script>
-                var main_layout = new Vue({
-                    el: '#login-area',
 
-                    data: {
-                        user: {
-                            "name": "@if(Auth::check()){{ Auth::user()->name }}@endif",
-                            "favorites_count": "@if(Auth::check()){{ Auth::user()->favorites->count() }}@endif"
-                        },
-                        new_speeds: "",
-                        new_mails: "",
-                    },
-                    mounted: function () {
-                        console.log(this.user);
-                        this.get_new_speed();
-                        this.get_new_mails();
-                    },
-                    methods: {
-                        submit: function (e) {
-
-                        },
-                        get_new_speed: function () {
-                            this.$http.get('/newspeed')
-                                    .then(function (response) {
-                                        this.new_speeds = response.data;
-                                        console.log(this.new_speeds);
-                                    });
-                        },
-                        get_new_mails: function () {
-                            this.$http.get('/newmail')
-                                    .then(function (response) {
-                                        this.new_mails = response.data;
-                                        console.log(this.new_mails);
-                                    });
-                        }
-                    }
-                });
-            </script>
             <!-- 검색버튼 -->
             <div class="search-area">
                 <a href="#search_form" class="userbtn userbtn--search" data-modal-id="search_form">검색</a>
-                <a href="#mode_nav" class="userbtn userbtn--scrap">선호작</a>
+                <a href="#mode_nav" id="favorite" class="userbtn userbtn--scrap">선호작</a>
             </div>
         </div>
         <!-- //사용자메뉴 -->
@@ -379,10 +342,10 @@
 
 @yield('content')
 <!-- 푸터 -->
-<div class="footer">
+<div class="footer" id="footer-area">
     <!-- 푸터공지 -->
     <div class="notice">
-        <div class="wrap"><a href="#mode_nav">제2회 여우정원 로맨스 콘테스트 당선작 발표</a></div>
+        <div class="wrap"><a style="cursor:pointer" v-on:click="noti_page()">@{{ footer_noti.title }}</a></div>
     </div>
     <!-- //푸터공지 -->
 
@@ -394,7 +357,7 @@
                 <li><a href="#mode_nav">이용약관</a></li>
                 <li><a href="#mode_nav">개인정보취급방침</a></li>
                 <li><a href="#mode_nav">고객센터</a></li>
-                <li><a href="#mode_nav">구슬충전</a></li>
+                <li><a href="{{ route('my_info.charge_bead') }}">구슬충전</a></li>
             </ul>
         </nav>
 
@@ -462,4 +425,99 @@
 
 <![endif]-->
 </body>
+
+<script>
+    var main_layout = new Vue({
+        el: '#login-area',
+
+        data: {
+            user: {
+                "name": "@if(Auth::check()){{ Auth::user()->name }}@endif",
+                "favorites_count": "@if(Auth::check()){{ Auth::user()->favorites->count() }}@endif"
+            },
+            new_speeds: "",
+            new_mails: "",
+        },
+        mounted: function () {
+            console.log(this.user);
+            this.get_new_speed();
+            this.get_new_mails();
+        },
+        methods: {
+            submit: function (e) {
+
+            },
+            get_new_speed: function () {
+                this.$http.get('/newspeed')
+                        .then(function (response) {
+                            this.new_speeds = response.data;
+                            console.log(this.new_speeds);
+                        });
+            },
+            get_new_mails: function () {
+                this.$http.get('/newmail')
+                        .then(function (response) {
+                            this.new_mails = response.data;
+                            console.log(this.new_mails);
+                        });
+            }
+        }
+    });
+
+    var footer_layout = new Vue({
+        el: '#footer-area',
+
+        data: {
+            footer_noti: ""
+        },
+        mounted: function () {
+            this.get_new_footer_noti();
+        },
+        methods: {
+            get_new_footer_noti: function () {
+                this.$http.get('{{ route('footer_noti') }}')
+                        .then(function (response) {
+                            this.footer_noti = response.data;
+                            console.log(this.footer_noti);
+                        });
+            },
+            noti_page: function () {
+                window.location.assign("{{ route('ask.notification_detail', ['id'=> ""]) }}/" + this.footer_noti.id)
+            }
+
+        }
+    });
+
+    $(document).ready(function(){
+        $('#favorite').on('click', function(e) {
+            var bookmarkURL = window.location.href;
+            var bookmarkTitle = document.title;
+            var triggerDefault = false;
+
+            if (window.sidebar && window.sidebar.addPanel) {
+                // Firefox version &lt; 23
+                window.sidebar.addPanel(bookmarkTitle, bookmarkURL, '');
+            } else if ((window.sidebar && (navigator.userAgent.toLowerCase().indexOf('firefox') < -1)) || (window.opera && window.print)) {
+                // Firefox version &gt;= 23 and Opera Hotlist
+                var $this = $(this);
+                $this.attr('href', bookmarkURL);
+                $this.attr('title', bookmarkTitle);
+                $this.attr('rel', 'sidebar');
+                $this.off(e);
+                triggerDefault = true;
+            } else if (window.external && ('AddFavorite' in window.external)) {
+                // IE Favorite
+                window.external.AddFavorite(bookmarkURL, bookmarkTitle);
+            } else {
+                // WebKit - Safari/Chrome
+                alert((navigator.userAgent.toLowerCase().indexOf('mac') != -1 ? 'Cmd' : 'Ctrl') + '+D 를 이용해 이 페이지를 즐겨찾기에 추가할 수 있습니다.');
+            }
+
+            return triggerDefault;
+        });
+    });
+
+</script>
+
+
 </html>
