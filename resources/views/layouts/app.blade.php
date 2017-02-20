@@ -185,7 +185,7 @@
 
                                 <li class="list-divider"></li>
 
-                                <li class="{{ (Request::is('author/mailbox/receive_mail')||Request::is('author/mailbox/receive_mail/*')||Request::is('author/mailbox/sent_mail')||Request::is('author/mailbox/sent_mail/*')||Request::is('author/mailbox/create_mail')||Request::is('author/mailbox_message/*'))?"active-link":"" }}">
+                                <li class="{{ (Request::is('author/mailbox/receive_mail')||Request::is('author/mailbox/*')||Request::is('author/mailbox/sent_mail')||Request::is('author/mailbox/sent_mail/*')||Request::is('author/mailbox/create_mail')||Request::is('author/mailbox_message/*'))?"active-link":"" }}">
 
                                     <a href="{{ route('author.novel_memo')}}">
                                         <i class="fa fa-envelope"></i>
@@ -194,7 +194,7 @@
                                         </span>
                                         <i class="arrow"></i>
                                     </a>
-                                    <ul class="collapse {{ (Request::is('author/mailbox/receive_mail')||Request::is('author/mailbox/receive_mail/*')||Request::is('author/mailbox/sent_mail')||Request::is('author/mailbox/sent_mail/*')||Request::is('author/mailbox/create_mail'))?"in":"" }}">
+                                    <ul class="collapse {{ (Request::is('author/mailbox/receive_mail')||Request::is('author/mailbox/*')||Request::is('author/mailbox/sent_mail')||Request::is('author/mailbox/sent_mail/*')||Request::is('author/mailbox/create_mail'))?"in":"" }}">
                                         <li><a href="{{ route('author.novel_memo')}}">받은쪽지함</a></li>
                                         <li><a href="{{ route('author.novel_memo_send')}}">보낸쪽지함</a></li>
                                     </ul>

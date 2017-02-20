@@ -83,7 +83,7 @@ class MyInfoController extends Controller
         $novel_comments = Comment::join('users', 'users.id', '=', 'comments.user_id')
             ->join('novels', 'novels.id', '=', 'comments.novel_id')
             ->join('novel_groups', 'novel_groups.id', '=', 'novels.novel_group_id')
-            ->select(['comments.*', 'users.name as user_name', 'novels.title as novel_title', 'novels.inning', 'novel_groups.title as novel_group_title'])
+            ->select(['comments.*', 'users.name as user_name', 'novels.title as novel_title', 'novels.inning', 'novel_groups.title as novel_group_title', 'novels.id as novels_id'])
             ->where('comments.user_id', Auth::user()->id);
 
         //Set the Order

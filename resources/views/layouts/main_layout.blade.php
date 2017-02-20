@@ -305,8 +305,9 @@
                     <span class="selectbox">
                         <select title="검색옵션" name="search_type" id="search_type">
                             <option value="전체">전체</option>
-                            <option value="서브">서브</option>
-                            <option value="서브2">서브2</option>
+                            <option value="소설">소설</option>
+                            <option value="소설 회차">소설 회차</option>
+                            <option value="작가">작가</option>
                         </select>
                     </span>
 
