@@ -33,6 +33,7 @@ Route::resource('comments', 'CommentController');
 Route::resource('mentomen', 'MenToMenQuestionAnswerController');
 Route::resource('faqs', 'FaqController');
 Route::resource('favorites', 'FavoriteController', ['only' => ['store', 'destroy']]);
+Route::resource('free_board_likes', 'FreeBoardLikeController', ['only' => ['store', 'destroy']]);
 Route::resource('keywords', 'KeywordController');
 Route::resource('companies', 'CompanyController');
 Route::resource('publish_companies', 'NovelGroupPublishCompanyController', ['only' => ['update']]);

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\MainController;
 
 use App\FreeBoard;
+use App\FreeBoardLike;
 use App\Http\Controllers\Controller;
 use App\Review;
 use Illuminate\Http\Request;
+use Auth;
 
 class CommunityController extends Controller
 {
@@ -41,8 +43,17 @@ class CommunityController extends Controller
         //view_count +1
         $article->view_count = $article->view_count + 1;
         $article->save();
+        $show_liked= false;
+        if (Auth::check()) {
+            //check if this free_board is liked by user or not
+            $liked = FreeBoardLike::where(['free_board_id' => $article->id, 'user_id' => Auth::user()->id])->first();
+            if ($liked) {
+                $show_liked= true;
+            }
+        }
+
 //        return response()->json($prev_article);
-        return view('main.community.free_board_detail', compact('article', 'next_article', 'prev_article'));
+        return view('main.community.free_board_detail', compact('article', 'next_article', 'prev_article','show_liked'));
     }
 
 

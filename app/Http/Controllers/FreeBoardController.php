@@ -7,6 +7,11 @@ use Validator;
 
 class FreeBoardController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -30,5 +35,6 @@ class FreeBoardController extends Controller
         flash('자유게시판 글이 성공적으로 등록 되었습니다');
         return redirect()->route('free_board');
     }
+
 
 }
