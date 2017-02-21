@@ -43,17 +43,17 @@ class CommunityController extends Controller
         //view_count +1
         $article->view_count = $article->view_count + 1;
         $article->save();
-        $show_liked= false;
+        $show_liked = false;
         if (Auth::check()) {
             //check if this free_board is liked by user or not
             $liked = FreeBoardLike::where(['free_board_id' => $article->id, 'user_id' => Auth::user()->id])->first();
             if ($liked) {
-                $show_liked= true;
+                $show_liked = true;
             }
         }
 
 //        return response()->json($prev_article);
-        return view('main.community.free_board_detail', compact('article', 'next_article', 'prev_article','show_liked'));
+        return view('main.community.free_board_detail', compact('article', 'next_article', 'prev_article', 'show_liked'));
     }
 
 
@@ -66,8 +66,8 @@ class CommunityController extends Controller
 
     public function reader_reco(Request $request)
     {
-        $novel_group_id=$request->novel_group;
-        $review_user_id= $request->review_user;
+        $novel_group_id = $request->novel_group;
+        $review_user_id = $request->review_user;
         if ($request->novel_group) {
             $reviews = Review::selectRaw('reviews.*, novel_groups.*,  sum(total_count) as total_count, reviews.id')
                 ->join('novel_groups', 'novel_groups.id', '=', 'reviews.novel_group_id')
@@ -111,12 +111,12 @@ class CommunityController extends Controller
         $reviews = $reviews->paginate(config('define.pagination_long'));
 
 
-      // return response()->json($reviews);
-        return view('main.community.reader_reco', compact('reviews', 'genre', 'search_option', 'search_text', 'page','novel_group_id','review_user_id'));
+        // return response()->json($reviews);
+        return view('main.community.reader_reco', compact('reviews', 'genre', 'search_option', 'search_text', 'page', 'novel_group_id', 'review_user_id'));
     }
 
 
-    public function reader_reco_detail($id)
+    public function reader_reco_detail(Request $request, $id)
     {
         $review = Review::findOrFail($id);
         $review->view_count = $review->view_count + 1;
@@ -135,10 +135,15 @@ class CommunityController extends Controller
         $prev_review_id = Review::where('id', '<', $review->review_id)->max('id');
         $prev_review = Review::with('users')->find($prev_review_id);
 
+        if (!$review->novel_groups->keywords->isEmpty()) {
+            $genre = $review->novel_groups->keywords[0]->name;
+        }
+
+
 //        return response()->json($review);
 //        return response()->json($prev_review);
 //        return response()->json($review->id);
-        return view('main.community.reader_reco_detail', compact('review', 'next_review', 'prev_review'));
+        return view('main.community.reader_reco_detail', compact('review', 'next_review', 'prev_review', 'genre'));
     }
 
 }

@@ -445,7 +445,7 @@ class NovelGroupController extends Controller
             // novel_group to clone
             $new_novel_group = $cloning_novel_group->replicate();
             $new_novel_group->secret = Carbon::now();
-            $new_novel_group->title = $new_novel_group->title . "[15세 개정판]";
+            $new_novel_group->title = $new_novel_group->title . "[클린 버젼]";
             $new_novel_group->push();
             // novel_group cloned
 
