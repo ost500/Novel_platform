@@ -147,8 +147,10 @@
                                 <div class="sort-nav sort-nav--comment">
                                     <nav>
                                         <ul>
-                                            <li><a href="#mode_nav" class="is-active">최신순</a></li>
-                                            <li><a href="#mode_nav">등록순</a></li>
+                                            <li><a href="{{ route('reader_reco.detail', ['id' => $review->id]).'?order=latest' }}"
+                                                   @if($order == 'latest' or $order == null ) class="is-active" @endif>최신순</a></li>
+                                            <li><a href="{{ route('reader_reco.detail', ['id' => $review->id]).'?order=oldest' }}"
+                                                   @if($order == 'oldest') class="is-active" @endif>등록순</a></li>
                                         </ul>
                                     </nav>
                                 </div>

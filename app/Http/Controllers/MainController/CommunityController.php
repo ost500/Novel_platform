@@ -32,7 +32,7 @@ class CommunityController extends Controller
         return view('main.community.free_board', compact('articles', 'weekly_best', 'search_option', 'search_text', 'page'));
     }
 
-    public function free_board_detail($id)
+    public function free_board_detail(Request $request, $id)
     {
         $article = FreeBoard::with('comments.users')->with('likes')->withCount('likes')->withCount('comments')->findOrFail($id);
         $next_article_id = FreeBoard::where('id', '>', $article->id)->min('id');
@@ -48,12 +48,12 @@ class CommunityController extends Controller
             //check if this free_board is liked by user or not
             $liked = FreeBoardLike::where(['free_board_id' => $article->id, 'user_id' => Auth::user()->id])->first();
             if ($liked) {
-                $show_liked= true;
+                $show_liked = true;
             }
         }
 
 //        return response()->json($prev_article);
-        return view('main.community.free_board_detail', compact('article', 'next_article', 'prev_article','show_liked'));
+        return view('main.community.free_board_detail', compact('article', 'next_article', 'prev_article', 'show_liked'));
     }
 
 
@@ -122,7 +122,15 @@ class CommunityController extends Controller
         $review->view_count = $review->view_count + 1;
         $review->save();
 
-        $review = Review::with('novel_groups.keywords')->with('novel_groups.favorites')->with('novel_groups.users')->with('users')->with('comments.users')
+        $order = $request->get('order');
+
+        $review = Review::with('novel_groups.keywords')->with('novel_groups.favorites')->with('novel_groups.users')->with('users')->with(['comments' => function ($q) use ($order) {
+            if ($order == 'oldest') {
+                $q->oldest();
+            } else {
+                $q->latest();
+            }
+        }, 'comments.users'])
             ->join('novel_groups', 'novel_groups.id', '=', 'reviews.novel_group_id')
             ->join('novels', 'novel_groups.id', '=', 'novels.novel_group_id')
             ->join('favorites', 'novel_groups.id', '=', 'favorites.novel_group_id')
@@ -143,7 +151,7 @@ class CommunityController extends Controller
 //        return response()->json($review);
 //        return response()->json($prev_review);
 //        return response()->json($review->id);
-        return view('main.community.reader_reco_detail', compact('review', 'next_review', 'prev_review', 'genre'));
+        return view('main.community.reader_reco_detail', compact('review', 'next_review', 'prev_review', 'genre', 'order'));
     }
 
 }
