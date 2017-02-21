@@ -26,7 +26,9 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'nickname' => $faker->name,
         'user_name' => $faker->name,
         'birth_of_year' => $faker->year,
-        'auth_mail_code' => str_random(10)
+        'auth_mail_code' => str_random(10),
+        'bead' => 100,
+        'piece' => 100
     ];
 });
 
@@ -54,7 +56,7 @@ $factory->define(App\Novel::class, function (Faker\Generator $faker) {
         'title' => $faker->sentence,
         'content' => $faker->paragraph,
         'author_comment' => $faker->paragraph,
-//        'non_free_agreement' => $faker->randomElement(['0', '1'])
+        'non_free_agreement' => $faker->randomElement(['0', '1'])
     ];
 });
 

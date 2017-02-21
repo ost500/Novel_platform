@@ -19,21 +19,21 @@
                             <span class="user-id">{{ $my_profile->nickname }}</span>
                             <span class="user-email">{{$my_profile->email}}</span>
                             <a href="{{url('/logout')}}" class="btn btn--special">로그아웃</a>
-                            <a href="#mode_nav" class="setup-btn"><i class="setup-icon">설정</i></a>
+                            <a href="{{ route('my_info.password_again') }}" class="setup-btn"><i class="setup-icon">설정</i></a>
                         </div>
                         <!-- 보유구슬 -->
                         <div class="col-marble">
                             <i class="marble3-icon"></i>
                             <span class="item-name">보유구슬</span>
-                            <strong class="item-count">1,170개</strong>
+                            <strong class="item-count">{{ Auth::user()->bead }}개</strong>
                             <a href="#mode_nav" class="btn btn--submit">구슬충전</a>
                         </div>
                         <!-- 보유조각 -->
                         <div class="col-piece">
                             <i class="piece3-icon"></i>
                             <span class="item-name">보유조각</span>
-                            <strong class="item-count">0개</strong>
-                            <span class="item-etc">소멸 예정 0개</span>
+                            <strong class="item-count">{{ Auth::user()->piece }}개</strong>
+                            {{--<span class="item-etc">소멸 예정 0개</span>--}}
                         </div>
                         <!-- 선호작 -->
                         <div class="col-scrap">
@@ -52,14 +52,14 @@
                         @if(count($recently_purchased_novels)  > 0)
                             @foreach($recently_purchased_novels as $recently_purchased_novel )
                                 <li>
-                                    <a href="{{route('each_novel.novel_group',['id'=>$recently_purchased_novel->id])}}">
+                                    <a href="{{route('each_novel.novel_group_inning',['id'=>$recently_purchased_novel->id])}}">
                                         <p class="thumb"><img
                                                     src="/img/novel_covers/{{$recently_purchased_novel->cover_photo}}"
                                                     alt=""></p>
 
                                         <p class="book-title">{{str_limit($recently_purchased_novel->title,5)}}</p>
 
-                                        <p class="author">{{$recently_purchased_novel->nicknames->nickname}}</p>
+                                        <p class="author">{{$recently_purchased_novel->nickname}}</p>
                                     </a>
                                 </li>
                             @endforeach
@@ -68,7 +68,7 @@
                         @endif
 
                     </ul>
-                    <a href="#mode_nav" class="latest-more-btn">더보기</a>
+                    <a href="{{ route('my_info.purchased_novel_list') }}" class="latest-more-btn">더보기</a>
                 </section>
                 <!-- //최근구매내역 -->
 

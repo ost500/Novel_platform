@@ -198,6 +198,8 @@ Route::group(['prefix' => 'community'], function () {
 Route::get('/novel_group/{id}', ['as' => 'each_novel.novel_group', 'uses' => 'MainController\EachController@novel_group']);
 Route::get('novel_group/review/{id}', ['middleware' => 'auth', 'as' => 'each_novel.novel_group.review', 'uses' => 'MainController\EachController@novel_group_review']);
 Route::get('/novel_group_inning/{id}', ['as' => 'each_novel.novel_group_inning', 'uses' => 'MainController\EachController@novel_group_inning']);
+Route::get('/novel_group_inning/{id}/purchase', ['as' => 'each_novel.novel_group_inning.purchase', 'uses' => 'MainController\EachController@purchase']);
+Route::post('/novel_group_inning/{id}/purchase', ['as' => 'each_novel.novel_group_inning.purchase.post', 'uses' => 'MainController\EachController@purchase_post']);
 
 //AskController
 Route::get('/frequently_asked_questions', ['as' => 'ask.faqs', 'uses' => 'MainController\AskController@faqs']);
