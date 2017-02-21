@@ -238,12 +238,15 @@ class AuthorPageController extends Controller
         $exclude = [];
 
         //if the novel group includes adult version then exclude adult not allowed company
-        if ($exclude_company->novels->where('adult', 1)->count()) {
-            $exclude_adult = Company::where('adult', 1)->pluck('id');
-            foreach ($exclude_adult as $adult) {
-                $exclude[] = $adult;
-            }
-        }
+
+        // 2017-02-21 changed, every novel_groups can be applied even though it is an adult one
+
+//        if ($exclude_company->novels->where('adult', 1)->count()) {
+//            $exclude_adult = Company::where('adult', 1)->pluck('id');
+//            foreach ($exclude_adult as $adult) {
+//                $exclude[] = $adult;
+//            }
+//        }
 
         //if the novel_group already published other company, check it out
         if ($exclude_company->publish_novel_groups != null) {

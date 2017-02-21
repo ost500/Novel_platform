@@ -9,90 +9,92 @@
                     <h2 class="lnb-title">완결</h2>
                     <ul class="lnb-depth1">
                         <li>
-                            <a href="{{route('completed')}}" @if(!$free_or_charged)class="is-active"@endif>유료소설</a>
+                            <a href="{{route('completed')}}" @if(!$free_or_charged)class="is-active"@endif>유료소설</a><br>
+                            <a href="{{route('completed')}}"
+                               @if(!$free_or_charged && $genre=='%')class="is-active lnb-depth1-2"
+                               @else class="lnb-depth1-2" @endif>전체</a><br>
+                            <a href="{{route('completed')}}?genre=현대"
+                               @if(!$free_or_charged && ($genre=='현대판타지' || $genre == '현대'))class="is-active lnb-depth1-2"
+                               @else class="lnb-depth1-2" @endif>현대로맨스</a>
                             <ul class="lnb-depth2">
-                                <li><a href="{{route('completed')}}"
-                                       @if(!$free_or_charged && $genre=='%')class="is-active"@endif>전체</a></li>
-                                <li><a href="{{route('completed')}}?genre=현대판타지"
-                                       @if(!$free_or_charged && $genre=='현대판타지')class="is-active"@endif>현대판타지</a></li>
-                                <li><a href="{{route('completed')}}?genre=사극/현대물"
-                                       @if(!$free_or_charged && $genre=='사극/현대물')class="is-active"@endif>사극/현대물</a>
-                                </li>
-                                <li><a href="{{route('completed')}}?genre=동양판타지"
-                                       @if(!$free_or_charged && $genre=='동양판타지')class="is-active"@endif>동양판타지</a>
-                                </li>
-                                <li><a href="{{route('completed')}}?genre=서양/중세"
-                                       @if(!$free_or_charged && $genre=='서양/중세')class="is-active"@endif>서양/중세</a>
-                                </li>
-                                <li><a href="{{route('completed')}}?genre=로맨스판타지"
-                                       @if(!$free_or_charged && $genre=='로맨스판타지')class="is-active"@endif>로맨스판타지</a>
-                                </li>
-                                <li><a href="{{route('completed')}}?genre=미래/SF"
-                                       @if(!$free_or_charged && $genre=='미래/SF')class="is-active"@endif>미래/SF</a>
-                                </li>
-                                <li><a href="{{route('completed')}}?genre=메디컬로맨스"
-                                       @if(!$free_or_charged && $genre=='메디컬로맨스')class="is-active"@endif>메디컬로맨스</a>
-                                </li>
-                                <li><a href="{{route('completed')}}?genre=전문직로맨스"
-                                       @if(!$free_or_charged && $genre=='전문직로맨스')class="is-active"@endif>전문직로맨스</a>
-                                </li>
-                                <li><a href="{{route('completed')}}?genre=캠퍼스로맨스"
-                                       @if(!$free_or_charged && $genre=='캠퍼스로맨스')class="is-active"@endif>캠퍼스로맨스</a>
-                                </li>
-                                <li><a href="{{route('completed')}}?genre=학원로맨스"
-                                       @if(!$free_or_charged && $genre=='학원로맨스')class="is-active"@endif>학원로맨스</a>
-                                </li>
-                                <li><a href="{{route('completed')}}?genre=할리퀸로맨스"
-                                       @if(!$free_or_charged && $genre=='할리퀸로맨스')class="is-active"@endif>할리퀸로맨스</a>
-                                </li>
-                                <li><a href="{{route('completed')}}?genre=스포츠"
-                                       @if(!$free_or_charged && $genre=='스포츠')class="is-active"@endif>스포츠</a></li>
-                                <li><a href="{{route('completed')}}?genre=연예계"
-                                       @if(!$free_or_charged && $genre=='연예계')class="is-active"@endif>연예계</a></li>
+                                @if(!$free_or_charged && ($genre=='현대판타지' || $genre == '현대'))
+                                    <li><a href="{{route('completed')}}?genre=현대"
+                                           @if(!$free_or_charged && $genre=='현대')class="is-active"@endif>현대</a></li>
+                                    <li><a href="{{route('completed')}}?genre=현대판타지"
+                                           @if(!$free_or_charged && $genre=='현대판타지')class="is-active"@endif>현대판타지</a>
+                                    </li>
+                                @endif
+                            </ul>
+                            <a href="{{route('completed')}}?genre=시대"
+                               @if(!$free_or_charged && ($genre=='시대' or $genre == '사극' or $genre == '동양판타지'))class="is-active lnb-depth1-2"
+                               @else class="lnb-depth1-2"@endif>시대로맨스</a>
+                            <ul class="lnb-depth2">
+                                @if(!$free_or_charged && ($genre=='시대' or $genre == '사극' or $genre == '동양판타지'))
+                                    <li><a href="{{route('completed')}}?genre=시대"
+                                           @if(!$free_or_charged && $genre=='시대')class="is-active"@endif>시대</a></li>
+                                    <li><a href="{{route('completed')}}?genre=사극"
+                                           @if(!$free_or_charged && $genre=='사극')class="is-active"@endif>사극</a></li>
+                                    <li><a href="{{route('completed')}}?genre=동양판타지"
+                                           @if(!$free_or_charged && $genre=='동양판타지')class="is-active"@endif>동양판타지</a>
+                                    </li>
+                                @endif
+                            </ul>
+                            <a href="{{route('completed')}}?genre=서양역사"
+                               @if(!$free_or_charged && ($genre=='서양역사' or $genre == '로맨스판타지'))class="is-active lnb-depth1-2"
+                               @else class="lnb-depth1-2"@endif>서양역사</a>
+                            <ul class="lnb-depth2">
+                                @if(!$free_or_charged && ($genre=='서양역사' or $genre == '로맨스판타지'))
+                                    <li><a href="{{route('completed')}}?genre=서양역사"
+                                           @if(!$free_or_charged && $genre=='서양역사')class="is-active"@endif>서양역사</a></li>
+                                    <li><a href="{{route('completed')}}?genre=로맨스판타지"
+                                           @if(!$free_or_charged && $genre=='로맨스판타지')class="is-active"@endif>로맨스판타지</a>
+                                    </li>
+                                @endif
                             </ul>
                         </li>
                         <li>
-                            <a href="{{route('completed',['free_or_charged'=>'free'])}}"
-                               @if($free_or_charged)class="is-active"@endif>무료소설</a>
+                            <a href="{{route('completed', ['free_or_charged'=>'free'])}}"
+                               @if($free_or_charged)class="is-active"@endif>무료소설</a><br>
+                            <a href="{{route('completed', ['free_or_charged'=>'free'])}}"
+                               @if($free_or_charged && $genre=='%')class="is-active lnb-depth1-2"
+                               @else class="lnb-depth1-2" @endif>전체</a><br>
+                            <a href="{{route('completed', ['free_or_charged'=>'free'])}}?genre=현대"
+                               @if($free_or_charged && ($genre=='현대판타지' or $genre == '현대'))class="is-active lnb-depth1-2"
+                               @else class="lnb-depth1-2"@endif>현대로맨스</a>
                             <ul class="lnb-depth2">
-                                <li><a href="{{route('completed',['free_or_charged'=>'free'])}}"
-                                       @if($free_or_charged && $genre=='%')class="is-active"@endif>전체</a></li>
-                                <li><a href="{{route('completed',['free_or_charged'=>'free'])}}?genre=현대판타지"
-                                       @if($free_or_charged && $genre=='현대판타지')class="is-active"@endif>현대판타지</a></li>
-                                <li><a href="{{route('completed',['free_or_charged'=>'free'])}}?genre=사극/현대물"
-                                       @if($free_or_charged && $genre=='사극/현대물')class="is-active"@endif>사극/현대물</a>
-                                </li>
-                                <li><a href="{{route('completed',['free_or_charged'=>'free'])}}?genre=동양판타지"
-                                       @if($free_or_charged && $genre=='동양판타지')class="is-active"@endif>동양판타지</a>
-                                </li>
-                                <li><a href="{{route('completed',['free_or_charged'=>'free'])}}?genre=서양/중세"
-                                       @if($free_or_charged && $genre=='서양/중세')class="is-active"@endif>서양/중세</a>
-                                </li>
-                                <li><a href="{{route('completed',['free_or_charged'=>'free'])}}?genre=로맨스판타지"
-                                       @if($free_or_charged && $genre=='로맨스판타지')class="is-active"@endif>로맨스판타지</a>
-                                </li>
-                                <li><a href="{{route('completed',['free_or_charged'=>'free'])}}?genre=미래/SF"
-                                       @if($free_or_charged && $genre=='미래/SF')class="is-active"@endif>미래/SF</a>
-                                </li>
-                                <li><a href="{{route('completed',['free_or_charged'=>'free'])}}?genre=메디컬로맨스"
-                                       @if($free_or_charged && $genre=='메디컬로맨스')class="is-active"@endif>메디컬로맨스</a>
-                                </li>
-                                <li><a href="{{route('completed',['free_or_charged'=>'free'])}}?genre=전문직로맨스"
-                                       @if($free_or_charged && $genre=='전문직로맨스')class="is-active"@endif>전문직로맨스</a>
-                                </li>
-                                <li><a href="{{route('completed',['free_or_charged'=>'free'])}}?genre=캠퍼스로맨스"
-                                       @if($free_or_charged && $genre=='캠퍼스로맨스')class="is-active"@endif>캠퍼스로맨스</a>
-                                </li>
-                                <li><a href="{{route('completed',['free_or_charged'=>'free'])}}?genre=학원로맨스"
-                                       @if($free_or_charged && $genre=='학원로맨스')class="is-active"@endif>학원로맨스</a>
-                                </li>
-                                <li><a href="{{route('completed',['free_or_charged'=>'free'])}}?genre=할리퀸로맨스"
-                                       @if($free_or_charged && $genre=='할리퀸로맨스')class="is-active"@endif>할리퀸로맨스</a>
-                                </li>
-                                <li><a href="{{route('completed',['free_or_charged'=>'free'])}}?genre=스포츠"
-                                       @if($free_or_charged && $genre=='스포츠')class="is-active"@endif>스포츠</a></li>
-                                <li><a href="{{route('completed',['free_or_charged'=>'free'])}}?genre=연예계"
-                                       @if($free_or_charged && $genre=='연예계')class="is-active"@endif>연예계</a></li>
+                                @if($free_or_charged && ($genre=='현대판타지' or $genre == '현대'))
+                                    <li><a href="{{route('completed', ['free_or_charged'=>'free'])}}?genre=현대"
+                                           @if($free_or_charged && $genre=='현대')class="is-active"@endif>현대</a></li>
+                                    <li><a href="{{route('completed', ['free_or_charged'=>'free'])}}?genre=현대판타지"
+                                           @if($free_or_charged && $genre=='현대판타지')class="is-active"@endif>현대판타지</a>
+                                    </li>
+                                @endif
+                            </ul>
+                            <a href="{{route('completed', ['free_or_charged'=>'free'])}}?genre=시대"
+                               @if($free_or_charged && ($genre=='시대' or $genre == '사극' or $genre == '동양판타지'))class="is-active lnb-depth1-2"
+                               @else class="lnb-depth1-2"@endif>시대로맨스</a>
+                            <ul class="lnb-depth2">
+                                @if($free_or_charged && ($genre=='시대' or $genre == '사극' or $genre == '동양판타지'))
+                                    <li><a href="{{route('completed', ['free_or_charged'=>'free'])}}?genre=시대"
+                                           @if($free_or_charged && $genre=='시대')class="is-active"@endif>시대</a></li>
+                                    <li><a href="{{route('completed', ['free_or_charged'=>'free'])}}?genre=사극"
+                                           @if($free_or_charged && $genre=='사극')class="is-active"@endif>사극</a></li>
+                                    <li><a href="{{route('completed', ['free_or_charged'=>'free'])}}?genre=동양판타지"
+                                           @if($free_or_charged && $genre=='동양판타지')class="is-active"@endif>동양판타지</a>
+                                    </li>
+                                @endif
+                            </ul>
+                            <a href="{{route('completed', ['free_or_charged'=>'free'])}}?genre=서양역사"
+                               @if($free_or_charged && ($genre=='서양역사' or $genre == '로맨스판타지'))class="is-active lnb-depth1-2"
+                               @else class="lnb-depth1-2"@endif>서양역사</a>
+                            <ul class="lnb-depth2">
+                                @if($free_or_charged && ($genre=='서양역사' or $genre == '로맨스판타지'))
+                                    <li><a href="{{route('completed', ['free_or_charged'=>'free'])}}?genre=서양역사"
+                                           @if($free_or_charged && $genre=='서양역사')class="is-active"@endif>서양역사</a></li>
+                                    <li><a href="{{route('completed', ['free_or_charged'=>'free'])}}?genre=로맨스판타지"
+                                           @if($free_or_charged && $genre=='로맨스판타지')class="is-active"@endif>로맨스판타지</a>
+                                    </li>
+                                @endif
                             </ul>
                         </li>
                     </ul>
@@ -139,7 +141,7 @@
                                 <p class="post-content"><?php echo nl2br($novel_group->description, false); ?>
                                 </p>
                                 <p class="post-info">@foreach($novel_group->keywords as $keyword)
-                                        <span>{{$keyword->name}}</span>@endforeach
+                                        <span>{{$keyword->name}}</span>@break @endforeach
                                     <span>총 {{$novel_group->novels_count}}화</span>
                                     <span>조회수 {{$novel_group->total_count}}</span></p>
                             </div>

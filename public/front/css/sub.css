@@ -41,6 +41,10 @@
     color: #b2363a;
 }
 
+.lnb-depth1-2 {
+    margin-left: 10px;
+}
+
 .lnb-depth2 {
 }
 
@@ -3364,7 +3368,8 @@
     z-index: 200;
     position: absolute;
 }
-.popup_main{
+
+.popup_main {
     text-align: center;
     display: inline-block;
     z-index: 200;
