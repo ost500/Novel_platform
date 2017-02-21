@@ -264,15 +264,15 @@
                 },
 
                 post: function () {
-                    if (this.adult_publish) {
-                        console.log($("#adult_checkbox").is(':checked'));
-                        if ($("#adult_checkbox").is(':checked') == false) {
-                            bootbox.alert("19금 연재 불가 업체가 선택되었습니다. <br> 추후 성인 회차를 추가하실 예정이시면, '15세 개정판'을 생성하신 후에,<br>  '15세 개정판'으로 제휴 연재 신청해주시기 바랍니다.", function () {
-
-                            });
-                            return;
-                        }
-                    }
+//                    if (this.adult_publish) {
+//                        console.log($("#adult_checkbox").is(':checked'));
+//                        if ($("#adult_checkbox").is(':checked') == false) {
+//                            bootbox.alert("19금 연재 불가 업체가 선택되었습니다. <br> 추후 성인 회차를 추가하실 예정이시면, '15세 개정판'을 생성하신 후에,<br>  '15세 개정판'으로 제휴 연재 신청해주시기 바랍니다.", function () {
+//
+//                            });
+//                            return;
+//                        }
+//                    }
 
 
                     bootbox.dialog({

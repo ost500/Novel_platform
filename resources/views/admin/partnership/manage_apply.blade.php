@@ -54,7 +54,7 @@
                                         @foreach($apply_requests as $apply_request)
                                             <tr>
                                                 <td class="col-md-1">{{$apply_request->publish_novel_groups->users->name}}</td>
-                                                <td class="col-md-2">{{$apply_request->publish_novel_groups->novel_groups->title}}</td>
+                                                <td class="col-md-2"><a href="{{ route('each_novel.novel_group', ['id'=> $apply_request->publish_novel_groups->novel_groups->id]) }}">{{$apply_request->publish_novel_groups->novel_groups->title}}</a></td>
                                                 <td class="col-md-1">{{$apply_request->companies->name}}</td>
                                                 <td class="col-md-1 text-center">{{$apply_request->initial_novels}}
                                                     편
