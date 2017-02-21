@@ -281,6 +281,17 @@
                             });
                 },
 
+                downloadNovel_ePub: function (novel_id) {
+                    window.location.href = '{{url('publish_novel/e_pub') }}/' + novel_id;
+                    /* this.$http.get('{{url('publish_novel/e_pub')}}/'+novel_id )
+                     .then(function (response) {
+
+                     // $('#response' + publish_company_id).html(response.data);
+                     console.log(response);
+
+                     });*/
+                },
+
                 searchByGroupName: function (e) {
 
                     // var search=document.getElementById('search').value;

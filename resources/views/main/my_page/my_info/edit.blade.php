@@ -1,21 +1,21 @@
 @extends('layouts.main_layout')
 @section('content')
-    <!-- 컨테이너 -->
-    <div class="container">
-        <div class="wrap">
-            <!-- LNB -->
+        <!-- 컨테이너 -->
+<div class="container" xmlns:v-on="http://www.w3.org/1999/xhtml">
+    <div class="wrap" id="info_edit">
+        <!-- LNB -->
         @include('main.my_page.left_sidebar')
-        <!-- //LNB -->
+                <!-- //LNB -->
 
-            <!-- 서브컨텐츠 -->
-            <div class="content" id="content">
-                @if(Session::has('flash_message'))
-                    {{-- important, success, warning, danger and info --}}
-                    <div class="alert alert-success">
-                        {{Session('flash_message')}}
-                    </div>
-            @endif
-            <!-- 페이지헤더 -->
+        <!-- 서브컨텐츠 -->
+        <div class="content" id="content">
+            @if(Session::has('flash_message'))
+                {{-- important, success, warning, danger and info --}}
+                <div class="alert alert-@if(Session('flash_message_level'))@if(Session('flash_message_level')=='info')success @else{{Session('flash_message_level')}}@endif @endif">
+                    {{Session('flash_message')}}
+                </div>
+                @endif
+                        <!-- 페이지헤더 -->
                 <div class="list-header">
                     <h2 class="title">정보변경</h2>
                 </div>
@@ -29,6 +29,7 @@
                             <div class="label">아이디</div>
                             <div class="input input--data">
                                 <span class="info">{{ $me->email }}</span>
+
                                 <div class="input-side-btns">
                                     <form method="get"
                                           action="{{ route('my_info.member_leave.password_again') }}">
@@ -65,6 +66,7 @@
                                 <div class="label">이메일</div>
                                 <div class="input input--data">
                                     <span class="info">{{ $me->email }}</span>
+
                                     <div class="input-desc-box">
                                         @if ($me->auth_email == 1)
                                             <span class="valid"><i class="valid-icon"></i>인증된 이메일 주소입니다.</span>
@@ -75,10 +77,9 @@
                                     </div>
                                     @if ($me->auth_email != 1)
                                         <div class="input-btns">
-                                            <form action="{{ route('email_confirm.again') }}" method="post">
-                                                {!! csrf_field() !!}
-                                                <button type="submit" class="btn btn--special">인증메일발송</button>
-                                            </form>
+                                            <button class="btn btn--special" name="email_confirm_btn"
+                                                    type="button" v-on:click="emailConfirm()">인증메일발송
+                                            </button>
                                         </div>
                                     @endif
                                 </div>
@@ -87,6 +88,7 @@
                                 <div class="label">이름</div>
                                 <div class="input input--data">
                                     <span class="info">{{ $me->name }}</span>
+
                                     <div class="input-desc-box"><span class="alert"><i class="alert-icon"></i>성인(실명)인증이 되지 않았습니다.</span>
                                     </div>
                                     <div class="input-btns">
@@ -96,6 +98,7 @@
                             </div>
                             <div class="item-cols">
                                 <label for="info_pw" class="label">현재 비밀번호</label>
+
                                 <div class="input"><input name="current_password" type="password" class="text2"
                                                           id="info_pw" size="28">
                                     <span class="alert alert-inline">{{ $errors->first('current_password') }}</span>
@@ -103,6 +106,7 @@
                             </div>
                             <div class="item-cols">
                                 <label for="info_pw2" class="label">새 비밀번호</label>
+
                                 <div class="input">
                                     <input name="password" type="password" class="text2" id="info_pw2" size="28">
                                     <span class="alert alert-inline">{{ $errors->first('password') }}</span>
@@ -110,6 +114,7 @@
                             </div>
                             <div class="item-cols">
                                 <label for="info_pw3" class="label">비밀번호 확인</label>
+
                                 <div class="input">
                                     <input name="password_confirmation" type="password" class="text2" id="info_pw3"
                                            size="28">
@@ -173,14 +178,33 @@
                     </div>
                 </form>
                 <!-- //정보변경 -->
-
-            </div>
-            <!-- //서브컨텐츠 -->
-            <!-- 따라다니는퀵메뉴 -->
-        @include('main.quick_menu')
-        <!-- //따라다니는퀵메뉴 -->
         </div>
+        <!-- //서브컨텐츠 -->
+        <!-- 따라다니는퀵메뉴 -->
+        @include('main.quick_menu')
+                <!-- //따라다니는퀵메뉴 -->
     </div>
-    <!-- //컨테이너 -->
+</div>
+<!-- //컨테이너 -->
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#info_edit',
+        data: {
+            info: {}
+        },
 
+        methods: {
+            emailConfirm: function () {
+                app.$http.post('{{ route('email_confirm.again') }}', app.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                        .then(function (response) {
+                            location.reload();
+                            //console.log(response)
+                        }).catch(function (errors) {
+                            console.log(errors);
+                        })
+            }
+        }
+    });
+
+</script>
 @endsection

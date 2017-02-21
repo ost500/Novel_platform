@@ -113,8 +113,6 @@ class UserController extends Controller
 
     public function my_info_update(Request $request)
     {
-
-
         $user = Auth::user();
 
 
@@ -249,16 +247,23 @@ class UserController extends Controller
 
     }
 
-    public function again()
+    public function again(Request $request)
     {
-        try {
-            $user = Auth::user();
 
-            Mail::to($user)->send(new VerifyEmail($user));
+        try {
+          //  $user = Auth::user();
+
+            Mail::to(Auth::user())->send(new VerifyEmail(Auth::user()));
+
+            flash('성공적으로 정보를 변경했습니다');
+
+            if($request->ajax()){ return response()->json(['error'=>'0','status'=>'ok']);}
 
             return view('auth.auth_mail_send', compact('user'));
 
         } catch (Exception $e) {
+            flash('이메일을 보내는 데 에러가 발생했습니다','danger');
+            if($request->ajax()){ return response()->json(['error'=>'1','message'=>'이메일을 보내는 데 에러가 발생했습니다']);}
             return view('errors.503');
         }
 
