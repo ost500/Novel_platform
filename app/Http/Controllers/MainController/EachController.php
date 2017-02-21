@@ -60,6 +60,19 @@ class EachController extends Controller
 
     public function novel_group_inning(Request $request, $novel_id)
     {
+        //increase the view counts
+        $novel = Novel::where('id', $novel_id)->first();
+
+        $today_count = $novel->today_count = $novel->today_count + 1;
+        $this_week_count = $novel->week_count = $novel->week_count + 1;
+        $this_month_count = $novel->month_count = $novel->month_count + 1;
+        $this_year_count = $novel->year_count = $novel->year_count + 1;
+        $this_total_count = $novel->total_count = $novel->total_count + 1;
+        $novel->save();
+
+
+
+
 
         $order = $request->order;
         //get the novel data

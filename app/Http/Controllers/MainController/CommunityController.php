@@ -43,17 +43,18 @@ class CommunityController extends Controller
         //view_count +1
         $article->view_count = $article->view_count + 1;
         $article->save();
-        $show_liked= false;
+
         if (Auth::check()) {
             //check if this free_board is liked by user or not
+            $show_favorite = $article->checkUseLiked();
             $liked = FreeBoardLike::where(['free_board_id' => $article->id, 'user_id' => Auth::user()->id])->first();
-            if ($liked) {
-                $show_liked= true;
+            if ($favorite) {
+                return true;
             }
         }
 
 //        return response()->json($prev_article);
-        return view('main.community.free_board_detail', compact('article', 'next_article', 'prev_article','show_liked'));
+        return view('main.community.free_board_detail', compact('article', 'next_article', 'prev_article'));
     }
 
 
