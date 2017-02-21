@@ -35,7 +35,7 @@ class Company extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'initial_inning', 'adult_allowance',
+        'name','description','initial_inning', 'adult_allowance',
     ];
 
     public function publish_novel_groups()
