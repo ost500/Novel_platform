@@ -40,6 +40,7 @@
 
                             <div class="form-group pad-ver">
                                 <label class="col-lg-1 control-label text-left" for="inputSubject">작품선택</label>
+
                                 <div class="col-lg-11">
                                     <select v-model="clicked_novel_group" name="novel_group" class="form-control"
                                             v-on:change="novel_group_checked">
@@ -57,6 +58,7 @@
 
                             <div class="form-group pad-ver">
                                 <label class="col-lg-1 control-label text-left" for="inputSubject">초기연재편수</label>
+
                                 <div class="col-lg-11">
                                     <select name="initial_publish" class="form-control">
                                         <option value="">선택</option>
@@ -72,6 +74,7 @@
 
                             <div class="form-group pad-ver">
                                 <label class="col-lg-1 control-label text-left" for="inputSubject">일(날짜)</label>
+
                                 <div class="col-lg-11">
                                     <select name="days" class="form-control">
                                         <option value="">선택</option>
@@ -87,6 +90,7 @@
 
                             <div class="form-group pad-ver">
                                 <label class="col-lg-1 control-label text-left" for="inputSubject">편수</label>
+
                                 <div class="col-lg-11">
                                     <select name="novels_per_days" class="form-control">
                                         <option value="">선택</option>
@@ -104,6 +108,7 @@
 
                             <div class="form-group pad-ver">
                                 <label class="col-lg-1 control-label text-left" for="inputSubject">제휴업체</label>
+
                                 <div class="col-lg-11 text-center">
 
 
@@ -111,8 +116,10 @@
                                         <div>
                                             <img src="http://211.110.165.137/img/novel_covers/default_.jpg"
                                                  width="150" v-if="company.company_picture == ''">
-                                            <img :src="'/img/company_pictures/'+company.company_picture" width="150" class="index_img" v-else>
+                                            <img :src="'/img/company_pictures/'+company.company_picture" width="150"
+                                                 class="index_img" v-else>
                                         </div>
+
                                         <div class="padding-top-10">
                                             <label class="form-checkbox form-icon form-text">
                                                 <input type="checkbox" :name="'company'+company.id"
@@ -121,6 +128,8 @@
                                         </div>
                                         <div class="padding-top-10">초기연재 @{{company.initial_inning}}편</div>
                                         <div class="padding-top-10" v-if="company.adult==1">19금 불가</div>
+                                        <div class="padding-top-10"  v-if="company.adult==0" style="margin-bottom:7%"></div>
+                                        <div class="padding-top-10" >@{{company.description}}</div>
                                     </div>
 
 
@@ -131,16 +140,18 @@
 
                                 <div class="form-group pad-ver" v-if="adult_publish===true">
                                     <label class="col-lg-1 control-label text-left" for="inputSubject">19금 연재</label>
+
                                     <div class="col-lg-11">
                                         <div class="padding-top-10">
                                             해당 제휴 업체는 19금 소설 연재가 불가능한 업체입니다. 추후 성인 회차를 추가할 계획이 있으십니까?
 
-                                                <label  style="margin-left:20px" class="form-radio form-icon active form-text">
-                                                    <input type="radio" name="ico-w-label" checked="">
-                                                    예</label>
+                                            <label style="margin-left:20px"
+                                                   class="form-radio form-icon active form-text">
+                                                <input type="radio" name="ico-w-label" checked="">
+                                                예</label>
 
-                                                <label class="form-radio form-icon form-text">
-                                                    <input id="adult_checkbox" type="radio" name="ico-w-label"> 아니오</label>
+                                            <label class="form-radio form-icon form-text">
+                                                <input id="adult_checkbox" type="radio" name="ico-w-label"> 아니오</label>
 
                                         </div>
                                     </div>
@@ -194,9 +205,11 @@
                         id: "{{ $company->id }}",
                         form_name: "company{{ $company->id }}",
                         name: "{{ $company->name }}",
+                        description: '<?php echo preg_replace('/\s\s+/', ' ', $company->description); ?>',
                         initial_inning: "{{ $company->initial_inning }}",
                         adult: "{{ $company->adult }}",
                         company_picture: "{{ $company->company_picture }}"
+
                     },
                     @endforeach
                 ],
@@ -206,6 +219,7 @@
 
 
             },
+
             mounted: function () {
 
             },

@@ -39,12 +39,14 @@ class CompanyController extends Controller
 
         Validator::make($request->all(), [
             'name' => 'required|max:255',
+            'description' => 'required',
             'company_picture' => 'mimes:jpeg,png|max:1024',
             'initial_inning' => 'required|numeric',
 
         ], [
             'name.required' => '업체명은 필수 입니다.',
             'name.max' => '업체명은 반드시 255 자리보다 작아야 합니다.',
+            'description.required' => '업체소개는 필수 입니다.',
             'company_picture.mimes' => '이미지는 반드시 다음의 파일 타입이어야 합니다: jpeg, png',
             'company_picture.max' => '표지1 용량은 1M를 넘지 않아야 합니다',
             'initial_inning.required' => '초기연재회차는 필수 입니다.',
@@ -89,12 +91,14 @@ class CompanyController extends Controller
     {
         Validator::make($request->all(), [
             'name' => 'required|max:255',
+            'description' => 'required',
             'company_picture' => 'mimes:jpeg,png|max:1024',
             'initial_inning' => 'required|numeric',
 
         ], [
             'name.required' => '업체명은 필수 입니다.',
             'name.max' => '업체명은 반드시 255 자리보다 작아야 합니다.',
+            'description.required' => '업체소개는 필수 입니다.',
             'company_picture.mimes' => '이미지는 반드시 다음의 파일 타입이어야 합니다: jpeg, png',
             'company_picture.max' => '표지1 용량은 1M를 넘지 않아야 합니다',
             'initial_inning.required' => '초기연재회차는 필수 입니다.',

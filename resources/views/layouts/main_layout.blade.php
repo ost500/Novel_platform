@@ -212,7 +212,7 @@
                     <a href="{{route('ask.faqs').'?best'}}">고객센터</a>
                     <ul class="gnb-depth2">
                         <li><a href="{{route('ask.faqs').'?best'}}">자주묻는 질문</a></li>
-                        <li><a href="{{route('ask.questions')}}">1:1 문의</a></li>
+                        <li><a href="{{route('ask.ask_question')}}">1:1 문의</a></li>
                         <li><a href="#mode_nav">이용방법</a></li>
                         <li><a href="{{route('ask.notifications')}}">공지사항</a></li>
                     </ul>

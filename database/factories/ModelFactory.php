@@ -183,6 +183,7 @@ $factory->define(\App\ViewCount::class, function (Faker\Generator $faker) {
 $factory->define(\App\Company::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->word,
+        'description' => $faker->paragraph,
         'initial_inning' => $faker->randomElement(['1', '2', '3', '4', '5']),
         'adult' => $faker->randomElement(['0', '1']),
     ];

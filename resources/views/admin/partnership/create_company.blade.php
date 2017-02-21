@@ -28,13 +28,23 @@
             <div class="panel panel-default panel-left">
                 <div class="panel-body">
 
-                    <form role="form" class="form-horizontal" action="{{route('companies.store')}}" method="post"  enctype="multipart/form-data">
+                    <form role="form" class="form-horizontal" action="{{route('companies.store')}}" method="post"
+                          enctype="multipart/form-data">
                         {!! csrf_field() !!}
                         <div class="form-group">
                             <label class="col-lg-1 control-label text-left" for="name">업체명</label>
 
                             <div class="col-lg-11">
-                                <input type="text" id="name" name="name" class="form-control" value="{{old('name')}}" placeholder="업체명">
+                                <input type="text" id="name" name="name" class="form-control" value="{{old('name')}}"
+                                       placeholder="업체명">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-1 control-label text-left" for="description">업체소개</label>
+
+                            <div class="col-lg-11">
+                                <textarea type="text" id="description" name="description" rows="10" class="form-control"
+                                          placeholder="작품소개">{{old('description')}}</textarea>
                             </div>
                         </div>
 
@@ -42,19 +52,13 @@
                             <label class="col-lg-1 control-label text-left" for="company_picture">이미지</label>
 
                             <div class="col-lg-1">
-                                <img id="company_pic_preview" src="http://211.110.165.137/img/novel_covers/default_.jpg" width="100">
+                                <img id="company_pic_preview" src="http://211.110.165.137/img/novel_covers/default_.jpg"
+                                     width="100">
                             </div>
                             <div class="col-lg-10">
-                                <input type="file" id="company_picture" name="company_picture" class="form-control" placeholder="이미지">
+                                <input type="file" id="company_picture" name="company_picture" class="form-control"
+                                       placeholder="이미지">
                                 <small class="has-warning">최대용량 : 1M / 업로드 가능 확장자 : JPG, PNG 파일</small>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-lg-1 control-label text-left" for="test">수수료</label>
-
-                            <div class="col-lg-11">
-                                <input type="text" id="test" name="test" class="form-control" value="{{old('test')}}"
-                                       placeholder="수수료">
                             </div>
                         </div>
 
@@ -62,7 +66,8 @@
                             <label class="col-lg-1 control-label text-left" for="initial_inning">초기연재회차</label>
 
                             <div class="col-lg-11">
-                                <input type="text" id="initial_inning" name="initial_inning" class="form-control" value="{{old('initial_inning')}}"
+                                <input type="text" id="initial_inning" name="initial_inning" class="form-control"
+                                       value="{{old('initial_inning')}}"
                                        placeholder="초기연재회차">
                             </div>
                         </div>
@@ -70,9 +75,10 @@
                             <label class="col-lg-1 control-label text-left" for="adult_allowance">성인물 허가</label>
 
                             <div class="col-lg-11">
-
-                                <input type="checkbox" id="adult_allowance" name="adult_allowance"  @if(old('adult_allowance')) checked  @endif>
-
+                            <label class="form-checkbox form-icon">
+                                <input type="checkbox" id="adult_allowance" name="adult_allowance"
+                                       @if(old('adult_allowance')) checked @endif>
+                            </label>
                             </div>
                         </div>
 
@@ -113,7 +119,7 @@
 
             }
 
-            $("#company_picture").change(function(){
+            $("#company_picture").change(function () {
 
                 readURL(this);
 

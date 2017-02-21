@@ -9,8 +9,8 @@
                     묻는 질문</a>
             </li>
             <li>
-                <a href="{{route('ask.questions')}}"
-                   class="{{Request::is('questions')||Request::is('main/ask/ask_questions')|| Request::is('question_detail/*')?"is-active":""}}">1:1
+                <a href="{{route('ask.ask_question')}}"
+                   class="{{Request::is('questions')||Request::is('ask_question')|| Request::is('question_detail/*')?"is-active":""}}">1:1
                     문의</a>
             </li>
             <li>
