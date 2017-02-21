@@ -67,7 +67,7 @@
                                     <ul class="myinfo-nav clr">
                                         <li class="link1">
                                             보유구슬<br>
-                                            <a href="#mode_nav">1,170개</a>
+                                            <a href="{{ route('my_info.charge_bead') }}">{{ Auth::user()->bead }}개</a>
                                         </li>
                                         <li class="link2">
                                             선호작<br>

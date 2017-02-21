@@ -26,7 +26,7 @@
                             <i class="marble3-icon"></i>
                             <span class="item-name">보유구슬</span>
                             <strong class="item-count">{{ Auth::user()->bead }}개</strong>
-                            <a href="#mode_nav" class="btn btn--submit">구슬충전</a>
+                            <a href="{{ route('my_info.charge_bead') }}" class="btn btn--submit">구슬충전</a>
                         </div>
                         <!-- 보유조각 -->
                         <div class="col-piece">
