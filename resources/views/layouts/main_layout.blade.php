@@ -169,7 +169,7 @@
             <!-- 검색버튼 -->
             <div class="search-area">
                 <a href="#search_form" class="userbtn userbtn--search" data-modal-id="search_form">검색</a>
-                <a href="#mode_nav" id="favorite" class="userbtn userbtn--scrap">선호작</a>
+                <a href="{{ route('my_page.favorites') }}" class="userbtn userbtn--scrap">선호작</a>
             </div>
         </div>
         <!-- //사용자메뉴 -->
@@ -307,7 +307,7 @@
                             <option value="전체">전체</option>
                             <option value="소설">소설</option>
                             <option value="소설 회차">소설 회차</option>
-                            <option value="작가">작가</option>
+                            <option value="작가">소설 회차</option>
                         </select>
                     </span>
 

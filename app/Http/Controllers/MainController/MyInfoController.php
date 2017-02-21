@@ -205,7 +205,7 @@ class MyInfoController extends Controller
 
     public function purchased_novel_list()
     {
-        $purchasedNovels = PurchasedNovel::where('user_id', Auth::user()->id)->with('novels')->paginate(config('define.pagination_long'));
+        $purchasedNovels = PurchasedNovel::where('user_id', Auth::user()->id)->with('novels')->latest()->paginate(config('define.pagination_long'));
 
         return view('main.my_page.use_info.purchased_novel_list', compact('purchasedNovels'));
     }

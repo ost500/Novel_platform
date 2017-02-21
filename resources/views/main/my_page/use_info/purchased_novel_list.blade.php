@@ -29,7 +29,9 @@
                     @foreach ($purchasedNovels as $purchasedNovel)
                         <tr>
                             <td class="col-datetime2">{{ $purchasedNovel->created_at }}</td>
-                            <td class="col-subject">{{ $purchasedNovel->novels->title }}</td>
+                            <td class="col-subject"><a
+                                        href="{{ route('each_novel.novel_group_inning', ['id' => $purchasedNovel->novel_id]) }}">{{ $purchasedNovel->novels->title }}</a>
+                            </td>
                             <td class="col-detail">1{{ $purchasedNovel->method }}</td>
                             {{--<td class="col-state"><span class="is-cancel">취소</span></td>--}}
                         </tr>
@@ -40,7 +42,7 @@
 
                 <!-- 페이징 -->
             @include('pagination_front', ['collection' => $purchasedNovels, 'url' => route('my_info.purchased_novel_list')."?"])
-                <!-- //페이징 -->
+            <!-- //페이징 -->
             </div>
             <!-- //서브컨텐츠 -->
             <!-- 따라다니는퀵메뉴 -->

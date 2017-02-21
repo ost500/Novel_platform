@@ -7,6 +7,7 @@ use App\NewSpeed;
 use App\NewSpeedLog;
 use App\Notification;
 
+use App\PurchasedNovel;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -33,11 +34,12 @@ class MyPageController extends Controller
 
         $my_profile = $request->user();
         //get recent groups having non-free novels of a user
-        $recently_purchased_novels = NovelGroup::join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
-            ->selectRaw('novel_groups.*,novels.updated_at as recent,max(non_free_agreement) as non_free')
-            ->groupBy('novel_group_id', 'recent')
-            ->havingRaw('max(non_free_agreement) > 0')
-            ->with('nicknames')->where('novel_groups.user_id', $my_profile->id)->latest('recent')->take(5)->get();
+
+        $recently_purchased_novels = PurchasedNovel::where('purchased_novels.user_id', $request->user()->id)
+            ->join('novels', 'novels.id', '=', 'purchased_novels.novel_id')
+            ->join('novel_groups', 'novels.novel_group_id', '=', 'novel_groups.id')
+            ->join('nick_names', 'novel_groups.nickname_id', '=', 'nick_names.id')
+            ->selectRaw('novel_groups.*, nickname, novels.id')->groupBy('novels.id','novel_group_id')->latest()->take(5)->get();
 
         //get recently updated favourite groups of a user
         $recently_updated_favorites = NovelGroup::selectRaw('novel_groups.*,novels.novel_group_id,max(novels.created_at) as new')

@@ -87,7 +87,7 @@
                 <!-- //게시판목록 -->
 
                 <!-- 하단버튼 -->
-                <div class="list-bottom-btns" style="z-index:0;">
+                <div class="list-bottom-btns" style="z-index:10;">
                     <div class="right-btns">
                         <a href="{{ route('free_board.write')}}" class="btn">글쓰기</a>
                     </div>

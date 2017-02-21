@@ -12,12 +12,15 @@
                         <!-- 연재상세헤더 -->
                         <header class="episode-header">
                             <div class="titles">
-                                <h1 class="series-title"><a href="#mode_nav">공녀 엘린느</a></h1>
+                                <h1 class="series-title"><a
+                                            href="#mode_nav">{{ $novel_group_inning->novel_groups->title }}</a></h1>
 
-                                <p class="episode-title">프롤로그</p>
+                                <p class="episode-title">{{ $novel_group_inning->title }}</p>
                             </div>
                             <div class="controls">
-                                    <span class="more-btn"><a href="#mode_nav"><i class="arrow-icon">다른
+                                    <span class="more-btn"><a
+                                                href="{{ route('each_novel.novel_group', ['id' => $novel_group_inning->novel_groups->id]) }}"><i
+                                                    class="arrow-icon">다른
                                                 회차보기</i></a></span>
                                 <span class="setup-btn"><a href="#mode_nav"><i class="setup2-icon">설정</i></a></span>
                             </div>
@@ -241,7 +244,7 @@
                                                             <span>비밀글</span></label>
                                                        </span>
                                                    <span style="margin-left: 2%;"
-                                                          id="error{{$novel_group_inning_comment[0]->id}}"></span>
+                                                         id="error{{$novel_group_inning_comment[0]->id}}"></span>
 
                                                 </div>
 
@@ -347,7 +350,7 @@
                                                             <span>비밀글</span></label>
                                                        </span>
                                                         <span style="margin-left: 2%;"
-                                                                  id="error{{$novel_group_inning_comment_reply->id}}"></span>
+                                                              id="error{{$novel_group_inning_comment_reply->id}}"></span>
                                                     </div>
 
 
@@ -381,170 +384,170 @@
             <!-- //서브컨텐츠 -->
             <!-- //서브컨텐츠 -->
             <!-- 따라다니는퀵메뉴 -->
-            @include('main.quick_menu')
-                    <!-- //따라다니는퀵메뉴 -->
+        @include('main.quick_menu')
+        <!-- //따라다니는퀵메뉴 -->
         </div>
     </div>
     <!-- //컨테이너 -->
     <!-- 푸터 -->
     <!-- Social Share-->
-    @section('header')
+@section('header')
     @include('social_share', ['url' =>route('each_novel.novel_group_inning', $novel_group_inning->id),'title'=>$novel_group_inning->title,'thumbnail'=>''])
-    @endsection
-            <!--Social Share -->
-    <script type="text/javascript">
-        var app = new Vue({
-            el: '#inning',
-            data: {
-                info: {comment: '', novel_id: '{{$novel_group_inning->id}}', comment_secret: ''},
-                sub_info: {comment: '', novel_id: '{{$novel_group_inning->id}}', comment_secret: '', parent_id: ''},
-                favorites_info: {novel_group_id: ''},
-                update_info: {comment: '', comment_secret: ''},
-                errorsInfo: {},
-                display: {id: '', status: false},
-                new_box_display: {id: '', status: false}
+@endsection
+<!--Social Share -->
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#inning',
+        data: {
+            info: {comment: '', novel_id: '{{$novel_group_inning->id}}', comment_secret: ''},
+            sub_info: {comment: '', novel_id: '{{$novel_group_inning->id}}', comment_secret: '', parent_id: ''},
+            favorites_info: {novel_group_id: ''},
+            update_info: {comment: '', comment_secret: ''},
+            errorsInfo: {},
+            display: {id: '', status: false},
+            new_box_display: {id: '', status: false}
+        },
+        methods: {
+
+            update_box_show: function (comment_id) {
+                if (this.display.id == comment_id && this.display.status == true) {
+                    //Hide update comment box if already shown
+                    this.display.status = false;
+                    this.display.id = 0;
+                } else {
+
+                    //Show update comment box
+                    this.display.id = comment_id;
+                    this.display.status = true;
+
+                    //hide new comment box when clicked on update
+                    this.new_box_display.status = false;
+
+                }
+
+
             },
-            methods: {
 
-                update_box_show: function (comment_id) {
-                    if (this.display.id == comment_id && this.display.status == true) {
-                        //Hide update comment box if already shown
-                        this.display.status = false;
-                        this.display.id = 0;
-                    } else {
+            new_box_show: function (comment_id) {
 
-                        //Show update comment box
-                        this.display.id = comment_id;
-                        this.display.status = true;
+                if (this.new_box_display.id == comment_id && this.new_box_display.status == true) {
+                    //Hide new comment box if already shown
+                    this.new_box_display.status = false;
+                    this.new_box_display.id = 0;
+                } else {
+                    //Show new comment box
+                    this.new_box_display.id = comment_id;
+                    this.new_box_display.status = true;
+                    //hide update comment box when clicked on comment
+                    this.display.status = false;
 
-                        //hide new comment box when clicked on update
-                        this.new_box_display.status = false;
+                }
 
+
+            },
+
+            commentStore: function () {
+                console.log(this.info);
+                if (this.info.comment_secret == '') {
+                    this.info.comment_secret = false;
+                }
+                app.$http.post('{{ route('comments.store') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                        .then(function (response) {
+                            location.reload();
+
+                        }).catch(function (errors) {
+                    this.errorsInfo = errors.data;
+                    if (this.errorsInfo.error) {
+                        window.location.assign('/login?loginView=true');
+                        exit();
                     }
 
+                    $('#validateError').show();
+                });
+            },
 
-                },
+            subCommentStore: function (comment_id) {
+                app.sub_info.parent_id = $('#parent_id' + comment_id).val();
+                app.sub_info.comment_secret = $('#comment_secret' + comment_id).is(':checked');
+                app.$http.post('{{ route('comments.store') }}', app.sub_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                        .then(function (response) {
+                            location.reload();
 
-                new_box_show: function (comment_id) {
-
-                    if (this.new_box_display.id == comment_id && this.new_box_display.status == true) {
-                        //Hide new comment box if already shown
-                        this.new_box_display.status = false;
-                        this.new_box_display.id = 0;
-                    } else {
-                        //Show new comment box
-                        this.new_box_display.id = comment_id;
-                        this.new_box_display.status = true;
-                        //hide update comment box when clicked on comment
-                        this.display.status = false;
-
+                        }).catch(function (errors) {
+                    this.errorsInfo = errors.data;
+                    if (this.errorsInfo.error) {
+                        window.location.assign('/login?loginView=true');
+                        exit();
                     }
+                    $("#error" + comment_id).text(errors.data['comment']);
+                    //  $('#validateError').show();
+                });
+            },
 
+            commentUpdate: function (comment_id) {
+                app.update_info.comment = $('#comment' + comment_id).val();
+                app.update_info.comment_secret = $('#comment_secret' + comment_id).is(':checked');
 
-                },
+                app.$http.put('{{ url('comments') }}/' + comment_id, app.update_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                        .then(function (response) {
+                            console.log(response);
+                            location.reload();
+                        })
+                        .catch(function (errors) {
+                            this.errorsInfo = errors.data;
+                            // $('#validateError').show();
+                            $("#error" + comment_id).text(errors.data['comment']);
+                            /*     $("#error"+comment_id).delay(5000).slideUp(200, function () {
+                             $(this).alert('close');
+                             });*/
 
-                commentStore: function () {
-                    console.log(this.info);
-                    if (this.info.comment_secret == '') {
-                        this.info.comment_secret = false;
-                    }
-                    app.$http.post('{{ route('comments.store') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                        });
+            },
+
+            commentDelete: function (comment_id) {
+                if (confirm('삭제 하시겠습니까?')) {
+                    app.$http.delete('{{ url('comments') }}/' + comment_id, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                             .then(function (response) {
                                 location.reload();
-
-                            }).catch(function (errors) {
-                                this.errorsInfo = errors.data;
-                                if (this.errorsInfo.error) {
-                                    window.location.assign('/login?loginView=true');
-                                    exit();
-                                }
-
-                                $('#validateError').show();
-                            });
-                },
-
-                subCommentStore: function (comment_id) {
-                    app.sub_info.parent_id = $('#parent_id' + comment_id).val();
-                    app.sub_info.comment_secret = $('#comment_secret' + comment_id).is(':checked');
-                    app.$http.post('{{ route('comments.store') }}', app.sub_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
-                            .then(function (response) {
-                                location.reload();
-
-                            }).catch(function (errors) {
-                                this.errorsInfo = errors.data;
-                                if (this.errorsInfo.error) {
-                                    window.location.assign('/login?loginView=true');
-                                    exit();
-                                }
-                                $("#error" + comment_id).text(errors.data['comment']);
-                                //  $('#validateError').show();
-                            });
-                },
-
-                commentUpdate: function (comment_id) {
-                    app.update_info.comment = $('#comment' + comment_id).val();
-                    app.update_info.comment_secret = $('#comment_secret' + comment_id).is(':checked');
-
-                    app.$http.put('{{ url('comments') }}/' + comment_id, app.update_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
-                            .then(function (response) {
-                                console.log(response);
-                                location.reload();
-                            })
-                            .catch(function (errors) {
-                                this.errorsInfo = errors.data;
-                                // $('#validateError').show();
-                                $("#error" + comment_id).text(errors.data['comment']);
-                                /*     $("#error"+comment_id).delay(5000).slideUp(200, function () {
-                                 $(this).alert('close');
-                                 });*/
-
-                            });
-                },
-
-                commentDelete: function (comment_id) {
-                    if (confirm('삭제 하시겠습니까?')) {
-                        app.$http.delete('{{ url('comments') }}/' + comment_id, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
-                                .then(function (response) {
-                                    location.reload();
-                                })
-                                .catch(function (errors) {
-
-                                    window.location.assign('/login?loginView=true');
-                                });
-                    }
-                },
-
-                addToFavorite: function (novel_group_id) {
-                    app.favorites_info.novel_group_id = novel_group_id;
-                    app.$http.post('{{ route('favorites.store') }}', app.favorites_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
-                            .then(function (response) {
-                                $('#add_favorite').hide();
-                                $('#remove_favorite').show();
-                                //  location.reload();
-                            })
-                            .catch(function (errors) {
-                                window.location.assign('/login?loginView=true');
-                            });
-                },
-                removeFromFavorite: function () {
-                    app.$http.delete('{{ route('favorites.destroy',['id'=>$novel_group_inning->novel_group_id]) }}', {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
-                            .then(function (response) {
-                                $('#add_favorite').show();
-                                $('#remove_favorite').hide();
-                                //location.reload();
                             })
                             .catch(function (errors) {
 
                                 window.location.assign('/login?loginView=true');
                             });
                 }
+            },
+
+            addToFavorite: function (novel_group_id) {
+                app.favorites_info.novel_group_id = novel_group_id;
+                app.$http.post('{{ route('favorites.store') }}', app.favorites_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                        .then(function (response) {
+                            $('#add_favorite').hide();
+                            $('#remove_favorite').show();
+                            //  location.reload();
+                        })
+                        .catch(function (errors) {
+                            window.location.assign('/login?loginView=true');
+                        });
+            },
+            removeFromFavorite: function () {
+                app.$http.delete('{{ route('favorites.destroy',['id'=>$novel_group_inning->novel_group_id]) }}', {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                        .then(function (response) {
+                            $('#add_favorite').show();
+                            $('#remove_favorite').hide();
+                            //location.reload();
+                        })
+                        .catch(function (errors) {
+
+                            window.location.assign('/login?loginView=true');
+                        });
             }
-        });
+        }
+    });
 
-        $(".alert").delay(5000).slideUp(200, function () {
-            $(this).alert('close');
-        });
+    $(".alert").delay(5000).slideUp(200, function () {
+        $(this).alert('close');
+    });
 
 
-    </script>
+</script>
 @endsection
