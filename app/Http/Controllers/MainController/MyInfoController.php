@@ -223,6 +223,8 @@ class MyInfoController extends Controller
     {
         $presents = Present::where('from_id', Auth::user()->id)->paginate(config('define.pagination_long'));
 
-        return view('main.my_page.use_info.sent_gift', compact('presents'));
+        $user_bead = User::select('bead')->where('id', Auth::user()->id)->first();
+
+        return view('main.my_page.use_info.sent_gift', compact('presents','user_bead'));
     }
 }

@@ -19,7 +19,7 @@ class CreatePiecesTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->text('content');
             $table->integer('numbers')->unsigned();
-            $table->dateTime('deadline')->default(null);
+            $table->dateTime('deadline')->nullable();
             $table->timestamps();
 
         });
