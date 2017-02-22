@@ -9,6 +9,12 @@
 
         <!-- 서브컨텐츠 -->
         <div class="content" id="content">
+            @if(Session::has('flash_message'))
+                {{-- important, success, warning, danger and info --}}
+                <div class="alert alert-success">
+                    {{Session('flash_message')}}
+                </div>
+                @endif
             <!-- 게시판상세 -->
             <article class="bbs-view">
                 <h2 class="bbs-view-title">{{ $article->title }}</h2>
@@ -18,7 +24,7 @@
                     <div class="etc"><span>작성일 {{ $article->created_at }}</span>
                         <span>조회수 {{ $article->view_count }}</span></div>
                 </div>
-                <div class="bbs-view-manage"><a href="#mode_nav"><i class="setup-icon">수정</i></a></div>
+                <div class="bbs-view-manage"><a href="{{route('free_board.edit',['id' => $article->id ]) }}"><i class="setup-icon">수정</i></a></div>
                 <!-- 게시물본문 -->
                 <div class="bbs-view-content">
                     <p>
