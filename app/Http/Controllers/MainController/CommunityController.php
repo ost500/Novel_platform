@@ -42,6 +42,7 @@ class CommunityController extends Controller
 
         //view_count +1
         $article->view_count = $article->view_count + 1;
+        $article->week_view_count = $article->week_view_count + 1;
         $article->save();
         $show_liked = false;
         if (Auth::check()) {

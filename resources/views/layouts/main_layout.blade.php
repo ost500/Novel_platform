@@ -307,7 +307,7 @@
                             <option value="전체">전체</option>
                             <option value="소설">소설</option>
                             <option value="소설 회차">소설 회차</option>
-                            <option value="작가">소설 회차</option>
+                            <option value="작가">작가</option>
                         </select>
                     </span>
 

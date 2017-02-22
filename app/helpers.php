@@ -80,5 +80,5 @@ function time_elapsed_string($datetime, $full = false)
 
 function getKeywords(){
     //get the keywords of first category
-    return App\Keyword::where('category', 1)->orWhere('category',2)->get();
+    return App\Keyword::where('category', "!=", 1)->get();
 }
