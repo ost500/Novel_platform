@@ -22,7 +22,10 @@
                                                 href="{{ route('each_novel.novel_group', ['id' => $novel_group_inning->novel_groups->id]) }}"><i
                                                     class="arrow-icon">다른
                                                 회차보기</i></a></span>
-                                <span class="setup-btn"><a href="#mode_nav"><i class="setup2-icon">설정</i></a></span>
+
+                                @if(Auth::check() && Auth::user()->id == $novel_group_inning->user_id)
+                                    <span class="setup-btn"> <a href="{{route('author.inning.update',['id' => $novel_group_inning->id ]) }}"><i class="setup2-icon">설정</i></a></span>
+                                @endif
                             </div>
                         </header>
                         <!-- //연재상세헤더 -->
