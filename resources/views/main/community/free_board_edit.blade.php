@@ -9,6 +9,7 @@
 
             <!-- 서브컨텐츠 -->
             <div class="content" id="content">
+
                 @if (count($errors) > 0)
                     <div class="alert alert-danger">
                         <ul>
@@ -20,33 +21,33 @@
                     @endif
                             <!-- 페이지헤더 -->
                     <div class="list-header">
-                        <h2 class="title">독자추천 글쓰기</h2>
-
+                        <h2 class="title">자유게시판 수정하기</h2>
                     </div>
                     <!-- //페이지헤더 -->
 
                     <!-- 게시판쓰기 -->
-                    <div class="bbs-write"  style="margin-top:2%;">
-                        <form name="reviews" id="reviews" action="{{route('reviews.store')}}" method="post"
+                    <div class="bbs-write" style="margin-top:2%;">
+                        <form name="ask_queston" id="ask_queston" action="{{route('free_board.update',['id'=>$free_board->id])}}" method="post"
                               enctype="multipart/form-data">
                             {{csrf_field()}}
+                            <input name="_method" type="hidden" value="PUT">
                             <div class="item-list item-list--bbs">
 
                                 <div class="item-cols">
                                     <label for="title" class="label">제목</label>
-
-                                    <div class="input"><input type="text" class="text2" name="title" id="title"></div>
+                                    <div class="input"><input type="text" class="text2" name="title" id="title" value="{{$free_board->title}}"></div>
                                 </div>
                                 <div class="item-cols">
                                     <label for="question" class="label">내용</label>
 
-                                    <div class="input"><textarea class="textarea2" rows="10" name="review"
-                                                                 id="review"></textarea></div>
+                                    <div class="input"><textarea class="textarea2" rows="10" name="content"
+                                                                 id="content">{{$free_board->content}}</textarea></div>
                                 </div>
+
                             </div>
                             <div class="submit">
-                                <input type="hidden" class="text2" name="novel_group_id" id="novel_group_id" value="{{$novel_group_id}}">
-                                <button class="btn btn--special" type="submit">문의하기</button>
+
+                                <button class="btn btn--special" type="submit">수정하기</button>
 
                             </div>
                         </form>
@@ -56,9 +57,7 @@
             </div>
             <!-- //서브컨텐츠 -->
             <!-- 따라다니는퀵메뉴 -->
-
             @include('main.quick_menu')
-
             <!-- //따라다니는퀵메뉴 -->
         </div>
     </div>
