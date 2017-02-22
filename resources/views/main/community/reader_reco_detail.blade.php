@@ -4,8 +4,9 @@
     <div class="container">
         <div class="wrap">
             <!-- LNB -->
+
             <div class="lnb">
-                <nav>
+            <nav>
                     <h2 class="lnb-title">커뮤니티</h2>
                     <ul class="lnb-depth1">
                         <li>
@@ -63,6 +64,12 @@
             <!-- 서브컨텐츠 -->
             <div class="content" id="content">
                 <!-- 연재소개 -->
+                @if(Session::has('flash_message'))
+                    {{-- important, success, warning, danger and info --}}
+                    <div class="alert alert-success">
+                        {{Session('flash_message')}}
+                    </div>
+                @endif
                 <section class="novel-detail novel-detail--bbs">
                     <div class="novel-detail-content">
                         <p class="thumb"><span><img style="width: 138px; height: 206px;"
@@ -114,7 +121,7 @@
                             <span>조회수 {{ $review->view_count }}</span>
                         </div>
                     </div>
-                    <div class="bbs-view-manage"><a href="#mode_nav"><i class="setup-icon"></i><span
+                    <div class="bbs-view-manage"><a href="{{route('reader_reco.edit',['id' => $review->review_id ]) }}"><i class="setup-icon"></i><span
                                     class="hidden">수정</span></a></div>
                     <!-- 게시물본문 -->
                     <div class="bbs-view-content">
@@ -128,7 +135,7 @@
                         </div>
                     </div>
                     <div class="bbs-view-btns">
-                        <a href="#mode_nav" class="btn">목록</a>
+                        <a href="{{ route('reader_reco') }}" class="btn">목록</a>
 
                         <div class="right-btns">
                             <a href="{{route('reader_reco').'?novel_group='.$review->novel_groups->id}}"

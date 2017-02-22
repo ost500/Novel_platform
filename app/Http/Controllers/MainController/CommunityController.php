@@ -63,6 +63,18 @@ class CommunityController extends Controller
         return view('main.community.free_board_write');
     }
 
+    public function free_board_edit($id)
+    {
+        $free_board = FreeBoard::find($id);
+        return view('main.community.free_board_edit', compact('free_board'));
+    }
+
+    public function reader_reco_edit($id)
+    {
+        $reader_reco= Review::find($id);
+        return view('main.community.reader_reco_edit', compact('reader_reco'));
+    }
+
 
     public function reader_reco(Request $request)
     {

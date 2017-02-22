@@ -9,7 +9,7 @@
             </li>
             <li>
                 <a href="{{route('reader_reco')}}"
-                   @if(Request::is('novel_group/review/*')||Request::is('novel_group/review/'))class="is-active"@endif>독자추천</a>
+                   @if(Request::is('novel_group/review/*')||Request::is('novel_group/review/')||Request::is('community/reader_reco/*'))class="is-active"@endif>독자추천</a>
             </li>
         </ul>
     </nav>
