@@ -14,6 +14,7 @@ use App\Novel;
 use Auth;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Routing\Redirector;
+use Session;
 
 class EachController extends Controller
 {
@@ -60,15 +61,33 @@ class EachController extends Controller
 
     public function novel_group_inning(Request $request, $novel_id)
     {
-        //increase the view counts
-        $novel = Novel::where('id', $novel_id)->first();
+      //Check if session has data i.e viewed novels
+        $increment = true;
+        $viewed_novels = Session::get('viewed_novels');
 
-        $today_count = $novel->today_count = $novel->today_count + 1;
-        $this_week_count = $novel->week_count = $novel->week_count + 1;
-        $this_month_count = $novel->month_count = $novel->month_count + 1;
-        $this_year_count = $novel->year_count = $novel->year_count + 1;
-        $this_total_count = $novel->total_count = $novel->total_count + 1;
-        $novel->save();
+        if ($viewed_novels) {
+            foreach ($viewed_novels as $viewed_novel) {
+                if ($viewed_novel == $novel_id) {
+                    //if novel already viewed set increment to false
+                    $increment = false;
+                }
+            }
+        }else{ $viewed_novels = array(); }
+
+        if ($increment) {
+
+            //increase the view counts
+            $novel = Novel::where('id', $novel_id)->first();
+            $today_count = $novel->today_count = $novel->today_count + 1;
+            $this_week_count = $novel->week_count = $novel->week_count + 1;
+            $this_month_count = $novel->month_count = $novel->month_count + 1;
+            $this_year_count = $novel->year_count = $novel->year_count + 1;
+            $this_total_count = $novel->total_count = $novel->total_count + 1;
+            $novel->save();
+            $viewed_novels = array_prepend($viewed_novels, $novel_id);
+            Session::put(['viewed_novels' => $viewed_novels, 'viewed_at' => Carbon::now()]);
+
+        }
 
 
         $order = $request->order;
@@ -83,7 +102,7 @@ class EachController extends Controller
         }])->first();
 
 
-        // if it is not free
+// if it is not free
         if ($novel_group_inning->non_free_agreement) {
 
             // not allow people who didn't log in
@@ -103,9 +122,9 @@ class EachController extends Controller
         }
 
 
-        //set default value for favorite icon
+//set default value for favorite icon
         $show_favorite = false;
-        //if user is logged in save this novel to recently visited
+//if user is logged in save this novel to recently visited
         if (Auth::check()) {
             //Check if recently visited item exists or not
             $already_have_recently_visited = RecentlyVisitedNovel::where(['user_id' => Auth::user()->id, 'novel_group_id' => $novel_group_inning->novel_group_id])->first();
@@ -126,7 +145,7 @@ class EachController extends Controller
             $show_favorite = NovelGroup::find($novel_group_inning->novel_group_id)->checkUserFavourite($novel_group_inning->novel_group_id);
         }
 
-        //get the all comments of a novel
+//get the all comments of a novel
         $novel_group_inning_comments = new Collection();
         foreach ($novel_group_inning->comments as $comment) {
             if ($comment->parent_id == 0) {
@@ -139,12 +158,12 @@ class EachController extends Controller
             }
         }
 
-        // dd($novel_group_inning_comments);
-        //Social Share
+// dd($novel_group_inning_comments);
+//Social Share
         $share = new Share();
 
 
-        // Next inning
+// Next inning
         $next_inning = Novel::where('novel_group_id', $novel_group_inning->novel_group_id)
             ->where('inning', '>', $novel_group_inning->inning)->orderBy('inning')->first();
         if ($next_inning) {
@@ -153,7 +172,7 @@ class EachController extends Controller
             $next_inning_id = null;
         }
 
-        // Previous inning
+// Previous inning
         $prev_inning = Novel::where('novel_group_id', $novel_group_inning->novel_group_id)
             ->where('inning', '<', $novel_group_inning->inning)->orderBy('inning', 'desc')->first();
         if ($prev_inning) {
@@ -168,12 +187,14 @@ class EachController extends Controller
         return view('main.each_novel.novel_group_inning', compact('novel_group_inning', 'novel_group_inning_comments', 'show_favorite', 'share', 'next_inning_id', 'prev_inning_id', 'order'));
     }
 
-    public function novel_group_review($novel_group_id)
+    public
+    function novel_group_review($novel_group_id)
     {
         return view('main.each_novel.novel_group_review', compact('novel_group_id'));
     }
 
-    public function purchase($id)
+    public
+    function purchase($id)
     {
 
         $novel = Novel::find($id);
@@ -197,7 +218,8 @@ class EachController extends Controller
         return view('main.each_novel.purchase', compact('novel_group', 'author_novel_groups', 'novel', 'share', 'latest_time'));
     }
 
-    public function purchase_post(Request $request)
+    public
+    function purchase_post(Request $request)
     {
 
         $new_purchased_novel = new PurchasedNovel();
