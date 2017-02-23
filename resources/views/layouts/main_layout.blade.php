@@ -160,7 +160,7 @@
                 <!-- 방문자버튼 -->
 
                     <a href="#mode_nav" class="userbtn userbtn--login" data-modal-id="login_form"
-                       @if($errors->has('name') || $errors->has('password') || isset($login) || isset($loginView)) data-modal-start @endif >로그인</a>
+                       @if($errors->has('name') || $errors->has('password') || isset($login) || isset($loginView) || session('login')) data-modal-start @endif >로그인</a>
 
                 @endif
             </div>
@@ -285,7 +285,8 @@
                             <p class="auto-login-notice" id="auto_login_notice">개인정보 보호를 위해 개인 PC에서만 사용하세요.</p>
                         </div>
                         <div class="aside-link">
-                            <a href="{{ route('id_search') }}">아이디 찾기</a><i></i><a href="{{ url('/password/reset') }}">비밀번호 찾기</a>
+                            <a href="{{ route('id_search') }}">아이디 찾기</a><i></i><a href="{{ url('/password/reset') }}">비밀번호
+                                찾기</a>
 
                         </div>
                     </fieldset>
@@ -316,7 +317,7 @@
                 <div class="search-form-hash-tag">
                     <strong class="search-form-title">해시태그 검색</strong>
 
-                    <div class="input"><input type="text" name="keyword_name" id="keyword_name" class="text1" value=""
+                    <div class="input"><input v-on:keyup="get_keywords(search)" v-model="search" type="text" name="keyword_name" id="keyword_name" class="text1" value=""
                                               title="해시태그 검색어"></div>
                     <div class="submit">
                         <button type="submit" class="userbtn userbtn--search-submit">검색</button>
@@ -325,10 +326,9 @@
                         <strong class="title">자주 찾는 해시태그</strong>
 
                         <div class="list">
-                            @php $keywords= getKeywords(); @endphp
-                            @foreach($keywords as $keyword)
-                                <a href="#dddd" onclick="searchKeyword(this)">#{{$keyword->name}}</a>
-                            @endforeach
+
+                            <a v-for="keyword in keywords" style="cursor:pointer"
+                               onclick="searchKeyword(this)">#@{{keyword.name}}</a>
 
                         </div>
                     </div>
@@ -429,7 +429,7 @@
 
 <script>
     var main_layout = new Vue({
-        el: '#login-area',
+        el: '#header',
 
         data: {
             user: {
@@ -438,11 +438,16 @@
             },
             new_speeds: "",
             new_mails: "",
+            keywords: ""
         },
         mounted: function () {
             console.log(this.user);
-            this.get_new_speed();
+            @if(Auth::check())
+                    this.get_new_speed();
             this.get_new_mails();
+            @endif
+
+                    this.get_keywords("");
         },
         methods: {
             submit: function (e) {
@@ -460,6 +465,15 @@
                         .then(function (response) {
                             this.new_mails = response.data;
                             console.log(this.new_mails);
+                        });
+            },
+            get_keywords: function (search) {
+
+                this.$http.get('{{ route('popular_keywords') }}?search=' + search)
+                        .then(function (response) {
+                            console.log(response);
+                            this.keywords = response.data;
+                            console.log(this.keywords);
                         });
             }
         }
@@ -489,8 +503,8 @@
         }
     });
 
-    $(document).ready(function(){
-        $('#favorite').on('click', function(e) {
+    $(document).ready(function () {
+        $('#favorite').on('click', function (e) {
             var bookmarkURL = window.location.href;
             var bookmarkTitle = document.title;
             var triggerDefault = false;

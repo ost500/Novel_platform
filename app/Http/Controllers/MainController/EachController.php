@@ -13,13 +13,14 @@ use App\NovelGroup;
 use App\Novel;
 use Auth;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Routing\Redirector;
 
 class EachController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware('auth')->only('novel_group_favorite');
+//        $this->middleware('auth')->only('novel_group_favorite');
     }
 
     public function novel_group($id)
@@ -57,7 +58,6 @@ class EachController extends Controller
         return view('main.each_novel.novel_group', compact('novel_group', 'author_novel_groups', 'recently_visited_novel', 'share', 'latest_time'));
     }
 
-
     public function novel_group_inning(Request $request, $novel_id)
     {
         //increase the view counts
@@ -69,9 +69,6 @@ class EachController extends Controller
         $this_year_count = $novel->year_count = $novel->year_count + 1;
         $this_total_count = $novel->total_count = $novel->total_count + 1;
         $novel->save();
-
-
-
 
 
         $order = $request->order;
@@ -86,7 +83,18 @@ class EachController extends Controller
         }])->first();
 
 
+        // if it is not free
         if ($novel_group_inning->non_free_agreement) {
+
+            // not allow people who didn't log in
+            if (!Auth::check()) {
+
+                redirect()->guest($request->geturi());
+
+                $request->session()->flash('login', true);
+                return redirect()->back();
+            }
+
             $my_purchased_novel = PurchasedNovel::where('user_id', Auth::user()->id)
                 ->where('novel_id', $novel_id)->get();
             if ($my_purchased_novel->isEmpty()) {
