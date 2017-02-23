@@ -128,7 +128,7 @@
                                         </li>
                                     @endforeach
                                 </ul>
-                                <a href="#mode_nav" class="recommend-more-btn">더보기</a>
+                                <a href="{{route('search.index').'?user_id='.$novel_group->user_id.'&search_type=다른 작품'}}" class="recommend-more-btn">더보기</a>
                             </div>
                             <!-- 페이징 -->
                             <div class="page-nav page-nav--small">
@@ -185,7 +185,7 @@
             favorites_info: {novel_group_id: ''},
             add_favorite_disp: true,
             remove_favorite_disp: false,
-            search: ''
+            search:''
 
         },
         mounted: function () {

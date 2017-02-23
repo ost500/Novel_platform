@@ -20,6 +20,7 @@ class SearchController extends Controller
             ->groupBy('novels.novel_group_id');
 
         //get search criteria
+        $user_id = $request->get('user_id');
         $search_type = $request->get('search_type');
         $title = $request->get('title');
         $keyword_name = $request->get('keyword_name');
@@ -35,9 +36,11 @@ class SearchController extends Controller
 
         } else if ($search_type == '작가') {
             // search in novel_groups or novels
-            $novel_groups = $novel_groups->where(function ($query) use ($title) {
-                $query->where([['nick_names.nickname', 'like', '%' . $title . '%']])->orWhere([['novels.title', 'like', '%' . $title . '%']]);
-            });
+            $novel_groups = $novel_groups->where([['nick_names.nickname', 'like', '%' . $title . '%']]);
+
+        } else if ($search_type == '다른 작품') {
+            // search in novel_groups for author's other novels
+            $novel_groups = $novel_groups->where('novel_groups.user_id', $user_id);
         } else {
             // search in novel_groups or novels
             $novel_groups = $novel_groups->where(function ($query) use ($title) {
