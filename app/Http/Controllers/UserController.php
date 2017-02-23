@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\VerifyEmail;
+use App\NickName;
 use App\User;
 use Auth;
 use Carbon\Carbon;
@@ -251,19 +252,23 @@ class UserController extends Controller
     {
 
         try {
-          //  $user = Auth::user();
+            //  $user = Auth::user();
 
             Mail::to(Auth::user())->send(new VerifyEmail(Auth::user()));
 
             flash('성공적으로 정보를 변경했습니다');
 
-            if($request->ajax()){ return response()->json(['error'=>'0','status'=>'ok']);}
+            if ($request->ajax()) {
+                return response()->json(['error' => '0', 'status' => 'ok']);
+            }
 
             return view('auth.auth_mail_send', compact('user'));
 
         } catch (Exception $e) {
-            flash('이메일을 보내는 데 에러가 발생했습니다','danger');
-            if($request->ajax()){ return response()->json(['error'=>'1','message'=>'이메일을 보내는 데 에러가 발생했습니다']);}
+            flash('이메일을 보내는 데 에러가 발생했습니다', 'danger');
+            if ($request->ajax()) {
+                return response()->json(['error' => '1', 'message' => '이메일을 보내는 데 에러가 발생했습니다']);
+            }
             return view('errors.503');
         }
 
@@ -284,6 +289,13 @@ class UserController extends Controller
                 $request->get('block_type') => 0
             ]);
         }
-        return response()->json(['block_unblock' =>$request->get('block_unblock'),'message'=> 'ok']);
+        return response()->json(['block_unblock' => $request->get('block_unblock'), 'message' => 'ok']);
+    }
+
+    public function search_by_name(Request $request)
+    {
+
+        $user_names = User::select('id', 'name', 'email')->where('name', 'like', $request->get('name') . '%')->orWhere('email', 'like', $request->get('name') . '%')->get();
+        return response()->json(['user_names' => $user_names, 'message' => 'ok']);
     }
 }
