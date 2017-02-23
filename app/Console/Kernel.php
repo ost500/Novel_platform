@@ -3,6 +3,8 @@
 namespace App\Console;
 
 use App\Novel;
+use Carbon\Carbon;
+use DateTime;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Log;
@@ -28,9 +30,23 @@ class Kernel extends ConsoleKernel
     {
 //         $schedule->command('inspire')
 //                  ->hourly();
-//        $schedule->call(function () {
-//            Log::info('test!');
-//        })->everyMinute();
+        $schedule->call(function () {
+            //fetch the data which are publish_reservation column is not null
+            $reservations = Novel::where('publish_reservation', '!=', null)->get();
+
+
+            foreach ($reservations as $reservation) {
+                //make it Datetime Class instance
+                $theDate = new Datetime($reservation->publish_reservation);
+                //check it is passed or not
+                if ($theDate < Carbon::now()) {
+                    //if it is passed then make it null
+                    $reservation->publish_reservation = null;
+                    $reservation->save();
+                }
+            }
+        })->everyMinute();
+
         $schedule->call(function () {
             foreach (Novel::get() as $novel) {
                 $novel->today_count = 0;

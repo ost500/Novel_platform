@@ -160,7 +160,7 @@
                 <!-- 방문자버튼 -->
 
                     <a href="#mode_nav" class="userbtn userbtn--login" data-modal-id="login_form"
-                       @if($errors->has('name') || $errors->has('password') || isset($login) || isset($loginView)) data-modal-start @endif >로그인</a>
+                       @if($errors->has('name') || $errors->has('password') || isset($login) || isset($loginView) || session('login')) data-modal-start @endif >로그인</a>
 
                 @endif
             </div>
@@ -285,7 +285,8 @@
                             <p class="auto-login-notice" id="auto_login_notice">개인정보 보호를 위해 개인 PC에서만 사용하세요.</p>
                         </div>
                         <div class="aside-link">
-                            <a href="{{ route('id_search') }}">아이디 찾기</a><i></i><a href="{{ url('/password/reset') }}">비밀번호 찾기</a>
+                            <a href="{{ route('id_search') }}">아이디 찾기</a><i></i><a href="{{ url('/password/reset') }}">비밀번호
+                                찾기</a>
 
                         </div>
                     </fieldset>
@@ -441,8 +442,10 @@
         },
         mounted: function () {
             console.log(this.user);
-            this.get_new_speed();
+            @if(Auth::check())
+                    this.get_new_speed();
             this.get_new_mails();
+            @endif
         },
         methods: {
             submit: function (e) {
@@ -489,8 +492,8 @@
         }
     });
 
-    $(document).ready(function(){
-        $('#favorite').on('click', function(e) {
+    $(document).ready(function () {
+        $('#favorite').on('click', function (e) {
             var bookmarkURL = window.location.href;
             var bookmarkTitle = document.title;
             var triggerDefault = false;
