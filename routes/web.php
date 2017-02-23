@@ -35,6 +35,7 @@ Route::resource('faqs', 'FaqController');
 Route::resource('favorites', 'FavoriteController', ['only' => ['store', 'destroy']]);
 Route::resource('free_board_likes', 'FreeBoardLikeController', ['only' => ['store', 'destroy']]);
 Route::resource('keywords', 'KeywordController');
+Route::get('popular_keywords', ['as' => 'popular_keywords', 'uses' => 'KeywordController@popular_keywords']);
 Route::resource('companies', 'CompanyController');
 Route::resource('publish_companies', 'NovelGroupPublishCompanyController', ['only' => ['update']]);
 Route::resource('presents', 'PresentController', ['only' => ['update']]);

@@ -77,8 +77,3 @@ function time_elapsed_string($datetime, $full = false)
     if (!$full) $string = array_slice($string, 0, 1);
     return $string ? implode(', ', $string) . ' 전' : '방금 전';
 }
-
-function getKeywords(){
-    //get the keywords of first category
-    return App\Keyword::where('category', "!=", 1)->get();
-}
