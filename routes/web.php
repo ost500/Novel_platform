@@ -11,6 +11,18 @@
 |
 */
 
+//Detect whether request is from mobile or desktop
+use Jenssegers\Agent\Agent;
+
+$agent = new Agent();
+
+if ($agent->isMobile()) {
+    //Redirect to Mobile site
+    Route::get('/', ['as' => 'mobile.index', 'uses' => 'MobileController\IndexController@index']);
+} else {
+    //Redirect to Main site
+    Route::get('/', ['as' => 'root', 'uses' => 'MainController\MainController@main']);
+}
 
 Auth::routes();
 Route::get('id_search', ['as' => 'id_search', 'uses' => 'Auth\IdSearchController@id_search']);
@@ -170,8 +182,6 @@ Route::group(['prefix' => 'admin'], function () {
         ->where(['id' => '[0-9]+']);
 });
 
-//main
-Route::get('/', ['as' => 'root', 'uses' => 'MainController\MainController@main']);
 
 //Series
 Route::get('/series/{free_or_charged?}', ['as' => 'series', 'uses' => 'MainController\MainController@series']);

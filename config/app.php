@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'ì—¬ìš°ì •ì›',
+    'name' => '?—¬?š°? •?›',
 
     /*
     |--------------------------------------------------------------------------
@@ -180,6 +180,7 @@ return [
 
 //        BrianFaust\SocialShare\ServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+        Jenssegers\Agent\AgentServiceProvider::class,
 
     ],
 
@@ -229,6 +230,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Share' => BrianFaust\SocialShare\Facades\SocialShare::class,
+        'Agent' => Jenssegers\Agent\Facades\Agent::class,
 
     ],
 

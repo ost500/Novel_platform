@@ -12,7 +12,8 @@
         "grandt/phpepub": "> 4.0.3",
         "guzzlehttp/guzzle": "^6.2",
         "aws/aws-sdk-php": "^3.21",
-        "faustbrian/laravel-social-share": "^1.0"
+        "faustbrian/laravel-social-share": "^1.0",
+        "jenssegers/agent": "^2.5"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
