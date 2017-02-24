@@ -61,18 +61,23 @@ class EachController extends Controller
 
     public function novel_group_inning(Request $request, $novel_id)
     {
-      //Check if session has data i.e viewed novels
+
         $increment = true;
+
+        //Get the session data and Check if session has data i.e viewed novels
         $viewed_novels = Session::get('viewed_novels');
 
         if ($viewed_novels) {
+            //if novel id exist in the session already viewed set increment to false
             foreach ($viewed_novels as $viewed_novel) {
                 if ($viewed_novel == $novel_id) {
-                    //if novel already viewed set increment to false
+
                     $increment = false;
                 }
             }
-        }else{ $viewed_novels = array(); }
+        } else {
+            $viewed_novels = array();
+        }
 
         if ($increment) {
 
@@ -84,7 +89,11 @@ class EachController extends Controller
             $this_year_count = $novel->year_count = $novel->year_count + 1;
             $this_total_count = $novel->total_count = $novel->total_count + 1;
             $novel->save();
+
+            //Append the clicked novel id to array
             $viewed_novels = array_prepend($viewed_novels, $novel_id);
+
+            //Add the array to session
             Session::put(['viewed_novels' => $viewed_novels, 'viewed_at' => Carbon::now()]);
 
         }
