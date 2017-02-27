@@ -13,44 +13,18 @@
                             <a href="{{route('series')}}"
                                @if(!$free_or_charged && $genre=='%')class="is-active lnb-depth1-2"
                                @else class="lnb-depth1-2" @endif>전체</a><br>
-                            <a href="{{route('series')}}?genre=현대"
-                               @if(!$free_or_charged && ($genre=='현대판타지' || $genre == '현대'))class="is-active lnb-depth1-2"
+                            <a href="{{route('series')}}?genre=현대로맨스"
+                               @if(!$free_or_charged && ($genre=='현대로맨스'))class="is-active lnb-depth1-2"
                                @else class="lnb-depth1-2"@endif>현대로맨스</a>
-                            <ul class="lnb-depth2">
-                                @if(!$free_or_charged && ($genre=='현대판타지' || $genre == '현대'))
-                                    <li><a href="{{route('series')}}?genre=현대"
-                                           @if(!$free_or_charged && $genre=='현대')class="is-active"@endif>현대</a></li>
-                                    <li><a href="{{route('series')}}?genre=현대판타지"
-                                           @if(!$free_or_charged && $genre=='현대판타지')class="is-active"@endif>현대판타지</a>
-                                    </li>
-                                @endif
-                            </ul>
-                            <a href="{{route('series')}}?genre=시대"
-                               @if(!$free_or_charged && ($genre=='시대' or $genre == '사극' or $genre == '동양판타지'))class="is-active lnb-depth1-2"
+
+                            <a href="{{route('series')}}?genre=시대로맨스"
+                               @if(!$free_or_charged && ($genre=='시대로맨스'))class="is-active lnb-depth1-2"
                                @else class="lnb-depth1-2"@endif>시대로맨스</a>
-                            <ul class="lnb-depth2">
-                                @if(!$free_or_charged && ($genre=='시대' or $genre == '사극' or $genre == '동양판타지'))
-                                    <li><a href="{{route('series')}}?genre=시대"
-                                           @if(!$free_or_charged && $genre=='시대')class="is-active"@endif>시대</a></li>
-                                    <li><a href="{{route('series')}}?genre=사극"
-                                           @if(!$free_or_charged && $genre=='사극')class="is-active"@endif>사극</a></li>
-                                    <li><a href="{{route('series')}}?genre=동양판타지"
-                                           @if(!$free_or_charged && $genre=='동양판타지')class="is-active"@endif>동양판타지</a>
-                                    </li>
-                                @endif
-                            </ul>
-                            <a href="{{route('series')}}?genre=서양역사"
-                               @if(!$free_or_charged && ($genre=='서양역사' or $genre == '로맨스판타지'))class="is-active lnb-depth1-2"
-                               @else class="lnb-depth1-2"@endif>서양역사</a>
-                            <ul class="lnb-depth2">
-                                @if(!$free_or_charged && ($genre=='서양역사' or $genre == '로맨스판타지'))
-                                    <li><a href="{{route('series')}}?genre=서양역사"
-                                           @if(!$free_or_charged && $genre=='서양역사')class="is-active"@endif>서양역사</a></li>
-                                    <li><a href="{{route('series')}}?genre=로맨스판타지"
-                                           @if(!$free_or_charged && $genre=='로맨스판타지')class="is-active"@endif>로맨스판타지</a>
-                                    </li>
-                                @endif
-                            </ul>
+
+                            <a href="{{route('series')}}?genre=로맨스판타지"
+                               @if(!$free_or_charged && ($genre=='로맨스판타지'))class="is-active lnb-depth1-2"
+                               @else class="lnb-depth1-2"@endif>로맨스판타지</a>
+
                         </li>
                         <li>
                             <a href="{{route('series', ['free_or_charged'=>'free'])}}"
@@ -58,44 +32,18 @@
                             <a href="{{route('series', ['free_or_charged'=>'free'])}}"
                                @if($free_or_charged && $genre=='%')class="is-active lnb-depth1-2"
                                @else class="lnb-depth1-2" @endif>전체</a><br>
-                            <a href="{{route('series', ['free_or_charged'=>'free'])}}?genre=현대"
-                               @if($free_or_charged && ($genre=='현대판타지' or $genre == '현대'))class="is-active lnb-depth1-2"
+                            <a href="{{route('series', ['free_or_charged'=>'free'])}}?genre=현대로맨스"
+                               @if($free_or_charged && ($genre=='현대로맨스'))class="is-active lnb-depth1-2"
                                @else class="lnb-depth1-2"@endif>현대로맨스</a>
-                            <ul class="lnb-depth2">
-                                @if($free_or_charged && ($genre=='현대판타지' or $genre == '현대'))
-                                    <li><a href="{{route('series', ['free_or_charged'=>'free'])}}?genre=현대"
-                                           @if($free_or_charged && $genre=='현대')class="is-active"@endif>현대</a></li>
-                                    <li><a href="{{route('series', ['free_or_charged'=>'free'])}}?genre=현대판타지"
-                                           @if($free_or_charged && $genre=='현대판타지')class="is-active"@endif>현대판타지</a>
-                                    </li>
-                                @endif
-                            </ul>
-                            <a href="{{route('series', ['free_or_charged'=>'free'])}}?genre=시대"
-                               @if($free_or_charged && ($genre=='시대' or $genre == '사극' or $genre == '동양판타지'))class="is-active lnb-depth1-2"
+
+                            <a href="{{route('series', ['free_or_charged'=>'free'])}}?genre=시대로맨스"
+                               @if($free_or_charged && ($genre=='시대로맨스'))class="is-active lnb-depth1-2"
                                @else class="lnb-depth1-2"@endif>시대로맨스</a>
-                            <ul class="lnb-depth2">
-                                @if($free_or_charged && ($genre=='시대' or $genre == '사극' or $genre == '동양판타지'))
-                                    <li><a href="{{route('series', ['free_or_charged'=>'free'])}}?genre=시대"
-                                           @if($free_or_charged && $genre=='시대')class="is-active"@endif>시대</a></li>
-                                    <li><a href="{{route('series', ['free_or_charged'=>'free'])}}?genre=사극"
-                                           @if($free_or_charged && $genre=='사극')class="is-active"@endif>사극</a></li>
-                                    <li><a href="{{route('series', ['free_or_charged'=>'free'])}}?genre=동양판타지"
-                                           @if($free_or_charged && $genre=='동양판타지')class="is-active"@endif>동양판타지</a>
-                                    </li>
-                                @endif
-                            </ul>
-                            <a href="{{route('series', ['free_or_charged'=>'free'])}}?genre=서양역사"
-                               @if($free_or_charged && ($genre=='서양역사' or $genre == '로맨스판타지'))class="is-active lnb-depth1-2"
-                               @else class="lnb-depth1-2"@endif>서양역사</a>
-                            <ul class="lnb-depth2">
-                                @if($free_or_charged && ($genre=='서양역사' or $genre == '로맨스판타지'))
-                                    <li><a href="{{route('series', ['free_or_charged'=>'free'])}}?genre=서양역사"
-                                           @if($free_or_charged && $genre=='서양역사')class="is-active"@endif>서양역사</a></li>
-                                    <li><a href="{{route('series', ['free_or_charged'=>'free'])}}?genre=로맨스판타지"
-                                           @if($free_or_charged && $genre=='로맨스판타지')class="is-active"@endif>로맨스판타지</a>
-                                    </li>
-                                @endif
-                            </ul>
+
+                            <a href="{{route('series', ['free_or_charged'=>'free'])}}?genre=로맨스판타지"
+                               @if($free_or_charged && ($genre=='로맨스판타지'))class="is-active lnb-depth1-2"
+                               @else class="lnb-depth1-2"@endif>로맨스판타지</a>
+
                         </li>
                     </ul>
                 </nav>
