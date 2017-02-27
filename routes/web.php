@@ -11,6 +11,18 @@
 |
 */
 
+//Detect whether request is from mobile or desktop
+use Jenssegers\Agent\Agent;
+
+$agent = new Agent();
+
+if ($agent->isMobile()) {
+    //Redirect to Mobile site
+    Route::get('/', ['as' => 'mobile.index', 'uses' => 'MobileController\IndexController@index']);
+} else {
+    //Redirect to Main site
+    Route::get('/', ['as' => 'root', 'uses' => 'MainController\MainController@main']);
+}
 
 Auth::routes();
 Route::get('id_search', ['as' => 'id_search', 'uses' => 'Auth\IdSearchController@id_search']);
@@ -68,7 +80,7 @@ Route::post('mailboxes/destroy_sent_bulk', ['as' => 'mailbox.destroy_sent_bulk',
 Route::put('users/update', ['as' => 'users.update', 'uses' => 'UserController@update']);
 Route::put('users/update_agreement', ['as' => 'users.update_agreement', 'uses' => 'UserController@update_agreement']);
 Route::put('users/update_block', ['as' => 'users.update_block', 'uses' => 'UserController@update_block']);
-
+Route::post('users/search_by_name', ['as' => 'users.search_by_name', 'uses' => 'UserController@search_by_name']);
 Route::resource('nickname', 'NickNameController');
 
 Route::post('publishnovelgroups', ['as' => 'publishnovelgroups.store', 'uses' => "PublishNovelGroupController@store"]);
@@ -170,8 +182,6 @@ Route::group(['prefix' => 'admin'], function () {
         ->where(['id' => '[0-9]+']);
 });
 
-//main
-Route::get('/', ['as' => 'root', 'uses' => 'MainController\MainController@main']);
 
 //Series
 Route::get('/series/{free_or_charged?}', ['as' => 'series', 'uses' => 'MainController\MainController@series']);

@@ -1,6 +1,6 @@
 @extends('../layouts.main_layout')
 @section('content')
-    <div class="container" xmlns:v-on="http://www.w3.org/1999/xhtml">
+    <div class="container" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
         <div class="wrap" id="sent_gifts">
             <!-- LNB -->
             @include('main.my_page.left_sidebar')
@@ -14,6 +14,7 @@
                         {{Session('flash_message')}}
                     </div>
                     @endif
+
                             <!-- 페이지헤더 -->
                     <div class="list-header">
                         <h2 class="title">보낸 선물 내역</h2>
@@ -84,7 +85,8 @@
                         <h2 class="title">구슬 선물하기</h2>
                     </div>
                     <div class="popup-content">
-                        <form name="gift_form" action="{{route('pieces.store')}}" class="gift-form" method="post">
+                        <form name="gift_form" action="{{route('pieces.store')}}" class="gift-form" method="post"
+                              v-on:submit.prevent="submitGift()">
                             {{csrf_field()}}
                             <div class="item-list">
                                 <div class="item-cols">
@@ -92,20 +94,31 @@
 
                                     <div class="input input--user-search">
                                         <div class="search-input">
-                                            <input type="text"  name="user_id" id="user_id" class="text1"
-                                                   placeholder="아이디나 닉네임을 검색하세요.">
+                                            <input type="text" name="name" id="name" v-model="search_info.name"
+                                                   class="text1"
+                                                   placeholder="아이디나 닉네임을 검색하세요." v-on:keyup="searchByName()">
+                                            <span class="input-desc" style="color:#b3383c;"
+                                                  v-if="errors['user_id']">@{{ errors.user_id.toString() }}</span>
                                         </div>
-                                        <button type="button" class="userbtn userbtn--search-submit">검색</button>
+                                        <button type="button" class="userbtn userbtn--search-submit"
+                                                v-on:click="searchByName()"></button>
                                         <!-- 받는사람찾기결과 -->
-                                        <div class="user-search-result">
-                                            <div class="result-item">
-                                                <span class="user-name">김달</span>
-                                                <button type="button" class="delete-btn">삭제</button>
+                                        <div class="user-search-result"
+                                             style="height: 100px; overflow-y: scroll;display:none" v-show="display">
+                                            <div class="result-item" v-for="user_name in user_names"
+                                                 v-if="user_name.id !='{{Auth::user()->id}}'"
+                                                 style="padding-right:0;display:block;">
+                                                <span class="user-name">@{{ user_name.name }}
+                                                    (@{{ user_name.email }})</span>
+                                                {{-- <button type="button" class="delete-btn">삭제</button> --}}
+                                                <label class="checkbox2">
+                                                    <input type="radio" name="user_id"
+                                                           v-on:click="fillName(user_name.name,user_name.id )">
+                                                    <span></span>
+                                                </label>
                                             </div>
-                                            <div class="result-item">
-                                                <span class="user-name">이비안</span>
-                                                <button type="button" class="delete-btn">삭제</button>
-                                            </div>
+                                            <br>
+
                                         </div>
                                         <!-- //받는사람찾기결과 -->
                                     </div>
@@ -114,16 +127,22 @@
                                     <label for="gift_msg" class="label">전할문구</label>
 
                                     <div class="input input--fullsize">
-                                        <input type="text" name="content" id="gift_msg" class="text2"
+                                        <input type="text" name="content" id="gift_msg" v-model="gift_info.content"
+                                               class="text2"
                                                placeholder="공백 포함 최대 30자까지 가능합니다.">
+                                        <span class="input-desc" style="color:#b3383c;"
+                                              v-if="errors['content']">@{{ errors.content.toString() }}</span>
                                     </div>
                                 </div>
                                 <div class="item-cols">
                                     <label for="gift_marble" class="label">구슬선물</label>
 
                                     <div class="input">
-                                        <input type="text" name="numbers" id="gift_marble" class="text2" size="25">
-                                        <span class="input-desc">구매한 구슬만 선물이 가능합니다.</span>
+                                        <input type="text" name="numbers" id="gift_marble" class="text2" size="25"
+                                               v-model="gift_info.numbers">
+                                        <span class="input-desc">구매한 구슬만 선물이 가능합니다.</span><br>
+                                        <span class="input-desc" style="color:#b3383c;"
+                                              v-if="errors['numbers']">@{{errors.numbers.toString() }}</span>
                                     </div>
                                 </div>
                                 <div class="my-item">
@@ -154,7 +173,12 @@
                 info: {
                     status: ''
                 },
-                alert_msg: ''
+                alert_msg: '',
+                gift_info: {user_id: '', content: '', numbers: ''},
+                search_info: {name: ''},
+                user_names: [],
+                errors: {},
+                display: false
             },
             mounted: function () {
 
@@ -186,10 +210,45 @@
                                 });
 
                     }
+                },
+
+                //Show user name suggestions
+                searchByName: function () {
+                    app_gift.$http.post('{{ route('users.search_by_name') }}', app_gift.search_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                            .then(function (response) {
+
+                                this.user_names = response.data['user_names'];
+                                this.display = true;
+                            })
+                            .catch(function (response, status, request) {
+
+                                console.log(response.data);
+                            });
+                },
+
+                //Submit the gift
+                submitGift: function () {
+
+                    app_gift.$http.post('{{ route('pieces.store') }}', app_gift.gift_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                            .then(function (response) {
+                                location.reload();
+                            })
+                            .catch(function (response, status, request) {
+                                //show validation errors
+                                this.errors = response.data;
+                            });
+
+                },
+
+                //Fill the selected user name in the input box
+                fillName: function (name, user_id) {
+                    app_gift.search_info.name = name;
+                    app_gift.gift_info.user_id = user_id;
+
                 }
             }
         });
-        $(".alert").delay(4000).slideUp(200, function () {
+        $(".alert").delay(5000).slideUp(200, function () {
             $(this).alert('close');
         });
     </script>

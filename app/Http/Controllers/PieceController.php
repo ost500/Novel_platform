@@ -6,6 +6,7 @@ use App\Piece;
 use App\User;
 use Illuminate\Http\Request;
 use Auth;
+use Validator;
 
 class PieceController extends Controller
 {
@@ -20,6 +21,20 @@ class PieceController extends Controller
 
     public function store(Request $request)
     {
+        Validator::make($request->all(), [
+            'user_id' => 'required',
+            'content' => 'required',
+            'numbers' => 'required|numeric',
+
+        ], [
+            'user_id.required' => '받는사람은 필수 입니다.',
+            'content.required' => '전할문구는 필수 입니다.',
+            'numbers.required' => '선물할 구슬 개수를 입력하세요.',
+            'numbers.numeric' => '숫자만 입력 가능합니다.',
+
+
+        ])->validate();
+
 
         Piece::create($request->all());
 
@@ -31,8 +46,8 @@ class PieceController extends Controller
         Auth::user()->bead = Auth::user()->bead - $request->get('numbers');
         Auth::user()->save();
 
-        flash('Gift!!');
-        return redirect()->route('my_info.sent_gift');
-        /*return response()->json(['data' => $request->status, 'status' => 'ok']);*/
+        flash(Auth::user()->name . " 님에게 구슬을 선물했습니다.");
+
+        return response()->json(['message' => Auth::user()->name . '님에게 구슬을 선물했습니다.', 'status' => 'ok']);
     }
 }
