@@ -74,7 +74,7 @@ class NovelGroup extends Model
      * @var array
      */
     protected $fillable = [
-        'nickname', 'title', 'description', 'keyword1', 'keyword2', 'keyword3', 'keyword4', 'keyword5', 'keyword6', 'keyword7', 'novel_group_id', 'cover_photo',
+        'nickname', 'title', 'description', 'novel_group_id', 'cover_photo','cover_photo2',
     ];
 
     public function novels()
@@ -127,6 +127,11 @@ class NovelGroup extends Model
         return $this->belongsToMany(Keyword::class,
             'novel_group_keywords', 'novel_group_id', 'keyword_id')
             ->withPivot('id', 'novel_group_id', 'keyword_id', 'created_at', 'updated_at');
+    }
+
+    public function hash_tags()
+    {
+        return $this->hasMany(NovelGroupHashTag::class);
     }
 
     public function getNovelGroupViewCount()
