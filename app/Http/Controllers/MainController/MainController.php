@@ -16,7 +16,7 @@ class MainController extends Controller
 {
     public function main(Request $request)
     {
-        $recommends = NovelGroup::take(5)->where('secret',null)->with('nicknames')->get();
+        $recommends = NovelGroup::take(5)->where('secret', null)->with('nicknames')->get();
 //        return response()->json($recommends);
 //        $today_best = ViewCount::selectRaw('novel_group_id, novel_groups.*, sum(count) as sum')
 //            ->join('novels', 'novels.id', '=', 'novel_id')
@@ -25,34 +25,34 @@ class MainController extends Controller
 //            ->get();
         $non_free_today_bests = NovelGroup::selectRaw('novel_group_id, novel_groups.*, sum(today_count) as sum, max(non_free_agreement) as non_free')
             ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
-            ->groupBy('novel_group_id')->where('secret',null)->orderBy('sum', 'desc')->havingRaw('max(non_free_agreement) > 0')
+            ->groupBy('novel_group_id')->where('secret', null)->orderBy('sum', 'desc')->havingRaw('max(non_free_agreement) > 0')
             ->with('nicknames')->take(10)->get();
         $free_today_bests = NovelGroup::selectRaw('novel_group_id, novel_groups.*, sum(today_count) as sum, max(non_free_agreement) as non_free')
             ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
-            ->groupBy('novel_group_id')->where('secret',null)->orderBy('sum', 'desc')->havingRaw('max(non_free_agreement) = 0')
+            ->groupBy('novel_group_id')->where('secret', null)->orderBy('sum', 'desc')->havingRaw('max(non_free_agreement) = 0')
             ->with('nicknames')->take(10)->get();
 
-        $latests = NovelGroup::where('secret',null)->latest()->take(5)->get();
+        $latests = NovelGroup::where('secret', null)->latest()->take(5)->get();
 
         //$reader_reviews = Review::take(6)->with('novel_groups')->get();
         $reader_reviews = Review::selectRaw('reviews.*')
             ->join('novel_groups', 'reviews.novel_group_id', '=', 'novel_groups.id')
-            ->where('secret',null)->take(6)->get();
+            ->where('secret', null)->take(6)->get();
 
         $recommendations = NovelGroup::selectRaw('novel_group_id, novel_groups.*, sum(week_count) as sum, max(non_free_agreement) as non_free')
             ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
-            ->groupBy('novel_group_id')->where('secret',null)->orderBy('sum', 'desc')->havingRaw('max(non_free_agreement) > 0')
+            ->groupBy('novel_group_id')->where('secret', null)->orderBy('sum', 'desc')->havingRaw('max(non_free_agreement) > 0')
             ->with('nicknames')->take(8)->get();
 
-        $notification_popups=Notification::where('popup',true)->latest()->get();
+        $notification_popups = Notification::where('popup', true)->latest()->get();
 
         //when it has to be logged in
         $login = $request->login;
         $loginView = $request->loginView;
-        
+
 
 //        return response()->json($reader_reviews);
-        return view('main.main', compact('recommends', 'non_free_today_bests', 'free_today_bests', 'latests', 'reader_reviews', 'recommendations', 'login', 'loginView','notification_popups'));
+        return view('main.main', compact('recommends', 'non_free_today_bests', 'free_today_bests', 'latests', 'reader_reviews', 'recommendations', 'login', 'loginView', 'notification_popups'));
     }
 
     public function series(Request $request, $free_or_charged = false)
@@ -62,23 +62,44 @@ class MainController extends Controller
             //charged
             $novel_groups = NovelGroup::selectRaw('novel_group_id, novel_groups.*, max(novels.created_at) as new, max(non_free_agreement) as non_free, sum(total_count) as total_count')
                 ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
-                ->where([['completed','=', 0],['secret','=', null]])
+                ->where([['completed', '=', 0], ['secret', '=', null]])
                 ->groupBy('novel_group_id')->havingRaw('max(non_free_agreement) > 0');
 
         } else {
             //free
             $novel_groups = NovelGroup::selectRaw('novel_group_id, novel_groups.*, max(novels.created_at) as new, max(non_free_agreement) as non_free, sum(total_count) as total_count')
                 ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
-                ->where([['completed','=', 0],['secret','=', null]])
+                ->where([['completed', '=', 0], ['secret', '=', null]])
                 ->groupBy('novel_group_id')->havingRaw('max(non_free_agreement) = 0');
 
         }
 
+
         //genre
         $genre = isset($request->genre) ? $request->genre : '%';
-        $novel_groups = $novel_groups->whereHas('keywords', function ($q) use ($genre) {
-            $q->where('name', 'like', $genre);
+
+
+        if ($genre == "현대로맨스") {
+            $genreArr = ['현대', '현대판타지'];
+        } else if ($genre == "시대로맨스") {
+            $genreArr = ['시대', '사극', '동양판타지'];
+        } else if ($genre == "로맨스판타지") {
+            $genreArr = ['서양역사', '로맨스판타지'];
+        } else {
+            $genreArr = ["%"];
+        }
+
+
+        $novel_groups->whereHas('keywords', function ($q) use ($genreArr, $genre) {
+            if ($genre == "%") {
+                //if it is all
+                $q->where('name', 'like', '%');
+            } else {
+                //if it is not all
+                $q->WhereIn('name', $genreArr);
+            }
         });
+
 
         //order
         $order = $request->order;
@@ -115,7 +136,7 @@ class MainController extends Controller
                 ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
                 ->join('novel_group_keywords', 'novel_group_keywords.novel_group_id', '=', 'novel_groups.id')
                 ->groupBy('novels.novel_group_id')
-                ->where('secret',null)
+                ->where('secret', null)
                 ->orderBy('view_count', 'desc')
                 ->havingRaw('max(non_free_agreement) > 0');
         } else {
@@ -123,7 +144,7 @@ class MainController extends Controller
                 ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
                 ->join('novel_group_keywords', 'novel_group_keywords.novel_group_id', '=', 'novel_groups.id')
                 ->groupBy('novels.novel_group_id')
-                ->where('secret',null)
+                ->where('secret', null)
                 ->orderBy('view_count', 'desc')
                 ->havingRaw('max(non_free_agreement) = 0');
             //havingRaw max(non_free_agreement) == 0 means it's free
@@ -133,19 +154,36 @@ class MainController extends Controller
         $keywords = Keyword::where('category', 1)->get();
 
         $option = isset($request->option) ? $request->option : false;
+
+
         if ($option == "steady") {
             $three_month_before = Carbon::today()->subMonth(3)->format('Ymd');
             $novel_groups = $novel_groups->havingRaw("min(novels.created_at)  < '" . $three_month_before . "'");
         } else if ($option == "completed") {
             //completed
             $novel_groups = $novel_groups->where('completed', 1);
-        } else if ($keywords->contains("name", $option)) {
+        } else if ($option == "현대로맨스" or $option == "시대로맨스" or $option == "로맨스판타지") {
+
+            $optionArr = "";
+            if ($option == "현대로맨스") {
+                $optionArr = ['현대', '현대판타지'];
+            } else if ($option == "시대로맨스") {
+                $optionArr = ['시대', '사극', '동양판타지'];
+            } else if ($option == "로맨스판타지") {
+                $optionArr = ['서양역사', '로맨스판타지'];
+            }
+
             //option is equal to keyword
             //get id from keyword
-            $keyword_id = Keyword::select('id')->where('name', $option)->get();
+            $keyword_id = Keyword::select('id')->where(function ($q) use ($optionArr) {
+                $q->whereIn('name', $optionArr);
+            })->get();
+
 
             //make the condition
-            $novel_groups = $novel_groups->where('novel_group_keywords.keyword_id', '=', $keyword_id[0]->id);
+            $novel_groups = $novel_groups->where(function ($q) use ($keyword_id) {
+                $q->whereIn('novel_group_keywords.keyword_id', $keyword_id);
+            });
 
         }
 
@@ -167,22 +205,41 @@ class MainController extends Controller
             //charged
             $novel_groups = NovelGroup::selectRaw('novel_group_id, novel_groups.*, max(novels.created_at) as new, max(non_free_agreement) as non_free, sum(total_count) as total_count')
                 ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
-                ->where([['completed','=', 1],['secret','=', null]])
+                ->where([['completed', '=', 1], ['secret', '=', null]])
                 ->groupBy('novel_group_id')->havingRaw('max(non_free_agreement) > 0');
 
         } else {
             //free
             $novel_groups = NovelGroup::selectRaw('novel_group_id, novel_groups.*, max(novels.created_at) as new, max(non_free_agreement) as non_free, sum(total_count) as total_count')
                 ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
-                ->where([['completed','=', 1],['secret','=', null]])
+                ->where([['completed', '=', 1], ['secret', '=', null]])
                 ->groupBy('novel_group_id')->havingRaw('max(non_free_agreement) = 0');
 
         }
 
         //genre
         $genre = isset($request->genre) ? $request->genre : '%';
-        $novel_groups = $novel_groups->whereHas('keywords', function ($q) use ($genre) {
-            $q->where('name', 'like', $genre);
+
+
+        if ($genre == "현대로맨스") {
+            $genreArr = ['현대', '현대판타지'];
+        } else if ($genre == "시대로맨스") {
+            $genreArr = ['시대', '사극', '동양판타지'];
+        } else if ($genre == "로맨스판타지") {
+            $genreArr = ['서양역사', '로맨스판타지'];
+        } else {
+            $genreArr = ["%"];
+        }
+
+
+        $novel_groups->whereHas('keywords', function ($q) use ($genreArr, $genre) {
+            if ($genre == "%") {
+                //if it is all
+                $q->where('name', 'like', '%');
+            } else {
+                //if it is not all
+                $q->WhereIn('name', $genreArr);
+            }
         });
 
         //order
