@@ -47,7 +47,8 @@
                                             <td class="text-center col-md-2"><a style="cursor:pointer"
                                                                                 v-on:click="go_to_group(group.id)">
 
-                                                    <img v-if="group.cover_photo != null" v-bind:src="'/img/novel_covers/' + group.cover_photo">
+                                                    <img v-if="group.cover_photo != null"
+                                                         v-bind:src="'/img/novel_covers/' + group.cover_photo">
                                                     <img v-else v-bind:src="'/img/novel_covers/default_.jpg'">
 
                                                 </a>
@@ -63,7 +64,8 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>등록된 회차수 : @{{ group.max_inning }}화, 마지막 업로드 일자 : @{{ latested(group.id) }}</td>
+                                                        <td>등록된 회차수 : @{{ group.max_inning }}화, 마지막 업로드 일자
+                                                            : @{{ latested(group.id) }}</td>
                                                     </tr>
                                                     <tr>
                                                         <td class="padding-top-10 text-right">
@@ -72,7 +74,8 @@
                                                                 댓글 @{{ check(group.id) }}
                                                             </button>
                                                             <button class="btn btn-info"
-                                                                    v-on:click="reviewsDisplay(group.id)">리뷰 @{{ check_review(group.id) }}
+                                                                    v-on:click="reviewsDisplay(group.id)">
+                                                                리뷰 @{{ check_review(group.id) }}
 
                                                             </button>
                                                             <button class="btn btn-success"
@@ -132,65 +135,42 @@
                 my_comments: [],
                 comment_show: true,
                 review_show: true,
-                show_count: '',
+                show_count: ''
 
             },
             mounted: function () {
 
                 this.reload();
 
-                /* this.$http.get('
-                {{-- route('comments.index') --}}')
-                 .then(function (response) {
-                 this.my_comments = response.data;
-                 }); */
             },
             methods: {
                 check: function (id) {
                     for (var key in this.commentsCountData) {
-                        if (id == key){
-                            console.log(id);
+                        if (id == key) {
+
                             return this.commentsCountData[id];
                         }
                     }
 
                 },
                 check_review: function (id) {
-                    console.log(this.reviewsCountData.length);
-                    /* for(var i=0;i< this.commentsCountData.length;i++ ){
-                     if(id == this.commentsCountData.index){
-                     console.log(this.commentsCountData[id]);
-                     return this.commentsCountData[id];
-                     }
-                     }*/
+
                     for (var key in this.reviewsCountData) {
-                        if (id == key){
-                            console.log(id);
+                        if (id == key) {
+
                             return this.reviewsCountData[id];
                         }
                     }
 
                 },
                 latested: function (id) {
-                    console.log(this.reviewsCountData.length);
-                    /* for(var i=0;i< this.commentsCountData.length;i++ ){
-                     if(id == this.commentsCountData.index){
-                     console.log(this.commentsCountData[id]);
-                     return this.commentsCountData[id];
-                     }
-                     }*/
                     for (var key in this.reviewsCountData) {
-                        if (id == key){
-                            console.log(id);
+                        if (id == key) {
                             return this.latested_at[id];
                         }
                     }
 
                 },
-                /* get_comment_count: function(id){
-                 var c_count =
-
-                 },*/
 
                 go_to_group: function (id) {
                     window.location.assign('{{ url('admin/novel') }}' + "/" + id);
@@ -248,7 +228,6 @@
 
                             if (result) {
                                 Vue.http.headers.common['X-CSRF-TOKEN'] = "{!! csrf_token() !!}";
-                                //                    var csrfToken = form.querySelector('input[name="_token"]').value;
 
                                 app4.$http.delete("{{ url('novelgroups') }}/" + e, {headers: {'X-CSRF-TOKEN': '{!! csrf_token() !!}'}})
                                         .then(function (response) {
@@ -280,14 +259,13 @@
                                 this.novel_groups = response.data;
                             });
                 },
-                reload: function() {
+                reload: function () {
                     this.$http.get('{{ route('admin.novel_json') }}')
                             .then(function (response) {
                                 this.novel_groups = response.data['novel_groups'];
                                 this.commentsCountData = response.data['count_data'];
                                 this.reviewsCountData = response.data['review_count_data'];
                                 this.latested_at = response.data['latested_at'];
-                                console.log(this.novel_groups);
                             });
 
                 }
@@ -295,24 +273,7 @@
 
             }
         });
-        /*  var app5 = new Vue({
-         el: '#comment_list',
-         data: {
-         novel_groups: [],
-         my_comments: [],
-         },
-         mounted: function () {
-         this.$http.get('{{-- route('novels.index')--}}')
-         .then(function (response) {
-         this.novel_groups = response.data;
-         });
-         this.$http.get('{{-- route('comments.index') --}}')
-         .then(function (response) {
-         this.my_comments = response.data;
-         });
 
-         }
-         })*/
     </script>
 
 @endsection

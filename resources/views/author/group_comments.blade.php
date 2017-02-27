@@ -85,7 +85,7 @@
                 });
 
                 $("#reply_post_btn{{$comment[0]->id}}").click(function (e) {
-                    console.log($('#comment_form{{$comment[0]->id}}').serializeArray());
+
                     e.preventDefault();
                     $.ajax({
                         url: '{{ route('comments.store') }}',
@@ -93,8 +93,6 @@
                         data: $('#comment_form{{$comment[0]->id}}').serializeArray(),
                         headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken},
                         success: function (data) {
-
-                            console.log(data);
 
                             if(data.error == 1){
                                /* $("#error_bar{{$comment[0]->id}}").show();
@@ -137,7 +135,6 @@
                                     success: function (response) {
                                         app4_index.commentsDisplay_after_commenting("{{ $comment[0]->novels->novel_group_id }}");
                                     }, error: function (data2) {
-                                        console.log(data2);
                                     }
                                 });
                             }

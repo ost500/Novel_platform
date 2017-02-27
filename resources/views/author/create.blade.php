@@ -249,7 +249,6 @@
             },
             methods: {
                 reload: function () {
-                    console.log('reloaded');
                     this.$http.get('{{ route('nickname.index') }}')
                             .then(function (response) {
                                 this.nicks = response.data;
