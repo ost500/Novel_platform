@@ -33,7 +33,8 @@
                             </div>
                         @endif
 
-                        <form class="panel-body form-horizontal form-padding" action="{{route('novelgroups.store')}}" method="post"
+                        <form class="panel-body form-horizontal form-padding" action="{{route('novelgroups.store')}}"
+                              method="post"
                               enctype="multipart/form-data">
                             {!! csrf_field() !!}
                                     <!--Static-->
@@ -104,55 +105,61 @@
                                 <label class="col-md-2 control-label" for="demo-text-input">키워드</label>
 
                                 <div class="col-md-9">
-                                    <select name="keyword1" class="form-control inline" style="width:14%;" size=10 {{old('keyword1')}} >
+                                    <select name="keyword1" class="form-control inline" style="width:14%;"
+                                            size=10 {{old('keyword1')}} >
                                         <option value="">장르</option>
                                         @foreach($keyword1 as $keyword)
                                             <option value="{{$keyword->id}}" {{old("keyword1") == $keyword->id ? "selected":"" }}>{{$keyword->name}}</option>
                                         @endforeach
                                     </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label" for="demo-text-input">키워드</label>
 
-                                    <select name="keyword2" class="form-control inline" style="width:13.5%;" size=10>
+                                <div class="col-md-9">
+                                    <select name="keyword2[]" class="form-control inline" style="width:13.5%;" size=10 multiple>
                                         <option value="">배경</option>
                                         @foreach($keyword2 as $keyword)
-                                            <option value="{{$keyword->id}}" {{old("keyword2") == $keyword->id ? "selected":"" }}>{{$keyword->name}}</option>
+                                            <option value="{{$keyword->name}}" {{old("keyword2") == $keyword->id ? "selected":"" }}>{{$keyword->name}}</option>
                                         @endforeach
                                     </select>
 
-                                    <select name="keyword3" class="form-control inline" style="width:13.5%;" size=10>
+                                    <select name="keyword3[]" class="form-control inline" style="width:13.5%;" size=10 multiple>
                                         <option value="">소재</option>
                                         @foreach($keyword3 as $keyword)
-                                            <option value="{{$keyword->id}}" {{old("keyword3") == $keyword->id ? "selected":"" }} >{{$keyword->name}}</option>
+                                            <option value="{{$keyword->name}}" {{old("keyword3") == $keyword->id ? "selected":"" }} >{{$keyword->name}}</option>
 
                                         @endforeach
                                     </select>
 
-                                    <select name="keyword4" class="form-control inline" style="width:13.5%;" size=10>
+                                    <select name="keyword4[]" class="form-control inline" style="width:13.5%;" size=10 multiple>
                                         <option value="">관계</option>
                                         @foreach($keyword4 as $keyword)
-                                            <option value="{{$keyword->id}}" {{old("keyword4") == $keyword->id ? "selected":"" }} >{{$keyword->name}}</option>
+                                            <option value="{{$keyword->name}}" {{old("keyword4") == $keyword->id ? "selected":"" }} >{{$keyword->name}}</option>
                                         @endforeach
                                     </select>
 
-                                    <select name="keyword5" class="form-control inline" style="width:13.5%;" size=10>
+                                    <select name="keyword5[]" class="form-control inline" style="width:13.5%;" size=10 multiple>
                                         <option value="">남주인공</option>
                                         @foreach($keyword5 as $keyword)
-                                            <option value="{{$keyword->id}}" {{old("keyword5") == $keyword->id ? "selected":"" }} >{{$keyword->name}}</option>
+                                            <option value="{{$keyword->name}}" {{old("keyword5") == $keyword->id ? "selected":"" }} >{{$keyword->name}}</option>
 
                                         @endforeach
                                     </select>
 
-                                    <select name="keyword6" class="form-control inline" style="width:13.5%;" size=10>
+                                    <select name="keyword6[]" class="form-control inline" style="width:13.5%;" size=10 multiple>
                                         <option value="">여주인공</option>
                                         @foreach($keyword6 as $keyword)
-                                            <option value="{{$keyword->id}}" {{old("keyword6") == $keyword->id ? "selected":"" }} >{{$keyword->name}}</option>
+                                            <option value="{{$keyword->name}}" {{old("keyword6") == $keyword->id ? "selected":"" }} >{{$keyword->name}}</option>
                                         @endforeach
 
                                     </select>
 
-                                    <select name="keyword7" class="form-control inline" style="width:13.5%;" size=10>
+                                    <select name="keyword7[]" class="form-control inline" style="width:13.5%;" size=10 multiple>
                                         <option value="">분위기/기타</option>
                                         @foreach($keyword7 as $keyword)
-                                            <option value="{{$keyword->id}}" {{old("keyword7") == $keyword->id ? "selected":"" }} >{{$keyword->name}}</option>
+                                            <option value="{{$keyword->name}}" {{old("keyword7") == $keyword->id ? "selected":"" }} >{{$keyword->name}}</option>
                                         @endforeach
 
                                     </select>
