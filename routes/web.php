@@ -269,3 +269,5 @@ Route::group(['prefix' => 'search'], function () {
     Route::post('/', ['as' => 'search.index', 'uses' => 'MainController\SearchController@index']);
     Route::get('/', ['as' => 'search', 'uses' => 'MainController\SearchController@index']);
 });
+
+Route::get('push_notification', ['as' => 'push.noti', 'uses' => 'FCMController@notification']);
