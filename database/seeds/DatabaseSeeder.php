@@ -112,6 +112,9 @@ class DatabaseSeeder extends Seeder
         // Notifications table
         $this->call(NotificationsTableSeeder::class);
 
+        //Hash Tag Table
+        $this->call(NovelGroupHashTagSeeder::class);
+
         // comment table
         $novels = App\Novel::get();
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<html lang="ko" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -317,7 +317,7 @@
                 <div class="search-form-hash-tag">
                     <strong class="search-form-title">해시태그 검색</strong>
 
-                    <div class="input"><input v-on:keyup="get_keywords(search)" v-model="search" type="text" name="keyword_name" id="keyword_name" class="text1" value=""
+                    <div class="input"><input v-on:keyup="get_keywords()" v-model="search" type="text" name="keyword_name" id="keyword_name" class="text1" value=""
                                               title="해시태그 검색어"></div>
                     <div class="submit">
                         <button type="submit" class="userbtn userbtn--search-submit">검색</button>
@@ -396,7 +396,6 @@
     function searchKeyword(keyword) {
 
         var keyword_text = keyword.text.replace("#", "");
-        console.log(keyword_text);
         $('#keyword_name').val(keyword_text);
         /* $.post('
         {{--{{ route('search.index') }}--}}', {'search_type':,'keyword_name':keyword.value}, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
@@ -425,9 +424,9 @@
 
 
 <![endif]-->
-</body>
 
-<script>
+
+<script type="text/javascript">
     var main_layout = new Vue({
         el: '#header',
 
@@ -438,7 +437,8 @@
             },
             new_speeds: "",
             new_mails: "",
-            keywords: ""
+            keywords: "",
+            search:''
         },
         mounted: function () {
 
@@ -457,23 +457,23 @@
                 this.$http.get('/newspeed')
                         .then(function (response) {
                             this.new_speeds = response.data;
-                            console.log(this.new_speeds);
+
                         });
             },
             get_new_mails: function () {
                 this.$http.get('/newmail')
                         .then(function (response) {
                             this.new_mails = response.data;
-                            console.log(this.new_mails);
+
                         });
             },
-            get_keywords: function (search) {
+            get_keywords: function () {
 
-                this.$http.get('{{ route('popular_keywords') }}?search=' + search)
+                this.$http.get('{{ route('popular_keywords') }}?search=' + this.search)
                         .then(function (response) {
-                            console.log(response);
+
                             this.keywords = response.data;
-                            console.log(this.keywords);
+
                         });
             }
         }
@@ -493,7 +493,7 @@
                 this.$http.get('{{ route('footer_noti') }}')
                         .then(function (response) {
                             this.footer_noti = response.data;
-                            console.log(this.footer_noti);
+
                         });
             },
             noti_page: function () {
@@ -533,6 +533,6 @@
     });
 
 </script>
-
+</body>
 
 </html>

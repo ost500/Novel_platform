@@ -8,6 +8,7 @@ use App\Keyword;
 use App\Mailbox;
 use App\MailLog;
 use App\Novel;
+use App\NovelGroupHashTag;
 use App\NovelGroupKeyword;
 use App\User;
 use Auth;
@@ -155,7 +156,7 @@ class NovelGroupController extends Controller
 
         ])->validate();
 
-//        $input = $request->all();
+       $input = $request->all();
         //if validation is passed then insert the record
 //        $new_novel_group = $request->user()->novel_groups()->create($input);
 
@@ -168,11 +169,21 @@ class NovelGroupController extends Controller
         $new_novel_group->cover_photo2 = $request->cover_photo2;
         $new_novel_group->save();
 
-        for ($i = 1; $i <= 7; $i++) {
-            $new_novel_group_keyword = new NovelGroupKeyword();
-            $new_novel_group_keyword->novel_group_id = $new_novel_group->id;
-            $new_novel_group_keyword->keyword_id = $request->input('keyword' . $i);
-            $new_novel_group_keyword->save();
+
+        //save the type
+        $new_novel_group_keyword = new NovelGroupKeyword();
+        $new_novel_group_keyword->novel_group_id = $new_novel_group->id;
+        $new_novel_group_keyword->keyword_id = $request->input('keyword1');
+        $new_novel_group_keyword->save();
+
+        //save the has tags
+        for ($i = 2; $i <= 7; $i++) {
+            foreach ($input['keyword'. $i] as $keyword) {
+                $new_novel_group_hash_tag = new NovelGroupHashTag();
+                $new_novel_group_hash_tag->novel_group_id = $new_novel_group->id;
+                $new_novel_group_hash_tag->tag = $keyword;
+                $new_novel_group_hash_tag->save();
+            }
         }
 
 
@@ -258,7 +269,9 @@ class NovelGroupController extends Controller
     {
 
         // $novel_group= $request->user()->novel_groups()->with('users.nicknames')->where('id',$id)->first();
-        $novel_group = NovelGroup::where('id', $id)->with('nicknames')->first();
+        $novel_group = NovelGroup::where('id', $id)->with('nicknames', 'keywords', 'hash_tags')->first();
+
+
         $nicknames = $request->user()->nicknames()->get();
         $keyword1 = Keyword::select('id', 'name')->where('category', '1')->get();
         $keyword2 = Keyword::select('id', 'name')->where('category', '2')->get();
@@ -292,7 +305,9 @@ class NovelGroupController extends Controller
     {
         //
 
-        $input = $request->except('_token', '_method', 'default_cover_photo');
+        //$input = $request->except('_token', '_method', 'default_cover_photo');
+        $input = $request->only('nickname_id', 'title', 'description', 'cover_photo', 'cover_photo2');
+        $keywords = $request->only('keyword1', 'keyword2', 'keyword2_hash_tag_id', 'keyword3', 'keyword3_hash_tag_id', 'keyword4', 'keyword4_hash_tag_id', 'keyword5', 'keyword5_hash_tag_id', 'keyword6', 'keyword6_hash_tag_id', 'keyword7', 'keyword7_hash_tag_id');
 
         Validator::make($request->all(), [
             'nickname_id' => 'required',
@@ -345,7 +360,19 @@ class NovelGroupController extends Controller
             $input['cover_photo'] = "default_.jpg";
         }*/
 
+        //update the novel_group
         NovelGroup::where('id', $id)->update($input);
+
+        //update the novel_group type
+        NovelGroupKeyword::where('novel_group_id', $id)->update(['keyword_id' => $keywords['keyword1']]);
+
+        //update the hash tags
+        for ($i = 2; $i <= 7; $i++) {
+            foreach ($keywords['keyword' . $i] as $keyword) {
+                NovelGroupHashTag::where(['id' => $keywords['keyword' . $i . '_hash_tag_id'], 'novel_group_id' => $id])->update(['tag' => $keyword]);
+            }
+        }
+
         //redirect to novels
         flash("수정을 성공했습니다");
         if ($request->ajax()) {

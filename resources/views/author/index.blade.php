@@ -248,7 +248,7 @@
 
             watch: {
                 order: function (val) {
-                    console.log(val);
+
                     this.pagination(this.page.current_page);
                 }
             },
@@ -258,7 +258,7 @@
                 pagination: function (page) {
                     this.$http.get('{{ route('novelgroups.index') }}?page=' + page + '&order=' + this.order)
                             .then(function (response) {
-                                console.log(response);
+
                                 this.novel_groups = response.data.novel_groups.data;
                                 this.commentsCountData = response.data['count_data'];
                                 this.reviewsCountData = response.data['review_count_data'];
@@ -272,7 +272,7 @@
                                 }
                                 // this.check_agreemet();
 
-                                console.log(response.data.novel_groups.current_page);
+
                                 //about page
                                 if (response.data.novel_groups.current_page > 1) {
                                     this.page.page_first = true;
@@ -295,7 +295,7 @@
                                 this.page.current_page = response.data.novel_groups.current_page;
                                 this.page.from = response.data.novel_groups.from;
                                 this.page.last_page = response.data.novel_groups.last_page;
-                                console.log(this);
+
 
 
                             });
@@ -345,8 +345,6 @@
                 },
 
                 commentsDisplay: function (id) {
-                    console.log("TF" + this.comment_show.TF);
-                    console.log("ID" + this.comment_show.id);
 
                     var comments_url = '/comments/' + id;
                     if (this.comment_show.TF == true && this.comment_show.id == id) {
@@ -371,12 +369,9 @@
                             commonAlertBox("comment");
                         }
                     }
-                    console.log("TF" + this.comment_show.TF);
-                    console.log("ID" + this.comment_show.id);
+
                 },
                 commentsDisplay_after_commenting: function (id) {
-                    console.log("TF" + this.comment_show.TF);
-                    console.log("ID" + this.comment_show.id);
 
                     var comments_url = '/comments/' + id;
 
@@ -397,8 +392,6 @@
                         commonAlertBox("comment");
                     }
 
-                    console.log("TF" + this.comment_show.TF);
-                    console.log("ID" + this.comment_show.id);
                 },
                 commentId: function (id) {
                     return "response" + id;
@@ -609,7 +602,7 @@
 
                                 app4_index.$http.post("{{ url('novelgroup/clone_for_publish/') }}/" + e, "", {headers: {'X-CSRF-TOKEN': '{!! csrf_token() !!}'}})
                                         .then(function (response) {
-                                            console.log(response);
+
                                             app4_index.reload();
                                             $.niftyNoty({
                                                 type: 'warning',
@@ -641,7 +634,7 @@
                 reload: function () {
                     this.$http.get('{{ route('novelgroups.index') }}')
                             .then(function (response) {
-                                console.log(response);
+
                                 this.novel_groups = response.data.novel_groups.data;
                                 this.commentsCountData = response.data['count_data'];
                                 this.reviewsCountData = response.data['review_count_data'];
@@ -654,8 +647,6 @@
                                     agreement();
                                 }
                                 // this.check_agreemet();
-
-                                console.log(response.data.novel_groups.current_page);
                                 //about page
                                 if (response.data.novel_groups.current_page > 1) {
                                     this.page.page_first = true;
@@ -678,9 +669,7 @@
                                 this.page.current_page = response.data.novel_groups.current_page;
                                 this.page.from = response.data.novel_groups.from;
                                 this.page.last_page = response.data.novel_groups.last_page;
-                                console.log(this);
                                 $("#page-title").click(function () {
-                                    console.log(this);
                                 });
 
                             });
@@ -688,7 +677,6 @@
                 },
 
                 reviewDestroy: function (id, group_id) {
-                    console.log(group_id);
                     bootbox.confirm({
                         message: "삭제 하시겠습니까?",
                         buttons: {
@@ -709,7 +697,7 @@
                                         app4_index.reviewsDisplay_after_deleting(group_id);
 
                                     }, error: function (data2) {
-                                        console.log(data2);
+
                                     }
                                 })
                             }

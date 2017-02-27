@@ -37,11 +37,11 @@
                               action="{{route('novelgroups.update',['id'=>$id]) }}"
                               enctype="multipart/form-data">
                             <input name="_method" type="hidden" value="PUT">
-                        {{ csrf_field() }}
-                        {{--  <input name="novel_group_id" id="novel_group_id" type="hidden" :value="fillItem.id" >
-                        <meta id="token" name="token" content="{{ csrf_token() }}">  v-on:submit.prevent="onSubmit(fillItem.id)"     --}}
+                            {{ csrf_field() }}
+                            {{--  <input name="novel_group_id" id="novel_group_id" type="hidden" :value="fillItem.id" >
+                            <meta id="token" name="token" content="{{ csrf_token() }}">  v-on:submit.prevent="onSubmit(fillItem.id)"     --}}
 
-                        <!--Static-->
+                                    <!--Static-->
                             <!--div class="form-group">
                                 <label class="col-md-2 control-label">Static</label>
                                 <div class="col-md-9"><p class="form-control-static">Username</p></div>
@@ -53,7 +53,8 @@
                                 <div class="col-md-9">
                                     <select class="form-control" name="nickname_id">
                                         {{--<option value="">필명선택</option>--}}
-                                        <option v-model="fillItem.nicknames.id" selected> @{{ fillItem.nicknames.nickname }} </option>
+                                        <option v-model="fillItem.nicknames.id"
+                                                selected> @{{ fillItem.nicknames.nickname }} </option>
                                         <option v-for="nick_name in nick_names"
                                                 :value="nick_name.id"> @{{ nick_name.nickname }} </option>
 
@@ -87,60 +88,71 @@
 
                                 <div class="col-md-9">
                                     <select name="keyword1" class="form-control inline"
-                                            v-model="fillItem.keyword1"
+                                            v-model="fillItem.keywords[0].id"
                                             style="width:14%;" size=10>
                                         <option value="">장르</option>
                                         <option v-for="keyword in keyword1"
                                                 :value="keyword.id"> @{{keyword.name }} </option>
                                     </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label" for="demo-text-input">키워드</label>
 
-                                    <select name="keyword2" class="form-control inline"
-                                            v-model="fillItem.keyword2"
-                                            style="width:14%;" size=10>
+                                <div class="col-md-9">
+                                    <select name="keyword2[]" class="form-control inline"
+                                            v-model="fillItem.hash_tags[0].tag"
+                                            style="width:14%;" size=10 multiple>
                                         <option value="">배경</option>
                                         <option v-for="keyword in keyword2"
-                                                :value="keyword.id"> @{{keyword.name }} </option>
-                                    </select>
+                                                :value="keyword.name"> @{{keyword.name }} </option>
 
-                                    <select name="keyword3" class="form-control inline"
-                                            v-model="fillItem.keyword3"
-                                            style="width:14%;" size=10>
+                                    </select>
+                                    <input type="hidden" name="keyword2_hash_tag_id" :value="fillItem.hash_tags[0].id">
+
+                                    <select name="keyword3[]" class="form-control inline"
+                                            v-model="fillItem.hash_tags[1].tag"
+                                            style="width:14%;" size=10 multiple>
                                         <option value="">소재</option>
                                         <option v-for="keyword in keyword3"
-                                                :value="keyword.id"> @{{keyword.name }} </option>
+                                                :value="keyword.name"> @{{keyword.name }} </option>
                                     </select>
-
-                                    <select name="keyword4" class="form-control inline"
-                                            v-model="fillItem.keyword4"
-                                            style="width:14%;" size=10>
+                                    <input type="hidden" name="keyword3_hash_tag_id" :value="fillItem.hash_tags[1].id">
+                                    <select name="keyword4[]" class="form-control inline"
+                                            v-model="fillItem.hash_tags[2].tag"
+                                            style="width:14%;" size=10 multiple>
                                         <option value="">관계</option>
                                         <option v-for="keyword in keyword4"
-                                                :value="keyword.id"> @{{keyword.name }} </option>
-                                    </select>
+                                                :value="keyword.name"> @{{keyword.name }} </option>
 
-                                    <select name="keyword5" class="form-control inline"
-                                            v-model="fillItem.keyword5"
-                                            style="width:14%;" size=10>
+                                    </select>
+                                    <input type="hidden" name="keyword4_hash_tag_id" :value="fillItem.hash_tags[2].id">
+                                    <select name="keyword5[]" class="form-control inline"
+                                            v-model="fillItem.hash_tags[3].tag"
+                                            style="width:14%;" size=10 multiple>
                                         <option value="">남주인공</option>
                                         <option v-for="keyword in keyword5"
-                                                :value="keyword.id"> @{{keyword.name }} </option>
-                                    </select>
+                                                :value="keyword.name"> @{{keyword.name }} </option>
 
-                                    <select name="keyword6" class="form-control inline"
-                                            v-model="fillItem.keyword6"
-                                            style="width:14%;" size=10>
+                                    </select>
+                                    <input type="hidden" name="keyword5_hash_tag_id" :value="fillItem.hash_tags[3].id">
+                                    <select name="keyword6[]" class="form-control inline"
+                                            v-model="fillItem.hash_tags[4].tag"
+                                            style="width:14%;" size=10 multiple>
                                         <option value="">여주인공</option>
                                         <option v-for="keyword in keyword6"
-                                                :value="keyword.id"> @{{keyword.name }} </option>
+                                                :value="keyword.name"> @{{keyword.name }} </option>
                                     </select>
+                                    <input type="hidden" name="keyword6_hash_tag_id" :value="fillItem.hash_tags[4].id">
 
-                                    <select name="keyword7" class="form-control inline"
-                                            v-model="fillItem.keyword7"
-                                            style="width:14%;" size=10>
+                                    <select name="keyword7[]" class="form-control inline"
+                                            v-model="fillItem.hash_tags[5].tag"
+                                            style="width:14%;" size=10 multiple>
                                         <option value="">분위기/기타</option>
                                         <option v-for="keyword in keyword7"
-                                                :value="keyword.id"> @{{keyword.name }} </option>
+                                                :value="keyword.name"> @{{keyword.name }} </option>
                                     </select>
+                                    <input type="hidden" name="keyword7_hash_tag_id" :value="fillItem.hash_tags[5].id">
                                 </div>
                             </div>
 
@@ -252,7 +264,7 @@
                 keyword7: [],
 
 
-                formErrors: {},
+                formErrors: {}
 
             },
 
@@ -260,6 +272,7 @@
                 this.$http.get('{{ route( 'novelgroups.edit',['[id'=>$id]) }}')
                         .then(function (response) {
                             this.fillItem = response.data['novel_group'];
+                            /*      console.log(this.fillItem.hash_tags[1].id);*/
                             this.nick_names = response.data['nick_names'];
                             this.keyword1 = response.data['keyword1'];
                             this.keyword2 = response.data['keyword2'];
@@ -268,6 +281,7 @@
                             this.keyword5 = response.data['keyword5'];
                             this.keyword6 = response.data['keyword6'];
                             this.keyword7 = response.data['keyword7'];
+                            //   console.log(this.keyword3);
 
                         });
 
