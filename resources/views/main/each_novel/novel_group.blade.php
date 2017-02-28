@@ -74,22 +74,22 @@
                                     </li>
                                 </ul>
                             </section>
-                            @endif
-                                    <!-- //최근읽은회차 -->
+                    @endif
+                    <!-- //최근읽은회차 -->
 
-                            <!-- 연재회차 -->
-                            <section class="episode-list-wrap">
-                                <h2 class="episode-title">연재회차</h2>
-                                <ul class="episode-list">
-                                    @foreach($novel_group->novels as $novel)
-                                        @if($novel->publish_reservation > $latest_time)  @continue; @endif
-                                        <li>
-                                            <div class="col-no">
-                                                <span class="no">{{$novel->inning}} 화</span>
-                                                <span class="datetime">{{$novel->created_at}}</span>
-                                            </div>
-                                            <div class="col-title"><a
-                                                        href="{{route('each_novel.novel_group_inning',['id'=>$novel->id])}}">{{str_limit($novel->title, 60)}}{{--<i
+                        <!-- 연재회차 -->
+                        <section class="episode-list-wrap">
+                            <h2 class="episode-title">연재회차</h2>
+                            <ul class="episode-list">
+                                @foreach($novel_group->novels as $novel)
+                                    @if($novel->publish_reservation > $latest_time)  @continue; @endif
+                                    <li>
+                                        <div class="col-no">
+                                            <span class="no">{{$novel->inning}} 화</span>
+                                            <span class="datetime">{{$novel->created_at}}</span>
+                                        </div>
+                                        <div class="col-title"><a
+                                                    href="{{route('each_novel.novel_group_inning',['id'=>$novel->id])}}">{{str_limit($novel->title, 60)}}{{--<i
                                                         class="up-icon">Up</i>--}}</a></div>
                                         <div class="col-charge">@if($novel->non_free_agreement > 0) 유료 @else <span
                                                     class="free">무료</span> @endif {{-- <span class="open">열림</span>--}}
@@ -104,47 +104,50 @@
                     </div>
                     <div class="episode-list-aside">
                         <!-- 작가다른작품 -->
-                        <section>
-                            <div class="recommend recommend--more">
-                                <h2 class="recommend-title">작가의 다른 작품</h2>
-                                <ul class="recommend-list">
-                                    @foreach($author_novel_groups as $author_novel_group)
-                                        <li>
-                                            <a href="{{ route('each_novel.novel_group',['id' => $author_novel_group->id]) }}">
-                                                <div class="thumb">
+                        @if(!$author_novel_groups->isEmpty())
+                            <section>
+                                <div class="recommend recommend--more">
+                                    <h2 class="recommend-title">작가의 다른 작품</h2>
+                                    <ul class="recommend-list">
+                                        @foreach($author_novel_groups as $author_novel_group)
+                                            <li>
+                                                <a href="{{ route('each_novel.novel_group',['id' => $author_novel_group->id]) }}">
+                                                    <div class="thumb">
                                                     <span><img src="/img/novel_covers/{{ $author_novel_group->cover_photo }}"
                                                                alt=""></span>
-                                                </div>
-                                                <div class="post">
-                                                    <strong class="title">{{str_limit($author_novel_group->title, 20)}}</strong>
+                                                    </div>
+                                                    <div class="post">
+                                                        <strong class="title">{{str_limit($author_novel_group->title, 20)}}</strong>
 
-                                                    <p class="post-content">
-                                                        로맨스판타지<br>
-                                                        총 {{$author_novel_group->max_inning}}화<br>
-                                                        선호작{{$author_novel_group->favorite_count}}명
-                                                    </p>
-                                                </div>
-                                            </a>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                                <a href="{{route('search.index').'?user_id='.$novel_group->user_id.'&search_type=다른 작품'}}" class="recommend-more-btn">더보기</a>
-                            </div>
-                            <!-- 페이징 -->
-                            <div class="page-nav page-nav--small">
-                                <nav>
-                                    <ul>
-                                        {{ $author_novel_groups->render() }}
-                                        {{--  <li><a href="#mode_nav" class="prev-page"><span>이전</span></a></li>
-                                          <li><a href="#mode_nav" class="current-page">1</a></li>
-                                          <li><a href="#mode_nav">2</a></li>
-                                          <li><a href="#mode_nav" class="next-page"><span>다음</span></a></li>--}}
+                                                        <p class="post-content">
+                                                            로맨스판타지<br>
+                                                            총 {{$author_novel_group->max_inning}}화<br>
+                                                            선호작{{$author_novel_group->favorite_count}}명
+                                                        </p>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        @endforeach
                                     </ul>
-                                </nav>
-                            </div>
-                            <!-- //페이징 -->
-                        </section>
-                        <!-- //작가다른작품 -->
+                                    <a href="{{route('search.index').'?nickname_id='.$novel_group->nickname_id.'&search_type=다른 작품'}}"
+                                       class="recommend-more-btn">더보기</a>
+                                </div>
+                                <!-- 페이징 -->
+                                <div class="page-nav page-nav--small">
+                                    <nav>
+                                        <ul>
+                                            {{ $author_novel_groups->render() }}
+                                            {{--  <li><a href="#mode_nav" class="prev-page"><span>이전</span></a></li>
+                                              <li><a href="#mode_nav" class="current-page">1</a></li>
+                                              <li><a href="#mode_nav">2</a></li>
+                                              <li><a href="#mode_nav" class="next-page"><span>다음</span></a></li>--}}
+                                        </ul>
+                                    </nav>
+                                </div>
+                                <!-- //페이징 -->
+                            </section>
+                    @endif
+                    <!-- //작가다른작품 -->
 
                         <!-- 해시태그 -->
                         <section class="hash-tag">
@@ -167,15 +170,15 @@
             </div>
             <!-- //서브컨텐츠 -->
             <!-- 따라다니는퀵메뉴 -->
-            @include('main.quick_menu')
-                    <!-- //따라다니는퀵메뉴 -->
+        @include('main.quick_menu')
+        <!-- //따라다니는퀵메뉴 -->
         </div>
 
     </div>
     <!-- //컨테이너 -->
     <!-- 푸터 -->
 @section('header')
-  {{--  @php $thumbnail = 'http://homestead.app/img/novel_covers/{{$novel_group->cover_photo}}' @endphp--}}
+    {{--  @php $thumbnail = 'http://homestead.app/img/novel_covers/{{$novel_group->cover_photo}}' @endphp--}}
     @include('social_share', ['url' =>route('each_novel.novel_group', $novel_group->id),'title'=>$novel_group->title,'thumbnail'=>''])
 @endsection
 <script type="text/javascript">
@@ -185,7 +188,7 @@
             favorites_info: {novel_group_id: ''},
             add_favorite_disp: true,
             remove_favorite_disp: false,
-            search:''
+            search: ''
 
         },
         mounted: function () {
