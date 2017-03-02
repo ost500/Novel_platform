@@ -158,7 +158,7 @@
 
                                 <li class="list-divider"></li>
 
-                                <li>
+                                <li class="{{(Request::is('admin/calculations')||Request::is('admin/calculations/*')||Request::is('admin/calculation/*'))?"active-link":"" }}">
                                     <a href="widgets.html">
                                         <i class="fa fa-money"></i>
                                         <span class="menu-title">
@@ -167,11 +167,9 @@
                                         <i class="arrow"></i>
                                     </a>
 
-                                    <ul class="collapse">
-                                        <li><a href="novel.html">환급신청</a></li>
-                                        <li><a href="novel_write.html">여우수익내역</a></li>
-                                        <li><a href="novel_write.html">퍼블리싱내역</a></li>
-                                        <li><a href="novel_write.html">환급정산내역</a></li>
+                                    <ul class="collapse {{ (Request::is('admin/calculations')||Request::is('admin/calculations/*')||Request::is('admin/calculation/*'))?"in":"" }}">
+                                        <li><a href="{{route('calculation')}}">정산 내역</a></li>
+                                        <li><a href="{{route('calculation.create')}}">정산 등록</a></li>
                                     </ul>
                                 </li>
 

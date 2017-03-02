@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\PageController;
 
 use App\Accusation;
+use App\Calculation;
+use App\CalculationEach;
 use App\Notification;
 use App\NovelGroupPublishCompany;
 use App\Company;
@@ -24,6 +26,8 @@ use Carbon\Carbon;
 use Auth;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Input;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class AdminPageController extends Controller
 {
@@ -455,6 +459,132 @@ class AdminPageController extends Controller
 //        return response()->json($accu);
 
         return view('admin.accusation.detail', compact('accu', 'accus', 'page', 'user'));
+    }
+
+    public function calculation_create()
+    {
+        return view('admin.calculation.create');
+    }
+
+    public function calculations()
+    {
+        $cals = Calculation::paginate(config('define.pagination_long'));
+
+        return view('admin.calculation.calculations', compact('cals'));
+    }
+
+
+    public function calculation_eaches($id)
+    {
+        $calculation = Calculation::findOrFail($id);
+        $calEaches = $calculation->calculation_eaches;
+
+        $calculationColumnNames = explode(",", $calculation->column_names);
+        $calEachesData = explode(",", $calculation->data);
+
+        return view('admin.calculation.calculation_eaches', compact('calculation', 'calEaches', 'calculationColumnNames', 'calEachesData'));
+    }
+
+    public function calculation_create1()
+    {
+
+        $path = public_path() . '/excel/' . 'naver.xlsx';
+
+        $newCalculation = Calculation::find(1);
+
+
+        // fetch column names
+        $newCalculation->column_names = str_replace(" ", "", $newCalculation->column_names);
+        $newValueArray = explode(",", $newCalculation->column_names);
+
+        Excel::load($path, function ($reader) use ($newCalculation, $newValueArray) {
+            $objExcel = $reader->getExcel();
+            $sheet = $objExcel->getSheet(0);
+            $highestRow = $sheet->getHighestRow();
+            $highestColumn = $sheet->getHighestColumn();
+
+            // data name
+
+            //  Read a row of data into an array
+            $column = $newCalculation->columnX;
+            $row = $newCalculation->columnY;
+            // from columnX to $highestColumn
+            $keyData = $sheet->rangeToArray($column . $row . ':' . $highestColumn . $row,
+                NULL, TRUE, FALSE);
+
+
+            print_r($newValueArray);
+            $keys = array();
+            $extraKeys = array();
+
+            // result is $keyData[0]
+            foreach ($keyData[0] as $key => $value) {
+                if (in_array($value, $newValueArray)) {
+                    // save keys which we need
+                    $keys[] = $key;
+                } else {
+                    $extraKeys[] = $value;
+                }
+            }
+
+//            print_r($keys);
+
+            // from dataX to highestColumn
+            // fetch all data
+            for ($row = $newCalculation->dataY; $row <= $highestRow; $row++) {
+                //  Read a row of data into an array
+                echo 'A' . $row . ':' . $highestColumn . $row;
+                $rowData = $sheet->rangeToArray($newCalculation->dataX . $row . ':' . $highestColumn . $row,
+                    NULL, TRUE, FALSE);
+
+                $excel[] = $rowData[0];
+            }
+
+
+            foreach ($excel as $rowData) {
+                $newCalculationEach = new CalculationEach();
+                $newCalculationEach->calculation_id = $newCalculation->id;
+                $extraKeysIndex = 0;
+//                print_r($rowData);
+                foreach ($rowData as $key => $value) {
+
+
+                    if (in_array($key, $keys)) {
+                        // save keys which we need
+                        $newCalculationEach->data = $newCalculationEach->data . $value . ",";
+                    } else {
+                        $newCalculationEach->extra_data = $newCalculationEach->extra_data . $extraKeys[$extraKeysIndex] . ":" . $value . ",";
+                        $extraKeysIndex = $extraKeysIndex + 1;
+                    }
+
+//                    print_r($key . "=>" . $value . "\n");
+//                    print_r(in_array($key, $keys));
+
+                }
+                print_r($newCalculationEach->extra_data . "\n");
+
+                // erase last ","
+                $newCalculationEach->data = rtrim($newCalculationEach->data, ",");
+                $newCalculationEach->extra_data = rtrim($newCalculationEach->extra_data, ",");
+
+                $newCalculationEach->save();
+
+            }
+
+
+//            for ($row = 1; $row <= $highestRow; $row++) {
+//                //  Read a row of data into an array
+//                echo 'A' . $row . ':' . $highestColumn . $row;
+//                $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row,
+//                    NULL, TRUE, FALSE);
+//
+//                $excel[] = $rowData[0];
+//            }
+
+//            print_r($excel);
+        })->get();
+
+
     }
 
 }

@@ -77,6 +77,25 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Query\Builder|\App\User whereBirthOfYear($value)
  * @method static \Illuminate\Database\Query\Builder|\App\User whereGender($value)
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\NewSpeedLog[] $new_speed_logs
+ * @property bool $block_login
+ * @property bool $block_send_mail
+ * @property bool $block_comment
+ * @property bool $block_free_board_review
+ * @property int $bead
+ * @property int $piece
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Accusation[] $accuse
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Accusation[] $accused
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Payment[] $payments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Piece[] $pieces
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Present[] $presents
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Present[] $presentsFrom
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\PurchasedNovel[] $purchasedNovels
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereBead($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereBlockComment($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereBlockFreeBoardReview($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereBlockLogin($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereBlockSendMail($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User wherePiece($value)
  */
 class User extends Authenticatable
 {

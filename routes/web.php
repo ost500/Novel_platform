@@ -180,6 +180,15 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/accusations/', ['as' => 'admin.accusations', 'uses' => 'PageController\AdminPageController@accusations']);
     Route::get('/accusations/{id}', ['as' => 'admin.accusations.detail', 'uses' => 'PageController\AdminPageController@accusations_detail'])
         ->where(['id' => '[0-9]+']);
+
+    Route::get('/calculation/create', ['as' => 'calculation.create', 'uses' => 'PageController\AdminPageController@calculation_create']);
+    Route::get('/calculation/create1', ['as' => 'calculation.create1', 'uses' => 'PageController\AdminPageController@calculation_create1']);
+    Route::post('/calculation/create', ['as' => 'calculation.create.post', 'uses' => 'CalculationController@store']);
+    Route::get('/calculations', ['as' => 'calculation', 'uses' => 'PageController\AdminPageController@calculations']);
+    Route::get('/calculations/{id}', ['as' => 'calculation.eaches', 'uses' => 'PageController\AdminPageController@calculation_eaches']);
+    Route::get('/calculations/{id}/run', ['as' => 'calculation.eaches.run', 'uses' => 'CalculationController@run']);
+    Route::get('/calculations/{id}/cancel', ['as' => 'calculation.eaches.cancel', 'uses' => 'CalculationController@cancelCalculation']);
+    Route::delete('/calculation_eaches/destroy', ['as' => 'calculation.eaches.destroy', 'uses' => 'CalculationController@destroyCalculationEaches']);
 });
 
 
