@@ -1,7 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-    <div id="content-container" xmlns:v-bind="http://symfony.com/schema/routing">
+
+
+    <link href="/plugins/chosen/chosen.min.css" rel="stylesheet">
+
+    <div id="content-container" xmlns:v-bind="http://symfony.com/schema/routing"
+         xmlns:v-on="http://www.w3.org/1999/xhtml">
 
         <div id="page-title">
             <h1 class="page-header text-overflow">작품등록</h1>
@@ -42,7 +47,6 @@
                                 <label class="col-md-2 control-label">Static</label>
                                 <div class="col-md-9"><p class="form-control-static">Username</p></div>
                             </div-->
-
                             <div class="form-group" id="select_nickname">
                                 <label class="col-md-2 control-label" for="demo-text-input">필명</label>
 
@@ -104,8 +108,10 @@
                             <div class="form-group">
                                 <label class="col-md-2 control-label" for="demo-text-input">키워드</label>
 
+
                                 <div class="col-md-9">
-                                    <select name="keyword1" class="form-control inline" style="width:14%;"
+
+                                    <select name="keyword1"  class="form-control inline" style="width:14%;"
                                             size=10 {{old('keyword1')}} >
                                         <option value="">장르</option>
                                         @foreach($keyword1 as $keyword)
@@ -114,41 +120,37 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group">
+
+                            <div class="form-group" id="hash_tags">
                                 <label class="col-md-2 control-label" for="demo-text-input">키워드</label>
 
                                 <div class="col-md-9">
-                                    <select name="keyword2[]" class="form-control inline" style="width:13.5%;" size=10 multiple>
-                                        <option value="">배경</option>
-                                        @foreach($keyword2 as $keyword)
-                                            <option value="{{$keyword->name}}" {{old("keyword2") == $keyword->id ? "selected":"" }}>{{$keyword->name}}</option>
+
+                                    <select id="demo-cs-multiselect" name="hash_tags[]" data-placeholder="Choose a HashTag" multiple tabindex="4" >
+                                        <option value="">필명선택</option>
+                                        @foreach($hash_tags as $hash_tag)
+                                            <option value="{{$hash_tag->name}}" {{old("hash_tags") == $hash_tag->id ? "selected":"" }}>{{$hash_tag->name}}</option>
                                         @endforeach
                                     </select>
-
-                                    <select name="keyword3[]" class="form-control inline" style="width:13.5%;" size=10 multiple>
+                                {{--    <select id="keyword3" name="keyword3[]"  data-placeholder="Choose a HashTag" multiple tabindex="4">
                                         <option value="">소재</option>
                                         @foreach($keyword3 as $keyword)
                                             <option value="{{$keyword->name}}" {{old("keyword3") == $keyword->id ? "selected":"" }} >{{$keyword->name}}</option>
-
                                         @endforeach
                                     </select>
-
-                                    <select name="keyword4[]" class="form-control inline" style="width:13.5%;" size=10 multiple>
+                                    <select id="keyword4" name="keyword4[]" data-placeholder="Choose a HashTag" multiple tabindex="4">
                                         <option value="">관계</option>
                                         @foreach($keyword4 as $keyword)
                                             <option value="{{$keyword->name}}" {{old("keyword4") == $keyword->id ? "selected":"" }} >{{$keyword->name}}</option>
                                         @endforeach
                                     </select>
-
-                                    <select name="keyword5[]" class="form-control inline" style="width:13.5%;" size=10 multiple>
+                                    <select id="keyword5" name="keyword5[]"   data-placeholder="Choose a HashTag" multiple tabindex="4">
                                         <option value="">남주인공</option>
                                         @foreach($keyword5 as $keyword)
                                             <option value="{{$keyword->name}}" {{old("keyword5") == $keyword->id ? "selected":"" }} >{{$keyword->name}}</option>
-
                                         @endforeach
                                     </select>
-
-                                    <select name="keyword6[]" class="form-control inline" style="width:13.5%;" size=10 multiple>
+                                    <select id="keyword6" name="keyword6[]"  data-placeholder="Choose a HashTag" multiple tabindex="4" >
                                         <option value="">여주인공</option>
                                         @foreach($keyword6 as $keyword)
                                             <option value="{{$keyword->name}}" {{old("keyword6") == $keyword->id ? "selected":"" }} >{{$keyword->name}}</option>
@@ -156,13 +158,71 @@
 
                                     </select>
 
-                                    <select name="keyword7[]" class="form-control inline" style="width:13.5%;" size=10 multiple>
+                                    <select id="keyword7" name="keyword7[]"  data-placeholder="Choose a HashTag" multiple tabindex="4" >
                                         <option value="">분위기/기타</option>
                                         @foreach($keyword7 as $keyword)
                                             <option value="{{$keyword->name}}" {{old("keyword7") == $keyword->id ? "selected":"" }} >{{$keyword->name}}</option>
                                         @endforeach
 
+                                    </select>--}}
+
+                                 {{--   <select  class="form-control inline" style="width:13.5%;"
+                                            size=10
+                                            multiple>
+                                        <option value="">배경</option>
+                                        @foreach($keyword2 as $keyword)
+                                            <option value="{{$keyword->name}}" {{old("keyword2") == $keyword->id ? "selected":"" }}>{{$keyword->name}}</option>
+                                        @endforeach
                                     </select>
+
+                                    <select name="keyword3[]" class="form-control inline" style="width:13.5%;"
+                                            size=10
+                                            multiple>
+                                        <option value="">소재</option>
+                                        @foreach($keyword3 as $keyword)
+                                            <option value="{{$keyword->name}}" {{old("keyword3") == $keyword->id ? "selected":"" }} >{{$keyword->name}}</option>
+
+                                        @endforeach
+                                    </select>
+
+                                    <select name="keyword4[]" class="form-control inline" style="width:13.5%;"
+                                            size=10
+                                            multiple>
+                                        <option value="">관계</option>
+                                        @foreach($keyword4 as $keyword)
+                                            <option value="{{$keyword->name}}" {{old("keyword4") == $keyword->id ? "selected":"" }} >{{$keyword->name}}</option>
+                                        @endforeach
+                                    </select>
+
+                                    <select name="keyword5[]" class="form-control inline" style="width:13.5%;"
+                                            size=10
+                                            multiple>
+                                        <option value="">남주인공</option>
+                                        @foreach($keyword5 as $keyword)
+                                            <option value="{{$keyword->name}}" {{old("keyword5") == $keyword->id ? "selected":"" }} >{{$keyword->name}}</option>
+
+                                        @endforeach
+                                    </select>
+
+                                    <select name="keyword6[]" class="form-control inline" style="width:13.5%;"
+                                            size=10
+                                            multiple>
+                                        <option value="">여주인공</option>
+                                        @foreach($keyword6 as $keyword)
+                                            <option value="{{$keyword->name}}" {{old("keyword6") == $keyword->id ? "selected":"" }} >{{$keyword->name}}</option>
+                                        @endforeach
+
+                                    </select>
+
+                                    <select name="keyword7[]" class="form-control inline" style="width:13.5%;"
+                                            size=10
+                                            multiple>
+                                        <option value="">분위기/기타</option>
+                                        @foreach($keyword7 as $keyword)
+                                            <option value="{{$keyword->name}}" {{old("keyword7") == $keyword->id ? "selected":"" }} >{{$keyword->name}}</option>
+                                        @endforeach
+
+                                    </select>--}}
                                 </div>
                             </div>
 
@@ -236,13 +296,17 @@
 
         </div>
     </div>
-
+    <!--Bootstrap Select [ OPTIONAL ]-->
+    <script src="/plugins/bootstrap-select/bootstrap-select.min.js"></script>
+    <!--Chosen [ OPTIONAL ]-->
+    <script src="/plugins/chosen/chosen.jquery.min.js"></script>
+    <script src="/js/demo/form-component.js"></script>
     <script>
-        //
-        $('.ul_basicCover li div input[type=radio]').click(function () {
-            alert();
-            $(this).parents('li').addClass('on').siblings('li').removeClass('on');
-        });
+/*        $('#demo-cs-multiselect1').chosen({width:'100%'});
+        $('#keyword2').chosen({width:'100%'});
+        $('#keyword3').chosen({width:'100%'});
+        $('#keyword4').chosen({width:'100%'});
+        $('#keyword5').chosen({width:'100%'});*/
 
         var select_nickname = new Vue({
             el: '#select_nickname',
@@ -252,7 +316,6 @@
             },
             mounted: function () {
                 this.reload();
-
             },
             methods: {
                 reload: function () {
@@ -260,10 +323,13 @@
                             .then(function (response) {
                                 this.nicks = response.data;
                             });
-                },
+                }
+
             }
 
         });
 
+
     </script>
+
 @endsection

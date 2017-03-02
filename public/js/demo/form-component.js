@@ -19,7 +19,6 @@ $(document).ready(function() {
 	$('#demo-cs-multiselect').chosen({width:'100%'});
 
 
-
 	// DEFAULT RANGE SLIDER
 	// =================================================================
 	// Require noUiSlider

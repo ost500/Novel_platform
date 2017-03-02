@@ -19,7 +19,7 @@ use App\Keyword;
 use Illuminate\Pagination\Paginator;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-
+use App\NovelGroupHashTag;
 class AuthorPageController extends Controller
 {
     public function __construct()
@@ -50,14 +50,14 @@ class AuthorPageController extends Controller
     {
 
         $keyword1 = Keyword::select('id', 'name')->where('category', '1')->get();
-        $keyword2 = Keyword::select('id', 'name')->where('category', '2')->get();
-        $keyword3 = Keyword::select('id', 'name')->where('category', '3')->get();
-        $keyword4 = Keyword::select('id', 'name')->where('category', '4')->get();
-        $keyword5 = Keyword::select('id', 'name')->where('category', '5')->get();
-        $keyword6 = Keyword::select('id', 'name')->where('category', '6')->get();
-        $keyword7 = Keyword::select('id', 'name')->where('category', '7')->get();
+        $hash_tags = Keyword::select('id', 'name')->where('category', '<>', '1')->get();
+        /* $keyword3 = Keyword::select('id', 'name')->where('category', '3')->get();
+         $keyword4 = Keyword::select('id', 'name')->where('category', '4')->get();
+         $keyword5 = Keyword::select('id', 'name')->where('category', '5')->get();
+         $keyword6 = Keyword::select('id', 'name')->where('category', '6')->get();
+         $keyword7 = Keyword::select('id', 'name')->where('category', '7')->get();*/
 
-        return view('author.create', compact('keyword1', 'keyword2', 'keyword3', 'keyword4', 'keyword5', 'keyword6', 'keyword7'));
+        return view('author.create', compact('keyword1', 'hash_tags'));
     }
 
     public function create_inning($id)
@@ -77,7 +77,6 @@ class AuthorPageController extends Controller
         $this_year_count = $novel->year_count = $novel->year_count + 1;
         $this_total_count = $novel->total_count = $novel->total_count + 1;
         $novel->save();
-
 
 
         return view('author.novel_inning_show', compact('novel', 'today_count', 'this_week_count', 'this_month_count'));
@@ -103,11 +102,17 @@ class AuthorPageController extends Controller
 
     }
 
-    public function edit($id)
+    public function edit(Request $request , $id)
     {
         // $novel_group=NovelGroup::find($id);
         //  return view('author.edit', compact('novel_group','id'));
-        return view('author.edit', compact('id'));
+        $novel_group = NovelGroup::where('id', $id)->with('nicknames', 'keywords', 'hash_tags')->first();
+        $nicknames = $request->user()->nicknames()->get();
+        $selected_hash_tags = NovelGroupHashTag::select('tag')->where('novel_group_id', $id)->get();
+
+        $keyword1 = Keyword::select('id', 'name')->where('category', '1')->get();
+        $hash_tag_keywords = Keyword::select('id', 'name')->where('category', '<>', '1')->get();
+        return view('author.edit',compact('novel_group','nicknames','selected_hash_tags','keyword1', 'hash_tag_keywords'));
     }
 
     public function specific_mailbox_create($id = null)

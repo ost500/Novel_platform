@@ -18,6 +18,7 @@
     <link href="/css/nifty.css" rel="stylesheet">
     <link href="/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link href="/plugins/pace/pace.min.css" rel="stylesheet">
+
     <link href="/css/common.css" rel="stylesheet">
 
     <!-- Scripts -->
@@ -28,6 +29,9 @@
 
     <script src="/plugins/bootstrap-timepicker/bootstrap-timepicker.js"></script>
 
+    <!--BootstrapJS [ RECOMMENDED ]-->
+    <script src="/js/bootstrap.min.js"></script>
+    <!--Bootstrap Tags Input [ OPTIONAL ]-->
     {{--jquery-ui css--}}
     <link href="/css/jquery-ui/jquery-ui.min.css" rel="stylesheet">
     <link href="/css/jquery-ui/jquery-ui.structure.min.css" rel="stylesheet">
@@ -53,6 +57,7 @@
             <div class="navbar-header">
                 <a href="{{ route('root') }}" class="navbar-brand">
                     <img src="/img/logo.png" alt="Nifty Logo" class="brand-icon">
+
                     <div class="brand-title">
                         <span class="brand-text">{{ config('app.name', 'Laravel') }}</span>
                     </div>
@@ -93,6 +98,7 @@
                                                      document.getElementById('logout-form').submit();">
                                 <button class="btn btn-danger">로그아웃</button>
                             </a>
+
                             <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
                                 {{ csrf_field() }}
                             </form>
@@ -119,7 +125,6 @@
                 </div>
 
 
-
                 <div id="mainnav-menu-wrap">
                     <div class="nano">
                         <div class="nano-content">
@@ -130,7 +135,7 @@
 
 
                                 <!--Menu list item-->
-                                    <li class="{{ (Request::is('author/management/novelgroups')||Request::is('author/management/novelgroups/create')||Request::is('author/management/create_novel/*')||Request::is('author/management/novelgroups/*')||Request::is('author/management/update_novel/*')||Request::is('author/management/show_novel/*'))?"active-link":"" }}">
+                                <li class="{{ (Request::is('author/management/novelgroups')||Request::is('author/management/novelgroups/create')||Request::is('author/management/create_novel/*')||Request::is('author/management/novelgroups/*')||Request::is('author/management/update_novel/*')||Request::is('author/management/show_novel/*'))?"active-link":"" }}">
                                     <a href="#">
                                         <i class="fa fa-book"></i>
                                         <span class="menu-title">
@@ -264,7 +269,6 @@
     </div>
 
 
-
 </div>
 
 
@@ -273,11 +277,11 @@
 {{--<footer id="footer">--}}
 
 
-    {{--<!-- Visible when footer positions are static -->--}}
-    {{--<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->--}}
-    {{--<div class="hide-fixed pull-right pad-rgt"></div>--}}
+{{--<!-- Visible when footer positions are static -->--}}
+{{--<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->--}}
+{{--<div class="hide-fixed pull-right pad-rgt"></div>--}}
 
-    {{--<p class="pad-lft"></p>--}}
+{{--<p class="pad-lft"></p>--}}
 
 
 {{--</footer>--}}
@@ -314,11 +318,13 @@
             <!--Modal body-->
             <div class="modal-body">
                 <h4 class="text-thin">Bootstrap Modal Vertical Alignment Center</h4>
+
                 <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
                     laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
                     ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
                 <hr>
                 <h4 class="text-thin">Popover in a modal</h4>
+
                 <p>This
                     <button class="btn btn-sm btn-warning demo-modal-popover add-popover" data-toggle="popover"
                             data-trigger="focus"
@@ -329,6 +335,7 @@
                 </p>
                 <hr>
                 <h4 class="text-thin">Tooltips in a modal</h4>
+
                 <p>
                     <a class="btn-link add-tooltip" href="#" data-original-title="Tooltip">This link</a> and
                     <a class="btn-link add-tooltip" href="#" data-original-title="Tooltip">that link</a> should have
@@ -367,12 +374,14 @@
             <!--Modal body-->
             <div class="modal-body">
                 <h4 class="text-thin">Bootstrap Modal Vertical Alignment Center</h4>
+
                 <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
                     laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
                     ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
 
                 <hr>
                 <h4 class="text-thin">Popover in a modal</h4>
+
                 <p>This
                     <button class="btn btn-sm btn-warning demo-modal-popover add-popover" data-toggle="popover"
                             data-trigger="focus"
@@ -385,6 +394,7 @@
                 <hr>
 
                 <h4 class="text-thin">Tooltips in a modal</h4>
+
                 <p><a class="btn-link add-tooltip" href="#" data-original-title="Tooltip">This link</a> and <a
                             class="btn-link add-tooltip" data-toggle="tooltip" href="#" data-original-title="Tooltip"
                             title="">that link</a> should have tooltips on hover.</p>
