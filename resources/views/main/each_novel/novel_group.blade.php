@@ -153,11 +153,8 @@
                         <section class="hash-tag">
                             <h2 class="hash-tag-title">해시태그</h2>
                             <ul class="hash-tag-list">
-                                @foreach($novel_group->keywords as $keyword)
-                                    @if($loop->iteration ==1)
-                                        @continue
-                                    @endif
-                                    <li><a href="#mode_nav">{{$keyword->name}}</a></li>
+                                @foreach($novel_group->hash_tags as $hash_tag)
+                                    <li><a href="#mode_nav">{{$hash_tag->tag}}</a></li>
                                 @endforeach
 
                             </ul>
