@@ -79,7 +79,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-2 control-label" for="demo-text-input">키워드</label>
+                                <label class="col-md-2 control-label" for="demo-text-input">장르</label>
 
                                 <div class="col-md-9">
                                     <select name="keyword1" class="form-control inline"
@@ -94,7 +94,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-2 control-label" for="demo-text-input">키워드</label>
+                                <label class="col-md-2 control-label" for="demo-text-input">해시태그</label>
 
                                 <div class="col-md-9">
                                     <select id="demo-cs-multiselect" name="hash_tags[]"
@@ -209,45 +209,5 @@
     <script src="/plugins/chosen/chosen.jquery.min.js"></script>
 
     <script src="/js/demo/form-component.js"></script>
-    <script>
-
-        new Vue({
-            el: '#novel_group_edit',
-            data: {},
-            methods:{
-                removeTag:function(tag){
-                  //  confirm('Are u sure to delete?');
-                    console.log(tag);
-                }
-
-            }
-
-        });
-
-       /* $("ul > li .search-choice-close").click(function () {
-            var value = $(this).attr("value");
-            console.log(value);
-            alert(value);
-        });*/
-      /*  $('#demo-cs-multiselect').change(function(e)
-        {
-            e.preventDefault();
-
-            $y = $(this).val();
-            alert($y);
-
-           /!* $.ajax
-            ({
-                url: '{{ url('getpackages') }}/'+$y,
-                type: 'GET',
-                dataType: 'json',
-                success: function(data)
-                {
-                    console.log(data);
-                }
-            });*!/
-        });*/
-
-    </script>
 
 @endsection
