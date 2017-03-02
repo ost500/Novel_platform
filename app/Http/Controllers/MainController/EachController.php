@@ -46,9 +46,9 @@ class EachController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();*/
         $author_novel_groups = NovelGroup::selectRaw('novel_group_id, novel_groups.*, count(novel_group_id) as favorite_count')
-            ->join('favorites', 'favorites.novel_group_id', '=', 'novel_groups.id')
-            ->groupBy('novel_group_id')
-            ->where([['novel_groups.user_id', '=', $novel_group->user_id], ['novel_groups.id', '<>', $id]])
+            ->leftjoin('favorites', 'favorites.novel_group_id', '=', 'novel_groups.id')
+            ->groupBy('novel_groups.id')
+            ->where([['novel_groups.nickname_id', '=', $novel_group->nickname_id], ['novel_groups.id', '<>', $id]])
             ->orderBy('created_at', 'desc')
             ->paginate(3);
         //Social Share

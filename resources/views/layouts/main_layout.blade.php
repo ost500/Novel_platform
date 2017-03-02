@@ -45,8 +45,8 @@
 </div>
 <!-- //모드 -->
 <!-- 헤더 -->
-<header class="header" id="header">
-    <div class="header-top wrap">
+<header class="header" >
+    <div class="header-top wrap" id="header">
         <h1 class="logo wrap"><a href="{{ route('root') }}">여우정원</a></h1>
         <!-- 사용자메뉴 -->
         <div class="usermenu">
