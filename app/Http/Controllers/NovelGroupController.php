@@ -124,17 +124,21 @@ class NovelGroupController extends Controller
      */
     public function store(Request $request)
     {
+
+        //   dd($request->all());
+
+
         Validator::make($request->all(), [
             'nickname_id' => 'required',
             'title' => 'required',
             'description' => 'required',
-            'keyword1' => 'required',
-            'keyword2' => 'required',
-            'keyword3' => 'required',
-            'keyword4' => 'required',
-            'keyword5' => 'required',
-            'keyword6' => 'required',
-            'keyword7' => 'required',
+            'hash_tags' => 'required',
+            /* 'keyword2' => 'required',
+             'keyword3' => 'required',
+             'keyword4' => 'required',
+             'keyword5' => 'required',
+             'keyword6' => 'required',
+             'keyword7' => 'required',*/
             'cover_photo' => 'mimes:jpeg,png|image|max:1024|dimensions:max_width=1080,max_height=1620',
             'cover_photo2' => 'mimes:jpeg,png|image|max:1024|dimensions:max_width=1080,max_height=1080',
 
@@ -146,17 +150,17 @@ class NovelGroupController extends Controller
             'cover_photo.max' => '표지1 용량은 1M를 넘지 않아야 합니다',
             'cover_photo2.dimensions' => '표지2 크기는 1080*1080 이어야 합니다',
             'cover_photo2.max' => '표지2 용량은 1M를 넘지 않아야 합니다',
-            'keyword1.required' => '첫번째 키워드를 입력해 주세요',
-            'keyword2.required' => '두번째 키워드를 입력해 주세요',
-            'keyword3.required' => '세번째 키워드를 입력해 주세요',
-            'keyword4.required' => '네번째 키워드를 입력해 주세요',
-            'keyword5.required' => '다섯번째 키워드를 입력해 주세요',
-            'keyword6.required' => '여섯번째 키워드를 입력해 주세요',
-            'keyword7.required' => '일곱번째 키워드를 입력해 주세요',
+            'hash_tags.required' => '첫번째 키워드를 입력해 주세요',
+            /*  'keyword2.required' => '두번째 키워드를 입력해 주세요',
+              'keyword3.required' => '세번째 키워드를 입력해 주세요',
+              'keyword4.required' => '네번째 키워드를 입력해 주세요',
+              'keyword5.required' => '다섯번째 키워드를 입력해 주세요',
+              'keyword6.required' => '여섯번째 키워드를 입력해 주세요',
+              'keyword7.required' => '일곱번째 키워드를 입력해 주세요',*/
 
         ])->validate();
 
-       $input = $request->all();
+        $input = $request->all();
         //if validation is passed then insert the record
 //        $new_novel_group = $request->user()->novel_groups()->create($input);
 
@@ -177,14 +181,14 @@ class NovelGroupController extends Controller
         $new_novel_group_keyword->save();
 
         //save the has tags
-        for ($i = 2; $i <= 7; $i++) {
-            foreach ($input['keyword'. $i] as $keyword) {
-                $new_novel_group_hash_tag = new NovelGroupHashTag();
-                $new_novel_group_hash_tag->novel_group_id = $new_novel_group->id;
-                $new_novel_group_hash_tag->tag = $keyword;
-                $new_novel_group_hash_tag->save();
-            }
+        //  for ($i = 2; $i <= 7; $i++) {
+        foreach ($input['hash_tags'] as $hash_tag) {
+            $new_novel_group_hash_tag = new NovelGroupHashTag();
+            $new_novel_group_hash_tag->novel_group_id = $new_novel_group->id;
+            $new_novel_group_hash_tag->tag = $hash_tag;
+            $new_novel_group_hash_tag->save();
         }
+        //  }
 
 
         //upload the picture
@@ -270,28 +274,31 @@ class NovelGroupController extends Controller
 
         // $novel_group= $request->user()->novel_groups()->with('users.nicknames')->where('id',$id)->first();
         $novel_group = NovelGroup::where('id', $id)->with('nicknames', 'keywords', 'hash_tags')->first();
-
-
         $nicknames = $request->user()->nicknames()->get();
+
+        $selected_hash_tags = NovelGroupHashTag::where('novel_group_id', $id)->pluck('tag');
         $keyword1 = Keyword::select('id', 'name')->where('category', '1')->get();
-        $keyword2 = Keyword::select('id', 'name')->where('category', '2')->get();
-        $keyword3 = Keyword::select('id', 'name')->where('category', '3')->get();
-        $keyword4 = Keyword::select('id', 'name')->where('category', '4')->get();
-        $keyword5 = Keyword::select('id', 'name')->where('category', '5')->get();
-        $keyword6 = Keyword::select('id', 'name')->where('category', '6')->get();
-        $keyword7 = Keyword::select('id', 'name')->where('category', '7')->get();
+        $hash_tag_keywords = Keyword::select('id', 'name')->where('category', '<>', '1')->get();
+        /* $keyword3 = Keyword::select('id', 'name')->where('category', '3')->get();
+         $keyword4 = Keyword::select('id', 'name')->where('category', '4')->get();
+         $keyword5 = Keyword::select('id', 'name')->where('category', '5')->get();
+         $keyword6 = Keyword::select('id', 'name')->where('category', '6')->get();
+         $keyword7 = Keyword::select('id', 'name')->where('category', '7')->get();*/
 
 
         return \Response::json([
             'novel_group' => $novel_group,
             'nick_names' => $nicknames,
+            'selected_hash_tags' => $selected_hash_tags,
             'keyword1' => $keyword1,
-            'keyword2' => $keyword2, 'keyword3' => $keyword3,
-            'keyword4' => $keyword4, 'keyword5' => $keyword5,
-            'keyword6' => $keyword6, 'keyword7' => $keyword7,
+            'hash_tag_keywords' => $hash_tag_keywords,
+            /* 'keyword3' => $keyword3,
+              'keyword4' => $keyword4, 'keyword5' => $keyword5,
+              'keyword6' => $keyword6, 'keyword7' => $keyword7,*/
 
 
         ]);
+        //return redirect()->route('author.edit',compact('novel_group','nicknames','selected_hash_tags','keyword1', 'hash_tag_keywords'));
     }
 
     /**
@@ -304,10 +311,10 @@ class NovelGroupController extends Controller
     public function update(Request $request, $id)
     {
         //
-
         //$input = $request->except('_token', '_method', 'default_cover_photo');
         $input = $request->only('nickname_id', 'title', 'description', 'cover_photo', 'cover_photo2');
-        $keywords = $request->only('keyword1', 'keyword2', 'keyword2_hash_tag_id', 'keyword3', 'keyword3_hash_tag_id', 'keyword4', 'keyword4_hash_tag_id', 'keyword5', 'keyword5_hash_tag_id', 'keyword6', 'keyword6_hash_tag_id', 'keyword7', 'keyword7_hash_tag_id');
+        $hash_tags = $request->only('hash_tags');
+        $keywords = $request->only('keyword1');
 
         Validator::make($request->all(), [
             'nickname_id' => 'required',
@@ -353,7 +360,6 @@ class NovelGroupController extends Controller
             }
 
         } else if ($request->default_cover_photo) {
-
             $input['cover_photo'] = "default_" . $request->default_cover_photo . ".jpg";
         } /*else {
             // $new_novel_group = $request->user()->novel_groups()->create($input);
@@ -366,12 +372,39 @@ class NovelGroupController extends Controller
         //update the novel_group type
         NovelGroupKeyword::where('novel_group_id', $id)->update(['keyword_id' => $keywords['keyword1']]);
 
-        //update the hash tags
-        for ($i = 2; $i <= 7; $i++) {
-            foreach ($keywords['keyword' . $i] as $keyword) {
-                NovelGroupHashTag::where(['id' => $keywords['keyword' . $i . '_hash_tag_id'], 'novel_group_id' => $id])->update(['tag' => $keyword]);
+        //Delete the hash tags which are removed by user
+        // get all group hash tags
+        $selected_hash_tags = NovelGroupHashTag::where('novel_group_id', $id)->get();
+        $deleteFlag = false;
+        //if a selected hash tag is not in new group hash tags [updated hash tags] then delete that from db
+        foreach ($selected_hash_tags as $selected_hash_tag) {
+            foreach ($hash_tags['hash_tags'] as $hash_tag) {
+                if ($selected_hash_tag->tag != $hash_tag) {
+                    $deleteFlag = true;
+
+                } else {
+                    $deleteFlag = false;
+                    break;
+                }
             }
+
+            if ($deleteFlag) {
+                NovelGroupHashTag::where('id', $selected_hash_tag->id)->delete();
+            }
+
         }
+
+        //Update and Insert new Tags
+        foreach ($hash_tags['hash_tags'] as $hash_tag) {
+            //Check if already exists or not
+            $already_exists = NovelGroupHashTag::where(['novel_group_id' => $id, 'tag' => $hash_tag])->first();
+            //if don't exist then insert it
+            if (!$already_exists) {
+                NovelGroupHashTag::create(['novel_group_id' => $id, 'tag' => $hash_tag]);
+            }
+
+        }
+
 
         //redirect to novels
         flash("수정을 성공했습니다");
@@ -388,7 +421,8 @@ class NovelGroupController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public
+    function destroy($id)
     {
         $novel = Novel::where('novel_group_id', $id)->first();
         if ($novel == null) {
@@ -401,7 +435,8 @@ class NovelGroupController extends Controller
         return response()->json(['error' => 0, 'message' => '삭제 되었습니다.']);
     }
 
-    public function secret($id)
+    public
+    function secret($id)
     {
         $novel_group = NovelGroup::findOrFail($id);
 
@@ -435,7 +470,8 @@ class NovelGroupController extends Controller
 
     }
 
-    public function non_secret($id)
+    public
+    function non_secret($id)
     {
 
         $novel_group = NovelGroup::findOrFail($id);
@@ -465,7 +501,8 @@ class NovelGroupController extends Controller
         }
     }
 
-    public function clone_for_publish($id)
+    public
+    function clone_for_publish($id)
     {
         try {
             $cloning_novel_group = NovelGroup::find($id);
