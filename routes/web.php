@@ -189,6 +189,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/calculations/{id}/run', ['as' => 'calculation.eaches.run', 'uses' => 'CalculationController@run']);
     Route::get('/calculations/{id}/cancel', ['as' => 'calculation.eaches.cancel', 'uses' => 'CalculationController@cancelCalculation']);
     Route::delete('/calculation_eaches/destroy', ['as' => 'calculation.eaches.destroy', 'uses' => 'CalculationController@destroyCalculationEaches']);
+    Route::delete('/calculations/destroy', ['as' => 'calculation.destroy', 'uses' => 'CalculationController@destroy']);
 });
 
 

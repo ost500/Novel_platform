@@ -158,4 +158,22 @@ class CalculationController extends Controller
         return $request->ids;
     }
 
+    public function destroy(Request $request)
+    {
+        
+
+        try {
+            foreach ($request->ids as $id) {
+                Calculation::findOrFail($id)->delete();
+            }
+        } catch (Exception $e) {
+            flash('삭제에 실패했습니다');
+        }
+
+
+        flash('항목을 삭제 했습니다');
+
+        return $request->ids;
+    }
+
 }

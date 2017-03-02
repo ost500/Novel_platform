@@ -103,7 +103,7 @@
                                         <tbody>
                                         @foreach($calEaches as $cal)
                                             <tr>
-                                                <td id="check_{{$cal->id}}" class="text-center bs-checkbox"><label
+                                                <td class="text-center bs-checkbox"><label
                                                             class="form-checkbox form-icon"><input id="checkboxes"
                                                                 data-index="3" name="btSelectItem"
                                                                 type="checkbox" value="{{$cal->id}}"></label></td>
