@@ -104,6 +104,8 @@ class CalculationController extends Controller
 
 
                         if (in_array($key, $keys)) {
+                            // remove ","
+                            $value = str_replace(",", "", $value);
                             // save keys which we need
                             $newCalculationEach->data = $newCalculationEach->data . $value . ",";
                         } else {
@@ -187,8 +189,19 @@ class CalculationController extends Controller
 
         $cal->save();
 
-
+        flash('인덱스를 수정 했습니다');
         return response()->json($request->all());
+    }
+
+    public function updateColumnNames(Request $request, $id)
+    {
+        $cal = Calculation::findOrFail($id);
+
+        $cal->column_names = $request->columnNames;
+        $cal->save();
+
+        flash('컬럼명들을 수정했습니다');
+        return;
     }
 
 }

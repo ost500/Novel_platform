@@ -1,7 +1,8 @@
 @extends('layouts.admin_layout')
 @section('content')
 
-
+    <!--Bootstrap Tags Input [ OPTIONAL ]-->
+    <link href="/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet">
     <div id="content-container" xmlns:v-on="http://www.w3.org/1999/xhtml">
 
         <div id="page-title">
@@ -101,6 +102,38 @@
                                     </tbody>
                                 </table>
 
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-center">컬럼명</th>
+                                        <th class="text-center">수정</th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+
+                                        <td class="col-md-3">
+
+
+
+                                            <input id="columnNames" type="text" name="columnNames" class="form-control"
+                                                   placeholder="Add a tag" value="{{ $calculation->column_names }}"
+                                                   data-role="tagsinput">
+
+                                        </td>
+                                        <td class="col-md-1 text-center">
+
+                                            <button id="updateColumnNames" class="btn btn-warning">수정</button>
+
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div class="form-group">
+
+
+                                </div>
                             </div>
 
 
@@ -117,7 +150,9 @@
                                         </button>
                                     </a>
                                     <a href="{{ route('calculation.eaches.cancel', ['id' => $calculation->id]) }}">
-                                        <button style="margin-bottom:5px" id="cancel_mail" class="btn btn-danger">정산 내용 전체 삭제</button>
+                                        <button style="margin-bottom:5px" id="cancel_mail" class="btn btn-danger">정산 내용
+                                            전체 삭제
+                                        </button>
                                     </a>
 
                                     <table id="demo-foo-addrow"
@@ -127,7 +162,7 @@
                                         <tr>
                                             <th data-sort-ignore="true"
                                                 class="min-width footable-visible footable-first-column"></th>
-                                            <th class="text-center">번호</th>
+                                            <th class="min-width text-center">번호</th>
                                             @foreach ($calculationColumnNames as $col)
                                                 <th>{{ $col }}</th>
                                             @endforeach
@@ -145,7 +180,7 @@
                                                                                                    type="checkbox"
                                                                                                    value="{{$cal->id}}"></label>
                                                 </td>
-                                                <td class="col-md-1 text-center">{{ $cal->id }}</td>
+                                                <td class="text-center">{{ $cal->id }}</td>
                                                 @foreach (explode(",", $cal->data) as $data)
 
                                                     <td class="col-md-1">{{ $data }}</td>
@@ -287,5 +322,56 @@
                 }
             })
         });
+        $("#updateColumnNames").click(function () {
+
+            bootbox.confirm({
+                message: "컬럼 명들을 수정 하시겠습니까?",
+                buttons: {
+                    confirm: {
+                        label: "수정"
+                    },
+                    cancel: {
+                        label: '취소'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+
+                        var columnNames = {
+                            'columnNames': $("#columnNames").val(),
+
+                        };
+
+                        console.log(columnNames);
+
+                        $.ajax({
+                            type: 'PUT',
+                            data: columnNames,
+                            url: '{{ route('calculation.update_column_names', ['id' => $calculation->id]) }}',
+                            headers: {
+                                'X-CSRF-TOKEN': window.Laravel.csrfToken
+                            },
+                            success: function (response) {
+//                                console.log(response);
+                                location.reload();
+                                /* $.niftyNoty({
+                                 type: 'warning',
+                                 icon: 'fa fa-check',
+                                 message: "삭제 되었습니다.",
+                                 container: 'page',
+                                 timer: 4000
+                                 });*/
+                            },
+                            error: function (data2) {
+                                console.log(data2);
+                            }
+                        });
+
+                    }
+                }
+            })
+        });
     </script>
+    <!--Bootstrap Tags Input [ OPTIONAL ]-->
+    <script src="/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js"></script>
 @endsection

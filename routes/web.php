@@ -191,6 +191,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::delete('/calculation_eaches/destroy', ['as' => 'calculation.eaches.destroy', 'uses' => 'CalculationController@destroyCalculationEaches']);
     Route::delete('/calculations/destroy', ['as' => 'calculation.destroy', 'uses' => 'CalculationController@destroy']);
     Route::put('/calculations/{id}/updateXY', ['as' => 'calculation.updateXY', 'uses' => 'CalculationController@updateXY']);
+    Route::put('/calculations/{id}/update_column_names', ['as' => 'calculation.update_column_names', 'uses' => 'CalculationController@updateColumnNames']);
 });
 
 
