@@ -1,0 +1,54 @@
+@charset "utf-8";
+
+@font-face{font-family:'NanumBarunGothic';src:url(NanumBarunGothic.eot);src:url(NanumBarunGothic.woff) format("woff")}
+@font-face{font-family:'NanumGothic';src:url(NanumGothic.eot);src:url(NanumGothic.woff) format("woff")}
+
+
+/* 초기화 */
+html {overflow-y:scroll}
+/* 초기화 */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video, textarea, select, input {margin: 0;padding: 0;border: 0;font-family:'NanumBarunGothic', 'NanumGothic', '돋움', dotum, Arial,Trebuchet MS, Helvetica, sans-serif;}
+
+html{line-height:0; height:100%;position: relative;} /* opera 10 */
+body {display:block;height:100%;background-color: #000;-webkit-text-size-adjust: none;color: #717171;letter-spacing:0;line-height: 1;}
+
+body, p, h1, h2, h3, h4, h5, h6, ul, ol, li, dl, dt, dd, table, th, td, form, fieldset, legend, input, textarea, button, select {font-size: 24px;}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {display: block;}
+
+ul,ol{list-style:none;list-style-image:none;}
+blockquote,q{quotes:none;}
+blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;}
+
+
+
+p {word-break:break-all;}
+hr {display:none}
+/*em {font-style:normal;}*/
+pre {overflow-x:scroll;font-size:1.1em}
+a:link, a:visited {text-decoration:none}
+a:hover, a:focus, a:active {text-decoration:none;}
+
+
+
+
+/* 보이지 않는 텍스트 */
+.blindtext {visibility:visible; width:0; height:0; overflow:hidden; font-size:0; line-height:0; text-indent:-3000em; position:absolute;}
+
+/* 화면낭독기 사용자용 */
+#hd_login_msg {position:absolute;top:0;left:0;width:0;height:0;overflow:hidden}
+.msg_sound_only, .sound_only {display:inline-block;position:absolute;top:0;left:0;margin:0 
+								!important;padding:0 !important;width:1px !important;height:1px !important;font-size:0 !important;line-height:0 !important;overflow:hidden}
+

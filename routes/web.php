@@ -24,6 +24,10 @@ if ($agent->isMobile()) {
     Route::get('/', ['as' => 'root', 'uses' => 'MainController\MainController@main']);
 }
 
+Route::group(['prefix' => 'mobile'], function () {
+    Route::get('login', ['as' => 'mobile.login', 'uses' => 'Auth\LoginController@mobileLoginForm']);
+});
+
 Auth::routes();
 Route::get('id_search', ['as' => 'id_search', 'uses' => 'Auth\IdSearchController@id_search']);
 Route::post('id_search', ['as' => 'id_search_post', 'uses' => 'Auth\IdSearchController@id_search_post']);
