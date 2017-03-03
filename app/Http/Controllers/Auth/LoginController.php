@@ -50,6 +50,11 @@ class LoginController extends Controller
         return redirect('/?loginView=');
     }
 
+    public function mobileLoginForm()
+    {
+        return view('mobile.login');
+    }
+
     protected function attemptLogin(Request $request)
     {
         //check if user is blocked or not
