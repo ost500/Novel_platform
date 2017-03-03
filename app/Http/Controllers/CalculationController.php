@@ -160,7 +160,7 @@ class CalculationController extends Controller
 
     public function destroy(Request $request)
     {
-        
+
 
         try {
             foreach ($request->ids as $id) {
@@ -174,6 +174,21 @@ class CalculationController extends Controller
         flash('항목을 삭제 했습니다');
 
         return $request->ids;
+    }
+
+    public function updateXY(Request $request, $id)
+    {
+        $cal = Calculation::findOrFail($id);
+
+        $cal->columnX = $request->columnX;
+        $cal->columnY = $request->columnY;
+        $cal->dataX = $request->dataX;
+        $cal->dataY = $request->dataY;
+
+        $cal->save();
+
+
+        return response()->json($request->all());
     }
 
 }
