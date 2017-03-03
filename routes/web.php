@@ -17,15 +17,31 @@ use Jenssegers\Agent\Agent;
 $agent = new Agent();
 
 if ($agent->isMobile()) {
+    Route::get('login', ['as' => 'mobile.login', 'uses' => 'Auth\LoginController@mobileLoginForm']);
     //Redirect to Mobile site
     Route::get('/', ['as' => 'mobile.index', 'uses' => 'MobileController\IndexController@index']);
+
 } else {
     //Redirect to Main site
     Route::get('/', ['as' => 'root', 'uses' => 'MainController\MainController@main']);
 }
 
-Route::group(['prefix' => 'mobile'], function () {
+Route::group(['prefix' => 'm'], function () {
+
     Route::get('login', ['as' => 'mobile.login', 'uses' => 'Auth\LoginController@mobileLoginForm']);
+    //Series
+    Route::get('/series/{free_or_charged?}', ['as' => 'm.series', 'uses' => 'MobileController\IndexController@series']);
+   //Bests
+    Route::get('/bests/{free_or_charged?}', ['as' => 'm.bests', 'uses' => 'MobileController\IndexController@bests']);
+
+    //EachController
+    Route::get('novel_group/{id}', ['as' => 'm.each_novel.novel_group', 'uses' => 'MobileController\EachController@novel_group']);
+
+    //Community
+    Route::group(['prefix' => 'community'], function () {
+        Route::get('reader_reco/{id}', ['as' => 'm.reader_reco.detail', 'uses' => 'MobileController\CommunityController@reader_reco_detail']);
+        Route::get('reader_reco', ['as' => 'm.reader_reco', 'uses' => 'MobileController\CommunityController@reader_reco']);
+    });
 });
 
 Auth::routes();

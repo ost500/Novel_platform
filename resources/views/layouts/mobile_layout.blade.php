@@ -221,9 +221,9 @@
         </div>
         <div class="top_nav">
             <ul class="top_nav_ul">
-                <li><a href="" class="top_nav_link"><span class="top_nav_mn on">베스트</span></a></li>
+                <li><a href="{{route('m.bests')}}" class="top_nav_link"><span class="top_nav_mn on">베스트</span></a></li>
                 <!-- 활성화 되면 클래스 on 추가 -->
-                <li><a href="" class="top_nav_link"><span class="top_nav_mn">연제</span></a></li>
+                <li><a href="{{route('m.series')}}" class="top_nav_link"><span class="top_nav_mn">연제</span></a></li>
                 <li><a href="" class="top_nav_link"><span class="top_nav_mn">완결</span></a></li>
                 <li><a href="" class="top_nav_link"><span class="top_nav_mn">커뮤니티</span></a></li>
             </ul>
