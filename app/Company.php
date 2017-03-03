@@ -26,6 +26,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Company whereAdult($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Company whereCompanyPicture($value)
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\PublishNovel[] $publish_novels
+ * @property string $description
+ * @method static \Illuminate\Database\Query\Builder|\App\Company whereDescription($value)
  */
 class Company extends Model
 {

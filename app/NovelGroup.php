@@ -64,6 +64,7 @@ use Auth;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\RecentlyVisitedNovel[] $recently_visited_novels
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Keyword[] $keywords
  * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereNicknameId($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\NovelGroupHashTag[] $hash_tags
  */
 class NovelGroup extends Model
 {

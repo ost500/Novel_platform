@@ -13,7 +13,8 @@
         "guzzlehttp/guzzle": "^6.2",
         "aws/aws-sdk-php": "^3.21",
         "faustbrian/laravel-social-share": "^1.0",
-        "jenssegers/agent": "^2.5"
+        "jenssegers/agent": "^2.5",
+        "maatwebsite/excel": "~2.1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

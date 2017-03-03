@@ -20,6 +20,12 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Notification whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Notification whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property bool $posting
+ * @property bool $popup
+ * @property string $picture
+ * @method static \Illuminate\Database\Query\Builder|\App\Notification wherePicture($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Notification wherePopup($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Notification wherePosting($value)
  */
 class Notification extends Model
 {
