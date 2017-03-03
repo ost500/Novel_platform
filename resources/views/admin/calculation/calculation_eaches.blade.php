@@ -22,8 +22,9 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="panel">
-                        <div class="panel-body">
 
+
+                        <div class="panel-body">
 
                             <div class="table-responsive" style="min-height: 0px">
                                 <div style="margin-top:10px" class="pull-left">
@@ -61,12 +62,12 @@
                                         </td>
                                         <td class="col-md-1">
                                             <div class="row">
-                                                <div class="col-md-6">
+                                                <div id="columnXerror" class="col-md-6">
                                                     <input id="columnX" style="text-align: center" type="text"
                                                            placeholder=".col-sm-3" class="form-control"
                                                            value="{{ $calculation->columnX }}">
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div id="columnYerror" class="col-md-6">
                                                     <input id="columnY" style="text-align: center" type="text"
                                                            placeholder=".col-sm-3" class="form-control"
                                                            value="{{ $calculation->columnY }}">
@@ -78,12 +79,12 @@
 
                                         <td class="col-md-1">
                                             <div class="row">
-                                                <div class="col-md-6">
+                                                <div id="dataXerror" class="col-md-6">
                                                     <input id="dataX" style="text-align: center" type="text"
                                                            placeholder=".col-sm-3" class="form-control"
                                                            value="{{ $calculation->dataX }}">
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div id="dataYerror" class="col-md-6">
                                                     <input id="dataY" style="text-align: center" type="text"
                                                            placeholder=".col-sm-3" class="form-control"
                                                            value="{{ $calculation->dataY }}">
@@ -113,14 +114,22 @@
                                     <tbody>
                                     <tr>
 
-                                        <td class="col-md-3">
+                                        <td id="columnNamesError" class="col-md-3">
 
 
-
-                                            <input id="columnNames" type="text" name="columnNames" class="form-control"
+                                            <input id="columnNames" type="text" name="columnNames"
+                                                   class="form-control"
                                                    placeholder="Add a tag" value="{{ $calculation->column_names }}"
                                                    data-role="tagsinput">
+                                            <div id="columnNamesMessageError" hidden>
+                                                <small  class="help-block"
+                                                       data-bv-validator="notEmpty" data-bv-for="columnNames"
+                                                       data-bv-result="INVALID" style="">
+                                                    <div id="columnNamesMessageErrorSmall">
 
+                                                    </div>
+                                                </small>
+                                            </div>
                                         </td>
                                         <td class="col-md-1 text-center">
 
@@ -304,6 +313,7 @@
                             },
                             success: function (response) {
 //                                console.log(response);
+
                                 location.reload();
                                 /* $.niftyNoty({
                                  type: 'warning',
@@ -314,6 +324,10 @@
                                  });*/
                             },
                             error: function (data2) {
+                                $("#columnXerror").addClass('has-error');
+                                $("#columnYerror").addClass('has-error');
+                                $("#dataXerror").addClass('has-error');
+                                $("#dataYerror").addClass('has-error');
                                 console.log(data2);
                             }
                         });
@@ -354,6 +368,7 @@
                             success: function (response) {
 //                                console.log(response);
                                 location.reload();
+
                                 /* $.niftyNoty({
                                  type: 'warning',
                                  icon: 'fa fa-check',
@@ -364,6 +379,9 @@
                             },
                             error: function (data2) {
                                 console.log(data2);
+                                $("#columnNamesError").addClass('has-error');
+                                $("#columnNamesMessageError").show();
+                                $("#columnNamesMessageErrorSmall").html(data2.responseJSON.columnNames);
                             }
                         });
 

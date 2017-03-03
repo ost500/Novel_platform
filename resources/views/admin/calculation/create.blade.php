@@ -40,19 +40,19 @@
                             {!! csrf_field() !!}
 
 
-
-
                             <div class="form-group">
                                 <label class="col-md-2 control-label" for="demo-email-input">컬럼 시작 인덱스</label>
 
                                 <div class="col-md-1">
                                     <input type="text" name="columnX" id="demo-email-input" class="form-control"
-                                           placeholder="ex) A,B,C..." data-bv-field="title" value="{{ old('title') }}">
+                                           placeholder="ex) A,B,C..." data-bv-field="title"
+                                           value="{{ old('columnX') }}">
                                 </div>
 
                                 <div class="col-md-1">
                                     <input type="text" name="columnY" id="demo-email-input" class="form-control"
-                                           placeholder="ex) 1,2,3..." data-bv-field="title" value="{{ old('title') }}">
+                                           placeholder="ex) 1,2,3..." data-bv-field="title"
+                                           value="{{ old('columnY') }}">
                                 </div>
                             </div>
 
@@ -61,12 +61,12 @@
 
                                 <div class="col-md-1">
                                     <input type="text" name="dataX" id="demo-email-input" class="form-control"
-                                           placeholder="ex) A,B,C..." data-bv-field="title" value="{{ old('title') }}">
+                                           placeholder="ex) A,B,C..." data-bv-field="title" value="{{ old('dataX') }}">
                                 </div>
 
                                 <div class="col-md-1">
                                     <input type="text" name="dataY" id="demo-email-input" class="form-control"
-                                           placeholder="ex) 1,2,3..." data-bv-field="title" value="{{ old('title') }}">
+                                           placeholder="ex) 1,2,3..." data-bv-field="title" value="{{ old('dataY') }}">
                                 </div>
                             </div>
 
@@ -74,7 +74,8 @@
                                 <label class="col-md-2 control-label" for="demo-email-input">컬럼명</label>
 
                                 <div class="col-md-9">
-                                    <input type="text" name="columnNames" class="form-control" placeholder="Add a tag" value="제목, 저자, 출판권자, 판매처" data-role="tagsinput">
+                                    <input type="text" name="columnNames" class="form-control" placeholder="Add a tag"
+                                           value="{{ old('columnNames') }}" data-role="tagsinput">
                                 </div>
                             </div>
 
@@ -84,7 +85,7 @@
 
                                 <div class="col-md-9">
                                     <textarea name="description" id="demo-textarea-input" rows="9" class="form-control"
-                                              placeholder="내용을 입력해 주세요">{{ old('content') }}</textarea>
+                                              placeholder="내용을 입력해 주세요">{{ old('description') }}</textarea>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -92,6 +93,7 @@
 
                                 <div class="col-md-9">
                                     <input type="file" name="excel" id="picture" class="form-control"
+                                           value="{{ old('exce') }}"
                                            placeholder="첨부파일">
                                     <small class="has-warning">최대용량 : 1M / 업로드 가능 확장자 : JPG, PNG 파일</small>
                                 </div>
