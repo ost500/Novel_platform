@@ -361,10 +361,17 @@ class NovelGroupController extends Controller
 
         } else if ($request->default_cover_photo) {
             $input['cover_photo'] = "default_" . $request->default_cover_photo . ".jpg";
-        } /*else {
+        } else {
             // $new_novel_group = $request->user()->novel_groups()->create($input);
-            $input['cover_photo'] = "default_.jpg";
-        }*/
+            $novel_group = NovelGroup::find($id);
+
+            if ($novel_group->cover_photo == null) {
+
+                $input['cover_photo'] = "default_.jpg";
+            } else {
+                $input['cover_photo'] = $novel_group->cover_photo;
+            }
+        }
 
         //update the novel_group
         NovelGroup::where('id', $id)->update($input);
@@ -394,7 +401,7 @@ class NovelGroupController extends Controller
 
         }
 
-        //Update and Insert new Tags
+//Update and Insert new Tags
         foreach ($hash_tags['hash_tags'] as $hash_tag) {
             //Check if already exists or not
             $already_exists = NovelGroupHashTag::where(['novel_group_id' => $id, 'tag' => $hash_tag])->first();
@@ -406,7 +413,7 @@ class NovelGroupController extends Controller
         }
 
 
-        //redirect to novels
+//redirect to novels
         flash("수정을 성공했습니다");
         if ($request->ajax()) {
             return \Response::json(['status' => 'ok']);

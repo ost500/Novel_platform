@@ -17,6 +17,7 @@ class SearchController extends Controller
             ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
             ->join('nick_names', 'nick_names.id', '=', 'novel_groups.nickname_id')
             ->join('novel_group_keywords', 'novel_group_keywords.novel_group_id', '=', 'novel_groups.id')
+            ->join('novel_group_hash_tags', 'novel_group_hash_tags.novel_group_id', '=', 'novel_groups.id')
             ->groupBy('novels.novel_group_id');
 
         //get search criteria
@@ -48,38 +49,23 @@ class SearchController extends Controller
             });
         }
 
-        if ($keyword_name) { //get id from keyword
-
+        //Search if Hash tag or keyword is there
+        if ($keyword_name) {
+            //get id from keyword_name so that we can search it in novel_group_keywords
             $keyword_id = Keyword::select('id')->where('name', $keyword_name)->first();
 
             if (!$keyword_id) {
-                $condition = [['novel_group_keywords.keyword_id', '=', '']];
+                $novel_groups->where([['novel_group_hash_tags.tag', 'like', '']])->orWhere([['novel_group_keywords.keyword_id', '=', '']]);
             } else {
-                //make the condition}
-                $condition = [['novel_group_keywords.keyword_id', '=', $keyword_id->id]];
+                //search in both novel_group_keywords and novel_group_hash_tags
+                $novel_groups = $novel_groups->where(function ($query) use ($keyword_name, $keyword_id) {
+                    $query->where([['novel_group_hash_tags.tag', 'like', '%' . $keyword_name . '%']])->orWhere([['novel_group_keywords.keyword_id', '=', $keyword_id->id]]);
+                });
             }
-        }
-
-        if ($title != '' && $keyword_name != '') {
-            //[where title or keyword]
-            $novel_groups = $novel_groups->where($condition);
-
-        } else if ($keyword_name) {
-            //[where title is empty and keyword]
-            $novel_groups = $novel_groups->where($condition);
         }
 
 
         $novel_groups = $novel_groups->with('nicknames')->with('keywords')->orderBy('new', 'desc')->paginate(10);
-        /* dd($condition);*/
-
-        /* //get all favorite groups of a user based on recently updated
-         $novel_groups = NovelGroup::selectRaw('novel_groups.*,novels.novel_group_id,max(novels.created_at) as new')
-             ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
-             ->join('novel_group_keywords', 'novel_group_keywords.novel_group_id', '=', 'novel_groups.id')
-             ->groupBy('novels.novel_group_id')
-             ->where($condition)->with('nicknames')
-             ->orderBy('new', 'desc')->paginate(50);*/
         //  return response()->json($novel_groups);
         return view('main.search.index', compact('novel_groups', 'search_type', 'title', 'keyword_name'));
     }

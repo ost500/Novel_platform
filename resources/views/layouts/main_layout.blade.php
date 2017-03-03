@@ -45,7 +45,7 @@
 </div>
 <!-- //모드 -->
 <!-- 헤더 -->
-<header class="header" >
+<header class="header">
     <div class="header-top wrap" id="header">
         <h1 class="logo wrap"><a href="{{ route('root') }}">여우정원</a></h1>
         <!-- 사용자메뉴 -->
@@ -156,8 +156,8 @@
                     </div>
 
 
-                @else
-                <!-- 방문자버튼 -->
+                    @else
+                            <!-- 방문자버튼 -->
 
                     <a href="#mode_nav" class="userbtn userbtn--login" data-modal-id="login_form"
                        @if($errors->has('name') || $errors->has('password') || isset($login) || isset($loginView) || session('login')) data-modal-start @endif >로그인</a>
@@ -317,14 +317,14 @@
                 <div class="search-form-hash-tag">
                     <strong class="search-form-title">해시태그 검색</strong>
 
-                    <div class="input"><input v-on:keyup="get_keywords()" v-model="search" type="text" name="keyword_name" id="keyword_name" class="text1" value=""
+                    <div class="input"><input v-on:keyup="get_keywords()" v-model="search" type="text"
+                                              name="keyword_name" id="keyword_name" class="text1" value=""
                                               title="해시태그 검색어"></div>
                     <div class="submit">
                         <button type="submit" class="userbtn userbtn--search-submit">검색</button>
                     </div>
                     <div class="hot-hash-tag">
                         <strong class="title">자주 찾는 해시태그</strong>
-
                         <div class="list">
 
                             <a v-for="keyword in keywords" style="cursor:pointer"
@@ -336,13 +336,13 @@
             </fieldset>
         </form>
     </div>
-@yield('header')
-<!-- //통합검색모달 -->
+    @yield('header')
+            <!-- //통합검색모달 -->
 </header>
 <!-- //헤더 -->
 
 @yield('content')
-<!-- 푸터 -->
+        <!-- 푸터 -->
 <div class="footer" id="footer-area">
     <!-- 푸터공지 -->
     <div class="notice">
@@ -427,6 +427,26 @@
 
 
 <script type="text/javascript">
+    var search = new Vue({
+        el: '#search_form',
+
+        data: {
+            keywords: "",
+            search: ''
+        },
+        mounted: function () {
+            this.get_keywords("");
+        },
+        methods: {
+            get_keywords: function () {
+                this.$http.get('{{ route('popular_keywords') }}?search=' + this.search)
+                        .then(function (response) {
+                            this.keywords = response.data;
+                 });
+            }
+        }
+    });
+
     var main_layout = new Vue({
         el: '#header',
 
@@ -438,7 +458,7 @@
             new_speeds: "",
             new_mails: "",
             keywords: "",
-            search:''
+            search: ''
         },
         mounted: function () {
 
@@ -447,7 +467,7 @@
             this.get_new_mails();
             @endif
 
-                    this.get_keywords("");
+
         },
         methods: {
             submit: function (e) {
@@ -466,16 +486,8 @@
                             this.new_mails = response.data;
 
                         });
-            },
-            get_keywords: function () {
-
-                this.$http.get('{{ route('popular_keywords') }}?search=' + this.search)
-                        .then(function (response) {
-
-                            this.keywords = response.data;
-
-                        });
             }
+
         }
     });
 
