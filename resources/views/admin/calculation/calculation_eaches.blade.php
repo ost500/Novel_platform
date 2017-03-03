@@ -1,7 +1,8 @@
 @extends('layouts.admin_layout')
 @section('content')
 
-
+    <!--Bootstrap Tags Input [ OPTIONAL ]-->
+    <link href="/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet">
     <div id="content-container" xmlns:v-on="http://www.w3.org/1999/xhtml">
 
         <div id="page-title">
@@ -21,8 +22,9 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="panel">
-                        <div class="panel-body">
 
+
+                        <div class="panel-body">
 
                             <div class="table-responsive" style="min-height: 0px">
                                 <div style="margin-top:10px" class="pull-left">
@@ -60,12 +62,12 @@
                                         </td>
                                         <td class="col-md-1">
                                             <div class="row">
-                                                <div class="col-md-6">
+                                                <div id="columnXerror" class="col-md-6">
                                                     <input id="columnX" style="text-align: center" type="text"
                                                            placeholder=".col-sm-3" class="form-control"
                                                            value="{{ $calculation->columnX }}">
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div id="columnYerror" class="col-md-6">
                                                     <input id="columnY" style="text-align: center" type="text"
                                                            placeholder=".col-sm-3" class="form-control"
                                                            value="{{ $calculation->columnY }}">
@@ -77,12 +79,12 @@
 
                                         <td class="col-md-1">
                                             <div class="row">
-                                                <div class="col-md-6">
+                                                <div id="dataXerror" class="col-md-6">
                                                     <input id="dataX" style="text-align: center" type="text"
                                                            placeholder=".col-sm-3" class="form-control"
                                                            value="{{ $calculation->dataX }}">
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div id="dataYerror" class="col-md-6">
                                                     <input id="dataY" style="text-align: center" type="text"
                                                            placeholder=".col-sm-3" class="form-control"
                                                            value="{{ $calculation->dataY }}">
@@ -101,6 +103,46 @@
                                     </tbody>
                                 </table>
 
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-center">컬럼명</th>
+                                        <th class="text-center">수정</th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+
+                                        <td id="columnNamesError" class="col-md-3">
+
+
+                                            <input id="columnNames" type="text" name="columnNames"
+                                                   class="form-control"
+                                                   placeholder="Add a tag" value="{{ $calculation->column_names }}"
+                                                   data-role="tagsinput">
+                                            <div id="columnNamesMessageError" hidden>
+                                                <small  class="help-block"
+                                                       data-bv-validator="notEmpty" data-bv-for="columnNames"
+                                                       data-bv-result="INVALID" style="">
+                                                    <div id="columnNamesMessageErrorSmall">
+
+                                                    </div>
+                                                </small>
+                                            </div>
+                                        </td>
+                                        <td class="col-md-1 text-center">
+
+                                            <button id="updateColumnNames" class="btn btn-warning">수정</button>
+
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div class="form-group">
+
+
+                                </div>
                             </div>
 
 
@@ -117,7 +159,9 @@
                                         </button>
                                     </a>
                                     <a href="{{ route('calculation.eaches.cancel', ['id' => $calculation->id]) }}">
-                                        <button style="margin-bottom:5px" id="cancel_mail" class="btn btn-danger">정산 내용 전체 삭제</button>
+                                        <button style="margin-bottom:5px" id="cancel_mail" class="btn btn-danger">정산 내용
+                                            전체 삭제
+                                        </button>
                                     </a>
 
                                     <table id="demo-foo-addrow"
@@ -127,7 +171,7 @@
                                         <tr>
                                             <th data-sort-ignore="true"
                                                 class="min-width footable-visible footable-first-column"></th>
-                                            <th class="text-center">번호</th>
+                                            <th class="min-width text-center">번호</th>
                                             @foreach ($calculationColumnNames as $col)
                                                 <th>{{ $col }}</th>
                                             @endforeach
@@ -145,7 +189,7 @@
                                                                                                    type="checkbox"
                                                                                                    value="{{$cal->id}}"></label>
                                                 </td>
-                                                <td class="col-md-1 text-center">{{ $cal->id }}</td>
+                                                <td class="text-center">{{ $cal->id }}</td>
                                                 @foreach (explode(",", $cal->data) as $data)
 
                                                     <td class="col-md-1">{{ $data }}</td>
@@ -269,6 +313,7 @@
                             },
                             success: function (response) {
 //                                console.log(response);
+
                                 location.reload();
                                 /* $.niftyNoty({
                                  type: 'warning',
@@ -279,6 +324,10 @@
                                  });*/
                             },
                             error: function (data2) {
+                                $("#columnXerror").addClass('has-error');
+                                $("#columnYerror").addClass('has-error');
+                                $("#dataXerror").addClass('has-error');
+                                $("#dataYerror").addClass('has-error');
                                 console.log(data2);
                             }
                         });
@@ -287,5 +336,60 @@
                 }
             })
         });
+        $("#updateColumnNames").click(function () {
+
+            bootbox.confirm({
+                message: "컬럼 명들을 수정 하시겠습니까?",
+                buttons: {
+                    confirm: {
+                        label: "수정"
+                    },
+                    cancel: {
+                        label: '취소'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+
+                        var columnNames = {
+                            'columnNames': $("#columnNames").val(),
+
+                        };
+
+                        console.log(columnNames);
+
+                        $.ajax({
+                            type: 'PUT',
+                            data: columnNames,
+                            url: '{{ route('calculation.update_column_names', ['id' => $calculation->id]) }}',
+                            headers: {
+                                'X-CSRF-TOKEN': window.Laravel.csrfToken
+                            },
+                            success: function (response) {
+//                                console.log(response);
+                                location.reload();
+
+                                /* $.niftyNoty({
+                                 type: 'warning',
+                                 icon: 'fa fa-check',
+                                 message: "삭제 되었습니다.",
+                                 container: 'page',
+                                 timer: 4000
+                                 });*/
+                            },
+                            error: function (data2) {
+                                console.log(data2);
+                                $("#columnNamesError").addClass('has-error');
+                                $("#columnNamesMessageError").show();
+                                $("#columnNamesMessageErrorSmall").html(data2.responseJSON.columnNames);
+                            }
+                        });
+
+                    }
+                }
+            })
+        });
     </script>
+    <!--Bootstrap Tags Input [ OPTIONAL ]-->
+    <script src="/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js"></script>
 @endsection

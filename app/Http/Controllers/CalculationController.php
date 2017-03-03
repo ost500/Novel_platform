@@ -8,6 +8,7 @@ use App\CalculationEach;
 use Exception;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use Validator;
 
 class CalculationController extends Controller
 {
@@ -15,6 +16,42 @@ class CalculationController extends Controller
 
     public function store(Request $request)
     {
+        Validator::make($request->all(), [
+            'columnX' => 'required|max:2|alpha',
+            'columnY' => 'required|max:100|numeric',
+            'dataX' => 'required|max:2|alpha',
+            'dataY' => 'required|max:100|numeric',
+            'columnNames' => 'required|max:2000',
+            'description' => 'required|max:3000',
+            'excel' => 'required',
+        ],
+            [
+                'columnX.required' => '컬럼 시작 인덱스(X)는 필수 입니다.',
+                'columnX.max' => '컬럼 시작 인덱스(X) 타입이 잘못 됐습니다.',
+                'columnX.alpha' => '컬럼 시작 인덱스(X) 타입이 잘못 됐습니다.',
+
+                'columnY.required' => '컬럼 시작 인덱스(Y)는 필수 입니다.',
+                'columnY.max' => '컬럼 시작 인덱스(Y) 타입이 잘못 됐습니다.',
+                'columnY.numeric' => '컬럼 시작 인덱스(Y) 타입이 잘못 됐습니다.',
+
+                'dataX.required' => '데이터 시작 인덱스(X)는 필수 입니다.',
+                'dataX.max' => '데이터 시작 인덱스(X) 타입이 잘못 됐습니다.',
+                'dataX.alpha' => '데이터 시작 인덱스(X) 타입이 잘못 됐습니다.',
+
+                'dataY.required' => '데이터 시작 인덱스(Y)는 필수 입니다.',
+                'dataY.max' => '데이터 시작 인덱스(Y) 타입이 잘못 됐습니다.',
+                'dataY.numeric' => '데이터 시작 인덱스(Y) 타입이 잘못 됐습니다.',
+
+                'columnNames.required' => '컬럼명은 필수 입니다.',
+                'columnNames.max' => '컬럼명은 반드시 2000 자리보다 작아야 합니다.',
+
+                'description.required' => '내용은 필수 입니다.',
+                'description.max' => '내용은 반드시 2000 자리보다 작아야 합니다.',
+
+                'excel.required' => '엑셀 파일은 필수 입니다.',
+            ]
+        )->validate();
+
         $newCalculation = new Calculation();
 
         $newCalculation->columnX = $request->columnX;
@@ -43,7 +80,7 @@ class CalculationController extends Controller
     {
         $newCalculation = Calculation::findOrFail($id);
 
-        echo $path = 'public/excel/' . $newCalculation->excel_file;
+        echo $path = public_path() . '/excel/' . $newCalculation->excel_file;
 
         // fetch column names
         $newCalculation->column_names = str_replace(" ", "", $newCalculation->column_names);
@@ -104,6 +141,8 @@ class CalculationController extends Controller
 
 
                         if (in_array($key, $keys)) {
+                            // remove ","
+                            $value = str_replace(",", "", $value);
                             // save keys which we need
                             $newCalculationEach->data = $newCalculationEach->data . $value . ",";
                         } else {
@@ -178,6 +217,35 @@ class CalculationController extends Controller
 
     public function updateXY(Request $request, $id)
     {
+        Validator::make($request->all(), [
+            'columnX' => 'required|max:2|alpha',
+            'columnY' => 'required|max:100|numeric',
+            'dataX' => 'required|max:2|alpha',
+            'dataY' => 'required|max:100|numeric',
+
+        ],
+            [
+                'columnX.required' => '컬럼 시작 인덱스(X)는 필수 입니다.',
+                'columnX.max' => '컬럼 시작 인덱스(X) 타입이 잘못 됐습니다.',
+                'columnX.alpha' => '컬럼 시작 인덱스(X) 타입이 잘못 됐습니다.',
+
+                'columnY.required' => '컬럼 시작 인덱스(Y)는 필수 입니다.',
+                'columnY.max' => '컬럼 시작 인덱스(Y) 타입이 잘못 됐습니다.',
+                'columnY.numeric' => '컬럼 시작 인덱스(Y) 타입이 잘못 됐습니다.',
+
+                'dataX.required' => '데이터 시작 인덱스(X)는 필수 입니다.',
+                'dataX.max' => '데이터 시작 인덱스(X) 타입이 잘못 됐습니다.',
+                'dataX.alpha' => '데이터 시작 인덱스(X) 타입이 잘못 됐습니다.',
+
+                'dataY.required' => '데이터 시작 인덱스(Y)는 필수 입니다.',
+                'dataY.max' => '데이터 시작 인덱스(Y) 타입이 잘못 됐습니다.',
+                'dataY.numeric' => '데이터 시작 인덱스(Y) 타입이 잘못 됐습니다.',
+
+
+            ]
+        )->validate();
+
+
         $cal = Calculation::findOrFail($id);
 
         $cal->columnX = $request->columnX;
@@ -187,8 +255,30 @@ class CalculationController extends Controller
 
         $cal->save();
 
-
+        flash('인덱스를 수정 했습니다');
         return response()->json($request->all());
+    }
+
+    public function updateColumnNames(Request $request, $id)
+    {
+
+        Validator::make($request->all(), [
+            'columnNames' => 'required|max:2000',
+        ],
+            [
+                'columnNames.required' => '컬럼명은 필수 입니다.',
+                'columnNames.max' => '컬럼명은 반드시 2000 자리보다 작아야 합니다.',
+            ]
+        )->validate();
+
+
+        $cal = Calculation::findOrFail($id);
+
+        $cal->column_names = $request->columnNames;
+        $cal->save();
+
+        flash('컬럼명들을 수정했습니다');
+        return;
     }
 
 }
