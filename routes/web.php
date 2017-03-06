@@ -31,7 +31,7 @@ Route::group(['prefix' => 'm'], function () {
     Route::get('login', ['as' => 'mobile.login', 'uses' => 'Auth\LoginController@mobileLoginForm']);
     //Series
     Route::get('/series/{free_or_charged?}', ['as' => 'm.series', 'uses' => 'MobileController\IndexController@series']);
-   //Bests
+    //Bests
     Route::get('/bests/{free_or_charged?}', ['as' => 'm.bests', 'uses' => 'MobileController\IndexController@bests']);
 
     //EachController
@@ -313,3 +313,5 @@ Route::group(['prefix' => 'search'], function () {
 });
 
 Route::get('push_notification', ['as' => 'push.noti', 'uses' => 'FCMController@notification']);
+
+Route::post('payment', ['as' => 'payment', 'uses' => 'MainController\MyInfoController@payment']);

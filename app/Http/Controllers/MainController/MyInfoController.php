@@ -186,7 +186,8 @@ class MyInfoController extends Controller
 
     public function charge_bead()
     {
-        return view('main.my_page.use_info.charge_bead');
+        $user = Auth::user();
+        return view('main.my_page.use_info.charge_bead', compact('user'));
     }
 
     public function charge_list()
@@ -225,6 +226,11 @@ class MyInfoController extends Controller
 
         $user_bead = User::select('bead')->where('id', Auth::user()->id)->first();
 
-        return view('main.my_page.use_info.sent_gift', compact('presents','user_bead'));
+        return view('main.my_page.use_info.sent_gift', compact('presents', 'user_bead'));
+    }
+
+    public function payment()
+    {
+        
     }
 }
