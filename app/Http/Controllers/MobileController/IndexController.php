@@ -10,6 +10,7 @@ use App\Notification;
 use App\Keyword;
 use Carbon\Carbon;
 
+
 class IndexController extends Controller
 {
     /**
@@ -80,12 +81,12 @@ class IndexController extends Controller
         $genre = isset($request->genre) ? $request->genre : '%';
 
 
-        if ($genre == "Çö´ë·Î¸Ç½º") {
-            $genreArr = ['Çö´ë', 'Çö´ëÆÇÅ¸Áö'];
-        } else if ($genre == "½Ã´ë·Î¸Ç½º") {
-            $genreArr = ['½Ã´ë', '»ç±Ø', 'µ¿¾çÆÇÅ¸Áö'];
-        } else if ($genre == "·Î¸Ç½ºÆÇÅ¸Áö") {
-            $genreArr = ['¼­¾ç¿ª»ç', '·Î¸Ç½ºÆÇÅ¸Áö'];
+        if ($genre == "í˜„ëŒ€ë¡œë§¨ìŠ¤") {
+            $genreArr = ['í˜„ëŒ€', 'í˜„ëŒ€íŒíƒ€ì§€'];
+        } else if ($genre == "ì‹œëŒ€ë¡œë§¨ìŠ¤") {
+            $genreArr = ['ì‹œëŒ€', 'ì‚¬ê·¹', 'ë™ì–‘íŒíƒ€ì§€'];
+        } else if ($genre == "ë¡œë§¨ìŠ¤íŒíƒ€ì§€") {
+            $genreArr = ['ì„œì–‘ì—­ì‚¬', 'ë¡œë§¨ìŠ¤íŒíƒ€ì§€'];
         } else {
             $genreArr = ["%"];
         }
@@ -121,13 +122,13 @@ class IndexController extends Controller
 
     public function bests(Request $request, $free_or_charged = false)
     {
-//        [º£½ºÆ® »êÁ¤ ¼ö½Ä]
-//      Åõµ¥ÀÌ: 24½Ã°£ µ¿¾È °¢ °Ô½ÃÆÇ¿¡¼­ °¡Àå Á¶È¸¼ö°¡ ¸¹ÀÌ ¿À¸¥ 1°³ È¸Â÷ÀÇ »ó½ÂºÐÀ» ÇÕ»ê
-//      ÁÖ°£: 7ÀÏ µ¿¾È °¢ °Ô½ÃÆÇ¿¡¼­ °¡Àå Á¶È¸¼ö°¡ ¸¹ÀÌ ¿À¸¥ 7°³ È¸Â÷ÀÇ »ó½ÂºÐÀ» ÇÕ»ê
-//      ¿ù°£: 30ÀÏ µ¿¾È °¢ °Ô½ÃÆÇ¿¡¼­ °¡Àå Á¶È¸¼ö°¡ ¸¹ÀÌ ¿À¸¥ 30°³ È¸Â÷ÀÇ »ó½ÂºÐÀ» ÇÕ»ê, ´Ü 15ÀÏ ÀÌ³» µî·ÏµÈ È¸Â÷ Á¦¿Ü.
-//      ½ºÅ×µð: 1³â µ¿¾È °¢ °Ô½ÃÆÇ¿¡¼­ °¡Àå Á¶È¸¼ö°¡ ¸¹ÀÌ ¿À¸¥ 30°³ È¸Â÷ÀÇ »ó½ÂºÐÀ» ÇÕ»ê, ´Ü ¹Ì¿Ï°áÀÛ Á¦¿Ü, ÃÖ±Ù 3°³¿ù ÀÌ³» µî·ÏµÈ È¸Â÷ Á¦¿Ü
-//      Àå¸£º°: Åõµ¥ÀÌº£½ºÆ®¿¡¼­, Å¸Àå¸£ Á¦¿Ü
-//      ¿Ï°á: ¿ù°£º£½ºÆ®¿¡¼­, ¹Ì¿Ï°áÀÛÇ°Àº ºüÁö°í ¿Ï°áµÈ ÀÛÇ°¸¸ ³ª¿­µÇµµ·Ï.
+//        [ë² ìŠ¤íŠ¸ ì‚°ì • ìˆ˜ì‹]
+//      íˆ¬ë°ì´: 24ì‹œê°„ ë™ì•ˆ ê° ê²Œì‹œíŒì—ì„œ ê°€ìž¥ ì¡°íšŒìˆ˜ê°€ ë§Žì´ ì˜¤ë¥¸ 1ê°œ íšŒì°¨ì˜ ìƒìŠ¹ë¶„ì„ í•©ì‚°
+//      ì£¼ê°„: 7ì¼ ë™ì•ˆ ê° ê²Œì‹œíŒì—ì„œ ê°€ìž¥ ì¡°íšŒìˆ˜ê°€ ë§Žì´ ì˜¤ë¥¸ 7ê°œ íšŒì°¨ì˜ ìƒìŠ¹ë¶„ì„ í•©ì‚°
+//      ì›”ê°„: 30ì¼ ë™ì•ˆ ê° ê²Œì‹œíŒì—ì„œ ê°€ìž¥ ì¡°íšŒìˆ˜ê°€ ë§Žì´ ì˜¤ë¥¸ 30ê°œ íšŒì°¨ì˜ ìƒìŠ¹ë¶„ì„ í•©ì‚°, ë‹¨ 15ì¼ ì´ë‚´ ë“±ë¡ëœ íšŒì°¨ ì œì™¸.
+//      ìŠ¤í…Œë””: 1ë…„ ë™ì•ˆ ê° ê²Œì‹œíŒì—ì„œ ê°€ìž¥ ì¡°íšŒìˆ˜ê°€ ë§Žì´ ì˜¤ë¥¸ 30ê°œ íšŒì°¨ì˜ ìƒìŠ¹ë¶„ì„ í•©ì‚°, ë‹¨ ë¯¸ì™„ê²°ìž‘ ì œì™¸, ìµœê·¼ 3ê°œì›” ì´ë‚´ ë“±ë¡ëœ íšŒì°¨ ì œì™¸
+//      ìž¥ë¥´ë³„: íˆ¬ë°ì´ë² ìŠ¤íŠ¸ì—ì„œ, íƒ€ìž¥ë¥´ ì œì™¸
+//      ì™„ê²°: ì›”ê°„ë² ìŠ¤íŠ¸ì—ì„œ, ë¯¸ì™„ê²°ìž‘í’ˆì€ ë¹ ì§€ê³  ì™„ê²°ëœ ìž‘í’ˆë§Œ ë‚˜ì—´ë˜ë„ë¡.
 
         $period = isset($request->period) ? $request->period : 'today_count';
 
@@ -163,15 +164,15 @@ class IndexController extends Controller
         } else if ($option == "completed") {
             //completed
             $novel_groups = $novel_groups->where('completed', 1);
-        } else if ($option == "Çö´ë·Î¸Ç½º" or $option == "½Ã´ë·Î¸Ç½º" or $option == "·Î¸Ç½ºÆÇÅ¸Áö") {
+        } else if ($option == "í˜„ëŒ€ë¡œë§¨ìŠ¤" or $option == "ì‹œëŒ€ë¡œë§¨ìŠ¤" or $option == "ë¡œë§¨ìŠ¤íŒíƒ€ì§€") {
 
             $optionArr = "";
-            if ($option == "Çö´ë·Î¸Ç½º") {
-                $optionArr = ['Çö´ë', 'Çö´ëÆÇÅ¸Áö'];
-            } else if ($option == "½Ã´ë·Î¸Ç½º") {
-                $optionArr = ['½Ã´ë', '»ç±Ø', 'µ¿¾çÆÇÅ¸Áö'];
-            } else if ($option == "·Î¸Ç½ºÆÇÅ¸Áö") {
-                $optionArr = ['¼­¾ç¿ª»ç', '·Î¸Ç½ºÆÇÅ¸Áö'];
+            if ($option == "í˜„ëŒ€ë¡œë§¨ìŠ¤") {
+                $optionArr = ['í˜„ëŒ€', 'í˜„ëŒ€íŒíƒ€ì§€'];
+            } else if ($option == "ì‹œëŒ€ë¡œë§¨ìŠ¤") {
+                $optionArr = ['ì‹œëŒ€', 'ì‚¬ê·¹', 'ë™ì–‘íŒíƒ€ì§€'];
+            } else if ($option == "ë¡œë§¨ìŠ¤íŒíƒ€ì§€") {
+                $optionArr = ['ì„œì–‘ì—­ì‚¬', 'ë¡œë§¨ìŠ¤íŒíƒ€ì§€'];
             }
 
             //option is equal to keyword
@@ -195,7 +196,7 @@ class IndexController extends Controller
         $novel_groups = $novel_groups->with('nicknames')->with('keywords')->withCount('novels')->paginate(config('define.pagination_long'));
 
 //        echo $keyword_id[0]->id;
-//        return response()->json($novel_groups);
+      //return response()->json($novel_groups);
         return view('mobile.bests', compact('free_or_charged', 'novel_groups', 'page', 'period', 'option', 'keywords'));
     }
 }
