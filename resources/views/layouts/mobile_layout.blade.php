@@ -8,10 +8,16 @@
     <link rel="stylesheet" type="text/css" href="/mobile/css/common.css">
     <link rel="stylesheet" type="text/css" href="/mobile/css/main.css">
     <link rel="stylesheet" type="text/css" href="/mobile/css/sub.css">
+    <link rel="stylesheet" href="/plugins/font-awesome/css/font-awesome.min.css" type="text/css">
     {{-- <script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>--}}
     <script type="text/javascript" src="/js/jquery-2.1.1.min.js"></script>
     <script src="/js/vue.js"></script>
     <script src="/js/vue-resource.min.js"></script>
+    <script>
+        window.Laravel = <?php echo json_encode([
+                'csrfToken' => csrf_token(),
+        ]); ?>
+    </script>
     <script type="text/javascript">
         <!--
         var select = {

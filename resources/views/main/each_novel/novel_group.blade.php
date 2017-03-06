@@ -48,7 +48,7 @@
                         <a href="#" v-on:click="addToFavorite('{{$novel_group->id}}')" id="add_favorite"
                            v-show="add_favorite_disp"><i class="scrap-icon"></i>선호작추가</a>
                         <a href="#" class="is-active" v-on:click="removeFromFavorite()" id="remove_favorite"
-                           v-show="remove_favorite_disp"><i class="scrap-active-icon"></i>선호작추가</a>
+                           v-show="remove_favorite_disp" display="none"><i class="scrap-active-icon"></i>선호작추가</a>
                         <a href="#share_form" data-modal-id="share_form"><i class="share-icon"></i>공유하기</a>
                     </div>
                 </section>
@@ -208,7 +208,7 @@
                 app.$http.post('{{ route('favorites.store') }}', app.favorites_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                         .then(function (response) {
                             //  document.getElementById('tab' + publish_company_id).style.display = 'none';
-                            console.log(response);
+
                             app.add_favorite_disp = false;
                             app.remove_favorite_disp = true;
                             // location.reload();
@@ -221,7 +221,7 @@
                 app.$http.delete('{{ route('favorites.destroy',['id'=>$novel_group->id]) }}', {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                         .then(function (response) {
                             //  document.getElementById('tab' + publish_company_id).style.display = 'none';
-                            console.log(response);
+
                             app.add_favorite_disp = true;
                             app.remove_favorite_disp = false;
                             // location.reload();
