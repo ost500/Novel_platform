@@ -69,18 +69,8 @@
         <!-- 이미지 리스트 //-->
 
         <!-- 페이징2 -->
-        <div class="pag_wrap">
-            <div class="paging">
-               <a href="" class="pbtn prev">이전페이지</a>
-                <a href="" class="num on">1</a>
-                <a href="" class="num">2</a>
-                <a href="" class="num">3</a>
-                <a href="" class="num">4</a>
-                <a href="" class="num">5</a>
-                <a href="" class="pbtn next">다음페이지</a>
-            </div>
-        </div>
-        <!-- 페이징2 //-->
+        @include('pagination_mobile', ['collection' => $novel_groups, 'url' => route('m.series',['free_or_charged'=>$free_or_charged])."?genre=".$genre."&order=".$order.'&'])
+                <!-- 페이징2 //-->
     </div>
 </div>
 <!-- 내용 //-->
