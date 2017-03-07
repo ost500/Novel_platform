@@ -41,7 +41,7 @@
                 <tr>
                     <td class="talC borCont_bro">{{$faq->faq_category}}</td>
                     <td class="contxt">
-                        <a href="{{route('ask.faq_detail',['id'=>$faq->id]).$query_string}}"> <div class="borCont">{{$faq->title}}</div></a>
+                        <a href="{{route('m.ask.faq_detail',['id'=>$faq->id]).$query_string}}"> <div class="borCont">{{$faq->title}}</div></a>
                     </td>
                 </tr>
                 @endforeach

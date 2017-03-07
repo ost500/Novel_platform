@@ -57,7 +57,7 @@
                             <span class="head head--prev">이전글</span>
                             <span class="subject"><a
                                         href="{{ route('ask.question_detail',['id'=>$pre_question->id]) }}">{{$pre_question->title}}</a></span>
-                            <span class="writer">{{$next_question->users->user_name}}</span>
+                            <span class="writer">{{$pre_question->users->user_name}}</span>
                             <span class="datetime">{{ $pre_question->created_at->format('Y-m-d') }}</span>
                         </li>
                     @endif

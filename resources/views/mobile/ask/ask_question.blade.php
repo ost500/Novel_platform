@@ -101,7 +101,7 @@
 </div>
 <script type="text/javascript">
     var app = new Vue({
-        el: '#ask_questions',
+        el: '#ask_question',
         data: {
             optionValue: ''
         },

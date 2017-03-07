@@ -1,6 +1,5 @@
 <div class="sel2_wrap" xmlns:v-on="http://www.w3.org/1999/xhtml">
     <select class="sel_198">
-        <option value="">고객센터</option>
         <option value="고객센터">고객센터</option>
     </select>
 
