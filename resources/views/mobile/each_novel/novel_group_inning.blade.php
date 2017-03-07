@@ -50,15 +50,15 @@
                                id="add_favorite" class="icon_btn_a" style="display:none;cursor:pointer;"><span
                                         class="icon ico_bokmark">즐겨찾기</span></a>
                             <a v-on:click="removeFromFavorite('{{$novel_group_inning->novel_group_id}}')"
-                               id="remove_favorite" class="icon_btn_a"><span class="icon ico_bokmark_on">즐겨찾기</span></a>
+                               id="remove_favorite" class="icon_btn_a" style="cursor:pointer;"><span class="icon ico_bokmark_on">즐겨찾기</span></a>
                         @else
                             <a v-on:click="addToFavorite('{{$novel_group_inning->novel_group_id}}')"
-                               id="add_favorite" class="icon_btn_a"><span class="icon ico_bokmark">즐겨찾기</span></a>
+                               id="add_favorite" class="icon_btn_a" style="cursor:pointer;"><span class="icon ico_bokmark">즐겨찾기</span></a>
                             <a v-on:click="removeFromFavorite('{{$novel_group_inning->novel_group_id}}')"
                                id="remove_favorite" class="icon_btn_a" style="display:none;cursor:pointer;"><span
                                         class="icon ico_bokmark_on">즐겨찾기</span></a>
                         @endif
-                        <a v-on:click="showSideMenu()" class="icon_btn_a"><span class="icon ico_share">공유하기</span></a>
+                        <a v-on:click="showSideMenu()" class="icon_btn_a" style="cursor:pointer;"><span class="icon ico_share">공유하기</span></a>
                         <a href={{route('mails.create',['id'=>$novel_group_inning->user_id])}} class="icon_btn_a"><span
                                     class="icon ico_note">쪽지</span></a>
                     </div>

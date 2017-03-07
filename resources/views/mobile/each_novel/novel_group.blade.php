@@ -3,7 +3,7 @@
         <!-- 상단 비주얼 -->
 <div class="serial_topvs_wrap" xmlns:v-on="http://www.w3.org/1999/xhtml">
     @include('mobile_social_share', ['url' =>route('m.each_novel.novel_group', $novel_group->id),'title'=>$novel_group->title,'thumbnail'=>''])
-    <!-- 상단 비주얼 배경 이미지 -->
+            <!-- 상단 비주얼 배경 이미지 -->
     <div class="stvs_bg_wrap">
         <div class="stvs_bg_img"></div>
         <!-- 배경이미지(책 표지) -->
@@ -26,19 +26,19 @@
         </div>
         <!-- 조회수 선호작 //-->
         <!-- 선호작추가 공유하기 -->
-        <div class="stvs_cr" id ="novel_group">
+        <div class="stvs_cr" id="novel_group">
             <ul class="stvs_cr_ul">
                 <li>
                     <a href="#" v-on:click="addToFavorite('{{$novel_group->id}}')" id="add_favorite"
-                           v-show="add_favorite_disp" class="stvs_cr_a">
-                        <span class="stvs_cr_ico view_bm" ></span>
+                       v-show="add_favorite_disp" class="stvs_cr_a">
+                        <span class="stvs_cr_ico view_bm"></span>
                         <!--<span class="stvs_cr_ico view_bm_on"></span>-->
                         <span class="stvs_cr_sli"></span>
                         <span class="stvs_cr_txt">선호작추가</span>
                     </a>
-                    <a href="#"  v-on:click="removeFromFavorite()" id="remove_favorite"
-                        v-show="remove_favorite_disp" class="stvs_cr_a" style="display:none;">
-                        <span class="stvs_cr_ico view_bm"    style="background-color: chocolate;"></span>
+                    <a href="#" v-on:click="removeFromFavorite()" id="remove_favorite"
+                       v-show="remove_favorite_disp" class="stvs_cr_a" style="display:none;">
+                        <span class="stvs_cr_ico view_bm" style="background-color: chocolate;"></span>
                         <!--<span class="stvs_cr_ico view_bm_on"></span>-->
                         <span class="stvs_cr_sli"></span>
                         <span class="stvs_cr_txt">선호작추가</span>
@@ -46,7 +46,7 @@
 
                 </li>
                 <li>
-                    <a  href="#" class="stvs_cr_a" v-on:click="showSideMenu()">
+                    <a href="#" class="stvs_cr_a" v-on:click="showSideMenu()">
                         <span class="stvs_cr_ico view_share"></span>
                         <span class="stvs_cr_sli"></span>
                         <span class="stvs_cr_txt">공유하기</span>
@@ -77,6 +77,8 @@
             <!-- 책 소개 내용 //-->
             <!-- 첫화보기 버튼 -->
             <div class="padt40">
+                <a href="{{route('m.each_novel.novel_group.review',['id'=>$novel_group->id])}}"
+                   class="btn_line_green full" style="margin-bottom:5px;">독자추천 글쓰기</a>
                 @if($novel_group->novels->count() > 0)
                     <a href="{{route('m.each_novel.novel_group_inning',['id'=>$novel_group->novels[0]->id])}}"
                        class="btn_line_green full">첫화보기</a>
@@ -92,7 +94,39 @@
 <!-- 내용 -->
 <div class="container">
     <div class="cont_wrap">
-        <!-- 연재회차 -->
+        @if($recently_visited_novel)
+                <!-- 연재회차 -->
+        <div class="">
+            <div class="mlist_tit_rwap">
+                <h2 class="mlist_tit2">최근 읽은 회차</h2>
+            </div>
+            <!-- 게시글 테이블 -->
+            <table class="tbl_line">
+                <colgroup>
+                    <col width="15%">
+                    <col width="*">
+                    <col width="12%">
+                </colgroup>
+                <tbody>
+                <tr>
+                    <td class="inning">{{ $recently_visited_novel->novels->inning }}화</td>
+                    <td class="contxt">
+                        <a href="{{route('m.each_novel.novel_group_inning',['id'=>$recently_visited_novel->novel_id])}}">
+                            <div class="borCont">{{str_limit($recently_visited_novel->novels->title,60)}}</div>
+                        </a>
+                        <span class="time2">{{$recently_visited_novel->novels->created_at}}</span>
+                    </td>
+                    <td class="talC"> @if($recently_visited_novel->novels->non_free_agreement > 0)  <span
+                                class="green">유료</span>@else<span
+                                class="gray">무료</span>@endif</td>
+                </tr>
+                </tbody>
+            </table>
+            <!-- 게시글 테이블 //-->
+        </div>
+        <!-- 연재회차 //-->
+        @endif
+                <!-- 연재회차 -->
         <div class="">
             <div class="mlist_tit_rwap">
                 <h2 class="mlist_tit2">연재회차</h2>
@@ -145,7 +179,8 @@
                             <td class="">
                              <span class="mtbl_img">
                                  <a href="{{ route('m.each_novel.novel_group',['id' => $author_novel_group->id]) }}">
-                                     <img  src="/img/novel_covers/{{ $author_novel_group->cover_photo }}" class="mtbl_img"></a>
+                                     <img src="/img/novel_covers/{{ $author_novel_group->cover_photo }}"
+                                          class="mtbl_img"></a>
                                </span>
                             </td>
                             <td class="">
@@ -153,7 +188,7 @@
                                     <div class="mtbl_tit">{{str_limit($author_novel_group->title, 20)}}</div>
                                 </a>
 
-                                <div class="mtbl_binfo">로맨스판타지</div>
+                                <div class="mtbl_binfo">@if(count($novel_group->keywords) >0) {{$novel_group->keywords[0]->name }} @endif</div>
                                 <div class="mtbl_binfo2">총 {{$author_novel_group->max_inning}}화</div>
                                 <div class="mtbl_binfo2">선호작 {{$author_novel_group->favorite_count}}명</div>
                             </td>

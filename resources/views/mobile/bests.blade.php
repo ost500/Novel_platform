@@ -63,11 +63,15 @@
                 @foreach($novel_groups as $novel_group)
                     <tr>
                         <td class="mtbl_num"><em>{{$novel_groups->firstItem() + $loop->index}}</em></td>
-                        <td class="talC"><span class="mtbl_img"><img
-                                        src="/img/novel_covers/{{$novel_group->cover_photo}}"></span>
+                        <td class="talC"><span class="mtbl_img">    <a
+                                        href="{{ route('m.each_novel.novel_group',['id'=>$novel_group->id]) }}"><img
+                                            src="/img/novel_covers/{{$novel_group->cover_photo}}"></a></span>
                         </td>
                         <td class="">
-                            <div class="mtbl_tit">{{str_limit($novel_group->title,15)}}</div>
+                            <a href="{{ route('m.each_novel.novel_group',['id'=>$novel_group->id]) }}">
+                                <div class="mtbl_tit">{{str_limit($novel_group->title,15)}}</div>
+                            </a>
+
                             <div class="bw_name">{{ $novel_group->nicknames->nickname }}<span
                                         class="ago">{{ time_elapsed_string($novel_group->new) }}</span></div>
                             <div class="mtbl_binfo">@foreach($novel_group->keywords as $keyword){{$keyword->name}}@endforeach
@@ -119,8 +123,10 @@
                 }
                 //Based on values make a request
                 /*if (this.optionValue == '') {
-                    location.assign('{{route('m.bests')}}' + this.queryString);
-                } else */if (this.optionValue == '투데이베스트') {
+                 location.assign('
+                {{route('m.bests')}}' + this.queryString);
+                 } else */
+                if (this.optionValue == '투데이베스트') {
                     location.assign('{{route('m.bests')}}' + this.queryString + '?period=today_count');
                 } else if (this.optionValue == '주간베스트') {
                     location.assign('{{route('m.bests')}}' + this.queryString + '?period=week_count');

@@ -37,6 +37,7 @@ Route::group(['prefix' => 'm'], function () {
     //EachController
     Route::get('novel_group/{id}', ['as' => 'm.each_novel.novel_group', 'uses' => 'MobileController\EachController@novel_group']);
     Route::get('novel_group_inning/{id}', ['as' => 'm.each_novel.novel_group_inning', 'uses' => 'MobileController\EachController@novel_group_inning']);
+    Route::get('novel_group/review/{id}', ['as' => 'm.each_novel.novel_group.review', 'uses' => 'MobileController\EachController@novel_group_review']);
 
     //Community
     Route::group(['prefix' => 'community'], function () {

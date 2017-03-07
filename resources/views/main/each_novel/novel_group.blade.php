@@ -68,8 +68,7 @@
                                         </div>
                                         <div class="col-title"><a
                                                     href="{{route('each_novel.novel_group_inning',['id'=>$recently_visited_novel->novel_id])}}">{{str_limit($recently_visited_novel->novels->title,60)}}
-                                                <i
-                                                        class="up-icon">Up</i></a></div>
+                                                <i class="up-icon">Up</i></a></div>
                                         <div class="col-charge"><span class="open">열림</span></div>
                                     </li>
                                 </ul>
@@ -120,7 +119,7 @@
                                                         <strong class="title">{{str_limit($author_novel_group->title, 20)}}</strong>
 
                                                         <p class="post-content">
-                                                            로맨스판타지<br>
+                                                            @if(count($novel_group->keywords) >0) {{$novel_group->keywords[0]->name }} @endif<br>
                                                             총 {{$author_novel_group->max_inning}}화<br>
                                                             선호작{{$author_novel_group->favorite_count}}명
                                                         </p>
