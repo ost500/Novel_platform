@@ -17,7 +17,7 @@
         <div class="icon_mn_wrap">
             <ul class="icon_mn">
                 <li>
-                    <a href="{{$share->facebook($url,$title,$thumbnail)}}" class="icon_mn_a">
+                    <a href="{{$share->facebook($url,$title,$thumbnail)}}" class="icon_mn_a" id="social_button">
                         <div  class="iconut" style="padding: 36px;">
                             <i class="fa fa-facebook-square fa-3x" aria-hidden="true"> </i>
                             <span class="iconut_txt">페이스북</span>
@@ -27,7 +27,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{$share->twitter($url,$title,$thumbnail)}}" class="icon_mn_a">
+                    <a href="{{$share->twitter($url,$title,$thumbnail)}}" class="icon_mn_a" id="social_button">
                         <div  class="iconut" style="padding: 36px;">
                             <i class="fa fa-twitter-square fa-3x" aria-hidden="true"> </i>
                             <span class="iconut_txt">트위터</span>
@@ -36,7 +36,7 @@
                     </a>
                 </li>
                 <li>
-                    <a class="icon_mn_a" onclick="shareStory()">
+                    <a class="icon_mn_a" onclick="shareStory()" id="social_button">
                         <div class="iconut"   style="padding: 40px 13px 0 18px;">
                          <img  src="/mobile/images/kakao_black.jpg" style=" width:50%;"><br/>
                             <span class="iconut_txt">카카오스토리</span>
@@ -58,7 +58,7 @@
         height: 550
     };
 
-    $(document).on('click', '.icon_mn_a', function(e){
+    $(document).on('click', '#social_button', function(e){
         var
                 verticalPos = Math.floor(($(window).width() - popupSize.width) / 2),
                 horisontalPos = Math.floor(($(window).height() - popupSize.height) / 2);

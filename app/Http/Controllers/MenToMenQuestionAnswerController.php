@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\MenToMenQuestionAnswer;
 use Illuminate\Http\Request;
 use Validator;
+use Jenssegers\Agent\Agent;
 class MenToMenQuestionAnswerController extends Controller
 {
 
@@ -57,7 +58,14 @@ class MenToMenQuestionAnswerController extends Controller
 
         flash('1:1문의를 등록했습니다.');
         // if request is from front end
-        if($request->get('ask_question')){ return redirect()->route('ask.ask_question');}
+        if($request->get('ask_question')){
+            $agent = new Agent();
+            if($agent->isMobile()){
+                return redirect()->route('m.ask.ask_question');
+            }else {
+                return redirect()->route('ask.ask_question');
+            }
+        }
 
         return \Response::json(["status"=>"200", "id"=> $men_to_menRequest->id ]);
     }

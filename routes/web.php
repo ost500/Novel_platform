@@ -39,6 +39,19 @@ Route::group(['prefix' => 'm'], function () {
     Route::get('novel_group_inning/{id}', ['as' => 'm.each_novel.novel_group_inning', 'uses' => 'MobileController\EachController@novel_group_inning']);
     Route::get('novel_group/review/{id}', ['as' => 'm.each_novel.novel_group.review', 'uses' => 'MobileController\EachController@novel_group_review']);
 
+    //AskController
+    Route::group(['prefix' => 'customer'], function () {
+        Route::get('/frequently_asked_questions', ['as' => 'm.ask.faqs', 'uses' => 'MobileController\AskController@faqs']);
+        Route::get('/questions', ['as' => 'm.ask.questions', 'uses' => 'MobileController\AskController@questions']);
+        Route::get('/ask_question', ['as' => 'm.ask.ask_question', 'uses' => 'MobileController\AskController@ask_question']);
+        Route::get('/notifications', ['as' => 'm.ask.notifications', 'uses' => 'MobileController\AskController@notifications']);
+        Route::get('/notification_detail/{id}', ['as' => 'm.ask.notification_detail', 'uses' => 'MobileController\AskController@notification_detail']);
+        Route::get('/question_detail/{id}', ['as' => 'm.ask.question_detail', 'uses' => 'MobileController\AskController@question_detail']);
+        Route::get('/faq_detail/{id}', ['as' => 'm.ask.faq_detail', 'uses' => 'MobileController\AskController@faq_detail']);
+        Route::get('/accusations/{id}', ['as' => 'm.accusations', 'uses' => 'MobileController\AskController@accusations']);
+        Route::post('/accusations', ['as' => 'm.accusations.post', 'uses' => 'AccusationController@store']);
+    });
+
     //Community
     Route::group(['prefix' => 'community'], function () {
         Route::get('reader_reco/{id}', ['as' => 'm.reader_reco.detail', 'uses' => 'MobileController\CommunityController@reader_reco_detail']);

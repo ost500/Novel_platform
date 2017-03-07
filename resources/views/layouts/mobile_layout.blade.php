@@ -10,6 +10,41 @@
     <link rel="stylesheet" type="text/css" href="/mobile/css/sub.css">
     <link rel="stylesheet" href="/plugins/font-awesome/css/font-awesome.min.css" type="text/css">
     {{-- <script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>--}}
+    <style>
+
+            /*ALERTS*/
+        .alert-success {
+            color: #3c763d;
+            background-color: #dff0d8;
+            border-color: #d6e9c6;
+        }
+
+        .alert-danger {
+            color: #a94442;
+            background-color: #f2dede;
+            border-color: #ebccd1;
+        }
+
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+
+        .alert-dismissable {
+            padding-right: 35px;
+        }
+
+        .alert-dismissable .close {
+            position: relative;
+            top: -2px;
+            right: -21px;
+            color: inherit;
+        }
+    </style>
+
+    @yield('header')
     <script type="text/javascript" src="/js/jquery-2.1.1.min.js"></script>
     <script src="/js/vue.js"></script>
     <script src="/js/vue-resource.min.js"></script>
@@ -181,7 +216,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="" class="icon_mn_a">
+                        <a href="{{route('m.ask.faqs')}}" class="icon_mn_a">
                             <div class="iconut customer">
                                 <span class="">고객센터</span>
                             </div>
