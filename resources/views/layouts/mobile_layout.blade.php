@@ -269,7 +269,7 @@
                 <li><a href="{{route('m.series')}}" class="top_nav_link"><span
                                 class="top_nav_mn  {{ (Request::is('m/series') || Request::is('m/series/*'))?"on":"" }}">연제</span></a>
                 </li>
-                <li><a href="" class="top_nav_link"><span class="top_nav_mn">완결</span></a></li>
+                <li><a href="{{route('m.completed')}}" class="top_nav_link"><span class="top_nav_mn {{ (Request::is('m/completed') || Request::is('m/completed/*'))?"on":"" }}">완결</span></a></li>
                 <li><a href="{{route('m.free_board')}}" class="top_nav_link"><span
                                 class="top_nav_mn {{ (Request::is('m/community/freeboard') || Request::is('m/community/free_board/*') || Request::is('m/community/reader_reco') || Request::is('m/community/reader_reco/*'))?"on":"" }}">커뮤니티</span></a>
                 </li>

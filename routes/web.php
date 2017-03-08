@@ -29,10 +29,12 @@ if ($agent->isMobile()) {
 Route::group(['prefix' => 'm'], function () {
 
     Route::get('login', ['as' => 'mobile.login', 'uses' => 'Auth\LoginController@mobileLoginForm']);
-    //Series
-    Route::get('/series/{free_or_charged?}', ['as' => 'm.series', 'uses' => 'MobileController\IndexController@series']);
     //Bests
     Route::get('/bests/{free_or_charged?}', ['as' => 'm.bests', 'uses' => 'MobileController\IndexController@bests']);
+    //completed
+    Route::get('/completed/{free_or_charged?}', ['as' => 'm.completed', 'uses' => 'MobileController\IndexController@completed']);
+    //Series
+    Route::get('/series/{free_or_charged?}', ['as' => 'm.series', 'uses' => 'MobileController\IndexController@series']);
 
     //EachController
     Route::get('novel_group/{id}', ['as' => 'm.each_novel.novel_group', 'uses' => 'MobileController\EachController@novel_group']);
