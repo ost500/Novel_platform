@@ -24,7 +24,7 @@
                     <div class="mlist_tit_rwap2">
                         <h2 class="mlist_tit_crown">
                             Weekly Best
-                            <a href="" class="mlist_tit_btn open">내용보기</a>
+
                             <!--<a href="" class="mlist_tit_btn close">내용닫기</a>-->
                         </h2>
                     </div>
