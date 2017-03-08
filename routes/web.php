@@ -39,6 +39,23 @@ Route::group(['prefix' => 'm'], function () {
     Route::get('novel_group_inning/{id}', ['as' => 'm.each_novel.novel_group_inning', 'uses' => 'MobileController\EachController@novel_group_inning']);
     Route::get('novel_group/review/{id}', ['as' => 'm.each_novel.novel_group.review', 'uses' => 'MobileController\EachController@novel_group_review']);
 
+    //Community
+    Route::group(['prefix' => 'community'], function () {
+        Route::get('freeboard', ['as' => 'm.free_board', 'uses' => 'MobileController\CommunityController@free_board']);
+        Route::get('freeboard/{id}', ['as' => 'm.free_board.detail', 'uses' => 'MobileController\CommunityController@free_board_detail']);
+        // same url diffrent request for the redirection after login
+        Route::post('freeboard/{id}', ['as' => 'm.freeboard.comment', 'middleware' => 'auth', 'uses' => 'FreeBoardCommentController@store']);
+        Route::get('freeboard_write', ['middleware' => 'auth', 'as' => 'm.free_board.write', 'uses' => 'MobileController\CommunityController@free_board_write']);
+        Route::get('freeboard/{id}/edit', ['as' => 'm.free_board.edit', 'uses' => 'MobileController\CommunityController@free_board_edit']);
+        Route::post('freeboard/', ['as' => 'm.free_board.store', 'uses' => 'FreeBoardController@store']);
+        Route::put('freeboard/{id}', ['as' => 'm.free_board.update', 'uses' => 'FreeBoardController@update']);
+
+        Route::get('reader_reco', ['as' => 'm.reader_reco', 'uses' => 'MobileController\CommunityController@reader_reco']);
+        Route::get('reader_reco/{id}', ['as' => 'm.reader_reco.detail', 'uses' => 'MobileController\CommunityController@reader_reco_detail']);
+        Route::get('reader_reco/{id}/edit', ['as' => 'm.reader_reco.edit', 'uses' => 'MobileController\CommunityController@reader_reco_edit']);
+        Route::post('reader_reco/{id}', ['as' => 'm.reader_reco.comment', 'middleware' => 'auth', 'uses' => 'ReviewCommentController@store']);
+    });
+
     //AskController
     Route::group(['prefix' => 'customer'], function () {
         Route::get('/frequently_asked_questions', ['as' => 'm.ask.faqs', 'uses' => 'MobileController\AskController@faqs']);
@@ -52,11 +69,7 @@ Route::group(['prefix' => 'm'], function () {
         Route::post('/accusations', ['as' => 'm.accusations.post', 'uses' => 'AccusationController@store']);
     });
 
-    //Community
-    Route::group(['prefix' => 'community'], function () {
-        Route::get('reader_reco/{id}', ['as' => 'm.reader_reco.detail', 'uses' => 'MobileController\CommunityController@reader_reco_detail']);
-        Route::get('reader_reco', ['as' => 'm.reader_reco', 'uses' => 'MobileController\CommunityController@reader_reco']);
-    });
+
 });
 
 Auth::routes();

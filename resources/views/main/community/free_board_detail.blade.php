@@ -155,13 +155,12 @@
                 app_free_board.$http.post('{{ route('free_board_likes.store') }}', app_free_board.like_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                         .then(function (response) {
                             //  document.getElementById('tab' + publish_company_id).style.display = 'none';
-                            console.log(response);
                             /* app.add_favorite_disp = false;
                              app.remove_favorite_disp = true;*/
                             location.reload();
                         })
                         .catch(function (errors) {
-                            console.log(errors);
+                           // console.log(errors);
                             window.location.assign('/login?loginView=true');
                         });
             },
@@ -169,13 +168,11 @@
                 app_free_board.$http.delete('{{ route('free_board_likes.destroy',['id'=>$article->id]) }}', {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                         .then(function (response) {
                             //  document.getElementById('tab' + publish_company_id).style.display = 'none';
-                            console.log(response);
                             /* app.add_favorite_disp = false;
                              app.remove_favorite_disp = true;*/
                             location.reload();
                         })
                         .catch(function (errors) {
-                            console.log(errors);
                             window.location.assign('/login?loginView=true');
                         });
             }
