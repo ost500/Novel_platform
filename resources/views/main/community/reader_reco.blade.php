@@ -101,7 +101,7 @@
                                         <span>{{ $keyword->name }}</span>
                                         @break
                                     @endforeach
-                                    <span>조회수 {{$review->novel_groups->view_count}}</span> <span>작성일 2016.06.21</span>
+                                    <span>조회수 {{$review->total_count}}</span> <span>작성일 {{ $review->created_at->format('Y-m-d') }}</span>
                                 </p>
                             </div>
                         </li>

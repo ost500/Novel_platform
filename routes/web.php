@@ -69,6 +69,17 @@ Route::group(['prefix' => 'm'], function () {
         Route::post('/accusations', ['as' => 'm.accusations.post', 'uses' => 'AccusationController@store']);
     });
 
+    //Mails Controller
+    Route::group(['prefix' => 'mails', 'middleware' => ['auth']], function () {
+        Route::get('/received', ['as' => 'm.mails.received', 'uses' => 'MobileController\MailController@received']);
+        Route::get('/sent', ['as' => 'm.mails.sent', 'uses' => 'MobileController\MailController@sent']);
+        Route::get('/spam', ['as' => 'm.mails.spam', 'uses' => 'MobileController\MailController@spam']);
+        Route::get('/my_box', ['as' => 'm.mails.my_box', 'uses' => 'MobileController\MailController@my_box']);
+        Route::get('/create/{id?}', ['as' => 'm.mails.create', 'uses' => 'MobileController\MailController@create']);
+        Route::get('/detail/{id}', ['as' => 'm.mails.detail', 'uses' => 'MobileController\MailController@detail']);
+        Route::get('/sent_detail/{id}', ['as' => 'm.mails.sent_detail', 'uses' => 'MobileController\MailController@sent_detail']);
+    });
+
 
 });
 

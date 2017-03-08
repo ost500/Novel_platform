@@ -82,13 +82,12 @@
                                         href="{{ route('each_novel.novel_group', ['id' => $review->novel_groups->id]) }}">{{ $review->novel_groups->title }}</a>
                             </h2>
 
-                            <p class="writer">{{ $review->novel_groups->users->name }}<a href="#mode_nav"><i
+                            <p class="writer">{{ $review->novel_groups->users->name }}<a href="{{ route('mails.create', ['id' =>$review->novel_groups->users->id]) }}"><i
                                             class="memo-icon"></i><span
                                             class="hidden">쪽지</span></a></p>
 
                             <p class="post-info">
                                 <span>{{$review->novel_groups->keywords[0]->name}}</span>
-                                <span>{{$review->novel_groups->keywords[1]->name}}</span>
                                 <span>총 {{$review->novel_groups->novels->count()}}화</span>
                                 <span>조회수 {{ $review->total_count }}</span>
                                 <span>선호작 {{ $review->novel_groups->favorites->count() }}명</span>
