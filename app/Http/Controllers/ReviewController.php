@@ -51,6 +51,10 @@ class ReviewController extends Controller
 
         $request->user()->reviews()->create($request->all());
         flash('독자추천 글이 성공적으로 등록 되었습니다');
+        $agent = new Agent();
+        if($agent->isMobile()){
+            return redirect()->route('m.reader_reco');
+        }
         return redirect()->route('reader_reco');
     }
 

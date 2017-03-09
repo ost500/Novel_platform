@@ -25,7 +25,14 @@ class SearchController extends Controller
         $search_type = $request->get('search_type');
         $title = $request->get('title');
         $keyword_name = $request->get('keyword_name');
-        $condition = [];
+
+
+    /*    if ($search_type=='다른 작품') {
+            return response()->json($search_type);
+            // search in novel_groups for author's other novels
+            $novel_groups = $novel_groups->where('novel_groups.nickname_id', $nickname_id);
+        }
+        dd($search_type);*/
 
         if ($search_type == '소설') {
             // search in novel_groups
@@ -40,6 +47,7 @@ class SearchController extends Controller
             $novel_groups = $novel_groups->where([['nick_names.nickname', 'like', '%' . $title . '%']]);
 
         } else if ($search_type == '다른 작품') {
+            dd($search_type);
             // search in novel_groups for author's other novels
             $novel_groups = $novel_groups->where('novel_groups.nickname_id', $nickname_id);
         } else {

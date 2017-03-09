@@ -1,7 +1,8 @@
 @extends('layouts.mobile_layout')
 @section('content')
         <!-- 상단 비주얼 -->
-<div class="serial_topvs_wrap" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<div class="serial_topvs_wrap" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml"
+     xmlns:v-on="http://www.w3.org/1999/xhtml">
     @include('mobile_social_share', ['url' =>route('m.each_novel.novel_group', $novel_group->id),'title'=>$novel_group->title,'thumbnail'=>''])
             <!-- 상단 비주얼 배경 이미지 -->
     <div class="stvs_bg_wrap">
@@ -164,7 +165,13 @@
         <div class="">
             <div class="mlist_tit_rwap">
                 <h2 class="mlist_tit2">작가의 다른 작품</h2>
-                <a href="" class="mlist_more">더보기</a>
+               {{-- <form name="search_other_form" action="{{route('m.search.index')}}" method="post">
+                    {{csrf_field()}}
+                    <input type="hidden" name="nickname_id" id="nickname_id" value="{{$novel_group->nickname_id}}">
+                    <input type="hidden" name="search_type" id="search_type" value="다른">
+               <button type="submit" class="mlist_more" style="cursor:pointer;">더보기</button>
+               </form>--}}
+                <a href="{{route('m.search.index').'?nickname_id='.$novel_group->nickname_id.'&search_type=다른 작품'}}" class="mlist_more">더보기</a>
             </div>
             <!-- 리스트 테이블 -->
             <div class="view_else_box">
@@ -286,7 +293,6 @@
         }
 
     });
-
 
 </script>
 @endsection

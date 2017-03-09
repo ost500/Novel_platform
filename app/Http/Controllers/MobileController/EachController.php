@@ -192,7 +192,7 @@ class EachController extends Controller
 
     public function novel_group_review($novel_group_id)
     {
-        return view('main.each_novel.novel_group_review', compact('novel_group_id'));
+        return view('mobile.each_novel.novel_group_review', compact('novel_group_id'));
     }
 
     public  function purchase($id)
