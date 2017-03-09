@@ -77,7 +77,47 @@ Route::group(['prefix' => 'm'], function () {
         Route::post('/accusations', ['as' => 'm.accusations.post', 'uses' => 'AccusationController@store']);
     });
 
-    //Mails Controller
+    //My information
+    Route::group(['prefix' => 'my_info', 'middleware' => ['auth']], function () {
+        //MyPageController
+        Route::get('/', ['as' => 'm.my_page.index', 'uses' => 'MobileController\MyPageController@index']);
+        Route::get('/favorites', ['as' => 'm.my_page.favorites', 'uses' => 'MobileController\MyPageController@favorites']);
+        Route::get('/novels/new_speed', ['as' => 'm.my_page.novels.new_speed', 'uses' => 'MobileController\MyPageController@new_speed']);
+        Route::get('/novels/new_speed/read/{id}', ['as' => 'm.my_page.novels.new_speed.read', 'uses' => 'MobileController\MyPageController@new_speed_read']);
+        Route::get('/novels/new_novels', ['as' => 'm.my_page.novels.new_novels', 'uses' => 'MobileController\MyPageController@new_novels']);
+
+        Route::group(['prefix' => 'personal'], function () {
+            Route::get('/post_manage', ['as' => 'm.my_info.post_manage', 'uses' => 'MobileController\MyInfoController@post_manage']);
+            Route::get('/review_manage', ['as' => 'm.my_info.review_manage', 'uses' => 'MainController\MyInfoController@review_manage']);
+            Route::get('/novel_comments_manage', ['as' => 'm.my_info.novel_comments_manage', 'uses' => 'MainController\MyInfoController@novel_comments_manage']);
+            Route::get('/free_board_review_comments_manage', ['as' => 'm.my_info.free_board_review_comments_manage', 'uses' => 'MainController\MyInfoController@free_board_review_comments_manage']);
+            Route::get('/password_again', ['as' => 'm.my_info.password_again', 'uses' => 'MainController\MyInfoController@password_again']);
+            Route::post('/password_again', ['as' => 'm.my_info.password_again.post', 'uses' => 'MainController\MyInfoController@password_again_post']);
+            Route::get('/edit', ['as' => 'm.my_info.edit', 'uses' => 'MainController\MyInfoController@edit']);
+            Route::post('/edit', ['as' => 'm.my_info.edit.post', 'uses' => 'UserController@my_info_update']);
+            Route::get('/member_leave/password_again', ['as' => 'm.my_info.member_leave.password_again', 'uses' => 'MainController\MyInfoController@member_leave_password_again']);
+            Route::post('/member_leave', ['as' => 'm.my_info.member_leave', 'uses' => 'UserController@member_leave']);
+            Route::post('/free_board_review_comments_remove', ['as' => 'm.free_board_review_comments.destroy_comments', 'uses' => 'MainController\MyInfoController@destroy_comments']);
+            Route::put('/free_board_review_comments_update', ['as' => 'm.free_board_review_comments.update_comments', 'uses' => 'MainController\MyInfoController@update_comments']);
+        });
+
+
+        Route::group(['prefix' => 'use_info'], function () {
+            Route::get('/charge_bead', ['as' => 'm.my_info.charge_bead', 'uses' => 'MobileController\MyInfoController@charge_bead']);
+            Route::get('/charge_list', ['as' => 'm.my_info.charge_list', 'uses' => 'MobileController\MyInfoController@charge_list']);
+            Route::get('/manage_piece', ['as' => 'm.my_info.manage_piece', 'uses' => 'MobileController\MyInfoController@manage_piece']);
+            Route::get('/purchased_novel_list', ['as' => 'm.my_info.purchased_novel_list', 'uses' => 'MobileController\MyInfoController@purchased_novel_list']);
+            Route::get('/received_gift', ['as' => 'm.my_info.received_gift', 'uses' => 'MobileController\MyInfoController@received_gift']);
+            Route::get('/sent_gift', ['as' => 'm.my_info.sent_gift', 'uses' => 'MobileController\MyInfoController@sent_gift']);
+
+        });
+
+
+
+
+    });
+
+        //Mails Controller
     Route::group(['prefix' => 'mails', 'middleware' => ['auth']], function () {
         Route::get('/received', ['as' => 'm.mails.received', 'uses' => 'MobileController\MailController@received']);
         Route::get('/sent', ['as' => 'm.mails.sent', 'uses' => 'MobileController\MailController@sent']);

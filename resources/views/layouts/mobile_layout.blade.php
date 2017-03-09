@@ -188,7 +188,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="" class="icon_mn_a">
+                        <a href="{{route('m.my_page.index')}}" class="icon_mn_a">
                             <div class="iconut myinfo">
                                 <span class="">My정보</span>
                             </div>
