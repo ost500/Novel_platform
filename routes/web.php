@@ -36,6 +36,12 @@ Route::group(['prefix' => 'm'], function () {
     //Series
     Route::get('/series/{free_or_charged?}', ['as' => 'm.series', 'uses' => 'MobileController\IndexController@series']);
 
+    //Search Controller
+    Route::group(['prefix' => 'search'], function () {
+        Route::post('/', ['as' => 'm.search.index', 'uses' => 'MobileController\SearchController@index']);
+        Route::get('/', ['as' => 'm.search', 'uses' => 'MobileController\SearchController@index']);
+    });
+
     //EachController
     Route::get('novel_group/{id}', ['as' => 'm.each_novel.novel_group', 'uses' => 'MobileController\EachController@novel_group']);
     Route::get('novel_group_inning/{id}', ['as' => 'm.each_novel.novel_group_inning', 'uses' => 'MobileController\EachController@novel_group_inning']);
@@ -347,7 +353,7 @@ Route::group(['prefix' => 'mails', 'middleware' => ['auth']], function () {
     Route::get('/sent_detail/{id}', ['as' => 'mails.sent_detail', 'uses' => 'MainController\MailController@sent_detail']);
 });
 
-//Mails Controller
+//Search Controller
 Route::group(['prefix' => 'search'], function () {
     Route::post('/', ['as' => 'search.index', 'uses' => 'MainController\SearchController@index']);
     Route::get('/', ['as' => 'search', 'uses' => 'MainController\SearchController@index']);

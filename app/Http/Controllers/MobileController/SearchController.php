@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\MainController;
+namespace App\Http\Controllers\MobileController;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -27,19 +27,19 @@ class SearchController extends Controller
         $keyword_name = $request->get('keyword_name');
         $condition = [];
 
-        if ($search_type == 'ì†Œì„¤') {
+        if ($search_type == '¼Ò¼³') {
             // search in novel_groups
             $novel_groups = $novel_groups->where([['novel_groups.title', 'like', '%' . $title . '%']]);
 
-        } else if ($search_type == 'ì†Œì„¤ íšŒì°¨') {
+        } else if ($search_type == '¼Ò¼³ È¸Â÷') {
             // search in novels
             $novel_groups = $novel_groups->where([['novels.title', 'like', '%' . $title . '%']]);
 
-        } else if ($search_type == 'ìž‘ê°€') {
+        } else if ($search_type == 'ÀÛ°¡') {
             // search in novel_groups or novels
             $novel_groups = $novel_groups->where([['nick_names.nickname', 'like', '%' . $title . '%']]);
 
-        } else if ($search_type == 'ë‹¤ë¥¸ ìž‘í’ˆ') {
+        } else if ($search_type == '´Ù¸¥ ÀÛÇ°') {
             // search in novel_groups for author's other novels
             $novel_groups = $novel_groups->where('novel_groups.nickname_id', $nickname_id);
         } else {
@@ -67,6 +67,6 @@ class SearchController extends Controller
 
         $novel_groups = $novel_groups->with('nicknames')->with('keywords')->withCount('novels')->orderBy('new', 'desc')->paginate(config('define.pagination_long'));
         //  return response()->json($novel_groups);
-        return view('main.search.index', compact('novel_groups', 'search_type', 'title', 'keyword_name'));
+        return view('mobile.search.index', compact('novel_groups', 'search_type', 'title', 'keyword_name'));
     }
 }
