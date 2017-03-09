@@ -139,36 +139,4 @@
         <div class="spac40"></div>
     </div>
 </div>
-<!-- 내용 //-->
-<script type="text/javascript">
-    var my_info = new Vue({
-        el: '#my_info',
-        data: {
-            optionValue: ''
-        },
-        methods: {
-            callUrl: function () {
-
-                //Get the selected value
-                this.optionValue = $('#myinfoSelect').val();
-                //Based on values make a request
-                if (this.optionValue == '마이페이지 홈') {
-                    location.assign('{{route('m.my_page.index')}}');
-                } else if (this.optionValue == '선호작') {
-                    location.assign('{{route('m.my_page.favorites')}}');
-                } else if (this.optionValue == '이용정보') {
-                    location.assign('{{route('m.my_info.charge_bead')}}');
-
-                } else if (this.optionValue == '소설') {
-                    location.assign('{{route('m.my_page.novels.new_speed')}}');
-
-                } else if (this.optionValue == '개인') {
-                    location.assign('{{route('m.my_info.post_manage')}}');
-
-                }
-            }
-
-        }
-    });
-</script>
 @endsection
