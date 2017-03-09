@@ -1,6 +1,6 @@
  <!-- 셀렉트박스 -->
 <div id="my_info_bar" class="{{ Request::is('m/my_info')?"padt30":"sel2_wrap" }}" xmlns:v-on="http://www.w3.org/1999/xhtml">
-    <select class="{{ Request::is('m/my_info/favorites')?"sel_198":"full" }}" id="myinfoSelect" v-on:change="callUrl()">
+    <select class="{{ Request::is('m/my_info/favorites') || Request::is('m/my_info/personal/*') ?"sel_198":"full" }}" id="myinfoSelect" v-on:change="callUrl()">
          <option value="마이페이지 홈" @if(Request::is('m/my_info')) selected @endif>마이페이지 홈</option>
          <option value="선호작" @if(Request::is('m/my_info/favorites')) selected @endif >선호작</option>
          <option value="이용정보" @if(Request::is('m/my_info/use_info/*')) selected @endif>이용정보</option>
@@ -15,6 +15,16 @@
         <option value="비밀글 관리" @if($filter=='secret') selected @endif >비밀글 관리</option>
     </select>
     @endif
+  @if(Request::is('m/my_info/personal/*'))
+     <select class="sel_346 marL8" id="myinfo_favorites"  v-on:change="callSubUrl()">
+        <option value="게시글 관리<">게시글 관리</option>
+        <option value="추천 리뷰 관리">추천 리뷰 관리</option>
+        <option value="소설 댓글 관리">소설 댓글 관리</option>
+        <option value="일반 댓글 관리">일반 댓글 관리</option>
+        <option value="정보변경">정보변경</option>
+        <option value="쪽지">쪽지</option>
+      </select>
+  @endif
 
 </div>
 
@@ -60,7 +70,23 @@
                     } else if (this.subOptionValue == '비밀글 관리') {
                         location.assign('{{route('m.my_page.favorites').'?filter=secret'}}');
 
+
+                    } else if (this.subOptionValue == '게시글 관리') {
+                        location.assign('{{route('m.my_info.post_manage')}}');
+                    }else if (this.subOptionValue == '추천 리뷰 관리') {
+                        location.assign('{{route('m.my_info.review_manage')}}');
+                    }else if (this.subOptionValue == '소설 댓글 관리') {
+                        location.assign('{{route('m.my_info.novel_comments_manage')}}');
+                    }else if (this.subOptionValue == '일반 댓글 관리') {
+                        location.assign('{{route('m.my_info.free_board_review_comments_manage')}}');
+                    }else if (this.subOptionValue == '정보변경') {
+                        location.assign('{{route('m.my_info.password_again')}}');
+
+
+                    }else if (this.subOptionValue == '쪽지') {
+                        location.assign('{{route('m.mails.received')}}');
                     }
+
 
                 }
 

@@ -88,17 +88,17 @@ Route::group(['prefix' => 'm'], function () {
 
         Route::group(['prefix' => 'personal'], function () {
             Route::get('/post_manage', ['as' => 'm.my_info.post_manage', 'uses' => 'MobileController\MyInfoController@post_manage']);
-            Route::get('/review_manage', ['as' => 'm.my_info.review_manage', 'uses' => 'MainController\MyInfoController@review_manage']);
-            Route::get('/novel_comments_manage', ['as' => 'm.my_info.novel_comments_manage', 'uses' => 'MainController\MyInfoController@novel_comments_manage']);
-            Route::get('/free_board_review_comments_manage', ['as' => 'm.my_info.free_board_review_comments_manage', 'uses' => 'MainController\MyInfoController@free_board_review_comments_manage']);
-            Route::get('/password_again', ['as' => 'm.my_info.password_again', 'uses' => 'MainController\MyInfoController@password_again']);
-            Route::post('/password_again', ['as' => 'm.my_info.password_again.post', 'uses' => 'MainController\MyInfoController@password_again_post']);
-            Route::get('/edit', ['as' => 'm.my_info.edit', 'uses' => 'MainController\MyInfoController@edit']);
+            Route::get('/review_manage', ['as' => 'm.my_info.review_manage', 'uses' => 'MobileController\MyInfoController@review_manage']);
+            Route::get('/novel_comments_manage', ['as' => 'm.my_info.novel_comments_manage', 'uses' => 'MobileController\MyInfoController@novel_comments_manage']);
+            Route::get('/free_board_review_comments_manage', ['as' => 'm.my_info.free_board_review_comments_manage', 'uses' => 'MobileController\MyInfoController@free_board_review_comments_manage']);
+            Route::get('/password_again', ['as' => 'm.my_info.password_again', 'uses' => 'MobileController\MyInfoController@password_again']);
+            Route::post('/password_again', ['as' => 'm.my_info.password_again.post', 'uses' => 'MobileController\MyInfoController@password_again_post']);
+            Route::get('/edit', ['as' => 'm.my_info.edit', 'uses' => 'MobileController\MyInfoController@edit']);
             Route::post('/edit', ['as' => 'm.my_info.edit.post', 'uses' => 'UserController@my_info_update']);
-            Route::get('/member_leave/password_again', ['as' => 'm.my_info.member_leave.password_again', 'uses' => 'MainController\MyInfoController@member_leave_password_again']);
+            Route::get('/member_leave/password_again', ['as' => 'm.my_info.member_leave.password_again', 'uses' => 'MobileController\MyInfoController@member_leave_password_again']);
             Route::post('/member_leave', ['as' => 'm.my_info.member_leave', 'uses' => 'UserController@member_leave']);
-            Route::post('/free_board_review_comments_remove', ['as' => 'm.free_board_review_comments.destroy_comments', 'uses' => 'MainController\MyInfoController@destroy_comments']);
-            Route::put('/free_board_review_comments_update', ['as' => 'm.free_board_review_comments.update_comments', 'uses' => 'MainController\MyInfoController@update_comments']);
+            Route::post('/free_board_review_comments_remove', ['as' => 'm.free_board_review_comments.destroy_comments', 'uses' => 'MobileController\MyInfoController@destroy_comments']);
+            Route::put('/free_board_review_comments_update', ['as' => 'm.free_board_review_comments.update_comments', 'uses' => 'MobileController\MyInfoController@update_comments']);
         });
 
 
