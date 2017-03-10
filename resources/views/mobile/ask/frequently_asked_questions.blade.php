@@ -9,11 +9,11 @@
         <!-- 아이콘 5메뉴 -->
         <div class="sel2_wrap">
             <ul class="cs_topmn_box">
-                <li><a href="{{route('m.ask.faqs').'?category=사이트 이용' }}" @if($category == '사이트 이용') class="cs_topmn site on" @else class="cs_topmn site off" @endif >사이트</a></li>
-                <li><a href="{{route('m.ask.faqs').'?category=회원정보' }}" @if($category == '회원정보') class="cs_topmn userif on"  @else class="cs_topmn userif off" @endif>회원정보</a></li>
-                <li><a href="{{route('m.ask.faqs').'?category=구매/결제' }}"  @if($category == '구매/결제') class="cs_topmn purchase on"  @else class="cs_topmn purchase off"  @endif>구매/결제</a></li>
-                <li><a href="{{route('m.ask.faqs').'?category=작가/연재' }}" @if($category == '작가/연재') class="cs_topmn novelist on" @else class="cs_topmn novelist off"  @endif>작가/연재</a></li>
-                <li><a href="{{route('m.ask.faqs').'?category=APP' }}" @if($category == 'APP') class="cs_topmn app on"  @else class="cs_topmn app off" @endif>APP</a></li>
+                <li><a href="{{route('ask.faqs').'?category=사이트 이용' }}" @if($category == '사이트 이용') class="cs_topmn site on" @else class="cs_topmn site off" @endif >사이트</a></li>
+                <li><a href="{{route('ask.faqs').'?category=회원정보' }}" @if($category == '회원정보') class="cs_topmn userif on"  @else class="cs_topmn userif off" @endif>회원정보</a></li>
+                <li><a href="{{route('ask.faqs').'?category=구매/결제' }}"  @if($category == '구매/결제') class="cs_topmn purchase on"  @else class="cs_topmn purchase off"  @endif>구매/결제</a></li>
+                <li><a href="{{route('ask.faqs').'?category=작가/연재' }}" @if($category == '작가/연재') class="cs_topmn novelist on" @else class="cs_topmn novelist off"  @endif>작가/연재</a></li>
+                <li><a href="{{route('ask.faqs').'?category=APP' }}" @if($category == 'APP') class="cs_topmn app on"  @else class="cs_topmn app off" @endif>APP</a></li>
             </ul>
         </div>
         <!-- 아이콘 5메뉴 //-->
@@ -41,7 +41,7 @@
                 <tr>
                     <td class="talC borCont_bro">{{$faq->faq_category}}</td>
                     <td class="contxt">
-                        <a href="{{route('m.ask.faq_detail',['id'=>$faq->id]).$query_string}}"> <div class="borCont">{{$faq->title}}</div></a>
+                        <a href="{{route('ask.faq_detail',['id'=>$faq->id]).$query_string}}"> <div class="borCont">{{$faq->title}}</div></a>
                     </td>
                 </tr>
                 @endforeach
@@ -50,7 +50,7 @@
             </table>
 
             <!-- 페이징 -->
-            @include('pagination_mobile', ['collection' => $faqs, 'url' => route('m.ask.faqs').$query_string.'&'])
+            @include('pagination_mobile', ['collection' => $faqs, 'url' => route('ask.faqs').$query_string.'&'])
             <!-- 페이징 //-->
         </div>
         <!-- 자주 묻는 질문 best //-->
@@ -66,7 +66,7 @@
         },
         methods: {
             searchByTitle: function (e) {
-                window.location.href = '{{route('m.ask.faqs').'?search='}}' + app.search;
+                window.location.href = '{{route('ask.faqs').'?search='}}' + app.search;
             },
             callUrl: function () {
 
@@ -75,11 +75,11 @@
                 console.log( this.optionValue);
                 //Based on values make a request
                 if (this.optionValue == '자주 묻는 질문') {
-                    location.assign('{{route('m.ask.faqs')}}');
+                    location.assign('{{route('ask.faqs')}}');
                 } else if (this.optionValue == '1:1문의') {
-                    location.assign('{{route('m.ask.ask_question')}}');
+                    location.assign('{{route('ask.ask_question')}}');
                 } else if (this.optionValue == '공지사항') {
-                    location.assign('{{route('m.ask.notifications')}}');
+                    location.assign('{{route('ask.notifications')}}');
 
                 }
             }

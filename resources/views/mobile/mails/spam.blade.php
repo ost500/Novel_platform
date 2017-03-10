@@ -50,7 +50,7 @@
                                 <div class="note_icolst">
                                     <div class="note_icolst_img"><img src="/mobile/images/boxicon_stick.png" alt="">
                                     </div>
-                                    <a href="{{ route('m.mails.detail', ['id' => $spam_mail->id]) }}">
+                                    <a href="{{ route('mails.detail', ['id' => $spam_mail->id]) }}">
                                         <div class="note_icolst_txt" style="color: #685f59;">
                                             {{$spam_mail->mailboxs->subject}}
                                         </div>
@@ -61,7 +61,7 @@
                                 <div class="replst_btn_wrap mart15">
                                     <a  v-on:click="destroy()" class="replst_btn" style="cursor:pointer">삭제</a>
                                     <a  v-on:click="addToMyBox('mybox')" class="replst_btn" style="cursor:pointer">보관</a>
-                                    <a  href="{{route('m.accusations',['id'=>Auth::user()->id])}}" class="replst_btn" style="cursor:pointer">신고</a>
+                                    <a  href="{{route('accusations',['id'=>Auth::user()->id])}}" class="replst_btn" style="cursor:pointer">신고</a>
                                 </div>
                             </td>
                         </tr>
@@ -78,11 +78,11 @@
                 <button  @if(count($spam_mails) == 0)  disabled @endif class="replst_btn2" style="cursor:pointer;" v-on:click="destroy()"  >삭제</button>
 
                 <button  v-on:click="addToMyBox('mybox')" class="replst_btn2" style="cursor:pointer;"  @if(count($spam_mails) == 0)  disabled @endif>보관</button>
-                <a  href="{{route('m.accusations',['id'=>Auth::user()->id])}}" ><button class="replst_btn2" @if(count($spam_mails) == 0)  disabled @endif style="cursor:pointer;">신고 </button></a>
+                <a  href="{{route('accusations',['id'=>Auth::user()->id])}}" ><button class="replst_btn2" @if(count($spam_mails) == 0)  disabled @endif style="cursor:pointer;">신고 </button></a>
             </div>
 
             <!-- 페이징 -->
-            @include('pagination_mobile', ['collection' => $spam_mails, 'url' => route('m.mails.spam').'?'])
+            @include('pagination_mobile', ['collection' => $spam_mails, 'url' => route('mails.spam').'?'])
                     <!-- 페이징 //-->
         </div>
         <!-- 리스트 테이블 //-->

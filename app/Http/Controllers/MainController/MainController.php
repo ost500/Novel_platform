@@ -11,12 +11,30 @@ use App\Review;
 use App\ViewCount;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-
+use Jenssegers\Agent\Agent;
 class MainController extends Controller
 {
+    var $agent;
+
+    public function __construct()
+    {
+        $this->agent = new Agent();
+    }
+
     public function main(Request $request)
     {
-        $recommends = NovelGroup::take(5)->where('secret', null)->with('nicknames')->get();
+       //return number of records
+        $recommends_count=5;
+        $non_free_today_bests_count=10;
+        $free_today_bests_count=10;
+
+        if ($this->agent->isMobile()) {
+            $recommends_count=3;
+            $non_free_today_bests_count=5;
+            $free_today_bests_count=5;
+        }
+
+        $recommends = NovelGroup::take($recommends_count)->where('secret', null)->with('nicknames')->get();
 //        return response()->json($recommends);
 //        $today_best = ViewCount::selectRaw('novel_group_id, novel_groups.*, sum(count) as sum')
 //            ->join('novels', 'novels.id', '=', 'novel_id')
@@ -26,11 +44,11 @@ class MainController extends Controller
         $non_free_today_bests = NovelGroup::selectRaw('novel_group_id, novel_groups.*, sum(today_count) as sum, max(non_free_agreement) as non_free')
             ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
             ->groupBy('novel_group_id')->where('secret', null)->orderBy('sum', 'desc')->havingRaw('max(non_free_agreement) > 0')
-            ->with('nicknames')->take(10)->get();
+            ->with('nicknames')->take($non_free_today_bests_count)->get();
         $free_today_bests = NovelGroup::selectRaw('novel_group_id, novel_groups.*, sum(today_count) as sum, max(non_free_agreement) as non_free')
             ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
             ->groupBy('novel_group_id')->where('secret', null)->orderBy('sum', 'desc')->havingRaw('max(non_free_agreement) = 0')
-            ->with('nicknames')->take(10)->get();
+            ->with('nicknames')->take($free_today_bests_count)->get();
 
         $latests = NovelGroup::where('secret', null)->latest()->take(5)->get();
 
@@ -52,6 +70,11 @@ class MainController extends Controller
 
 
 //        return response()->json($reader_reviews);
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.index', compact('recommends', 'non_free_today_bests', 'free_today_bests', 'latests', 'reader_reviews', 'recommendations', 'login', 'loginView', 'notification_popups'));
+
+        }
         return view('main.main', compact('recommends', 'non_free_today_bests', 'free_today_bests', 'latests', 'reader_reviews', 'recommendations', 'login', 'loginView', 'notification_popups'));
     }
 
@@ -115,6 +138,12 @@ class MainController extends Controller
         //nickname, keyword, novels_count
         $novel_groups = $novel_groups->with('nicknames')->with('keywords')->withCount('novels')->paginate(config('define.pagination_long'));
 //        return response()->json($novel_groups);
+
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.series', compact('free_or_charged', 'novel_groups', 'genre', 'order'));
+
+        }
         return view('main.series', compact('free_or_charged', 'novel_groups', 'genre', 'order'));
     }
 
@@ -195,6 +224,11 @@ class MainController extends Controller
 
 //        echo $keyword_id[0]->id;
 //        return response()->json($novel_groups);
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.bests', compact('free_or_charged', 'novel_groups', 'page', 'period', 'option', 'keywords'));
+
+        }
         return view('main.bests', compact('free_or_charged', 'novel_groups', 'page', 'period', 'option', 'keywords'));
     }
 
@@ -256,6 +290,11 @@ class MainController extends Controller
         //nickname, keyword, novels_count
         $novel_groups = $novel_groups->with('nicknames')->with('keywords')->withCount('novels')->paginate(config('define.pagination_long'));
 //        return response()->json($novel_groups);
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.completed', compact('free_or_charged', 'novel_groups', 'genre', 'order'));
+
+        }
         return view('main.completed', compact('free_or_charged', 'novel_groups', 'genre', 'order'));
     }
 

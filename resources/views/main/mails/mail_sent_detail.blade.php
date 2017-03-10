@@ -59,7 +59,7 @@
                                 <a href="#mode_nav" class="report-btn"><i class="report-icon"></i> 메일 신고</a>
                             </div>
                         </div>
-                        <div class="bbs-view-btns"><a href="{{ route('free_board') }}" class="btn">목록</a></div>
+                        <div class="bbs-view-btns"><a href="{{ route('mails.sent') }}" class="btn">목록</a></div>
                     </div>
 
                 </article>

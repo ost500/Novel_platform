@@ -50,7 +50,7 @@
                                 <div class="note_icolst">
                                     <div class="note_icolst_img"><img src="/mobile/images/boxicon_speech.png" alt="">
                                     </div>
-                                  <a href="{{ route('m.mails.detail', ['id' => $received_mail->id]) }}">
+                                  <a href="{{ route('mails.detail', ['id' => $received_mail->id]) }}">
                                         <div @if($received_mail->read == null) class="note_icolst_txt green" @else  class="note_icolst_txt" style="color: #685f59;" @endif>
                                             {{$received_mail->mailboxs->subject}}
                                         </div>
@@ -62,7 +62,7 @@
                                     <a  v-on:click="destroy()" class="replst_btn" style="cursor:pointer">삭제</a>
                                     <a  v-on:click="myBoxOrSpam('mybox')" class="replst_btn" style="cursor:pointer">보관</a>
                                     <a  v-on:click="myBoxOrSpam('spam')" class="replst_btn" style="cursor:pointer" >차단</a>
-                                    <a  href="{{route('m.accusations',['id'=>Auth::user()->id])}}" class="replst_btn" style="cursor:pointer">신고</a>
+                                    <a  href="{{route('accusations',['id'=>Auth::user()->id])}}" class="replst_btn" style="cursor:pointer">신고</a>
                                 </div>
                             </td>
                         </tr>
@@ -79,11 +79,11 @@
                 <button  v-on:click="destroy()" class="replst_btn2" style="cursor:pointer;"  @if(count($received_mails) == 0)  disabled @endif>삭제</button>
                 <button  v-on:click="myBoxOrSpam('mybox')" class="replst_btn2" style="cursor:pointer;"  @if(count($received_mails) == 0)  disabled @endif>보관</button>
                 <button  v-on:click="myBoxOrSpam('spam')" class="replst_btn2" style="cursor:pointer;"  @if(count($received_mails) == 0)  disabled @endif>차단</button>
-                <a  href="{{route('m.accusations',['id'=>Auth::user()->id])}}"><button class="replst_btn2" @if(count($received_mails) == 0)  disabled @endif style="cursor:pointer;">신고 </button></a>
+                <a  href="{{route('accusations',['id'=>Auth::user()->id])}}"><button class="replst_btn2" @if(count($received_mails) == 0)  disabled @endif style="cursor:pointer;">신고 </button></a>
             </div>
 
             <!-- 페이징 -->
-            @include('pagination_mobile', ['collection' => $received_mails, 'url' => route('m.mails.received').'?'])
+            @include('pagination_mobile', ['collection' => $received_mails, 'url' => route('mails.received').'?'])
                     <!-- 페이징 //-->
         </div>
         <!-- 리스트 테이블 //-->

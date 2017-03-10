@@ -2,7 +2,7 @@
 @section('content')
         <!-- 내용 -->
 <div class="container" xmlns:v-on="http://www.w3.org/1999/xhtml">
-    @include('mobile_social_share', ['url' =>route('m.each_novel.novel_group', $novel_group_inning->novel_groups->id),'title'=>$novel_group_inning->novel_groups->title,'thumbnail'=>''])
+    @include('mobile_social_share', ['url' =>route('each_novel.novel_group', $novel_group_inning->novel_groups->id),'title'=>$novel_group_inning->novel_groups->title,'thumbnail'=>''])
     <div class="cont_wrap" id="inning">
         <!-- 연재 -->
         <div class="">
@@ -11,7 +11,7 @@
                         class="additional">{{ str_limit($novel_group_inning->title) }}</span>
 
                 <div class="mlist_tbtn">
-                    <a href="{{ route('m.each_novel.novel_group', ['id' => $novel_group_inning->novel_groups->id]) }}"><span
+                    <a href="{{ route('each_novel.novel_group', ['id' => $novel_group_inning->novel_groups->id]) }}"><span
                                 class="btn_tit down">메뉴보기</span></a>
                     <span class="mlist_sli"></span>
                     @if(Auth::check() && Auth::user()->id == $novel_group_inning->user_id)
@@ -114,10 +114,10 @@
                                 )</span></h3>
 
                         <div class="sort_area">
-                            <a href="{{ route('m.each_novel.novel_group_inning', ['id' => $novel_group_inning->id]).'?order=latest' }}"
+                            <a href="{{ route('each_novel.novel_group_inning', ['id' => $novel_group_inning->id]).'?order=latest' }}"
                                @if($order == 'latest' or $order == null ) class="sort_btn sort_on"
                                @else class="sort_btn sort_off" @endif>최신순</a>
-                            <a href="{{ route('m.each_novel.novel_group_inning', ['id' => $novel_group_inning->id]).'?order=older' }}"
+                            <a href="{{ route('each_novel.novel_group_inning', ['id' => $novel_group_inning->id]).'?order=older' }}"
                                @if($order == 'older')  class="sort_btn sort_on" @else class="sort_btn sort_off" @endif>등록순</a>
                         </div>
                     </div>

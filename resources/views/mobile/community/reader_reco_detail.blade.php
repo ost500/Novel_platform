@@ -49,14 +49,14 @@
             <span class="stvs_img"><img src="/img/novel_covers/{{$review->novel_groups->cover_photo}}"></span>
             <!-- 책 이미지 //-->
             <!-- 책 제목 -->
-            <a href="{{ route('m.each_novel.novel_group', ['id' => $review->novel_groups->id]) }}">
+            <a href="{{ route('each_novel.novel_group', ['id' => $review->novel_groups->id]) }}">
                 <div class="book_tit">{{ $review->novel_groups->title }}</div>
             </a>
             <!-- 책 제목 //-->
             <!-- 작가 및 장르 설명 -->
             <div class="book_info">
                 <span class="wr_name">{{ $review->novel_groups->users->name }}</span>
-                <span class="ico_note"><a href="{{ route('m.mails.create', ['id' =>$review->novel_groups->users->id]) }}"><img src="/mobile/images/ico_note.gif"></a></span>
+                <span class="ico_note"><a href="{{ route('mails.create', ['id' =>$review->novel_groups->users->id]) }}"><img src="/mobile/images/ico_note.gif"></a></span>
                 <span class="marL20">{{$review->novel_groups->keywords[0]->name}}</span>
                 <span class="stvs_bif_sli"></span>
                 <span>총 {{$review->novel_groups->novels->count()}}화</span>
@@ -97,12 +97,12 @@
                 </div>
                 <div class="participation_area">
                     <div class="al_right">
-                        <a href="{{ route('m.accusations', ['id' => $review->users->id]) }}" class="icon_btn_a"><span
+                        <a href="{{ route('accusations', ['id' => $review->users->id]) }}" class="icon_btn_a"><span
                                     class="icon ico_alert">신고</span><span class="al_right_txt">게시물 신고</span></a>
                     </div>
                 </div>
                 @if(Auth::check() && Auth::user()->id == $review->user_id)
-                    <div class="view_admin"><a href="{{route('m.reader_reco.edit',['id' => $review->review_id ]) }}"
+                    <div class="view_admin"><a href="{{route('reader_reco.edit',['id' => $review->review_id ]) }}"
                                                class="view_admin_btn">관리</a></div>
                 @endif
             </div>
@@ -110,11 +110,11 @@
 
             <!-- 버튼 -->
             <div class="veiw_btn_wrap">
-                <div class="mart20"><a href="{{ route('m.reader_reco') }}" class="btn_list_view full">목록</a></div>
+                <div class="mart20"><a href="{{ route('reader_reco') }}" class="btn_list_view full">목록</a></div>
                 <div class="mart20">
-                    <a href="{{route('m.reader_reco').'?novel_group='.$review->novel_groups->id}}"
+                    <a href="{{route('reader_reco').'?novel_group='.$review->novel_groups->id}}"
                        class="btn_line_green floL" style="width:270px;">이 소설의 다른 추천</a>
-                    <a href="{{route('m.reader_reco').'?review_user='.$review->users->id}}" class="btn_line_red floR"
+                    <a href="{{route('reader_reco').'?review_user='.$review->users->id}}" class="btn_line_red floR"
                        style="width:270px;">작성자의 다른 추천 보기</a>
                 </div>
             </div>
@@ -125,10 +125,10 @@
                 <div class="replst_head">
                     <h3 class="mlist_tit4">댓글<span class="repcount">({{ $review->comments->count() }})</span></h3>
                     <div class="sort_area">
-                        <a href="{{ route('m.reader_reco.detail', ['id' => $review->id]).'?order=latest' }}"
+                        <a href="{{ route('reader_reco.detail', ['id' => $review->id]).'?order=latest' }}"
                            @if($order == 'latest' or $order == null ) class="sort_btn sort_on"
                            @else class="sort_btn sort_off" @endif>최신순</a>
-                        <a href="{{ route('m.reader_reco.detail', ['id' => $review->id]).'?order=oldest' }}"
+                        <a href="{{ route('reader_reco.detail', ['id' => $review->id]).'?order=oldest' }}"
                            @if($order == 'oldest')  class="sort_btn sort_on" @else class="sort_btn sort_off" @endif>등록순</a>
                     </div>
                 </div>
@@ -141,7 +141,7 @@
                             <div class="replst_cont"><?php echo nl2br($comment->comment); ?></div>
                             <div class="replst_btn_wrap">
                                 <a href="" class="replst_btn">답글</a>
-                                <a href="{{ route('m.accusations', ['id' => $comment->users->id]) }}"
+                                <a href="{{ route('accusations', ['id' => $comment->users->id]) }}"
                                    class="replst_btn">신고</a>
                             </div>
                         </li>
@@ -160,7 +160,7 @@
 
             <!-- 댓글쓰기 -->
             <div class="repl_write_wrap mart20">
-                <form method="post" action="{{route('m.reader_reco.comment',['id'=>$review->review_id])}}"
+                <form method="post" action="{{route('reader_reco.comment',['id'=>$review->review_id])}}"
                       class="comment-form">
                     {!! csrf_field() !!}
                     <textarea class="repl_txtar" name="comment" rows="3" cols="30" placeholder="여러분의 소중한 댓글을 입력해 주세요"

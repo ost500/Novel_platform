@@ -8,7 +8,7 @@
     <ul class="mtop_list">
         @foreach($recommends as $recommend)
             <li>
-                <a href="{{route('m.each_novel.novel_group',['id'=>$recommend->id])}}" class="mtop_list_a">
+                <a href="{{route('each_novel.novel_group',['id'=>$recommend->id])}}" class="mtop_list_a">
                     <span class="mtlst_img"><img src="/img/novel_covers/{{$recommend->cover_photo}}"></span>
 					<span class="mtlst_txt">
 						<strong>{{str_limit($recommend->title, 10)}}</strong>
@@ -29,7 +29,7 @@
         <div>
             <div class="mlist_tit_rwap">
                 <h2 class="mlist_tit"><span class="green">유료연재</span> 투데이 베스트</h2>
-                <a href="{{route('m.bests')}}" class="mlist_more">더보기</a>
+                <a href="{{route('bests')}}" class="mlist_more">더보기</a>
             </div>
             <!-- 이미지 리스트 -->
             <table class="mlist_tbl">
@@ -42,11 +42,11 @@
                 @foreach($non_free_today_bests as $today_best)
                     <tr>
                         <td class="mtbl_num"><em>{{$loop->iteration}}</em></td>
-                        <td class="talC"><a href="{{route('m.each_novel.novel_group',['id'=>$today_best->id])}}"><span
+                        <td class="talC"><a href="{{route('each_novel.novel_group',['id'=>$today_best->id])}}"><span
                                         class="mtbl_img">
                            <img src="/img/novel_covers/{{$today_best->cover_photo}}"></span></a></td>
                         <td class="">
-                            <a href="{{route('m.each_novel.novel_group',['id'=>$today_best->id])}}">
+                            <a href="{{route('each_novel.novel_group',['id'=>$today_best->id])}}">
                                 <div class="mtbl_tit">{{ str_limit($today_best->title, 15) }}</div>
                             </a>
 
@@ -65,7 +65,7 @@
         <div>
             <div class="mlist_tit_rwap">
                 <h2 class="mlist_tit"><span class="green">무료연재</span> 투데이 베스트</h2>
-                <a href="{{route('m.bests').'/free'}}" class="mlist_more">더보기</a>
+                <a href="{{route('bests').'/free'}}" class="mlist_more">더보기</a>
             </div>
             <!-- 리스트 -->
             <table class="mlist_tbl">
@@ -77,7 +77,7 @@
                 @foreach($free_today_bests as $free_today_best)
                     <tr>
                         <td class="mtbl_num"><em>{{$loop->iteration}}</em></td>
-                        <td class=""><a href="{{route('m.each_novel.novel_group',['id'=>$free_today_best->id])}}"><span
+                        <td class=""><a href="{{route('each_novel.novel_group',['id'=>$free_today_best->id])}}"><span
                                         class="mtbl_tit">{{ str_limit($free_today_best->title, 15) }}</span></a>
                             <span class="mtbl_sl"></span>
                             <span class="bw_name">{{ str_limit($free_today_best->nicknames->nickname, 10) }}</span>
@@ -94,7 +94,7 @@
         <div>
             <div class="mlist_tit_rwap">
                 <h2 class="mlist_tit">독자추천</h2>
-                <a href="{{route('m.reader_reco')}}" class="mlist_more">더보기</a>
+                <a href="{{route('reader_reco')}}" class="mlist_more">더보기</a>
             </div>
             <!-- 리스트 -->
             <table class="mlist_tbl">
@@ -102,7 +102,7 @@
                 @foreach($reader_reviews as $reader_review)
                     <tr>
                         <td>
-                            <a href="{{route('m.reader_reco.detail',['id'=>$reader_review->id])}}">
+                            <a href="{{route('reader_reco.detail',['id'=>$reader_review->id])}}">
                                 <div class="mtbl_recTit">{{$reader_review->title}}</div>
                             </a>
 
@@ -132,7 +132,7 @@
                 <ul class="recoList">
                     @foreach($recommendations as $recommendation)
                         <li>
-                            <a href="{{route('m.each_novel.novel_group',['id'=>$recommendation->id])}}"
+                            <a href="{{route('each_novel.novel_group',['id'=>$recommendation->id])}}"
                                class="reco_list_a">
                                 <span class="reco_img"><img
                                             src="img/novel_covers/{{$recommendation->cover_photo}}"></span>

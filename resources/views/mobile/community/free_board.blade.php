@@ -7,8 +7,8 @@
         <div class="sel2_wrap">
             <!-- 텝메뉴 -->
             <ul class="tap2_mn">
-                <li class="left"><a href="{{route('m.free_board')}}" class="tap2_mn_on">자유게시판</a></li>
-                <li class="right"><a href="{{route('m.reader_reco')}}" class="">독자추천</a></li>
+                <li class="left"><a href="{{route('free_board')}}" class="tap2_mn_on">자유게시판</a></li>
+                <li class="right"><a href="{{route('reader_reco')}}" class="">독자추천</a></li>
             </ul>
             <!-- 텝메뉴 //-->
         </div>
@@ -42,7 +42,7 @@
                             <tr>
                                 <td class="topcount">{{$loop->iteration}}.</td>
                                 <td class="contxt">
-                                    <a href="{{route('m.free_board.detail',['id'=>$best->id])}}">
+                                    <a href="{{route('free_board.detail',['id'=>$best->id])}}">
                                         <div class="borContTit">{{$best->title}}</div>
                                     </a>
 
@@ -62,7 +62,7 @@
                                 <tr>
                                     <td class="topcount">{{$counter+$loop->iteration}}.</td>
                                     <td class="contxt">
-                                        <a href="{{route('m.free_board.detail',['id'=>$best->id])}}">
+                                        <a href="{{route('free_board.detail',['id'=>$best->id])}}">
                                             <div class="borContTit">{{$best->title}}</div>
                                         </a>
 
@@ -122,7 +122,7 @@
                         @foreach($articles as $article)
                             <tr>
                                 <td class="contxt">
-                                    <a href="{{ route('m.free_board.detail',['id'=>$article->id]) }}">
+                                    <a href="{{ route('free_board.detail',['id'=>$article->id]) }}">
                                         <div class="borContTit">{{ $article->title }}</div>
                                     </a>
 
@@ -141,11 +141,11 @@
                     <!-- 리스트 //-->
 
                     <!-- 페이징 -->
-                    @include('pagination_mobile', ['collection' => $articles, 'url' => route('m.free_board')."?search_option=".$search_option."&search_text=".$search_text."&"])
+                    @include('pagination_mobile', ['collection' => $articles, 'url' => route('free_board')."?search_option=".$search_option."&search_text=".$search_text."&"])
                             <!-- 페이징 //-->
 
                     <div class=""><input type="button" value="글쓰기" class="btn_line_gray full" style="cursor:pointer;"
-                                         onclick="window.location.href='{{ route('m.free_board.write')}}'"></div>
+                                         onclick="window.location.href='{{ route('free_board.write')}}'"></div>
                     <div class="spac20"></div>
                 </div>
                 <!-- 검색 & 리스트 //-->

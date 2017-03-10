@@ -11,10 +11,10 @@
             <h3 class="blindtext">정렬보기</h3>
 
             <div class="mysort_area">
-                <a href="{{route('m.my_page.favorites').'?filter='.$filter}}"
+                <a href="{{route('my_page.favorites').'?filter='.$filter}}"
                    @if(!$keyword_name) class="sort_btn sort_on" @else class="sort_btn sort_off" @endif>전체</a>
                 @foreach($keywords as $keyword)
-                    <a href="{{route('m.my_page.favorites').'?filter='.$filter.'&keyword='.$keyword->name }}"
+                    <a href="{{route('my_page.favorites').'?filter='.$filter.'&keyword='.$keyword->name }}"
                        @if($keyword_name == $keyword->name) class="sort_btn sort_on"
                        @else class="sort_btn sort_off" @endif>{{$keyword->name}}</a>
                 @endforeach
@@ -71,7 +71,7 @@
         <!-- 이미지 리스트 //-->
 
         <!-- 페이징 -->
-        @include('pagination_mobile', ['collection' => $my_favorites, 'url' => route('m.my_page.favorites').$query_string.'&'])
+        @include('pagination_mobile', ['collection' => $my_favorites, 'url' => route('my_page.favorites').$query_string.'&'])
                 <!-- 페이징 //-->
     </div>
 </div>

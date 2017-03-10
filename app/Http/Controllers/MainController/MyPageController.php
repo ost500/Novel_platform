@@ -15,7 +15,7 @@ use App\Http\Controllers\Controller;
 use App\NovelGroup;
 use Auth;
 use App\Favorite;
-
+use Jenssegers\Agent\Agent;
 class MyPageController extends Controller
 {
 
@@ -23,9 +23,12 @@ class MyPageController extends Controller
      * Create a new controller instance.
      *
      */
+    var $agent;
+
     public function __construct()
     {
         $this->middleware('auth');
+        $this->agent = new Agent();
     }
 
 
@@ -39,17 +42,24 @@ class MyPageController extends Controller
             ->join('novels', 'novels.id', '=', 'purchased_novels.novel_id')
             ->join('novel_groups', 'novels.novel_group_id', '=', 'novel_groups.id')
             ->join('nick_names', 'novel_groups.nickname_id', '=', 'nick_names.id')
-            ->selectRaw('novel_groups.*, nickname, novels.id')->groupBy('novels.id','novel_group_id')->latest()->take(5)->get();
+            ->join('novel_group_keywords','novel_groups.id','=','novel_group_keywords.novel_group_id')
+            ->join('keywords','novel_group_keywords.keyword_id','=','keywords.id')
+            ->selectRaw('novel_groups.*, nickname, keywords.name as keyword_name, novels.id')->groupBy('novel_group_keywords.id','novels.id','novels.novel_group_id')->latest()->take(5)->get();
 
         //get recently updated favourite groups of a user
         $recently_updated_favorites = NovelGroup::selectRaw('novel_groups.*,novels.novel_group_id,max(novels.created_at) as new')
             ->join('favorites', 'favorites.novel_group_id', '=', 'novel_groups.id')
             ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
             ->groupBy('novels.novel_group_id')
-            ->where('favorites.user_id', $my_profile->id)->with('nicknames')
+            ->where('favorites.user_id', $my_profile->id)->with('nicknames')->with('keywords')
             ->orderBy('new', 'desc')->take(5)->get();
 
         $favorites_count = $my_profile->favorites->count();
+
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.my_page.index', compact('my_profile', 'recently_purchased_novels', 'recently_updated_favorites', 'favorites_count'));
+        }
 
         return view('main.my_page.index', compact('my_profile', 'recently_purchased_novels', 'recently_updated_favorites', 'favorites_count'));
     }
@@ -93,6 +103,10 @@ class MyPageController extends Controller
 
 
         $query_string = '?filter=' . $filter . '&keyword=' . $keyword_name;
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.my_page.favorites', compact('my_favorites', 'keywords', 'query_string', 'keyword_name', 'filter', 'week_gap'));
+        }
         return view('main.my_page.favorites', compact('my_favorites', 'keywords', 'query_string', 'keyword_name', 'filter', 'week_gap'));
     }
 
@@ -119,6 +133,10 @@ class MyPageController extends Controller
                 ->orderBy('new', 'desc')->take(2)->get();
         }
         // return response()->json(['aa'=>$new_novels,'bb'=>$other_novels]);
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.my_page.novel.new_novels', compact('new_novels', 'other_novels'));
+        }
         return view('main.my_page.novel.new_novels', compact('new_novels', 'other_novels'));
     }
 
@@ -133,7 +151,10 @@ class MyPageController extends Controller
             ->paginate(config('define.pagination_long'));
 
 //        return response()->json($new_novel);
-
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.my_page.novel.new_speed', compact('new_speeds'));
+        }
         return view('main.my_page.novel.new_speed', compact('new_speeds'));
     }
 

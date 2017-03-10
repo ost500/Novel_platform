@@ -24,11 +24,11 @@
             @foreach($novel_groups as $novel_group)
                 <tr>
                     <td class="talC"><span class="mtbl_img">
-                            <a href="{{ route('m.each_novel.novel_group',['id'=>$novel_group->id]) }}">
+                            <a href="{{ route('each_novel.novel_group',['id'=>$novel_group->id]) }}">
                                 <img src="/img/novel_covers/{{$novel_group->cover_photo}}" alt="망의 연월"></a></span>
                     </td>
                     <td class="">
-                        <a href="{{ route('m.each_novel.novel_group',['id'=>$novel_group->id]) }}">
+                        <a href="{{ route('each_novel.novel_group',['id'=>$novel_group->id]) }}">
                             <div class="mtbl_tit">{{str_limit($novel_group->title,15)}}</div>
                         </a>
 
@@ -46,7 +46,7 @@
         <!-- 이미지 리스트 //-->
 
         <!-- 페이징2 -->
-        @include('pagination_mobile', ['collection' => $novel_groups, 'url' => route('m.search.index').'?search_type='.$search_type.'&title='.$title.'&keyword_name='.$keyword_name.'&'])
+        @include('pagination_mobile', ['collection' => $novel_groups, 'url' => route('search.index').'?search_type='.$search_type.'&title='.$title.'&keyword_name='.$keyword_name.'&'])
                 <!-- 페이징2 //-->
     </div>
 </div>

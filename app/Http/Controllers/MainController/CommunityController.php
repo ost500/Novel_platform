@@ -8,9 +8,18 @@ use App\Http\Controllers\Controller;
 use App\Review;
 use Illuminate\Http\Request;
 use Auth;
+use Jenssegers\Agent\Agent;
 
 class CommunityController extends Controller
 {
+
+    var $agent;
+
+    public function __construct()
+    {
+        $this->agent = new Agent();
+    }
+
     public function free_board(Request $request)
     {
         $articles = new FreeBoard();
@@ -29,6 +38,12 @@ class CommunityController extends Controller
         $page = $request->page;
 
 //        return response()->json($weekly_best);
+
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.community.free_board', compact('articles', 'weekly_best', 'search_option', 'search_text', 'page'));
+
+        }
         return view('main.community.free_board', compact('articles', 'weekly_best', 'search_option', 'search_text', 'page'));
     }
 
@@ -54,25 +69,43 @@ class CommunityController extends Controller
         }
 
 //        return response()->json($prev_article);
+
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.community.free_board_detail', compact('article', 'next_article', 'prev_article', 'show_liked'));
+
+        }
+
         return view('main.community.free_board_detail', compact('article', 'next_article', 'prev_article', 'show_liked'));
     }
 
 
     public function free_board_write(Request $request)
     {
-
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.community.free_board_write');
+        }
         return view('main.community.free_board_write');
     }
 
     public function free_board_edit($id)
     {
         $free_board = FreeBoard::find($id);
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.community.free_board_edit', compact('free_board'));
+        }
         return view('main.community.free_board_edit', compact('free_board'));
     }
 
     public function reader_reco_edit($id)
     {
-        $reader_reco= Review::find($id);
+        $reader_reco = Review::find($id);
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.community.reader_reco_edit', compact('reader_reco'));
+        }
         return view('main.community.reader_reco_edit', compact('reader_reco'));
     }
 
@@ -125,6 +158,11 @@ class CommunityController extends Controller
 
 
         // return response()->json($reviews);
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.community.reader_reco', compact('reviews', 'genre', 'search_option', 'search_text', 'page', 'novel_group_id', 'review_user_id'));
+        }
+
         return view('main.community.reader_reco', compact('reviews', 'genre', 'search_option', 'search_text', 'page', 'novel_group_id', 'review_user_id'));
     }
 
@@ -161,9 +199,10 @@ class CommunityController extends Controller
         }
 
 
-//        return response()->json($review);
-//        return response()->json($prev_review);
-//        return response()->json($review->id);
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.community.reader_reco_detail', compact('review', 'next_review', 'prev_review', 'genre', 'order'));
+        }
         return view('main.community.reader_reco_detail', compact('review', 'next_review', 'prev_review', 'genre', 'order'));
     }
 

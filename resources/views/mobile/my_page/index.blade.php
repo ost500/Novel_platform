@@ -19,7 +19,7 @@
     <div class="myInfo_mn_wrap">
         <ul class="myInfo_mn">
             <li>
-                <a href="{{ route('m.my_info.charge_bead')}}" class="myInfo_mn_a">
+                <a href="{{ route('my_info.charge_bead')}}" class="myInfo_mn_a">
                     <span class="icon_img marble">구슬</span>
                     <span class="myInfo_1">보유구슬</span>
                     <span class="myInfo_num">{{ Auth::user()->bead }}개</span>
@@ -57,7 +57,7 @@
         <div>
             <div class="mlist_tit_rwap">
                 <h2 class="mlist_tit">최근 구매 내역</h2>
-                <a href="{{ route('m.my_info.purchased_novel_list') }}" class="mlist_more">더보기</a>
+                <a href="{{ route('my_info.purchased_novel_list') }}" class="mlist_more">더보기</a>
             </div>
             <!-- 이미지 리스트 -->
             <table class="mlist_tbl">
@@ -70,11 +70,11 @@
                     @foreach($recently_purchased_novels as $recently_purchased_novel )
                         <tr>
                             <td class="talC"><span class="mtbl_img"> <a
-                                            href="{{route('m.each_novel.novel_group_inning',['id'=>$recently_purchased_novel->id])}}"><img
+                                            href="{{route('each_novel.novel_group_inning',['id'=>$recently_purchased_novel->id])}}"><img
                                                 src="/img/novel_covers/{{$recently_purchased_novel->cover_photo}}"></a></span>
                             </td>
                             <td class="">
-                                <a href="{{route('m.each_novel.novel_group_inning',['id'=>$recently_purchased_novel->id])}}">
+                                <a href="{{route('each_novel.novel_group_inning',['id'=>$recently_purchased_novel->id])}}">
                                     <div class="mtbl_tit">{{str_limit($recently_purchased_novel->title,15)}}</div>
                                 </a>
 
@@ -98,7 +98,7 @@
         <div>
             <div class="mlist_tit_rwap">
                 <h2 class="mlist_tit">선호작 업데이트</h2>
-                <a href="{{route('m.my_page.favorites')}}" class="mlist_more">더보기</a>
+                <a href="{{route('my_page.favorites')}}" class="mlist_more">더보기</a>
             </div>
             <!-- 이미지 리스트 -->
             <table class="mlist_tbl">
@@ -112,11 +112,11 @@
                     @foreach($recently_updated_favorites as $recently_updated_favorite )
                         <tr>
                             <td class="talC"><span class="mtbl_img">
-                                      <a href="{{route('m.each_novel.novel_group',['id'=>$recently_updated_favorite->id])}}">
+                                      <a href="{{route('each_novel.novel_group',['id'=>$recently_updated_favorite->id])}}">
                                           <img src="/img/novel_covers/{{$recently_updated_favorite->cover_photo}}"></a><span></span></span>
                             </td>
                             <td class="">
-                                <a href="{{route('m.each_novel.novel_group',['id'=>$recently_updated_favorite->id])}}">
+                                <a href="{{route('each_novel.novel_group',['id'=>$recently_updated_favorite->id])}}">
                                     <div class="mtbl_tit">{{str_limit($recently_updated_favorite->title,15)}}</div>
                                 </a>
 

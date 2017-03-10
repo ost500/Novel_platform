@@ -50,7 +50,7 @@
                                 <div class="note_icolst">
                                     <div class="note_icolst_img"><img src="/mobile/images/boxicon_ymbok.png" alt="">
                                     </div>
-                                    <a href="{{ route('m.mails.sent_detail', ['id' => $sent_mail->id]) }}">
+                                    <a href="{{ route('mails.sent_detail', ['id' => $sent_mail->id]) }}">
                                         <div class="note_icolst_txt" style="color: #685f59;">
                                             {{$sent_mail->subject}}
                                         </div>
@@ -69,7 +69,7 @@
                 </tbody>
             </table>
             <!-- 페이징 -->
-            @include('pagination_mobile', ['collection' => $sent_mails, 'url' => route('m.mails.sent').'?'])
+            @include('pagination_mobile', ['collection' => $sent_mails, 'url' => route('mails.sent').'?'])
                     <!-- 페이징 //-->
         </div>
         <!-- 리스트 테이블 //-->

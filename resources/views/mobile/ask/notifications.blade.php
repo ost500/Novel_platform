@@ -19,7 +19,7 @@
                 @foreach($notifications as $notification)
                     <tr>
                         <td class="contxt">
-                            <a href="{{route('m.ask.notification_detail',['id'=>$notification->id])}}"><div class="borContTit">{{$notification->title}}</div></a>
+                            <a href="{{route('ask.notification_detail',['id'=>$notification->id])}}"><div class="borContTit">{{$notification->title}}</div></a>
                             <div class="">
                                    <span class="brw_22">{{$notification->category}}</span>
                                 <span class="gra_20 marL8">{{$notification->created_at}}</span>
@@ -31,7 +31,7 @@
             </table>
 
             <!-- 페이징 -->
-            @include('pagination_mobile', ['collection' => $notifications, 'url' => route('m.ask.notifications').'?'])
+            @include('pagination_mobile', ['collection' => $notifications, 'url' => route('ask.notifications').'?'])
             <!-- 페이징 //-->
         </div>
         <!-- 문의내역 //-->
@@ -51,11 +51,11 @@
                 console.log(this.optionValue);
                 //Based on values make a request
                 if (this.optionValue == '자주 묻는 질문') {
-                    location.assign('{{route('m.ask.faqs')}}');
+                    location.assign('{{route('ask.faqs')}}');
                 } else if (this.optionValue == '1:1문의') {
-                    location.assign('{{route('m.ask.ask_question')}}');
+                    location.assign('{{route('ask.ask_question')}}');
                 } else if (this.optionValue == '공지사항') {
-                    location.assign('{{route('m.ask.notifications')}}');
+                    location.assign('{{route('ask.notifications')}}');
 
                 }
             }

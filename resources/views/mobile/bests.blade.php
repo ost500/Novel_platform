@@ -6,9 +6,9 @@
         <div class="sel2_wrap">
             <!-- 텝메뉴 -->
             <ul class="tap2_mn">
-                <li class="left"><a href="{{route('m.bests')}}"
+                <li class="left"><a href="{{route('bests')}}"
                                     @if(!$free_or_charged) class="tap2_mn_on" @endif >유료소설</a></li>
-                <li class="right"><a href="{{route('m.bests',['free_or_charged'=>'free'])}}"
+                <li class="right"><a href="{{route('bests',['free_or_charged'=>'free'])}}"
                                      @if($free_or_charged) class="tap2_mn_on" @endif>무료소설</a></li>
             </ul>
             <!-- 텝메뉴 //-->
@@ -39,13 +39,13 @@
                 <h3 class="blindtext">정렬보기</h3>
 
                 <div class="sort_area">
-                    <a href="{{route('m.bests',['free_or_charged'=> $free_or_charged]) .'?period=today_count&option=현대로맨스' }}"
+                    <a href="{{route('bests',['free_or_charged'=> $free_or_charged]) .'?period=today_count&option=현대로맨스' }}"
                        @if($option == "현대로맨스") class="sort_btn sort_on" @else class="sort_btn sort_off" @endif>현대로맨스</a>
 
-                    <a href="{{route('m.bests',['free_or_charged'=> $free_or_charged]) .'?period=today_count&option=시대로맨스' }}"
+                    <a href="{{route('bests',['free_or_charged'=> $free_or_charged]) .'?period=today_count&option=시대로맨스' }}"
                        @if($option == "시대로맨스") class="sort_btn sort_on" @else class="sort_btn sort_off" @endif>시대로맨스</a>
 
-                    <a href="{{route('m.bests',['free_or_charged'=> $free_or_charged]) .'?period=today_count&option=로맨스판타지' }}"
+                    <a href="{{route('bests',['free_or_charged'=> $free_or_charged]) .'?period=today_count&option=로맨스판타지' }}"
                        @if($option == "로맨스판타지") class="sort_btn sort_on"
                        @else class="sort_btn sort_off" @endif>로맨스판타지</a>
                 </div>
@@ -64,11 +64,11 @@
                     <tr>
                         <td class="mtbl_num"><em>{{$novel_groups->firstItem() + $loop->index}}</em></td>
                         <td class="talC"><span class="mtbl_img">    <a
-                                        href="{{ route('m.each_novel.novel_group',['id'=>$novel_group->id]) }}"><img
+                                        href="{{ route('each_novel.novel_group',['id'=>$novel_group->id]) }}"><img
                                             src="/img/novel_covers/{{$novel_group->cover_photo}}"></a></span>
                         </td>
                         <td class="">
-                            <a href="{{ route('m.each_novel.novel_group',['id'=>$novel_group->id]) }}">
+                            <a href="{{ route('each_novel.novel_group',['id'=>$novel_group->id]) }}">
                                 <div class="mtbl_tit">{{str_limit($novel_group->title,15)}}</div>
                             </a>
 
@@ -89,13 +89,13 @@
             <div class="pag_wrap">
                 <div class="paging2">
                     @if($novel_groups->currentPage() >= 2)
-                        <a href="{{route('m.bests',['free_or_charged'=>$free_or_charged])."?period=".$period."&option=".$option."&page=".($novel_groups->currentPage()-1)}}"
+                        <a href="{{route('bests',['free_or_charged'=>$free_or_charged])."?period=".$period."&option=".$option."&page=".($novel_groups->currentPage()-1)}}"
                            class="pbtn2 prev">이전</a>
                     @endif
                     <span class="pag_count">{{$novel_groups->firstItem()}}-{{$novel_groups->lastItem()}}</span>
 
                     @if($novel_groups->lastPage()-1 >= $novel_groups->currentPage())
-                        <a href="{{route('m.bests',['free_or_charged'=>$free_or_charged])."?period=".$period."&option=".$option."&page=".($novel_groups->currentPage()+1)}}"
+                        <a href="{{route('bests',['free_or_charged'=>$free_or_charged])."?period=".$period."&option=".$option."&page=".($novel_groups->currentPage()+1)}}"
                            class="pbtn2 next">다음</a>
                     @endif
                 </div>
@@ -124,21 +124,21 @@
                 //Based on values make a request
                 /*if (this.optionValue == '') {
                  location.assign('
-                {{route('m.bests')}}' + this.queryString);
+                {{route('bests')}}' + this.queryString);
                  } else */
                 if (this.optionValue == '투데이베스트') {
-                    location.assign('{{route('m.bests')}}' + this.queryString + '?period=today_count');
+                    location.assign('{{route('bests')}}' + this.queryString + '?period=today_count');
                 } else if (this.optionValue == '주간베스트') {
-                    location.assign('{{route('m.bests')}}' + this.queryString + '?period=week_count');
+                    location.assign('{{route('bests')}}' + this.queryString + '?period=week_count');
                 }
                 else if (this.optionValue == '월간베스트') {
-                    location.assign('{{route('m.bests')}}' + this.queryString + '?period=month_count');
+                    location.assign('{{route('bests')}}' + this.queryString + '?period=month_count');
                 } else if (this.optionValue == '스테디셀러') {
-                    location.assign('{{route('m.bests')}}' + this.queryString + '?period=year_count&option=steady');
+                    location.assign('{{route('bests')}}' + this.queryString + '?period=year_count&option=steady');
                 } else if (this.optionValue == '장르별베스트') {
-                    location.assign('{{route('m.bests')}}' + this.queryString + '?period=today_count&option=현대로맨스');
+                    location.assign('{{route('bests')}}' + this.queryString + '?period=today_count&option=현대로맨스');
                 } else if (this.optionValue == '완결베스트') {
-                    location.assign('{{route('m.bests')}}' + this.queryString + '?period=month_count&option=completed');
+                    location.assign('{{route('bests')}}' + this.queryString + '?period=month_count&option=completed');
                 }
             }
         }
