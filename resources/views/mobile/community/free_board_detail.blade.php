@@ -38,7 +38,7 @@
                         </div>
                     @else
                         <a v-on:click="freeBoardDislike('{{$article->id}}')" style="cursor:pointer;" class="icon_btn_a"><span
-                                    class="icon ico_love">좋아요</span>
+                                    class="icon ico_love_on">좋아요</span>
                             <span class="gray2">{{ $article->likes_count }}</span>
                         </a>
                     @endif
