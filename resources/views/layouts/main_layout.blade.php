@@ -357,7 +357,7 @@
             <ul class="customer-link">
                 <li><a href="#mode_nav">이용약관</a></li>
                 <li><a href="#mode_nav">개인정보취급방침</a></li>
-                <li><a href="#mode_nav">고객센터</a></li>
+                <li><a href="{{ route('ask.faqs') }}">고객센터</a></li>
                 <li><a href="{{ route('my_info.charge_bead') }}">구슬충전</a></li>
             </ul>
         </nav>

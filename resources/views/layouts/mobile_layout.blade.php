@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<html lang="ko" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <title>여우정원</title>
@@ -145,19 +146,19 @@
                             {{ csrf_field() }}
                         </form>
                     </div>
-                    @else
-                            <!-- 로그인 버튼 -->
+            @else
+                <!-- 로그인 버튼 -->
                     <div class="login_btn_wrap">
                         <a href="{{route('mobile.login')}}" class="login_btn">로그인</a>
                         <!--<a href="" class="login_btn">로그아웃</a>-->
                         <a href="" class="login_btn">회원가입</a>
                     </div>
-                    @endif
-                            <!-- 로그인 버튼 //-->
+            @endif
+            <!-- 로그인 버튼 //-->
 
-                    <!-- close 버튼 -->
-                    <a href="" class="sidemn_close"><span class="ico_close">닫기</span></a>
-                    <!-- close 버튼 //-->
+                <!-- close 버튼 -->
+                <a href="" class="sidemn_close"><span class="ico_close">닫기</span></a>
+                <!-- close 버튼 //-->
             </div>
             <!-- 로그인 및 사용자 정보 //-->
 
@@ -165,30 +166,32 @@
             <div class="icon_mn_wrap">
                 <ul class="icon_mn">
                     <li>
-                        <a href="" class="icon_mn_a">
-                            <div class="iconut news">
-                                <span class="iconut_txt">소식</span>
-                                <!--<em class="count_n colred">3</em>-->
+                        <a href="{{ route('my_page.novels.new_speed') }}" class="icon_mn_a">
+                            <div class="iconut news" v-bind:class="{'news_on' : new_speeds.news_count > 0 }">
+                                <span class="iconut_txt"
+                                      v-bind:class="{'newstxt_on' : new_speeds.news_count > 0 }">소식</span>
+                                <em v-if="new_speeds.news_count > 0"
+                                    class="count_n colred">@{{ new_speeds.news_count }}</em>
                             </div>
                         </a>
                     </li>
                     <li>
-                        <a href="" class="icon_mn_a">
-                            <div class="iconut note">
-                                <span class="iconut_txt">쪽지</span>
-                                <!--<em class="count_n colyel">6</em>-->
+                        <a href="{{ route('mails.received') }}" class="icon_mn_a">
+                            <div class="iconut note" v-bind:class="{'note_on' : new_mails.count > 0}">
+                                <span class="iconut_txt" v-bind:class="{'note_on' : new_mails.count > 0}">쪽지</span>
+                                <em v-if="new_mails.count > 0" class="count_n colyel">@{{ new_mails.count }}</em>
                             </div>
                         </a>
                     </li>
                     <li>
-                        <a href="" class="icon_mn_a">
+                        <a href="{{ route('my_page.favorites') }}" class="icon_mn_a">
                             <div class="iconut bookmark exyel">
                                 <span class="">선호작</span>
                             </div>
                         </a>
                     </li>
                     <li>
-                        <a href="{{route('m.my_page.index')}}" class="icon_mn_a">
+                        <a href="{{route('my_page.index')}}" class="icon_mn_a">
                             <div class="iconut myinfo">
                                 <span class="">My정보</span>
                             </div>
@@ -197,7 +200,7 @@
                     <li>
                         <a href="" class="icon_mn_a">
                             <div class="iconut charge">
-                                <span class="">구슬충전</span>
+                                <span class="{{ route('my_info.charge_bead') }}">구슬충전</span>
                             </div>
                         </a>
                     </li>
@@ -209,21 +212,21 @@
                         </a>
                     </li>
                     <li>
-                        <a href="" class="icon_mn_a">
+                        <a href="{{route('ask.notifications')}}" class="icon_mn_a">
                             <div class="iconut notice">
                                 <span class="">공지사항</span>
                             </div>
                         </a>
                     </li>
                     <li>
-                        <a href="{{route('m.ask.faqs')}}" class="icon_mn_a">
+                        <a href="{{route('ask.faqs')}}" class="icon_mn_a">
                             <div class="iconut customer">
                                 <span class="">고객센터</span>
                             </div>
                         </a>
                     </li>
                     <li>
-                        <a href="" class="icon_mn_a">
+                        <a href="{{ route('free_board') }}" class="icon_mn_a">
                             <div class="iconut community">
                                 <span class="">커뮤니티</span>
                             </div>
@@ -234,9 +237,11 @@
             <!-- 아이콘 메뉴 //-->
 
             <!-- 작가작업실 -->
-            <div class="workroom">
-                <span class="workroom_txt">작가작업실</span>
-            </div>
+            <a href="{{ route('author.index') }}">
+                <div class="workroom">
+                    <span class="workroom_txt">작가작업실</span>
+                </div>
+            </a>
             <!-- 작가작업실 //-->
         </div>
     </div>
@@ -267,7 +272,7 @@
                 </li>
                 <!-- 활성화 되면 클래스 on 추가 -->
                 <li><a href="{{route('m.series')}}" class="top_nav_link"><span
-                                class="top_nav_mn  {{ (Request::is('m/series') || Request::is('m/series/*'))?"on":"" }}">연제</span></a>
+                                class="top_nav_mn  {{ (Request::is('m/series') || Request::is('m/series/*'))?"on":"" }}">연재</span></a>
                 </li>
                 <li><a href="{{route('m.completed')}}" class="top_nav_link"><span
                                 class="top_nav_mn {{ (Request::is('m/completed') || Request::is('m/completed/*'))?"on":"" }}">완결</span></a>
@@ -281,11 +286,11 @@
     <!-- header //-->
 
     <!-- search popop open -->
-    <div class="popup_bg" style="top:215px;display:none;" id="search_box" >
+    <div class="popup_bg" style="top:215px;display:none;" id="search_box">
         <div class="msch_popin">
             <h2 class="msch_pop_tit">일반검색</h2>
             <!-- close 버튼 -->
-            <a  class="sidemn_close"><span class="ico_close" v-on:click="close" style="margin-left:23px;">닫기</span></a>
+            <a class="sidemn_close"><span class="ico_close" v-on:click="close" style="margin-left:23px;">닫기</span></a>
             <!-- close 버튼 //-->
             <form name="search_form" action="{{route('m.search.index')}}" class="search-form" method="post">
                 {{csrf_field()}}
@@ -320,16 +325,17 @@
                 </div>
 
                 <div class="padt30 talC">
-                    <button type="submit" style="background: transparent;border: transparent;"><img src="/mobile/images/ico_mtopsch.png" alt="검색"></button>
+                    <button type="submit" style="background: transparent;border: transparent;"><img
+                                src="/mobile/images/ico_mtopsch.png" alt="검색"></button>
                 </div>
             </form>
         </div>
     </div>
     <!-- search popop open //-->
 
-    @yield('content')
+@yield('content')
 
-            <!-- bottom -->
+<!-- bottom -->
     <div class="bottom">
         <div class="footer">
             <ul class="ftmn_wrap">
@@ -381,11 +387,56 @@
                             this.keywords = response.data;
                         });
             },
-            close:function(){
+            close: function () {
                 $('#search_box').hide();
             }
         }
     });
+
+    var main_layout = new Vue({
+        el: '#sidebar',
+
+        data: {
+            user: {
+                "name": "@if(Auth::check()){{ Auth::user()->name }}@endif",
+                "favorites_count": "@if(Auth::check()){{ Auth::user()->favorites->count() }}@endif"
+            },
+            new_speeds: "",
+            new_mails: "",
+            keywords: "",
+            search: ''
+        },
+        mounted: function () {
+
+            @if(Auth::check())
+                    this.get_new_speed();
+            this.get_new_mails();
+            @endif
+
+
+        },
+        methods: {
+            submit: function (e) {
+
+            },
+            get_new_speed: function () {
+                this.$http.get('/newspeed')
+                        .then(function (response) {
+                            this.new_speeds = response.data;
+
+                        });
+            },
+            get_new_mails: function () {
+                this.$http.get('/newmail')
+                        .then(function (response) {
+                            this.new_mails = response.data;
+
+                        });
+            }
+
+        }
+    });
+
 </script>
 </body>
 </html>
