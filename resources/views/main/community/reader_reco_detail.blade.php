@@ -88,7 +88,7 @@
 
                             <p class="post-info">
                                 <span>{{$review->novel_groups->keywords[0]->name}}</span>
-                                <span>{{$review->novel_groups->keywords[1]->name}}</span>
+
                                 <span>총 {{$review->novel_groups->novels->count()}}화</span>
                                 <span>조회수 {{ $review->total_count }}</span>
                                 <span>선호작 {{ $review->novel_groups->favorites->count() }}명</span>
