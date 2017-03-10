@@ -1,22 +1,22 @@
 @extends('../layouts.main_layout')
 @section('content')
-    <!-- //헤더 -->
-    <!-- 컨테이너 -->
-    <div class="container" xmlns:v-on="http://www.w3.org/1999/xhtml">
-        <div class="wrap" id="received">
-            <!-- LNB -->
+        <!-- //헤더 -->
+<!-- 컨테이너 -->
+<div class="container" xmlns:v-on="http://www.w3.org/1999/xhtml">
+    <div class="wrap" id="received">
+        <!-- LNB -->
         @include('main.mails.left_sidebar')
-        <!-- //LNB -->
+                <!-- //LNB -->
 
-            <!-- 서브컨텐츠 -->
-            <div class="content" id="content">
-                @if(Session::has('flash_message'))
-                    {{-- important, success, warning, danger and info --}}
-                    <div class="alert alert-success">
-                        {{Session('flash_message')}}
-                    </div>
-            @endif
-            <!-- 페이지헤더 -->
+        <!-- 서브컨텐츠 -->
+        <div class="content" id="content">
+            @if(Session::has('flash_message'))
+                {{-- important, success, warning, danger and info --}}
+                <div class="alert alert-success">
+                    {{Session('flash_message')}}
+                </div>
+                @endif
+                        <!-- 페이지헤더 -->
                 <div class="list-header">
                     <h2 class="title">받은쪽지함</h2>
                 </div>
@@ -75,7 +75,10 @@
                         <button type="button" class="btn" v-on:click="myBoxOrSpam('spam')"
                                 @if(count($received_mails) == 0)  disabled @endif >차단
                         </button>
-                        <button type="button" class="btn" @if(count($received_mails) == 0)  disabled @endif>신고</button>
+                        <a href="{{route('accusations',['id'=>Auth::user()->id])}}">
+                            <button type="button" class="btn" @if(count($received_mails) == 0)  disabled @endif>신고
+                            </button>
+                        </a>
                     </div>
 
                     <!-- //하단버튼 -->
@@ -85,67 +88,67 @@
                 <!-- //게시판목록 -->
 
                 <!-- 페이징 -->
-            @include('pagination_front', ['collection' => $received_mails, 'url' => route('mails.received').'?'])
-            <!-- //페이징 -->
-            </div>
-            <!-- //서브컨텐츠 -->
-            <!-- 따라다니는퀵메뉴 -->
-        @include('main.quick_menu')
-        <!-- //따라다니는퀵메뉴 -->
+                @include('pagination_front', ['collection' => $received_mails, 'url' => route('mails.received').'?'])
+                        <!-- //페이징 -->
         </div>
+        <!-- //서브컨텐츠 -->
+        <!-- 따라다니는퀵메뉴 -->
+        @include('main.quick_menu')
+                <!-- //따라다니는퀵메뉴 -->
     </div>
-    <!-- //컨테이너 -->
-    <!-- 푸터 -->
-    <script type="text/javascript">
-        var app = new Vue({
-            el: '#received',
-            data: {
-                info: {ids: '', type: ''}
-            },
+</div>
+<!-- //컨테이너 -->
+<!-- 푸터 -->
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#received',
+        data: {
+            info: {ids: '', type: ''}
+        },
 
-            methods: {
-                destroy: function () {
+        methods: {
+            destroy: function () {
 
-                    this.info.ids = $(".checkboxes:checked").map(function () {
-                        return this.value;
-                    }).get();
-                    if (this.info.ids.length > 0) {
+                this.info.ids = $(".checkboxes:checked").map(function () {
+                    return this.value;
+                }).get();
+                if (this.info.ids.length > 0) {
 
-                        if (confirm('Are you sure to delete mail(s)?')) {
-                            app.$http.post('{{ route('mailbox.destroy') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
-                                    .then(function (response) {
-                                        location.reload();
-
-                                    }).catch(function (errors) {
-                                console.log(errors);
-                            });
-                        }
-                    }
-                },
-                myBoxOrSpam: function (type) {
-
-                    this.info.ids = $(".checkboxes:checked").map(function () {
-                        return this.value;
-                    }).get();
-                    this.info.type = type;
-                    if (this.info.ids.length > 0) {
-                        app.$http.put('{{ route('maillog.update') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                    if (confirm('Are you sure to delete mail(s)?')) {
+                        app.$http.post('{{ route('mailbox.destroy') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                                 .then(function (response) {
                                     location.reload();
 
                                 }).catch(function (errors) {
-                            console.log(errors);
-                        });
+                                    console.log(errors);
+                                });
                     }
-                },
-                spam: function () {
-
                 }
-            }
-        });
+            },
+            myBoxOrSpam: function (type) {
 
-        $(".alert").delay(4000).slideUp(200, function () {
-            $(this).alert('close');
-        });
-    </script>
+                this.info.ids = $(".checkboxes:checked").map(function () {
+                    return this.value;
+                }).get();
+                this.info.type = type;
+                if (this.info.ids.length > 0) {
+                    app.$http.put('{{ route('maillog.update') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                            .then(function (response) {
+                                location.reload();
+
+                            }).catch(function (errors) {
+                                console.log(errors);
+                            });
+                }
+            },
+            spam: function () {
+
+            }
+        }
+    });
+
+    $(".alert").delay(4000).slideUp(200, function () {
+        $(this).alert('close');
+    });
+</script>
 @endsection
