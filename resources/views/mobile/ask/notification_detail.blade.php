@@ -25,7 +25,7 @@
 
         <!-- 버튼 -->
         <div class="veiw_btn_wrap">
-            <div class="mart20"><a href="{{ route('m.ask.notifications') }}" class="btn_list_view full">목록</a></div>
+            <div class="mart20"><a href="{{ route('ask.notifications') }}" class="btn_list_view full">목록</a></div>
         </div>
         <!-- 버튼 //-->
 
@@ -33,7 +33,7 @@
         @if($pre_notification != null)
             <div class="view_tit_box mart20">
                 <span class="head"><i class="fa fa-arrow-up"></i>이전글</span>
-                <a href="{{ route('m.ask.notification_detail',['id'=>$pre_notification->id]) }}"> <span
+                <a href="{{ route('ask.notification_detail',['id'=>$pre_notification->id]) }}"> <span
                             class="view_tit"> {{str_limit($pre_notification->title,25)}}</span></a>
 
                 <div class="expatiate_wrap">
@@ -45,7 +45,7 @@
         @if($next_notification != null)
             <div class="view_tit_box mart20">
                 <span class="head "><i class="fa fa-arrow-down"></i>다음글</span>
-                <a href="{{ route('m.ask.notification_detail',['id'=>$next_notification->id]) }}">
+                <a href="{{ route('ask.notification_detail',['id'=>$next_notification->id]) }}">
                     <span class="view_tit">{{str_limit($next_notification->title,25)}}</span></a>
 
                 <div class="expatiate_wrap">

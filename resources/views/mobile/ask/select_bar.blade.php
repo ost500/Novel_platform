@@ -4,9 +4,9 @@
     </select>
 
     <select class="sel_346 marL8" id="servicesSelect" v-on:change="callUrl()">
-        <option value="자주 묻는 질문" @if(Request::is('m/customer/frequently_asked_questions') || Request::is('m/customer/frequently_asked_questions/*')) selected @endif>자주 묻는 질문</option>
-        <option value="1:1문의" @if(Request::is('m/customer/ask_question')|| Request::is('m/customer/questions') || Request::is('m/customer/ask_question/*')) selected @endif >1:1문의</option>
-        <option value="공지사항" @if(Request::is('m/customer/notifications') || Request::is('m/customer/notifications/*')) selected @endif >공지사항</option>
+        <option value="자주 묻는 질문" @if(Request::is('frequently_asked_questions') || Request::is('frequently_asked_questions/*')) selected @endif>자주 묻는 질문</option>
+        <option value="1:1문의" @if(Request::is('ask_question')|| Request::is('questions') || Request::is('ask_question/*')) selected @endif >1:1문의</option>
+        <option value="공지사항" @if(Request::is('notifications') || Request::is('notifications/*')) selected @endif >공지사항</option>
     </select>
 
 </div>

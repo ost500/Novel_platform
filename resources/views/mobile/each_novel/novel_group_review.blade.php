@@ -7,8 +7,8 @@
         <div class="sel2_wrap">
             <!-- 텝메뉴 -->
             <ul class="tap2_mn">
-                <li class="left"><a href="{{route('m.free_board')}}" >자유게시판</a></li>
-                <li class="right"><a href="{{route('m.reader_reco')}}" class="tap2_mn_on">독자추천</a></li>
+                <li class="left"><a href="{{route('free_board')}}" >자유게시판</a></li>
+                <li class="right"><a href="{{route('reader_reco')}}" class="tap2_mn_on">독자추천</a></li>
             </ul>
             <!-- 텝메뉴 //-->
         </div>

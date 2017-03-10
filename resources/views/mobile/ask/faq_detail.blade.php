@@ -26,7 +26,7 @@
 
         <!-- 버튼 -->
         <div class="veiw_btn_wrap">
-            <div class="mart20"><a href="{{ route('m.ask.faqs') }}" class="btn_list_view full">목록</a></div>
+            <div class="mart20"><a href="{{ route('ask.faqs') }}" class="btn_list_view full">목록</a></div>
         </div>
         <!-- 버튼 //-->
 
@@ -34,7 +34,7 @@
         @if($pre_faq != null)
             <div class="view_tit_box mart20">
                 <span class="head"><i class="fa fa-arrow-up"></i>이전글</span>
-                <a href="{{ route('m.ask.faq_detail',['id'=>$pre_faq->id]).$query_string }}"> <span
+                <a href="{{ route('ask.faq_detail',['id'=>$pre_faq->id]).$query_string }}"> <span
                             class="view_tit"> {{str_limit($pre_faq->title,25)}}</span></a>
 
                 <div class="expatiate_wrap">
@@ -46,7 +46,7 @@
         @if($next_faq != null)
             <div class="view_tit_box mart20">
                 <span class="head "><i class="fa fa-arrow-down"></i>다음글</span>
-                <a href="{{ route('m.ask.faq_detail',['id'=>$next_faq->id]).$query_string }}">
+                <a href="{{ route('ask.faq_detail',['id'=>$next_faq->id]).$query_string }}">
                     <span class="view_tit">{{str_limit($next_faq->title,25)}}</span></a>
 
                 <div class="expatiate_wrap">

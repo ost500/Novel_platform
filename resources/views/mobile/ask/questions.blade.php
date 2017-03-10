@@ -10,7 +10,7 @@
             <div class="mlist_tit_rwap2">
                 <h2 class="mlist_tit4">
                     문의내역
-                    <a href="{{route('m.ask.ask_question')}}" class="mlist_tit_btn go">문의하러 가기</a>
+                    <a href="{{route('ask.ask_question')}}" class="mlist_tit_btn go">문의하러 가기</a>
                 </h2>
             </div>
 
@@ -23,7 +23,7 @@
                 @foreach($questions as $question)
                     <tr>
                         <td class="contxt">
-                            <a href="{{route('m.ask.question_detail',['id'=>$question->id])}}">
+                            <a href="{{route('ask.question_detail',['id'=>$question->id])}}">
                                 <div class="borCont">{{$question->title}}</div>
                             </a>
 
@@ -44,7 +44,7 @@
             <div class="spac20"></div>
         </div>
         <!-- 문의내역 //-->
-        @include('pagination_mobile', ['collection' => $questions, 'url' => route('m.ask.questions').'?'])
+        @include('pagination_mobile', ['collection' => $questions, 'url' => route('ask.questions').'?'])
     </div>
 </div>
 <!-- 내용 //-->
@@ -62,11 +62,11 @@
                 console.log( this.optionValue);
                 //Based on values make a request
                 if (this.optionValue == '자주 묻는 질문') {
-                    location.assign('{{route('m.ask.faqs')}}');
+                    location.assign('{{route('ask.faqs')}}');
                 } else if (this.optionValue == '1:1문의') {
-                    location.assign('{{route('m.ask.ask_question')}}');
+                    location.assign('{{route('ask.ask_question')}}');
                 } else if (this.optionValue == '공지사항') {
-                    location.assign('{{route('m.ask.notifications')}}');
+                    location.assign('{{route('ask.notifications')}}');
 
                 }
             }

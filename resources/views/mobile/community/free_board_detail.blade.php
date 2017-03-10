@@ -43,12 +43,12 @@
                         </a>
                     @endif
                     <div class="al_right">
-                        <a href="{{ route('m.accusations', ['id' => $article->users->id]) }}" class="icon_btn_a"><span
+                        <a href="{{ route('accusations', ['id' => $article->users->id]) }}" class="icon_btn_a"><span
                                     class="icon ico_alert">신고</span><span class="al_right_txt">게시물 신고</span></a>
                     </div>
                 </div>
                 @if(Auth::check() && Auth::user()->id == $article->user_id)
-                    <div class="view_admin"><a href="{{route('m.free_board.edit',['id' => $article->id ]) }}"
+                    <div class="view_admin"><a href="{{route('free_board.edit',['id' => $article->id ]) }}"
                                                class="view_admin_btn">관리</a></div>
                 @endif
             </div>
@@ -56,7 +56,7 @@
 
             <!-- 버튼 -->
             <div class="veiw_btn_wrap">
-                <div class="mart20"><a href="{{ route('m.free_board') }}" class="btn_list_view full">목록</a></div>
+                <div class="mart20"><a href="{{ route('free_board') }}" class="btn_list_view full">목록</a></div>
             </div>
             <!-- 버튼 //-->
 
@@ -73,7 +73,7 @@
                             <div class="replst_cont"><?php echo nl2br($comment->comment); ?></div>
                             <div class="replst_btn_wrap">
                                 <a href="" class="replst_btn">답글</a>
-                                <a href="{{ route('m.accusations', ['id' => $comment->users->id]) }}"
+                                <a href="{{ route('accusations', ['id' => $comment->users->id]) }}"
                                    class="replst_btn">신고</a>
                             </div>
                         </li>
@@ -84,7 +84,7 @@
 
             <!-- 댓글쓰기 -->
             <div class="repl_write_wrap mart20">
-                <form method="post" action="{{route('m.freeboard.comment',['id'=>$article->id])}}"
+                <form method="post" action="{{route('freeboard.comment',['id'=>$article->id])}}"
                       class="comment-form">
                     {!! csrf_field() !!}
                     <textarea name="comment" class="repl_txtar" rows="3" cols="30" placeholder="여러분의 소중한 댓글을 입력해 주세요"

@@ -267,18 +267,18 @@
         </div>
         <div class="top_nav">
             <ul class="top_nav_ul">
-                <li><a href="{{route('m.bests')}}" class="top_nav_link"><span
-                                class="top_nav_mn  {{ (Request::is('m/bests') || Request::is('m/bests/*'))?"on":"" }}">베스트</span></a>
+                <li><a href="{{route('bests')}}" class="top_nav_link"><span
+                                class="top_nav_mn  {{ (Request::is('bests') || Request::is('bests/*'))?"on":"" }}">베스트</span></a>
                 </li>
                 <!-- 활성화 되면 클래스 on 추가 -->
-                <li><a href="{{route('m.series')}}" class="top_nav_link"><span
-                                class="top_nav_mn  {{ (Request::is('m/series') || Request::is('m/series/*'))?"on":"" }}">연재</span></a>
+                <li><a href="{{route('series')}}" class="top_nav_link"><span
+                                class="top_nav_mn  {{ (Request::is('series') || Request::is('series/*'))?"on":"" }}">연제</span></a>
                 </li>
-                <li><a href="{{route('m.completed')}}" class="top_nav_link"><span
-                                class="top_nav_mn {{ (Request::is('m/completed') || Request::is('m/completed/*'))?"on":"" }}">완결</span></a>
+                <li><a href="{{route('completed')}}" class="top_nav_link"><span
+                                class="top_nav_mn {{ (Request::is('completed') || Request::is('completed/*'))?"on":"" }}">완결</span></a>
                 </li>
-                <li><a href="{{route('m.free_board')}}" class="top_nav_link"><span
-                                class="top_nav_mn {{ (Request::is('m/community/freeboard') || Request::is('m/community/free_board/*') || Request::is('m/community/reader_reco') || Request::is('m/community/reader_reco/*'))?"on":"" }}">커뮤니티</span></a>
+                <li><a href="{{route('free_board')}}" class="top_nav_link"><span
+                                class="top_nav_mn {{ (Request::is('community/freeboard') || Request::is('community/free_board/*') || Request::is('community/reader_reco') || Request::is('community/reader_reco/*'))?"on":"" }}">커뮤니티</span></a>
                 </li>
             </ul>
         </div>
@@ -292,7 +292,7 @@
             <!-- close 버튼 -->
             <a class="sidemn_close"><span class="ico_close" v-on:click="close" style="margin-left:23px;">닫기</span></a>
             <!-- close 버튼 //-->
-            <form name="search_form" action="{{route('m.search.index')}}" class="search-form" method="post">
+            <form name="search_form" action="{{route('search.index')}}" class="search-form" method="post">
                 {{csrf_field()}}
                 <div class="msch_1wrap">
 

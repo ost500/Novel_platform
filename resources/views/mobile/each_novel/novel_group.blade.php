@@ -3,7 +3,7 @@
         <!-- 상단 비주얼 -->
 <div class="serial_topvs_wrap" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml"
      xmlns:v-on="http://www.w3.org/1999/xhtml">
-    @include('mobile_social_share', ['url' =>route('m.each_novel.novel_group', $novel_group->id),'title'=>$novel_group->title,'thumbnail'=>''])
+    @include('mobile_social_share', ['url' =>route('each_novel.novel_group', $novel_group->id),'title'=>$novel_group->title,'thumbnail'=>''])
             <!-- 상단 비주얼 배경 이미지 -->
     <div class="stvs_bg_wrap">
         <div class="stvs_bg_img"></div>
@@ -78,10 +78,10 @@
             <!-- 책 소개 내용 //-->
             <!-- 첫화보기 버튼 -->
             <div class="padt40">
-                <a href="{{route('m.each_novel.novel_group.review',['id'=>$novel_group->id])}}"
+                <a href="{{route('each_novel.novel_group.review',['id'=>$novel_group->id])}}"
                    class="btn_line_green full" style="margin-bottom:5px;">독자추천 글쓰기</a>
                 @if($novel_group->novels->count() > 0)
-                    <a href="{{route('m.each_novel.novel_group_inning',['id'=>$novel_group->novels[0]->id])}}"
+                    <a href="{{route('each_novel.novel_group_inning',['id'=>$novel_group->novels[0]->id])}}"
                        class="btn_line_green full">첫화보기</a>
                 @endif
             </div>
@@ -112,7 +112,7 @@
                 <tr>
                     <td class="inning">{{ $recently_visited_novel->novels->inning }}화</td>
                     <td class="contxt">
-                        <a href="{{route('m.each_novel.novel_group_inning',['id'=>$recently_visited_novel->novel_id])}}">
+                        <a href="{{route('each_novel.novel_group_inning',['id'=>$recently_visited_novel->novel_id])}}">
                             <div class="borCont">{{str_limit($recently_visited_novel->novels->title,60)}}</div>
                         </a>
                         <span class="time2">{{$recently_visited_novel->novels->created_at}}</span>
@@ -146,7 +146,7 @@
                         <td class="inning">{{$novel->inning}}화</td>
                         <td class="contxt">
 
-                            <a href="{{route('m.each_novel.novel_group_inning',['id'=>$novel->id])}}">
+                            <a href="{{route('each_novel.novel_group_inning',['id'=>$novel->id])}}">
                                 <div class="borCont">{{str_limit($novel->title, 60)}}</div>
                             </a>
                             <span class="time2">{{$novel->created_at}}</span>
@@ -165,13 +165,13 @@
         <div class="">
             <div class="mlist_tit_rwap">
                 <h2 class="mlist_tit2">작가의 다른 작품</h2>
-               {{-- <form name="search_other_form" action="{{route('m.search.index')}}" method="post">
+               {{-- <form name="search_other_form" action="{{route('search.index')}}" method="post">
                     {{csrf_field()}}
                     <input type="hidden" name="nickname_id" id="nickname_id" value="{{$novel_group->nickname_id}}">
                     <input type="hidden" name="search_type" id="search_type" value="다른">
                <button type="submit" class="mlist_more" style="cursor:pointer;">더보기</button>
                </form>--}}
-                <a href="{{route('m.search.index').'?nickname_id='.$novel_group->nickname_id.'&search_type=다른 작품'}}" class="mlist_more">더보기</a>
+                <a href="{{route('search.index').'?nickname_id='.$novel_group->nickname_id.'&search_type=다른 작품'}}" class="mlist_more">더보기</a>
             </div>
             <!-- 리스트 테이블 -->
             <div class="view_else_box">
@@ -185,13 +185,13 @@
                         <tr>
                             <td class="">
                              <span class="mtbl_img">
-                                 <a href="{{ route('m.each_novel.novel_group',['id' => $author_novel_group->id]) }}">
+                                 <a href="{{ route('each_novel.novel_group',['id' => $author_novel_group->id]) }}">
                                      <img src="/img/novel_covers/{{ $author_novel_group->cover_photo }}"
                                           class="mtbl_img"></a>
                                </span>
                             </td>
                             <td class="">
-                                <a href="{{ route('m.each_novel.novel_group',['id' => $author_novel_group->id]) }}">
+                                <a href="{{ route('each_novel.novel_group',['id' => $author_novel_group->id]) }}">
                                     <div class="mtbl_tit">{{str_limit($author_novel_group->title, 20)}}</div>
                                 </a>
 
@@ -210,7 +210,7 @@
             <div class="pag_wrap">
                 <div class="paging">
                     {{--{{ $author_novel_groups->render() }}--}}
-                    @include('pagination_mobile', ['collection' => $author_novel_groups, 'url' => route('m.each_novel.novel_group',['id'=>$novel_group->id]).'&'])
+                    @include('pagination_mobile', ['collection' => $author_novel_groups, 'url' => route('each_novel.novel_group',['id'=>$novel_group->id]).'&'])
                 </div>
             </div>
             <!-- 페이징 //-->

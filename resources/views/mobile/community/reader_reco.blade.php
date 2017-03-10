@@ -6,8 +6,8 @@
         <div class="sel2_wrap">
             <!-- 텝메뉴 -->
             <ul class="tap2_mn">
-                <li class="left"><a href="{{route('m.free_board')}}" class="">자유게시판</a></li>
-                <li class="right"><a href="{{route('m.reader_reco')}}" class="tap2_mn_on">독자추천</a></li>
+                <li class="left"><a href="{{route('free_board')}}" class="">자유게시판</a></li>
+                <li class="right"><a href="{{route('reader_reco')}}" class="tap2_mn_on">독자추천</a></li>
             </ul>
             <!-- 텝메뉴 //-->
             <!-- 셀렉트 박스 -->
@@ -24,30 +24,30 @@
             <div class="mart8">
                 @if($genre=='현대판타지' || $genre == '현대')
 
-                    <a href="{{route('m.reader_reco')}}?genre=현대"
+                    <a href="{{route('reader_reco')}}?genre=현대"
                        @if($genre=='현대') class="green" @else  class="mlist_tit4" @endif
                        style="padding: 7px;border-right: 1px solid lightgrey;"><span>현대</span></a>
-                    <a href="{{route('m.reader_reco')}}?genre=현대판타지"
+                    <a href="{{route('reader_reco')}}?genre=현대판타지"
                        @if($genre=='현대판타지')class="green" @else class="mlist_tit4" @endif>현대판타지</a>
 
                 @endif
 
                 @if(($genre=='시대' or $genre == '사극' or $genre == '동양판타지'))
-                    <a href="{{route('m.reader_reco')}}?genre=시대"
+                    <a href="{{route('reader_reco')}}?genre=시대"
                        @if($genre=='시대')  class="green" @else  class="mlist_tit4" @endif
                        style="padding: 7px;border-right: 1px solid lightgrey;">시대</a>
-                    <a href="{{route('m.reader_reco')}}?genre=사극"
+                    <a href="{{route('reader_reco')}}?genre=사극"
                        @if($genre=='사극')  class="green" @else  class="mlist_tit4" @endif
                        style="padding: 7px;border-right: 1px solid lightgrey;">사극</a>
-                    <a href="{{route('m.reader_reco')}}?genre=동양판타지"
+                    <a href="{{route('reader_reco')}}?genre=동양판타지"
                        @if($genre=='동양판타지') class="green" @else  class="mlist_tit4" @endif>동양판타지</a>
 
                 @endif
                 @if(($genre=='서양역사' or $genre == '로맨스판타지'))
-                    <a href="{{route('m.reader_reco')}}?genre=서양역사"
+                    <a href="{{route('reader_reco')}}?genre=서양역사"
                        @if($genre=='서양역사') class="green" @else  class="mlist_tit4" @endif
                        style="padding: 7px;border-right: 1px solid lightgrey;">서양역사</a>
-                    <a href="{{route('m.reader_reco')}}?genre=로맨스판타지"
+                    <a href="{{route('reader_reco')}}?genre=로맨스판타지"
                        @if($genre=='로맨스판타지')  class="green" @else  class="mlist_tit4" @endif>로맨스판타지</a>
                 @endif
 
@@ -89,10 +89,10 @@
             @foreach ($reviews as $review)
                 <tr>
                     <td class="talC"><span class="mtbl_img"><a
-                                    href="{{ route('m.reader_reco.detail', ['id' => $review->id]) }}">
+                                    href="{{ route('reader_reco.detail', ['id' => $review->id]) }}">
                                 <img src="/img/novel_covers/{{$review->novel_groups->cover_photo}}"></a></span></td>
                     <td class="">
-                        <a href="{{ route('m.reader_reco.detail', ['id' => $review->id]) }}">
+                        <a href="{{ route('reader_reco.detail', ['id' => $review->id]) }}">
                             <div class="mtbl_tit">{{str_limit($review->title,20)}}</div>
                         </a>
 
@@ -113,7 +113,7 @@
         <!-- 이미지 리스트 //-->
 
         <!-- 페이징 -->
-        @include('pagination_mobile', ['collection' => $reviews, 'url' => route('m.reader_reco')."?genre=".$genre."&search_option=".$search_option."&search_text=".$search_text."&novel_group=".$novel_group_id."&review_user=".$review_user_id."&"])
+        @include('pagination_mobile', ['collection' => $reviews, 'url' => route('reader_reco')."?genre=".$genre."&search_option=".$search_option."&search_text=".$search_text."&novel_group=".$novel_group_id."&review_user=".$review_user_id."&"])
                 <!-- 페이징 //-->
     </div>
 </div>
@@ -131,14 +131,14 @@
                 console.log(this.optionValue);
                 //Based on values make a request
                 if (this.optionValue == '전체') {
-                    location.assign('{{route('m.reader_reco')}}');
+                    location.assign('{{route('reader_reco')}}');
                 } else if (this.optionValue == '현대로맨스') {
-                    location.assign('{{route('m.reader_reco')}}?genre=현대');
+                    location.assign('{{route('reader_reco')}}?genre=현대');
                 } else if (this.optionValue == '시대로맨스') {
-                    location.assign('{{route('m.reader_reco')}}?genre=시대');
+                    location.assign('{{route('reader_reco')}}?genre=시대');
 
                 } else if (this.optionValue == '서양역사') {
-                    location.assign('{{route('m.reader_reco')}}?genre=서양역사');
+                    location.assign('{{route('reader_reco')}}?genre=서양역사');
 
                 }
             }

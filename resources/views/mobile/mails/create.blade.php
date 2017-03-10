@@ -34,10 +34,10 @@
 
                         @if($user)
                             <input type="text" name="to" id="to" class="inputBasic full"  value="{{$user->email}}"
-                                   placeholder="Enter Email.">
+                                   placeholder="이메일을 입력해 주세요.">
                         @else
                             <input type="text" name="to" id="to"  class="inputBasic full" value="{{old('to')}}"
-                                   placeholder="Enter Email.">
+                                   placeholder="이메일을 입력해 주세요.">
                         @endif
                                     <!-- 제목입력 -->
                             <input type="text" name="subject" id="subject" class="inputBasic full  mart15"

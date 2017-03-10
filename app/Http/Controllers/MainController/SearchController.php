@@ -6,9 +6,16 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Keyword;
 use App\NovelGroup;
-
+use Jenssegers\Agent\Agent;
 class SearchController extends Controller
 {
+    var $agent;
+
+    public function __construct()
+    {
+        $this->agent = new Agent();
+    }
+
     public function index(Request $request)
     {
 
@@ -67,6 +74,10 @@ class SearchController extends Controller
 
         $novel_groups = $novel_groups->with('nicknames')->with('keywords')->withCount('novels')->orderBy('new', 'desc')->paginate(config('define.pagination_long'));
         //  return response()->json($novel_groups);
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.search.index', compact('novel_groups', 'search_type', 'title', 'keyword_name'));
+        }
         return view('main.search.index', compact('novel_groups', 'search_type', 'title', 'keyword_name'));
     }
 }

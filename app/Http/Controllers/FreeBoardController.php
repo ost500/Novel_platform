@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\FreeBoard;
 use Illuminate\Http\Request;
 use Validator;
-use Jenssegers\Agent\Agent;
+
 class FreeBoardController extends Controller
 {
     public function __construct()
@@ -34,10 +34,6 @@ class FreeBoardController extends Controller
 
         $request->user()->free_boards()->create($request->all());
         flash('자유게시판 글이 성공적으로 등록 되었습니다');
-        $agent = new Agent();
-        if($agent->isMobile()){
-            return redirect()->route('m.free_board');
-        }
         return redirect()->route('free_board');
     }
 
@@ -64,10 +60,6 @@ class FreeBoardController extends Controller
 
         FreeBoard::where('id', $id)->update($input);
         flash('자유게시판 글이 성공적으로 수정 되었습니다');
-        $agent = new Agent();
-        if($agent->isMobile()){
-            return redirect()->route('m.free_board.detail', ['id' => $id]);
-        }
         return redirect()->route('free_board.detail', ['id' => $id]);
     }
 

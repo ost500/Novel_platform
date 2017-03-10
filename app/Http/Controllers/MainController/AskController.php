@@ -7,10 +7,18 @@ use App\MenToMenQuestionAnswer;
 use Illuminate\Http\Request;
 use App\Notification;
 use App\Http\Controllers\Controller;
-
+use Jenssegers\Agent\Agent;
 
 class AskController extends Controller
 {
+
+    var $agent;
+
+    public function __construct()
+    {
+        $this->agent = new Agent();
+    }
+
     public function faqs(Request $request)
     {
         //Set the Filters for Category,Search and Best faqs
@@ -35,26 +43,44 @@ class AskController extends Controller
         }
 
         //Fetch data with pagination
-        $faqs = Faq::where($filter)->paginate(10);
+        $faqs = Faq::where($filter)->paginate(config('define.pagination_long'));
         //send the category to view
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.ask.frequently_asked_questions', compact('faqs', 'query_string', 'category', 'search'));
 
+        }
         return view('main.ask.frequently_asked_questions', compact('faqs', 'query_string', 'category', 'search'));
     }
 
     public function questions()
     {
-        $questions = MenToMenQuestionAnswer::orderBy('created_at', 'desc')->paginate(10);
+        $questions = MenToMenQuestionAnswer::orderBy('created_at', 'desc')->paginate(config('define.pagination_long'));
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.ask.questions', compact('questions'));
+        }
         return view('main.ask.questions', compact('questions'));
     }
 
     public function ask_question()
     {
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.ask.ask_question');
+
+        }
         return view('main.ask.ask_question');
     }
 
     public function notifications()
     {
-        $notifications = Notification::orderBy('created_at', 'desc')->where('posting', 1)->paginate(10);
+        $notifications = Notification::orderBy('created_at', 'desc')->where('posting', 1)->paginate(config('define.pagination_long'));
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.ask.notifications', compact('notifications'));
+
+        }
         return view('main.ask.notifications', compact('notifications'));
     }
 
@@ -71,6 +97,11 @@ class AskController extends Controller
         $pre_notification_id = Notification::where('id', '<', $notification->id)->max('id');
         $pre_notification = Notification::find($pre_notification_id);
 
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.ask.notification_detail', compact('notification', 'next_notification', 'pre_notification'));
+
+        }
         return view('main.ask.notification_detail', compact('notification', 'next_notification', 'pre_notification'));
     }
 
@@ -86,6 +117,12 @@ class AskController extends Controller
         //previous notification
         $pre_question_id = MenToMenQuestionAnswer::where('id', '<', $question->id)->max('id');
         $pre_question = MenToMenQuestionAnswer::with('users')->find($pre_question_id);
+
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.ask.question_detail', compact('question', 'next_question', 'pre_question'));
+
+        }
 
         return view('main.ask.question_detail', compact('question', 'next_question', 'pre_question'));
     }
@@ -127,6 +164,12 @@ class AskController extends Controller
         $pre_faq_id = Faq::where([['id', '<', $id], $filter])->max('id');
         $pre_faq = Faq::find($pre_faq_id);
 
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.ask.faq_detail', compact('faq', 'next_faq', 'pre_faq', 'query_string'));
+
+        }
+
         return view('main.ask.faq_detail', compact('faq', 'next_faq', 'pre_faq', 'query_string'));
     }
 
@@ -135,6 +178,13 @@ class AskController extends Controller
         $link = url()->previous();
 
         $accu_id = $id;
+
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.ask.accusations', compact('accu_id', 'link'));
+
+        }
+
         return view('main.ask.accusations', compact('accu_id', 'link'));
     }
 

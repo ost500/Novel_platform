@@ -6,9 +6,9 @@
         <div class="sel2_wrap">
             <!-- 텝메뉴 -->
             <ul class="tap2_mn">
-                <li class="left"><a href="{{route('m.series')}}"
+                <li class="left"><a href="{{route('series')}}"
                                     @if(!$free_or_charged) class="tap2_mn_on" @endif>유료소설</a></li>
-                <li class="right"><a href="{{route('m.series',['free_or_charged'=>'free'])}}"
+                <li class="right"><a href="{{route('series',['free_or_charged'=>'free'])}}"
                                      @if($free_or_charged) class="tap2_mn_on" @endif>무료소설</a></li>
             </ul>
             <!-- 텝메뉴 //-->
@@ -28,13 +28,13 @@
             <h3 class="blindtext">정렬보기</h3>
 
             <div class="sort_area">
-                <a href="{{route('m.series',['free_or_charged'=>$free_or_charged])."?genre=".$genre}}"
+                <a href="{{route('series',['free_or_charged'=>$free_or_charged])."?genre=".$genre}}"
                    @if(!isset($order)) class="sort_btn sort_on" @else class="sort_btn sort_off" @endif>업데이트순</a>
 
-                <a href="{{route('m.series',['free_or_charged'=>$free_or_charged])."?genre=".$genre."&order=favorite"}}"
+                <a href="{{route('series',['free_or_charged'=>$free_or_charged])."?genre=".$genre."&order=favorite"}}"
                    @if($order=="favorite") class="sort_btn sort_on" @else class="sort_btn sort_off" @endif>선호작순</a>
 
-                <a href="{{route('m.series',['free_or_charged'=>$free_or_charged])."?genre=".$genre."&order=view"}}"
+                <a href="{{route('series',['free_or_charged'=>$free_or_charged])."?genre=".$genre."&order=view"}}"
                    @if($order=="view") class="sort_btn sort_on" @else class="sort_btn sort_off" @endif>조회순</a>
             </div>
         </div>
@@ -47,11 +47,11 @@
             @foreach($novel_groups as $novel_group)
                 <tr>
                     <td class="talC"><span class="mtbl_img">
-                            <a href="{{ route('m.each_novel.novel_group',['id'=>$novel_group->id]) }}">
+                            <a href="{{ route('each_novel.novel_group',['id'=>$novel_group->id]) }}">
                                 <img src="/img/novel_covers/{{$novel_group->cover_photo}}" alt="망의 연월"></a></span>
                     </td>
                     <td class="">
-                        <a href="{{ route('m.each_novel.novel_group',['id'=>$novel_group->id]) }}">
+                        <a href="{{ route('each_novel.novel_group',['id'=>$novel_group->id]) }}">
                             <div class="mtbl_tit">{{str_limit($novel_group->title,15)}}</div>
                         </a>
 
@@ -69,7 +69,7 @@
         <!-- 이미지 리스트 //-->
 
         <!-- 페이징2 -->
-        @include('pagination_mobile', ['collection' => $novel_groups, 'url' => route('m.series',['free_or_charged'=>$free_or_charged])."?genre=".$genre."&order=".$order.'&'])
+        @include('pagination_mobile', ['collection' => $novel_groups, 'url' => route('series',['free_or_charged'=>$free_or_charged])."?genre=".$genre."&order=".$order.'&'])
                 <!-- 페이징2 //-->
     </div>
 </div>
@@ -93,13 +93,13 @@
                 }
                 //Based on values make a request
                 if (this.optionValue == '전체') {
-                    location.assign('{{route('m.series')}}' + this.queryString);
+                    location.assign('{{route('series')}}' + this.queryString);
                 } else if (this.optionValue == '현대로맨스') {
-                    location.assign('{{route('m.series')}}' + this.queryString + '?genre=현대로맨스');
+                    location.assign('{{route('series')}}' + this.queryString + '?genre=현대로맨스');
                 } else if (this.optionValue == '시대로맨스') {
-                    location.assign('{{route('m.series')}}' + this.queryString + '?genre=시대로맨스');
+                    location.assign('{{route('series')}}' + this.queryString + '?genre=시대로맨스');
                 } else if (this.optionValue == '로맨스판타지') {
-                    location.assign('{{route('m.series')}}' + this.queryString + '?genre=로맨스판타지');
+                    location.assign('{{route('series')}}' + this.queryString + '?genre=로맨스판타지');
                 }
             }
         }

@@ -35,7 +35,7 @@
                 </div>
 
                 <!-- 문의유형 체크 -->
-                <form name="accusationsForm" id="accusationsForm" action="{{route('m.accusations.post')}}" method="post"
+                <form name="accusationsForm" id="accusationsForm" action="{{route('accusations.post')}}" method="post"
                       enctype="multipart/form-data">
                     {{csrf_field()}}
                     <input hidden name="accu_id" value="{{$accu_id}}">
@@ -103,11 +103,11 @@
                 console.log( this.optionValue);
                 //Based on values make a request
                 if (this.optionValue == '자주 묻는 질문') {
-                    location.assign('{{route('m.ask.faqs')}}');
+                    location.assign('{{route('ask.faqs')}}');
                 } else if (this.optionValue == '1:1문의') {
-                    location.assign('{{route('m.ask.ask_question')}}');
+                    location.assign('{{route('ask.ask_question')}}');
                 } else if (this.optionValue == '공지사항') {
-                    location.assign('{{route('m.ask.notifications')}}');
+                    location.assign('{{route('ask.notifications')}}');
 
                 }
             }

@@ -31,11 +31,11 @@
             <div class="content" id="content">
 
                 {{--    <div class="links">
-                        <a href="{{route('m.ask.ask_question')}}">문의하기</a>
-                        <a href="{{route('m.ask.questions')}}" class="marL8 green">문의내역</a>
+                        <a href="{{route('ask.ask_question')}}">문의하기</a>
+                        <a href="{{route('ask.questions')}}" class="marL8 green">문의내역</a>
                     </div>--}}
                 <div class="mlist_tit_rwap2">
-                    <h2 class="mlist_tit4">문의유형<a href="{{route('m.ask.questions')}}" class="mlist_tit_btn go">문의내역</a>
+                    <h2 class="mlist_tit4">문의유형<a href="{{route('ask.questions')}}" class="mlist_tit_btn go">문의내역</a>
                     </h2>
                 </div>
 
@@ -113,11 +113,11 @@
                 console.log( this.optionValue);
                 //Based on values make a request
                 if (this.optionValue == '자주 묻는 질문') {
-                    location.assign('{{route('m.ask.faqs')}}');
+                    location.assign('{{route('ask.faqs')}}');
                 } else if (this.optionValue == '1:1문의') {
-                    location.assign('{{route('m.ask.ask_question')}}');
+                    location.assign('{{route('ask.ask_question')}}');
                 } else if (this.optionValue == '공지사항') {
-                    location.assign('{{route('m.ask.notifications')}}');
+                    location.assign('{{route('ask.notifications')}}');
 
                 }
             }

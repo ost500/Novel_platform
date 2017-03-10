@@ -15,13 +15,15 @@ use Auth;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Routing\Redirector;
 use Session;
+use Jenssegers\Agent\Agent;
 
 class EachController extends Controller
 {
+    var $agent;
 
     public function __construct()
     {
-//        $this->middleware('auth')->only('novel_group_favorite');
+        $this->agent = new Agent();
     }
 
     public function novel_group($id)
@@ -55,6 +57,12 @@ class EachController extends Controller
         $share = new Share();
         //For checking publishing time for novel inning
         $latest_time = Carbon::now();
+
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.each_novel.novel_group', compact('novel_group', 'author_novel_groups', 'recently_visited_novel', 'share', 'latest_time'));
+
+        }
 
         return view('main.each_novel.novel_group', compact('novel_group', 'author_novel_groups', 'recently_visited_novel', 'share', 'latest_time'));
     }
@@ -193,17 +201,25 @@ class EachController extends Controller
 
 //        return response()->json($novel_group_inning_comments);
 
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.each_novel.novel_group_inning', compact('novel_group_inning', 'novel_group_inning_comments', 'show_favorite', 'share', 'next_inning_id', 'prev_inning_id', 'order'));
+        }
+
         return view('main.each_novel.novel_group_inning', compact('novel_group_inning', 'novel_group_inning_comments', 'show_favorite', 'share', 'next_inning_id', 'prev_inning_id', 'order'));
     }
 
-    public
-    function novel_group_review($novel_group_id)
+    public function novel_group_review($novel_group_id)
     {
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.each_novel.novel_group_review', compact('novel_group_id'));
+
+        }
         return view('main.each_novel.novel_group_review', compact('novel_group_id'));
     }
 
-    public
-    function purchase($id)
+    public function purchase($id)
     {
 
         $novel = Novel::find($id);
@@ -223,6 +239,13 @@ class EachController extends Controller
         $share = new Share();
         //For checking publishing time for novel inning
         $latest_time = Carbon::now();
+
+
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.each_novel.purchase', compact('novel_group', 'author_novel_groups', 'novel', 'share', 'latest_time'));
+
+        }
 
         return view('main.each_novel.purchase', compact('novel_group', 'author_novel_groups', 'novel', 'share', 'latest_time'));
     }

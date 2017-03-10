@@ -7,8 +7,8 @@
         <div class="sel2_wrap">
             <!-- 텝메뉴 -->
             <ul class="tap2_mn">
-                <li class="left"><a href="{{route('m.free_board')}}" class="tap2_mn_on">자유게시판</a></li>
-                <li class="right"><a href="{{route('m.reader_reco')}}" class="">독자추천</a></li>
+                <li class="left"><a href="{{route('free_board')}}" class="tap2_mn_on">자유게시판</a></li>
+                <li class="right"><a href="{{route('reader_reco')}}" class="">독자추천</a></li>
             </ul>
             <!-- 텝메뉴 //-->
         </div>
@@ -22,7 +22,7 @@
             </div>
             @endif
 
-                    <!-- 서브컨텐츠 -->
+            <!-- 서브컨텐츠 -->
             <div class="content" id="content">
 
                 <div class="mlist_tit_rwap2">
@@ -31,7 +31,7 @@
                 </div>
                 <div class="dot_top"></div>
                 <!-- 문의유형 체크 -->
-                <form name="ask_queston" id="ask_queston" action="{{route('m.free_board.store')}}" method="post"
+                <form name="ask_queston" id="ask_queston" action="{{route('free_board.store')}}" method="post"
                       enctype="multipart/form-data">
                     {{csrf_field()}}
 

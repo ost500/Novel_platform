@@ -18,16 +18,33 @@ use Hash;
 use Illuminate\Http\Request;
 use Validator;
 use Illuminate\Database\Eloquent\Collection;
+use Jenssegers\Agent\Agent;
 
 class MyInfoController extends Controller
 {
+    var $agent;
+
+    public function __construct()
+    {
+        $this->agent = new Agent();
+    }
+
     public function password_again()
     {
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.my_page.my_info.password_again');
+        }
         return view('main.my_page.my_info.password_again');
     }
 
     public function member_leave_password_again()
     {
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.my_page.my_info.member_leave_password_again');
+
+        }
         return view('main.my_page.my_info.member_leave_password_again');
     }
 
@@ -52,7 +69,11 @@ class MyInfoController extends Controller
     public function edit(Request $request)
     {
         $me = Auth::user();
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.my_page.my_info.edit', compact('me'));
 
+        }
         return view('main.my_page.my_info.edit', compact('me'));
     }
 
@@ -63,6 +84,11 @@ class MyInfoController extends Controller
 
         $articles = $articles->paginate(config('define.pagination_long'));
 
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.my_page.my_info.post_manage', compact('articles'));
+
+        }
         return view('main.my_page.my_info.post_manage', compact('articles'));
     }
 
@@ -72,6 +98,11 @@ class MyInfoController extends Controller
 
         $articles = $articles->paginate(config('define.pagination_long'));
 
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.my_page.my_info.review_manage', compact('articles'));
+
+        }
         return view('main.my_page.my_info.review_manage', compact('articles'));
     }
 
@@ -97,6 +128,12 @@ class MyInfoController extends Controller
 
         //Apply Pagination
         $novel_comments = $novel_comments->paginate(config('define.pagination_long'));
+
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.my_page.my_info.novel_group_comments_manage', compact('novel_comments', 'order'));
+
+        }
         return view('main.my_page.my_info.novel_group_comments_manage', compact('novel_comments', 'order'));
 
     }
@@ -147,6 +184,11 @@ class MyInfoController extends Controller
                  }
              }*/
 
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.my_page.my_info.free_board_review_comments_manage', compact('comments', 'filter', 'order'));
+
+        }
         return view('main.my_page.my_info.free_board_review_comments_manage', compact('comments', 'filter', 'order'));
     }
 
@@ -187,27 +229,43 @@ class MyInfoController extends Controller
     public function charge_bead()
     {
         $user = Auth::user();
+
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.my_page.use_info.charge_bead', compact('user'));
+
+        }
         return view('main.my_page.use_info.charge_bead', compact('user'));
     }
 
     public function charge_list()
     {
         $pays = Payment::where('user_id', Auth::user()->id)->paginate(config('define.pagination_long'));
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.my_page.use_info.charge_list', compact('pays'));
 
+        }
         return view('main.my_page.use_info.charge_list', compact('pays'));
     }
 
     public function manage_piece()
     {
         $pieces = Piece::where('user_id', Auth::user()->id)->paginate(config('define.pagination_long'));
-
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.my_page.use_info.manage_piece', compact('pieces'));
+        }
         return view('main.my_page.use_info.manage_piece', compact('pieces'));
     }
 
     public function purchased_novel_list()
     {
         $purchasedNovels = PurchasedNovel::where('user_id', Auth::user()->id)->with('novels')->latest()->paginate(config('define.pagination_long'));
-
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.my_page.use_info.purchased_novel_list', compact('purchasedNovels'));
+        }
         return view('main.my_page.use_info.purchased_novel_list', compact('purchasedNovels'));
     }
 
@@ -216,7 +274,10 @@ class MyInfoController extends Controller
         $presents = Present::where('user_id', Auth::user()->id)->with('users')->with('fromUser')->paginate(config('define.pagination_long'));
 
 //        return response()->json($presents);
-
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.my_page.use_info.received_gift', compact('presents'));
+        }
         return view('main.my_page.use_info.received_gift', compact('presents'));
     }
 
@@ -225,12 +286,15 @@ class MyInfoController extends Controller
         $presents = Present::where('from_id', Auth::user()->id)->paginate(config('define.pagination_long'));
 
         $user_bead = User::select('bead')->where('id', Auth::user()->id)->first();
-
+        //Detect mobile
+        if ($this->agent->isMobile()) {
+            return view('mobile.my_page.use_info.sent_gift', compact('presents', 'user_bead'));
+        }
         return view('main.my_page.use_info.sent_gift', compact('presents', 'user_bead'));
     }
 
     public function payment()
     {
-        
+
     }
 }
