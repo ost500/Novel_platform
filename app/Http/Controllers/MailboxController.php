@@ -11,7 +11,7 @@ use App\NovelGroup;
 use Auth;
 
 use Illuminate\Http\Request;
-
+use Jenssegers\Agent\Agent;
 class MailboxController extends Controller
 {
     public function __construct()
@@ -103,6 +103,10 @@ class MailboxController extends Controller
         //if mail sending is blocked then redirect back
         if (Auth::user()->isMailBlocked()) {
             $errors= '쪽지 보내기 기능이 관리자에 의해 금지 됐습니다';
+            $agent = new Agent();
+            if($agent->isMobile()){
+                return redirect()->route('m.mails.create')->withErrors($errors);
+            }
             return redirect()->route('mails.create')->withErrors($errors);
         }
 
@@ -112,6 +116,10 @@ class MailboxController extends Controller
         if ($check_user_exist == null) {
             $errors = '해당 이메일 주소의 사용자를 찾을 수 없습니다.';
             if ($request->get('redirect')) {
+                $agent = new Agent();
+                if($agent->isMobile()){
+                    return redirect()->route('m.mails.create')->withErrors($errors);
+                }
                 return redirect()->route('mails.create')->withErrors($errors);
             }
 
@@ -151,6 +159,10 @@ class MailboxController extends Controller
 
         //
         if ($request->get('redirect')) {
+            $agent = new Agent();
+            if($agent->isMobile()){
+                return redirect()->route('m.mails.sent');
+            }
             return redirect()->route('mails.sent');
         }
 

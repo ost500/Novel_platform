@@ -68,11 +68,14 @@
                     </div>
 
 
-                    <div class="right-btns">
+                    <div class="right-top-margin-btns">
                         <button type="button" class="btn" v-on:click="addToSpam('spam')"
                                 @if(count($my_box_mails) == 0)  disabled @endif >차단
                         </button>
-                        <button type="button" class="btn" @if(count($my_box_mails) == 0)  disabled @endif >신고</button>
+                        <a href="{{route('accusations',['id'=>Auth::user()->id])}}">
+                            <button type="button" class="btn" @if(count($my_box_mails) == 0)  disabled @endif >신고
+                            </button>
+                        </a>
                     </div>
 
                     <!-- //하단버튼 -->
@@ -107,7 +110,7 @@
                     return this.value;
                 }).get();
                 if (this.info.ids.length > 0) {
-                    if (confirm('Are you sure to delete mail(s)?')) {
+                    if (confirm('삭제 하시겠습니까?')) {
                         app.$http.post('{{ route('mailbox.destroy') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                                 .then(function (response) {
                                     location.reload();
@@ -130,7 +133,7 @@
                                 location.reload();
 
                             }).catch(function (errors) {
-                                console.log(errors);
+                                // console.log(errors);
                             });
                 }
             }
