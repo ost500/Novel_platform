@@ -1,23 +1,23 @@
 @extends('../layouts.main_layout')
 @section('content')
-    <!-- //헤더 -->
-    <!-- 컨테이너 -->
-    <div class="container" xmlns:v-on="http://www.w3.org/1999/xhtml">
-        <div class="wrap" id="sent">
-            <!-- LNB -->
+        <!-- //헤더 -->
+<!-- 컨테이너 -->
+<div class="container" xmlns:v-on="http://www.w3.org/1999/xhtml">
+    <div class="wrap" id="sent">
+        <!-- LNB -->
         @include('main.mails.left_sidebar')
-        <!-- //LNB -->
+                <!-- //LNB -->
 
-            <!-- 서브컨텐츠 -->
-            <div class="content" id="content">
-                @if(Session::has('flash_message'))
-                    {{-- important, success, warning, danger and info --}}
-                    <div id="msg_box"
-                         class="alert alert-@if(Session::has('flash_message_level')){{Session('flash_message_level')}} @endif">
-                        {{Session('flash_message')}}
-                    </div>
-            @endif
-            <!-- 페이지헤더 -->
+        <!-- 서브컨텐츠 -->
+        <div class="content" id="content">
+            @if(Session::has('flash_message'))
+                {{-- important, success, warning, danger and info --}}
+                <div id="msg_box"
+                     class="alert alert-@if(Session::has('flash_message_level')){{Session('flash_message_level')}} @endif">
+                    {{Session('flash_message')}}
+                </div>
+                @endif
+                        <!-- 페이지헤더 -->
                 <div class="list-header">
                     <h2 class="title">보낸쪽지함 </h2>
                 </div>
@@ -61,58 +61,58 @@
                     </table>
                     <!-- 하단버튼 -->
 
-                {{--  <div class="left-btns">
-                      <button type="button" class="btn" v-on:click="destroy()"  @if(count($sent_mails) == 0)  disabled @endif>삭제</button>
-                  </div>--}}
+                    {{--  <div class="left-btns">
+                          <button type="button" class="btn" v-on:click="destroy()"  @if(count($sent_mails) == 0)  disabled @endif>삭제</button>
+                      </div>--}}
 
 
-
-                <!-- //하단버튼 -->
+                    <!-- //하단버튼 -->
 
                 </form>
 
                 <!-- //게시판목록 -->
 
                 <!-- 페이징 -->
-            @include('pagination_front', ['collection' => $sent_mails, 'url' => route('mails.sent').'?'])
-            <!-- //페이징 -->
-            </div>
-            <!-- //서브컨텐츠 -->
-            <!-- 따라다니는퀵메뉴 -->
-        @include('main.quick_menu')
-        <!-- //따라다니는퀵메뉴 -->
+                @include('pagination_front', ['collection' => $sent_mails, 'url' => route('mails.sent').'?'])
+                        <!-- //페이징 -->
         </div>
+        <!-- //서브컨텐츠 -->
+        <!-- 따라다니는퀵메뉴 -->
+        @include('main.quick_menu')
+                <!-- //따라다니는퀵메뉴 -->
     </div>
-    <!-- //컨테이너 -->
-    <!-- 푸터 -->
-    <script type="text/javascript">
-        var app = new Vue({
-            el: '#sent',
-            data: {
-                info: {ids: ''}
-            },
+</div>
+<!-- //컨테이너 -->
+<!-- 푸터 -->
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#sent',
+        data: {
+            info: {ids: ''}
+        },
 
-            methods: {
-                destroy: function () {
+        methods: {
+            destroy: function () {
 
-                    this.info.ids = $(".checkboxes:checked").map(function () {
-                        return this.value;
-                    }).get();
-
+                this.info.ids = $(".checkboxes:checked").map(function () {
+                    return this.value;
+                }).get();
+                if (this.info.ids.length > 0) {
                     app.$http.post('{{ route('mailbox.destroy_sent_bulk') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                             .then(function (response) {
                                 //    console.log(response);
                                 location.reload();
                             }).catch(function (errors) {
-                        console.log(errors);
-                    });
-
+                                // console.log(errors);
+                            });
                 }
-            }
-        });
 
-        $(".alert").delay(4000).slideUp(200, function () {
-            $(this).alert('close');
-        });
-    </script>
+            }
+        }
+    });
+
+    $(".alert").delay(4000).slideUp(200, function () {
+        $(this).alert('close');
+    });
+</script>
 @endsection

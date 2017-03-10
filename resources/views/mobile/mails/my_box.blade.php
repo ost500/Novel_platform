@@ -32,58 +32,57 @@
         <!-- 전체선택 //-->
 
         <!-- 리스트 테이블 -->
-        <div id="received" >
+        <div id="my_box" >
             <table class="tbl_dotline">
                 <colgroup>
                     <col width="40px">
                     <col width="*">
                 </colgroup>
                 <tbody>
-                @if(count($received_mails) > 0)
-                    @foreach($received_mails as $received_mail)
+                @if(count($my_box_mails) > 0)
+                    @foreach($my_box_mails as $my_box_mail)
                         <tr>
                             <td class="talC talT"><label class="checkbox-wrap"><input type="checkbox" name=""
                                                                                       class="checkboxes"
-                                                                                      value="{{$received_mail->id}}"><i
+                                                                                      value="{{$my_box_mail->id}}"><i
                                             class="check-icon"></i></label></td>
                             <td class="contxt">
                                 <div class="note_icolst">
                                     <div class="note_icolst_img"><img src="/mobile/images/boxicon_speech.png" alt="">
                                     </div>
-                                  <a href="{{ route('m.mails.detail', ['id' => $received_mail->id]) }}">
-                                        <div @if($received_mail->read == null) class="note_icolst_txt green" @else  class="note_icolst_txt" style="color: #685f59;" @endif>
-                                            {{$received_mail->mailboxs->subject}}
+                                    <a href="{{ route('m.mails.detail', ['id' => $my_box_mail->id]) }}">
+                                        <div class="note_icolst_txt" style="color: #685f59;">
+                                            {{$my_box_mail->mailboxs->subject}}
                                         </div>
-                                   </a>
+                                    </a>
                                 </div>
-                                <div class="tbl_binfo22 mart12">{{$received_mail->mailboxs->users->name}}<span
-                                            class="mtbl_binfo_sl"></span>{{$received_mail->created_at}}</div>
+                                <div class="tbl_binfo22 mart12">{{$my_box_mail->mailboxs->users->name}}<span
+                                            class="mtbl_binfo_sl"></span>{{$my_box_mail->created_at}}</div>
                                 <div class="replst_btn_wrap mart15">
                                     <a  v-on:click="destroy()" class="replst_btn" style="cursor:pointer">삭제</a>
-                                    <a  v-on:click="myBoxOrSpam('mybox')" class="replst_btn" style="cursor:pointer">보관</a>
-                                    <a  v-on:click="myBoxOrSpam('spam')" class="replst_btn" style="cursor:pointer" >차단</a>
+                                    <a  v-on:click="addToSpam('spam')" class="replst_btn" style="cursor:pointer">차단</a>
                                     <a  href="{{route('m.accusations',['id'=>Auth::user()->id])}}" class="replst_btn" style="cursor:pointer">신고</a>
                                 </div>
-                            </td>
+                                </td>
                         </tr>
                     @endforeach
                 @else
                     <tr>
-                        <td colspan="5" style="text-align: center;"> 받은 쪽지가 없습니다.</td>
+                        <td colspan="5" style="text-align: center;"> 해당 조건의 작품이 없습니다.</td>
                     </tr>
                 @endif
                 </tbody>
             </table>
 
             <div class="replst_btn_wrap2 padt30">
-                <button  v-on:click="destroy()" class="replst_btn2" style="cursor:pointer;"  @if(count($received_mails) == 0)  disabled @endif>삭제</button>
-                <button  v-on:click="myBoxOrSpam('mybox')" class="replst_btn2" style="cursor:pointer;"  @if(count($received_mails) == 0)  disabled @endif>보관</button>
-                <button  v-on:click="myBoxOrSpam('spam')" class="replst_btn2" style="cursor:pointer;"  @if(count($received_mails) == 0)  disabled @endif>차단</button>
-                <a  href="{{route('m.accusations',['id'=>Auth::user()->id])}}"><button class="replst_btn2" @if(count($received_mails) == 0)  disabled @endif style="cursor:pointer;">신고 </button></a>
+                <button  @if(count($my_box_mails) == 0)  disabled @endif class="replst_btn2" style="cursor:pointer;" v-on:click="destroy()"  >삭제</button>
+
+                <button  v-on:click="addToSpam('spam')" class="replst_btn2" style="cursor:pointer;"  @if(count($my_box_mails) == 0)  disabled @endif>차단</button>
+                <a  href="{{route('m.accusations',['id'=>Auth::user()->id])}}" ><button class="replst_btn2" @if(count($my_box_mails) == 0)  disabled @endif style="cursor:pointer;">신고 </button></a>
             </div>
 
             <!-- 페이징 -->
-            @include('pagination_mobile', ['collection' => $received_mails, 'url' => route('m.mails.received').'?'])
+            @include('pagination_mobile', ['collection' => $my_box_mails, 'url' => route('m.mails.my_box').'?'])
                     <!-- 페이징 //-->
         </div>
         <!-- 리스트 테이블 //-->
@@ -97,7 +96,7 @@
     });
 
     var app = new Vue({
-        el: '#received',
+        el: '#my_box',
         data: {
             info: {ids: '', type: ''}
         },
@@ -109,19 +108,18 @@
                     return this.value;
                 }).get();
                 if (this.info.ids.length > 0) {
-
                     if (confirm('삭제 하시겠습니까?')) {
                         app.$http.post('{{ route('mailbox.destroy') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                                 .then(function (response) {
                                     location.reload();
 
                                 }).catch(function (errors) {
-                                   // console.log(errors);
+                                    console.log(errors);
                                 });
                     }
                 }
             },
-            myBoxOrSpam: function (type) {
+            addToSpam: function (type) {
 
                 this.info.ids = $(".checkboxes:checked").map(function () {
                     return this.value;
@@ -133,15 +131,14 @@
                                 location.reload();
 
                             }).catch(function (errors) {
-                                console.log(errors);
+                               // console.log(errors);
                             });
                 }
-            },
-            spam: function () {
-
             }
+
         }
     });
+
 
     $(".alert").delay(4000).slideUp(200, function () {
         $(this).alert('close');

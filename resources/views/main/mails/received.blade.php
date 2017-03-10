@@ -114,13 +114,13 @@
                 }).get();
                 if (this.info.ids.length > 0) {
 
-                    if (confirm('Are you sure to delete mail(s)?')) {
+                    if (confirm('삭제 하시겠습니까?')) {
                         app.$http.post('{{ route('mailbox.destroy') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                                 .then(function (response) {
                                     location.reload();
 
                                 }).catch(function (errors) {
-                                    console.log(errors);
+                                    //console.log(errors);
                                 });
                     }
                 }
@@ -137,7 +137,7 @@
                                 location.reload();
 
                             }).catch(function (errors) {
-                                console.log(errors);
+                               // console.log(errors);
                             });
                 }
             },
