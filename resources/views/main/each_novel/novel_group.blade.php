@@ -48,7 +48,7 @@
                         <a href="#" v-on:click="addToFavorite('{{$novel_group->id}}')" id="add_favorite"
                            v-show="add_favorite_disp"><i class="scrap-icon"></i>선호작추가</a>
                         <a href="#" class="is-active" v-on:click="removeFromFavorite()" id="remove_favorite"
-                           v-show="remove_favorite_disp"><i class="scrap-active-icon"></i>선호작추가</a>
+                           v-show="remove_favorite_disp" display="none"><i class="scrap-active-icon"></i>선호작추가</a>
                         <a href="#share_form" data-modal-id="share_form"><i class="share-icon"></i>공유하기</a>
                     </div>
                 </section>
@@ -68,8 +68,7 @@
                                         </div>
                                         <div class="col-title"><a
                                                     href="{{route('each_novel.novel_group_inning',['id'=>$recently_visited_novel->novel_id])}}">{{str_limit($recently_visited_novel->novels->title,60)}}
-                                                <i
-                                                        class="up-icon">Up</i></a></div>
+                                                <i class="up-icon">Up</i></a></div>
                                         <div class="col-charge"><span class="open">열림</span></div>
                                     </li>
                                 </ul>
@@ -120,7 +119,7 @@
                                                         <strong class="title">{{str_limit($author_novel_group->title, 20)}}</strong>
 
                                                         <p class="post-content">
-                                                            로맨스판타지<br>
+                                                            @if(count($novel_group->keywords) >0) {{$novel_group->keywords[0]->name }} @endif<br>
                                                             총 {{$author_novel_group->max_inning}}화<br>
                                                             선호작{{$author_novel_group->favorite_count}}명
                                                         </p>
@@ -208,7 +207,7 @@
                 app.$http.post('{{ route('favorites.store') }}', app.favorites_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                         .then(function (response) {
                             //  document.getElementById('tab' + publish_company_id).style.display = 'none';
-                            console.log(response);
+
                             app.add_favorite_disp = false;
                             app.remove_favorite_disp = true;
                             // location.reload();
@@ -221,7 +220,7 @@
                 app.$http.delete('{{ route('favorites.destroy',['id'=>$novel_group->id]) }}', {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                         .then(function (response) {
                             //  document.getElementById('tab' + publish_company_id).style.display = 'none';
-                            console.log(response);
+
                             app.add_favorite_disp = true;
                             app.remove_favorite_disp = false;
                             // location.reload();

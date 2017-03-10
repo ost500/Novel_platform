@@ -20,7 +20,7 @@ class FreeBoardLikeController extends Controller
             'user_id' => Auth::user()->id,
             'free_board_id' => $request->get('free_board_id')
         ]);
-        flash('자유게시판 글이 성공적으로 등록 되었습니다');
+      //  flash('자유게시판 글이 성공적으로 등록 되었습니다');
         return response()->json(['success' => 'ok']);
     }
 

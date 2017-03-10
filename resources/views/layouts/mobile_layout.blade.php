@@ -8,10 +8,51 @@
     <link rel="stylesheet" type="text/css" href="/mobile/css/common.css">
     <link rel="stylesheet" type="text/css" href="/mobile/css/main.css">
     <link rel="stylesheet" type="text/css" href="/mobile/css/sub.css">
+    <link rel="stylesheet" href="/plugins/font-awesome/css/font-awesome.min.css" type="text/css">
     {{-- <script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>--}}
+    <style>
+
+        /*ALERTS*/
+        .alert-success {
+            color: #3c763d;
+            background-color: #dff0d8;
+            border-color: #d6e9c6;
+        }
+
+        .alert-danger {
+            color: #a94442;
+            background-color: #f2dede;
+            border-color: #ebccd1;
+        }
+
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+
+        .alert-dismissable {
+            padding-right: 35px;
+        }
+
+        .alert-dismissable .close {
+            position: relative;
+            top: -2px;
+            right: -21px;
+            color: inherit;
+        }
+    </style>
+
+    @yield('header')
     <script type="text/javascript" src="/js/jquery-2.1.1.min.js"></script>
     <script src="/js/vue.js"></script>
     <script src="/js/vue-resource.min.js"></script>
+    <script>
+        window.Laravel = <?php echo json_encode([
+                'csrfToken' => csrf_token(),
+        ]); ?>
+    </script>
     <script type="text/javascript">
         <!--
         var select = {
@@ -147,7 +188,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="" class="icon_mn_a">
+                        <a href="{{route('m.my_page.index')}}" class="icon_mn_a">
                             <div class="iconut myinfo">
                                 <span class="">My정보</span>
                             </div>
@@ -175,7 +216,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="" class="icon_mn_a">
+                        <a href="{{route('m.ask.faqs')}}" class="icon_mn_a">
                             <div class="iconut customer">
                                 <span class="">고객센터</span>
                             </div>
@@ -213,7 +254,7 @@
             </a>
 
             <div class="top_right_wrap">
-                <a href="" class="tr_link"><span class="ico_mtop h_sch">검색하기 off</span></a>
+                <a class="tr_link" v-on:click="showSearchBox()"><span class="ico_mtop h_sch">검색하기 off</span></a>
                 <!--<a href="" class="tr_link"><span class="ico_mtop h_sch_on">검색하기 on</span></a>-->
                 <a href="" class="tr_link"><span class="ico_mtop bookmark">즐겨찾기 off</span></a>
                 <!--<a href="" class="tr_link"><span class="ico_mtop bookmark_on">즐겨찾기 on </span></a>-->
@@ -222,61 +263,70 @@
         <div class="top_nav">
             <ul class="top_nav_ul">
                 <li><a href="{{route('m.bests')}}" class="top_nav_link"><span
-                                class= "top_nav_mn  {{ (Request::is('m/bests') || Request::is('m/bests/*'))?"on":"" }}">베스트</span></a>
+                                class="top_nav_mn  {{ (Request::is('m/bests') || Request::is('m/bests/*'))?"on":"" }}">베스트</span></a>
                 </li>
                 <!-- 활성화 되면 클래스 on 추가 -->
                 <li><a href="{{route('m.series')}}" class="top_nav_link"><span
                                 class="top_nav_mn  {{ (Request::is('m/series') || Request::is('m/series/*'))?"on":"" }}">연제</span></a>
                 </li>
-                <li><a href="" class="top_nav_link"><span class="top_nav_mn">완결</span></a></li>
-                <li><a href="" class="top_nav_link"><span class="top_nav_mn">커뮤니티</span></a></li>
+                <li><a href="{{route('m.completed')}}" class="top_nav_link"><span
+                                class="top_nav_mn {{ (Request::is('m/completed') || Request::is('m/completed/*'))?"on":"" }}">완결</span></a>
+                </li>
+                <li><a href="{{route('m.free_board')}}" class="top_nav_link"><span
+                                class="top_nav_mn {{ (Request::is('m/community/freeboard') || Request::is('m/community/free_board/*') || Request::is('m/community/reader_reco') || Request::is('m/community/reader_reco/*'))?"on":"" }}">커뮤니티</span></a>
+                </li>
             </ul>
         </div>
     </div>
     <!-- header //-->
+
     <!-- search popop open -->
-    <div class="msch_pop" style="display:none;">
+    <div class="popup_bg" style="top:215px;display:none;" id="search_box" >
         <div class="msch_popin">
             <h2 class="msch_pop_tit">일반검색</h2>
+            <!-- close 버튼 -->
+            <a  class="sidemn_close"><span class="ico_close" v-on:click="close" style="margin-left:23px;">닫기</span></a>
+            <!-- close 버튼 //-->
+            <form name="search_form" action="{{route('m.search.index')}}" class="search-form" method="post">
+                {{csrf_field()}}
+                <div class="msch_1wrap">
 
-            <div class="msch_1wrap">
-                <div id="Link" class="selectlayer" onclick="select.action(this,1);">
-                    <p><a href="#" class="default" onclick="return false;">전체</a></p>
-                    <ul>
-                        <li><a href="">전체</a></li>
-                        <li><a href="">기타기타</a></li>
-                        <li><a href="">기타기타</a></li>
-                        <li><a href="">기타기타</a></li>
-                    </ul>
+                    <!-- 셀렉트박스 -->
+                    <div class="msch_sel">
+                        <select class="selstyl2 full" name="search_type">
+                            <option value="전체">전체</option>
+                            <option value="소설">소설</option>
+                            <option value="소설 회차">소설 회차</option>
+                            <option value="작가">작가</option>
+                        </select>
+                    </div>
+                    <!-- 셀렉트박스 //-->
+                    <!-- 인풋박스 -->
+                    <div class="msch_input1">
+                        <input type="text" name="title" id="title" class="inputBacol with333">
+                    </div>
+                    <!-- 인풋박스 //-->
                 </div>
-                <div class="msch_input1">
-                    <input type="text" name="" class="inputBacol with333">
+
+                <h2 class="msch_pop_tit">해시태그 검색</h2>
+                <input type="text" name="keyword_name" id="keyword_name" v-on:keyup="get_keywords()" v-model="search"
+                       class="inputBacol full">
+
+                <h2 class="msch_subtit">자주 찾는 해시태그</h2>
+
+                <div class="tag_box">
+                    <span class="tag_txt"><a v-for="keyword in keywords" class="tag_txt" style="cursor:pointer"
+                                             onclick="searchKeyword(this)">#@{{keyword.name}}</a></span>
                 </div>
-            </div>
 
-            <h2 class="msch_pop_tit">해시태그 검색</h2>
-            <input type="text" name="" class="inputBacol full">
-
-            <h2 class="msch_subtit">자주 찾는 해시태그</h2>
-
-            <div class="tag_box">
-                <span class="tag_txt">#현대</span><span class="tag_txt">#시대</span><span
-                        class="tag_txt">#로맨스판타지</span><span class="tag_txt"></span>
-                <span class="tag_txt">#메디컬</span><span class="tag_txt">#남장여자</span><span
-                        class="tag_txt">#회귀물</span><span class="tag_txt">#원나잇</span>
-                <span class="tag_txt">#계약물</span><span class="tag_txt">#정략결혼</span><span
-                        class="tag_txt">#나쁜남자</span><span class="tag_txt">#재벌남</span>
-                <span class="tag_txt">#후회남</span><span class="tag_txt">#철벽녀</span><span
-                        class="tag_txt">#로맨틱코미디</span><span class="tag_txt">#피폐물</span>
-                <span class="tag_txt">#잔잔물</span><span class="tag_txt">#신파</span>
-            </div>
-
-            <div class="padt30 talC">
-                <a href=""><img src="/mobile/images/ico_mtopsch.png" alt="검색"></a>
-            </div>
+                <div class="padt30 talC">
+                    <button type="submit" style="background: transparent;border: transparent;"><img src="/mobile/images/ico_mtopsch.png" alt="검색"></button>
+                </div>
+            </form>
         </div>
     </div>
     <!-- search popop open //-->
+
     @yield('content')
 
             <!-- bottom -->
@@ -296,12 +346,43 @@
 
 </div>
 <script type="text/javascript">
+    function searchKeyword(keyword) {
+
+        var keyword_text = keyword.text.replace("#", "");
+        $('#keyword_name').val(keyword_text);
+    }
     var header = new Vue({
         el: '#header',
         data: {},
         methods: {
             showSideMenu: function () {
                 $('#sidebar').show();
+            },
+            showSearchBox: function () {
+                $('#search_box').show();
+            }
+        }
+    });
+
+    var search = new Vue({
+        el: '#search_box',
+
+        data: {
+            keywords: "",
+            search: ''
+        },
+        mounted: function () {
+            this.get_keywords("");
+        },
+        methods: {
+            get_keywords: function () {
+                this.$http.get('{{ route('popular_keywords') }}?search=' + this.search)
+                        .then(function (response) {
+                            this.keywords = response.data;
+                        });
+            },
+            close:function(){
+                $('#search_box').hide();
             }
         }
     });

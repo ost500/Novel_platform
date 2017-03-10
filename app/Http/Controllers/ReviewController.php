@@ -7,7 +7,7 @@ use App\Review;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Validator;
-
+use Jenssegers\Agent\Agent;
 class ReviewController extends Controller
 {
     /**
@@ -51,6 +51,10 @@ class ReviewController extends Controller
 
         $request->user()->reviews()->create($request->all());
         flash('독자추천 글이 성공적으로 등록 되었습니다');
+        $agent = new Agent();
+        if($agent->isMobile()){
+            return redirect()->route('m.reader_reco');
+        }
         return redirect()->route('reader_reco');
     }
 
@@ -105,6 +109,10 @@ class ReviewController extends Controller
         Review::where('id', $id)->update($input);
 
         flash('독자추천 글이 성공적으로 수정 되었습니다');
+        $agent = new Agent();
+        if($agent->isMobile()){
+            return redirect()->route('m.reader_reco.detail', ['id' => $id]);
+        }
         return redirect()->route('reader_reco.detail', ['id' => $id]);
     }
 

@@ -199,4 +199,66 @@ class IndexController extends Controller
       //return response()->json($novel_groups);
         return view('mobile.bests', compact('free_or_charged', 'novel_groups', 'page', 'period', 'option', 'keywords'));
     }
+
+    public function completed(Request $request, $free_or_charged = false)
+    {
+
+        if (!$free_or_charged) {
+            //charged
+            $novel_groups = NovelGroup::selectRaw('novel_group_id, novel_groups.*, max(novels.created_at) as new, max(non_free_agreement) as non_free, sum(total_count) as total_count')
+                ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
+                ->where([['completed', '=', 1], ['secret', '=', null]])
+                ->groupBy('novel_group_id')->havingRaw('max(non_free_agreement) > 0');
+
+        } else {
+            //free
+            $novel_groups = NovelGroup::selectRaw('novel_group_id, novel_groups.*, max(novels.created_at) as new, max(non_free_agreement) as non_free, sum(total_count) as total_count')
+                ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
+                ->where([['completed', '=', 1], ['secret', '=', null]])
+                ->groupBy('novel_group_id')->havingRaw('max(non_free_agreement) = 0');
+
+        }
+
+        //genre
+        $genre = isset($request->genre) ? $request->genre : '%';
+
+
+        if ($genre == "현대로맨스") {
+            $genreArr = ['현대', '현대판타지'];
+        } else if ($genre == "시대로맨스") {
+            $genreArr = ['시대', '사극', '동양판타지'];
+        } else if ($genre == "로맨스판타지") {
+            $genreArr = ['서양역사', '로맨스판타지'];
+        } else {
+            $genreArr = ["%"];
+        }
+
+
+        $novel_groups->whereHas('keywords', function ($q) use ($genreArr, $genre) {
+            if ($genre == "%") {
+                //if it is all
+                $q->where('name', 'like', '%');
+            } else {
+                //if it is not all
+                $q->WhereIn('name', $genreArr);
+            }
+        });
+
+        //order
+        $order = $request->order;
+        if ($order == "view") {
+            $novel_groups = $novel_groups->orderBy('total_count', 'desc');
+        } elseif ($order == "favorite") {
+            $novel_groups = $novel_groups->withCount('favorites');
+            $novel_groups = $novel_groups->orderBy('favorites_count', 'desc');
+        } else {
+            $novel_groups = $novel_groups->orderBy('new', 'desc');
+        }
+
+        //nickname, keyword, novels_count
+        $novel_groups = $novel_groups->with('nicknames')->with('keywords')->withCount('novels')->paginate(config('define.pagination_long'));
+//        return response()->json($novel_groups);
+        return view('mobile.completed', compact('free_or_charged', 'novel_groups', 'genre', 'order'));
+    }
+
 }

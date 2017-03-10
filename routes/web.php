@@ -29,19 +29,106 @@ if ($agent->isMobile()) {
 Route::group(['prefix' => 'm'], function () {
 
     Route::get('login', ['as' => 'mobile.login', 'uses' => 'Auth\LoginController@mobileLoginForm']);
-    //Series
-    Route::get('/series/{free_or_charged?}', ['as' => 'm.series', 'uses' => 'MobileController\IndexController@series']);
     //Bests
     Route::get('/bests/{free_or_charged?}', ['as' => 'm.bests', 'uses' => 'MobileController\IndexController@bests']);
+    //completed
+    Route::get('/completed/{free_or_charged?}', ['as' => 'm.completed', 'uses' => 'MobileController\IndexController@completed']);
+    //Series
+    Route::get('/series/{free_or_charged?}', ['as' => 'm.series', 'uses' => 'MobileController\IndexController@series']);
+
+    //Search Controller
+    Route::group(['prefix' => 'search'], function () {
+        Route::post('/', ['as' => 'm.search.index', 'uses' => 'MobileController\SearchController@index']);
+        Route::get('/', ['as' => 'm.search', 'uses' => 'MobileController\SearchController@index']);
+    });
 
     //EachController
     Route::get('novel_group/{id}', ['as' => 'm.each_novel.novel_group', 'uses' => 'MobileController\EachController@novel_group']);
+    Route::get('novel_group_inning/{id}', ['as' => 'm.each_novel.novel_group_inning', 'uses' => 'MobileController\EachController@novel_group_inning']);
+    Route::get('novel_group/review/{id}', ['as' => 'm.each_novel.novel_group.review', 'uses' => 'MobileController\EachController@novel_group_review']);
 
     //Community
     Route::group(['prefix' => 'community'], function () {
-        Route::get('reader_reco/{id}', ['as' => 'm.reader_reco.detail', 'uses' => 'MobileController\CommunityController@reader_reco_detail']);
+        Route::get('freeboard', ['as' => 'm.free_board', 'uses' => 'MobileController\CommunityController@free_board']);
+        Route::get('freeboard/{id}', ['as' => 'm.free_board.detail', 'uses' => 'MobileController\CommunityController@free_board_detail']);
+        // same url diffrent request for the redirection after login
+        Route::post('freeboard/{id}', ['as' => 'm.freeboard.comment', 'middleware' => 'auth', 'uses' => 'FreeBoardCommentController@store']);
+        Route::get('freeboard_write', ['middleware' => 'auth', 'as' => 'm.free_board.write', 'uses' => 'MobileController\CommunityController@free_board_write']);
+        Route::get('freeboard/{id}/edit', ['as' => 'm.free_board.edit', 'uses' => 'MobileController\CommunityController@free_board_edit']);
+        Route::post('freeboard/', ['as' => 'm.free_board.store', 'uses' => 'FreeBoardController@store']);
+        Route::put('freeboard/{id}', ['as' => 'm.free_board.update', 'uses' => 'FreeBoardController@update']);
+
         Route::get('reader_reco', ['as' => 'm.reader_reco', 'uses' => 'MobileController\CommunityController@reader_reco']);
+        Route::get('reader_reco/{id}', ['as' => 'm.reader_reco.detail', 'uses' => 'MobileController\CommunityController@reader_reco_detail']);
+        Route::get('reader_reco/{id}/edit', ['as' => 'm.reader_reco.edit', 'uses' => 'MobileController\CommunityController@reader_reco_edit']);
+        Route::post('reader_reco/{id}', ['as' => 'm.reader_reco.comment', 'middleware' => 'auth', 'uses' => 'ReviewCommentController@store']);
     });
+
+    //AskController
+    Route::group(['prefix' => 'customer'], function () {
+        Route::get('/frequently_asked_questions', ['as' => 'm.ask.faqs', 'uses' => 'MobileController\AskController@faqs']);
+        Route::get('/questions', ['as' => 'm.ask.questions', 'uses' => 'MobileController\AskController@questions']);
+        Route::get('/ask_question', ['as' => 'm.ask.ask_question', 'uses' => 'MobileController\AskController@ask_question']);
+        Route::get('/notifications', ['as' => 'm.ask.notifications', 'uses' => 'MobileController\AskController@notifications']);
+        Route::get('/notification_detail/{id}', ['as' => 'm.ask.notification_detail', 'uses' => 'MobileController\AskController@notification_detail']);
+        Route::get('/question_detail/{id}', ['as' => 'm.ask.question_detail', 'uses' => 'MobileController\AskController@question_detail']);
+        Route::get('/faq_detail/{id}', ['as' => 'm.ask.faq_detail', 'uses' => 'MobileController\AskController@faq_detail']);
+        Route::get('/accusations/{id}', ['as' => 'm.accusations', 'uses' => 'MobileController\AskController@accusations']);
+        Route::post('/accusations', ['as' => 'm.accusations.post', 'uses' => 'AccusationController@store']);
+    });
+
+    //My information
+    Route::group(['prefix' => 'my_info', 'middleware' => ['auth']], function () {
+        //MyPageController
+        Route::get('/', ['as' => 'm.my_page.index', 'uses' => 'MobileController\MyPageController@index']);
+        Route::get('/favorites', ['as' => 'm.my_page.favorites', 'uses' => 'MobileController\MyPageController@favorites']);
+        Route::get('/novels/new_speed', ['as' => 'm.my_page.novels.new_speed', 'uses' => 'MobileController\MyPageController@new_speed']);
+        Route::get('/novels/new_speed/read/{id}', ['as' => 'm.my_page.novels.new_speed.read', 'uses' => 'MobileController\MyPageController@new_speed_read']);
+        Route::get('/novels/new_novels', ['as' => 'm.my_page.novels.new_novels', 'uses' => 'MobileController\MyPageController@new_novels']);
+
+        Route::group(['prefix' => 'personal'], function () {
+            Route::get('/post_manage', ['as' => 'm.my_info.post_manage', 'uses' => 'MobileController\MyInfoController@post_manage']);
+            Route::get('/review_manage', ['as' => 'm.my_info.review_manage', 'uses' => 'MobileController\MyInfoController@review_manage']);
+            Route::get('/novel_comments_manage', ['as' => 'm.my_info.novel_comments_manage', 'uses' => 'MobileController\MyInfoController@novel_comments_manage']);
+            Route::get('/free_board_review_comments_manage', ['as' => 'm.my_info.free_board_review_comments_manage', 'uses' => 'MobileController\MyInfoController@free_board_review_comments_manage']);
+            Route::get('/password_again', ['as' => 'm.my_info.password_again', 'uses' => 'MobileController\MyInfoController@password_again']);
+            Route::post('/password_again', ['as' => 'm.my_info.password_again.post', 'uses' => 'MobileController\MyInfoController@password_again_post']);
+            Route::get('/edit', ['as' => 'm.my_info.edit', 'uses' => 'MobileController\MyInfoController@edit']);
+            Route::post('/edit', ['as' => 'm.my_info.edit.post', 'uses' => 'UserController@my_info_update']);
+            Route::get('/member_leave/password_again', ['as' => 'm.my_info.member_leave.password_again', 'uses' => 'MobileController\MyInfoController@member_leave_password_again']);
+            Route::post('/member_leave', ['as' => 'm.my_info.member_leave', 'uses' => 'UserController@member_leave']);
+            Route::post('/free_board_review_comments_remove', ['as' => 'm.free_board_review_comments.destroy_comments', 'uses' => 'MobileController\MyInfoController@destroy_comments']);
+            Route::put('/free_board_review_comments_update', ['as' => 'm.free_board_review_comments.update_comments', 'uses' => 'MobileController\MyInfoController@update_comments']);
+        });
+
+
+        Route::group(['prefix' => 'use_info'], function () {
+            Route::get('/charge_bead', ['as' => 'm.my_info.charge_bead', 'uses' => 'MobileController\MyInfoController@charge_bead']);
+            Route::get('/charge_list', ['as' => 'm.my_info.charge_list', 'uses' => 'MobileController\MyInfoController@charge_list']);
+            Route::get('/manage_piece', ['as' => 'm.my_info.manage_piece', 'uses' => 'MobileController\MyInfoController@manage_piece']);
+            Route::get('/purchased_novel_list', ['as' => 'm.my_info.purchased_novel_list', 'uses' => 'MobileController\MyInfoController@purchased_novel_list']);
+            Route::get('/received_gift', ['as' => 'm.my_info.received_gift', 'uses' => 'MobileController\MyInfoController@received_gift']);
+            Route::get('/sent_gift', ['as' => 'm.my_info.sent_gift', 'uses' => 'MobileController\MyInfoController@sent_gift']);
+
+        });
+
+
+
+
+    });
+
+        //Mails Controller
+    Route::group(['prefix' => 'mails', 'middleware' => ['auth']], function () {
+        Route::get('/received', ['as' => 'm.mails.received', 'uses' => 'MobileController\MailController@received']);
+        Route::get('/sent', ['as' => 'm.mails.sent', 'uses' => 'MobileController\MailController@sent']);
+        Route::get('/spam', ['as' => 'm.mails.spam', 'uses' => 'MobileController\MailController@spam']);
+        Route::get('/my_box', ['as' => 'm.mails.my_box', 'uses' => 'MobileController\MailController@my_box']);
+        Route::get('/create/{id?}', ['as' => 'm.mails.create', 'uses' => 'MobileController\MailController@create']);
+        Route::get('/detail/{id}', ['as' => 'm.mails.detail', 'uses' => 'MobileController\MailController@detail']);
+        Route::get('/sent_detail/{id}', ['as' => 'm.mails.sent_detail', 'uses' => 'MobileController\MailController@sent_detail']);
+    });
+
+
 });
 
 Auth::routes();
@@ -306,7 +393,7 @@ Route::group(['prefix' => 'mails', 'middleware' => ['auth']], function () {
     Route::get('/sent_detail/{id}', ['as' => 'mails.sent_detail', 'uses' => 'MainController\MailController@sent_detail']);
 });
 
-//Mails Controller
+//Search Controller
 Route::group(['prefix' => 'search'], function () {
     Route::post('/', ['as' => 'search.index', 'uses' => 'MainController\SearchController@index']);
     Route::get('/', ['as' => 'search', 'uses' => 'MainController\SearchController@index']);

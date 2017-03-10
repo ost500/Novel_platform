@@ -27,8 +27,8 @@ class AccusationController extends Controller
                 'title.required' => '제목은 필수 입니다.',
                 'title.max' => '제목은 반드시 2000 자리보다 작아야 합니다.',
                 'category.required' => '신고 유형은 필수 입니다.',
-                'content.max' => '내용은 반드시 2000 자리보다 작아야 합니다.',
-                'content.required' => '내용은 필수 입니다.',
+                'contents.max' => '내용은 반드시 2000 자리보다 작아야 합니다.',
+                'contents.required' => '내용은 필수 입니다.',
             ]
         )->validate();
 
