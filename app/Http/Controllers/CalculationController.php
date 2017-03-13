@@ -107,12 +107,15 @@ class CalculationController extends Controller
 
                 $keys = array();
                 $extraKeys = array();
+                $code_num = "";
 
                 // result is $keyData[0]
                 foreach ($keyData[0] as $key => $value) {
                     if (in_array($value, $newValueArray)) {
                         // save keys which we need
                         $keys[] = $key;
+                    } elseif ($value == "코드번호") {
+                        $code_num = $key;
                     } else {
                         $extraKeys[] = $value;
                     }
@@ -145,6 +148,8 @@ class CalculationController extends Controller
                             $value = str_replace(",", "", $value);
                             // save keys which we need
                             $newCalculationEach->data = $newCalculationEach->data . $value . ",";
+                        } elseif ($code_num == $key) {
+                            $newCalculationEach->code_number = $value;
                         } else {
                             $newCalculationEach->extra_data = $newCalculationEach->extra_data . $extraKeys[$extraKeysIndex] . ":" . $value . ",";
                             $extraKeysIndex = $extraKeysIndex + 1;
