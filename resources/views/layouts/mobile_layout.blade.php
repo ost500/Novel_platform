@@ -245,7 +245,7 @@
     <div class="header" id="header">
         <div class="h_top">
             <h1 class="top_logo">
-                <a href="{{route('mobile.index')}}" class="tl_link">
+                <a href="{{route('root')}}" class="tl_link">
                     <img src="/mobile/images/top_logo.png" class="img_logo" alt="여우정원">
                 </a>
             </h1>

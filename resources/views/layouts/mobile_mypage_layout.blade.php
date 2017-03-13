@@ -62,7 +62,7 @@
     <div class="myheader">
         <div class="mytop">
             <h1 class="mytop_tit">MY정보</h1>
-            <a href="{{route('mobile.index')}}" class="mytop_left">
+            <a href="{{route('root')}}" class="mytop_left">
                 <span class="ico_mytop ico_back">뒤로가기</span>
             </a>
         </div>

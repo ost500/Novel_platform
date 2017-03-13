@@ -20,7 +20,7 @@ if ($agent->isMobile()) {
 
     Route::get('mobile/login', ['as' => 'mobile.login', 'uses' => 'Auth\LoginController@mobileLoginForm']);
     //Redirect to Mobile site
-    Route::get('/', ['as' => 'mobile.index', 'uses' => 'MobileController\IndexController@index']);
+    Route::get('/', ['as' => 'root', 'uses' => 'MobileController\IndexController@index']);
 
 } else {
     //Redirect to Main site

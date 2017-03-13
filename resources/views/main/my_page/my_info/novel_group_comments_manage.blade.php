@@ -123,7 +123,7 @@
                                 .then(function (response) {
                                     location.reload();
                                 }).catch(function (errors) {
-                            console.log(errors);
+                           // console.log(errors);
                         });
                     }
                 },
@@ -138,7 +138,7 @@
                                 location.reload();
 
                             }).catch(function (errors) {
-                        console.log(errors);
+                       // console.log(errors);
                     });
                 }
             }

@@ -21,7 +21,7 @@
         <option value="추천 리뷰 관리" @if(Request::is('my_info/personal/review_manage')) selected @endif>추천 리뷰 관리</option>
         <option value="소설 댓글 관리" @if(Request::is('my_info/personal/novel_comments_manage')) selected @endif>소설 댓글 관리</option>
         <option value="일반 댓글 관리" @if(Request::is('my_info/personal/free_board_review_comments_manage')) selected @endif>일반 댓글 관리</option>
-        <option value="정보변경"  @if(Request::is('my_info/personal/edit') || Request::is('my_info/personal/password_again')) selected @endif>정보변경</option>
+        <option value="정보변경"  @if(Request::is('my_info/personal/edit') || Request::is('my_info/personal/password_again') || Request::is('my_info/personal/member_leave/*')) selected @endif>정보변경</option>
         <option value="쪽지"  @if(Request::is('mails/*')) selected @endif>쪽지</option>
       </select>
   @endif
