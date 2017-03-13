@@ -36,12 +36,17 @@ class AdminPageController extends Controller
         $this->middleware(['auth', 'admin']);
     }
 
-    public function index()
+    public function index(Request $request)
     {
+
+        if ($request->style == "simple") {
+            return view('admin.index_simple');
+        }
+
         return view('admin.index');
     }
 
-    public function novel()
+    public function novel(Request $request)
     {
         $novel_groups = NovelGroup::all("*");
 
