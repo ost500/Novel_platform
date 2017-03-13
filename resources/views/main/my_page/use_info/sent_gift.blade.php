@@ -64,7 +64,7 @@
                     </div>
                     <!-- //하단버튼 -->
                     <!-- 페이징 -->
-                    <div class="page-nav" style="position: relative;">
+                    <div class="page-nav" >
                         @include('pagination_front', ['collection' => $presents, 'url' => route('my_info.sent_gift')."?"])
                     </div>
                     <!-- //페이징 -->

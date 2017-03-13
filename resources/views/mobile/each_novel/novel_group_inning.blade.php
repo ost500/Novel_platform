@@ -330,9 +330,9 @@
                                         class="replst_time">2016-06-20 23:00</span>
                             </div>
                         </li>--}}
-                        <li>
-                            <div class="replst_tit alert">해당 글은 신고 접수되어 블라인드 처리 되었습니다.</div>
-                        </li>
+                        {{--<li>--}}
+                            {{--<div class="replst_tit alert">해당 글은 신고 접수되어 블라인드 처리 되었습니다.</div>--}}
+                        {{--</li>--}}
                     </ul>
                     <div class="padt20"><a href="" class="btn_repl_more full">댓글 더보기</a></div>
                 </div>
