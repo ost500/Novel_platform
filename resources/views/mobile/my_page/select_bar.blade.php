@@ -1,6 +1,6 @@
  <!-- 셀렉트박스 -->
 <div id="my_info_bar" class="{{ Request::is('my_info')?"padt30":"sel2_wrap" }}" xmlns:v-on="http://www.w3.org/1999/xhtml">
-    <select class="{{ Request::is('my_info/favorites')  || Request::is('my_info/personal/*') || Request::is('mails/*') ?"sel_198":"full" }}" id="myinfoSelect" v-on:change="callUrl()">
+    <select class="{{ Request::is('my_info/favorites')  || Request::is('my_info/personal/*') || Request::is('my_info/novels/*') || Request::is('mails/*') ?"sel_198":"full" }}" id="myinfoSelect" v-on:change="callUrl()">
          <option value="마이페이지 홈" @if(Request::is('my_info')) selected @endif>마이페이지 홈</option>
          <option value="선호작" @if(Request::is('my_info/favorites')) selected @endif >선호작</option>
          <option value="이용정보" @if(Request::is('my_info/use_info/*')) selected @endif>이용정보</option>
@@ -15,6 +15,14 @@
         <option value="비밀글 관리" @if($filter=='secret') selected @endif >비밀글 관리</option>
     </select>
     @endif
+
+  @if(Request::is('my_info/novels/*'))
+  <select class="sel_346 marL8" id="myinfo_favorites"  v-on:change="callSubUrl()">
+      <option value="소식"  @if(Request::is('my_info/novels/new_speed')) selected @endif>소식</option>
+      <option value="신작알림"  @if(Request::is('my_info/novels/new_novels')) selected @endif>신작알림</option>
+  </select>
+  @endif
+
   @if(Request::is('my_info/personal/*') || Request::is('mails/*'))
      <select class="sel_346 marL8" id="myinfo_favorites"  v-on:change="callSubUrl()">
         <option value="게시글 관리"  @if(Request::is('my_info/personal/post_manage')) selected @endif>게시글 관리</option>
@@ -82,7 +90,13 @@
                         location.assign('{{route('my_page.favorites').'?filter=secret'}}');
 
 
-                    } else if (this.subOptionValue == '게시글 관리') {
+                    } else if (this.subOptionValue == '소식') {
+                        location.assign('{{route('my_page.novels.new_speed')}}');
+                    } else if (this.subOptionValue == '신작알림') {
+                        location.assign('{{route('my_page.novels.new_novels')}}');
+
+
+                    }else if (this.subOptionValue == '게시글 관리') {
                         location.assign('{{route('my_info.post_manage')}}');
                     }else if (this.subOptionValue == '추천 리뷰 관리') {
                         location.assign('{{route('my_info.review_manage')}}');
@@ -95,6 +109,7 @@
                     }else if (this.subOptionValue == '쪽지') {
                         location.assign('{{route('mails.received')}}');
                     }
+
 
                 },
                   callSubUrlMail: function () {
