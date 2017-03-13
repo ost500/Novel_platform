@@ -71,7 +71,7 @@
                     </div>
 
 
-                    <div class="right-btns">
+                    <div class="right-top-margin-btns">
                         <a  href="{{route('accusations',['id'=>Auth::user()->id])}}" > <button type="button" class="btn" @if(count($spam_mails) == 0)  disabled @endif >신고</button></a>
                     </div>
 

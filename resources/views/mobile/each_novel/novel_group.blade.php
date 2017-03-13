@@ -39,7 +39,7 @@
                     </a>
                     <a href="#" v-on:click="removeFromFavorite()" id="remove_favorite"
                        v-show="remove_favorite_disp" class="stvs_cr_a" style="display:none;">
-                        <span class="stvs_cr_ico view_bm" style="background-color: chocolate;"></span>
+                        <span class="stvs_cr_ico view_bm_on"></span>
                         <!--<span class="stvs_cr_ico view_bm_on"></span>-->
                         <span class="stvs_cr_sli"></span>
                         <span class="stvs_cr_txt">선호작추가</span>

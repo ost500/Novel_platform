@@ -25,7 +25,7 @@
 
         <!-- 버튼 -->
         <div class="veiw_btn_wrap">
-            <div class="mart20"><a href="{{  route('mails.received')}}') }}" class="btn_list_view full">목록</a></div>
+            <div class="mart20"><a href="{{ URL::previous() }}" class="btn_list_view full">목록</a></div>
         </div>
         <!-- 버튼 //-->
 
