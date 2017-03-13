@@ -40,6 +40,7 @@ Route::post('id_search', ['as' => 'id_search_post', 'uses' => 'Auth\IdSearchCont
 
 //Route::get('/home', 'HomeController@index');
 Route::resource('novelgroups', 'NovelGroupController');
+Route::put('novelgroup/code_num_save', ['as' => 'novelgroup.code_num_save', 'uses' => 'NovelGroupController@code_num_save']);
 Route::get('novelgroup/novels/{id}', ['as' => 'novelgroup.novel', 'uses' => 'NovelGroupController@show_novel']);
 Route::get('novelgroup/novels/inning/{id}', ['as' => 'novelgroup.inning', 'uses' => 'NovelGroupController@inning_order']);
 Route::get('novelgroup/{id}/comments', ['as' => 'novelgroup.comments', 'uses' => 'NovelGroupController@show_comments']);

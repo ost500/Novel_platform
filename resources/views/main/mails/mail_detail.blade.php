@@ -56,7 +56,9 @@
                         <div class="bbs-view-content-btns">
 
                             <div class="right-btns">
-                                <a href="#mode_nav" class="report-btn"><i class="report-icon"></i> 메일 신고</a>
+                                <a href="{{ route('accusations', ['id' => $mail['users']['id']]) }}"
+                                   class="report-btn"><i
+                                            class="report-icon"></i> 메일 신고</a>
                             </div>
                         </div>
                         <div class="bbs-view-btns"><a href="{{ URL::previous()  }}" class="btn">목록</a></div>

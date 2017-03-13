@@ -21,8 +21,7 @@ class FCMController extends Controller
 
     function send_notification($tokens, $message)
     {
-        $server_key = "AAAAlmbUELo:APA91bHSSZND_SdAqbGvtbUYvoBU_6b9dy3AfD8dXkrbNalwM24I0N49R4QCDTk0oigy8AFzc5PfOAk_Qyld9EDFEEJfspGuYn3qv_nJEDi7ekiZRpBtgTp-FkggSNr7MJncdMORLSTs";
-
+        $server_key = "AAAARPXG50c:APA91bFhOxsMK5CULU-GmL1si6hK9SeRFr-O6FTcWsmA2d6rEYqKyUECOMDuisdDSuq5V1PLht5VPBjwsnJjjLIYMPSMG5oEIw443jAnvLmHAHtDeycEwVazlp9g3KsEf74RB2kuN38z";
         $url = 'https://fcm.googleapis.com/fcm/send';
 
         $notification["body"] = $message["message"];
@@ -33,7 +32,7 @@ class FCMController extends Controller
         $fields = array(
             'registration_ids' => $tokens,
             'data' => $notification,
-//            'notification' => $notification
+            'notification' => $notification
         );
 
 

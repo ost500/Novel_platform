@@ -42,10 +42,10 @@ class NovelGroupController extends Controller
     {
         if (Auth::user()->isAdmin()) {
             //if you are admin
-            $novel_groups = NovelGroup::with('novels')->latest()->get();
+            $novel_groups = NovelGroup::with('novels')->latest()->paginate(10);
         } else {
             //if you are user
-            $novel_groups = $request->user()->novel_groups()->with('novels')->latest()->get();
+            $novel_groups = $request->user()->novel_groups()->with('novels')->latest()->paginate(10);
         }
 
         //check an agreement agreed or not
@@ -99,8 +99,7 @@ class NovelGroupController extends Controller
         if (!isset($request->page)) {
             $request->page = 1;
         }
-        $novel_group_per_page = $novel_groups->forPage($request->page, 5);
-        $novel_groups = new LengthAwarePaginator($novel_group_per_page, $novel_groups_count, 5);
+       
 
         return \Response::json(['novel_groups' => $novel_groups, 'count_data' => $count_data, 'review_count_data' => $review_count_data, 'latested_at' => $latested_at, 'author' => $author]);
         // dd($user_novels);
@@ -533,6 +532,17 @@ class NovelGroupController extends Controller
             abort(403, '처리 중 에러가 발생했습니다 관리자에게 문의하세요.');
         }
 
+    }
+
+    public function code_num_save(Request $request)
+    {
+        foreach ($request->all() as $item) {
+            $novel_group_code = NovelGroup::findOrFail($item['id']);
+            $novel_group_code->code_number = $item['code_number'];
+            $novel_group_code->save();
+        }
+
+        return response()->json($request);
     }
 
 

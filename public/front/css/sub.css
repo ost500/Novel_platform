@@ -1143,8 +1143,9 @@
 
 /* 게시판목록 하단 */
 .list-bottom-btns {
-    z-index: -1;
-    position: absolute;
+    z-index: 10;
+    /*position: absolute;*/
+    float: right;
     left: 0;
     right: 0;
     margin-top: 20px;

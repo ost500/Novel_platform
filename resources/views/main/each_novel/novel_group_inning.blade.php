@@ -13,7 +13,7 @@
                         <header class="episode-header">
                             <div class="titles">
                                 <h1 class="series-title"><a
-                                            href="#mode_nav">{{ $novel_group_inning->novel_groups->title }}</a></h1>
+                                            href="{{ route('each_novel.novel_group', ['id' => $novel_group_inning->novel_groups->id]) }}">{{ $novel_group_inning->novel_groups->title }}</a></h1>
 
                                 <p class="episode-title">{{ $novel_group_inning->title }}</p>
                             </div>
