@@ -28,8 +28,9 @@
                             {{--<form method="get"
                                   action="{{ route('my_info.member_leave.password_again') }}">
                                 {!! csrf_field() !!}--}}
-                            <input type="text" value="{{$me->email}}" class="inputBasic2 with244">
-                            <a v-on:click="memberLeavePassword()" class="usInfo_btn1_on with128 floR"
+                            <div  class="usInfo_txt" > {{$me->email}}</div>
+
+                            <a v-on:click="memberLeavePassword()" class="usInfo_btn1_on with128 floL"
                                style="cursor: pointer;">회원탈퇴</a>
                             {{-- </form>--}}
                         </td>
