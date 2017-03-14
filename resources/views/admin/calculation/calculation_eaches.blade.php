@@ -122,7 +122,7 @@
                                                    placeholder="Add a tag" value="{{ $calculation->column_names }}"
                                                    data-role="tagsinput">
                                             <div id="columnNamesMessageError" hidden>
-                                                <small  class="help-block"
+                                                <small class="help-block"
                                                        data-bv-validator="notEmpty" data-bv-for="columnNames"
                                                        data-bv-result="INVALID" style="">
                                                     <div id="columnNamesMessageErrorSmall">
@@ -130,6 +130,7 @@
                                                     </div>
                                                 </small>
                                             </div>
+                                            <h5>※ 순서에 유의하세요</h5>
                                         </td>
                                         <td class="col-md-1 text-center">
 
@@ -172,6 +173,7 @@
                                             <th data-sort-ignore="true"
                                                 class="min-width footable-visible footable-first-column"></th>
                                             <th class="min-width text-center">번호</th>
+                                            <th class="min-width text-center">코드번호</th>
                                             @foreach ($calculationColumnNames as $col)
                                                 <th>{{ $col }}</th>
                                             @endforeach
@@ -188,6 +190,8 @@
                                                                                                    name="btSelectItem"
                                                                                                    type="checkbox"
                                                                                                    value="{{$cal->id}}"></label>
+                                                </td>
+                                                <td class="text-center">{{ $cal->code_number }}
                                                 </td>
                                                 <td class="text-center">{{ $cal->id }}</td>
                                                 @foreach (explode(",", $cal->data) as $data)
