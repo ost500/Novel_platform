@@ -47,6 +47,11 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+    public function mobileRegisterForm()
+    {
+        return view('auth.mobile_register');
+    }
+
     public function register(Request $request)
     {
         $this->validator($request->all())->validate();

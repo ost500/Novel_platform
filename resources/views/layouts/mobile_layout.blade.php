@@ -146,19 +146,19 @@
                             {{ csrf_field() }}
                         </form>
                     </div>
-            @else
-                <!-- 로그인 버튼 -->
+                    @else
+                            <!-- 로그인 버튼 -->
                     <div class="login_btn_wrap">
                         <a href="{{route('mobile.login')}}" class="login_btn">로그인</a>
                         <!--<a href="" class="login_btn">로그아웃</a>-->
-                        <a href="" class="login_btn">회원가입</a>
+                        <a href="{{route('mobile.register')}}" class="login_btn">회원가입</a>
                     </div>
-            @endif
-            <!-- 로그인 버튼 //-->
+                    @endif
+                            <!-- 로그인 버튼 //-->
 
-                <!-- close 버튼 -->
-                <a href="" class="sidemn_close"><span class="ico_close">닫기</span></a>
-                <!-- close 버튼 //-->
+                    <!-- close 버튼 -->
+                    <a href="" class="sidemn_close"><span class="ico_close">닫기</span></a>
+                    <!-- close 버튼 //-->
             </div>
             <!-- 로그인 및 사용자 정보 //-->
 
@@ -227,7 +227,7 @@
                     </li>
                     <li>
                         <a href="{{ route('free_board') }}" class="icon_mn_a">
-                            <div class="iconut community">
+                            <div class="iconut communimobile.index">
                                 <span class="">커뮤니티</span>
                             </div>
                         </a>
@@ -254,17 +254,22 @@
                     <img src="/mobile/images/top_logo.png" class="img_logo" alt="여우정원">
                 </a>
             </h1>
-            <a class="top_left">
-                <span class="ico_mtop ico_side" id="sidebar_display" v-on:click="showSideMenu()" style="cursor:pointer">스 메뉴 펼치기</span>
-            </a>
+            @if(!Request::is('mobile/register'))
+                <a class="top_left">
+                    <span class="ico_mtop ico_side" id="sidebar_display" v-on:click="showSideMenu()"
+                          style="cursor:pointer">스 메뉴 펼치기</span>
+                </a>
 
-            <div class="top_right_wrap">
-                <a class="tr_link" v-on:click="showSearchBox()"><span class="ico_mtop h_sch">검색하기 off</span></a>
-                <!--<a href="" class="tr_link"><span class="ico_mtop h_sch_on">검색하기 on</span></a>-->
-                <a href="" class="tr_link"><span class="ico_mtop bookmark">즐겨찾기 off</span></a>
-                <!--<a href="" class="tr_link"><span class="ico_mtop bookmark_on">즐겨찾기 on </span></a>-->
-            </div>
+                <div class="top_right_wrap">
+                    <a class="tr_link" v-on:click="showSearchBox()"><span class="ico_mtop h_sch">검색하기 off</span></a>
+                    <!--<a href="" class="tr_link"><span class="ico_mtop h_sch_on">검색하기 on</span></a>-->
+                    <a href="" class="tr_link"><span class="ico_mtop bookmark">즐겨찾기 off</span></a>
+                    <!--<a href="" class="tr_link"><span class="ico_mtop bookmark_on">즐겨찾기 on </span></a>-->
+                </div>
+            @endif
+
         </div>
+        @if(!Request::is('mobile/register'))
         <div class="top_nav">
             <ul class="top_nav_ul">
                 <li><a href="{{route('bests')}}" class="top_nav_link"><span
@@ -282,6 +287,7 @@
                 </li>
             </ul>
         </div>
+        @endif
     </div>
     <!-- header //-->
 
@@ -333,9 +339,9 @@
     </div>
     <!-- search popop open //-->
 
-@yield('content')
+    @yield('content')
 
-<!-- bottom -->
+            <!-- bottom -->
     <div class="bottom">
         <div class="footer">
             <ul class="ftmn_wrap">
@@ -412,6 +418,7 @@
                     this.get_new_speed();
             this.get_new_mails();
             @endif
+
 
 
         },
