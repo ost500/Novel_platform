@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\PageController;
 
+use App\Calculation;
+use App\CalculationEach;
 use App\Company;
 use App\Mailbox;
 use App\MailLog;
@@ -20,6 +22,7 @@ use Illuminate\Pagination\Paginator;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\NovelGroupHashTag;
+
 class AuthorPageController extends Controller
 {
     public function __construct()
@@ -102,7 +105,7 @@ class AuthorPageController extends Controller
 
     }
 
-    public function edit(Request $request , $id)
+    public function edit(Request $request, $id)
     {
         // $novel_group=NovelGroup::find($id);
         //  return view('author.edit', compact('novel_group','id'));
@@ -112,7 +115,7 @@ class AuthorPageController extends Controller
 
         $keyword1 = Keyword::select('id', 'name')->where('category', '1')->get();
         $hash_tag_keywords = Keyword::select('id', 'name')->where('category', '<>', '1')->get();
-        return view('author.edit',compact('novel_group','nicknames','selected_hash_tags','keyword1', 'hash_tag_keywords'));
+        return view('author.edit', compact('novel_group', 'nicknames', 'selected_hash_tags', 'keyword1', 'hash_tag_keywords'));
     }
 
     public function specific_mailbox_create($id = null)
@@ -374,6 +377,33 @@ class AuthorPageController extends Controller
         // dd($apply_requests);
         return view('author.partnership.test_inning', compact('apply_requests', 'companies', 'id'));
 
+    }
+
+    public function calculations()
+    {
+
+        $myNovelGroups = NovelGroup::where('user_id', Auth::user()->id)->withCount('calculation_eaches')->get();
+//        return response()->json($myNovelGroups);
+        return view('author.calculations', compact('myNovelGroups'));
+    }
+
+    public function calculations_detail($code_num)
+    {
+        if (NovelGroup::where('code_number', $code_num)->first()->user_id != Auth::user()->id) {
+            return response()->view('errors.503', [], 500);
+        }
+
+        $myCalculationEachs = CalculationEach::where('code_number', $code_num)->get();
+        if ($myCalculationEachs->first() != null) {
+            $myCalculations = $myCalculationEachs->first()->calculations;
+        } else {
+            $myCalculations = null;
+        }
+
+
+//        return response()->json($myCalculations);
+
+        return view('author.calculations_detail', compact('myCalculationEachs', 'myCalculations'));
     }
 
 

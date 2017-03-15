@@ -75,7 +75,7 @@ class NovelGroup extends Model
      * @var array
      */
     protected $fillable = [
-        'nickname', 'title', 'description', 'novel_group_id', 'cover_photo','cover_photo2',
+        'nickname', 'title', 'description', 'novel_group_id', 'cover_photo', 'cover_photo2',
     ];
 
     public function novels()
@@ -106,6 +106,11 @@ class NovelGroup extends Model
     public function maillogs()
     {
         return $this->hasMany(MailLog::class);
+    }
+
+    public function calculation_eaches()
+    {
+        return $this->hasMany(CalculationEach::class, 'code_number', 'code_number');
     }
 
     public function publish_novel_groups()

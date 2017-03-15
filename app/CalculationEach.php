@@ -25,6 +25,11 @@ class CalculationEach extends Model
 {
     public function calculations()
     {
-        return $this->belongsTo(CalculationEach::class, 'calculation_id', 'id');
+        return $this->belongsTo(Calculation::class, 'calculation_id', 'id');
+    }
+
+    public function novel_groups()
+    {
+        return $this->belongsTo(NovelGroup::class, 'code_number', 'code_number');
     }
 }
