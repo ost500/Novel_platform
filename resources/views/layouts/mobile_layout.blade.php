@@ -43,6 +43,12 @@
             right: -21px;
             color: inherit;
         }
+        .fixed {
+            position: fixed;
+            width: 46.42%;
+            background-color:#fff;
+            z-index:2;
+        }
     </style>
 
     @yield('header')
@@ -53,6 +59,7 @@
         window.Laravel = <?php echo json_encode([
                 'csrfToken' => csrf_token(),
         ]); ?>
+
     </script>
     <script type="text/javascript">
         <!--
@@ -119,6 +126,7 @@
             }
         }
         //-->
+
     </script>
 
 </head>
@@ -363,6 +371,8 @@
         var keyword_text = keyword.text.replace("#", "");
         $('#keyword_name').val(keyword_text);
     }
+
+
     var header = new Vue({
         el: '#header',
         data: {},
@@ -442,6 +452,13 @@
             }
 
         }
+    });
+
+    $(window).scroll(function(){
+
+        if ($(this).scrollTop() > 1) {$('.header').addClass('fixed');
+        $('.mod-nav').addClass('fixed');}
+        else{ $('.header').removeClass('fixed');}
     });
 
 </script>

@@ -42,6 +42,13 @@
             right: -21px;
             color: inherit;
         }
+        .fixed {
+            position: fixed;
+            width: 46.42%;
+            background-color:#fff;
+            z-index:2;
+        }
+
     </style>
 
     @yield('header')
@@ -73,5 +80,12 @@
     @yield('footer')
 
 </div>
+<script type="text/javascript">
+$(window).scroll(function(){
+
+if ($(this).scrollTop() > 1) $('.myheader').addClass('fixed');
+else $('.myheader').removeClass('fixed');
+});
+</script>
 </body>
 </html>
