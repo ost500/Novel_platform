@@ -154,7 +154,7 @@
 
                                 <li class="list-divider"></li>
 
-                                <li>
+                                <li class="{{Request::is('author/calculations')?"active-link":"" }}">
                                     <a href="widgets.html">
                                         <i class="fa fa-money"></i>
                                         <span class="menu-title">
@@ -163,9 +163,9 @@
                                         <i class="arrow"></i>
                                     </a>
 
-                                    <ul class="collapse">
+                                    <ul class="collapse {{ (Request::is('author/calculations/*') || Request::is('author/calculations'))?"in":"" }}">
                                         <li><a href="novel_write.html">여우수익내역</a></li>
-                                        <li><a href="novel_write.html">퍼블리싱내역</a></li>
+                                        <li><a href="{{ route('author.calculations') }}">퍼블리싱내역</a></li>
                                         <li><a href="novel_write.html">환급정산내역</a></li>
                                     </ul>
                                 </li>

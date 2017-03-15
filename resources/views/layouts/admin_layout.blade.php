@@ -153,9 +153,9 @@
                                             <strong>작품관리</strong>
                                         </span>
                                     </a>
-                                    <ul class="collapse {{ (Request::is('admin/calculations')||Request::is('admin/calculations/*')||Request::is('admin/calculation/*'))?"in":"" }}">
+                                    <ul class="collapse {{ (Request::is('admin/novel')||Request::is('admin/novel/*'))?"in":"" }}">
                                         <li><a href="{{route('admin.novel')}}">작품 관리</a></li>
-                                        <li><a href="{{route('calculation.create')}}">작품 리스트</a></li>
+                                        <li><a href="{{ route('admin.novel') . "/?style=simple" }}">작품 리스트</a></li>
                                     </ul>
                                 </li>
 

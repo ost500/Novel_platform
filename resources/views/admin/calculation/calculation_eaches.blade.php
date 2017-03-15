@@ -47,6 +47,7 @@
                                         <th class="text-center">등록 날짜</th>
                                         <th class="text-center">컬럼 인덱스</th>
                                         <th class="text-center">데이터 인덱스</th>
+                                        <th class="text-center">코드 번호 인덱스</th>
                                         <th class="text-center">수정</th>
                                     </tr>
                                     </thead>
@@ -57,7 +58,11 @@
                                         <td class="col-md-2"><a
                                                     href="{{ route('calculation.eaches', ['id' => $calculation->id]) }}">{{ $calculation->description }}</a>
                                         </td>
-                                        <td class="col-md-1 text-center">{{ $calculation->excel_file }}</td>
+                                        <td class="col-md-1 text-center">{{ $calculation->excel_file }}
+                                            <span style="margin-left:1%;cursor: pointer;"
+                                                  class="glyphicon glyphicon-download-alt"
+                                                  onclick="downloadNovel_excel({{$calculation->id}})"></span>
+                                        </td>
                                         <td class="col-md-1 text-center">{{ $calculation->created_at }}
                                         </td>
                                         <td class="col-md-1">
@@ -92,6 +97,17 @@
                                             </div>
                                         </td>
 
+                                        <td class="col-md-1">
+                                            <div class="row">
+
+                                                <div id="dataYerror" class="col-md-12">
+                                                    <input id="code_numberX" style="text-align: center" type="text"
+                                                           placeholder="" class="form-control"
+                                                           value="{{ $calculation->code_numberX }}">
+                                                </div>
+                                            </div>
+                                        </td>
+
                                         {{--<td class="col-md-1 text-center">{{ $calculation->dataX.",". $calculation->dataY }}--}}
                                         {{--</td>--}}
                                         <td class="col-md-1  text-center">
@@ -122,7 +138,7 @@
                                                    placeholder="Add a tag" value="{{ $calculation->column_names }}"
                                                    data-role="tagsinput">
                                             <div id="columnNamesMessageError" hidden>
-                                                <small  class="help-block"
+                                                <small class="help-block"
                                                        data-bv-validator="notEmpty" data-bv-for="columnNames"
                                                        data-bv-result="INVALID" style="">
                                                     <div id="columnNamesMessageErrorSmall">
@@ -130,6 +146,7 @@
                                                     </div>
                                                 </small>
                                             </div>
+                                            <h5>※ 순서에 유의하세요</h5>
                                         </td>
                                         <td class="col-md-1 text-center">
 
@@ -172,6 +189,7 @@
                                             <th data-sort-ignore="true"
                                                 class="min-width footable-visible footable-first-column"></th>
                                             <th class="min-width text-center">번호</th>
+                                            <th class="min-width text-center">코드번호</th>
                                             @foreach ($calculationColumnNames as $col)
                                                 <th>{{ $col }}</th>
                                             @endforeach
@@ -190,6 +208,8 @@
                                                                                                    value="{{$cal->id}}"></label>
                                                 </td>
                                                 <td class="text-center">{{ $cal->id }}</td>
+                                                <td class="text-center">{{ $cal->code_number }}
+                                                </td>
                                                 @foreach (explode(",", $cal->data) as $data)
 
                                                     <td class="col-md-1">{{ $data }}</td>
@@ -230,6 +250,11 @@
 
 
     <script>
+
+        function downloadNovel_excel(id) {
+            window.location.href ='{{ route('calculations_down', ['id' => $calculation->id]) }}'
+        }
+
         // function destroySelected() {
         $("#destroy").click(function () {
 
@@ -300,6 +325,7 @@
                             'columnY': $("#columnY").val(),
                             'dataX': $("#dataX").val(),
                             'dataY': $("#dataY").val(),
+                            'code_numberX': $("#code_numberX").val()
                         };
 
                         console.log(dataXY);
@@ -328,6 +354,7 @@
                                 $("#columnYerror").addClass('has-error');
                                 $("#dataXerror").addClass('has-error');
                                 $("#dataYerror").addClass('has-error');
+                                $("#code_numberX").addClass('has-error');
                                 console.log(data2);
                             }
                         });
