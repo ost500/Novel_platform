@@ -17,9 +17,6 @@ use Jenssegers\Agent\Agent;
 $agent = new Agent();
 
 if ($agent->isMobile()) {
-
-    Route::get('mobile/login', ['as' => 'mobile.login', 'uses' => 'Auth\LoginController@mobileLoginForm']);
-    Route::get('mobile/register', ['as' => 'mobile.register', 'uses' => 'Auth\RegisterController@mobileRegisterForm']);
     //Redirect to Mobile site
     Route::get('/', ['as' => 'root', 'uses' => 'MobileController\IndexController@index']);
 
@@ -28,12 +25,6 @@ if ($agent->isMobile()) {
     Route::get('/', ['as' => 'root', 'uses' => 'MainController\MainController@main']);
 }
 
-
-/*Route::group(['prefix' => 'm'], function () {
-
-    Route::get('login', ['as' => 'mobile.login', 'uses' => 'Auth\LoginController@mobileLoginForm']);
-
-});*/
 
 Auth::routes();
 Route::get('id_search', ['as' => 'id_search', 'uses' => 'Auth\IdSearchController@id_search']);

@@ -149,9 +149,9 @@
                     @else
                             <!-- 로그인 버튼 -->
                     <div class="login_btn_wrap">
-                        <a href="{{route('mobile.login')}}" class="login_btn">로그인</a>
+                        <a href="{{url('/login')}}" class="login_btn">로그인</a>
                         <!--<a href="" class="login_btn">로그아웃</a>-->
-                        <a href="{{route('mobile.register')}}" class="login_btn">회원가입</a>
+                        <a href="{{url('/register')}}" class="login_btn">회원가입</a>
                     </div>
                     @endif
                             <!-- 로그인 버튼 //-->
@@ -254,7 +254,7 @@
                     <img src="/mobile/images/top_logo.png" class="img_logo" alt="여우정원">
                 </a>
             </h1>
-            @if(!Request::is('mobile/register') && !Request::is('email_confirm/again') )
+            @if(!Request::is('register') && !Request::is('email_confirm/again') && !Request::is('password/reset')  && !Request::is('password/reset/*'))
                 <a class="top_left">
                     <span class="ico_mtop ico_side" id="sidebar_display" v-on:click="showSideMenu()"
                           style="cursor:pointer">스 메뉴 펼치기</span>
@@ -269,7 +269,7 @@
             @endif
 
         </div>
-        @if(!Request::is('mobile/register') && !Request::is('email_confirm/again'))
+        @if(!Request::is('register') && !Request::is('email_confirm/again') && !Request::is('password/reset')  && !Request::is('password/reset/*'))
         <div class="top_nav">
             <ul class="top_nav_ul">
                 <li><a href="{{route('bests')}}" class="top_nav_link"><span

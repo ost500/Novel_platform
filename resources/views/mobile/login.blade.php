@@ -31,7 +31,7 @@
             <a href="" class="join">회원가입</a>
             <a href="" class="findIdPw">아이디 찾기</a>
             <span class="logRelSli"></span>
-            <a href="" class="findIdPw">비밀번호 찾기</a>
+            <a href="{{ url('/password/reset') }}" class="findIdPw">비밀번호 찾기</a>
         </div>
     </div>
 </div>
