@@ -13,9 +13,15 @@ use Illuminate\Http\Request;
 use Mail;
 use Session;
 use Validator;
-
+use Jenssegers\Agent\Agent;
 class UserController extends Controller
 {
+    var $agent;
+
+    public function __construct()
+    {
+        $this->agent = new Agent();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -252,7 +258,7 @@ class UserController extends Controller
     {
 
         try {
-            //  $user = Auth::user();
+              $user = Auth::user();
 
             Mail::to(Auth::user())->send(new VerifyEmail(Auth::user()));
 
@@ -261,7 +267,10 @@ class UserController extends Controller
             if ($request->ajax()) {
                 return response()->json(['error' => '0', 'status' => 'ok']);
             }
+            if ($this->agent->isMobile()) {
+                return view('auth.mobile_auth_mail_send', compact('user'));
 
+            }
             return view('auth.auth_mail_send', compact('user'));
 
         } catch (Exception $e) {
