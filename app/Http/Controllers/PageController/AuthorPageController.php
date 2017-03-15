@@ -393,7 +393,15 @@ class AuthorPageController extends Controller
             return response()->view('errors.503', [], 500);
         }
 
-        $myCalculationEachs = CalculationEach::where('code_number', $code_num)->get();
+        $myCalculationEachs = Calculation::whereHas('calculation_eaches', function ($q) use ($code_num) {
+            $q->where('code_number', $code_num);
+
+        })
+            ->with(['calculation_eaches' => function ($query) use ($code_num) {
+                $query->where('code_number', $code_num);
+            }])->get();
+
+
         if ($myCalculationEachs->first() != null) {
             $myCalculations = $myCalculationEachs->first()->calculations;
         } else {
@@ -401,7 +409,7 @@ class AuthorPageController extends Controller
         }
 
 
-//        return response()->json($myCalculations);
+//        return response()->json($myCalculationEachs);
 
         return view('author.calculations_detail', compact('myCalculationEachs', 'myCalculations'));
     }
