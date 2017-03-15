@@ -123,7 +123,7 @@
                         })
                         .catch(function (errors) {
                           //  console.log(errors);
-                            window.location.assign('{{route('mobile.login')}}');
+                            window.location.assign('{{ url('/login')}}');
                         });
             },
             freeBoardDislike: function () {
@@ -135,7 +135,7 @@
                             location.reload();
                         })
                         .catch(function (errors) {
-                            window.location.assign('{{route('mobile.login')}}');
+                            window.location.assign('{{ url('/login')}}');
                         });
             }
         }

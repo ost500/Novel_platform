@@ -189,7 +189,7 @@
         <div class="register-form-submit">
             <button id="register_btn" class="btn btn--submit">다음 단계</button>
         </div>
-        <div class="register-prev-page">
+        <div class="register-prev-page" style="margin-left: 30px;">
             <a href="#register_logo"><i class="prev-icon"></i> 이전으로</a>
         </div>
     </div>
@@ -225,6 +225,11 @@
                 $("#agreement_step").hide();
                 $("#register_step").show();
             }
+        });
+        $(".register-prev-page").click(function (e) {
+            e.preventDefault();
+            $("#agreement_step").show();
+            $("#register_step").hide();
         });
 
         $("#register_btn").click(function () {

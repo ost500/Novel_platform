@@ -270,7 +270,7 @@
                             // location.reload();
                         })
                         .catch(function (errors) {
-                            window.location.assign('{{route('mobile.login')}}');
+                            window.location.assign('{{ url('/login')}}');
                         });
             },
             removeFromFavorite: function () {
@@ -283,7 +283,7 @@
                         })
                         .catch(function (errors) {
 
-                            window.location.assign('{{route('mobile.login')}}');
+                            window.location.assign('{{ url('/login')}}');
                         });
             },
             showSideMenu: function () {
