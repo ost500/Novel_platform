@@ -303,4 +303,11 @@ class CalculationController extends Controller
         return;
     }
 
+    public function excel_down($id)
+    {
+        $file = Calculation::findOrFail($id)->excel_file;
+
+        return response()->download('excel/' . $file);
+    }
+
 }

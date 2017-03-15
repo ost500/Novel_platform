@@ -58,7 +58,11 @@
                                         <td class="col-md-2"><a
                                                     href="{{ route('calculation.eaches', ['id' => $calculation->id]) }}">{{ $calculation->description }}</a>
                                         </td>
-                                        <td class="col-md-1 text-center">{{ $calculation->excel_file }}</td>
+                                        <td class="col-md-1 text-center">{{ $calculation->excel_file }}
+                                            <span style="margin-left:1%;cursor: pointer;"
+                                                  class="glyphicon glyphicon-download-alt"
+                                                  onclick="downloadNovel_excel({{$calculation->id}})"></span>
+                                        </td>
                                         <td class="col-md-1 text-center">{{ $calculation->created_at }}
                                         </td>
                                         <td class="col-md-1">
@@ -98,7 +102,7 @@
 
                                                 <div id="dataYerror" class="col-md-12">
                                                     <input id="code_numberX" style="text-align: center" type="text"
-                                                           placeholder=".col-sm-3" class="form-control"
+                                                           placeholder="" class="form-control"
                                                            value="{{ $calculation->code_numberX }}">
                                                 </div>
                                             </div>
@@ -246,6 +250,11 @@
 
 
     <script>
+
+        function downloadNovel_excel(id) {
+            window.location.href ='{{ route('calculations_down', ['id' => $calculation->id]) }}'
+        }
+
         // function destroySelected() {
         $("#destroy").click(function () {
 
