@@ -47,10 +47,11 @@ class LoginController extends Controller
         $this->agent = new Agent();
     }
 
-    public function showLoginForm()
+    public function showLoginForm(Request $request)
     {
         if ( $this->agent ->isMobile()) {
-            return view('mobile.login');
+            $userID=$request->get('userID');
+            return view('mobile.login',compact('userID'));
         }
         return redirect('/?loginView=');
     }

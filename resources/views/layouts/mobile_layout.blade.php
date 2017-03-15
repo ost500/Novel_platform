@@ -254,7 +254,7 @@
                     <img src="/mobile/images/top_logo.png" class="img_logo" alt="여우정원">
                 </a>
             </h1>
-            @if(!Request::is('register') && !Request::is('email_confirm/again') && !Request::is('password/reset')  && !Request::is('password/reset/*'))
+            @if(!Request::is('register') && !Request::is('email_confirm/again') && !Request::is('password/reset')  && !Request::is('password/reset/*') && !Request::is('id_search') )
                 <a class="top_left">
                     <span class="ico_mtop ico_side" id="sidebar_display" v-on:click="showSideMenu()"
                           style="cursor:pointer">스 메뉴 펼치기</span>
@@ -269,7 +269,7 @@
             @endif
 
         </div>
-        @if(!Request::is('register') && !Request::is('email_confirm/again') && !Request::is('password/reset')  && !Request::is('password/reset/*'))
+        @if(!Request::is('register') && !Request::is('email_confirm/again') && !Request::is('password/reset')  && !Request::is('password/reset/*') && !Request::is('id_search'))
         <div class="top_nav">
             <ul class="top_nav_ul">
                 <li><a href="{{route('bests')}}" class="top_nav_link"><span

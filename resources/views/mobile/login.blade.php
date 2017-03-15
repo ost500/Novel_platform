@@ -10,7 +10,7 @@
             <fieldset>
                 <legend class="screen_out">아이디,비밀번호 로그인 정보 입력 폼</legend>
                 <input type="text" name="name" id="email" class="inputLogin full" placeholder="여우정원계정" autofocus
-                       value="{{ old('name') }}" required>
+                       value="{{ $userID or old('name') }}" required>
                 @if ($errors->has('name'))
                     <span class="alert-msg is-active" style="font-size: 15px;">{{ $errors->first('name') }}</span>
                 @endif
@@ -28,8 +28,8 @@
         <!-- 로그인 폼 //-->
 
         <div class="login_rel">
-            <a href="" class="join">회원가입</a>
-            <a href="" class="findIdPw">아이디 찾기</a>
+            <a href="{{ url('/register') }}" class="join">회원가입</a>
+            <a href="{{ url('/id_search') }}" class="findIdPw">아이디 찾기</a>
             <span class="logRelSli"></span>
             <a href="{{ url('/password/reset') }}" class="findIdPw">비밀번호 찾기</a>
         </div>
