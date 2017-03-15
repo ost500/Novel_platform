@@ -71,12 +71,25 @@
                             </div>
 
                             <div class="form-group">
+                                <label class="col-md-2 control-label" for="demo-email-input">코드 번호 인덱스</label>
+
+                                <div class="col-md-1">
+                                    <input type="text" name="code_numberX" id="demo-email-input" class="form-control"
+                                           placeholder="ex) A,B,C..." data-bv-field="title"
+                                           value="{{ old('code_numberX') }}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label class="col-md-2 control-label" for="demo-email-input">컬럼명</label>
 
                                 <div class="col-md-9">
-                                    <input type="text" name="columnNames" class="form-control" placeholder="Add a tag"
+                                    <input type="text" name="columnNames" class="form-control" placeholder="입력하고자 하는 컬럼명을 순서대로 입력하세요"
                                            value="{{ old('columnNames') }}" data-role="tagsinput">
+
                                 </div>
+
+
                             </div>
 
 
@@ -95,7 +108,7 @@
                                     <input type="file" name="excel" id="picture" class="form-control"
                                            value="{{ old('exce') }}"
                                            placeholder="첨부파일">
-                                    <small class="has-warning">최대용량 : 1M / 업로드 가능 확장자 : JPG, PNG 파일</small>
+                                    <small class="has-warning">업로드 가능 확장자 : .xlsx 파일</small>
                                 </div>
                             </div>
 

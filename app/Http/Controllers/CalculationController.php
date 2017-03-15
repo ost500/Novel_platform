@@ -24,6 +24,8 @@ class CalculationController extends Controller
             'columnNames' => 'required|max:2000',
             'description' => 'required|max:3000',
             'excel' => 'required',
+            'code_numberX' => 'required|max:2|alpha',
+
         ],
             [
                 'columnX.required' => '컬럼 시작 인덱스(X)는 필수 입니다.',
@@ -41,6 +43,11 @@ class CalculationController extends Controller
                 'dataY.required' => '데이터 시작 인덱스(Y)는 필수 입니다.',
                 'dataY.max' => '데이터 시작 인덱스(Y) 타입이 잘못 됐습니다.',
                 'dataY.numeric' => '데이터 시작 인덱스(Y) 타입이 잘못 됐습니다.',
+
+                'code_numberX.required' => '코드 번호 인덱스는 필수 입니다.',
+                'code_numberX.max' => '코드 번호 인덱스 타입이 잘못 됐습니다.',
+                'code_numberX.numeric' => '코드 번호 인덱스 타입이 잘못 됐습니다.',
+
 
                 'columnNames.required' => '컬럼명은 필수 입니다.',
                 'columnNames.max' => '컬럼명은 반드시 2000 자리보다 작아야 합니다.',
@@ -60,6 +67,7 @@ class CalculationController extends Controller
         $newCalculation->dataY = $request->dataY;
         $newCalculation->description = $request->description;
         $newCalculation->column_names = $request->columnNames;
+        $newCalculation->code_numberX = $request->code_numberX;
         $newCalculation->save();
 
         $excelFile = $request->file('excel');
@@ -80,11 +88,13 @@ class CalculationController extends Controller
     {
         $newCalculation = Calculation::findOrFail($id);
 
-        echo $path = public_path() . '/excel/' . $newCalculation->excel_file;
+        $path = public_path() . '/excel/' . $newCalculation->excel_file;
 
         // fetch column names
         $newCalculation->column_names = str_replace(" ", "", $newCalculation->column_names);
         $newValueArray = explode(",", $newCalculation->column_names);
+
+//        return response()->json($newCalculation);
 
         try {
 
@@ -111,10 +121,11 @@ class CalculationController extends Controller
 
                 // result is $keyData[0]
                 foreach ($keyData[0] as $key => $value) {
+                    echo $key;
                     if (in_array($value, $newValueArray)) {
                         // save keys which we need
                         $keys[] = $key;
-                    } elseif ($value == "코드번호") {
+                    } elseif ($key == ord(strtoupper($newCalculation->code_numberX)) - 65) {
                         $code_num = $key;
                     } else {
                         $extraKeys[] = $value;
@@ -227,6 +238,7 @@ class CalculationController extends Controller
             'columnY' => 'required|max:100|numeric',
             'dataX' => 'required|max:2|alpha',
             'dataY' => 'required|max:100|numeric',
+            'code_numberX' => 'required|max:2|alpha',
 
         ],
             [
@@ -237,6 +249,10 @@ class CalculationController extends Controller
                 'columnY.required' => '컬럼 시작 인덱스(Y)는 필수 입니다.',
                 'columnY.max' => '컬럼 시작 인덱스(Y) 타입이 잘못 됐습니다.',
                 'columnY.numeric' => '컬럼 시작 인덱스(Y) 타입이 잘못 됐습니다.',
+
+                'code_numberX.required' => '코드 번호 인덱스는 필수 입니다.',
+                'code_numberX.max' => '코드 번호 인덱스 타입이 잘못 됐습니다.',
+                'code_numberX.numeric' => '코드 번호 인덱스 타입이 잘못 됐습니다.',
 
                 'dataX.required' => '데이터 시작 인덱스(X)는 필수 입니다.',
                 'dataX.max' => '데이터 시작 인덱스(X) 타입이 잘못 됐습니다.',
@@ -257,6 +273,7 @@ class CalculationController extends Controller
         $cal->columnY = $request->columnY;
         $cal->dataX = $request->dataX;
         $cal->dataY = $request->dataY;
+        $cal->code_numberX = $request->code_numberX;
 
         $cal->save();
 

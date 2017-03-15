@@ -47,6 +47,7 @@
                                         <th class="text-center">등록 날짜</th>
                                         <th class="text-center">컬럼 인덱스</th>
                                         <th class="text-center">데이터 인덱스</th>
+                                        <th class="text-center">코드 번호 인덱스</th>
                                         <th class="text-center">수정</th>
                                     </tr>
                                     </thead>
@@ -88,6 +89,17 @@
                                                     <input id="dataY" style="text-align: center" type="text"
                                                            placeholder=".col-sm-3" class="form-control"
                                                            value="{{ $calculation->dataY }}">
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                        <td class="col-md-1">
+                                            <div class="row">
+
+                                                <div id="dataYerror" class="col-md-12">
+                                                    <input id="code_numberX" style="text-align: center" type="text"
+                                                           placeholder=".col-sm-3" class="form-control"
+                                                           value="{{ $calculation->code_numberX }}">
                                                 </div>
                                             </div>
                                         </td>
@@ -191,9 +203,9 @@
                                                                                                    type="checkbox"
                                                                                                    value="{{$cal->id}}"></label>
                                                 </td>
+                                                <td class="text-center">{{ $cal->id }}</td>
                                                 <td class="text-center">{{ $cal->code_number }}
                                                 </td>
-                                                <td class="text-center">{{ $cal->id }}</td>
                                                 @foreach (explode(",", $cal->data) as $data)
 
                                                     <td class="col-md-1">{{ $data }}</td>
@@ -304,6 +316,7 @@
                             'columnY': $("#columnY").val(),
                             'dataX': $("#dataX").val(),
                             'dataY': $("#dataY").val(),
+                            'code_numberX': $("#code_numberX").val()
                         };
 
                         console.log(dataXY);
@@ -332,6 +345,7 @@
                                 $("#columnYerror").addClass('has-error');
                                 $("#dataXerror").addClass('has-error');
                                 $("#dataYerror").addClass('has-error');
+                                $("#code_numberX").addClass('has-error');
                                 console.log(data2);
                             }
                         });
