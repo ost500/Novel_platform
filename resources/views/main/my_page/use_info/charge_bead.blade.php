@@ -34,7 +34,7 @@
                             <li>
                                 <label class="checkbox2"><input type="radio" name="LGD_PRODUCTINFO"
                                                                 onclick="price(30000)"
-                                                                value="구슬 300개 + 조각 75개 checked"><span>구슬 300개 + <b>조각 75개</b></span></label>
+                                                                value="구슬 300개 + 조각 75개"><span>구슬 300개 + <b>조각 75개</b></span></label>
                                 <span class="price">30,000원</span>
                             </li>
                             <li>

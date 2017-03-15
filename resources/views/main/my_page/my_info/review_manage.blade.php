@@ -11,7 +11,7 @@
             <div class="content" id="content">
                 <!-- 페이지헤더 -->
                 <div class="list-header">
-                    <h2 class="title">게시글 관리</h2>
+                    <h2 class="title">추천 리뷰 관리</h2>
                     <div class="links">
 
 
@@ -22,7 +22,7 @@
                 <!-- 게시판목록 -->
                 <form name="bbs_list" action="#">
                     <table class="bbs-list bbs-list--post-manage">
-                        <caption>게시글 관리 목록</caption>
+                        <caption>추천 리뷰 관리</caption>
                         <thead>
                         <tr>
                             <th><label class="checkbox2"><input type="checkbox" id="list_all_check"><span></span><span

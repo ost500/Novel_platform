@@ -228,7 +228,7 @@
         });
 
         $("#register_btn").click(function () {
-            console.log($("#register_form").serializeArray());
+            //console.log($("#register_form").serializeArray());
             var form_data = $("#register_form").serializeArray();
 
             $.ajax({
@@ -243,7 +243,7 @@
                     $("#email-addr").html(form_data[2].value);
                 },
                 error: function (data) {
-                    console.log(data);
+                   // console.log(data);
                     $("#email_alert").html("");
                     $("#nickname_alert").html("");
                     $("#password_alert").html("");

@@ -61,8 +61,7 @@
                                             <span class="writer">{{$comment->user_name}}</span></div>
                                         <div class="comment-btns">
                                             <a href="#mode_nav" v-on:click="comment_box_show({{$comment->id}})">수정</a>
-                                            <a href="#mode_nav"
-                                               @if($comment->review_id) v-on:click="remove_comment('{{$comment->id}}','review')"
+                                            <a href="#mode_nav" @if($comment->review_id) v-on:click="remove_comment('{{$comment->id}}','review')"
                                                @else v-on:click="remove_comment('{{$comment->id}}','free_board')" @endif >
                                                 삭제 </a>
                                         </div>
@@ -80,7 +79,7 @@
                                                     @endif
                                                     class="btn btn-primary inline"
                                                     style="width:100px;height:51px;vertical-align: top;">
-                                                Edit
+                                                수정
                                             </button>
                                         </div>
 
@@ -139,7 +138,7 @@
                                 .then(function (response) {
                                     location.reload();
                                 }).catch(function (errors) {
-                            console.log(errors);
+                           // console.log(errors);
                         });
                     }
                 },
@@ -154,7 +153,7 @@
                                 location.reload();
 
                             }).catch(function (errors) {
-                        console.log(errors);
+                        //console.log(errors);
                     });
                 }
             }

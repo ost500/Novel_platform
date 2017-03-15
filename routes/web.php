@@ -19,8 +19,9 @@ $agent = new Agent();
 if ($agent->isMobile()) {
 
     Route::get('mobile/login', ['as' => 'mobile.login', 'uses' => 'Auth\LoginController@mobileLoginForm']);
+    Route::get('mobile/register', ['as' => 'mobile.register', 'uses' => 'Auth\RegisterController@mobileRegisterForm']);
     //Redirect to Mobile site
-    Route::get('/', ['as' => 'mobile.index', 'uses' => 'MobileController\IndexController@index']);
+    Route::get('/', ['as' => 'root', 'uses' => 'MobileController\IndexController@index']);
 
 } else {
     //Redirect to Main site
