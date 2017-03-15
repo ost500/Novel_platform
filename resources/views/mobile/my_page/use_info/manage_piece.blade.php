@@ -15,7 +15,7 @@
         <!-- 안내 문구 //-->
 
         <div class="padt40">
-            <div class="piece_ico_tit">내가 가진 조각<span class="marble_num marL8">100 조각</span></div>
+            <div class="piece_ico_tit">내가 가진 조각<span class="marble_num marL8">{{Auth::user()->piece}} 조각</span></div>
         </div>
 
         <div class="mlist_tit_rwap5">

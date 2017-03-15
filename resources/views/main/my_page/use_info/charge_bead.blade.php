@@ -15,7 +15,7 @@
                     <p class="title-desc">여우정원의 모든 로맨스 소설을 감상할 수 있는 결제수단입니다.<br>지금 여우정원에서 구슬을 충전하여 로맨틱한 컨텐츠를 즐겨보세요.</p>
                 </div>
                 <div class="my-item">
-                    <i class="marble3-icon"></i><span class="item-name">내가 가진 구슬</span><strong class="count">1,170
+                    <i class="marble3-icon"></i><span class="item-name">내가 가진 구슬</span><strong class="count">{{Auth::user()->bead}}
                         개</strong>
                 </div>
                 <!-- //구슬충전 -->
