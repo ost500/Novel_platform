@@ -121,14 +121,16 @@ class CalculationController extends Controller
 
                 // result is $keyData[0]
                 foreach ($keyData[0] as $key => $value) {
-                    echo $key;
+
                     if (in_array($value, $newValueArray)) {
                         // save keys which we need
                         $keys[] = $key;
-                    } elseif ($key == ord(strtoupper($newCalculation->code_numberX)) - 65) {
-                        $code_num = $key;
                     } else {
                         $extraKeys[] = $value;
+                    }
+
+                    if ($key == ord(strtoupper($newCalculation->code_numberX)) - 65) {
+                        $code_num = $key;
                     }
                 }
 
@@ -153,6 +155,7 @@ class CalculationController extends Controller
 //                print_r($rowData);
                     foreach ($rowData as $key => $value) {
 
+                        echo $value . "\n";
 
                         if (in_array($key, $keys)) {
                             // remove ","
@@ -161,13 +164,14 @@ class CalculationController extends Controller
                             $newCalculationEach->data = $newCalculationEach->data . $value . ",";
                         } elseif ($code_num == $key) {
                             $newCalculationEach->code_number = $value;
+
                         } else {
                             $newCalculationEach->extra_data = $newCalculationEach->extra_data . $extraKeys[$extraKeysIndex] . ":" . $value . ",";
                             $extraKeysIndex = $extraKeysIndex + 1;
                         }
 
-//                    print_r($key . "=>" . $value . "\n");
-//                    print_r(in_array($key, $keys));
+//                        print_r($key . "=>" . $value . "\n");
+
 
                     }
 
@@ -178,8 +182,9 @@ class CalculationController extends Controller
 
                     $newCalculationEach->save();
 
-                }
 
+                }
+//                dd();
 
             });
         } catch (Exception $e) {

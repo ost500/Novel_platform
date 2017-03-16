@@ -105,7 +105,11 @@ Route::group(['prefix' => 'author'], function () {
     Route::get('/management/novelgroups/{id}/edit', ['as' => 'author.novel_group_edit', 'uses' => 'PageController\AuthorPageController@edit']);
 
     Route::get('calculations', ['as' => 'author.calculations', 'uses' => 'PageController\AuthorPageController@calculations']);
+    Route::get('calculations/benefit', ['as' => 'author.benefit', 'uses' => 'PageController\AuthorPageController@benefit']);
     Route::get('calculations/{code_num}', ['as' => 'author.calculations_detail', 'uses' => 'PageController\AuthorPageController@calculations_detail']);
+
+
+
 
 
     Route::get('/management/create_novel/{id}', ['as' => 'author.inning', 'uses' => 'PageController\AuthorPageController@create_inning']);
