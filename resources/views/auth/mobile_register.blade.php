@@ -141,11 +141,11 @@
                             <span class="red22ng" id="birth_alert"></span>
                         </li>
                         <li style="width:110px;" class="birth_btn on">
-                            <input type="radio" name="gender" id="gender1" value="1"
+                            <input type="checkbox" name="gender" id="gender1" value="1" class="chb" checked
                                    style="opacity:0;width: 100px;position:absolute;right:115px;height: 60px;">남
                         </li>
                         <li style="width:110px;" class="birth_btn off bordR">
-                            <input type="radio" name="gender" id="gender2" value="0"
+                            <input type="checkbox" name="gender" id="gender2" value="0" class="chb"
                                    style="opacity:0;position:absolute;right:4px;width: 100px;height: 60px;">여
                         </li>
                     </ul>
@@ -198,8 +198,8 @@
         <div class="color_btn_wrap mart70">
             <form action="{{ route('email_confirm.again') }}" method="post">
                 {!! csrf_field() !!}
-                <button type="submit" class="btn_red floL" style="cursor:pointer;">인증 메일 재발송</button>
-                <a href="{{ route('root') }}" class="btn_yel floR">이메일 주소 수정</a>
+                <a class="btn_red floL" style="cursor:pointer;"><button type="submit" style="background: transparent; border: 0; color: #fff; font-weight: bold; width: 266px; height: 76px;">인증 메일 재발송</button></a>
+                <a href="{{ route('root') }}" class="btn_yel floR">메인으로 가기</a>
             </form>
         </div>
     </div>
@@ -220,25 +220,17 @@
         $("#register_step").hide();
     });
 
-    $("#gender2").click(function (e) {
-        e.preventDefault();
+    $(".chb").change(function () {
+        $(".chb").prop('checked', false);
+        $(this).prop('checked', true);
 
-        if ($(this).parent().hasClass('off')) {
-            $(this).parent().removeClass('off');
-            $(this).parent().addClass('on');
-            $('#gender1').parent().removeClass('on');
-            $('#gender1').parent().addClass('off');
-        }
+        $(".chb").parent().addClass('off');
+        $(this).parent().removeClass('off');
+        $(this).parent().addClass('on');
+
+
     });
-    $("#gender1").click(function (e) {
-        e.preventDefault();
-        if ($(this).parent().hasClass('off')) {
-            $(this).parent().removeClass('off');
-            $(this).parent().addClass('on');
-            $('#gender2').parent().removeClass('on');
-            $('#gender2').parent().addClass('off');
-        }
-    });
+
 
     $("#agreement_all_check").click(function () {
         if ($(this).is(':checked')) {

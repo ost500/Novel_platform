@@ -43,7 +43,7 @@
                             찾은 아이디 : {{ session('success') }}
                         </div>
                     @elseif (session('fail'))
-                        <div class="alert alert-success">
+                        <div class="alert alert-danger">
                             해당 아이디를 찾을 수 없습니다
                         </div>
                     @endif

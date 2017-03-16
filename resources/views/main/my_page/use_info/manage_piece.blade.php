@@ -14,7 +14,7 @@
                     <p class="title-desc">여우정원에서 제공하는 서비스 결제 수단입니다.<br>한 개의 조각은 한 개의 구슬처럼 사용할 수 있습니다.</p>
                 </div>
                 <div class="my-item">
-                    <i class="piece3-icon"></i><span class="item-name">내가 가진 조각</span><strong class="count">0 개</strong>
+                    <i class="piece3-icon"></i><span class="item-name">내가 가진 조각</span><strong class="count">{{Auth::user()->piece}}개</strong>
                 </div>
                 <!-- //조각이란 -->
 

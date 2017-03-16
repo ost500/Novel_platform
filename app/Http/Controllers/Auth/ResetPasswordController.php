@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
-
+use Jenssegers\Agent\Agent;
 
 class ResetPasswordController extends Controller
 {
@@ -37,9 +37,24 @@ class ResetPasswordController extends Controller
      *
      * @return void
      */
+    var $agent;
     public function __construct()
     {
         $this->middleware('guest');
+        $this->agent = new Agent();
+    }
+
+    public function showResetForm(Request $request, $token = null)
+    {
+        if ( $this->agent ->isMobile()) {
+            return view('auth.passwords.mobile_reset')->with(
+                ['token' => $token, 'email' => $request->email]
+            );
+        }
+
+        return view('auth.passwords.reset')->with(
+            ['token' => $token, 'email' => $request->email]
+        );
     }
 
     protected function validationErrorMessages()

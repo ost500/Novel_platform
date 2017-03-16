@@ -1532,7 +1532,7 @@ html.is-modal body {
     height: 0;
 }
 
-.header-top .logo > a {
+.header-top .logo .logo-img {
     display: block;
     margin: 20px auto 0;
     width: 156px;

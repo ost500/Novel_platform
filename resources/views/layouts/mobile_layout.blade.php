@@ -43,6 +43,30 @@
             right: -21px;
             color: inherit;
         }
+
+        .fixed {
+            position: fixed;
+            width: 46.42%;
+            background-color: #fff;
+            z-index: 2;
+        }
+        .is-fixed {
+            position: fixed;
+            width: 40.64%;
+            background-color: #fff;
+            z-index: 2;
+            top:0;
+            left:410px;
+            border-bottom:1px solid #e2d9d6;
+        }
+
+        .tl_link{
+            background: url("/mobile/images/top_logo.png") no-repeat;
+        }
+
+        .img-logo-new {
+            background: url("/mobile/images/scroll_logo.png") no-repeat;
+        }
     </style>
 
     @yield('header')
@@ -53,6 +77,7 @@
         window.Laravel = <?php echo json_encode([
                 'csrfToken' => csrf_token(),
         ]); ?>
+
     </script>
     <script type="text/javascript">
         <!--
@@ -119,6 +144,7 @@
             }
         }
         //-->
+
     </script>
 
 </head>
@@ -149,9 +175,9 @@
                     @else
                             <!-- 로그인 버튼 -->
                     <div class="login_btn_wrap">
-                        <a href="{{route('mobile.login')}}" class="login_btn">로그인</a>
+                        <a href="{{url('/login')}}" class="login_btn">로그인</a>
                         <!--<a href="" class="login_btn">로그아웃</a>-->
-                        <a href="{{route('mobile.register')}}" class="login_btn">회원가입</a>
+                        <a href="{{url('/register')}}" class="login_btn">회원가입</a>
                     </div>
                     @endif
                             <!-- 로그인 버튼 //-->
@@ -250,11 +276,13 @@
     <div class="header" id="header">
         <div class="h_top">
             <h1 class="top_logo">
-                <a href="{{route('root')}}" class="tl_link">
-                    <img src="/mobile/images/top_logo.png" class="img_logo" alt="여우정원">
-                </a>
+
+                        <div class="img-logo"> <a href="{{route('root')}}"  class="tl_link"></a></div>
+                        {{-- <img src="" class="img_logo" alt="">--}}
+
+
             </h1>
-            @if(!Request::is('mobile/register'))
+            @if(!Request::is('register') && !Request::is('email_confirm/again') && !Request::is('password/reset')  && !Request::is('password/reset/*') && !Request::is('id_search') )
                 <a class="top_left">
                     <span class="ico_mtop ico_side" id="sidebar_display" v-on:click="showSideMenu()"
                           style="cursor:pointer">스 메뉴 펼치기</span>
@@ -269,24 +297,24 @@
             @endif
 
         </div>
-        @if(!Request::is('mobile/register'))
-        <div class="top_nav">
-            <ul class="top_nav_ul">
-                <li><a href="{{route('bests')}}" class="top_nav_link"><span
-                                class="top_nav_mn  {{ (Request::is('bests') || Request::is('bests/*'))?"on":"" }}">베스트</span></a>
-                </li>
-                <!-- 활성화 되면 클래스 on 추가 -->
-                <li><a href="{{route('series')}}" class="top_nav_link"><span
-                                class="top_nav_mn  {{ (Request::is('series') || Request::is('series/*'))?"on":"" }}">연제</span></a>
-                </li>
-                <li><a href="{{route('completed')}}" class="top_nav_link"><span
-                                class="top_nav_mn {{ (Request::is('completed') || Request::is('completed/*'))?"on":"" }}">완결</span></a>
-                </li>
-                <li><a href="{{route('free_board')}}" class="top_nav_link"><span
-                                class="top_nav_mn {{ (Request::is('community/freeboard') || Request::is('community/free_board/*') || Request::is('community/reader_reco') || Request::is('community/reader_reco/*'))?"on":"" }}">커뮤니티</span></a>
-                </li>
-            </ul>
-        </div>
+        @if(!Request::is('register') && !Request::is('email_confirm/again') && !Request::is('password/reset')  && !Request::is('password/reset/*') && !Request::is('id_search'))
+            <div class="top_nav">
+                <ul class="top_nav_ul">
+                    <li><a href="{{route('bests')}}" class="top_nav_link"><span
+                                    class="top_nav_mn  {{ (Request::is('bests') || Request::is('bests/*'))?"on":"" }}">베스트</span></a>
+                    </li>
+                    <!-- 활성화 되면 클래스 on 추가 -->
+                    <li><a href="{{route('series')}}" class="top_nav_link"><span
+                                    class="top_nav_mn  {{ (Request::is('series') || Request::is('series/*'))?"on":"" }}">연제</span></a>
+                    </li>
+                    <li><a href="{{route('completed')}}" class="top_nav_link"><span
+                                    class="top_nav_mn {{ (Request::is('completed') || Request::is('completed/*'))?"on":"" }}">완결</span></a>
+                    </li>
+                    <li><a href="{{route('free_board')}}" class="top_nav_link"><span
+                                    class="top_nav_mn {{ (Request::is('community/freeboard') || Request::is('community/free_board/*') || Request::is('community/reader_reco') || Request::is('community/reader_reco/*'))?"on":"" }}">커뮤니티</span></a>
+                    </li>
+                </ul>
+            </div>
         @endif
     </div>
     <!-- header //-->
@@ -363,6 +391,8 @@
         var keyword_text = keyword.text.replace("#", "");
         $('#keyword_name').val(keyword_text);
     }
+
+
     var header = new Vue({
         el: '#header',
         data: {},
@@ -421,6 +451,8 @@
 
 
 
+
+
         },
         methods: {
             submit: function (e) {
@@ -442,6 +474,36 @@
             }
 
         }
+    });
+
+    $(window).scroll(function () {
+        if ('{{ !Request::is('novel_group_inning/*')}}') {
+            if ($(this).scrollTop() > 1) {
+                $('.header').addClass('fixed');
+                $('.mod-nav').addClass('fixed');
+                $('.header .h_top .top_logo').css('height', '70px');
+                $('.header .h_top .ico_side').css('top', '3px');
+                $('.header .h_top .tr_link  .h_sch').css('margin', '3px 0 0 8px');
+                $('.header .h_top .tr_link  .bookmark').css('margin', '3px 0 0 8px');
+                $('.header .h_top .top_logo .tl_link').addClass('img-logo-new');
+                $('.header .h_top .top_logo .img-logo').css('padding', '10px 0 0 78px');
+
+            }
+            else {
+                $('.header').removeClass('fixed');
+                $('.header .h_top .top_logo').css('height', '');
+                $('.header .h_top .ico_side').css('top', '');
+                $('.header .h_top .tr_link  .h_sch').css('margin', '');
+                $('.header .h_top .tr_link  .bookmark').css('margin', '');
+                $('.header .h_top .top_logo .tl_link').removeClass('img-logo-new');
+                $('.header .h_top .top_logo .img-logo').css('padding', '');
+                // $('.header .h_top .top_logo .tr_link  >img').removeAttr('src','/mobile/images/scroll_logo');
+            }
+         }else{
+        if ($(this).scrollTop() > 200) {
+            $('.mlist_tit_rwap').addClass('is-fixed');
+        }else{  $('.mlist_tit_rwap').removeClass('is-fixed');}
+    }
     });
 
 </script>

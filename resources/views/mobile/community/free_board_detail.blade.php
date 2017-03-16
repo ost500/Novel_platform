@@ -72,10 +72,28 @@
                                         class="replst_time">{{ $comment->created_at }}</span></div>
                             <div class="replst_cont"><?php echo nl2br($comment->comment); ?></div>
                             <div class="replst_btn_wrap">
-                                <a href="" class="replst_btn">답글</a>
+                                <a v-on:click="new_box_show({{$comment->id}})" class="replst_btn">답글</a>
                                 <a href="{{ route('accusations', ['id' => $comment->users->id]) }}"
                                    class="replst_btn">신고</a>
                             </div>
+                            <div class="replst_cont" style="display:none;"
+                                 v-show="new_box_display.status"
+                                 id="comment_box{{$comment->id}}"
+                                 v-if="new_box_display.id =={{$comment->id}}">
+
+                                      <textarea name="comment" id="comment{{$comment->id}}"
+                                                v-model="sub_info.comment" rows="3"
+                                                placeholder="여러분의 소중한 댓글을 입력해 주세요">{{ old('comment') }}</textarea>
+                                 <span style="margin-left: 2%;" id="error{{$comment->id}}"></span>
+                                <div class="padtb25">
+                                    <button type="submit" id="edit{{$comment->id}}"
+                                            v-on:click="subCommentStore('{{$comment->id}}')"
+                                            class="btn_green full">등록
+                                    </button>
+                                </div>
+                            </div>
+
+
                         </li>
                     @endforeach
                 </ul>
@@ -107,10 +125,47 @@
         data: {
             like_info: {free_board_id: ''},
             add_favorite_disp: true,
-            remove_favorite_disp: false
+            remove_favorite_disp: false,
+            sub_info: {comment: ''},
+            new_box_display: {id: '', status: false},
+            errorsInfo: {}
 
         },
         methods: {
+
+            new_box_show: function (comment_id) {
+
+                if (this.new_box_display.id == comment_id && this.new_box_display.status == true) {
+                    //Hide new comment box if already shown
+                    this.new_box_display.status = false;
+                    this.new_box_display.id = 0;
+                } else {
+                    //Show new comment box
+                    this.new_box_display.id = comment_id;
+                    this.new_box_display.status = true;
+
+                }
+
+
+            },
+
+            subCommentStore: function (comment_id) {
+                app_free_board.sub_info.comment = $('#comment' + comment_id).val();
+
+                app_free_board.$http.post('{{ route('freeboard.comment',['id'=>$article->id]) }}', app_free_board.sub_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                        .then(function (response) {
+                            location.reload();
+
+                        }).catch(function (errors) {
+                            this.errorsInfo = errors.data;
+                            if (this.errorsInfo.error) {
+                                window.location.assign('{{ url('/login')}}');
+                                exit();
+                            }
+                            $("#error" + comment_id).text(errors.data['comment']);
+                            //  $('#validateError').show();
+                        });
+            },
 
             freeBoardLike: function (free_board_id) {
                 app_free_board.like_info.free_board_id = free_board_id;
@@ -122,8 +177,8 @@
                             location.reload();
                         })
                         .catch(function (errors) {
-                          //  console.log(errors);
-                            window.location.assign('{{route('mobile.login')}}');
+                            //  console.log(errors);
+                            window.location.assign('{{ url('/login')}}');
                         });
             },
             freeBoardDislike: function () {
@@ -135,7 +190,7 @@
                             location.reload();
                         })
                         .catch(function (errors) {
-                            window.location.assign('{{route('mobile.login')}}');
+                            window.location.assign('{{ url('/login')}}');
                         });
             }
         }

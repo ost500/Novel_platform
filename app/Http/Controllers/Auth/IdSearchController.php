@@ -5,17 +5,21 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
-
+use Jenssegers\Agent\Agent;
 class IdSearchController extends Controller
 {
+    var $agent;
     public function __construct()
     {
         $this->middleware('guest');
+        $this->agent = new Agent();
     }
 
     public function id_search(Request $request)
     {
-
+        if ( $this->agent->isMobile()) {
+            return view('auth.passwords.mobile_id_search');
+        }
         return view('auth.passwords.id_search');
     }
 

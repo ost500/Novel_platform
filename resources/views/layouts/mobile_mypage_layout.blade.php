@@ -42,6 +42,14 @@
             right: -21px;
             color: inherit;
         }
+
+        .fixed {
+            position: fixed;
+            width: 46.42%;
+            background-color: #fff;
+            z-index: 2;
+        }
+
     </style>
 
     @yield('header')
@@ -73,5 +81,24 @@
     @yield('footer')
 
 </div>
+<script type="text/javascript">
+    $(window).scroll(function () {
+
+        if ($(this).scrollTop() > 1) {
+            $('.myheader').addClass('fixed');
+
+            $('.myheader .mytop').css('height', '70px');
+            $('.myheader .mytop .mytop_tit').css('padding', '22px');
+            $('.myheader .mytop .ico_back').css('top', '3px');
+        }
+        else {
+            $('.myheader').removeClass('fixed');
+
+            $('.myheader .mytop').css('height', '');
+            $('.myheader .mytop .mytop_tit').css('padding', '');
+            $('.myheader .mytop .ico_back').css('top', '');
+        }
+    });
+</script>
 </body>
 </html>

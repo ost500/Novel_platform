@@ -11,7 +11,7 @@ use Mail;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
-
+use Jenssegers\Agent\Agent;
 class RegisterController extends Controller
 {
     /*
@@ -27,6 +27,7 @@ class RegisterController extends Controller
 
     use RegistersUsers {
         register as regi;
+        showRegistrationForm as registerForm;
     }
 
 
@@ -42,14 +43,19 @@ class RegisterController extends Controller
      *
      * @return void
      */
+    var $agent;
     public function __construct()
     {
         $this->middleware('guest');
+        $this->agent = new Agent();
     }
 
-    public function mobileRegisterForm()
+    public function showRegistrationForm()
     {
-        return view('auth.mobile_register');
+        if ( $this->agent ->isMobile()) {
+            return view('auth.mobile_register');
+        }
+        return view('auth.register');
     }
 
     public function register(Request $request)

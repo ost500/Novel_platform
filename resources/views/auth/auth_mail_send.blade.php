@@ -34,21 +34,26 @@
         </div>
         <div class="register-form-header">
             <h2 class="title">인증 메일 재발송</h2>
+
             <p class="title-desc">메일을 확인해 주세요.</p>
         </div>
         <div class="sendmail-result">
             <p>다음의 메일로 인증 메일이 발송되었습니다.</p>
+
             <p id="email-addr" class="email-addr">{{ $user->email }}</p>
+
             <p>이메일 발송 후 3시간 이내에 인증해 주시기 바랍니다.<br>이메일 주소를 인증하시면 회원가입이 완료됩니다.</p>
+
             <div class="sendmail-btns">
-                <a href="#register_logo" class="btn btn--retry">인증 메일 재발송</a>
-                <a href="{{ route('root') }}" class="btn btn--modify">메인으로 가기</a>
+                <form action="{{ route('email_confirm.again') }}" method="post">
+                    {!! csrf_field() !!}
+                    <button type="submit" class="btn btn--retry">인증 메일 재발송</button>
+                    <a href="{{ route('root') }}" class="btn btn--modify">메인으로 가기</a>
+                </form>
             </div>
         </div>
     </div>
     <!-- //회원가입내용 -->
-
-
 
 
     <div class="register-footer">

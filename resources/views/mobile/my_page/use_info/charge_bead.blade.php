@@ -16,7 +16,7 @@
 
 
         <div class="mlist_tit_rwap4">
-            <div class="marble_ico_tit">내가 가진 구슬<span class="marble_num marL8">1,170개</span></div>
+            <div class="marble_ico_tit">내가 가진 구슬<span class="marble_num marL8">{{Auth::user()->bead}}개</span></div>
         </div>
 
         <!-- 안내 문구 -->

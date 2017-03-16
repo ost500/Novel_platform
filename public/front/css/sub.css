@@ -3380,3 +3380,26 @@
     margin: 3px;
     padding: 2px;
 }
+.fixed {
+    position: fixed;
+    top:0;
+    width: 100%;
+    background-color:#fff;
+    z-index:2;
+}
+.usermenu-scroll {
+   /* position: relative;*/
+    top: 6px;
+    /*margin-left: 40px;
+    margin-right: 40px;*/
+}
+.header-top-scroll {
+   /* box-sizing: border-box;*/
+    height: 58px;
+}
+
+.header-top .logo .logo-img-new{
+    background: url(../imgs/common/scroll_logo.png) no-repeat;
+    margin:3px auto 0;
+    height:52px;
+}

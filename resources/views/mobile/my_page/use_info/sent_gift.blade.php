@@ -78,8 +78,7 @@
                 <!-- 안내문구 //-->
 
                 <div class="mlist_tit_rwap">
-                    <h2 class="mlist_tit5">보낸 선물 내역 <a style="cursor:pointer;" id="show_popup" class="mlist_tit_btn short_cut">선물하러
-                            가기</a></h2>
+                    <h2 class="mlist_tit5">보낸 선물 내역 <a style="cursor:pointer;" id="show_popup" class="mlist_tit_btn short_cut">구슬 선물하기</a></h2>
                 </div>
 
                 <!-- 리스트 -->
