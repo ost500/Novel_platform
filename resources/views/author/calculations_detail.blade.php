@@ -118,7 +118,7 @@
                                 </div>
 
                                 <div class="pull-right">
-
+                                    @include('pagination', ['collection' => $myCalculationEachs, 'url' => route('author.calculations_detail', ['codenum' => $code_num])])
                                 </div>
                             </div>
 

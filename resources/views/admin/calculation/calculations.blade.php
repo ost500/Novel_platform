@@ -82,7 +82,7 @@
                                 </div>
 
                                 <div class="pull-right">
-                                    @include('pagination', ['collection' => $cals, 'url' => route('calculation')])
+                                    @include('pagination', ['collection' => $cals, 'url' => route('author.calculations')])
                                 </div>
                             </div>
 

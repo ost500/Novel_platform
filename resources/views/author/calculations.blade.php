@@ -72,7 +72,7 @@
                                 </div>
 
                                 <div class="pull-right">
-
+                                    @include('pagination', ['collection' => $myNovelGroups, 'url' => route('author.benefit')])
                                 </div>
                             </div>
 

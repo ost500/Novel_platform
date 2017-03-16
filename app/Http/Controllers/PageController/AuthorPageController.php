@@ -13,6 +13,7 @@ use App\NovelGroup;
 use App\Faq;
 use App\NovelGroupPublishCompany;
 use App\PublishNovelGroup;
+use App\PurchasedNovel;
 use App\User;
 use App\Http\Controllers\Controller;
 use App\ViewCount;
@@ -33,6 +34,10 @@ class AuthorPageController extends Controller
 
     public function index(Request $request)
     {
+        if (User::where('name', 'Admin')->first() != null) {
+            return redirect()->route('admin.index');
+        }
+
         $novel_groups = $request->user()->novel_groups()->with('novels')->get();
         return view('author.index', compact('novel_groups'));
     }
@@ -382,7 +387,7 @@ class AuthorPageController extends Controller
     public function calculations()
     {
 
-        $myNovelGroups = NovelGroup::where('user_id', Auth::user()->id)->withCount('calculation_eaches')->get();
+        $myNovelGroups = NovelGroup::where('user_id', Auth::user()->id)->withCount('calculation_eaches')->paginate(config('define.pagination_long'));
 //        return response()->json($myNovelGroups);
         return view('author.calculations', compact('myNovelGroups'));
     }
@@ -399,7 +404,7 @@ class AuthorPageController extends Controller
         })
             ->with(['calculation_eaches' => function ($query) use ($code_num) {
                 $query->where('code_number', $code_num);
-            }])->get();
+            }])->paginate(config('define.pagination_long'));
 
 
         if ($myCalculationEachs->first() != null) {
@@ -411,7 +416,21 @@ class AuthorPageController extends Controller
 
 //        return response()->json($myCalculationEachs);
 
-        return view('author.calculations_detail', compact('myCalculationEachs', 'myCalculations'));
+        return view('author.calculations_detail', compact('myCalculationEachs', 'myCalculations', 'code_num'));
+    }
+
+    public function benefit()
+    {
+        $myPurchasedNovel = PurchasedNovel::join('novels', 'novels.id', '=', 'purchased_novels.id')
+            ->join('novel_groups', 'purchased_novels.user_id', '=', 'novel_groups.id')
+            ->join('users', 'novels.novel_group_id', '=', 'users.id')
+            ->selectRaw('novels.title as n_title, novel_groups.title as ng_title, users.name, method')
+            ->where('novels.user_id', Auth::user()->id)->paginate(config('define.pagination_long'));
+
+//        return response()->json($myPurchasedNovel);
+
+        return view('author.benefit', compact('myPurchasedNovel'));
+
     }
 
 
