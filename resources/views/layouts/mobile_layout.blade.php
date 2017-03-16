@@ -52,11 +52,11 @@
         }
         .is-fixed {
             position: fixed;
-            width: 40.64%;
+            width: 48%;
             background-color: #fff;
             z-index: 2;
             top:0;
-            left:410px;
+            left:303px;
             border-bottom:1px solid #e2d9d6;
         }
 

@@ -6,17 +6,26 @@
     <div class="cont_wrap" id="inning">
         <!-- 연재 -->
         <div class="">
-            <div class="mlist_tit_rwap">
-                <h2 class="mlist_tit3">{{ str_limit($novel_group_inning->novel_groups->title,25) }}</h2><span
-                        class="additional">{{ str_limit($novel_group_inning->title) }}</span>
+            <div class="mlist_tit_rwap" style="padding-top: 45px;">
+               <div style="float: left;">
+                           <a href="{{ route('each_novel.novel_group', ['id' => $novel_group_inning->novel_groups->id]) }}" style="vertical-align: middle;">
+                             {{--  <img src="/mobile/images/menu_icon.png" style="width:65px;"/>--}}
+                               <img src="/mobile/images/menu-squares-grey.png" style="width:45px;padding: 11px 14px 0 2px;"/>
+                           </a>
+                        </div>
+                <h2 class="mlist_tit3">
+
+                    {{ str_limit($novel_group_inning->novel_groups->title,25) }}
+                </h2>
+                <span class="additional">{{ str_limit($novel_group_inning->title) }}</span>
 
                 <div class="mlist_tbtn">
                     <a href="{{ route('each_novel.novel_group', ['id' => $novel_group_inning->novel_groups->id]) }}"><span
                                 class="btn_tit down">메뉴보기</span></a>
-                    <span class="mlist_sli"></span>
+
                     @if(Auth::check() && Auth::user()->id == $novel_group_inning->user_id)
-                        <a href="{{route('author.inning.update',['id' => $novel_group_inning->id ]) }}"><span
-                                    class="btn_tit adm">관리자</span></a>
+                        {{--<span class="mlist_sli"></span> <a href="{{route('author.inning.update',['id' => $novel_group_inning->id ]) }}"><span
+                                     class="btn_tit adm">관리자</span></a>--}}
                     @endif
                 </div>
             </div>
@@ -50,15 +59,18 @@
                                id="add_favorite" class="icon_btn_a" style="display:none;cursor:pointer;"><span
                                         class="icon ico_bokmark">즐겨찾기</span></a>
                             <a v-on:click="removeFromFavorite('{{$novel_group_inning->novel_group_id}}')"
-                               id="remove_favorite" class="icon_btn_a" style="cursor:pointer;"><span class="icon ico_bokmark_on">즐겨찾기</span></a>
+                               id="remove_favorite" class="icon_btn_a" style="cursor:pointer;"><span
+                                        class="icon ico_bokmark_on">즐겨찾기</span></a>
                         @else
                             <a v-on:click="addToFavorite('{{$novel_group_inning->novel_group_id}}')"
-                               id="add_favorite" class="icon_btn_a" style="cursor:pointer;"><span class="icon ico_bokmark">즐겨찾기</span></a>
+                               id="add_favorite" class="icon_btn_a" style="cursor:pointer;"><span
+                                        class="icon ico_bokmark">즐겨찾기</span></a>
                             <a v-on:click="removeFromFavorite('{{$novel_group_inning->novel_group_id}}')"
                                id="remove_favorite" class="icon_btn_a" style="display:none;cursor:pointer;"><span
                                         class="icon ico_bokmark_on">즐겨찾기</span></a>
                         @endif
-                        <a v-on:click="showSideMenu()" class="icon_btn_a" style="cursor:pointer;"><span class="icon ico_share">공유하기</span></a>
+                        <a v-on:click="showSideMenu()" class="icon_btn_a" style="cursor:pointer;"><span
+                                    class="icon ico_share">공유하기</span></a>
                         <a href={{route('mails.create',['id'=>$novel_group_inning->user_id])}} class="icon_btn_a"><span
                                     class="icon ico_note">쪽지</span></a>
                     </div>
@@ -331,7 +343,7 @@
                             </div>
                         </li>--}}
                         {{--<li>--}}
-                            {{--<div class="replst_tit alert">해당 글은 신고 접수되어 블라인드 처리 되었습니다.</div>--}}
+                        {{--<div class="replst_tit alert">해당 글은 신고 접수되어 블라인드 처리 되었습니다.</div>--}}
                         {{--</li>--}}
                     </ul>
                     <div class="padt20"><a href="" class="btn_repl_more full">댓글 더보기</a></div>
