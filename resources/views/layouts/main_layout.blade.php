@@ -47,7 +47,7 @@
 <!-- 헤더 -->
 <header class="header">
     <div class="header-top wrap" id="header">
-        <h1 class="logo wrap"><a href="{{ route('root') }}">여우정원</a></h1>
+        <h1 class="logo wrap"><a href="{{ route('root') }}" class="logo-img">여우정원</a></h1>
         <!-- 사용자메뉴 -->
         <div class="usermenu">
             <!-- 방문자버튼 -->
@@ -325,6 +325,7 @@
                     </div>
                     <div class="hot-hash-tag">
                         <strong class="title">자주 찾는 해시태그</strong>
+
                         <div class="list">
 
                             <a v-for="keyword in keywords" style="cursor:pointer"
@@ -442,7 +443,7 @@
                 this.$http.get('{{ route('popular_keywords') }}?search=' + this.search)
                         .then(function (response) {
                             this.keywords = response.data;
-                 });
+                        });
             }
         }
     });
@@ -466,6 +467,9 @@
                     this.get_new_speed();
             this.get_new_mails();
             @endif
+
+
+
 
 
         },
@@ -546,9 +550,20 @@
 
 
     $(window).scroll(function () {
-
-        if ($(this).scrollTop() > 1)  $('.header').addClass('fixed');
-        else   $('.header').removeClass('fixed');
+        if ('{{ !Request::is('novel_group_inning/*')}}') {
+            if ($(this).scrollTop() > 1) {
+                $('.header').addClass('fixed');
+                $('.header-top').addClass('header-top-scroll');
+                $('.usermenu').addClass('usermenu-scroll');
+                $('.header-top .logo .logo-img').addClass('logo-img-new');
+            }
+            else {
+                $('.header').removeClass('fixed');
+                $('.header-top').removeClass('header-top-scroll');
+                $('.usermenu').removeClass('usermenu-scroll');
+                $('.header-top .logo .logo-img').removeClass('logo-img-new');
+            }
+        }
 
 
     });
