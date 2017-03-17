@@ -4,14 +4,14 @@
     <div id="content-container" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 
         <div id="page-title">
-            <h1 class="page-header text-overflow">작품목록</h1>
+            <h1 class="page-header text-overflow">작품 코드번호 입력</h1>
         </div>
 
 
         <ol class="breadcrumb">
-            <li><a href="#">작가홈</a></li>
-            <li><a href="#">작품관리</a></li>
-            <li class="active">작품목록</li>
+            <li><a href="#">관리자홈</a></li>
+            <li><a href="#">정산관리</a></li>
+            <li class="active">작품 코드번호 입력</li>
         </ol>
 
 
