@@ -46,6 +46,11 @@ class AdminPageController extends Controller
         return view('admin.index');
     }
 
+    public function code_num()
+    {
+        return view('admin.index_simple');
+    }
+
     public function novel(Request $request)
     {
         $novel_groups = NovelGroup::all("*");

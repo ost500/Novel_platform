@@ -155,7 +155,7 @@
                                     </a>
                                     <ul class="collapse {{ (Request::is('admin/novel')||Request::is('admin/novel/*'))?"in":"" }}">
                                         <li><a href="{{route('admin.novel')}}">작품 관리</a></li>
-                                        <li><a href="{{ route('admin.novel') . "/?style=simple" }}">작품 리스트</a></li>
+
                                     </ul>
                                 </li>
 
@@ -171,9 +171,10 @@
                                         <i class="arrow"></i>
                                     </a>
 
-                                    <ul class="collapse {{ (Request::is('admin/calculations')||Request::is('admin/calculations/*')||Request::is('admin/calculation/*'))?"in":"" }}">
-                                        <li><a href="{{route('calculation')}}">정산 내역</a></li>
+                                    <ul class="collapse {{ (Request::is('admin/calculations')||Request::is('admin/calculation/*')||Request::is('admin/calculations/*'))?"in":"" }}">
+                                        <li><a href="{{ route('code_num')  }}">작품 코드번호 입력</a></li>
                                         <li><a href="{{route('calculation.create')}}">정산 등록</a></li>
+                                        <li><a href="{{route('calculation')}}">정산 내역</a></li>
                                     </ul>
                                 </li>
 

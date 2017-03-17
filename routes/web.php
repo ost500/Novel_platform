@@ -196,6 +196,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/calculation/create1', ['as' => 'calculation.create1', 'uses' => 'PageController\AdminPageController@calculation_create1']);
     Route::post('/calculation/create', ['as' => 'calculation.create.post', 'uses' => 'CalculationController@store']);
     Route::get('/calculations', ['as' => 'calculation', 'uses' => 'PageController\AdminPageController@calculations']);
+    Route::get('/calculations/code_num', ['as' => 'code_num', 'uses' => 'PageController\AdminPageController@code_num']);
     Route::get('/calculations/{id}', ['as' => 'calculation.eaches', 'uses' => 'PageController\AdminPageController@calculation_eaches']);
     Route::get('/calculations/{id}/run', ['as' => 'calculation.eaches.run', 'uses' => 'CalculationController@run']);
     Route::get('/calculations/{id}/cancel', ['as' => 'calculation.eaches.cancel', 'uses' => 'CalculationController@cancelCalculation']);
