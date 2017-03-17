@@ -6,12 +6,12 @@
     <div class="cont_wrap" id="inning">
         <!-- 연재 -->
         <div class="">
-            <div class="mlist_tit_rwap" style="padding-top: 45px;">
+            <div class="mlist_tit_rwap" id="inning_scroll_head" style="padding-top: 45px;">
                 <div style="float: left;">
                     <a href="{{ route('each_novel.novel_group', ['id' => $novel_group_inning->novel_groups->id]) }}"
                        style="vertical-align: middle;">
                         {{--  <img src="/mobile/images/menu_icon.png" style="width:65px;"/>--}}
-                        <img src="/mobile/images/menu-squares-grey.png" style="width:45px;padding: 11px 14px 0 2px;"/>
+                        <img src="/mobile/images/menu-squares-grey.png" style="width:45px;padding: 11px 14px 10px 2px;"/>
                     </a>
                 </div>
                 <h2 class="mlist_tit3">
@@ -357,19 +357,28 @@
     </div>
 </div>
 <!-- 내용 //-->
-<div class="layer_foot" style="width:55%">
+<div class="layer_foot" style="width:45.42%">
     <ul class="fix_mn">
-        @if($prev_inning_id)
-            <li style="width: 42%"><a href="{{ route('each_novel.novel_group_inning', ['id' => $prev_inning_id]) }}"
-                                      class="layer_foot_a fix_pref">이전화 보기</a></li>
-        @endif
-        <li class="left_line" style="width: 15%"><a href="#comment" class="layer_foot_a">
-                <i class="fa fa-comments-o" aria-hidden="true"></i> </a></li>
-        @if($next_inning_id)
-            <li class="left_line" style="width: 42%"><a
-                        href="{{ route('each_novel.novel_group_inning', ['id' => $next_inning_id]) }}"
-                        class="layer_foot_a fix_next">다음화 보기</a></li>
-        @endif
+
+            <li style="width: 42%">
+                @if($prev_inning_id)
+                <a href="{{ route('each_novel.novel_group_inning', ['id' => $prev_inning_id]) }}"
+                                      class="layer_foot_a fix_pref">이전화 보기</a>
+                @endif
+            </li>
+
+        <li class="left_line" style="width: 15%">
+            <a href="#comment" class="layer_foot_a">
+                <i class="fa fa-comments-o" aria-hidden="true"></i> </a>
+        </li>
+
+            <li class="left_line" style="width: 42%">
+                @if($next_inning_id)
+                <a  href="{{ route('each_novel.novel_group_inning', ['id' => $next_inning_id]) }}"
+                        class="layer_foot_a fix_next">다음화 보기</a>
+                @endif
+            </li>
+
     </ul>
 </div>
 <script type="text/javascript">

@@ -45,7 +45,7 @@
 
         .fixed {
             position: fixed;
-            width: 46.42%;
+            width: 45.42%;
             background-color: #fff;
             z-index: 2;
         }

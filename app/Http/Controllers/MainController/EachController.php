@@ -224,7 +224,7 @@ class EachController extends Controller
 
         $novel = Novel::find($id);
 
-        $novel_group = NovelGroup::where('id', $novel->novel_group_id)->with('users')->with('keywords')->with(['novels' => function ($query) {
+        $novel_group = NovelGroup::where('id', $novel->novel_group_id)->with('users')->with('keywords')->with('hash_tags')->with(['novels' => function ($query) {
             $query->orderBy('inning', 'desc');
         }])->with('nicknames')->first();
 
@@ -250,13 +250,13 @@ class EachController extends Controller
         return view('main.each_novel.purchase', compact('novel_group', 'author_novel_groups', 'novel', 'share', 'latest_time'));
     }
 
-    public
-    function purchase_post(Request $request)
+    public function purchase_post(Request $request)
     {
 
         $new_purchased_novel = new PurchasedNovel();
         $new_purchased_novel->user_id = Auth::user()->id;
         $new_purchased_novel->novel_id = $request->novel_id;
+
         if ($request->BeadOrPiece == 'Bead') {
 
             if ($request->user()->bead < 1) {
