@@ -47,7 +47,7 @@
 <!-- 헤더 -->
 <header class="header">
     <div class="header-top wrap" id="header">
-        <h1 class="logo wrap"><a href="{{ route('root') }}" class="logo-img">여우정원</a></h1>
+        <h1 class="logo wrap" style="padding-left: 65px;"><a href="{{ route('root') }}" class="logo-img">여우정원</a></h1>
         <!-- 사용자메뉴 -->
         <div class="usermenu">
             <!-- 방문자버튼 -->
@@ -551,6 +551,21 @@
 
     $(window).scroll(function () {
         if ('{{ !Request::is('novel_group_inning/*')}}') {
+            //fix the main header
+            fix_header();
+
+        }else{
+            //fix the main header
+            if ('{{Request::is('novel_group_inning/*/purchase')}}') {
+                fix_header();
+            }else{
+                //fix the inning pre and next
+                if ($(this).scrollTop() > 300 && $(this).scrollTop() < 1350) $('.prev-next-episode').addClass('pre-next-fixed');
+                else  $('.prev-next-episode').removeClass('pre-next-fixed');
+            }
+        }
+
+        function fix_header() {
             if ($(this).scrollTop() > 1) {
                 $('.header').addClass('fixed');
                 $('.header-top').addClass('header-top-scroll');
@@ -564,7 +579,6 @@
                 $('.header-top .logo .logo-img').removeClass('logo-img-new');
             }
         }
-
 
     });
 
