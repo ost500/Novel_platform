@@ -46,21 +46,23 @@
 
         .fixed {
             position: fixed;
-            width: 46.42%;
+           /* width: 46.42%;*/
+            width: 54.9%;
             background-color: #fff;
             z-index: 2;
-        }
-        .is-fixed {
-            position: fixed;
-            width: 40.64%;
-            background-color: #fff;
-            z-index: 2;
-            top:0;
-            left:410px;
-            border-bottom:1px solid #e2d9d6;
         }
 
-        .tl_link{
+        .is-fixed {
+            position: fixed;
+            width: 48.2%;
+            background-color: #fff;
+            z-index: 2;
+            top: 0;
+            left: 302px;
+            border-bottom: 1px solid #e2d9d6;
+        }
+
+        .tl_link {
             background: url("/mobile/images/top_logo.png") no-repeat;
         }
 
@@ -277,8 +279,8 @@
         <div class="h_top">
             <h1 class="top_logo">
 
-                        <div class="img-logo"> <a href="{{route('root')}}"  class="tl_link"></a></div>
-                        {{-- <img src="" class="img_logo" alt="">--}}
+                <div class="img-logo"><a href="{{route('root')}}" class="tl_link"></a></div>
+                {{-- <img src="" class="img_logo" alt="">--}}
 
 
             </h1>
@@ -453,6 +455,7 @@
 
 
 
+
         },
         methods: {
             submit: function (e) {
@@ -480,7 +483,7 @@
         if ('{{ !Request::is('novel_group_inning/*')}}') {
             if ($(this).scrollTop() > 1) {
                 $('.header').addClass('fixed');
-                $('.mod-nav').addClass('fixed');
+                /* $('.mod-nav').addClass('fixed');*/
                 $('.header .h_top .top_logo').css('height', '70px');
                 $('.header .h_top .ico_side').css('top', '3px');
                 $('.header .h_top .tr_link  .h_sch').css('margin', '3px 0 0 8px');
@@ -499,11 +502,13 @@
                 $('.header .h_top .top_logo .img-logo').css('padding', '');
                 // $('.header .h_top .top_logo .tr_link  >img').removeAttr('src','/mobile/images/scroll_logo');
             }
-         }else{
-        if ($(this).scrollTop() > 200) {
-            $('.mlist_tit_rwap').addClass('is-fixed');
-        }else{  $('.mlist_tit_rwap').removeClass('is-fixed');}
-    }
+        } else {
+            if ($(this).scrollTop() > 200) {
+                $('.mlist_tit_rwap').addClass('is-fixed');
+            } else {
+                $('.mlist_tit_rwap').removeClass('is-fixed');
+            }
+        }
     });
 
 </script>
