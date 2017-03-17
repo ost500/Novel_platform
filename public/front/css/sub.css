@@ -3403,3 +3403,13 @@
     margin:3px auto 0;
     height:52px;
 }
+
+
+.pre-next-fixed{
+    position: fixed;
+    top: 217px;
+    width: 50%;
+    background-color: #fff;
+    z-index: 2;
+    left: 476px;
+}

@@ -46,19 +46,19 @@
 
         .fixed {
             position: fixed;
-           /* width: 46.42%;*/
-            width: 54.9%;
+            /* width: 46.42%;*/
+            width: 45.4%;
             background-color: #fff;
             z-index: 2;
         }
 
         .is-fixed {
             position: fixed;
-            width: 48.2%;
+            width: 39.83%;
             background-color: #fff;
             z-index: 2;
             top: 0;
-            left: 302px;
+            left: 424px;
             border-bottom: 1px solid #e2d9d6;
         }
 
@@ -73,8 +73,10 @@
 
     @yield('header')
     <script type="text/javascript" src="/js/jquery-2.1.1.min.js"></script>
+
     <script src="/js/vue.js"></script>
     <script src="/js/vue-resource.min.js"></script>
+    {{--    <script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js'></script>--}}
     <script>
         window.Laravel = <?php echo json_encode([
                 'csrfToken' => csrf_token(),
@@ -155,11 +157,11 @@
 <body>
 <div class="wrap">
     <!-- side menu open -->
-    <div class="popup_bg" id="sidebar" style="display:none;">
+    <div class="popup_bg" id="sidebar" style="display:none;width:0%;background-color:transparent;/*left:-350px*/">
         <div class="sidemn_in">
             <!-- 로그인 및 사용자 정보 -->
             <div class="side_login">
-                <h3 class="blindtext">사용자 정보</h3>
+                {{-- <h3 class="blindtext">사용자 정보</h3>--}}
                 @if(Auth::check())
                     <div class="user_name">{{ Auth::user()->name}}</div>
                     <!--<div class="user_name">로그인이 필요합니다.</div>-->
@@ -185,7 +187,7 @@
                             <!-- 로그인 버튼 //-->
 
                     <!-- close 버튼 -->
-                    <a href="" class="sidemn_close"><span class="ico_close">닫기</span></a>
+                    <a href="#" class="sidemn_close" id="ico_close"><span class="ico_close">닫기</span></a>
                     <!-- close 버튼 //-->
             </div>
             <!-- 로그인 및 사용자 정보 //-->
@@ -286,7 +288,7 @@
             </h1>
             @if(!Request::is('register') && !Request::is('email_confirm/again') && !Request::is('password/reset')  && !Request::is('password/reset/*') && !Request::is('id_search') )
                 <a class="top_left">
-                    <span class="ico_mtop ico_side" id="sidebar_display" v-on:click="showSideMenu()"
+                    <span class="ico_mtop ico_side" id="sidebar_display" {{--v-on:click="showSideMenu()"--}}
                           style="cursor:pointer">스 메뉴 펼치기</span>
                 </a>
 
@@ -456,6 +458,8 @@
 
 
 
+
+
         },
         methods: {
             submit: function (e) {
@@ -479,8 +483,26 @@
         }
     });
 
+    //On scroll fix the header
     $(window).scroll(function () {
         if ('{{ !Request::is('novel_group_inning/*')}}') {
+            //fix the main header
+            fix_header();
+
+        } else {
+            //fix the main header
+            if ('{{Request::is('novel_group_inning/*/purchase')}}') {
+                fix_header();
+            }
+            else {
+                //fix the inning header
+                if ($(this).scrollTop() > 200) $('#inning_scroll_head').addClass('is-fixed');
+                else  $('#inning_scroll_head').removeClass('is-fixed');
+            }
+
+        }
+
+        function fix_header() {
             if ($(this).scrollTop() > 1) {
                 $('.header').addClass('fixed');
                 /* $('.mod-nav').addClass('fixed');*/
@@ -502,13 +524,23 @@
                 $('.header .h_top .top_logo .img-logo').css('padding', '');
                 // $('.header .h_top .top_logo .tr_link  >img').removeAttr('src','/mobile/images/scroll_logo');
             }
-        } else {
-            if ($(this).scrollTop() > 200) {
-                $('.mlist_tit_rwap').addClass('is-fixed');
-            } else {
-                $('.mlist_tit_rwap').removeClass('is-fixed');
-            }
         }
+    });
+
+    //left slide of sidebar
+    $('#sidebar_display').click(function () {
+        $('#sidebar').show().animate({width: "100%"}, 'slow');
+       //change background
+        setTimeout(function x() {
+            var wdth = $(".popup_bg").width() / $('.popup_bg').parent().width() * 100;
+            if(wdth==100 ) $('.popup_bg').css('background-color','rgba(0,0,0,0.7');
+
+        },600);
+
+    });
+    $('#ico_close').click(function () {
+        $('#sidebar').hide('slow').animate({width: "0%"});
+        $('.popup_bg').css('background-color','transparent');
     });
 
 </script>

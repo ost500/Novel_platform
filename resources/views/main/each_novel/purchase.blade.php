@@ -72,7 +72,7 @@
                                 </li>
                             </ul>
                         </section>
-                        <a href="#mode_nav" class="btn btn--submit">구슬충전</a>
+                        <a href="{{route('my_info.charge_bead')}}" class="btn btn--submit">구슬충전</a>
                         <section class="myinfo">
                             <div class="myinfo-box">
 
@@ -135,7 +135,7 @@
                                                     <strong class="title">{{str_limit($author_novel_group->title, 20)}}</strong>
 
                                                     <p class="post-content">
-                                                        로맨스판타지<br>
+                                                        @if(count($novel_group->keywords) >0) {{$novel_group->keywords[0]->name }} @endif<br>
                                                         총 {{$author_novel_group->max_inning}}화<br>
                                                         선호작{{$author_novel_group->favorite_count}}명
                                                     </p>
@@ -166,11 +166,8 @@
                         <section class="hash-tag">
                             <h2 class="hash-tag-title">해시태그</h2>
                             <ul class="hash-tag-list">
-                                @foreach($novel_group->keywords as $keyword)
-                                    @if($loop->iteration ==1)
-                                        @continue
-                                    @endif
-                                    <li><a href="#mode_nav">{{$keyword->name}}</a></li>
+                                @foreach($novel_group->hash_tags as $hash_tag)
+                                    <li><a href="">{{$hash_tag->tag}}</a></li>
                                 @endforeach
 
                             </ul>
@@ -228,7 +225,7 @@
                 app.$http.post('{{ route('favorites.store') }}', app.favorites_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                         .then(function (response) {
                             //  document.getElementById('tab' + publish_company_id).style.display = 'none';
-                            console.log(response);
+                          //  console.log(response);
                             app.add_favorite_disp = false;
                             app.remove_favorite_disp = true;
                             // location.reload();
@@ -241,7 +238,7 @@
                 app.$http.delete('{{ route('favorites.destroy',['id'=>$novel_group->id]) }}', {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                         .then(function (response) {
                             //  document.getElementById('tab' + publish_company_id).style.display = 'none';
-                            console.log(response);
+                           // console.log(response);
                             app.add_favorite_disp = true;
                             app.remove_favorite_disp = false;
                             // location.reload();
@@ -274,15 +271,15 @@
                 app.$http.post('{{ route('each_novel.novel_group_inning.purchase.post', ['id' => $novel->id]) }}', app.purchase_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                         .then(function (response) {
 
-                            console.log(response);
+                           // console.log(response);
                             window.location.assign('/novel_group_inning/{{ $novel->id }}');
                         })
                         .catch(function (errors) {
 
-                            console.log("error here");
-                            console.log(errors);
+                            //console.log("error here");
+                            //console.log(errors);
                         });
-                console.log(app.purchase_info);
+              //  console.log(app.purchase_info);
             }
 
 
