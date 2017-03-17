@@ -34,7 +34,7 @@ class AuthorPageController extends Controller
 
     public function index(Request $request)
     {
-        if (User::where('name', 'Admin')->first() != null) {
+        if (Auth::user()->name == "Admin") {
             return redirect()->route('admin.index');
         }
 
