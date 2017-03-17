@@ -307,4 +307,4 @@ Route::group(['prefix' => 'search'], function () {
 
 Route::get('push_notification', ['as' => 'push.noti', 'uses' => 'FCMController@notification']);
 
-Route::post('payment', ['as' => 'payment', 'uses' => 'MainController\MyInfoController@payment']);
+Route::post('payment', ['as' => 'payment', 'uses' => 'Paymentcontroller@payment']);
