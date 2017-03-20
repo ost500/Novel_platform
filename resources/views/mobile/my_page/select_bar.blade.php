@@ -20,7 +20,7 @@
   <select class="sel_346 marL8" id="myinfo_favorites"  v-on:change="callSubUrl()">
       <option value="구슬충전"  @if(Request::is('my_info/use_info/charge_bead')) selected @endif>구슬충전</option>
       <option value="결제내역"  @if(Request::is('my_info/use_info/charge_list')) selected @endif>결제내역</option>
-      <option value="조각관리"  @if(Request::is('my_info/use_info/manage_piece')) selected @endif>조각관리</option>
+    {{--  <option value="조각관리"  @if(Request::is('my_info/use_info/manage_piece')) selected @endif>조각관리</option>--}}
       <option value="소설 구매 내역"  @if(Request::is('my_info/use_info/purchased_novel_list')) selected @endif>소설 구매 내역</option>
       <option value="받은 선물 내역"  @if(Request::is('my_info/use_info/received_gift')) selected @endif>받은 선물 내역</option>
       <option value="보낸 선물 내역"  @if(Request::is('my_info/use_info/sent_gift')) selected @endif>보낸 선물 내역</option>

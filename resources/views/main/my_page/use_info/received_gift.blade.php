@@ -43,7 +43,7 @@
                             <td class="col-subject">{{ $present->content }}</td>
                             <td class="col-from">{{ $present->fromUser->name }}</td>
                             <td class="col-state">
-                                @if($present->status == '대기')
+                               {{-- @if($present->status == '대기')
                                     <span id="response{{$present->id}}"></span>
                                     <button class="btn btn-sm btn-primary" style="padding-left:9px;padding-right:9px;font-size: small;"
                                             id="approve{{$present->id}}"
@@ -56,7 +56,8 @@
                                     </button>
                                 @else
                                     <span>{{ $present->status }}</span>
-                                @endif
+                                @endif--}}
+                                {{ $present->numbers }}
                             </td>
                         </tr>
                     @endforeach
