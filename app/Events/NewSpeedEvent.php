@@ -13,6 +13,7 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Support\Collection;
 use Log;
 use PhpParser\Node\Expr\Variable;
 
@@ -20,14 +21,14 @@ class NewSpeedEvent
 {
     use InteractsWithSockets, SerializesModels;
 
-    protected $type, $title, $link, $image, $novel_group_id;
+    protected $type, $title, $link, $image, $novel_group_id, $toWhom;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($type, $title, $link, $image, $novel_group_id = null)
+    public function __construct($type, $title, $link, $image, $novel_group_id = null, $toWhom = null)
     {
         // sample code to use this event
         // event(new NewSpeedEvent("novel", "소설 '" . $new_novel->novel_groups->title . "'의 " . $new_novel->inning . "회 신규 회차가 등록 되었습니다.", "link", $new_novel->novel_groups->cover_photo, $new_novel->novel_groups->id));
@@ -36,6 +37,8 @@ class NewSpeedEvent
         $this->link = $link;
         $this->image = $image;
         $this->novel_group_id = $novel_group_id;
+        $this->toWhom = $toWhom;
+
     }
 
     /**
@@ -46,24 +49,25 @@ class NewSpeedEvent
     public function broadcastOn()
     {
 
-
         // Guess who will receive this new_speed
-        $toWhom = "";
+
 
         if ($this->type == "novel") {
 
-            $toWhom = Favorite::where('novel_group_id', $this->novel_group_id)->get();
+            $this->toWhom = Favorite::where('novel_group_id', $this->novel_group_id)->get();
 
         } elseif ($this->type == "noti") {
 
-            $toWhom = User::select('id as user_id')->get();
+            $this->toWhom = User::select('id as user_id')->get();
 
         } elseif ($this->type == "new_novel_group") {
 
-            $toWhom = Auth::user()->novel_groups()
+            $this->toWhom = Auth::user()->novel_groups()
                 ->join('favorites', 'favorites.novel_group_id', '=', 'novel_groups.id')
                 ->select('favorites.user_id')->get();
 
+        } elseif ($this->type == "gift") {
+            $this->toWhom = User::where('id', $this->toWhom)->select('id as user_id')->get();
         }
 
 
@@ -75,13 +79,15 @@ class NewSpeedEvent
         $newSpeed->save();
 
 
-        foreach ($toWhom as $whom) {
+        foreach ($this->toWhom as $whom) {
             $new = new NewSpeedLog();
             $new->user_id = $whom->user_id;
             $new->new_speed_id = $newSpeed->id;
             $new->read = false;
             $new->save();
         }
+
+        return response()->json($this->toWhom);
 
 
 //        return new PrivateChannel('channel-name');

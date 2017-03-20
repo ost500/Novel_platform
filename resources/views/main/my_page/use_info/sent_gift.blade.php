@@ -85,7 +85,7 @@
                         <h2 class="title">구슬 선물하기</h2>
                     </div>
                     <div class="popup-content">
-                        <form name="gift_form" action="{{route('pieces.store')}}" class="gift-form" method="post"
+                        <form name="gift_form" class="gift-form" method="post"
                               v-on:submit.prevent="submitGift()">
                             {{csrf_field()}}
                             <div class="item-list">
@@ -231,11 +231,14 @@
 
                     app_gift.$http.post('{{ route('pieces.store') }}', app_gift.gift_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                             .then(function (response) {
+//                                console.log(response);
                                 location.reload();
                             })
                             .catch(function (response, status, request) {
                                 //show validation errors
+//                                console.log(response);
                                 this.errors = response.data;
+
                             });
 
                 },
