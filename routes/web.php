@@ -137,6 +137,9 @@ Route::group(['prefix' => 'author'], function () {
     Route::get('/partnership/proceed/', ['as' => 'author.partner_proceed', 'uses' => 'PageController\AuthorPageController@partner_proceed']);
     Route::get('/partnership/test_inning/{id?}', ['as' => 'author.partner_test_inning', 'uses' => 'PageController\AuthorPageController@partner_test_inning']);
 
+    Route::get('/send_gift', ['as' => 'author.send_gift', 'uses' => 'PageController\AuthorPageController@send_gift']);
+    Route::get('/sent_gifts', ['as' => 'author.sent_gifts', 'uses' => 'PageController\AuthorPageController@sent_gifts']);
+
     Route::get('/faqs', ['as' => 'author.faqs', 'uses' => 'PageController\AuthorPageController@faq_index']);
 });
 
