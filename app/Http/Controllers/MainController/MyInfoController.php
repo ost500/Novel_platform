@@ -293,8 +293,5 @@ class MyInfoController extends Controller
         return view('main.my_page.use_info.sent_gift', compact('presents', 'user_bead'));
     }
 
-    public function payment()
-    {
-
-    }
+   
 }

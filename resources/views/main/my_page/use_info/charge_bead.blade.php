@@ -1,10 +1,51 @@
 @extends('../layouts.main_layout')
 @section('content')
+
+    <script type="text/javascript">
+        function LPad(digit, size, attatch) {
+            var add = "";
+            digit = digit.toString();
+
+            if (digit.length < size) {
+                var len = size - digit.length;
+                for (i = 0; i < len; i++) {
+                    add += attatch;
+                }
+            }
+            return add + digit;
+        }
+
+        function makeoid() {
+            var now = new Date();
+            var years = now.getFullYear();
+            var months = LPad(now.getMonth() + 1, 2, "0");
+            var dates = LPad(now.getDate(), 2, "0");
+            var hours = LPad(now.getHours(), 2, "0");
+            var minutes = LPad(now.getMinutes(), 2, "0");
+            var seconds = LPad(now.getSeconds(), 2, "0");
+            var timeValue = years + months + dates + hours + minutes + seconds;
+            document.getElementById("LGD_OID").value = "test_" + timeValue;
+            document.getElementById("LGD_TIMESTAMP").value = timeValue;
+        }
+
+        /*
+         * 인증요청 처리
+         */
+        function doPay() {
+            // OID, TIMESTAMP 생성
+            makeoid();
+            // 결제창 호출
+            document.getElementById("LGD_PAYINFO").submit();
+            alert('hi');
+        }
+    </script>
+
     <!-- 컨테이너 -->
     <div class="container">
         <div class="wrap">
             <!-- LNB -->
         @include('main.my_page.left_sidebar')
+
         <!-- //LNB -->
 
             <!-- 서브컨텐츠 -->
@@ -20,7 +61,7 @@
                 </div>
                 <!-- //구슬충전 -->
                 <!-- 충전선택,결제 -->
-                <form name="charge_form" method="post" action="{{ route('payment') }}" class="charge-form">
+                <form name="charge_form" id="LGD_PAYINFO" method="post" action="{{ route('payment') }}" class="charge-form">
                     {!! csrf_field() !!}
                     <div class="charge-wrap charge-wrap--special">
                         <h3 class="charge-title charge-title--special">당신에게만 보이는 특별한 혜택 - <b>첫 구매시 추가 조각 5배 증정!</b></h3>
@@ -161,7 +202,7 @@
                         <option value="IFRAME">IFRAME</option>
                     </select>
                     <div class="submit">
-                        <button class="btn btn--special">구슬충전</button>
+                        <button type="button" class="btn btn--special" onclick="doPay();">구슬충전</button>
                     </div>
 
                     <script>
