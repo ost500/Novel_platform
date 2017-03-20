@@ -53,7 +53,7 @@ Route::resource('keywords', 'KeywordController');
 Route::get('popular_keywords', ['as' => 'popular_keywords', 'uses' => 'KeywordController@popular_keywords']);
 Route::resource('companies', 'CompanyController');
 Route::resource('publish_companies', 'NovelGroupPublishCompanyController', ['only' => ['update']]);
-Route::resource('presents', 'PresentController', ['only' => ['update']]);
+Route::resource('presents', 'PresentController', ['only' => ['store','update']]);
 Route::resource('pieces', 'PieceController', ['only' => ['store']]);
 
 Route::delete('maillogs/{id}', ['as' => 'maillog.destroy', 'uses' => 'MailLogController@destroy']);
@@ -136,6 +136,9 @@ Route::group(['prefix' => 'author'], function () {
     Route::get('/partnership/apply_list', ['as' => 'author.partner_apply_list', 'uses' => 'PageController\AuthorPageController@partner_apply_list']);
     Route::get('/partnership/proceed/', ['as' => 'author.partner_proceed', 'uses' => 'PageController\AuthorPageController@partner_proceed']);
     Route::get('/partnership/test_inning/{id?}', ['as' => 'author.partner_test_inning', 'uses' => 'PageController\AuthorPageController@partner_test_inning']);
+
+    Route::get('gifts/send_gift', ['as' => 'author.send_gift', 'uses' => 'PageController\AuthorPageController@send_gift']);
+    Route::get('gifts/sent_gifts', ['as' => 'author.sent_gifts', 'uses' => 'PageController\AuthorPageController@sent_gifts']);
 
     Route::get('/faqs', ['as' => 'author.faqs', 'uses' => 'PageController\AuthorPageController@faq_index']);
 });

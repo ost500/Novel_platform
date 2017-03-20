@@ -29,8 +29,8 @@
                                @if(Request::is('my_info/use_info/charge_bead')) class="is-active" @endif>구슬충전</a></li>
                         <li><a href="{{route('my_info.charge_list')}}"
                                @if(Request::is('my_info/use_info/charge_list')) class="is-active" @endif>결제내역</a></li>
-                        <li><a href="{{route('my_info.manage_piece')}}"
-                               @if(Request::is('my_info/use_info/manage_piece')) class="is-active" @endif>조각관리</a></li>
+                       {{-- <li><a href="{{route('my_info.manage_piece')}}"
+                               @if(Request::is('my_info/use_info/manage_piece')) class="is-active" @endif>조각관리</a></li>--}}
                         <li><a href="{{route('my_info.purchased_novel_list')}}"
                                @if(Request::is('my_info/use_info/purchased_novel_list')) class="is-active" @endif>소설 구매
                                 내역</a></li>

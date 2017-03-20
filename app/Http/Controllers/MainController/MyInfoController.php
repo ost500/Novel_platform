@@ -271,7 +271,7 @@ class MyInfoController extends Controller
 
     public function received_gift()
     {
-        $presents = Present::where('user_id', Auth::user()->id)->with('users')->with('fromUser')->paginate(config('define.pagination_long'));
+        $presents = Present::where('user_id', Auth::user()->id)->with('users')->with('fromUser')->latest()->paginate(config('define.pagination_long'));
 
 //        return response()->json($presents);
         //Detect mobile
@@ -283,7 +283,7 @@ class MyInfoController extends Controller
 
     public function sent_gift()
     {
-        $presents = Present::where('from_id', Auth::user()->id)->paginate(config('define.pagination_long'));
+        $presents = Present::where('from_id', Auth::user()->id)->latest()->paginate(config('define.pagination_long'));
 
         $user_bead = User::select('bead')->where('id', Auth::user()->id)->first();
         //Detect mobile

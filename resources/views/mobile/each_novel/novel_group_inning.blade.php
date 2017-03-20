@@ -357,7 +357,7 @@
     </div>
 </div>
 <!-- 내용 //-->
-<div class="layer_foot" style="width:45.42%">
+<div class="layer_foot" style="width:640px">
     <ul class="fix_mn">
 
             <li style="width: 42%">

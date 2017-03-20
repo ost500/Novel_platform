@@ -47,18 +47,18 @@
         .fixed {
             position: fixed;
             /* width: 46.42%;*/
-            width: 45.4%;
+            width: 640px;
             background-color: #fff;
             z-index: 2;
         }
 
         .is-fixed {
             position: fixed;
-            width: 39.83%;
+            width: 29.53%;
             background-color: #fff;
             z-index: 2;
             top: 0;
-            left: 424px;
+            left: 671px;
             border-bottom: 1px solid #e2d9d6;
         }
 

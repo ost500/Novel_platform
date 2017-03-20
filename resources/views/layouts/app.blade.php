@@ -221,6 +221,20 @@
                                         <li><a href="{{ route('author.novel_request_list')}}">1:1문의내역</a></li>
                                     </ul>
                                 </li>
+                                <li class="{{ (Request::is('author/gifts/send_gift')||Request::is('author/gifts/sent_gifts'))?"active-link":"" }}">
+                                    <a href="{{route('author.send_gift')}}">
+                                        <i class="fa fa-send"></i>
+                                        <span class="menu-title">
+                                            <strong>선물</strong>
+                                        </span>
+                                        <i class="arrow"></i>
+                                    </a>
+
+                                    <ul class="collapse {{ (Request::is('author/gifts/send_gift')||Request::is('author/gifts/sent_gifts'))?"in":"" }}">
+                                        <li><a href="{{ route('author.send_gift')}}">선물보내기</a></li>
+                                        <li><a href="{{ route('author.sent_gifts')}}">보낸 선물 내역</a></li>
+                                    </ul>
+                                </li>
 
                                 <li class="list-divider"></li>
 

@@ -8,7 +8,7 @@
 
             <h2 class="mbgift_pop_subtit">받는사람</h2>
 
-            <form name="gift_form" action="{{route('pieces.store')}}" class="gift-form" method="post"
+            <form name="gift_form" action="{{route('presents.store')}}" class="gift-form" method="post"
                   v-on:submit.prevent="submitGift()">
                 {{csrf_field()}}
                 <div class="recipient_wrap">
@@ -100,7 +100,7 @@
                                 <div><span class="green_20">{{ $present->users->name }}</span><span
                                             class="gra_20 marL8">{{ $present->created_at }}</span></div>
                             </td>
-                            <td class="buy">{{ $present->status }}</td>
+                            <td class="buy">{{ $present->numbers }}</td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -129,7 +129,7 @@
                 display: false
             },
             mounted: function () {
-
+                this.searchByName();
             },
             methods: {
 
@@ -162,7 +162,7 @@
 
                 //Show user name suggestions
                 searchByName: function () {
-                    app_gift.$http.post('{{ route('users.search_by_name') }}', app_gift.search_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                    this.$http.post('{{ route('users.search_by_name') }}', this.search_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                             .then(function (response) {
 
                                 this.user_names = response.data['user_names'];
@@ -177,7 +177,7 @@
                 //Submit the gift
                 submitGift: function () {
 
-                    app_gift.$http.post('{{ route('pieces.store') }}', app_gift.gift_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                    app_gift.$http.post('{{ route('presents.store') }}', app_gift.gift_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                             .then(function (response) {
                                 location.reload();
                             })

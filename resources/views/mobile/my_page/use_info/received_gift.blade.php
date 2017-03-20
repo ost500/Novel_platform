@@ -42,18 +42,21 @@
                             <div><span class="green_20">{{ $present->fromUser->name }}</span><span
                                         class="gra_20 marL8">{{ $present->created_at }}</span></div>
                         </td>
-                        @if($present->status == '대기')
-                            <td>
-                                <span  id="response{{$present->id}}"></span>
-                                <a class="usInfo_btn1" style="width:47%;cursor:pointer;" id="approve{{$present->id}}" v-on:click="approve_deny('{{$present->id}}','수령',1)"> 수령
-                                </a>
+                        <td>
+                            {{-- @if($present->status == '대기')
+                                  <td>
+                                     <span  id="response{{$present->id}}"></span>
+                                     <a class="usInfo_btn1" style="width:47%;cursor:pointer;" id="approve{{$present->id}}" v-on:click="approve_deny('{{$present->id}}','수령',1)"> 수령
+                                     </a>
 
-                                <a class="usInfo_btn1"   style="width:47%;cursor:pointer;" id="deny{{$present->id}}" v-on:click="approve_deny('{{$present->id}}','반송',0)"> 반송
-                                </a>
-                            </td>
-                        @else
-                            <td  class="@if($present->status == '수령') buy @else cansel @endif"><span class="marL8" >{{ $present->status }}</span></td>
-                        @endif
+                                     <a class="usInfo_btn1"   style="width:47%;cursor:pointer;" id="deny{{$present->id}}" v-on:click="approve_deny('{{$present->id}}','반송',0)"> 반송
+                                     </a>
+                                 </td>
+                             @else
+                                 <td  class="@if($present->status == '수령') buy @else cansel @endif"><span class="marL8" >{{ $present->status }}</span></td>
+                             @endif--}}
+                            {{ $present->numbers }}
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>

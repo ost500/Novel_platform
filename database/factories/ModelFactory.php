@@ -342,6 +342,7 @@ $factory->define(App\Present::class, function (Faker\Generator $faker) {
         'from_id' => $faker->randomElement($fromUserIds),
         'content' => $faker->sentence(),
         'status' => $faker->randomElement(['수령', '반송', '대기']),
+        'numbers' => $faker->randomNumber(),
     ];
 });
 
