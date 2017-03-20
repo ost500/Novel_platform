@@ -14,7 +14,7 @@ class AddPresentsStatus extends Migration
     public function up()
     {
         Schema::table('presents', function (Blueprint $table) {
-            $table->enum('status', ['수령', '반송', '대기']);
+            $table->enum('status', ['수령', '반송', '대기'])->default('대기');
         });
     }
 

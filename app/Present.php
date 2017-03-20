@@ -27,6 +27,16 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Present extends Model
 {
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+       'from_id', 'user_id', 'content','numbers', 'status',
+    ];
+
     public function users()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');

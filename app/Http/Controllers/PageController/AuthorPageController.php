@@ -23,6 +23,7 @@ use Illuminate\Pagination\Paginator;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\NovelGroupHashTag;
+use App\Present;
 
 class AuthorPageController extends Controller
 {
@@ -431,6 +432,21 @@ class AuthorPageController extends Controller
 
         return view('author.benefit', compact('myPurchasedNovel'));
 
+    }
+
+    public function send_gift()
+    {
+        $user_bead = User::select('bead')->where('id', Auth::user()->id)->first();
+        return view('author.send_gift', compact('user_bead'));
+    }
+
+    public function sent_gifts()
+    {
+        $presents = Present::where('from_id', Auth::user()->id)->latest()->paginate(config('define.pagination_long'));
+
+        $user_bead = User::select('bead')->where('id', Auth::user()->id)->first();
+
+        return view('author.sent_gifts', compact('presents', 'user_bead'));
     }
 
 
