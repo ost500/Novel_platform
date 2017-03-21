@@ -35,6 +35,7 @@ class FreeBoardCommentController extends Controller
         $new_comment->user_id = Auth::user()->id;
         $new_comment->free_board_id = $id;
         $new_comment->comment = $request->comment;
+        $new_comment->parent_id = $request->parent_id;
         $new_comment->save();
         return redirect()->back();
     }

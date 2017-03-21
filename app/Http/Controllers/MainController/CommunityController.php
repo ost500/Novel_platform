@@ -9,7 +9,7 @@ use App\Review;
 use Illuminate\Http\Request;
 use Auth;
 use Jenssegers\Agent\Agent;
-
+use Illuminate\Database\Eloquent\Collection;
 class CommunityController extends Controller
 {
 
@@ -49,7 +49,15 @@ class CommunityController extends Controller
 
     public function free_board_detail(Request $request, $id)
     {
-        $article = FreeBoard::with('comments.users')->with('likes')->withCount('likes')->withCount('comments')->findOrFail($id);
+
+        $order=$request->get('order');
+        $article = FreeBoard::with(['comments' => function ($q) use ($order) {
+            if ($order == 'oldest') {
+                $q->oldest();
+            } else {
+                $q->latest();
+            }
+        },'comments.users'])->with('likes')->withCount('likes')->withCount('comments')->findOrFail($id);
         $next_article_id = FreeBoard::where('id', '>', $article->id)->min('id');
         $next_article = FreeBoard::with('users')->find($next_article_id);
         $prev_article_id = FreeBoard::where('id', '<', $article->id)->max('id');
@@ -67,16 +75,23 @@ class CommunityController extends Controller
                 $show_liked = true;
             }
         }
-
-//        return response()->json($prev_article);
-
+//dd($article);
+        //get the all comments of a novel
+        $article_comments = new Collection();
+        foreach ($article->comments as $comment) {
+            if ($comment->parent_id == 0) {
+                $single_comment = $comment->myself;
+                $single_comment->put('children', $comment->children);
+                $article_comments->push($single_comment);
+            }
+        }
         //Detect mobile
         if ($this->agent->isMobile()) {
-            return view('mobile.community.free_board_detail', compact('article', 'next_article', 'prev_article', 'show_liked'));
+            return view('mobile.community.free_board_detail', compact('article', 'next_article', 'prev_article', 'show_liked','order','article_comments'));
 
         }
 
-        return view('main.community.free_board_detail', compact('article', 'next_article', 'prev_article', 'show_liked'));
+        return view('main.community.free_board_detail', compact('article', 'next_article', 'prev_article', 'show_liked','order','article_comments'));
     }
 
 
@@ -198,12 +213,21 @@ class CommunityController extends Controller
             $genre = $review->novel_groups->keywords[0]->name;
         }
 
+        //get the all comments of a novel
+        $review_comments = new Collection();
+        foreach ($review->comments as $comment) {
+            if ($comment->parent_id == 0) {
+                $single_comment = $comment->myself;
+                $single_comment->put('children', $comment->children);
+                $review_comments->push($single_comment);
+            }
+        }
 
         //Detect mobile
         if ($this->agent->isMobile()) {
-            return view('mobile.community.reader_reco_detail', compact('review', 'next_review', 'prev_review', 'genre', 'order'));
+            return view('mobile.community.reader_reco_detail', compact('review', 'next_review', 'prev_review', 'genre', 'order','review_comments'));
         }
-        return view('main.community.reader_reco_detail', compact('review', 'next_review', 'prev_review', 'genre', 'order'));
+        return view('main.community.reader_reco_detail', compact('review', 'next_review', 'prev_review', 'genre', 'order','review_comments'));
     }
 
 }
