@@ -47,14 +47,14 @@
 <!-- 헤더 -->
 <header class="header">
     <div class="header-top wrap" id="header">
-        <h1 class="logo wrap" style="padding-left: 65px;"><a href="{{ route('root') }}" class="logo-img">여우정원</a></h1>
+        <h1 class="logo wrap"><a href="{{ route('root') }}" class="logo-img">여우정원</a></h1>
         <!-- 사용자메뉴 -->
         <div class="usermenu">
             <!-- 방문자버튼 -->
             <div class="login-area" id="login-area">
                 @if(Auth::check())
                     <button type="button" class="userbtn userbtn--open"
-                            v-bind:class="{'is-new' : new_speeds.news_count > 0 }" id="more_btns_open">
+                            v-bind:class="{'is-new' : new_speeds.news_count + new_mails.count > 0 }" id="more_btns_open">
                         사용자메뉴<i>@{{ new_speeds.news_count + new_mails.count }}</i></button>
 
                     <div class="more-btns" id="more_btns">

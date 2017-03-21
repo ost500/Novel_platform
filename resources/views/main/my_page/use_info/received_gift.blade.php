@@ -28,7 +28,7 @@
                         <th>보낸날짜</th>
                         <th>받은 선물</th>
                         <th>보낸사람</th>
-                        <th>상태</th>
+                        <th>개수</th>
                     </tr>
                     </thead>
                     <tbody>
