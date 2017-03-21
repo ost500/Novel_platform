@@ -2,6 +2,7 @@
 
 @section('content')
     <!--Bootstrap Tags Input [ OPTIONAL ]-->
+    <link href="/plugins/bootstrap-datepicker/bootstrap-datepicker.css" rel="stylesheet">
     <link href="/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet">
     <div id="content-container">
 
@@ -39,6 +40,14 @@
                               method="post" enctype="multipart/form-data">
                             {!! csrf_field() !!}
 
+                            <div class="form-group">
+                                <label class="col-md-2 control-label" for="demo-email-input">날짜</label>
+                                <div class="col-md-2">
+                                    <div id="demo-dp-txtinput">
+                                        <input id="date_input" name="date" type="text" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="form-group">
                                 <label class="col-md-2 control-label" for="demo-email-input">컬럼 시작 인덱스</label>
@@ -70,6 +79,7 @@
                                 </div>
                             </div>
 
+
                             <div class="form-group">
                                 <label class="col-md-2 control-label" for="demo-email-input">코드 번호 인덱스</label>
 
@@ -81,10 +91,21 @@
                             </div>
 
                             <div class="form-group">
+                                <label class="col-md-2 control-label" for="demo-email-input">정산 금액 인덱스</label>
+
+                                <div class="col-md-1">
+                                    <input type="text" name="cal_numberX" id="demo-email-input" class="form-control"
+                                           placeholder="ex) A,B,C..." data-bv-field="title"
+                                           value="{{ old('cal_numberX') }}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label class="col-md-2 control-label" for="demo-email-input">컬럼명</label>
 
                                 <div class="col-md-9">
-                                    <input type="text" name="columnNames" class="form-control" placeholder="입력하고자 하는 컬럼명을 순서대로 입력하세요"
+                                    <input type="text" name="columnNames" class="form-control"
+                                           placeholder="입력하고자 하는 컬럼명을 순서대로 입력하세요"
                                            value="{{ old('columnNames') }}" data-role="tagsinput">
 
                                 </div>
@@ -98,7 +119,7 @@
 
                                 <div class="col-md-9">
                                     <textarea name="description" id="demo-textarea-input" rows="9" class="form-control"
-                                              placeholder="내용을 입력해 주세요">{{ old('description') }}</textarea>
+                                              placeholder="ex) 교보 9월">{{ old('description') }}</textarea>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -129,4 +150,17 @@
     </div>
     <!--Bootstrap Tags Input [ OPTIONAL ]-->
     <script src="/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js"></script>
+    <script src="/plugins/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+    <script>
+        $('#demo-dp-txtinput input').datepicker({
+            autoclose: true,
+            format: "yyyy-mm-dd",
+
+        }).on("changeDate", function (e) {
+            console.log(e);
+            $("#date_input").val(e.format());
+        });
+
+
+    </script>
 @endsection
