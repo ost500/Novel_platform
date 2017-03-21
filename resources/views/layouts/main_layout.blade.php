@@ -550,6 +550,7 @@
 
 
     $(window).scroll(function () {
+
         if ('{{ !Request::is('novel_group_inning/*')}}') {
             //fix the main header
             fix_header();
@@ -559,12 +560,18 @@
             if ('{{Request::is('novel_group_inning/*/purchase')}}') {
                 fix_header();
             }else{
+                if ($(this).scrollTop() > 265) $('.other-novels').addClass('novels-fixed');
+                 else   $('.other-novels').removeClass('novels-fixed');
                 //fix the inning pre and next
-                if ($(this).scrollTop() > 300 && $(this).scrollTop() < 1350) $('.prev-next-episode').addClass('pre-next-fixed');
-                else  $('.prev-next-episode').removeClass('pre-next-fixed');
+                if ($(this).scrollTop() > 300 && $(this).scrollTop() < 1350) {
+                   /* if ($('.other-novels').css('display')=='none'){*/ $('.prev-next-episode').addClass('pre-next-fixed');/*}else{
+                        $('.prev-next-episode').removeClass('pre-next-fixed');
+                   }*/
+                } else{  $('.prev-next-episode').removeClass('pre-next-fixed');}
             }
         }
 
+      //function to fix header
         function fix_header() {
             if ($(this).scrollTop() > 1) {
                 $('.header').addClass('fixed');

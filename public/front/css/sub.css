@@ -3380,32 +3380,34 @@
     margin: 3px;
     padding: 2px;
 }
+
 .fixed {
     position: fixed;
-    top:0;
+    top: 0;
     width: 100%;
-    background-color:#fff;
-    z-index:2;
+    background-color: #fff;
+    z-index: 2;
 }
+
 .usermenu-scroll {
-   /* position: relative;*/
+    /* position: relative;*/
     top: 6px;
     /*margin-left: 40px;
     margin-right: 40px;*/
 }
+
 .header-top-scroll {
-   /* box-sizing: border-box;*/
+    /* box-sizing: border-box;*/
     height: 58px;
 }
 
-.header-top .logo .logo-img-new{
+.header-top .logo .logo-img-new {
     background: url(../imgs/common/scroll_logo.png) no-repeat;
-    margin:3px auto 0;
-    height:52px;
+    margin: 3px auto 0;
+    height: 52px;
 }
 
-
-.pre-next-fixed{
+.pre-next-fixed {
     position: fixed;
     top: 217px;
     width: 50%;
@@ -3413,3 +3415,41 @@
     z-index: 2;
     left: 476px;
 }
+
+.other-novels {
+    display: none;
+    width: 60%;
+    height:320px;
+    top: 16.4%;
+    border-bottom: 1px solid #e2d8d6;
+    border-right: 1px solid #e2d8d6;
+    border-left: 1px solid #e2d8d6;
+    margin:0 0 0 185px;
+    position: absolute;
+    z-index: 2;
+    background-color: #fff;
+    overflow-y: scroll;
+}
+
+.novel-row {
+    width: 94%;
+    padding: 5px 0 5px 26px;
+    font-size: initial;
+    cursor: pointer;
+}
+
+.novel-hover:hover{
+    background-color: #54abd9;
+    color:#fff;
+}
+.novels-fixed {
+    width: 30%;
+    top: 12%;
+    border-bottom: 1px solid #e2d8d6;
+    border-right: 1px solid #e2d8d6;
+    padding: 0%;
+    position: fixed;
+    z-index: 2;
+    background-color: #fff;
+}
+
