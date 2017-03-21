@@ -9,7 +9,7 @@ use App\Review;
 use Illuminate\Http\Request;
 use Auth;
 use Jenssegers\Agent\Agent;
-
+use Illuminate\Database\Eloquent\Collection;
 class CommunityController extends Controller
 {
 
@@ -49,6 +49,8 @@ class CommunityController extends Controller
 
     public function free_board_detail(Request $request, $id)
     {
+
+        $order='latest';
         $article = FreeBoard::with('comments.users')->with('likes')->withCount('likes')->withCount('comments')->findOrFail($id);
         $next_article_id = FreeBoard::where('id', '>', $article->id)->min('id');
         $next_article = FreeBoard::with('users')->find($next_article_id);
@@ -68,15 +70,22 @@ class CommunityController extends Controller
             }
         }
 
-//        return response()->json($prev_article);
-
+        //get the all comments of a novel
+        $article_comments = new Collection();
+        foreach ($article->comments as $comment) {
+            if ($comment->parent_id == 0) {
+                $single_comment = $comment->myself;
+                $single_comment->put('children', $comment->children);
+                $article_comments->push($single_comment);
+            }
+        }
         //Detect mobile
         if ($this->agent->isMobile()) {
-            return view('mobile.community.free_board_detail', compact('article', 'next_article', 'prev_article', 'show_liked'));
+            return view('mobile.community.free_board_detail', compact('article', 'next_article', 'prev_article', 'show_liked','article_comments'));
 
         }
 
-        return view('main.community.free_board_detail', compact('article', 'next_article', 'prev_article', 'show_liked'));
+        return view('main.community.free_board_detail', compact('article', 'next_article', 'prev_article', 'show_liked','article_comments'));
     }
 
 

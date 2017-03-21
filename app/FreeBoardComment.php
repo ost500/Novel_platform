@@ -34,4 +34,15 @@ class FreeBoardComment extends Model
     {
         return $this->belongsTo(FreeBoard::class, 'free_board_id', 'id');
     }
+
+    public function children()
+    {
+        return $this->hasMany(FreeBoardComment::class, 'parent_id')->with('users')->with('freeboards');
+    }
+
+    public function myself()
+    {
+        return $this->hasMany(FreeBoardComment::class, 'id')->with('users')->with('freeboards');
+    }
+
 }
