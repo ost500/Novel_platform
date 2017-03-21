@@ -66,6 +66,21 @@
                                 <div class="comment-list-header">
                                     <h2 class="title">댓글</h2>
                                     <span class="count">{{$article->comments_count}}</span>
+                                    <!-- 댓글목록정렬 -->
+                                    <div class="sort-nav sort-nav--comment">
+                                        <nav>
+                                            <ul>
+                                                <li>
+                                                    <a href="{{ route('free_board.detail', ['id' => $article->id]).'?order=latest' }}"
+                                                       @if($order == 'latest' or $order == null ) class="is-active" @endif>최신순</a>
+                                                </li>
+                                                <li>
+                                                    <a href="{{ route('free_board.detail', ['id' => $article->id]).'?order=oldest' }}"
+                                                       @if($order == 'oldest') class="is-active" @endif>등록순</a></li>
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                    <!-- //작품목록정렬 -->
                                 </div>
                                 <ul class="comment-list">
                                     @foreach($article_comments as $comment)

@@ -1,8 +1,8 @@
 @extends('layouts.main_layout')
 @section('content')
         <!-- 컨테이너 -->
-<div class="container">
-    <div class="wrap">
+<div class="container" xmlns:v-on="http://www.w3.org/1999/xhtml">
+    <div class="wrap" id="review_comments">
         <!-- LNB -->
 
         <div class="lnb">
@@ -171,21 +171,62 @@
                             <!-- //작품목록정렬 -->
                         </div>
                         <ul class="comment-list">
-                            @foreach ($review->comments as $comment)
+                            @foreach ($review_comments as $comment)
                                 <li>
                                     <div class="comment-wrap">
                                         <div class="comment-info"><span
-                                                    class="writer">{{ $comment->users->name }}</span> <span
-                                                    class="datetime">{{ $comment->created_at }}</span>
+                                                    class="writer">{{ $comment[0]->users->name }}</span> <span
+                                                    class="datetime">{{ $comment[0]->created_at }}</span>
                                         </div>
-                                        <div class="comment-btns"><a href="#mode_nav">답글</a><a
-                                                    href="{{ route('accusations', ['id' => $comment->users->id]) }}">신고</a>
+                                        <div class="comment-btns"><a  v-on:click="new_box_show({{$comment[0]->id}})"
+                                                                      style="cursor: pointer;">답글</a><a
+                                                    href="{{ route('accusations', ['id' => $comment[0]->users->id]) }}">신고</a>
                                         </div>
                                         <div class="comment-content">
-                                            <p><?php echo nl2br($comment->comment); ?></p>
+                                            <p><?php echo nl2br($comment[0]->comment); ?></p>
+                                        </div>
+                                        <div class="comment-content " style="display:none;"
+                                             v-show="new_box_display.status"
+                                             id="comment_box{{$comment[0]->id}}"
+                                             v-if="new_box_display.id =={{$comment[0]->id}}">
+                                                     <textarea name="comment"
+                                                               id="comment{{$comment[0]->id}}"
+                                                               v-model="sub_info.comment" rows="3"
+                                                               style="width:65%;">
+                                                     </textarea>
+
+                                            <input type="hidden" name="parent_id"
+                                                   id="parent_id{{$comment[0]->id}}"
+                                                   value="{{$comment[0]->id}}"/>
+
+                                            <button name="submit"
+                                                    id="edit{{$comment[0]->id}}"
+                                                    v-on:click="subCommentStore('{{$comment[0]->id}}')"
+                                                    class="btn btn-primary inline"
+                                                    style="width:100px;height:57px;vertical-align: top;">
+                                                댓글
+                                            </button>
+                                            <br>
+                                            <span style="margin-left: 2%;" id="error{{$comment[0]->id}}"></span>
+
                                         </div>
                                     </div>
                                 </li>
+                                @foreach($review_comments[$loop->index]['children'] as $comment_reply)
+                                    <li>
+                                        <div class="comment-wrap is-reply">
+                                            <div class="comment-info"><span
+                                                        class="writer">{{ $comment_reply['users']['name'] }}</span><span
+                                                        class="datetime">{{ $comment_reply->created_at }}</span></div>
+                                            <div class="comment-btns">
+                                                <a href="{{ route('accusations', ['id' => $comment_reply->users->id]) }}">신고</a>
+                                            </div>
+                                            <div class="comment-content">
+                                                <p><?php echo nl2br($comment_reply->comment); ?></p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                @endforeach
                             @endforeach
                         </ul>
                     </div>
@@ -249,4 +290,49 @@
     </div>
 </div>
 <!-- //컨테이너 -->
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#review_comments',
+        data: {
+
+            sub_info: {comment: '', parent_id: ''},
+            new_box_display: {id: '', status: false}
+        },
+        methods: {
+
+
+            new_box_show: function (comment_id) {
+
+                if (this.new_box_display.id == comment_id && this.new_box_display.status == true) {
+                    //Hide new comment box if already shown
+                    this.new_box_display.status = false;
+                    this.new_box_display.id = 0;
+                } else {
+                    //Show new comment box
+                    this.new_box_display.id = comment_id;
+                    this.new_box_display.status = true;
+
+                }
+
+
+            },
+            subCommentStore: function (comment_id) {
+                app.sub_info.parent_id = $('#parent_id' + comment_id).val();
+                app.$http.post('{{route('reader_reco.comment',['id'=>$review->review_id])}}', app.sub_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                        .then(function (response) {
+                            location.reload();
+
+                        }).catch(function (errors) {
+                            this.errorsInfo = errors.data;
+                            if (this.errorsInfo.error) {
+                                window.location.assign('/login?loginView=true');
+                                exit();
+                            }
+                            $("#error" + comment_id).text(errors.data['comment']);
+                            //  $('#validateError').show();
+                        });
+            }
+        }
+    });
+</script>
 @endsection
