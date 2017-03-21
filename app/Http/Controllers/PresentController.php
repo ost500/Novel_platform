@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewSpeedEvent;
 use App\Present;
 use Illuminate\Http\Request;
 use Validator;
@@ -54,6 +55,8 @@ class PresentController extends Controller
         Auth::user()->save();
 
         flash(Auth::user()->name . " 님에게 구슬을 선물했습니다.");
+        
+        event(new NewSpeedEvent("gift", "[구슬선물] " . Auth::user()->name . '님으로부터 구슬을 선물 받았습니다', route('my_info.received_gift'), "/front/imgs/thumb/alarm2.png", null, $gift_user->id));
 
         return response()->json(['message' => Auth::user()->name . '님에게 구슬을 선물했습니다.', 'status' => 'ok']);
     }
