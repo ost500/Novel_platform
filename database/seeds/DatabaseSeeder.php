@@ -59,7 +59,7 @@ class DatabaseSeeder extends Seeder
 
             $new_novel = $novel_group->novels()->save(factory(App\Novel::class)->make());
             $new_novel->user_id = $novel_group->user_id;
-            if ($index % 2 == 1) {
+            if ($index < 10) {
                 $new_novel->non_free_agreement = true;
             }
             $new_novel->save();

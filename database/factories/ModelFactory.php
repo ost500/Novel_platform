@@ -34,6 +34,8 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 
 $factory->define(App\NovelGroup::class, function (Faker\Generator $faker) {
     $userIds = App\User::pluck('id')->toArray();
+    $coverPhotos = ['thumb/charge_book10.png', 'thumb/free_book2.png', 'thumb/charge_book1.png', 'thumb/charge_book9.png',
+        'thumb/novel6.png', 'thumb/recommend_novel6.png', 'thumb/novel5.png'];
 
     return [
         'user_id' => $faker->randomElement($userIds),
@@ -41,7 +43,7 @@ $factory->define(App\NovelGroup::class, function (Faker\Generator $faker) {
         'title' => $faker->sentence,
         'description' => $faker->paragraph,
         'latest_at' => $faker->date('Y-m-d'),
-        'cover_photo' => "default_.jpg",
+        'cover_photo' => $faker->randomElement($coverPhotos),
         'completed' => $faker->randomElement(['0', '1'])
     ];
 });

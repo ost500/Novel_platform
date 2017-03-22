@@ -54,7 +54,8 @@
             <div class="login-area" id="login-area">
                 @if(Auth::check())
                     <button type="button" class="userbtn userbtn--open"
-                            v-bind:class="{'is-new' : new_speeds.news_count + new_mails.count > 0 }" id="more_btns_open">
+                            v-bind:class="{'is-new' : new_speeds.news_count + new_mails.count > 0 }"
+                            id="more_btns_open">
                         사용자메뉴<i>@{{ new_speeds.news_count + new_mails.count }}</i></button>
 
                     <div class="more-btns" id="more_btns">
@@ -156,8 +157,8 @@
                     </div>
 
 
-                    @else
-                            <!-- 방문자버튼 -->
+                @else
+                <!-- 방문자버튼 -->
 
                     <a href="#mode_nav" class="userbtn userbtn--login" data-modal-id="login_form"
                        @if($errors->has('name') || $errors->has('password') || isset($login) || isset($loginView) || session('login')) data-modal-start @endif >로그인</a>
@@ -270,8 +271,11 @@
                             @endif
                         </div>
                         <div class="field">
-                            <input id="password" type="password" class="text2" title="비밀번호" name="password" required
-                                   placeholder="비밀번호(4~16자리)">
+                            <input id="password" type="text" class="text2" title="비밀번호" name="password" required
+                                   placeholder="비밀번호(4~16자리)" autocomplete="off"
+                                   style="text-security:disc; -webkit-text-security:disc; -mox-text-security:disc;"/>
+
+
                             @if ($errors->has('password'))<span
                                     class="alert-msg is-active">{{ $errors->first('password') }}</span>@endif
                         </div>
@@ -295,6 +299,20 @@
         </section>
     </div>
     <!-- //로그인모달 -->
+
+    <script type="text/javascript">
+        // input type password, if it is chrome, type=text, otherwise password
+        $(function(){
+            if(/chrome/.test(navigator.userAgent.toLowerCase()) || !!window.chrome) {
+                //크롬으로 접속한 경우
+            } else {
+                //크롬이외의 브라우저
+                $('#password').attr('type', 'password');
+            }
+        });
+    </script>
+
+
     <!-- 통합검색모달 -->
     <div id="search_form" class="search-modal" tabindex="0">
         <form name="search_form" action="{{route('search.index')}}" class="search-form" method="post">
@@ -337,13 +355,13 @@
             </fieldset>
         </form>
     </div>
-    @yield('header')
-            <!-- //통합검색모달 -->
+@yield('header')
+<!-- //통합검색모달 -->
 </header>
 <!-- //헤더 -->
 
 @yield('content')
-        <!-- 푸터 -->
+<!-- 푸터 -->
 <div class="footer" id="footer-area">
     <!-- 푸터공지 -->
     <div class="notice">
@@ -557,7 +575,7 @@
 
         }
 
-      //function to fix header
+        //function to fix header
         function fix_header() {
             if ($(this).scrollTop() > 1) {
                 $('.header').addClass('fixed');
