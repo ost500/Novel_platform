@@ -1,7 +1,7 @@
 @extends('layouts.mobile_layout')
 @section('content')
         <!-- 상단비주얼 -->
-<div class="serial_topvs_wrap">
+<div class="serial_topvs_wrap" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
     <!-- 상단 비주얼 배경 이미지 -->
     <div class="stvs_bg_wrap">
         <div class="stvs_bg_img"></div>
@@ -70,7 +70,7 @@
 
 <!-- 내용 -->
 <div class="container">
-    <div class="cont_wrap">
+    <div class="cont_wrap" >
         @if(Session::has('flash_message'))
             {{-- important, success, warning, danger and info --}}
             <div class="alert alert-success">
@@ -121,30 +121,60 @@
             <!-- 버튼 //-->
 
             <!-- 댓글 -->
-            <div class="repl_lst_wrap padt50">
+            <div class="repl_lst_wrap padt50" id="review_comments">
                 <div class="replst_head">
                     <h3 class="mlist_tit4">댓글<span class="repcount">({{ $review->comments->count() }})</span></h3>
                     <div class="sort_area">
-                        <a href="{{ route('reader_reco.detail', ['id' => $review->id]).'?order=latest' }}"
+                        <a href="{{ route('reader_reco.detail', ['id' => $review->review_id]).'?order=latest' }}"
                            @if($order == 'latest' or $order == null ) class="sort_btn sort_on"
                            @else class="sort_btn sort_off" @endif>최신순</a>
-                        <a href="{{ route('reader_reco.detail', ['id' => $review->id]).'?order=oldest' }}"
+                        <a href="{{ route('reader_reco.detail', ['id' => $review->review_id]).'?order=oldest' }}"
                            @if($order == 'oldest')  class="sort_btn sort_on" @else class="sort_btn sort_off" @endif>등록순</a>
                     </div>
                 </div>
 
                 <ul class="repl_lst">
-                    @foreach ($review->comments as $comment)
+                    @foreach ($review_comments as $comment)
                         <li>
-                            <div class="replst_tit">{{ $comment->users->name }}<span
-                                        class="replst_time">{{ $comment->created_at }}</span></div>
-                            <div class="replst_cont"><?php echo nl2br($comment->comment); ?></div>
+                            <div class="replst_tit">{{ $comment[0]->users->name }}<span
+                                        class="replst_time">{{ $comment[0]->created_at }}</span></div>
+                            <div class="replst_cont"><?php echo nl2br($comment[0]->comment); ?></div>
                             <div class="replst_btn_wrap">
-                                <a href="" class="replst_btn">답글</a>
-                                <a href="{{ route('accusations', ['id' => $comment->users->id]) }}"
+                                <a v-on:click="new_box_show({{$comment[0]->id}})"  style="cursor:pointer;" class="replst_btn">답글</a>
+
+                                <a href="{{ route('accusations', ['id' => $comment[0]->users->id]) }}"
                                    class="replst_btn">신고</a>
                             </div>
+                            <div class="replst_cont" style="display:none;"
+                                 v-show="new_box_display.status"
+                                 id="comment_box{{$comment[0]->id}}"
+                                 v-if="new_box_display.id =={{$comment[0]->id}}">
+
+                                      <textarea name="comment" id="comment{{$comment[0]->id}}"
+                                                v-model="sub_info.comment" rows="3"
+                                                placeholder="여러분의 소중한 댓글을 입력해 주세요">{{ old('comment') }}</textarea>
+                                <span style="margin-left: 2%;" id="error{{$comment[0]->id}}"></span>
+                                <input type="hidden" name="parent_id" id="parent_id{{$comment[0]->id}}"
+                                       value="{{$comment[0]->id}}"/>
+                                <div class="padtb15">
+                                    <button type="submit" id="edit{{$comment[0]->id}}"
+                                            v-on:click="subCommentStore('{{$comment[0]->id}}')"
+                                            class="btn_green full">답글
+                                    </button>
+                                </div>
+                            </div>
                         </li>
+                        @foreach($review_comments[$loop->index]['children'] as $comment_reply)
+                            <li class="repl_lst_re">
+                                <div class="replst_tit">{{ $comment_reply->users->name }}<span
+                                            class="replst_time">{{ $comment_reply->created_at }}</span></div>
+                                <div class="replst_cont"><?php echo nl2br($comment_reply->comment); ?></div>
+                                <div class="replst_btn_wrap">
+                                    <a href="{{ route('accusations', ['id' => $comment_reply->users->id]) }}"
+                                       class="replst_btn">신고</a>
+                                </div>
+                            </li>
+                        @endforeach
                     @endforeach
                     {{--<li class="repl_lst_re">
                         <div class="replst_tit">환영비화<span class="replst_time">2016-06-20 23:00</span></div>
@@ -178,4 +208,49 @@
     </div>
 </div>
 <!-- 내용 //-->
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#review_comments',
+        data: {
+
+            sub_info: {comment: '', parent_id: ''},
+            new_box_display: {id: '', status: false}
+        },
+        methods: {
+
+
+            new_box_show: function (comment_id) {
+
+                if (this.new_box_display.id == comment_id && this.new_box_display.status == true) {
+                    //Hide new comment box if already shown
+                    this.new_box_display.status = false;
+                    this.new_box_display.id = 0;
+                } else {
+                    //Show new comment box
+                    this.new_box_display.id = comment_id;
+                    this.new_box_display.status = true;
+
+                }
+
+
+            },
+            subCommentStore: function (comment_id) {
+                app.sub_info.parent_id = $('#parent_id' + comment_id).val();
+                app.$http.post('{{route('reader_reco.comment',['id'=>$review->review_id])}}', app.sub_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                        .then(function (response) {
+                            location.reload();
+
+                        }).catch(function (errors) {
+                            this.errorsInfo = errors.data;
+                            if (this.errorsInfo.error) {
+                                window.location.assign('{{ url('/login')}}');
+                                exit();
+                            }
+                            $("#error" + comment_id).text(errors.data['comment']);
+                            //  $('#validateError').show();
+                        });
+            }
+        }
+    });
+</script>
 @endsection

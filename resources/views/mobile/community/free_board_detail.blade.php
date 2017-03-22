@@ -64,37 +64,58 @@
             <div class="repl_lst_wrap padt50">
                 <div class="replst_head">
                     <h3 class="mlist_tit4">댓글<span class="repcount">({{$article->comments_count}})</span></h3>
+
+                    <div class="sort_area">
+                        <a href="{{ route('free_board.detail', ['id' => $article->id]).'?order=latest' }}"
+                           @if($order == 'latest' or $order == null ) class="sort_btn sort_on"
+                           @else class="sort_btn sort_off" @endif>최신순</a>
+                        <a href="{{ route('free_board.detail', ['id' => $article->id]).'?order=oldest' }}"
+                           @if($order == 'oldest')  class="sort_btn sort_on"
+                           @else class="sort_btn sort_off" @endif>등록순</a>
+                    </div>
                 </div>
                 <ul class="repl_lst">
-                    @foreach($article->comments as $comment)
+                    @foreach($article_comments as $comment)
                         <li>
-                            <div class="replst_tit">{{ $comment['users']['name'] }}<span
-                                        class="replst_time">{{ $comment->created_at }}</span></div>
-                            <div class="replst_cont"><?php echo nl2br($comment->comment); ?></div>
+                            <div class="replst_tit">{{ $comment[0]->users->name  }}<span
+                                        class="replst_time">{{ $comment[0]->created_at }}</span></div>
+                            <div class="replst_cont"><?php echo nl2br($comment[0]->comment); ?></div>
                             <div class="replst_btn_wrap">
-                                <a v-on:click="new_box_show({{$comment->id}})" class="replst_btn">답글</a>
-                                <a href="{{ route('accusations', ['id' => $comment->users->id]) }}"
+                                <a v-on:click="new_box_show({{$comment[0]->id}})" style="cursor: pointer;"
+                                   class="replst_btn">답글</a>
+                                <a href="{{ route('accusations', ['id' => $comment[0]->users->id]) }}"
                                    class="replst_btn">신고</a>
                             </div>
                             <div class="replst_cont" style="display:none;"
                                  v-show="new_box_display.status"
-                                 id="comment_box{{$comment->id}}"
-                                 v-if="new_box_display.id =={{$comment->id}}">
+                                 id="comment_box{{$comment[0]->id}}"
+                                 v-if="new_box_display.id =={{$comment[0]->id}}">
 
-                                      <textarea name="comment" id="comment{{$comment->id}}"
+                                      <textarea name="comment" id="comment{{$comment[0]->id}}"
                                                 v-model="sub_info.comment" rows="3"
                                                 placeholder="여러분의 소중한 댓글을 입력해 주세요">{{ old('comment') }}</textarea>
-                                 <span style="margin-left: 2%;" id="error{{$comment->id}}"></span>
-                                <div class="padtb25">
-                                    <button type="submit" id="edit{{$comment->id}}"
-                                            v-on:click="subCommentStore('{{$comment->id}}')"
-                                            class="btn_green full">등록
+                                <span style="margin-left: 2%;" id="error{{$comment[0]->id}}"></span>
+                                <input type="hidden" name="parent_id" id="parent_id{{$comment[0]->id}}"
+                                       value="{{$comment[0]->id}}"/>
+                                <div class="padtb15">
+                                    <button type="submit" id="edit{{$comment[0]->id}}"
+                                            v-on:click="subCommentStore('{{$comment[0]->id}}')"
+                                            class="btn_green full">답글
                                     </button>
                                 </div>
                             </div>
-
-
                         </li>
+                        @foreach($article_comments[$loop->index]['children'] as $comment_reply)
+                            <li class="repl_lst_re">
+                                <div class="replst_tit">{{ $comment_reply->users->name }}
+                                    <span class="replst_time">{{ $comment_reply->created_at }}</span></div>
+                                <div class="replst_cont"><?php echo nl2br($comment_reply->comment); ?></div>
+                                <div class="replst_btn_wrap">
+                                    <a href="{{ route('accusations', ['id' => $comment_reply->users->id]) }}"
+                                       class="replst_btn">신고</a>
+                                </div>
+                            </li>
+                        @endforeach
                     @endforeach
                 </ul>
             </div>
@@ -126,7 +147,7 @@
             like_info: {free_board_id: ''},
             add_favorite_disp: true,
             remove_favorite_disp: false,
-            sub_info: {comment: ''},
+            sub_info: {comment: '', parent_id: ''},
             new_box_display: {id: '', status: false},
             errorsInfo: {}
 
@@ -150,8 +171,7 @@
             },
 
             subCommentStore: function (comment_id) {
-                app_free_board.sub_info.comment = $('#comment' + comment_id).val();
-
+                app_free_board.sub_info.parent_id = $('#parent_id' + comment_id).val();
                 app_free_board.$http.post('{{ route('freeboard.comment',['id'=>$article->id]) }}', app_free_board.sub_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                         .then(function (response) {
                             location.reload();

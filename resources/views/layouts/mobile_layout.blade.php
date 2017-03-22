@@ -50,6 +50,7 @@
             width: 640px;
             background-color: #fff;
             z-index: 2;
+            top:0;
         }
 
         .is-fixed {
