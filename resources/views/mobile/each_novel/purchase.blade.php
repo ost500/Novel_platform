@@ -161,7 +161,8 @@
                         </a>
                     </li>
 
-                    <a style="cursor:pointer" v-on:click="purchase()"><span class="btn_green full" style="margin-top:5px;text-align:center;">구입하기</span></a>
+                    <a style="cursor:pointer" v-on:click="purchase()"><span class="btn_green full"
+                                                                            style="margin-top:5px;text-align:center;">구입하기</span></a>
 
                 </ul>
 
@@ -172,76 +173,80 @@
         <!-- 연재회차 //-->
 
         <!-- 작가의 다른 작품 -->
-        <div class="">
-            <div class="mlist_tit_rwap">
-                <h2 class="mlist_tit2">작가의 다른 작품</h2>
-                {{-- <form name="search_other_form" action="{{route('search.index')}}" method="post">
-                     {{csrf_field()}}
-                     <input type="hidden" name="nickname_id" id="nickname_id" value="{{$novel_group->nickname_id}}">
-                     <input type="hidden" name="search_type" id="search_type" value="다른">
-                <button type="submit" class="mlist_more" style="cursor:pointer;">더보기</button>
-                </form>--}}
-                <a href="{{route('search.index').'?nickname_id='.$novel_group->nickname_id.'&search_type=다른 작품'}}"
-                   class="mlist_more">더보기</a>
-            </div>
-            <!-- 리스트 테이블 -->
-            <div class="view_else_box">
-                <table class="mlist_tbl" style="border:0;">
-                    <colgroup>
-                        <col width="30%">
-                        <col width="*">
-                    </colgroup>
-                    <tbody>
-                    @foreach($author_novel_groups as $author_novel_group)
-                        <tr>
-                            <td class="">
+        @if(!$author_novel_groups->isEmpty())
+            <div class="">
+                <div class="mlist_tit_rwap">
+                    <h2 class="mlist_tit2">작가의 다른 작품</h2>
+                    {{-- <form name="search_other_form" action="{{route('search.index')}}" method="post">
+                         {{csrf_field()}}
+                         <input type="hidden" name="nickname_id" id="nickname_id" value="{{$novel_group->nickname_id}}">
+                         <input type="hidden" name="search_type" id="search_type" value="다른">
+                    <button type="submit" class="mlist_more" style="cursor:pointer;">더보기</button>
+                    </form>--}}
+                    <a href="{{route('search.index').'?nickname_id='.$novel_group->nickname_id.'&search_type=다른 작품'}}"
+                       class="mlist_more">더보기</a>
+                </div>
+                <!-- 리스트 테이블 -->
+                <div class="view_else_box">
+                    <table class="mlist_tbl" style="border:0;">
+                        <colgroup>
+                            <col width="30%">
+                            <col width="*">
+                        </colgroup>
+                        <tbody>
+                        @foreach($author_novel_groups as $author_novel_group)
+                            <tr>
+                                <td class="">
                              <span class="mtbl_img">
                                  <a href="{{ route('each_novel.novel_group',['id' => $author_novel_group->id]) }}">
                                      <img src="/img/novel_covers/{{ $author_novel_group->cover_photo }}"
                                           class="mtbl_img"></a>
                                </span>
-                            </td>
-                            <td class="">
-                                <a href="{{ route('each_novel.novel_group',['id' => $author_novel_group->id]) }}">
-                                    <div class="mtbl_tit">{{str_limit($author_novel_group->title, 20)}}</div>
-                                </a>
+                                </td>
+                                <td class="">
+                                    <a href="{{ route('each_novel.novel_group',['id' => $author_novel_group->id]) }}">
+                                        <div class="mtbl_tit">{{str_limit($author_novel_group->title, 20)}}</div>
+                                    </a>
 
-                                <div class="mtbl_binfo">@if(count($novel_group->keywords) >0) {{$novel_group->keywords[0]->name }} @endif</div>
-                                <div class="mtbl_binfo2">총 {{$author_novel_group->max_inning}}화</div>
-                                <div class="mtbl_binfo2">선호작 {{$author_novel_group->favorite_count}}명</div>
-                            </td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            </div>
-            <!-- 리스트 테이블 //-->
-
-            <!-- 페이징 -->
-            <div class="pag_wrap">
-                <div class="paging">
-                    {{--{{ $author_novel_groups->render() }}--}}
-                    @include('pagination_mobile', ['collection' => $author_novel_groups, 'url' => route('each_novel.novel_group',['id'=>$novel_group->id]).'&'])
+                                    <div class="mtbl_binfo">@if(count($novel_group->keywords) >0) {{$novel_group->keywords[0]->name }} @endif</div>
+                                    <div class="mtbl_binfo2">총 {{$author_novel_group->max_inning}}화</div>
+                                    <div class="mtbl_binfo2">선호작 {{$author_novel_group->favorite_count}}명</div>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
                 </div>
-            </div>
-            <!-- 페이징 //-->
-        </div>
-        <!-- 작가의 다른 작품 //-->
+                <!-- 리스트 테이블 //-->
 
-        <!-- 해시태그 -->
-        <div class="">
-            <div class="mlist_tit_rwap">
-                <h2 class="mlist_tit2">해시태그</h2>
+                <!-- 페이징 -->
+                <div class="pag_wrap">
+                    <div class="paging">
+                        {{--{{ $author_novel_groups->render() }}--}}
+                        @include('pagination_mobile', ['collection' => $author_novel_groups, 'url' => route('each_novel.novel_group',['id'=>$novel_group->id]).'&'])
+                    </div>
+                </div>
+                <!-- 페이징 //-->
             </div>
-            <div class="">
-                <ul class="hash_tag">
-                    @foreach($novel_group->hash_tags as $hash_tag)
-                        <li><a href="" class="hash_tag_a">{{$hash_tag->tag}}</a></li>
-                    @endforeach
-                </ul>
-            </div>
-        </div>
-        <!-- 해시태그 //-->
+            @endif
+                    <!-- 작가의 다른 작품 //-->
+
+            <!-- 해시태그 -->
+            @if(!$novel_group->hash_tags->isEmpty())
+                <div class="">
+                    <div class="mlist_tit_rwap">
+                        <h2 class="mlist_tit2">해시태그</h2>
+                    </div>
+                    <div class="">
+                        <ul class="hash_tag">
+                            @foreach($novel_group->hash_tags as $hash_tag)
+                                <li><a href="" class="hash_tag_a">{{$hash_tag->tag}}</a></li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            @endif
+                        <!-- 해시태그 //-->
     </div>
 </div>
 <!-- 내용 //-->
@@ -320,7 +325,7 @@
                 var bead_piece = $(".chb:checked").map(function () {
                     return this.value;
                 }).get();
-                app_purchase.purchase_info.BeadOrPiece=bead_piece[0];
+                app_purchase.purchase_info.BeadOrPiece = bead_piece[0];
                 if (app_purchase.purchase_info.BeadOrPiece == "") {
                     alert('구슬과 조각 둘 중의 결제 방법을 선택하세요')
                     return;
@@ -343,14 +348,14 @@
                         .then(function (response) {
 
                             //console.log(response);
-                           window.location.assign('/novel_group_inning/{{ $novel->id }}');
+                            window.location.assign('/novel_group_inning/{{ $novel->id }}');
                         })
                         .catch(function (errors) {
 
-                          //  console.log("error here");
-                           // console.log(errors);
+                            //  console.log("error here");
+                            // console.log(errors);
                         });
-               // console.log(app_purchase.purchase_info);
+                // console.log(app_purchase.purchase_info);
             }
 
 

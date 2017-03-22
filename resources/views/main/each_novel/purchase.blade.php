@@ -120,59 +120,64 @@
                     </div>
                     <div class="episode-list-aside">
                         <!-- 작가다른작품 -->
-                        <section>
-                            <div class="recommend recommend--more">
-                                <h2 class="recommend-title">작가의 다른 작품</h2>
-                                <ul class="recommend-list">
-                                    @foreach($author_novel_groups as $author_novel_group)
-                                        <li>
-                                            <a href="{{ route('each_novel.novel_group',['id' => $author_novel_group->id]) }}">
-                                                <div class="thumb">
+                        @if(!$author_novel_groups->isEmpty())
+                            <section>
+                                <div class="recommend recommend--more">
+                                    <h2 class="recommend-title">작가의 다른 작품</h2>
+                                    <ul class="recommend-list">
+                                        @foreach($author_novel_groups as $author_novel_group)
+                                            <li>
+                                                <a href="{{ route('each_novel.novel_group',['id' => $author_novel_group->id]) }}">
+                                                    <div class="thumb">
                                                     <span><img src="/img/novel_covers/{{ $author_novel_group->cover_photo }}"
                                                                alt=""></span>
-                                                </div>
-                                                <div class="post">
-                                                    <strong class="title">{{str_limit($author_novel_group->title, 20)}}</strong>
+                                                    </div>
+                                                    <div class="post">
+                                                        <strong class="title">{{str_limit($author_novel_group->title, 20)}}</strong>
 
-                                                    <p class="post-content">
-                                                        @if(count($novel_group->keywords) >0) {{$novel_group->keywords[0]->name }} @endif<br>
-                                                        총 {{$author_novel_group->max_inning}}화<br>
-                                                        선호작{{$author_novel_group->favorite_count}}명
-                                                    </p>
-                                                </div>
-                                            </a>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                                {{--<a href="#mode_nav" class="recommend-more-btn">더보기</a>--}}
-                            </div>
-                            <!-- 페이징 -->
-                            <div class="page-nav page-nav--small">
-                                <nav>
-                                    <ul>
-                                        {{ $author_novel_groups->render() }}
-                                        {{--  <li><a href="#mode_nav" class="prev-page"><span>이전</span></a></li>
-                                          <li><a href="#mode_nav" class="current-page">1</a></li>
-                                          <li><a href="#mode_nav">2</a></li>
-                                          <li><a href="#mode_nav" class="next-page"><span>다음</span></a></li>--}}
+                                                        <p class="post-content">
+                                                            @if(count($novel_group->keywords) >0) {{$novel_group->keywords[0]->name }} @endif
+                                                            <br>
+                                                            총 {{$author_novel_group->max_inning}}화<br>
+                                                            선호작{{$author_novel_group->favorite_count}}명
+                                                        </p>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        @endforeach
                                     </ul>
-                                </nav>
-                            </div>
-                            <!-- //페이징 -->
-                        </section>
-                        <!-- //작가다른작품 -->
+                                    {{--<a href="#mode_nav" class="recommend-more-btn">더보기</a>--}}
+                                </div>
+                                <!-- 페이징 -->
+                                <div class="page-nav page-nav--small">
+                                    <nav>
+                                        <ul>
+                                            {{ $author_novel_groups->render() }}
+                                            {{--  <li><a href="#mode_nav" class="prev-page"><span>이전</span></a></li>
+                                              <li><a href="#mode_nav" class="current-page">1</a></li>
+                                              <li><a href="#mode_nav">2</a></li>
+                                              <li><a href="#mode_nav" class="next-page"><span>다음</span></a></li>--}}
+                                        </ul>
+                                    </nav>
+                                </div>
+                                <!-- //페이징 -->
+                            </section>
+                            <!-- //작가다른작품 -->
+                            @endif
 
-                        <!-- 해시태그 -->
-                        <section class="hash-tag">
-                            <h2 class="hash-tag-title">해시태그</h2>
-                            <ul class="hash-tag-list">
-                                @foreach($novel_group->hash_tags as $hash_tag)
-                                    <li><a href="">{{$hash_tag->tag}}</a></li>
-                                @endforeach
+                                    <!-- 해시태그 -->
+                            @if(!$novel_group->hash_tags->isEmpty())
+                                <section class="hash-tag">
+                                    <h2 class="hash-tag-title">해시태그</h2>
+                                    <ul class="hash-tag-list">
+                                        @foreach($novel_group->hash_tags as $hash_tag)
+                                            <li><a href="">{{$hash_tag->tag}}</a></li>
+                                        @endforeach
 
-                            </ul>
-                        </section>
-                        <!-- //해시태그 -->
+                                    </ul>
+                                </section>
+                             @endif
+                                        <!-- //해시태그 -->
                     </div>
                 </div>
                 <!-- //연재회차,작가다른작품,해시태그 -->
@@ -180,8 +185,8 @@
             </div>
             <!-- //서브컨텐츠 -->
             <!-- 따라다니는퀵메뉴 -->
-        @include('main.quick_menu')
-        <!-- //따라다니는퀵메뉴 -->
+            @include('main.quick_menu')
+                    <!-- //따라다니는퀵메뉴 -->
         </div>
 
     </div>
@@ -225,7 +230,7 @@
                 app.$http.post('{{ route('favorites.store') }}', app.favorites_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                         .then(function (response) {
                             //  document.getElementById('tab' + publish_company_id).style.display = 'none';
-                          //  console.log(response);
+                            //  console.log(response);
                             app.add_favorite_disp = false;
                             app.remove_favorite_disp = true;
                             // location.reload();
@@ -238,7 +243,7 @@
                 app.$http.delete('{{ route('favorites.destroy',['id'=>$novel_group->id]) }}', {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                         .then(function (response) {
                             //  document.getElementById('tab' + publish_company_id).style.display = 'none';
-                           // console.log(response);
+                            // console.log(response);
                             app.add_favorite_disp = true;
                             app.remove_favorite_disp = false;
                             // location.reload();
@@ -271,7 +276,7 @@
                 app.$http.post('{{ route('each_novel.novel_group_inning.purchase.post', ['id' => $novel->id]) }}', app.purchase_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                         .then(function (response) {
 
-                           // console.log(response);
+                            // console.log(response);
                             window.location.assign('/novel_group_inning/{{ $novel->id }}');
                         })
                         .catch(function (errors) {
@@ -279,7 +284,7 @@
                             //console.log("error here");
                             //console.log(errors);
                         });
-              //  console.log(app.purchase_info);
+                //  console.log(app.purchase_info);
             }
 
 
