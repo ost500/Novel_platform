@@ -44,10 +44,11 @@
                                         <th class="text-center">번호</th>
                                         <th>내용</th>
                                         <th class="text-center">엑셀파일 경로</th>
-                                        <th class="text-center">등록 날짜</th>
+                                        <th class="text-center">날짜</th>
                                         <th class="text-center">컬럼 인덱스</th>
                                         <th class="text-center">데이터 인덱스</th>
                                         <th class="text-center">코드 번호 인덱스</th>
+                                        <th class="text-center">정산 내역 인덱스</th>
                                         <th class="text-center">수정</th>
                                     </tr>
                                     </thead>
@@ -63,7 +64,7 @@
                                                   class="glyphicon glyphicon-download-alt"
                                                   onclick="downloadNovel_excel({{$calculation->id}})"></span>
                                         </td>
-                                        <td class="col-md-1 text-center">{{ $calculation->created_at }}
+                                        <td class="col-md-1 text-center">{{ $calculation->when }}
                                         </td>
                                         <td class="col-md-1">
                                             <div class="row">
@@ -104,6 +105,16 @@
                                                     <input id="code_numberX" style="text-align: center" type="text"
                                                            placeholder="" class="form-control"
                                                            value="{{ $calculation->code_numberX }}">
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="col-md-1">
+                                            <div class="row">
+
+                                                <div id="dataYerror" class="col-md-12">
+                                                    <input id="cal_numberX" style="text-align: center" type="text"
+                                                           placeholder="" class="form-control"
+                                                           value="{{ $calculation->cal_numberX }}">
                                                 </div>
                                             </div>
                                         </td>
@@ -190,6 +201,7 @@
                                                 class="min-width footable-visible footable-first-column"></th>
                                             <th class="min-width text-center">번호</th>
                                             <th class="min-width text-center">코드번호</th>
+                                            <th class="min-width text-center">정산금액</th>
                                             @foreach ($calculationColumnNames as $col)
                                                 <th>{{ $col }}</th>
                                             @endforeach
@@ -209,6 +221,8 @@
                                                 </td>
                                                 <td class="text-center">{{ $cal->id }}</td>
                                                 <td class="text-center">{{ $cal->code_number }}
+                                                </td>
+                                                <td class="text-center">{{ $cal->cal_number }}
                                                 </td>
                                                 @foreach (explode(",", $cal->data) as $data)
 
@@ -325,7 +339,8 @@
                             'columnY': $("#columnY").val(),
                             'dataX': $("#dataX").val(),
                             'dataY': $("#dataY").val(),
-                            'code_numberX': $("#code_numberX").val()
+                            'code_numberX': $("#code_numberX").val(),
+                            'cal_numberX': $("#cal_numberX").val()
                         };
 
                         console.log(dataXY);

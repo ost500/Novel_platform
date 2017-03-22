@@ -16,6 +16,7 @@ class CalculationController extends Controller
 
     public function store(Request $request)
     {
+
         Validator::make($request->all(), [
             'columnX' => 'required|max:2|alpha',
             'columnY' => 'required|max:100|numeric',
@@ -25,6 +26,8 @@ class CalculationController extends Controller
             'description' => 'required|max:3000',
             'excel' => 'required',
             'code_numberX' => 'required|max:2|alpha',
+            'date' => 'required',
+            'cal_numberX' => 'required|max:2|alpha'
 
         ],
             [
@@ -48,6 +51,10 @@ class CalculationController extends Controller
                 'code_numberX.max' => '코드 번호 인덱스 타입이 잘못 됐습니다.',
                 'code_numberX.numeric' => '코드 번호 인덱스 타입이 잘못 됐습니다.',
 
+                'cal_numberX.required' => '정산 금액 인덱스는 필수 입니다.',
+                'cal_numberX.max' => '정산 금액 인덱스 타입이 잘못 됐습니다.',
+                'cal_numberX.numeric' => '정산 금액 인덱스 타입이 잘못 됐습니다.',
+
 
                 'columnNames.required' => '컬럼명은 필수 입니다.',
                 'columnNames.max' => '컬럼명은 반드시 2000 자리보다 작아야 합니다.',
@@ -56,6 +63,7 @@ class CalculationController extends Controller
                 'description.max' => '내용은 반드시 2000 자리보다 작아야 합니다.',
 
                 'excel.required' => '엑셀 파일은 필수 입니다.',
+                'date.required' => '날짜는 필수 입니다.',
             ]
         )->validate();
 
@@ -68,6 +76,8 @@ class CalculationController extends Controller
         $newCalculation->description = $request->description;
         $newCalculation->column_names = $request->columnNames;
         $newCalculation->code_numberX = $request->code_numberX;
+        $newCalculation->when = $request->date;
+        $newCalculation->cal_numberX = $request->cal_numberX;
         $newCalculation->save();
 
         $excelFile = $request->file('excel');
@@ -118,6 +128,7 @@ class CalculationController extends Controller
                 $keys = array();
                 $extraKeys = array();
                 $code_num = "";
+                $cal_num = "";
 
                 // result is $keyData[0]
                 foreach ($keyData[0] as $key => $value) {
@@ -131,6 +142,8 @@ class CalculationController extends Controller
 
                     if ($key == ord(strtoupper($newCalculation->code_numberX)) - 65) {
                         $code_num = $key;
+                    } else if ($key == ord(strtoupper($newCalculation->cal_numberX)) - 65) {
+                        $cal_num = $key;
                     }
                 }
 
@@ -164,6 +177,9 @@ class CalculationController extends Controller
                             $newCalculationEach->data = $newCalculationEach->data . $value . ",";
                         } elseif ($code_num == $key) {
                             $newCalculationEach->code_number = $value;
+
+                        } elseif ($cal_num == $key) {
+                            $newCalculationEach->cal_number = $value;
 
                         } else {
                             $newCalculationEach->extra_data = $newCalculationEach->extra_data . $extraKeys[$extraKeysIndex] . ":" . $value . ",";
@@ -244,6 +260,7 @@ class CalculationController extends Controller
             'dataX' => 'required|max:2|alpha',
             'dataY' => 'required|max:100|numeric',
             'code_numberX' => 'required|max:2|alpha',
+            'cal_numberX' => 'required|max:2|alpha',
 
         ],
             [
@@ -267,6 +284,10 @@ class CalculationController extends Controller
                 'dataY.max' => '데이터 시작 인덱스(Y) 타입이 잘못 됐습니다.',
                 'dataY.numeric' => '데이터 시작 인덱스(Y) 타입이 잘못 됐습니다.',
 
+                'cal_numberX.required' => '정산 금액 인덱스(Y)는 필수 입니다.',
+                'cal_numberX.max' => '정산 금액 인덱스(Y) 타입이 잘못 됐습니다.',
+                'cal_numberX.numeric' => '정산 금액 인덱스(Y) 타입이 잘못 됐습니다.',
+
 
             ]
         )->validate();
@@ -279,6 +300,7 @@ class CalculationController extends Controller
         $cal->dataX = $request->dataX;
         $cal->dataY = $request->dataY;
         $cal->code_numberX = $request->code_numberX;
+        $cal->cal_numberX = $request->cal_numberX;
 
         $cal->save();
 

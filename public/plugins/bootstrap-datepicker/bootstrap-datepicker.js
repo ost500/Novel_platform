@@ -1408,7 +1408,7 @@
 		forceParse: true,
 		format: 'mm/dd/yyyy',
 		keyboardNavigation: true,
-		language: 'en',
+		language: 'kr',
 		minViewMode: 0,
 		multidate: false,
 		multidateSeparator: ',',
