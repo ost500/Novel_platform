@@ -367,7 +367,7 @@
                 @endif
             </li>
 
-        <li class="left_line" style="width: 15%">
+        <li class="left_line" style="width:15%">
             <a href="#comment" class="layer_foot_a">
                 <i class="fa fa-comments-o" aria-hidden="true"></i> </a>
         </li>
@@ -536,7 +536,11 @@
     /* $(".alert").delay(5000).slideUp(200, function () {
      $(this).alert('close');
      });*/
-
+    //Scroll and fix the inning  head
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > 200) $('.mlist_tit_rwap ').addClass('is-fixed');
+        else  $('.mlist_tit_rwap ').removeClass('is-fixed');
+    });
 
 </script>
 @endsection

@@ -551,24 +551,10 @@
 
     $(window).scroll(function () {
 
-        if ('{{ !Request::is('novel_group_inning/*')}}') {
+        if ('{{ !Request::is('novel_group_inning/*')}}' || '{{Request::is('novel_group_inning/*/purchase')}}') {
             //fix the main header
             fix_header();
 
-        }else{
-            //fix the main header
-            if ('{{Request::is('novel_group_inning/*/purchase')}}') {
-                fix_header();
-            }else{
-                if ($(this).scrollTop() > 265) $('.other-novels').addClass('novels-fixed');
-                 else   $('.other-novels').removeClass('novels-fixed');
-                //fix the inning pre and next
-                if ($(this).scrollTop() > 300 && $(this).scrollTop() < 1350) {
-                   /* if ($('.other-novels').css('display')=='none'){*/ $('.prev-next-episode').addClass('pre-next-fixed');/*}else{
-                        $('.prev-next-episode').removeClass('pre-next-fixed');
-                   }*/
-                } else{  $('.prev-next-episode').removeClass('pre-next-fixed');}
-            }
         }
 
       //function to fix header

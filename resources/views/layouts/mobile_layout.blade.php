@@ -55,11 +55,13 @@
 
         .is-fixed {
             position: fixed;
-            width: 29.53%;
+           /* width: 29.53%;*/
+             width: 87.91%;
             background-color: #fff;
             z-index: 2;
             top: 0;
-            left: 671px;
+           /* left: 671px;*/
+            left: 38px;
             border-bottom: 1px solid #e2d9d6;
         }
 
@@ -486,21 +488,9 @@
 
     //On scroll fix the header
     $(window).scroll(function () {
-        if ('{{ !Request::is('novel_group_inning/*')}}') {
+        if ('{{ !Request::is('novel_group_inning/*')}}' || '{{Request::is('novel_group_inning/*/purchase')}}') {
             //fix the main header
             fix_header();
-
-        } else {
-            //fix the main header
-            if ('{{Request::is('novel_group_inning/*/purchase')}}') {
-                fix_header();
-            }
-            else {
-                //fix the inning header
-                if ($(this).scrollTop() > 200) $('#inning_scroll_head').addClass('is-fixed');
-                else  $('#inning_scroll_head').removeClass('is-fixed');
-            }
-
         }
 
         function fix_header() {
@@ -523,7 +513,6 @@
                 $('.header .h_top .tr_link  .bookmark').css('margin', '');
                 $('.header .h_top .top_logo .tl_link').removeClass('img-logo-new');
                 $('.header .h_top .top_logo .img-logo').css('padding', '');
-                // $('.header .h_top .top_logo .tr_link  >img').removeAttr('src','/mobile/images/scroll_logo');
             }
         }
     });
