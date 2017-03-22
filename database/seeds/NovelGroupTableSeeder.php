@@ -14,44 +14,29 @@ class NovelGroupTableSeeder extends Seeder
     {
         $users = App\User::get();
 
-        $new_novel_group = new NovelGroup();
+        $new_novel_group = $users[0]->novel_groups()->save(factory(App\NovelGroup::class)->make());
         $new_novel_group->title = "괴롭히고 싶다";
-        $new_novel_group->description = "";
-        $new_novel_group->nickname_id = 1;
-        $new_novel_group->user_id = 1;
         $new_novel_group->cover_photo = "thumb/noon1.png";
         $new_novel_group->save();
 
 
-        $new_novel_group = new NovelGroup();
+        $new_novel_group = $users[0]->novel_groups()->save(factory(App\NovelGroup::class)->make());
         $new_novel_group->title = "공녀 엘린";
-        $new_novel_group->description = "";
-        $new_novel_group->nickname_id = 1;
-        $new_novel_group->user_id = 1;
         $new_novel_group->cover_photo = "thumb/novel_detail1.png";
         $new_novel_group->save();
 
-        $new_novel_group = new NovelGroup();
+        $new_novel_group = $users[0]->novel_groups()->save(factory(App\NovelGroup::class)->make());
         $new_novel_group->title = "꽃";
-        $new_novel_group->description = "";
-        $new_novel_group->nickname_id = 1;
-        $new_novel_group->user_id = 1;
         $new_novel_group->cover_photo = "thumb/noon2.png";
         $new_novel_group->save();
 
-        $new_novel_group = new NovelGroup();
+        $new_novel_group = $users[0]->novel_groups()->save(factory(App\NovelGroup::class)->make());
         $new_novel_group->title = "망의 연월";
-        $new_novel_group->description = "";
-        $new_novel_group->nickname_id = 1;
-        $new_novel_group->user_id = 1;
         $new_novel_group->cover_photo = "thumb/charge_book1.png";
         $new_novel_group->save();
 
-        $new_novel_group = new NovelGroup();
+        $new_novel_group = $users[0]->novel_groups()->save(factory(App\NovelGroup::class)->make());
         $new_novel_group->title = "잔혹한 다정함에게";
-        $new_novel_group->description = "";
-        $new_novel_group->nickname_id = 1;
-        $new_novel_group->user_id = 1;
         $new_novel_group->cover_photo = "thumb/noon3.png";
         $new_novel_group->save();
 
