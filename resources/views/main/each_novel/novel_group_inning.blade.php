@@ -17,7 +17,8 @@
                                 </h1>
 
                                 <p class="episode-title">
-                                    <a  href="{{ route('each_novel.novel_group', ['id' => $novel_group_inning->novel_groups->id]) }}" > {{ $novel_group_inning->title }}</a></p>
+                                    <a href="{{ route('each_novel.novel_group', ['id' => $novel_group_inning->novel_groups->id]) }}"> {{ $novel_group_inning->title }}</a>
+                                </p>
                             </div>
                             <div class="controls">
                                     <span class="more-btn">
@@ -589,6 +590,16 @@
             $(this).alert('close');
         });
 
+        //Scroll and fix the inning  head
+        $(window).scroll(function () {
+            //Fix the novels list popup
+            if ($(this).scrollTop() > 265) $('.other-novels').addClass('novels-fixed');
+            else   $('.other-novels').removeClass('novels-fixed');
+
+            //Fix the inning pre and next
+            if ($(this).scrollTop() > 300 && $(this).scrollTop() < 1350)   $('.prev-next-episode').addClass('pre-next-fixed');
+            else  $('.prev-next-episode').removeClass('pre-next-fixed');
+        });
 
     </script>
 @endsection
