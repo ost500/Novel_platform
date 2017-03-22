@@ -38,6 +38,8 @@ class DatabaseSeeder extends Seeder
 
     private function runDevSeed()
     {
+        //Server Seeder
+        $this->call(ServerSeeder::class);
         // users table
         $this->call(UsersTableSeeder::class);
 
