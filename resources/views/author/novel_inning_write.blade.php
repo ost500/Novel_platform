@@ -22,7 +22,7 @@
 
                 <div class="row" id="novel_submit">
                     <div class="col-sm-12">
-                        <div class="alert alert-danger" v-if="formErrors">
+                        <div id="errors_show" class="alert alert-danger" v-if="formErrors" >
                             <ul>
                                 <li v-if="errors['title']">@{{ errors.title.toString() }}</li>
                                 <li v-if="errors['novel_content']">@{{ errors.novel_content.toString() }}</li>
@@ -198,8 +198,12 @@
                                  window.location.href = '{{  route('author_novel_group',['id' => $novel_group->id]) }}';
                             })
                             .catch(function (errors) {
+
                                 this.errors = errors.data;
                                 this.formErrors = true;
+                                $("html, body").animate({ scrollTop: 0 }, "slow");
+                                return false;
+
                             });
                 }
             }
