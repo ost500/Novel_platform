@@ -162,8 +162,8 @@
         <!-- 연재회차 //-->
 
         <!-- 작가의 다른 작품 -->
+        @if(!$author_novel_groups->isEmpty())
         <div class="">
-            @if(!$author_novel_groups->isEmpty())
                 <div class="mlist_tit_rwap">
                     <h2 class="mlist_tit2">작가의 다른 작품</h2>
                     {{-- <form name="search_other_form" action="{{route('search.index')}}" method="post">

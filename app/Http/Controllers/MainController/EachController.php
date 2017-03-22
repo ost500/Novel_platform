@@ -57,7 +57,7 @@ class EachController extends Controller
         $share = new Share();
         //For checking publishing time for novel inning
         $latest_time = Carbon::now();
-
+        //dd($author_novel_groups);
         //Detect mobile
         if ($this->agent->isMobile()) {
             return view('mobile.each_novel.novel_group', compact('novel_group', 'author_novel_groups', 'recently_visited_novel', 'share', 'latest_time'));
@@ -232,7 +232,7 @@ class EachController extends Controller
         $author_novel_groups = NovelGroup::selectRaw('novel_group_id, novel_groups.*, count(novel_group_id) as favorite_count')
             ->join('favorites', 'favorites.novel_group_id', '=', 'novel_groups.id')
             ->groupBy('novel_group_id')
-            ->where([['novel_groups.user_id', '=', $novel_group->user_id], ['novel_groups.id', '<>', $novel_group->id]])
+            ->where([['novel_groups.nickname_id', '=', $novel_group->nickname_id], ['novel_groups.id', '<>', $novel_group->id]])
             ->orderBy('created_at', 'desc')
             ->paginate(3);
         //Social Share
@@ -271,7 +271,6 @@ class EachController extends Controller
 
         } else {
             $new_purchased_novel->method = '조각';
-
             if ($request->user()->piece < 1) {
                 $errors = '조각이 부족합니다';
                 return response()->json('조각이 부족합니다', 400);
