@@ -28,7 +28,7 @@
     <link href="/css/common.css" rel="stylesheet">
 
     <script src="/plugins/bootstrap-timepicker/bootstrap-timepicker.js"></script>
-
+    <script src="/plugins/bootstrap-datepicker/bootstrap-datepicker.js"></script>
     {{--jquery-ui css--}}
     <link href="/css/jquery-ui/jquery-ui.min.css" rel="stylesheet">
     <link href="/css/jquery-ui/jquery-ui.structure.min.css" rel="stylesheet">

@@ -41,8 +41,8 @@
                         <form class="panel-body form-horizontal form-padding" action="{{route('novelgroups.store')}}"
                               method="post"
                               enctype="multipart/form-data">
-                            {!! csrf_field() !!}
-                                    <!--Static-->
+                        {!! csrf_field() !!}
+                        <!--Static-->
                             <!--div class="form-group">
                                 <label class="col-md-2 control-label">Static</label>
                                 <div class="col-md-9"><p class="form-control-static">Username</p></div>
@@ -76,13 +76,13 @@
                                         @endif
                                     </select>
 
-                                    {{-- <select class="form-control" name="nickname" v-model="nicks.nickname">
-                                         <option value="" >필명선택</option>
-                                         <option v-for="nick_name in nicks"
-                                                 :value="nick_name.id" > @{{ nick_name.nickname }} </option>
+                                {{-- <select class="form-control" name="nickname" v-model="nicks.nickname">
+                                     <option value="" >필명선택</option>
+                                     <option v-for="nick_name in nicks"
+                                             :value="nick_name.id" > @{{ nick_name.nickname }} </option>
 
-                                     </select>--}}
-                                    <!--small class="help-block">This is a help text</small-->
+                                 </select>--}}
+                                <!--small class="help-block">This is a help text</small-->
                                 </div>
                             </div>
 
@@ -111,7 +111,7 @@
 
                                 <div class="col-md-9">
 
-                                    <select name="keyword1"  class="form-control inline" style="width:14%;"
+                                    <select name="keyword1" class="form-control inline" style="width:14%;"
                                             size=10 {{old('keyword1')}} >
                                         <option value="">장르</option>
                                         @foreach($keyword1 as $keyword)
@@ -126,7 +126,8 @@
 
                                 <div class="col-md-9">
 
-                                    <select id="demo-cs-multiselect" name="hash_tags[]" data-placeholder="Choose a HashTag" multiple tabindex="4" >
+                                    <select id="demo-cs-multiselect" name="hash_tags[]"
+                                            data-placeholder="Choose a HashTag" multiple tabindex="4">
                                         <option value="">필명선택</option>
                                         @foreach($hash_tags as $hash_tag)
                                             <option value="{{$hash_tag->name}}" {{old("hash_tags") == $hash_tag->id ? "selected":"" }}>{{$hash_tag->name}}</option>
@@ -143,7 +144,9 @@
                                            name="default_cover_photo"
                                            class="form-control inline" placeholder="사용하려면 우측 표지선택 버튼을 클릭하세요."
                                            value="{{old('default_cover_photo')}}">
-                                    <button type="button" class="btn btn-primary novel-image">표지선택</button>
+                                    <button type="button" class="btn btn-primary novel-image novel-user-nick-form">
+                                        표지선택
+                                    </button>
                                 </div>
                             </div>
 
@@ -209,13 +212,13 @@
     <script src="/plugins/bootstrap-select/bootstrap-select.min.js"></script>
     <!--Chosen [ OPTIONAL ]-->
     <script src="/plugins/chosen/chosen.jquery.min.js"></script>
-    <script src="/js/demo/form-component.js"></script>
+    {{--<script src="/js/demo/form-component.js"></script>--}}
     <script>
-/*        $('#demo-cs-multiselect1').chosen({width:'100%'});
-        $('#keyword2').chosen({width:'100%'});
-        $('#keyword3').chosen({width:'100%'});
-        $('#keyword4').chosen({width:'100%'});
-        $('#keyword5').chosen({width:'100%'});*/
+        /*        $('#demo-cs-multiselect1').chosen({width:'100%'});
+         $('#keyword2').chosen({width:'100%'});
+         $('#keyword3').chosen({width:'100%'});
+         $('#keyword4').chosen({width:'100%'});
+         $('#keyword5').chosen({width:'100%'});*/
 
         var select_nickname = new Vue({
             el: '#select_nickname',
@@ -238,6 +241,7 @@
 
         });
 
+        $('#demo-cs-multiselect').chosen({width:'100%'});
 
     </script>
 
