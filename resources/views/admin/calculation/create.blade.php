@@ -150,7 +150,7 @@
     </div>
     <!--Bootstrap Tags Input [ OPTIONAL ]-->
     <script src="/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js"></script>
-    <script src="/plugins/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+    <script src="/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
     <script>
         $('#demo-dp-txtinput input').datepicker({
             autoclose: true,
