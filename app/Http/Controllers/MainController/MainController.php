@@ -34,7 +34,7 @@ class MainController extends Controller
             $free_today_bests_count=5;
         }
 
-        $recommends = NovelGroup::take($recommends_count)->where('secret', null)->with('nicknames')->get();
+        $recommends = NovelGroup::where([['secret','=', null],['recommend_order','<>',null]])->with('nicknames')->orderBy('recommend_order','asc')->take($recommends_count)->get();
 //        return response()->json($recommends);
 //        $today_best = ViewCount::selectRaw('novel_group_id, novel_groups.*, sum(count) as sum')
 //            ->join('novels', 'novels.id', '=', 'novel_id')

@@ -51,6 +51,12 @@ class AdminPageController extends Controller
         return view('admin.index_simple');
     }
 
+    public function recommendations()
+    {
+        $recommends = NovelGroup::where([['secret','=', null],['recommend_order','<>',null]])->with('nicknames')->orderBy('recommend_order','asc')->take(5)->get();
+        return view('admin.recommendations',compact('recommends'));
+    }
+
     public function novel(Request $request)
     {
         $novel_groups = NovelGroup::all("*");
