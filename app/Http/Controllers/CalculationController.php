@@ -101,7 +101,7 @@ class CalculationController extends Controller
         $path = public_path() . '/excel/' . $newCalculation->excel_file;
 
         // fetch column names
-        $newCalculation->column_names = str_replace(" ", "", $newCalculation->column_names);
+//        $newCalculation->column_names = str_replace(" ", "", $newCalculation->column_names);
         $newValueArray = explode(",", $newCalculation->column_names);
 
 //        return response()->json($newCalculation);
@@ -133,7 +133,11 @@ class CalculationController extends Controller
                 $cal_num = "";
 
                 // result is $keyData[0]
+//                print_r($newValueArray);
                 foreach ($keyData[0] as $key => $value) {
+
+//                    echo $value . "\n";
+
 
                     if (in_array($value, $newValueArray)) {
                         // save keys which we need
@@ -223,7 +227,7 @@ class CalculationController extends Controller
         }
         flash('정산을 성공했습니다');
 //        return response()->json($newCalculationEach);
-//        return redirect()->back();
+        return redirect()->back();
     }
 
     public function cancelCalculation($id)
