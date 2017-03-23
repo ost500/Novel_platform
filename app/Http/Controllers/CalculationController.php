@@ -110,6 +110,8 @@ class CalculationController extends Controller
 
 
             Excel::load($path, function ($reader) use ($newCalculation, $newValueArray) {
+
+
                 $objExcel = $reader->getExcel();
                 $sheet = $objExcel->getSheet(0);
                 $highestRow = $sheet->getHighestRow();
@@ -147,10 +149,12 @@ class CalculationController extends Controller
                     }
                 }
 
-//            print_r($keys);
+//            print_r($cal_num);
 
                 // from dataX to highestColumn
                 // fetch all data
+                $excel = [];
+
                 for ($row = $newCalculation->dataY; $row <= $highestRow; $row++) {
                     //  Read a row of data into an array
 
@@ -161,29 +165,31 @@ class CalculationController extends Controller
                 }
 
 
-                foreach ($excel as $rowData) {
+                foreach ($excel as $index => $rowData) {
                     $newCalculationEach = new CalculationEach();
                     $newCalculationEach->calculation_id = $newCalculation->id;
                     $extraKeysIndex = 0;
-//                print_r($rowData);
-                    foreach ($rowData as $key => $value) {
 
-                        echo $value . "\n";
+
+                    foreach ($rowData as $key => $value) {
+//                            echo $value . "\n";
 
                         if (in_array($key, $keys)) {
                             // remove ","
                             $value = str_replace(",", "", $value);
                             // save keys which we need
                             $newCalculationEach->data = $newCalculationEach->data . $value . ",";
-                        } elseif ($code_num == $key) {
+                        } else {
+                            $newCalculationEach->extra_data = $newCalculationEach->extra_data . $extraKeys[$extraKeysIndex] . ":" . $value . ",";
+                            $extraKeysIndex = $extraKeysIndex + 1;
+                        }
+
+                        if ($code_num == $key) {
                             $newCalculationEach->code_number = $value;
 
                         } elseif ($cal_num == $key) {
                             $newCalculationEach->cal_number = $value;
 
-                        } else {
-                            $newCalculationEach->extra_data = $newCalculationEach->extra_data . $extraKeys[$extraKeysIndex] . ":" . $value . ",";
-                            $extraKeysIndex = $extraKeysIndex + 1;
                         }
 
 //                        print_r($key . "=>" . $value . "\n");
@@ -195,12 +201,13 @@ class CalculationController extends Controller
                     // erase last ","
                     $newCalculationEach->data = rtrim($newCalculationEach->data, ",");
                     $newCalculationEach->extra_data = rtrim($newCalculationEach->extra_data, ",");
+//                    print_r($newCalculationEach);
 
                     $newCalculationEach->save();
 
 
                 }
-//                dd();
+
 
             });
         } catch (Exception $e) {
@@ -208,6 +215,7 @@ class CalculationController extends Controller
             redirect()->back();
         }
         flash('정산을 성공했습니다');
+//        return response()->json($newCalculationEach);
         return redirect()->back();
     }
 
