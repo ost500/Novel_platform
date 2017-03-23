@@ -101,7 +101,7 @@ class CalculationController extends Controller
         $path = public_path() . '/excel/' . $newCalculation->excel_file;
 
         // fetch column names
-        $newCalculation->column_names = str_replace(" ", "", $newCalculation->column_names);
+//        $newCalculation->column_names = str_replace(" ", "", $newCalculation->column_names);
         $newValueArray = explode(",", $newCalculation->column_names);
 
 //        return response()->json($newCalculation);
@@ -110,6 +110,8 @@ class CalculationController extends Controller
 
 
             Excel::load($path, function ($reader) use ($newCalculation, $newValueArray) {
+
+
                 $objExcel = $reader->getExcel();
                 $sheet = $objExcel->getSheet(0);
                 $highestRow = $sheet->getHighestRow();
@@ -131,7 +133,11 @@ class CalculationController extends Controller
                 $cal_num = "";
 
                 // result is $keyData[0]
+//                print_r($newValueArray);
                 foreach ($keyData[0] as $key => $value) {
+
+//                    echo $value . "\n";
+
 
                     if (in_array($value, $newValueArray)) {
                         // save keys which we need
@@ -142,15 +148,20 @@ class CalculationController extends Controller
 
                     if ($key == ord(strtoupper($newCalculation->code_numberX)) - 65) {
                         $code_num = $key;
-                    } else if ($key == ord(strtoupper($newCalculation->cal_numberX)) - 65) {
+                    }
+                    if ($key == ord(strtoupper($newCalculation->cal_numberX)) - 65) {
                         $cal_num = $key;
                     }
+                    echo $cal_num;
+
                 }
 
 //            print_r($keys);
 
                 // from dataX to highestColumn
                 // fetch all data
+                $excel = [];
+
                 for ($row = $newCalculation->dataY; $row <= $highestRow; $row++) {
                     //  Read a row of data into an array
 
@@ -161,32 +172,33 @@ class CalculationController extends Controller
                 }
 
 
-                foreach ($excel as $rowData) {
+                foreach ($excel as $index => $rowData) {
                     $newCalculationEach = new CalculationEach();
                     $newCalculationEach->calculation_id = $newCalculation->id;
                     $extraKeysIndex = 0;
-//                print_r($rowData);
+
+
                     foreach ($rowData as $key => $value) {
 
-                        echo $value . "\n";
-
+//                        print_r($key . "=>" . $value . "\n");
                         if (in_array($key, $keys)) {
                             // remove ","
                             $value = str_replace(",", "", $value);
                             // save keys which we need
                             $newCalculationEach->data = $newCalculationEach->data . $value . ",";
-                        } elseif ($code_num == $key) {
-                            $newCalculationEach->code_number = $value;
-
-                        } elseif ($cal_num == $key) {
-                            $newCalculationEach->cal_number = $value;
-
                         } else {
                             $newCalculationEach->extra_data = $newCalculationEach->extra_data . $extraKeys[$extraKeysIndex] . ":" . $value . ",";
                             $extraKeysIndex = $extraKeysIndex + 1;
                         }
 
-//                        print_r($key . "=>" . $value . "\n");
+                        if ($code_num == $key) {
+                            $newCalculationEach->code_number = $value;
+
+                        }
+                        if ($cal_num == $key) {
+                            $newCalculationEach->cal_number = $value;
+
+                        }
 
 
                     }
@@ -195,12 +207,18 @@ class CalculationController extends Controller
                     // erase last ","
                     $newCalculationEach->data = rtrim($newCalculationEach->data, ",");
                     $newCalculationEach->extra_data = rtrim($newCalculationEach->extra_data, ",");
+//                    print_r($newCalculationEach);
+                    try {
+                        $newCalculationEach->save();
+                    } catch (Exception $e) {
+                        flash('정산 실행 도중 에러가 발생했습니다. 파일을 다시 확인하세요.');
+                        redirect()->back();
 
-                    $newCalculationEach->save();
+                    }
 
 
                 }
-//                dd();
+
 
             });
         } catch (Exception $e) {
@@ -208,6 +226,7 @@ class CalculationController extends Controller
             redirect()->back();
         }
         flash('정산을 성공했습니다');
+//        return response()->json($newCalculationEach);
         return redirect()->back();
     }
 
