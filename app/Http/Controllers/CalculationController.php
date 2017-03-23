@@ -144,12 +144,15 @@ class CalculationController extends Controller
 
                     if ($key == ord(strtoupper($newCalculation->code_numberX)) - 65) {
                         $code_num = $key;
-                    } else if ($key == ord(strtoupper($newCalculation->cal_numberX)) - 65) {
+                    }
+                    if ($key == ord(strtoupper($newCalculation->cal_numberX)) - 65) {
                         $cal_num = $key;
                     }
+                    echo $cal_num;
+
                 }
 
-//            print_r($cal_num);
+//            print_r($keys);
 
                 // from dataX to highestColumn
                 // fetch all data
@@ -172,8 +175,8 @@ class CalculationController extends Controller
 
 
                     foreach ($rowData as $key => $value) {
-//                            echo $value . "\n";
 
+//                        print_r($key . "=>" . $value . "\n");
                         if (in_array($key, $keys)) {
                             // remove ","
                             $value = str_replace(",", "", $value);
@@ -187,12 +190,11 @@ class CalculationController extends Controller
                         if ($code_num == $key) {
                             $newCalculationEach->code_number = $value;
 
-                        } elseif ($cal_num == $key) {
+                        }
+                        if ($cal_num == $key) {
                             $newCalculationEach->cal_number = $value;
 
                         }
-
-//                        print_r($key . "=>" . $value . "\n");
 
 
                     }
@@ -202,8 +204,13 @@ class CalculationController extends Controller
                     $newCalculationEach->data = rtrim($newCalculationEach->data, ",");
                     $newCalculationEach->extra_data = rtrim($newCalculationEach->extra_data, ",");
 //                    print_r($newCalculationEach);
+                    try {
+                        $newCalculationEach->save();
+                    } catch (Exception $e) {
+                        flash('정산 실행 도중 에러가 발생했습니다. 파일을 다시 확인하세요.');
+                        redirect()->back();
 
-                    $newCalculationEach->save();
+                    }
 
 
                 }
@@ -216,7 +223,7 @@ class CalculationController extends Controller
         }
         flash('정산을 성공했습니다');
 //        return response()->json($newCalculationEach);
-        return redirect()->back();
+//        return redirect()->back();
     }
 
     public function cancelCalculation($id)
