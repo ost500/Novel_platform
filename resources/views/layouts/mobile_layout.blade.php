@@ -160,7 +160,7 @@
 <body>
 <div class="wrap">
     <!-- side menu open -->
-    <div class="popup_bg" id="sidebar" style="display:none;width:0%;background-color:transparent;/*left:-350px*/">
+    <div class="popup_bg" id="sidebar" style="display:none;left: -479px;background-color:transparent;/*left:-350px*/">
         <div class="sidemn_in">
             <!-- 로그인 및 사용자 정보 -->
             <div class="side_login">
@@ -519,7 +519,7 @@
 
     //left slide of sidebar
     $('#sidebar_display').click(function () {
-        $('#sidebar').show().animate({width: "100%"}, 'slow');
+        $('#sidebar').show().animate({left:0}, 'slow');
        //change background
         setTimeout(function x() {
             var wdth = $(".popup_bg").width() / $('.popup_bg').parent().width() * 100;
@@ -529,8 +529,12 @@
 
     });
     $('#ico_close').click(function () {
-        $('#sidebar').hide('slow').animate({width: "0%"});
+        $('#sidebar').animate({left: -479});
         $('.popup_bg').css('background-color','transparent');
+        setTimeout(function x() {
+            $('#sidebar').hide();
+
+        },600);
     });
 
 </script>
