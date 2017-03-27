@@ -199,8 +199,7 @@
                                         <tr>
                                             <th data-sort-ignore="true"
                                                 class="min-width footable-visible footable-first-column"></th>
-                                            <th class="min-width text-center">번호</th>
-                                            <th class="min-width text-center">코드번호</th>
+
                                             <th class="min-width text-center">정산금액</th>
                                             @foreach ($calculationColumnNames as $col)
                                                 <th>{{ $col }}</th>
@@ -219,9 +218,7 @@
                                                                                                    type="checkbox"
                                                                                                    value="{{$cal->id}}"></label>
                                                 </td>
-                                                <td class="text-center">{{ $cal->id }}</td>
-                                                <td class="text-center">{{ $cal->code_number }}
-                                                </td>
+
                                                 <td class="text-center">{{ $cal->cal_number }}
                                                 </td>
                                                 @foreach (explode(",", $cal->data) as $data)
