@@ -181,7 +181,7 @@ class CalculationController extends Controller
 
                         foreach ($rowData as $key => $value) {
 
-                        print_r($key . "=>" . $value . "\n");
+//                        print_r($key . "=>" . $value . "\n");
                             if (in_array($key, $keys)) {
                                 // remove ","
                                 $value = str_replace(",", "", $value);
@@ -209,8 +209,8 @@ class CalculationController extends Controller
                         $newCalculationEach->data = rtrim($newCalculationEach->data, ",");
                         $newCalculationEach->extra_data = rtrim($newCalculationEach->extra_data, ",");
 
-                        print_r($newCalculationEach);
-                        print_r($newCalculationEach->save());
+//                        print_r($newCalculationEach);
+                        $newCalculationEach->save();
 
 
                     }
@@ -227,7 +227,7 @@ class CalculationController extends Controller
         }
         flash('정산을 성공했습니다');
 //        return response()->json($newCalculationEach);
-//        return redirect()->back();
+        return redirect()->back();
     }
 
     public function cancelCalculation($id)
