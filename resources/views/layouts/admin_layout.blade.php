@@ -155,6 +155,7 @@
                                     </a>
                                     <ul class="collapse {{ (Request::is('admin/novel')||Request::is('admin/novel/*'))?"in":"" }}">
                                         <li><a href="{{route('admin.novel')}}">작품 관리</a></li>
+                                        <li><a href="{{route('admin.recommendations')}}">작품 관리</a></li>
 
                                     </ul>
                                 </li>

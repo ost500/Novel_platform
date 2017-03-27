@@ -43,6 +43,16 @@ class NovelGroupController extends Controller
         if (Auth::user()->isAdmin()) {
             //if you are admin
             $novel_groups = NovelGroup::with('novels')->latest()->paginate(10);
+
+            if ($request->url('/admin/recommendations')) {
+                $novel_groups = NovelGroup::where('secret', null)->with('novels')->orderBy('recommend_order', 'asc')->paginate(10);
+
+                //make recommend_order to null when recommend_order > 5 [max valid order is 5]
+                foreach( $novel_groups as  $novel_group){
+                    if($novel_group->recommend_order > 5) $novel_group->recommend_order = null;
+                }
+            }
+
         } else {
             //if you are user
             $novel_groups = $request->user()->novel_groups()->with('novels')->latest()->paginate(10);
@@ -99,7 +109,7 @@ class NovelGroupController extends Controller
         if (!isset($request->page)) {
             $request->page = 1;
         }
-       
+
 
         return \Response::json(['novel_groups' => $novel_groups, 'count_data' => $count_data, 'review_count_data' => $review_count_data, 'latested_at' => $latested_at, 'author' => $author]);
         // dd($user_novels);
@@ -230,7 +240,6 @@ class NovelGroupController extends Controller
         }
 
 
-
         flash("생성을 성공했습니다");
         //  return redirect()->route('author_novel_group', ['id' => $new_novel_group->id]);
 
@@ -239,7 +248,7 @@ class NovelGroupController extends Controller
         if ($request->ajax()) {
             return "OK";
         }
-        
+
         return redirect()->route('author_index');
     }
 
@@ -542,6 +551,22 @@ class NovelGroupController extends Controller
             $novel_group_code = NovelGroup::findOrFail($item['id']);
             $novel_group_code->code_number = $item['code_number'];
             $novel_group_code->save();
+        }
+
+        return response()->json($request);
+    }
+
+
+    public function recommend_order(Request $request)
+    {
+
+        foreach ($request->all() as $item) {
+            //999 used for sorting  asc in index method for admin
+            if($item['recommend_order'] ==null) $item['recommend_order']=999;
+
+            $novel_group_recommend_order = NovelGroup::findOrFail($item['id']);
+            $novel_group_recommend_order->recommend_order = $item['recommend_order'];
+            $novel_group_recommend_order->save();
         }
 
         return response()->json($request);

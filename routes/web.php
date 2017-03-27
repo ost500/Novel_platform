@@ -18,7 +18,7 @@ $agent = new Agent();
 
 if ($agent->isMobile()) {
     //Redirect to Mobile site
-    Route::get('/', ['as' => 'root', 'uses' => 'MobileController\IndexController@index']);
+    Route::get('/', ['as' => 'root', 'uses' => 'MainController\MainController@main']);
 
 } else {
     //Redirect to Main site
@@ -32,6 +32,7 @@ Route::post('id_search', ['as' => 'id_search_post', 'uses' => 'Auth\IdSearchCont
 
 //Route::get('/home', 'HomeController@index');
 Route::resource('novelgroups', 'NovelGroupController');
+Route::put('/novelgroup/recommend_order', ['as' => 'novelgroup.recommendation_order', 'uses' => 'NovelGroupController@recommend_order']);
 Route::put('novelgroup/code_num_save', ['as' => 'novelgroup.code_num_save', 'uses' => 'NovelGroupController@code_num_save']);
 Route::get('novelgroup/novels/{id}', ['as' => 'novelgroup.novel', 'uses' => 'NovelGroupController@show_novel']);
 Route::get('novelgroup/novels/inning/{id}', ['as' => 'novelgroup.inning', 'uses' => 'NovelGroupController@inning_order']);
@@ -208,6 +209,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::put('/calculations/{id}/updateXY', ['as' => 'calculation.updateXY', 'uses' => 'CalculationController@updateXY']);
     Route::put('/calculations/{id}/update_column_names', ['as' => 'calculation.update_column_names', 'uses' => 'CalculationController@updateColumnNames']);
     Route::get('calculations/download/{id}', ['as' => 'calculations_down', 'uses' => 'CalculationController@excel_down']);
+    Route::get('/recommendations', ['as' => 'admin.recommendations', 'uses' => 'PageController\AdminPageController@recommendations']);
+
 });
 
 
