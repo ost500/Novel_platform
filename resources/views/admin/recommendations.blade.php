@@ -4,14 +4,14 @@
     <div id="content-container" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 
         <div id="page-title">
-            <h1 class="page-header text-overflow">작품 코드번호 입력</h1>
+            <h1 class="page-header text-overflow">여기, 정오의 추천 </h1>
         </div>
 
 
         <ol class="breadcrumb">
             <li><a href="#">관리자홈</a></li>
             <li><a href="#">정산관리</a></li>
-            <li class="active">작품 코드번호 입력</li>
+            <li class="active">여기, 정오의 추천 </li>
         </ol>
 
 
@@ -48,7 +48,7 @@
                                             <div class="pull-right">
 
                                                 <button v-on:click="save_recommend_order()" type="button"
-                                                        class="btn btn-primary">코드번호 저장
+                                                        class="btn btn-primary">순서 저장
                                                 </button>
 
                                             </div>
@@ -67,7 +67,7 @@
                                                 <th class="text-center">등록된 회차수</th>
                                                 <th class="text-center">마지막 업로드 일자</th>
                                                 <th class="text-center">최초 등록 일자</th>
-                                                <th class="text-center">코드번호</th>
+                                                <th class="text-center">순서</th>
 
                                             </tr>
                                             </thead>
