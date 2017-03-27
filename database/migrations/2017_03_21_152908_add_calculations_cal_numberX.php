@@ -17,7 +17,7 @@ class AddCalculationsCalNumberX extends Migration
             $table->string('cal_numberX');
         });
         Schema::table('calculation_eaches', function (Blueprint $table) {
-            $table->string('cal_number');
+            $table->string('cal_number')->nullable();
         });
     }
 
