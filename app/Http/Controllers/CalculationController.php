@@ -198,121 +198,121 @@ class CalculationController extends Controller
 //        $newCalculation->column_names = str_replace(" ", "", $newCalculation->column_names);
         $newValueArray = explode(",", $newCalculation->column_names);
 
-//        return response()->json($newCalculation);
+//        return response()->json($newValueArray);
 
         try {
 
 
             Excel::load($path, function ($reader) use ($newCalculation, $newValueArray) {
 
+                try {
+                    $objExcel = $reader->getExcel();
+                    $sheet = $objExcel->getSheet(0);
+                    $highestRow = $sheet->getHighestRow();
+                    $highestColumn = $sheet->getHighestColumn();
 
-                $objExcel = $reader->getExcel();
-                $sheet = $objExcel->getSheet(0);
-                $highestRow = $sheet->getHighestRow();
-                $highestColumn = $sheet->getHighestColumn();
+                    // data name
 
-                // data name
+                    //  Read a row of data into an array
+                    $column = $newCalculation->columnX;
+                    $row = $newCalculation->columnY;
+                    // from columnX to $highestColumn
 
-                //  Read a row of data into an array
-                $column = $newCalculation->columnX;
-                $row = $newCalculation->columnY;
-                // from columnX to $highestColumn
-                $keyData = $sheet->rangeToArray($column . $row . ':' . $highestColumn . $row,
-                    NULL, TRUE, FALSE);
+                    $keyData = $sheet->rangeToArray($column . $row . ':' . $highestColumn . $row,
+                        NULL, TRUE, FALSE);
+//                    print_r($keyData);
 
+                    $keys = array();
+                    $extraKeys = array();
+                    $code_num = "";
+                    $cal_num = "";
 
-                $keys = array();
-                $extraKeys = array();
-                $code_num = "";
-                $cal_num = "";
-
-                // result is $keyData[0]
+                    // result is $keyData[0]
 //                print_r($newValueArray);
-                foreach ($keyData[0] as $key => $value) {
+                    foreach ($keyData[0] as $key => $value) {
 
 //                    echo $value . "\n";
 
 
-                    if (in_array($value, $newValueArray)) {
-                        // save keys which we need
-                        $keys[] = $key;
-                    } else {
-                        $extraKeys[] = $value;
-                    }
+                        if (in_array($value, $newValueArray)) {
+                            // save keys which we need
+                            $keys[] = $key;
+                        } else {
+                            $extraKeys[] = $value;
+                        }
 
-                    if ($key == ord(strtoupper($newCalculation->code_numberX)) - 65) {
-                        $code_num = $key;
-                    }
-                    if ($key == ord(strtoupper($newCalculation->cal_numberX)) - 65) {
-                        $cal_num = $key;
-                    }
-                    echo $cal_num;
+                        if ($key == ord(strtoupper($newCalculation->code_numberX)) - 65) {
+                            $code_num = $key;
+                        }
+                        if ($key == ord(strtoupper($newCalculation->cal_numberX)) - 65) {
+                            $cal_num = $key;
+                        }
+//                        echo $cal_num;
 
-                }
+                    }
 
 //            print_r($keys);
 
-                // from dataX to highestColumn
-                // fetch all data
-                $excel = [];
+                    // from dataX to highestColumn
+                    // fetch all data
+                    $excel = [];
 
-                for ($row = $newCalculation->dataY; $row <= $highestRow; $row++) {
-                    //  Read a row of data into an array
+                    for ($row = $newCalculation->dataY; $row <= $highestRow; $row++) {
+                        //  Read a row of data into an array
 
-                    $rowData = $sheet->rangeToArray($newCalculation->dataX . $row . ':' . $highestColumn . $row,
-                        NULL, TRUE, FALSE);
+                        $rowData = $sheet->rangeToArray($newCalculation->dataX . $row . ':' . $highestColumn . $row,
+                            NULL, TRUE, FALSE);
 
-                    $excel[] = $rowData[0];
-                }
-
-
-                foreach ($excel as $index => $rowData) {
-                    $newCalculationEach = new CalculationEach();
-                    $newCalculationEach->calculation_id = $newCalculation->id;
-                    $extraKeysIndex = 0;
+                        $excel[] = $rowData[0];
+                    }
 
 
-                    foreach ($rowData as $key => $value) {
+                    foreach ($excel as $index => $rowData) {
+                        $newCalculationEach = new CalculationEach();
+                        $newCalculationEach->calculation_id = $newCalculation->id;
+                        $extraKeysIndex = 0;
+
+
+                        foreach ($rowData as $key => $value) {
 
 //                        print_r($key . "=>" . $value . "\n");
-                        if (in_array($key, $keys)) {
-                            // remove ","
-                            $value = str_replace(",", "", $value);
-                            // save keys which we need
-                            $newCalculationEach->data = $newCalculationEach->data . $value . ",";
-                        } else {
-                            $newCalculationEach->extra_data = $newCalculationEach->extra_data . $extraKeys[$extraKeysIndex] . ":" . $value . ",";
-                            $extraKeysIndex = $extraKeysIndex + 1;
+                            if (in_array($key, $keys)) {
+                                // remove ","
+                                $value = str_replace(",", "", $value);
+                                // save keys which we need
+                                $newCalculationEach->data = $newCalculationEach->data . $value . ",";
+                            } else {
+                                $newCalculationEach->extra_data = $newCalculationEach->extra_data . $extraKeys[$extraKeysIndex] . ":" . $value . ",";
+                                $extraKeysIndex = $extraKeysIndex + 1;
+                            }
+
+                            if ($code_num == $key) {
+                                $newCalculationEach->code_number = $value;
+
+                            }
+                            if ($cal_num == $key) {
+                                $newCalculationEach->cal_number = $value;
+
+                            }
+
+
                         }
 
-                        if ($code_num == $key) {
-                            $newCalculationEach->code_number = $value;
 
-                        }
-                        if ($cal_num == $key) {
-                            $newCalculationEach->cal_number = $value;
+                        // erase last ","
+                        $newCalculationEach->data = rtrim($newCalculationEach->data, ",");
+                        $newCalculationEach->extra_data = rtrim($newCalculationEach->extra_data, ",");
 
-                        }
-
-
-                    }
-
-
-                    // erase last ","
-                    $newCalculationEach->data = rtrim($newCalculationEach->data, ",");
-                    $newCalculationEach->extra_data = rtrim($newCalculationEach->extra_data, ",");
-//                    print_r($newCalculationEach);
-                    try {
+//                        print_r($newCalculationEach);
                         $newCalculationEach->save();
-                    } catch (Exception $e) {
-                        flash('정산 실행 도중 에러가 발생했습니다. 파일을 다시 확인하세요.');
-                        redirect()->back();
+
 
                     }
-
+                } catch (Exception $e) {
+                    flash('정산 실행 도중 에러가 발생했습니다. 파일을 다시 확인하세요.');
+                    redirect()->back();
 
                 }
-
 
             });
         } catch (Exception $e) {
