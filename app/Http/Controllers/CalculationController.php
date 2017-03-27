@@ -25,7 +25,7 @@ class CalculationController extends Controller
             'columnNames' => 'required|max:2000',
             'description' => 'required|max:3000',
             'excel' => 'required',
-           // 'code_numberX' => 'required|max:2|alpha',
+            // 'code_numberX' => 'required|max:2|alpha',
             'date' => 'required',
             'cal_numberX' => 'required|max:2|alpha'
 
@@ -47,7 +47,7 @@ class CalculationController extends Controller
                 'dataY.max' => '데이터 시작 인덱스(Y) 타입이 잘못 됐습니다.',
                 'dataY.numeric' => '데이터 시작 인덱스(Y) 타입이 잘못 됐습니다.',
 
-              //  'code_numberX.required' => '코드 번호 인덱스는 필수 입니다.',
+                //  'code_numberX.required' => '코드 번호 인덱스는 필수 입니다.',
                 'code_numberX.max' => '코드 번호 인덱스 타입이 잘못 됐습니다.',
                 'code_numberX.numeric' => '코드 번호 인덱스 타입이 잘못 됐습니다.',
 
@@ -69,12 +69,12 @@ class CalculationController extends Controller
 
         $newCalculation = new Calculation();
 
-     //Trim the beginning and trailing spaces from column name
-       $column_names= explode(',',$request->columnNames);
-        $columnNames='';
-        foreach($column_names as $columnName){
-          if( $columnNames =="") $columnNames = $columnName;
-          else  $columnNames .= ','.trim($columnName);
+        //Trim the beginning and trailing spaces from column name
+        $column_names = explode(',', $request->columnNames);
+        $columnNames = '';
+        foreach ($column_names as $columnName) {
+            if ($columnNames == "") $columnNames = $columnName;
+            else  $columnNames .= ',' . trim($columnName);
         }
 
         $newCalculation->columnX = $request->columnX;
@@ -101,6 +101,92 @@ class CalculationController extends Controller
         return redirect()->route('calculation.eaches', ['id' => $newCalculation->id]);
 //        return response()->json($request->all());
     }
+
+    public function update(Request $request, $id)
+    {
+
+        Validator::make($request->all(), [
+            'columnX' => 'required|max:2|alpha',
+            'columnY' => 'required|max:100|numeric',
+            'dataX' => 'required|max:2|alpha',
+            'dataY' => 'required|max:100|numeric',
+            'columnNames' => 'required|max:2000',
+            'description' => 'required|max:3000',
+            // 'code_numberX' => 'required|max:2|alpha',
+            'date' => 'required',
+            'cal_numberX' => 'required|max:2|alpha'
+
+        ],
+            [
+                'columnX.required' => '컬럼 시작 인덱스(X)는 필수 입니다.',
+                'columnX.max' => '컬럼 시작 인덱스(X) 타입이 잘못 됐습니다.',
+                'columnX.alpha' => '컬럼 시작 인덱스(X) 타입이 잘못 됐습니다.',
+
+                'columnY.required' => '컬럼 시작 인덱스(Y)는 필수 입니다.',
+                'columnY.max' => '컬럼 시작 인덱스(Y) 타입이 잘못 됐습니다.',
+                'columnY.numeric' => '컬럼 시작 인덱스(Y) 타입이 잘못 됐습니다.',
+
+                'dataX.required' => '데이터 시작 인덱스(X)는 필수 입니다.',
+                'dataX.max' => '데이터 시작 인덱스(X) 타입이 잘못 됐습니다.',
+                'dataX.alpha' => '데이터 시작 인덱스(X) 타입이 잘못 됐습니다.',
+
+                'dataY.required' => '데이터 시작 인덱스(Y)는 필수 입니다.',
+                'dataY.max' => '데이터 시작 인덱스(Y) 타입이 잘못 됐습니다.',
+                'dataY.numeric' => '데이터 시작 인덱스(Y) 타입이 잘못 됐습니다.',
+
+                //  'code_numberX.required' => '코드 번호 인덱스는 필수 입니다.',
+                'code_numberX.max' => '코드 번호 인덱스 타입이 잘못 됐습니다.',
+                'code_numberX.numeric' => '코드 번호 인덱스 타입이 잘못 됐습니다.',
+
+                'cal_numberX.required' => '정산 금액 인덱스는 필수 입니다.',
+                'cal_numberX.max' => '정산 금액 인덱스 타입이 잘못 됐습니다.',
+                'cal_numberX.numeric' => '정산 금액 인덱스 타입이 잘못 됐습니다.',
+
+
+                'columnNames.required' => '컬럼명은 필수 입니다.',
+                'columnNames.max' => '컬럼명은 반드시 2000 자리보다 작아야 합니다.',
+
+                'description.required' => '내용은 필수 입니다.',
+                'description.max' => '내용은 반드시 2000 자리보다 작아야 합니다.',
+
+                'date.required' => '날짜는 필수 입니다.',
+            ]
+        )->validate();
+
+        $calculation = Calculation::where('id', $id)->first();
+
+        //Trim the beginning and trailing spaces from column name
+        $column_names = explode(',', $request->columnNames);
+        $columnNames = '';
+        foreach ($column_names as $columnName) {
+            if ($columnNames == "") $columnNames = $columnName;
+            else  $columnNames .= ',' . trim($columnName);
+        }
+
+        $calculation->columnX = $request->columnX;
+        $calculation->columnY = $request->columnY;
+        $calculation->dataX = $request->dataX;
+        $calculation->dataY = $request->dataY;
+        $calculation->description = $request->description;
+        $calculation->column_names = $columnNames;
+        $calculation->code_numberX = $request->code_numberX;
+        $calculation->when = $request->date;
+        $calculation->cal_numberX = $request->cal_numberX;
+        $calculation->save();
+        if ($request->hasFile('excel')) {
+            $excelFile = $request->file('excel');
+            $filename = $excelFile->getClientOriginalName();
+            $destinationPath = 'excel/';
+            $calculation->excel_file = $calculation->id . '_' . $filename;
+            $excelFile->move($destinationPath, $calculation->excel_file);
+            $calculation->save();
+        }
+
+
+        return redirect()->route('calculation.eaches', ['id' => $calculation->id]);
+//        return response()->json($request->all());
+    }
+
 
     public function run($id)
     {

@@ -36,6 +36,13 @@
                                     </a>
 
                                 </div>
+                                <div style="margin-top:10px" class="pull-right">
+
+                                    <a href="{{ route('calculation.edit', ['id' => $calculation->id]) }}">
+                                        <button id="cancel_mail" class="btn btn-success">수정</button>
+                                    </a>
+
+                                </div>
 
                                 <table class="table table-striped table-hover">
                                     <thead>
