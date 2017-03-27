@@ -25,7 +25,7 @@ class CalculationController extends Controller
             'columnNames' => 'required|max:2000',
             'description' => 'required|max:3000',
             'excel' => 'required',
-            'code_numberX' => 'required|max:2|alpha',
+           // 'code_numberX' => 'required|max:2|alpha',
             'date' => 'required',
             'cal_numberX' => 'required|max:2|alpha'
 
@@ -47,7 +47,7 @@ class CalculationController extends Controller
                 'dataY.max' => '데이터 시작 인덱스(Y) 타입이 잘못 됐습니다.',
                 'dataY.numeric' => '데이터 시작 인덱스(Y) 타입이 잘못 됐습니다.',
 
-                'code_numberX.required' => '코드 번호 인덱스는 필수 입니다.',
+              //  'code_numberX.required' => '코드 번호 인덱스는 필수 입니다.',
                 'code_numberX.max' => '코드 번호 인덱스 타입이 잘못 됐습니다.',
                 'code_numberX.numeric' => '코드 번호 인덱스 타입이 잘못 됐습니다.',
 
