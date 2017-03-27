@@ -69,12 +69,20 @@ class CalculationController extends Controller
 
         $newCalculation = new Calculation();
 
+     //Trim the beginning and trailing spaces from column name
+       $column_names= explode(',',$request->columnNames);
+        $columnNames='';
+        foreach($column_names as $columnName){
+          if( $columnNames =="") $columnNames = $columnName;
+          else  $columnNames .= ','.trim($columnName);
+        }
+
         $newCalculation->columnX = $request->columnX;
         $newCalculation->columnY = $request->columnY;
         $newCalculation->dataX = $request->dataX;
         $newCalculation->dataY = $request->dataY;
         $newCalculation->description = $request->description;
-        $newCalculation->column_names = $request->columnNames;
+        $newCalculation->column_names = $columnNames;
         $newCalculation->code_numberX = $request->code_numberX;
         $newCalculation->when = $request->date;
         $newCalculation->cal_numberX = $request->cal_numberX;
