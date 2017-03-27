@@ -11,7 +11,8 @@
                     <a href="{{ route('each_novel.novel_group', ['id' => $novel_group_inning->novel_groups->id]) }}"
                        style="vertical-align: middle;">
                         {{--  <img src="/mobile/images/menu_icon.png" style="width:65px;"/>--}}
-                        <img src="/mobile/images/menu-squares-grey.png" style="width:45px;padding: 11px 14px 10px 2px;"/>
+                        <img src="/mobile/images/menu-squares-grey.png"
+                             style="width:45px;padding: 11px 14px 10px 2px;"/>
                     </a>
                 </div>
                 <h2 class="mlist_tit3">
@@ -360,24 +361,24 @@
 <div class="layer_foot" style="width:640px">
     <ul class="fix_mn">
 
-            <li style="width: 42%">
-                @if($prev_inning_id)
+        <li style="width: 42%">
+            @if($prev_inning_id)
                 <a href="{{ route('each_novel.novel_group_inning', ['id' => $prev_inning_id]) }}"
-                                      class="layer_foot_a fix_pref">이전화 보기</a>
-                @endif
-            </li>
+                   class="layer_foot_a fix_pref">이전화 보기</a>
+            @endif
+        </li>
 
         <li class="left_line" style="width:15%">
             <a href="#comment" class="layer_foot_a">
                 <i class="fa fa-comments-o" aria-hidden="true"></i> </a>
         </li>
 
-            <li class="left_line" style="width: 42%">
-                @if($next_inning_id)
-                <a  href="{{ route('each_novel.novel_group_inning', ['id' => $next_inning_id]) }}"
-                        class="layer_foot_a fix_next">다음화 보기</a>
-                @endif
-            </li>
+        <li class="left_line" style="width: 42%">
+            @if($next_inning_id)
+                <a href="{{ route('each_novel.novel_group_inning', ['id' => $next_inning_id]) }}"
+                   class="layer_foot_a fix_next">다음화 보기</a>
+            @endif
+        </li>
 
     </ul>
 </div>
@@ -536,10 +537,19 @@
     /* $(".alert").delay(5000).slideUp(200, function () {
      $(this).alert('close');
      });*/
+
     //Scroll and fix the inning  head
+    var previousScroll = 0;
     $(window).scroll(function () {
         if ($(this).scrollTop() > 200) $('.mlist_tit_rwap ').addClass('is-fixed');
         else  $('.mlist_tit_rwap ').removeClass('is-fixed');
+
+        //while scroll down hide the div and show again while scrolling up
+        var scrollTop = $(this).scrollTop();
+        if (scrollTop > previousScroll) $('.layer_foot').css('position', 'absolute');
+        else  $('.layer_foot ').css('position', 'fixed');
+
+        previousScroll = scrollTop;
     });
 
 </script>
