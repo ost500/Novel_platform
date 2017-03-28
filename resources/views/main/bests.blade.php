@@ -11,24 +11,24 @@
                         <li>
                             <a href="{{route('bests')}}" @if(!$free_or_charged)class="is-active"@endif>유료소설 베스트</a>
                             @if(!$free_or_charged)
-                                <ul class="lnb-depth2">
+                                <ul class="lnb-depth1">
                                     <li><a href="{{route('bests')}}?period=today_count"
-                                           @if(!$free_or_charged && $period=='today_count' && !($option == "현대로맨스" or $option == "시대로맨스" or $option == "로맨스판타지"))class="is-active"@endif>투데이베스트</a>
+                                           class="lnb-depth1-2 @if(!$free_or_charged && $period=='today_count' && !($option == "현대로맨스" or $option == "시대로맨스" or $option == "로맨스판타지")) is-active @endif">투데이베스트</a>
                                     </li>
                                     <li><a href="{{route('bests')}}?period=week_count"
-                                           @if(!$free_or_charged && $period=='week_count')class="is-active"@endif>주간베스트</a>
+                                           class="lnb-depth1-2 @if(!$free_or_charged && $period=='week_count') is-active @endif ">주간베스트</a>
                                     </li>
                                     <li><a href="{{route('bests')}}?period=month_count"
-                                           @if(!$free_or_charged && $period=='month_count' && $option!='completed')class="is-active"@endif>월간베스트</a>
+                                           class="lnb-depth1-2 @if(!$free_or_charged && $period=='month_count' && $option!='completed') is-active @endif ">월간베스트</a>
                                     </li>
                                     <li><a href="{{route('bests')}}?period=year_count&option=steady"
-                                           @if(!$free_or_charged && $period=='year_count')class="is-active"@endif>스테디셀러</a>
+                                           class="lnb-depth1-2 @if(!$free_or_charged && $period=='year_count') is-active @endif ">스테디셀러</a>
                                     </li>
                                     <li><a href="{{route('bests')}}?period=today_count&option=현대로맨스"
-                                           @if(!$free_or_charged && $period=='today_count' && ($option == "현대로맨스" or $option == "시대로맨스" or $option == "로맨스판타지"))class="is-active"@endif>장르별베스트</a>
+                                           class="lnb-depth1-2 @if(!$free_or_charged && $period=='today_count' && ($option == "현대로맨스" or $option == "시대로맨스" or $option == "로맨스판타지")) is-active @endif ">장르별베스트</a>
                                     </li>
                                     <li><a href="{{route('bests')}}?period=month_count&option=completed"
-                                           @if(!$free_or_charged && $period=='month_count' && $option=='completed')class="is-active"@endif>완결베스트</a>
+                                           class="lnb-depth1-2 @if(!$free_or_charged && $period=='month_count' && $option=='completed') is-active @endif ">완결베스트</a>
                                     </li>
                                 </ul>
                             @endif
@@ -39,28 +39,26 @@
                             <a href="{{route('bests',['free_or_charged'=>'free'])}}"
                                @if($free_or_charged)class="is-active"@endif>무료소설 베스트</a>
                             @if($free_or_charged)
-                                <ul class="lnb-depth2">
+                                <ul class="lnb-depth1">
                                     <li><a href="{{route('bests',['free_or_charged'=>'free'])}}?period=today_count"
-                                           @if($free_or_charged && $period=='today_count' && !($option == "현대로맨스" or $option == "시대로맨스" or $option == "로맨스판타지"))class="is-active"@endif>투데이베스트</a>
+                                           class="lnb-depth1-2 @if($free_or_charged && $period=='today_count' && !($option == "현대로맨스" or $option == "시대로맨스" or $option == "로맨스판타지")) is-active @endif">투데이베스트</a>
                                     </li>
                                     <li><a href="{{route('bests',['free_or_charged'=>'free'])}}?period=week_count"
-                                           @if($free_or_charged && $period=='week_count')class="is-active"@endif>주간베스트</a>
+                                           class="lnb-depth1-2 @if($free_or_charged && $period=='week_count') is-active @endif">주간베스트</a>
                                     </li>
                                     <li><a href="{{route('bests',['free_or_charged'=>'free'])}}?period=month_count"
-                                           @if($free_or_charged && $period=='month_count' && $option!='completed')class="is-active"@endif>월간베스트</a>
+                                           class="lnb-depth1-2 @if($free_or_charged && $period=='month_count' && $option!='completed') is-active @endif">월간베스트</a>
                                     </li>
-                                    <li>
-                                        <a href="{{route('bests',['free_or_charged'=>'free'])}}?period=year_count&option=steady"
-                                           @if($free_or_charged && $period=='year_count')class="is-active"@endif>스테디셀러</a>
+                                    <li><a href="{{route('bests',['free_or_charged'=>'free'])}}?period=year_count&option=steady"
+                                           class="lnb-depth1-2 @if($free_or_charged && $period=='year_count') is-active @endif">스테디셀러</a>
                                     </li>
-                                    <li>
-                                        <a href="{{route('bests',['free_or_charged'=>'free'])}}?period=today_count&option=현대로맨스"
-                                           @if($free_or_charged && $period=='today_count' && ($option == "현대로맨스" or $option == "시대로맨스" or $option == "로맨스판타지"))class="is-active"@endif>장르별베스트</a>
+                                    <li><a href="{{route('bests',['free_or_charged'=>'free'])}}?period=today_count&option=현대로맨스"
+                                           class="lnb-depth1-2 @if($free_or_charged && $period=='today_count' && ($option == "현대로맨스" or $option == "시대로맨스" or $option == "로맨스판타지")) is-active @endif">장르별베스트</a>
                                     </li>
-                                    <li>
-                                        <a href="{{route('bests',['free_or_charged'=>'free'])}}?period=month_count&option=completed"
-                                           @if($free_or_charged && $period=='month_count' && $option=='completed')class="is-active"@endif>완결베스트</a>
+                                    <li><a href="{{route('bests',['free_or_charged'=>'free'])}}?period=month_count&option=completed"
+                                           class="lnb-depth1-2 @if($free_or_charged && $period=='month_count' && $option=='completed') is-active @endif">완결베스트</a>
                                     </li>
+
                                 </ul>
                             @endif
                         </li>
