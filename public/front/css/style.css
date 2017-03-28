@@ -1534,7 +1534,7 @@ html.is-modal body {
 
 .header-top .logo .logo-img {
     display: block;
-    margin: 20px auto 0;
+    margin: 20px 0 0 375px;
     width: 156px;
     height: 101px;
     background: url(../imgs/common/header_logo.png);
