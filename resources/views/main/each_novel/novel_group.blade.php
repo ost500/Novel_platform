@@ -48,7 +48,7 @@
                     <div class="scrap-btns">
 
                         <a href="#"
-                           v-on:click="addToFavorite('{{$novel_group->id}}')"  id="add_favorite"
+                           v-on:click="addToFavorite('{{$novel_group->id}}')" id="add_favorite"
                            v-show="add_favorite_disp"><i class="scrap-icon"></i>선호작추가</a>
                         <a href="#" class="is-active" v-on:click="removeFromFavorite()" id="remove_favorite"
                            v-show="remove_favorite_disp" display="none"><i class="scrap-active-icon"></i>선호작추가</a>
@@ -106,51 +106,58 @@
                     </div>
                     <div class="episode-list-aside">
                         <!-- 작가다른작품 -->
-                        @if(!$author_novel_groups->isEmpty())
-                            <section>
-                                <div class="recommend recommend--more">
-                                    <h2 class="recommend-title">작가의 다른 작품</h2>
-                                    <ul class="recommend-list">
-                                        @foreach($author_novel_groups as $author_novel_group)
-                                            <li>
-                                                <a href="{{ route('each_novel.novel_group',['id' => $author_novel_group->id]) }}">
-                                                    <div class="thumb">
+
+                        <section>
+                            <div class="recommend recommend--more">
+                                <h2 class="recommend-title">작가의 다른 작품</h2>
+                                <ul class="recommend-list">
+                                    @if($author_novel_groups->isEmpty())
+                                        <li>
+                                            <p class="post-content" style="text-align: center">
+                                                이 작가의 다른 작품이 없습니다.
+                                            </p>
+                                        </li>
+                                    @endif
+                                    @foreach($author_novel_groups as $author_novel_group)
+                                        <li>
+                                            <a href="{{ route('each_novel.novel_group',['id' => $author_novel_group->id]) }}">
+                                                <div class="thumb">
                                                     <span><img src="/img/novel_covers/{{ $author_novel_group->cover_photo }}"
                                                                alt=""></span>
-                                                    </div>
-                                                    <div class="post">
-                                                        <strong class="title">{{str_limit($author_novel_group->title, 20)}}</strong>
+                                                </div>
+                                                <div class="post">
+                                                    <strong class="title">{{str_limit($author_novel_group->title, 20)}}</strong>
 
-                                                        <p class="post-content">
-                                                            @if(count($novel_group->keywords) >0) {{$novel_group->keywords[0]->name }} @endif
-                                                            <br>
-                                                            총 {{$author_novel_group->max_inning}}화<br>
-                                                            선호작{{$author_novel_group->favorite_count}}명
-                                                        </p>
-                                                    </div>
-                                                </a>
-                                            </li>
-                                        @endforeach
+                                                    <p class="post-content">
+                                                        @if(count($novel_group->keywords) >0) {{$novel_group->keywords[0]->name }} @endif
+                                                        <br>
+                                                        총 {{$author_novel_group->max_inning}}화<br>
+                                                        선호작{{$author_novel_group->favorite_count}}명
+                                                    </p>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                                <a href="{{route('search.index').'?nickname_id='.$novel_group->nickname_id.'&search_type=다른 작품'}}"
+                                   class="recommend-more-btn">더보기</a>
+                            </div>
+                            <!-- 페이징 -->
+                            <div class="page-nav page-nav--small">
+                                <nav>
+                                    <ul>
+                                        {{ $author_novel_groups->render() }}
+                                        {{--  <li><a href="#mode_nav" class="prev-page"><span>이전</span></a></li>
+                                          <li><a href="#mode_nav" class="current-page">1</a></li>
+                                          <li><a href="#mode_nav">2</a></li>
+                                          <li><a href="#mode_nav" class="next-page"><span>다음</span></a></li>--}}
                                     </ul>
-                                    <a href="{{route('search.index').'?nickname_id='.$novel_group->nickname_id.'&search_type=다른 작품'}}"
-                                       class="recommend-more-btn">더보기</a>
-                                </div>
-                                <!-- 페이징 -->
-                                <div class="page-nav page-nav--small">
-                                    <nav>
-                                        <ul>
-                                            {{ $author_novel_groups->render() }}
-                                            {{--  <li><a href="#mode_nav" class="prev-page"><span>이전</span></a></li>
-                                              <li><a href="#mode_nav" class="current-page">1</a></li>
-                                              <li><a href="#mode_nav">2</a></li>
-                                              <li><a href="#mode_nav" class="next-page"><span>다음</span></a></li>--}}
-                                        </ul>
-                                    </nav>
-                                </div>
-                                <!-- //페이징 -->
-                            </section>
-                        @endif
-                    <!-- //작가다른작품 -->
+                                </nav>
+                            </div>
+                            <!-- //페이징 -->
+                        </section>
+
+                        <!-- //작가다른작품 -->
 
                         <!-- 해시태그 -->
                         @if(!$novel_group->hash_tags->isEmpty())
