@@ -47,7 +47,8 @@
 
                     <div class="scrap-btns">
 
-                        <a href="#" v-on:click="addToFavorite('{{$novel_group->id}}')" id="add_favorite"
+                        <a href="#"
+                           v-on:click="addToFavorite('{{$novel_group->id}}')"  id="add_favorite"
                            v-show="add_favorite_disp"><i class="scrap-icon"></i>선호작추가</a>
                         <a href="#" class="is-active" v-on:click="removeFromFavorite()" id="remove_favorite"
                            v-show="remove_favorite_disp" display="none"><i class="scrap-active-icon"></i>선호작추가</a>
@@ -218,7 +219,7 @@
                             // location.reload();
                         })
                         .catch(function (errors) {
-                            window.location.assign('/login?loginView=true');
+                            window.location.assign('{{ route('favorite.login') }}');
                         });
             },
             removeFromFavorite: function () {

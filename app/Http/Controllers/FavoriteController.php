@@ -25,8 +25,8 @@ class FavoriteController extends Controller
     public function store(Request $request)
     {
         Favorite::create([
-            'user_id'=>Auth::user()->id,
-            'novel_group_id'=>$request->get('novel_group_id')
+            'user_id' => Auth::user()->id,
+            'novel_group_id' => $request->get('novel_group_id')
         ]);
         return response()->json('success');
     }
@@ -34,11 +34,16 @@ class FavoriteController extends Controller
 
     public function destroy($novel_group_id)
     {
-       // return response()->json($novel_group_id);
+        // return response()->json($novel_group_id);
 
         Favorite::where(['user_id' => Auth::user()->id, 'novel_group_id' => $novel_group_id])->delete();
         return response()->json('success');
 
+    }
+
+    public function login_auth()
+    {
+        return redirect()->back();
     }
 
 }
