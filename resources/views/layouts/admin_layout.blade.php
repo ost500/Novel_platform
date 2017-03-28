@@ -146,16 +146,16 @@
 
                                 {{--<li class="list-divider"></li>--}}
 
-                                <li class="{{ (Request::is('admin/novel')||Request::is('admin/novel/*'))?"active-link":"" }}">
+                                <li class="{{ (Request::is('admin/novel')||Request::is('admin/novel/*') || Request::is('admin/recommendations'))?"active-link":"" }}">
                                     <a href="{{ route('admin.novel') }}">
                                         <i class="fa fa-book"></i>
                                         <span class="menu-title">
                                             <strong>작품관리</strong>
                                         </span>
                                     </a>
-                                    <ul class="collapse {{ (Request::is('admin/novel')||Request::is('admin/novel/*'))?"in":"" }}">
+                                    <ul class="collapse {{ (Request::is('admin/novel')||Request::is('admin/novel/*') ||Request::is('admin/recommendations'))?"in":"" }}">
                                         <li><a href="{{route('admin.novel')}}">작품 관리</a></li>
-                                        <li><a href="{{route('admin.recommendations')}}">작품 관리</a></li>
+                                        <li><a href="{{route('admin.recommendations')}}">여기, 정오의 추천</a></li>
 
                                     </ul>
                                 </li>

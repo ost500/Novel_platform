@@ -482,6 +482,14 @@ class AdminPageController extends Controller
         return view('admin.calculation.create');
     }
 
+    public function calculation_edit( $id)
+    {
+        $calculation = Calculation::where('id',$id)->first();
+//dd($calculation);
+//dd($calculation);
+        return view('admin.calculation.edit',compact('calculation'));
+    }
+
     public function calculations()
     {
         $cals = Calculation::paginate(config('define.pagination_long'));
