@@ -363,6 +363,10 @@ class AuthorPageController extends Controller
         //get company wise published groups based on today's done
         $apply_requests = NovelGroupPublishCompany::where($condition)->with('publish_novel_groups.users')->with('publish_novel_groups.novel_groups')->with('companies');
 
+        $apply_requests = $apply_requests->whereHas('publish_novel_groups', function ($query) {
+            $query->where('user_id',Auth::user()->id);
+        });
+
         //[company id filter]
         if ($id != null and $id != 'stopped') {
             $apply_requests->where('company_id', $id);
