@@ -82,11 +82,11 @@
                             <div class="post">
                                 <div class="post-header">
                                     <strong class="title"><a
-                                                href="{{ route('each_novel.novel_group',['id'=>$novel_group->id]) }}">{{$novel_group->title}}</a></strong>
+                                                href="{{ route('each_novel.novel_group',['id'=>$novel_group->id]) }}">{{str_limit($novel_group->title, 50)}}</a></strong>
                                     <span class="writer">{{ $novel_group->nicknames->nickname }}</span>
                                     <span class="datetime">{{ time_elapsed_string($novel_group->new) }}</span>
                                 </div>
-                                <p class="post-content"><?php echo nl2br($novel_group->description, false); ?>
+                                <p class="post-content"><?php echo str_limit($novel_group->description, 260); ?>
                                 </p>
                                 <p class="post-info">@foreach($novel_group->keywords as $keyword)
                                         <span>{{$keyword->name}}</span>@break @endforeach

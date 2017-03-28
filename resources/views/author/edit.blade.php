@@ -192,7 +192,7 @@
 
                             <div class="form-group">
                                 <div class="col-md-12 text-center">
-                                    <button type="submit" class="btn btn-lg btn-primary">최신 정보</button>
+                                    <button type="submit" class="btn btn-lg btn-primary">수정</button>
                                     <button type="button" class="btn btn-lg btn-danger back">취소</button>
                                 </div>
                             </div>
