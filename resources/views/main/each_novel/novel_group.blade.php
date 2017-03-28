@@ -67,7 +67,7 @@
                                     <li>
                                         <div class="col-no">
                                             <span class="no">{{ $recently_visited_novel->novels->inning }}화</span>
-                                            <span class="datetime">{{$recently_visited_novel->novels->created_at}}</span>
+                                            <span class="datetime">{{$recently_visited_novel->novels->created_at->format('Y-m-d')}}</span>
                                         </div>
                                         <div class="col-title"><a
                                                     href="{{route('each_novel.novel_group_inning',['id'=>$recently_visited_novel->novel_id])}}">{{str_limit($recently_visited_novel->novels->title,60)}}
@@ -88,7 +88,7 @@
                                     <li>
                                         <div class="col-no">
                                             <span class="no">{{$novel->inning}} 화</span>
-                                            <span class="datetime">{{$novel->created_at}}</span>
+                                            <span class="datetime">{{$novel->created_at->format('Y-m-d')}}</span>
                                         </div>
                                         <div class="col-title"><a
                                                     href="{{route('each_novel.novel_group_inning',['id'=>$novel->id])}}">{{str_limit($novel->title, 60)}}{{--<i
