@@ -93,7 +93,7 @@
                     </div>
 
                 </div>
-                <div class="page-nav" >
+                <div class="page-nav " >
                     @include('pagination_front', ['collection' => $articles, 'url' => route('free_board')."?search_option=".$search_option."&search_text=".$search_text."&"])
                 </div>
                 <!-- //하단버튼 -->

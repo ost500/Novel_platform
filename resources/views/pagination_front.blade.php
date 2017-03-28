@@ -1,10 +1,10 @@
-<div class="page-nav">
+<div class="page-nav page-nav--btn-sibling">
     <nav>
         <ul>
             {{-- $collection->render() --}}
             @if($collection->currentPage() >= 2)
-                <li class="prev-page">
-                    <a href="{{url($url."page=".($collection->currentPage()-1))}}">
+                <li>
+                    <a class="prev-page" href="{{url($url."page=".($collection->currentPage()-1))}}">
                         &lt;</a>
                 </li>
             @endif
@@ -54,9 +54,10 @@
             @endif
 
             @if($collection->lastPage()-1 >= $collection->currentPage())
-                <li class="next-page">
-                    <a href="{{url($url."page=".($collection->currentPage()+1))}}">
-                        &gt;</a>
+                <li>
+                    <a class="next-page" href="{{url($url."page=".($collection->currentPage()+1))}}">
+                        <span>다음</span>
+                    </a>
                 </li>
             @endif
 
