@@ -15,11 +15,12 @@
 
               <span style="margin-left:1%;cursor: pointer;"  class="glyphicon glyphicon-download-alt" onclick="app.downloadNovel_ePub({{$novel->id}})" ></span>
             </td>
-            <td class="col-md-2 text-center" >@if(count($novel->publish_novels) >0 )
+            <td class="col-md-2 text-center" >
+                @if(count($novel->publish_novels) >0 )
                     {{$novel->publish_novels->updated_at}}
                 @else
 
-                    <span class="text-danger">   {{ $publish_array[$novel->id] }} </span>
+                    <span @if($publish_array[$novel->id]['suggestion'] == 0) class="text-danger"@endif >   {{ $publish_array[$novel->id]['date'] }} </span>
 
                     {{--   @php echo Carbon\Carbon::today(); @endphp--}}
                 @endif

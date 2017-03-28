@@ -160,7 +160,7 @@ class PublishNovelGroupController extends Controller
         //set the next limit[$next_limit] up to where suggestion is to be shown based on novels per day
         $next_limit = $novels_per_days + $publish_company->novels_per_days;
 
-        //set the suggestion for novels based on $next_limit index
+        //set the suggestion for novels based on $next_limit index [suggestion is used for showing color]
         foreach ($novels as $novel) {
             //up to novels per day
             if ($index <= $novels_per_days) {
@@ -168,29 +168,30 @@ class PublishNovelGroupController extends Controller
                 if (count($publish_date) > 0 && count($novel->publish_novels) > 0) {
                     // if $publish_date is not same as today then set the suggestion to today'date otherwise set from db
                     if ($publish_date->updated_at->toDateString() != Carbon::now()->toDateString()) {
-                        $publish_array[$novel->id] = Carbon::today();
+                        $publish_array[$novel->id] = ['date'=> Carbon::today(),'suggestion'=>0];
+
 
                     } else {
-                        $publish_array[$novel->id] = $publish_date->updated_at;
+                        $publish_array[$novel->id] =['date'=> $publish_date->updated_at,'suggestion'=>0];
                     }
 
                 } else {
                     //if publish novel don't exists for first novel the set the suggestion date to today's date [up to novels per day]
-                    $publish_array[$novel->id] = Carbon::today();
+                    $publish_array[$novel->id]=['date'=> Carbon::today(),'suggestion'=>0];
                 }
 
             } else { //for remaining novels
-                //increase the next limit [ up to where  up to where suggestion is to be shown is to be shown] if publish novel exists for the current novel
+                //increase the next limit [ up to where  suggestion is to be shown] if publish novel exists for the current novel
                 if (count($novel->publish_novels) > 0) {
                     $next_limit = $next_limit + 1;
                 }
                 //now up to the  next limit  set the  new publishing date [or suggestion date] fot current novel
                 if ($index <= $next_limit) {
-                    $publish_array[$novel->id] = $new_publish_date;
+                    $publish_array[$novel->id] =['date'=> $new_publish_date,'suggestion'=>1];
 
                 } else {
-                    //if limit is over then set suggestion to empty
-                    $publish_array[$novel->id] = '';
+                    //if limit is over then set date and suggestion to empty
+                    $publish_array[$novel->id]=['date'=>'','suggestion'=>''];
                 }
             }
             //increase the default index
