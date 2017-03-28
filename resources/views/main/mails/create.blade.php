@@ -79,7 +79,7 @@
                             </div>
                             <div class="submit">
                                 <input type="hidden" name="redirect" id="redirect"  value="1">
-                                <button class="btn btn--special" type="submit">문의하기</button>
+                                <button class="btn btn--special" type="submit">보내기</button>
 
                             </div>
                         </form>
