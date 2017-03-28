@@ -112,7 +112,7 @@ a:focus {
 .selectbox > select:focus {
 }
 
-.selectbox:after {
+/*.selectbox:after {
     content: '';
     position: absolute;
     right: 0px;
@@ -121,6 +121,14 @@ a:focus {
     width: 28px;
     border: 1px solid #cdc7c8;
     background: #fff url(../imgs/common/selectbox_arrow.png) no-repeat 50% 50%;
+}*/
+.show-arrow {
+    content: '';
+    position: absolute;
+    right:20px;
+    top: 0;
+    bottom: 0;
+    border-right: 1px solid #cdc7c8;
 }
 
 /* 드롭다운 링크(up) */
