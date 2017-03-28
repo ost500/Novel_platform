@@ -139,7 +139,7 @@ class NovelGroupController extends Controller
 
         Validator::make($request->all(), [
             'nickname_id' => 'required',
-            'title' => 'required',
+            'title' => 'required|max:255',
             'description' => 'required',
             'hash_tags' => 'required',
             /* 'keyword2' => 'required',
@@ -154,6 +154,7 @@ class NovelGroupController extends Controller
         ], [
             'nickname_id.required' => '필명은 필수 입니다.',
             'title.required' => '제목은 필수 입니다.',
+            'title.max' => '제목이 너무 깁니다.',
             'description.required' => '설명은 필수 입니다.',
             'cover_photo.dimensions' => '표지1 크기는 1080*1620 이어야 합니다',
             'cover_photo.max' => '표지1 용량은 1M를 넘지 않아야 합니다',
@@ -328,7 +329,7 @@ class NovelGroupController extends Controller
 
         Validator::make($request->all(), [
             'nickname_id' => 'required',
-            'title' => 'required',
+            'title' => 'required|max:255',
             'description' => 'required',
             'cover_photo' => 'mimes:jpeg,png|image|max:1024|dimensions:max_width=1080,max_height=1620',
             'cover_photo2' => 'mimes:jpeg,png|image|max:1024|dimensions:max_width=1080,max_height=1080',
@@ -336,6 +337,7 @@ class NovelGroupController extends Controller
         ], [
             'nickname_id.required' => '필명은 필수 입니다.',
             'title.required' => '제목은 필수 입니다.',
+            'title.max' => '제목이 너무 깁니다.',
             'description.required' => '설명은 필수 입니다.',
             'cover_photo.dimensions' => '표지1 크기는 1080*1620 이어야 합니다',
             'cover_photo.max' => '표지1 용량은 1M를 넘지 않아야 합니다',

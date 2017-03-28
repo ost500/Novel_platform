@@ -49,13 +49,16 @@
                                     <li><a href="{{route('bests',['free_or_charged'=>'free'])}}?period=month_count"
                                            class="lnb-depth1-2 @if($free_or_charged && $period=='month_count' && $option!='completed') is-active @endif">월간베스트</a>
                                     </li>
-                                    <li><a href="{{route('bests',['free_or_charged'=>'free'])}}?period=year_count&option=steady"
+                                    <li>
+                                        <a href="{{route('bests',['free_or_charged'=>'free'])}}?period=year_count&option=steady"
                                            class="lnb-depth1-2 @if($free_or_charged && $period=='year_count') is-active @endif">스테디셀러</a>
                                     </li>
-                                    <li><a href="{{route('bests',['free_or_charged'=>'free'])}}?period=today_count&option=현대로맨스"
+                                    <li>
+                                        <a href="{{route('bests',['free_or_charged'=>'free'])}}?period=today_count&option=현대로맨스"
                                            class="lnb-depth1-2 @if($free_or_charged && $period=='today_count' && ($option == "현대로맨스" or $option == "시대로맨스" or $option == "로맨스판타지")) is-active @endif">장르별베스트</a>
                                     </li>
-                                    <li><a href="{{route('bests',['free_or_charged'=>'free'])}}?period=month_count&option=completed"
+                                    <li>
+                                        <a href="{{route('bests',['free_or_charged'=>'free'])}}?period=month_count&option=completed"
                                            class="lnb-depth1-2 @if($free_or_charged && $period=='month_count' && $option=='completed') is-active @endif">완결베스트</a>
                                     </li>
 
@@ -108,11 +111,11 @@
                             <div class="post">
                                 <div class="post-header">
                                     <strong class="title"><a
-                                                href="{{ route('each_novel.novel_group',['id'=>$novel_group->id]) }}">{{$novel_group->title}}</a></strong>
+                                                href="{{ route('each_novel.novel_group',['id'=>$novel_group->id]) }}">{{str_limit($novel_group->title, 40)}}</a></strong>
                                     <span class="writer">{{ $novel_group->nicknames->nickname }}</span>
                                     <span class="datetime">{{ time_elapsed_string($novel_group->new) }}</span>
                                 </div>
-                                <p class="post-content"><?php echo nl2br($novel_group->description, false); ?></p>
+                                <p class="post-content"><?php echo str_limit($novel_group->description, 260); ?></p>
                                 <p class="post-info">@foreach($novel_group->keywords as $keyword)
                                         <span>{{$keyword->name}}</span>@endforeach
                                     <span>총 {{$novel_group->novels_count}}화</span>
