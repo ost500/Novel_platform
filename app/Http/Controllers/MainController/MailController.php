@@ -90,7 +90,7 @@ class MailController extends Controller
 
     public function detail($id)
     {
-        $mail = MailLog::where('id', $id)->with('mailboxs')->with('users')->first();
+        $mail = MailLog::where('id', $id)->with('mailboxs.users')->with('users')->first();
 
         if ($mail->user_id != Auth::user()->id) {
             return response()->view('errors.503', [], 503);
@@ -101,9 +101,9 @@ class MailController extends Controller
 
 
         $next_mail_id = MailLog::where('id', '>', $mail->id)->where('user_id', Auth::user()->id)->min('id');
-        $next_mail = MailLog::with('users')->with('mailboxs')->find($next_mail_id);
+        $next_mail = MailLog::with('users')->with('mailboxs.users')->find($next_mail_id);
         $prev_mail_id = MailLog::where('id', '<', $mail->id)->where('user_id', Auth::user()->id)->max('id');
-        $prev_mail = MailLog::with('users')->with('mailboxs')->find($prev_mail_id);
+        $prev_mail = MailLog::with('users')->with('mailboxs.users')->find($prev_mail_id);
 
 
         //Detect mobile

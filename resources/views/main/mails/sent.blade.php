@@ -44,7 +44,7 @@
                                             <input type="checkbox" class="checkboxes" data-check-item
                                                    value="{{$sent_mail->id}}"><span></span></label>
                                     </td>
-                                    <td class="col-name">{{$sent_mail->users->name}}</td>
+                                    <td class="col-name">{{$sent_mail->users->nickname}}</td>
                                     <td class="col-thumb"><img src="/front/imgs/thumb/memo1.png" alt=""></td>
                                     <td class="col-subject">
                                         <a href="{{ route('mails.sent_detail', ['id' => $sent_mail->id])  }}">{{$sent_mail->subject}}</a>

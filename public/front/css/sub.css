@@ -3397,6 +3397,11 @@ width: 0;
     width: 100%;
     background-color: #fff;
     z-index: 2;
+    -webkit-transition: all 0.9s;
+    -moz-transition: all 0.9s;
+    -ms-transition: all 0.9s;
+    -o-transition: all 0.9s;
+    transition: all 0.9s;
 }
 
 .usermenu-scroll {

@@ -44,7 +44,7 @@
                                             <input type="checkbox" class="checkboxes" data-check-item
                                                    value="{{$spam_mail->id}}"><span></span></label>
                                     </td>
-                                    <td class="col-name">{{$spam_mail->mailboxs->users->name}}</td>
+                                    <td class="col-name">{{$spam_mail->mailboxs->users->nickname}}</td>
                                     <td class="col-thumb"><img src="/front/imgs/thumb/memo4.png" alt=""></td>
                                     <td class="col-subject">
                                         <a href="{{ route('mails.detail', ['id' => $spam_mail->id]) }}">{{$spam_mail->mailboxs->subject}}</a>
