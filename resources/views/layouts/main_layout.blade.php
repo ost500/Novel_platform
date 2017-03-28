@@ -47,7 +47,7 @@
 <!-- 헤더 -->
 <header class="header">
     <div class="header-top wrap" id="header">
-        <h1 class="logo wrap"><a href="{{ route('root') }}" class="logo-img">여우정원</a></h1>
+        <h1 class="logo wrap"><a href="{{ route('root') }}" class="logo-img" >여우정원</a></h1>
         <!-- 사용자메뉴 -->
         <div class="usermenu">
             <!-- 방문자버튼 -->
@@ -170,7 +170,7 @@
             <!-- 검색버튼 -->
             <div class="search-area">
                 <a href="#search_form" class="userbtn userbtn--search" data-modal-id="search_form">검색</a>
-                <a href="{{ route('my_page.favorites') }}" class="userbtn userbtn--scrap">선호작</a>
+                <a href="{{ route('my_page.favorites') }}" class="userbtn userbtn--scrap-active">선호작</a>
             </div>
         </div>
         <!-- //사용자메뉴 -->
