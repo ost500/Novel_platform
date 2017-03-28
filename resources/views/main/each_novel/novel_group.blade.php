@@ -27,9 +27,11 @@
                             </div>
                             <div class="post-content">
                                 <p>
-                                    {{ substr($novel_group->description, 0,59)  }}
-                                    <button class="more-btn hidden-content-view">더보기</button>
-                                    <span class="hidden-content">{{substr($novel_group->description,59)}} </span>
+                                    <?php echo substr(nl2br($novel_group->description), 0, 150)  ?>
+                                    @if(substr($novel_group->description, 150) )
+                                        <button class="more-btn hidden-content-view">더보기</button>
+                                        <span class="hidden-content"> <?php echo substr(nl2br($novel_group->description), 150)  ?> </span>
+                                    @endif
                                 </p>
                             </div>
                         </div>
@@ -73,32 +75,32 @@
                                     </li>
                                 </ul>
                             </section>
-                            @endif
-                                    <!-- //최근읽은회차 -->
+                    @endif
+                    <!-- //최근읽은회차 -->
 
-                            <!-- 연재회차 -->
-                            <section class="episode-list-wrap">
-                                <h2 class="episode-title">연재회차</h2>
-                                <ul class="episode-list">
-                                    @foreach($novel_group->novels as $novel)
-                                        @if($novel->publish_reservation > $latest_time)  @continue; @endif
-                                        <li>
-                                            <div class="col-no">
-                                                <span class="no">{{$novel->inning}} 화</span>
-                                                <span class="datetime">{{$novel->created_at}}</span>
-                                            </div>
-                                            <div class="col-title"><a
-                                                        href="{{route('each_novel.novel_group_inning',['id'=>$novel->id])}}">{{str_limit($novel->title, 60)}}{{--<i
+                        <!-- 연재회차 -->
+                        <section class="episode-list-wrap">
+                            <h2 class="episode-title">연재회차</h2>
+                            <ul class="episode-list">
+                                @foreach($novel_group->novels as $novel)
+                                    @if($novel->publish_reservation > $latest_time)  @continue; @endif
+                                    <li>
+                                        <div class="col-no">
+                                            <span class="no">{{$novel->inning}} 화</span>
+                                            <span class="datetime">{{$novel->created_at}}</span>
+                                        </div>
+                                        <div class="col-title"><a
+                                                    href="{{route('each_novel.novel_group_inning',['id'=>$novel->id])}}">{{str_limit($novel->title, 60)}}{{--<i
                                                         class="up-icon">Up</i>--}}</a></div>
-                                            <div class="col-charge">@if($novel->non_free_agreement > 0) 유료 @else <span
-                                                        class="free">무료</span> @endif {{-- <span class="open">열림</span>--}}
-                                            </div>
-                                        </li>
-                                    @endforeach
+                                        <div class="col-charge">@if($novel->non_free_agreement > 0) 유료 @else <span
+                                                    class="free">무료</span> @endif {{-- <span class="open">열림</span>--}}
+                                        </div>
+                                    </li>
+                                @endforeach
 
-                                </ul>
-                            </section>
-                            <!-- //연재회차 -->
+                            </ul>
+                        </section>
+                        <!-- //연재회차 -->
 
                     </div>
                     <div class="episode-list-aside">
@@ -146,22 +148,22 @@
                                 </div>
                                 <!-- //페이징 -->
                             </section>
-                            @endif
-                                    <!-- //작가다른작품 -->
+                        @endif
+                    <!-- //작가다른작품 -->
 
-                            <!-- 해시태그 -->
-                            @if(!$novel_group->hash_tags->isEmpty())
-                                <section class="hash-tag">
-                                    <h2 class="hash-tag-title">해시태그</h2>
-                                    <ul class="hash-tag-list">
-                                        @foreach($novel_group->hash_tags as $hash_tag)
-                                            <li><a href="#mode_nav">{{$hash_tag->tag}}</a></li>
-                                        @endforeach
+                        <!-- 해시태그 -->
+                        @if(!$novel_group->hash_tags->isEmpty())
+                            <section class="hash-tag">
+                                <h2 class="hash-tag-title">해시태그</h2>
+                                <ul class="hash-tag-list">
+                                    @foreach($novel_group->hash_tags as $hash_tag)
+                                        <li><a href="#mode_nav">{{$hash_tag->tag}}</a></li>
+                                    @endforeach
 
-                                    </ul>
-                                </section>
-                             @endif
-                                        <!-- //해시태그 -->
+                                </ul>
+                            </section>
+                    @endif
+                    <!-- //해시태그 -->
                     </div>
                 </div>
                 <!-- //연재회차,작가다른작품,해시태그 -->
@@ -169,8 +171,8 @@
             </div>
             <!-- //서브컨텐츠 -->
             <!-- 따라다니는퀵메뉴 -->
-            @include('main.quick_menu')
-                    <!-- //따라다니는퀵메뉴 -->
+        @include('main.quick_menu')
+        <!-- //따라다니는퀵메뉴 -->
         </div>
 
     </div>
