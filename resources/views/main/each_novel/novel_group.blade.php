@@ -129,7 +129,7 @@
                                                     <strong class="title">{{str_limit($author_novel_group->title, 20)}}</strong>
 
                                                     <p class="post-content">
-                                                        @if(count($novel_group->keywords) >0) {{$novel_group->keywords[0]->name }} @endif
+                                                        @if(count($author_novel_group->keywords) >0) {{$author_novel_group->keywords[0]->name }} @endif
                                                         <br>
                                                         총 {{$author_novel_group->max_inning}}화<br>
                                                         선호작{{$author_novel_group->favorite_count}}명
