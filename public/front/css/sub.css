@@ -3405,6 +3405,7 @@
     background: url(../imgs/common/scroll_logo.png) no-repeat;
     margin: 3px auto 0;
     height: 52px;
+    width: 100px;
 }
 
 .pre-next-fixed {
@@ -3419,12 +3420,12 @@
 .other-novels {
     display: none;
     width: 60%;
-    height:320px;
+    height: 320px;
     top: 16.4%;
     border-bottom: 1px solid #e2d8d6;
     border-right: 1px solid #e2d8d6;
     border-left: 1px solid #e2d8d6;
-    margin:0 0 0 185px;
+    margin: 0 0 0 185px;
     position: absolute;
     z-index: 2;
     background-color: #fff;
@@ -3438,10 +3439,11 @@
     cursor: pointer;
 }
 
-.novel-hover:hover{
+.novel-hover:hover {
     background-color: #54abd9;
-    color:#fff;
+    color: #fff;
 }
+
 .novels-fixed {
     width: 30%;
     top: 12%;
