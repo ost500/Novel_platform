@@ -92,7 +92,7 @@
 
 /* ASIDE NAV */
 .aside-nav {
-    z-index: 2;
+    z-index: 1;
     position: absolute;
     right: -54px;
     top: 30px;
