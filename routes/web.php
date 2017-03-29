@@ -49,6 +49,8 @@ Route::resource('comments', 'CommentController');
 Route::resource('mentomen', 'MenToMenQuestionAnswerController');
 Route::resource('faqs', 'FaqController');
 Route::resource('favorites', 'FavoriteController', ['only' => ['store', 'destroy']]);
+Route::get('/favorites_login', ['as' => 'favorite.login', 'uses' => 'FavoriteController@login_auth']);
+
 Route::resource('free_board_likes', 'FreeBoardLikeController', ['only' => ['store', 'destroy']]);
 Route::resource('keywords', 'KeywordController');
 Route::get('popular_keywords', ['as' => 'popular_keywords', 'uses' => 'KeywordController@popular_keywords']);

@@ -20,7 +20,7 @@
                     <h2 class="bbs-view-title">{{ $article->title }}</h2>
 
                     <div class="bbs-view-info">
-                        <div class="writer">{{ $article['users']['name'] }}</div>
+                        <div class="writer">{{ $article['users']['nickname'] }}</div>
                         <div class="etc"><span>작성일 {{ $article->created_at }}</span>
                             <span>조회수 {{ $article->view_count }}</span></div>
                     </div>
@@ -87,7 +87,7 @@
                                         <li>
                                             <div class="comment-wrap">
                                                 <div class="comment-info"><span
-                                                            class="writer">{{ $comment[0]->users->name}}</span><span
+                                                            class="writer">{{ $comment[0]->users->nickname}}</span><span
                                                             class="datetime">{{ $comment[0]->created_at }}</span></div>
                                                 <div class="comment-btns"><a v-on:click="new_box_show({{$comment[0]->id}})"
                                                                              style="cursor: pointer;">답글</a><a

@@ -1326,14 +1326,17 @@ html.is-modal body {
 
 .layer-popup .myinfo-nav > .link1:before {
     background: url(../imgs/common/myinfo_link1.png) no-repeat 50% 50%;
+    cursor: pointer;
 }
 
 .layer-popup .myinfo-nav > .link2:before {
     background: url(../imgs/common/myinfo_link2.png) no-repeat 50% 50%;
+    cursor: pointer;
 }
 
 .layer-popup .myinfo-nav > .link3:before {
     background: url(../imgs/common/myinfo_link3.png) no-repeat 50% 50%;
+    cursor: pointer;
 }
 
 .layer-popup .logout-btn {

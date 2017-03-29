@@ -1,6 +1,6 @@
 @extends('../layouts.main_layout')
 @section('content')
-    <div class="container">
+    <div class="container" id="favorites" xmlns:v-on="http://www.w3.org/1999/xhtml">
         <div class="wrap">
             <!-- LNB -->
             @include('main.my_page.left_sidebar')
@@ -51,7 +51,8 @@
                                         <span class="datetime">{{time_elapsed_string($my_favorite->new)}}</span>
                                     </div>
                                     <div class="post-scrap">
-                                        <a href="#mode_nav" class="userbtn userbtn--scrap-active">선호작</a>
+                                        <a v-on:click="removeFromFavorite('{{$my_favorite->id}}')"
+                                           class="userbtn userbtn--scrap-active">선호작</a>
                                     </div>
                                 </div>
                             </li>
@@ -79,6 +80,61 @@
     </div>
     <!-- //컨테이너 -->
     <!-- 푸터 -->
+
+    <script>
+        var app_favorites = new Vue({
+            el: '#favorites',
+            data: {
+                favorites_info: {novel_group_id: ''},
+                add_favorite_disp: true,
+                remove_favorite_disp: false,
+                search: ''
+
+            },
+            mounted: function () {
+
+
+            },
+            methods: {
+
+
+                addToFavorite: function (novel_group_id) {
+                    this.favorites_info.novel_group_id = novel_group_id;
+                    this.$http.post('{{ route('favorites.store') }}', this.favorites_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                            .then(function (response) {
+                                //  document.getElementById('tab' + publish_company_id).style.display = 'none';
+
+                                this.add_favorite_disp = false;
+                                this.remove_favorite_disp = true;
+                                 location.reload();
+                            })
+                            .catch(function (errors) {
+                                window.location.assign('{{ route('favorite.login') }}');
+                            });
+                },
+                removeFromFavorite: function (novel_group_id) {
+                    console.log(novel_group_id);
+                    if(confirm('선호작에서 제외 하시겠습니까?')){
+                        this.$http.delete('{{ route('favorites.destroy',['id'=>""]) }}/'+novel_group_id, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                                .then(function (response) {
+                                    //  document.getElementById('tab' + publish_company_id).style.display = 'none';
+
+                                    this.add_favorite_disp = true;
+                                    this.remove_favorite_disp = false;
+                                    location.reload();
+                                })
+                                .catch(function (errors) {
+
+                                    window.location.assign('/login?loginView=true');
+                                });
+                    }
+
+                }
+
+            }
+
+        });
+    </script>
 
 
 @endsection

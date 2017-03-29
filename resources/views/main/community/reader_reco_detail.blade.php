@@ -82,7 +82,7 @@
                                         href="{{ route('each_novel.novel_group', ['id' => $review->novel_groups->id]) }}">{{ $review->novel_groups->title }}</a>
                             </h2>
 
-                            <p class="writer">{{ $review->novel_groups->users->name }}<a href="{{ route('mails.create', ['id' =>$review->novel_groups->users->id]) }}"><i
+                            <p class="writer">{{ $review->novel_groups->users->nickname }}<a href="{{ route('mails.create', ['id' =>$review->novel_groups->users->id]) }}"><i
                                             class="memo-icon"></i><span
                                             class="hidden">쪽지</span></a></p>
 
@@ -114,7 +114,7 @@
                 <h2 class="bbs-view-title">{{ $review->review_title }}</h2>
 
                 <div class="bbs-view-info">
-                    <div class="writer">{{ $review->users->name }}</div>
+                    <div class="writer">{{ $review->users->nickname }}</div>
                     <div class="etc">
                         <span>작성일 {{ $review->created_at }}</span>
                         <span>조회수 {{ $review->view_count }}</span>
@@ -175,7 +175,7 @@
                                 <li>
                                     <div class="comment-wrap">
                                         <div class="comment-info"><span
-                                                    class="writer">{{ $comment[0]->users->name }}</span> <span
+                                                    class="writer">{{ $comment[0]->users->nickname }}</span> <span
                                                     class="datetime">{{ $comment[0]->created_at }}</span>
                                         </div>
                                         <div class="comment-btns"><a  v-on:click="new_box_show({{$comment[0]->id}})"
@@ -216,7 +216,7 @@
                                     <li>
                                         <div class="comment-wrap is-reply">
                                             <div class="comment-info"><span
-                                                        class="writer">{{ $comment_reply['users']['name'] }}</span><span
+                                                        class="writer">{{ $comment_reply['users']['nickname'] }}</span><span
                                                         class="datetime">{{ $comment_reply->created_at }}</span></div>
                                             <div class="comment-btns">
                                                 <a href="{{ route('accusations', ['id' => $comment_reply->users->id]) }}">신고</a>
@@ -266,7 +266,7 @@
                         <span class="head head--prev">이전글</span>
                             <span class="subject"><a
                                         href="{{ route('reader_reco.detail',['id' => $prev_review->id]) }}">{{ $prev_review->title }}</a></span>
-                        <span class="writer">{{ $prev_review->users->name }}</span>
+                        <span class="writer">{{ $prev_review->users->nickname }}</span>
                         <span class="datetime">{{ $prev_review->created_at->format('Y-m-d') }}</span>
                     </li>
                 @endif
@@ -275,7 +275,7 @@
                         <span class="head head--next">다음글</span>
                             <span class="subject"><a
                                         href="{{ route('reader_reco.detail',['id' => $next_review->id]) }}">{{ $next_review->title }}</a></span>
-                        <span class="writer">{{ $next_review->users->name }}</span>
+                        <span class="writer">{{ $next_review->users->nickname }}</span>
                         <span class="datetime">{{ $next_review->created_at->format('Y-m-d') }}</span>
                     </li>
                 @endif

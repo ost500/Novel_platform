@@ -77,7 +77,7 @@
                                     <i class="new-icon">새글</i>
                                 @endif
                             </td>
-                            <td class="col-name">{{ $article['users']['name'] }}</td>
+                            <td class="col-name">{{ $article['users']['nickname'] }}</td>
                             <td class="col-datetime">{{ $article->created_at->format('Y-m-d') }}</td>
                             <td class="col-view">{{ $article->view_count }}</td>
                         </tr>
@@ -93,7 +93,7 @@
                     </div>
 
                 </div>
-                <div class="page-nav" >
+                <div class="page-nav " >
                     @include('pagination_front', ['collection' => $articles, 'url' => route('free_board')."?search_option=".$search_option."&search_text=".$search_text."&"])
                 </div>
                 <!-- //하단버튼 -->

@@ -54,7 +54,7 @@
                             @endforeach
                         @else
                             <tr>
-                                <td colspan="5"> 해당 조건의 작품이 없습니다.</td>
+                                <td colspan="5"> 스팸 쪽지가 없습니다.</td>
                             </tr>
                         @endif
                         </tbody>

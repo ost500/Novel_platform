@@ -167,20 +167,20 @@
                             </li>
                             <li><label class="checkbox2"><input type="radio" value="SC0040" name="LGD_CUSTOM_USABLEPAY"><span>무통장입금</span></label>
                             </li>
-                            {{--<li><label class="checkbox2"><input type="radio"--}}
-                            {{--name="LGD_CUSTOM_USABLEPAY"><span>컬쳐랜드문화상품권</span></label></li>--}}
+                            <li><label class="checkbox2"><input type="radio"
+                            name="LGD_CUSTOM_USABLEPAY"><span>컬쳐랜드문화상품권</span></label></li>
                             <li><label class="checkbox2"><input type="radio" value="SC0111" name="LGD_CUSTOM_USABLEPAY"><span>문화상품권</span></label>
                             </li>
-                            {{--<li><label class="checkbox2"><input type="radio" name="LGD_CUSTOM_USABLEPAY"><span>해피머니</span></label>--}}
-                            {{--</li>--}}
+                            <li><label class="checkbox2"><input type="radio" name="LGD_CUSTOM_USABLEPAY"><span>해피머니</span></label>
+                            </li>
                             <li><label class="checkbox2"><input type="radio" value="SC0010" name="LGD_CUSTOM_USABLEPAY"><span>신용카드</span></label>
                             </li>
-                            {{--<li><label class="checkbox2"><input type="radio" name="payment"><span><i--}}
-                            {{--class="naverpay-icon">Naver Pay</i></span></label></li>--}}
-                            {{--<li><label class="checkbox2"><input type="radio" name="payment"><span><i--}}
-                            {{--class="kakaopay-icon">Kakao Pay</i></span></label></li>--}}
-                            {{--<li><label class="checkbox2"><input type="radio" name="payment"><span><i--}}
-                            {{--class="tmoney-icon">T money</i></span></label></li>--}}
+                            <li><label class="checkbox2"><input type="radio" name="payment"><span><i
+                            class="naverpay-icon">Naver Pay</i></span></label></li>
+                            <li><label class="checkbox2"><input type="radio" name="payment"><span><i
+                            class="kakaopay-icon">Kakao Pay</i></span></label></li>
+                            <li><label class="checkbox2"><input type="radio" name="payment"><span><i
+                            class="tmoney-icon">T money</i></span></label></li>
                         </ul>
                     </div>
 

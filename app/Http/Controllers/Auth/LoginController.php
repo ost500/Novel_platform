@@ -31,7 +31,7 @@ class LoginController extends Controller
     /**
      * Where to redirect users after login.
      *
-     * @var string
+
      */
     protected $redirectTo = '/';
 
@@ -41,6 +41,7 @@ class LoginController extends Controller
      * @return void
      */
     var $agent;
+
     public function __construct()
     {
         $this->middleware('guest', ['except' => 'logout']);
@@ -49,31 +50,34 @@ class LoginController extends Controller
 
     public function showLoginForm(Request $request)
     {
-        if ( $this->agent ->isMobile()) {
-            $userID=$request->get('userID');
-            return view('mobile.login',compact('userID'));
+        if ($this->agent->isMobile()) {
+            $userID = $request->get('userID');
+            return view('mobile.login', compact('userID'));
         }
-        return redirect('/?loginView=');
+
+        return redirect()->back()->with(['login' => true]);
+//        return redirect()->to($request->getRequestUri() . '?loginView=true');
     }
 
 
     protected function attemptLogin(Request $request)
     {
         //check if user is blocked or not
-        $user=User::where('name',$request->only($this->username()))->first();
+        $user = User::where('name', $request->only($this->username()))->first();
         //if user exists and login is blocked then return back
-        if($user && $user->block_login){  return redirect()->back()
-            ->withInput($request->only($this->username(), 'remember'))
-            ->withErrors([
-                $this->username() => "로그인이 제한 됐습니다",
+        if ($user && $user->block_login) {
+            return redirect()->back()
+                ->withInput($request->only($this->username(), 'remember'))
+                ->withErrors([
+                    $this->username() => "로그인이 제한 됐습니다",
 
-            ]);}
+                ]);
+        }
 
         return $this->guard()->attempt(
             $this->credentials($request), $request->has('remember')
         );
     }
-
 
 
     public function sendFailedLoginResponse(Request $request)
@@ -82,7 +86,7 @@ class LoginController extends Controller
             ->withInput($request->only($this->username(), 'remember'))
             ->withErrors([
                 $this->username() => "로그인에 실패했습니다",
-                
+
             ]);
     }
 

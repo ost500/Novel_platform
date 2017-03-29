@@ -3420,6 +3420,7 @@ width: 0;
     background: url(../imgs/common/scroll_logo.png) no-repeat;
     margin: 3px auto 0;
     height: 52px;
+    width: 100px;
 }
 
 .pre-next-fixed {

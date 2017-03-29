@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+
 /**
  * App\Novel
  *
@@ -82,10 +83,15 @@ class Novel extends Model
         return $this->hasMany(Comment::class)->with('users');
     }
 
-    
+
     public function view_counts()
     {
         return $this->hasMany(ViewCount::class);
+    }
+
+    public function purchases()
+    {
+        return $this->hasMany(PurchasedNovel::class);
     }
 
     public function publish_novel_groups()

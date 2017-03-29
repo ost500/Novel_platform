@@ -66,17 +66,20 @@
                                 <div class="inner">
                                     <h2 class="myinfo-user-name">@{{ user.name.toString() }}</h2>
                                     <ul class="myinfo-nav clr">
-                                        <li class="link1">
-                                            보유구슬<br>
-                                            <a href="{{ route('my_info.charge_bead') }}">{{ Auth::user()->bead }}개</a>
+                                        <li class="link1"
+                                            onclick="location.href = '{{ route('my_info.charge_bead') }}';">
+                                            <a href="{{ route('my_info.charge_bead') }}">
+                                                보유구슬<br>
+                                                {{ Auth::user()->bead }}개</a>
                                         </li>
-                                        <li class="link2">
-                                            선호작<br>
-                                            <a href="{{ route('my_page.favorites') }}">@{{ user.favorites_count }}작품</a>
+                                        <li class="link2" onclick="location.href = '{{ route('my_page.favorites') }}';">
+
+                                            <a href="{{ route('my_page.favorites') }}">
+                                                선호작<br>@{{ user.favorites_count }}작품</a>
                                         </li>
-                                        <li class="link3">
-                                            MY정보<br>
-                                            <a href="{{route('my_page.index')}}">관리하기</a>
+                                        <li class="link3" onclick="location.href = '{{ route('my_page.index') }}';">
+
+                                            <a href="{{route('my_page.index')}}">MY정보<br>관리하기</a>
                                         </li>
                                     </ul>
                                     <div class="logout-btn"><a href="{{url('/logout')}}" onclick="event.preventDefault();
@@ -98,6 +101,10 @@
                                     <div class="alarm-container">
                                         <h2 class="alarm-title">받은쪽지함</h2>
                                         <ul class="alarm-list">
+                                            <li style="text-align: center" v-if="new_mails_length == 0">
+                                                받은 쪽지가 없습니다.
+                                            </li>
+
                                             <li v-for="new_mail in new_mails.data"
                                                 v-bind:class="{'is-new' : !new_mail.read}">
                                                 <div class="thumb">
@@ -477,6 +484,7 @@
             },
             new_speeds: "",
             new_mails: "",
+            new_mails_length: "",
             keywords: "",
             search: ''
         },
@@ -509,6 +517,7 @@
                 this.$http.get('/newmail')
                         .then(function (response) {
                             this.new_mails = response.data;
+                            this.new_mails_length = response.data.data.length;
 
                         });
             }

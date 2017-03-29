@@ -92,7 +92,7 @@
                                 <div class="post-header">
                                     <strong class="title"><a
                                                 href="{{ route('reader_reco.detail', ['id' => $review->id]) }}">{{$review->title}}</a></strong>
-                                    <span class="writer">{{$review['users']['name']}}</span>
+                                    <span class="writer">{{$review['users']['nickname']}}</span>
                                 </div>
                                 <p class="post-content">{{ $review->review }}</p>
 
