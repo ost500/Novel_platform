@@ -3397,11 +3397,15 @@ width: 0;
     width: 100%;
     background-color: #fff;
     z-index: 2;
-    -webkit-transition: all 0.9s;
-    -moz-transition: all 0.9s;
-    -ms-transition: all 0.9s;
-    -o-transition: all 0.9s;
-    transition: all 0.9s;
+    animation: smoothScroll 1s forwards;
+}
+@keyframes smoothScroll {
+    0% {
+        transform: translateY(-40px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
 }
 
 .usermenu-scroll {

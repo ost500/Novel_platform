@@ -35,7 +35,6 @@
             'csrfToken' => csrf_token(),
     ]); ?>
 </script>
-
 <!-- 모드 -->
 <div class="mode-nav" id="mode_nav">
     <ul class="wrap">
@@ -44,8 +43,10 @@
     </ul>
 </div>
 <!-- //모드 -->
+
 <!-- 헤더 -->
 <header class="header">
+
     <div class="header-top wrap" id="header">
         <h1 class="logo wrap"><a href="{{ route('root') }}" class="logo-img">여우정원</a></h1>
         <!-- 사용자메뉴 -->
@@ -610,20 +611,20 @@
 
         //function to fix header
         function fix_header() {
-            if ($(this).scrollTop() > 1) {
+            if ($(this).scrollTop() > 120) {
                 $('.header').addClass('fixed');
-                $('.header-top').addClass('header-top-scroll');
+               /* $('.header-top').addClass('header-top-scroll');
                 $('.usermenu').addClass('usermenu-scroll');
-                $('.header-top .logo .logo-img').addClass('logo-img-new');
+                $('.header-top .logo .logo-img').addClass('logo-img-new');*/
 
                 //   $('.aside-nav').addClass('is-fixed');
 
             }
             else {
                 $('.header').removeClass('fixed');
-                $('.header-top').removeClass('header-top-scroll');
+               /* $('.header-top').removeClass('header-top-scroll');
                 $('.usermenu').removeClass('usermenu-scroll');
-                $('.header-top .logo .logo-img').removeClass('logo-img-new');
+                $('.header-top .logo .logo-img').removeClass('logo-img-new');*/
 
                 //$('.aside-nav').removeClass('is-fixed');
             }
