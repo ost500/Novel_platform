@@ -136,6 +136,10 @@
                                     <div class="alarm-container">
                                         <h2 class="alarm-title">소식</h2>
                                         <ul class="alarm-list">
+                                            <li style="text-align: center" v-if="new_speeds_length == 0">
+                                                새 소식이 없습니다.
+                                            </li>
+
                                             <li v-for="new_speed in new_speeds.data"
                                                 v-bind:class="{'is-new' : !new_speed.read}">
                                                 <div class="thumb">
@@ -164,8 +168,8 @@
                     </div>
 
 
-                    @else
-                            <!-- 방문자버튼 -->
+                @else
+                <!-- 방문자버튼 -->
 
                     <a href="#mode_nav" class="userbtn userbtn--login" data-modal-id="login_form"
                        @if($errors->has('name') || $errors->has('password') || isset($login) || isset($loginView) || session('login')) data-modal-start @endif >로그인</a>
@@ -328,7 +332,7 @@
                 <legend>검색</legend>
                 <div class="search-form-basic">
                     <strong class="search-form-title">일반검색</strong>
-                    <span class="selectbox" >
+                    <span class="selectbox">
                         <span class="show-arrow"></span>
                         <select title="검색옵션" name="search_type" id="search_type">
                             <option value="전체">전체</option>
@@ -363,13 +367,13 @@
             </fieldset>
         </form>
     </div>
-    @yield('header')
-            <!-- //통합검색모달 -->
+@yield('header')
+<!-- //통합검색모달 -->
 </header>
 <!-- //헤더 -->
 
 @yield('content')
-        <!-- 푸터 -->
+<!-- 푸터 -->
 <div class="footer" id="footer-area">
     <!-- 푸터공지 -->
     <div class="notice">
@@ -485,6 +489,7 @@
             new_speeds: "",
             new_mails: "",
             new_mails_length: "",
+            new_speeds_length: "",
             keywords: "",
             search: ''
         },
@@ -510,7 +515,7 @@
                 this.$http.get('/newspeed')
                         .then(function (response) {
                             this.new_speeds = response.data;
-
+                            this.new_speeds_length = response.data.data.length;
                         });
             },
             get_new_mails: function () {
@@ -578,29 +583,29 @@
         });
     });
 
-   /* $('#selectbox').click( function(e){
-        e.preventDefault();
-        console.log('gdfgdfg');
-        $('#search_type').trigger('click');
-    });
-*/
+    /* $('#selectbox').click( function(e){
+     e.preventDefault();
+     console.log('gdfgdfg');
+     $('#search_type').trigger('click');
+     });
+     */
 
     $(window).scroll(function () {
 
         if ('{{ !Request::is('novel_group_inning/*')}}' || '{{Request::is('novel_group_inning/*/purchase')}}') {
 
             //Fix the aside menu
-            if ($(this).scrollTop() >1 && $(this).scrollTop() < 180) {
+            if ($(this).scrollTop() > 1 && $(this).scrollTop() < 180) {
                 $('.aside-nav').css('top', '76px');
                 $('.aside-nav').css('position', 'fixed');
                 $('.aside-nav').css('right', '420px');
-              //  $('.aside-nav').addClass('nav-fixed').animate('slow');
+                //  $('.aside-nav').addClass('nav-fixed').animate('slow');
             } else {
-              $('.aside-nav').css('top', '');
+                $('.aside-nav').css('top', '');
                 $('.aside-nav').css('position', '');
                 $('.aside-nav').css('right', '');
-               /* $('.aside-nav').removeClass('nav-fixed');*/
-        }
+                /* $('.aside-nav').removeClass('nav-fixed');*/
+            }
 
             //fix the main header
             fix_header();
