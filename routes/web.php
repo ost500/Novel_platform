@@ -233,11 +233,13 @@ Route::group(['prefix' => 'community'], function () {
     Route::get('freeboard', ['as' => 'free_board', 'uses' => 'MainController\CommunityController@free_board']);
     Route::get('freeboard/{id}', ['as' => 'free_board.detail', 'uses' => 'MainController\CommunityController@free_board_detail']);
     // same url diffrent request for the redirection after login
-    Route::post('freeboard/{id}', ['as' => 'freeboard.comment', 'middleware' => 'auth', 'uses' => 'FreeBoardCommentController@store']);
+
     Route::get('freeboard_write', ['middleware' => 'auth', 'as' => 'free_board.write', 'uses' => 'MainController\CommunityController@free_board_write']);
     Route::get('freeboard/{id}/edit', ['as' => 'free_board.edit', 'uses' => 'MainController\CommunityController@free_board_edit']);
     Route::post('freeboard/', ['as' => 'free_board.store', 'uses' => 'FreeBoardController@store']);
     Route::put('freeboard/{id}', ['as' => 'free_board.update', 'uses' => 'FreeBoardController@update']);
+    Route::post('freeboard/destroy', ['as' => 'free_board.destroy', 'uses' => 'FreeBoardController@destroy']);
+    Route::post('freeboard/{id}', ['as' => 'freeboard.comment', 'middleware' => 'auth', 'uses' => 'FreeBoardCommentController@store']);
 
     Route::get('reader_reco', ['as' => 'reader_reco', 'uses' => 'MainController\CommunityController@reader_reco']);
     Route::get('reader_reco/{id}', ['as' => 'reader_reco.detail', 'uses' => 'MainController\CommunityController@reader_reco_detail']);
