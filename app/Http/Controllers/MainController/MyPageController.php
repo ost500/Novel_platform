@@ -115,8 +115,9 @@ class MyPageController extends Controller
     {
 
         //get new novels
-        $new_novels = NovelGroup::selectRaw('novel_groups.*,novels.novel_group_id,max(novels.created_at) as new')
+        $new_novels = NovelGroup::selectRaw('novel_groups.*,novels.novel_group_id,max(novels.created_at) as new, users.nickname')
             ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
+            ->join('users', 'users.id', '=', 'novel_groups.user_id')
             ->groupBy('novels.novel_group_id')
             ->with('nicknames')
             ->orderBy('new', 'desc')->paginate(10)->unique('user_id');
@@ -125,14 +126,16 @@ class MyPageController extends Controller
         $other_novels = array();
         foreach ($new_novels as $novel) {
 
-            $other_novels[$novel->user_id] = NovelGroup::selectRaw('novel_groups.*,novels.novel_group_id,max(novels.created_at) as new')
+            $other_novels[$novel->user_id] = NovelGroup::selectRaw('novel_groups.*,novels.novel_group_id,max(novels.created_at) as new, nick_names.id as nickname_id')
                 ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
+                ->join('users', 'users.id', '=', 'novel_groups.user_id')
+                ->join('nick_names', 'novel_groups.nickname_id', '=', 'nick_names.id')
                 ->groupBy('novels.novel_group_id')
-                ->where([['novel_groups.user_id', '=', $novel->user_id], ['novel_groups.id', '<>', $novel->id]])
+                ->where([['nick_names.id', '=', $novel->nicknames->id], ['novel_groups.id', '<>', $novel->novel_group_id]])
                 ->with('nicknames')
                 ->orderBy('new', 'desc')->take(2)->get();
         }
-        // return response()->json(['aa'=>$new_novels,'bb'=>$other_novels]);
+//         return response()->json(['aa'=>$new_novels,'bb'=>$other_novels]);
         //Detect mobile
         if ($this->agent->isMobile()) {
             return view('mobile.my_page.novel.new_novels', compact('new_novels', 'other_novels'));
