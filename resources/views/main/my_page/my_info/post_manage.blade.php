@@ -18,13 +18,14 @@
             <!-- 페이지헤더 -->
             <div class="list-header">
                 <h2 class="title">게시글 관리</h2>
-
-                <div class="links">
-
+            <!-- 서브컨텐츠 -->
+            <div class="content" id="content">
+                <!-- 페이지헤더 -->
+                <div class="list-header">
+                    <h2 class="title">게시글 관리</h2>
 
                 </div>
-            </div>
-            <!-- //페이지헤더 -->
+                <!-- //페이지헤더 -->
 
             <!-- 게시판목록 -->
             <form name="bbs_list" action="#">

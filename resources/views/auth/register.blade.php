@@ -82,7 +82,7 @@
         </div>
         <form class="agreement-form">
             <div class="register-prev-page">
-                <a href="#register_logo"><i class="prev-icon"></i> 이전으로</a>
+
             </div>
         </form>
     </div>

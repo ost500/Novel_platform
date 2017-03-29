@@ -43,13 +43,13 @@
                 @endif
             </li>
             <li>
-                <a href="{{route('my_page.novels.new_speed')}}">소설</a>
+                <a href="{{route('my_page.novels.new_speed')}}">알림</a>
                 @if(Request::is('my_info/novels/*'))
                     <ul class="lnb-depth2">
                         <li><a href="{{route('my_page.novels.new_speed')}}"
                                @if(Request::is('my_info/novels/new_speed'))class="is-active" @endif>소식</a></li>
                         <li><a href="{{route('my_page.novels.new_novels')}}"
-                               @if(Request::is('my_info/novels/new_novels'))class="is-active" @endif>신작알림</a></li>
+                               @if(Request::is('my_info/novels/new_novels'))class="is-active" @endif>신작알림설정</a></li>
                     </ul>
                 @endif
             </li>

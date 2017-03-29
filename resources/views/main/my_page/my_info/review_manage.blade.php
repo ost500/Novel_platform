@@ -12,10 +12,7 @@
                 <!-- 페이지헤더 -->
                 <div class="list-header">
                     <h2 class="title">추천 리뷰 관리</h2>
-                    <div class="links">
 
-
-                    </div>
                 </div>
                 <!-- //페이지헤더 -->
 
@@ -40,7 +37,7 @@
                                                                                       data-check-item><span></span></label>
                                 </td>
                                 <td class="col-subject">
-                                    <a href="#mode_nav">{{ $article->title }}</a>
+                                    <a href="{{ route('reader_reco.detail', ['id' => $article->id]) }}">{{ $article->title }}</a>
                                     <span class="hidden">댓글 </span><span
                                             class="comment-cnt">{{ $article->comments_count }}</span>
                                 </td>
