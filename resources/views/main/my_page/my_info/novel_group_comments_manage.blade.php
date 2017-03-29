@@ -63,7 +63,7 @@
                                                     v-on:click="update_comment('{{$novel_comment->id}}')"
                                                     class="btn btn-primary inline"
                                                     style="width:18%;height:51px;vertical-align: top;">
-                                                수정
+                                                등록
                                             </button>
                                         </div>
 
