@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Auth;
 use Jenssegers\Agent\Agent;
 use Illuminate\Database\Eloquent\Collection;
+
 class CommunityController extends Controller
 {
 
@@ -51,14 +52,14 @@ class CommunityController extends Controller
     public function free_board_detail(Request $request, $id)
     {
 
-        $order=$request->get('order');
+        $order = $request->get('order');
         $article = FreeBoard::with(['comments' => function ($q) use ($order) {
             if ($order == 'oldest') {
                 $q->oldest();
             } else {
                 $q->latest();
             }
-        },'comments.users'])->with('likes')->withCount('likes')->withCount('comments')->findOrFail($id);
+        }, 'comments.users'])->with('likes')->withCount('likes')->withCount('comments')->findOrFail($id);
         $next_article_id = FreeBoard::where('id', '>', $article->id)->min('id');
         $next_article = FreeBoard::with('users')->find($next_article_id);
         $prev_article_id = FreeBoard::where('id', '<', $article->id)->max('id');
@@ -88,11 +89,11 @@ class CommunityController extends Controller
         }
         //Detect mobile
         if ($this->agent->isMobile()) {
-            return view('mobile.community.free_board_detail', compact('article', 'next_article', 'prev_article', 'show_liked','order','article_comments'));
+            return view('mobile.community.free_board_detail', compact('article', 'next_article', 'prev_article', 'show_liked', 'order', 'article_comments'));
 
         }
 
-        return view('main.community.free_board_detail', compact('article', 'next_article', 'prev_article', 'show_liked','order','article_comments'));
+        return view('main.community.free_board_detail', compact('article', 'next_article', 'prev_article', 'show_liked', 'order', 'article_comments'));
     }
 
 
@@ -131,14 +132,14 @@ class CommunityController extends Controller
         $novel_group_id = $request->novel_group;
         $review_user_id = $request->review_user;
         if ($request->novel_group) {
-            $reviews = Review::selectRaw('reviews.*, novel_groups.*,  sum(total_count) as total_count, reviews.id')
+            $reviews = Review::selectRaw('reviews.*, novel_groups.*, reviews.title as review_title, sum(total_count) as total_count, reviews.id')
                 ->join('novel_groups', 'novel_groups.id', '=', 'reviews.novel_group_id')
                 ->join('novels', 'novel_groups.id', '=', 'novels.novel_group_id')
                 ->groupBy('reviews.id')->where(['novel_groups.secret' => null, 'reviews.novel_group_id' => $novel_group_id])->orderBy('reviews.created_at', 'desc')
                 ->with('users');
 
         } elseif ($request->review_user) {
-            $reviews = Review::selectRaw('reviews.*, novel_groups.*,users.name as user_name, sum(total_count) as total_count, reviews.id')
+            $reviews = Review::selectRaw('reviews.*, novel_groups.*, reviews.title as review_title, users.name as user_name, sum(total_count) as total_count, reviews.id')
                 ->join('novel_groups', 'novel_groups.id', '=', 'reviews.novel_group_id')
                 ->join('novels', 'novel_groups.id', '=', 'novels.novel_group_id')
                 ->join('users', 'users.id', '=', 'reviews.user_id')
@@ -146,12 +147,13 @@ class CommunityController extends Controller
                 ->with('users');
         } else {
 
-            $reviews = Review::selectRaw('reviews.*, novel_groups.*, sum(total_count) as total_count, reviews.id')
+            $reviews = Review::selectRaw('reviews.*, novel_groups.*, reviews.title as review_title, sum(total_count) as total_count, reviews.id')
                 ->join('novel_groups', 'novel_groups.id', '=', 'reviews.novel_group_id')
                 ->join('novels', 'novel_groups.id', '=', 'novels.novel_group_id')
                 ->groupBy('reviews.id')->where('novel_groups.secret', null)->orderBy('reviews.created_at', 'desc')
                 ->with('users');
         }
+
 
         $search_option = $request->search_option;
         $search_text = $request->search_text;
@@ -224,14 +226,16 @@ class CommunityController extends Controller
             }
         }
 
-        //check if this novel_group is user's favorite or not
-        $show_favorite = NovelGroup::find($review->novel_group_id)->checkUserFavourite($review->novel_group_id);
-
+        $show_favorite = false;
+        if (Auth::check()) {
+            //check if this novel_group is user's favorite or not
+            $show_favorite = NovelGroup::find($review->novel_group_id)->checkUserFavourite($review->novel_group_id);
+        }
         //Detect mobile
         if ($this->agent->isMobile()) {
-            return view('mobile.community.reader_reco_detail', compact('review', 'next_review', 'prev_review', 'genre', 'order','review_comments','show_favorite'));
+            return view('mobile.community.reader_reco_detail', compact('review', 'next_review', 'prev_review', 'genre', 'order', 'review_comments', 'show_favorite'));
         }
-        return view('main.community.reader_reco_detail', compact('review', 'next_review', 'prev_review', 'genre', 'order','review_comments','show_favorite'));
+        return view('main.community.reader_reco_detail', compact('review', 'next_review', 'prev_review', 'genre', 'order', 'review_comments', 'show_favorite'));
     }
 
 }

@@ -77,7 +77,7 @@
                         @if($review_user_id){{$reviews[0]->user_name}}님의 리뷰들@endif
                     </div>
                     <div style="float:right;margin-right: 10px;">
-                        {{$reviews->Total()}}개의 결과물
+                      {{--  {{$reviews->Total()}}개의 결과물--}}
                     </div>
                 </div>
                 <ul class="novel-list">
@@ -91,8 +91,8 @@
                             <div class="post">
                                 <div class="post-header">
                                     <strong class="title"><a
-                                                href="{{ route('reader_reco.detail', ['id' => $review->id]) }}">{{$review->title}}</a></strong>
-                                    <span class="writer">{{$review['users']['nickname']}}</span>
+                                                href="{{ route('reader_reco.detail', ['id' => $review->id]) }}">{{$review->review_title}}</a></strong>
+                                    <span class="writer">{{$review->users->nickname}}</span>
                                 </div>
                                 <p class="post-content">{{ $review->review }}</p>
 
