@@ -82,7 +82,8 @@
                                         href="{{ route('each_novel.novel_group', ['id' => $review->novel_groups->id]) }}">{{ $review->novel_groups->title }}</a>
                             </h2>
 
-                            <p class="writer">{{ $review->novel_groups->users->nickname }}<a href="{{ route('mails.create', ['id' =>$review->novel_groups->users->id]) }}"><i
+                            <p class="writer">{{ $review->novel_groups->users->nickname }}<a
+                                        href="{{ route('mails.create', ['id' =>$review->novel_groups->users->id]) }}"><i
                                             class="memo-icon"></i><span
                                             class="hidden">쪽지</span></a></p>
 
@@ -92,6 +93,25 @@
                                 <span>조회수 {{ $review->total_count }}</span>
                                 <span>선호작 {{ $review->novel_groups->favorites->count() }}명</span>
                             </p>
+
+                            <div class="scrap-btns">
+                                @if($show_favorite)
+                                    <a v-on:click="addToFavorite('{{$review->novel_group_id}}')"
+                                       id="add_favorite" style="display:none;cursor:pointer;"><i class="scrap-icon"></i>
+                                        선호작추가</a>
+
+                                    <a class="is-active" v-on:click="removeFromFavorite()" id="remove_favorite"
+                                       style="cursor:pointer;">
+                                        <i class="scrap-active-icon"></i> 선호작추가</a>
+
+                                @else
+                                    <a v-on:click="addToFavorite('{{$review->novel_group_id}}')"
+                                       id="add_favorite" style="cursor:pointer;"><i class="scrap-icon"></i> 선호작추가</a>
+
+                                    <a class="is-active" v-on:click="removeFromFavorite()" id="remove_favorite"
+                                       style="display:none;cursor:pointer;"><i class="scrap-active-icon"></i> 선호작추가</a>
+                                @endif
+                            </div>
                         </div>
                         <div class="post-content">
                             <p>
@@ -122,141 +142,142 @@
                 </div>
 
                 @if(Auth::check() && Auth::user()->id == $review->user_id)
-                <div class="bbs-view-manage"><a href="{{route('reader_reco.edit',['id' => $review->review_id ]) }}"><i
-                                class="setup-icon"></i><span
-                                class="hidden">수정</span></a>
-                </div>
-                @endif
-                        <!-- 게시물본문 -->
-                <div class="bbs-view-content">
-                    <?php echo nl2br($review->review); ?>
-                </div>
-                <!-- //게시물본문 -->
-                <div class="bbs-view-content-btns">
-                    <div class="right-btns">
-                        <a href="{{ route('accusations', ['id' => $review->users->id]) }}" class="report-btn"><i
-                                    class="report-icon"></i>게시물 신고</a>
+                    <div class="bbs-view-manage"><a href="{{route('reader_reco.edit',['id' => $review->review_id ]) }}">
+                            <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
+                            <span class="hidden">수정</span></a>
                     </div>
-                </div>
-                <div class="bbs-view-btns">
-                    <a href="{{ route('reader_reco') }}" class="btn">목록</a>
-
-                    <div class="right-btns">
-                        <a href="{{route('reader_reco').'?novel_group='.$review->novel_groups->id}}"
-                           class="btn btn--special">이 소설의 다른 추천 보기</a>
-                        <a href="{{route('reader_reco').'?review_user='.$review->users->id}}"
-                           class="btn btn--special2">작성자의 다른 추천 보기</a>
+                    @endif
+                            <!-- 게시물본문 -->
+                    <div class="bbs-view-content">
+                        <?php echo nl2br($review->review); ?>
                     </div>
-                </div>
-                <!-- 댓글목록 -->
-                <section class="bbs-comment">
-                    <div class="comments">
-                        <div class="comment-list-header">
-                            <h2 class="title">댓글</h2>
-                            <span class="count">{{ $review->comments->count() }}</span>
-                            <!-- 댓글목록정렬 -->
-                            <div class="sort-nav sort-nav--comment">
-                                <nav>
-                                    <ul>
-                                        <li>
-                                            <a href="{{ route('reader_reco.detail', ['id' => $review->id]).'?order=latest' }}"
-                                               @if($order == 'latest' or $order == null ) class="is-active" @endif>최신순</a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('reader_reco.detail', ['id' => $review->id]).'?order=oldest' }}"
-                                               @if($order == 'oldest') class="is-active" @endif>등록순</a></li>
-                                    </ul>
-                                </nav>
-                            </div>
-                            <!-- //작품목록정렬 -->
+                    <!-- //게시물본문 -->
+                    <div class="bbs-view-content-btns">
+                        <div class="right-btns">
+                            <a href="{{ route('accusations', ['id' => $review->users->id]) }}" class="report-btn"><i
+                                        class="report-icon"></i>게시물 신고</a>
                         </div>
-                        <ul class="comment-list">
-                            @foreach ($review_comments as $comment)
-                                <li>
-                                    <div class="comment-wrap">
-                                        <div class="comment-info"><span
-                                                    class="writer">{{ $comment[0]->users->nickname }}</span> <span
-                                                    class="datetime">{{ $comment[0]->created_at }}</span>
-                                        </div>
-                                        <div class="comment-btns"><a  v-on:click="new_box_show({{$comment[0]->id}})"
-                                                                      style="cursor: pointer;">답글</a><a
-                                                    href="{{ route('accusations', ['id' => $comment[0]->users->id]) }}">신고</a>
-                                        </div>
-                                        <div class="comment-content">
-                                            <p><?php echo nl2br($comment[0]->comment); ?></p>
-                                        </div>
-                                        <div class="comment-content " style="display:none;"
-                                             v-show="new_box_display.status"
-                                             id="comment_box{{$comment[0]->id}}"
-                                             v-if="new_box_display.id =={{$comment[0]->id}}">
+                    </div>
+                    <div class="bbs-view-btns">
+                        <a href="{{ route('reader_reco') }}" class="btn">목록</a>
+
+                        <div class="right-btns">
+                            <a href="{{route('reader_reco').'?novel_group='.$review->novel_groups->id}}"
+                               class="btn btn--special">이 소설의 다른 추천 보기</a>
+                            <a href="{{route('reader_reco').'?review_user='.$review->users->id}}"
+                               class="btn btn--special2">작성자의 다른 추천 보기</a>
+                        </div>
+                    </div>
+                    <!-- 댓글목록 -->
+                    <section class="bbs-comment">
+                        <div class="comments">
+                            <div class="comment-list-header">
+                                <h2 class="title">댓글</h2>
+                                <span class="count">{{ $review->comments->count() }}</span>
+                                <!-- 댓글목록정렬 -->
+                                <div class="sort-nav sort-nav--comment">
+                                    <nav>
+                                        <ul>
+                                            <li>
+                                                <a href="{{ route('reader_reco.detail', ['id' => $review->id]).'?order=latest' }}"
+                                                   @if($order == 'latest' or $order == null ) class="is-active" @endif>최신순</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ route('reader_reco.detail', ['id' => $review->id]).'?order=oldest' }}"
+                                                   @if($order == 'oldest') class="is-active" @endif>등록순</a></li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                                <!-- //작품목록정렬 -->
+                            </div>
+                            <ul class="comment-list">
+                                @foreach ($review_comments as $comment)
+                                    <li>
+                                        <div class="comment-wrap">
+                                            <div class="comment-info"><span
+                                                        class="writer">{{ $comment[0]->users->nickname }}</span> <span
+                                                        class="datetime">{{ $comment[0]->created_at }}</span>
+                                            </div>
+                                            <div class="comment-btns"><a v-on:click="new_box_show({{$comment[0]->id}})"
+                                                                         style="cursor: pointer;">답글</a><a
+                                                        href="{{ route('accusations', ['id' => $comment[0]->users->id]) }}">신고</a>
+                                            </div>
+                                            <div class="comment-content">
+                                                <p><?php echo nl2br($comment[0]->comment); ?></p>
+                                            </div>
+                                            <div class="comment-content " style="display:none;"
+                                                 v-show="new_box_display.status"
+                                                 id="comment_box{{$comment[0]->id}}"
+                                                 v-if="new_box_display.id =={{$comment[0]->id}}">
                                                      <textarea name="comment"
                                                                id="comment{{$comment[0]->id}}"
                                                                v-model="sub_info.comment" rows="3"
                                                                style="width:65%;">
                                                      </textarea>
 
-                                            <input type="hidden" name="parent_id"
-                                                   id="parent_id{{$comment[0]->id}}"
-                                                   value="{{$comment[0]->id}}"/>
+                                                <input type="hidden" name="parent_id"
+                                                       id="parent_id{{$comment[0]->id}}"
+                                                       value="{{$comment[0]->id}}"/>
 
-                                            <button name="submit"
-                                                    id="edit{{$comment[0]->id}}"
-                                                    v-on:click="subCommentStore('{{$comment[0]->id}}')"
-                                                    class="btn btn-primary inline"
-                                                    style="width:100px;height:57px;vertical-align: top;">
-                                                댓글
-                                            </button>
-                                            <br>
-                                            <span style="margin-left: 2%;" id="error{{$comment[0]->id}}"></span>
+                                                <button name="submit"
+                                                        id="edit{{$comment[0]->id}}"
+                                                        v-on:click="subCommentStore('{{$comment[0]->id}}')"
+                                                        class="btn btn-primary inline"
+                                                        style="width:100px;height:57px;vertical-align: top;">
+                                                    댓글
+                                                </button>
+                                                <br>
+                                                <span style="margin-left: 2%;" id="error{{$comment[0]->id}}"></span>
 
-                                        </div>
-                                    </div>
-                                </li>
-                                @foreach($review_comments[$loop->index]['children'] as $comment_reply)
-                                    <li>
-                                        <div class="comment-wrap is-reply">
-                                            <div class="comment-info"><span
-                                                        class="writer">{{ $comment_reply['users']['nickname'] }}</span><span
-                                                        class="datetime">{{ $comment_reply->created_at }}</span></div>
-                                            <div class="comment-btns">
-                                                <a href="{{ route('accusations', ['id' => $comment_reply->users->id]) }}">신고</a>
-                                            </div>
-                                            <div class="comment-content">
-                                                <p><?php echo nl2br($comment_reply->comment); ?></p>
                                             </div>
                                         </div>
                                     </li>
+                                    @foreach($review_comments[$loop->index]['children'] as $comment_reply)
+                                        <li>
+                                            <div class="comment-wrap is-reply">
+                                                <div class="comment-info"><span
+                                                            class="writer">{{ $comment_reply['users']['nickname'] }}</span><span
+                                                            class="datetime">{{ $comment_reply->created_at }}</span>
+                                                </div>
+                                                <div class="comment-btns">
+                                                    <a href="{{ route('accusations', ['id' => $comment_reply->users->id]) }}">신고</a>
+                                                </div>
+                                                <div class="comment-content">
+                                                    <p><?php echo nl2br($comment_reply->comment); ?></p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    @endforeach
                                 @endforeach
-                            @endforeach
-                        </ul>
-                    </div>
-                </section>
-                <!-- //댓글목록 -->
-                <!-- 댓글쓰기 -->
-                <div class="bbs-comment-form">
-                    <form
-                            method="post"
-                            action="{{route('reader_reco.comment',['id'=>$review->review_id])}}"
+                            </ul>
+                        </div>
+                    </section>
+                    <!-- //댓글목록 -->
+                    <!-- 댓글쓰기 -->
+                    <div class="bbs-comment-form">
+                        <form
+                                method="post"
+                                action="{{route('reader_reco.comment',['id'=>$review->review_id])}}"
 
-                            class="comment-form">
-                        {!! csrf_field() !!}
-                        <div class="comment-form-wrap">
+                                class="comment-form">
+                            {!! csrf_field() !!}
+                            <div class="comment-form-wrap">
                                 <textarea name="comment" class="textarea2" placeholder="남을 상처주지 않는 바르고 고운 말을 씁시다."
                                           title="댓글내용"
                                           @if($errors->count() > 0)autofocus @endif>{{ old('comment') }}</textarea>
 
-                            <div class="comment-form-btns">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                                <span class="submit">
+                                <div class="comment-form-btns">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                    <span class="submit">
                                     <button type="submit" class="btn">등록</button>
                                 </span>
+                                </div>
                             </div>
-                        </div>
-                    </form>
-                </div>
-                <!-- //댓글쓰기 -->
+                        </form>
+                    </div>
+                    <!-- //댓글쓰기 -->
             </article>
             <!-- //게시판상세 -->
             <!-- 이전글다음글 -->
@@ -294,7 +315,9 @@
     var app = new Vue({
         el: '#review_comments',
         data: {
-
+            favorites_info: {novel_group_id: ''},
+            add_favorite_disp: true,
+            remove_favorite_disp: false,
             sub_info: {comment: '', parent_id: ''},
             new_box_display: {id: '', status: false}
         },
@@ -331,6 +354,35 @@
                             $("#error" + comment_id).text(errors.data['comment']);
                             //  $('#validateError').show();
                         });
+            },
+            addToFavorite: function (novel_group_id) {
+                this.favorites_info.novel_group_id = novel_group_id;
+                this.$http.post('{{ route('favorites.store') }}', this.favorites_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                        .then(function (response) {
+                            //  document.getElementById('tab' + publish_company_id).style.display = 'none';
+                            $('#add_favorite').hide();
+                            $('#remove_favorite').show();
+                            // location.reload();
+                        })
+                        .catch(function (errors) {
+                            window.location.assign('{{'/login?loginView=true'}}');
+                        });
+            },
+            removeFromFavorite: function () {
+                if (confirm('선호작에서 제외 하시겠습니까?')) {
+                    this.$http.delete('{{ route('favorites.destroy',['id'=>$review->novel_group_id]) }}', {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                            .then(function (response) {
+                                //  document.getElementById('tab' + publish_company_id).style.display = 'none';
+                                $('#add_favorite').show();
+                                $('#remove_favorite').hide();
+                                // location.reload();
+                            })
+                            .catch(function (errors) {
+
+                                window.location.assign('/login?loginView=true');
+                            });
+                }
+
             }
         }
     });

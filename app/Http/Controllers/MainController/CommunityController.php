@@ -5,6 +5,7 @@ namespace App\Http\Controllers\MainController;
 use App\FreeBoard;
 use App\FreeBoardLike;
 use App\Http\Controllers\Controller;
+use App\NovelGroup;
 use App\Review;
 use Illuminate\Http\Request;
 use Auth;
@@ -223,11 +224,14 @@ class CommunityController extends Controller
             }
         }
 
+        //check if this novel_group is user's favorite or not
+        $show_favorite = NovelGroup::find($review->novel_group_id)->checkUserFavourite($review->novel_group_id);
+
         //Detect mobile
         if ($this->agent->isMobile()) {
-            return view('mobile.community.reader_reco_detail', compact('review', 'next_review', 'prev_review', 'genre', 'order','review_comments'));
+            return view('mobile.community.reader_reco_detail', compact('review', 'next_review', 'prev_review', 'genre', 'order','review_comments','show_favorite'));
         }
-        return view('main.community.reader_reco_detail', compact('review', 'next_review', 'prev_review', 'genre', 'order','review_comments'));
+        return view('main.community.reader_reco_detail', compact('review', 'next_review', 'prev_review', 'genre', 'order','review_comments','show_favorite'));
     }
 
 }
