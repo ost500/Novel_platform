@@ -45,8 +45,8 @@
                     <tbody>
                     @foreach($faqs as $faq)
                         <tr>
-                            <td class="col-category">{{$faq->faq_category}}</td>
-                            <td class="col-subject">
+                            <td width="20%" class="col-category">{{$faq->faq_category}}</td>
+                            <td width="80%" class="col-subject">
                                 <a href="{{route('ask.faq_detail',['id'=>$faq->id]).$query_string}}">{{$faq->title}}</a>
 
                             </td>
