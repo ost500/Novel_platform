@@ -181,7 +181,7 @@
                                         <li>
                                             <div class="comment-wrap">
                                                 <div class="comment-info"><span
-                                                            class="writer">{{$novel_group_inning_comment[0]->users->name}}</span><span
+                                                            class="writer @if(Auth::user()->id ==$novel_group_inning_comment[0]->users->id) is-author @endif">{{$novel_group_inning_comment[0]->users->nickname}}</span><span
                                                             class="datetime"
                                                             style="padding-right:1px;">{{$novel_group_inning_comment[0]->created_at}}</span>
                                                     @if($novel_group_inning_comment[0]->comment_secret ==true)
@@ -199,7 +199,7 @@
 
                                                         <div class="comment-btns">
                                                             <a v-on:click="new_box_show({{$novel_group_inning_comment[0]->id}})"
-                                                               style="cursor: pointer;">댓글</a>
+                                                               style="cursor: pointer;">답글</a>
 
                                                             @if(Auth::user()->id == $novel_group_inning_comment[0]->user_id  )
 
@@ -248,7 +248,7 @@
                                                             v-on:click="subCommentStore('{{$novel_group_inning_comment[0]->id}}')"
                                                             class="btn btn-primary inline"
                                                             style="width:100px;height:57px;vertical-align: top;">
-                                                        댓글
+                                                        답글
                                                     </button>
                                                     <br>
                                                      <span class="options">
@@ -301,7 +301,7 @@
                                             <li>
                                                 <div class="comment-wrap is-reply">
                                                     <div class="comment-info"><span
-                                                                class="writer is-author">{{$novel_group_inning_comment_reply->users->name}}</span><span
+                                                                class="writer @if(Auth::user()->id ==$novel_group_inning_comment_reply->users->id) is-author @endif">{{$novel_group_inning_comment_reply->users->nickname}}</span><span
                                                                 class="datetime"
                                                                 style="padding-right:1px;">{{$novel_group_inning_comment_reply->created_at}}</span>
                                                         @if($novel_group_inning_comment_reply->comment_secret ==true)

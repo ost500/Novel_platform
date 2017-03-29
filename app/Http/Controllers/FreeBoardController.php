@@ -62,6 +62,13 @@ class FreeBoardController extends Controller
         flash('자유게시판 글이 성공적으로 수정 되었습니다');
         return redirect()->route('free_board.detail', ['id' => $id]);
     }
+    public function destroy(Request $request)
+    {
+        $ids = $request->get('ids');
+        FreeBoard::destroy($ids);
+        flash('삭제 되었습니다.');
+        return response()->json(['status'=>'ok']);
+    }
 
 
 }

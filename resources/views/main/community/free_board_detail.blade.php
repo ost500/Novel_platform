@@ -25,8 +25,8 @@
                             <span>조회수 {{ $article->view_count }}</span></div>
                     </div>
                     @if(Auth::check() && Auth::user()->id == $article->user_id)
-                        <div class="bbs-view-manage"><a href="{{route('free_board.edit',['id' => $article->id ]) }}"><i
-                                        class="setup-icon">수정</i></a></div>
+                        <div class="bbs-view-manage"><a href="{{route('free_board.edit',['id' => $article->id ]) }}">
+                                <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i></a></div>
                         @endif
                                 <!-- 게시물본문 -->
                         <div class="bbs-view-content">

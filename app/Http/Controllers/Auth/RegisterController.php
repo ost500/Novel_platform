@@ -87,7 +87,7 @@ class RegisterController extends Controller
             'user_name' => 'required|max:15|min:2',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
-            'nickname' => 'required|min:2|max:15',
+            'nickname' => 'required|max:15',
             'birth' => 'required|digits:4',
             'gender' => 'required'
         ], [
@@ -106,7 +106,6 @@ class RegisterController extends Controller
             'password.min' => '비밀번호가 너무 짧습니다',
             'password.confirmed' => '비밀번호가 일치하지 않습니다',
             'nickname.required' => '닉네임을 입력하세요',
-            'nickname.min' => '닉네임 길이가 짧습니다',
             'nickname.max' => '닉네임 길이가 너무 깁니다'
         ]);
     }
