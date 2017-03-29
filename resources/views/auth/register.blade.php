@@ -23,7 +23,7 @@
 <div class="register">
     <!-- 헤더 -->
     <div class="register-header">
-        <h1 class="logo" id="register_logo"><a href="#register_logo">여우정원</a></h1>
+        <h1 class="logo" id="register_logo"><a href="{{route('root')}}">여우정원</a></h1>
     </div>
     <!-- 회원가입내용 -->
     <div id="agreement_step" class="register-content">
@@ -167,7 +167,7 @@
                                 <input type="radio" name="gender" value="1"><i></i><span>남</span>
                             </label>
                             <label>
-                                <input type="radio" name="gender" value="0"><i></i><span>녀</span>
+                                <input type="radio" name="gender" value="0"><i></i><span>여</span>
                             </label>
                         </span>
                         </div>
