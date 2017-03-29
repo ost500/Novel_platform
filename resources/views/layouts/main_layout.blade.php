@@ -164,8 +164,8 @@
                     </div>
 
 
-                @else
-                <!-- 방문자버튼 -->
+                    @else
+                            <!-- 방문자버튼 -->
 
                     <a href="#mode_nav" class="userbtn userbtn--login" data-modal-id="login_form"
                        @if($errors->has('name') || $errors->has('password') || isset($login) || isset($loginView) || session('login')) data-modal-start @endif >로그인</a>
@@ -177,7 +177,7 @@
             <!-- 검색버튼 -->
             <div class="search-area">
                 <a href="#search_form" class="userbtn userbtn--search" data-modal-id="search_form">검색</a>
-                <a href="{{ route('my_page.favorites') }}" class="userbtn userbtn--scrap">선호작</a>
+                <a href="{{ route('my_page.favorites') }}" class="userbtn userbtn--scrap-active">선호작</a>
             </div>
         </div>
         <!-- //사용자메뉴 -->
@@ -328,7 +328,8 @@
                 <legend>검색</legend>
                 <div class="search-form-basic">
                     <strong class="search-form-title">일반검색</strong>
-                    <span class="selectbox">
+                    <span class="selectbox" >
+                        <span class="show-arrow"></span>
                         <select title="검색옵션" name="search_type" id="search_type">
                             <option value="전체">전체</option>
                             <option value="소설">소설</option>
@@ -362,13 +363,13 @@
             </fieldset>
         </form>
     </div>
-@yield('header')
-<!-- //통합검색모달 -->
+    @yield('header')
+            <!-- //통합검색모달 -->
 </header>
 <!-- //헤더 -->
 
 @yield('content')
-<!-- 푸터 -->
+        <!-- 푸터 -->
 <div class="footer" id="footer-area">
     <!-- 푸터공지 -->
     <div class="notice">
@@ -498,6 +499,8 @@
 
 
 
+
+
         },
         methods: {
             submit: function (e) {
@@ -575,12 +578,33 @@
         });
     });
 
+   /* $('#selectbox').click( function(e){
+        e.preventDefault();
+        console.log('gdfgdfg');
+        $('#search_type').trigger('click');
+    });
+*/
 
     $(window).scroll(function () {
 
         if ('{{ !Request::is('novel_group_inning/*')}}' || '{{Request::is('novel_group_inning/*/purchase')}}') {
+
+            //Fix the aside menu
+            if ($(this).scrollTop() >1 && $(this).scrollTop() < 180) {
+                $('.aside-nav').css('top', '76px');
+                $('.aside-nav').css('position', 'fixed');
+                $('.aside-nav').css('right', '420px');
+              //  $('.aside-nav').addClass('nav-fixed').animate('slow');
+            } else {
+              $('.aside-nav').css('top', '');
+                $('.aside-nav').css('position', '');
+                $('.aside-nav').css('right', '');
+               /* $('.aside-nav').removeClass('nav-fixed');*/
+        }
+
             //fix the main header
             fix_header();
+
 
         }
 
@@ -591,12 +615,17 @@
                 $('.header-top').addClass('header-top-scroll');
                 $('.usermenu').addClass('usermenu-scroll');
                 $('.header-top .logo .logo-img').addClass('logo-img-new');
+
+                //   $('.aside-nav').addClass('is-fixed');
+
             }
             else {
                 $('.header').removeClass('fixed');
                 $('.header-top').removeClass('header-top-scroll');
                 $('.usermenu').removeClass('usermenu-scroll');
                 $('.header-top .logo .logo-img').removeClass('logo-img-new');
+
+                //$('.aside-nav').removeClass('is-fixed');
             }
         }
 

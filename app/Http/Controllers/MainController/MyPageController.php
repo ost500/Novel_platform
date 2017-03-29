@@ -16,6 +16,7 @@ use App\NovelGroup;
 use Auth;
 use App\Favorite;
 use Jenssegers\Agent\Agent;
+
 class MyPageController extends Controller
 {
 
@@ -42,9 +43,9 @@ class MyPageController extends Controller
             ->join('novels', 'novels.id', '=', 'purchased_novels.novel_id')
             ->join('novel_groups', 'novels.novel_group_id', '=', 'novel_groups.id')
             ->join('nick_names', 'novel_groups.nickname_id', '=', 'nick_names.id')
-            ->join('novel_group_keywords','novel_groups.id','=','novel_group_keywords.novel_group_id')
-            ->join('keywords','novel_group_keywords.keyword_id','=','keywords.id')
-            ->selectRaw('novel_groups.*, nickname, keywords.name as keyword_name, novels.id')->groupBy('novel_group_keywords.id','novels.id','novels.novel_group_id')->latest()->take(5)->get();
+            ->join('novel_group_keywords', 'novel_groups.id', '=', 'novel_group_keywords.novel_group_id')
+            ->join('keywords', 'novel_group_keywords.keyword_id', '=', 'keywords.id')
+            ->selectRaw('novel_groups.*, nickname, keywords.name as keyword_name, novels.id')->groupBy('novel_group_keywords.id', 'novels.id', 'novels.novel_group_id')->latest()->take(5)->get();
 
         //get recently updated favourite groups of a user
         $recently_updated_favorites = NovelGroup::selectRaw('novel_groups.*,novels.novel_group_id,max(novels.created_at) as new')
@@ -79,15 +80,6 @@ class MyPageController extends Controller
             $condition = [['favorites.user_id', '=', Auth::user()->id]];
         }
 
-        if ($keyword_name) {
-            //get id from keyword
-            $keyword_id = Keyword::select('id')->where('name', $keyword_name)->get();
-            //make the condition
-            $condition[] = ['novel_group_keywords.keyword_id', '=', $keyword_id[0]->id];
-        }
-
-        //get the keywords of first category
-        $keywords = Keyword::where('category', 1)->get();
 
         //get all favorite groups of a user based on recently updated
         $my_favorites = NovelGroup::selectRaw('novel_groups.*,novels.novel_group_id,max(novels.created_at) as new')
@@ -96,18 +88,46 @@ class MyPageController extends Controller
             ->join('novel_group_keywords', 'novel_group_keywords.novel_group_id', '=', 'novel_groups.id')
             ->groupBy('novels.novel_group_id')
             ->where($condition)->with('nicknames')
-            ->orderBy('new', 'desc')->paginate(10);
+            ->orderBy('new', 'desc');
+
+        $option = isset($request->option) ? $request->option : false;
+        if ($option == "현대로맨스" or $option == "시대로맨스" or $option == "로맨스판타지") {
+
+            $optionArr = "";
+            if ($option == "현대로맨스") {
+                $optionArr = ['현대', '현대판타지'];
+            } else if ($option == "시대로맨스") {
+                $optionArr = ['시대', '사극', '동양판타지'];
+            } else if ($option == "로맨스판타지") {
+                $optionArr = ['서양역사', '로맨스판타지'];
+            }
+
+            //option is equal to keyword
+            //get id from keyword
+            $keyword_id = Keyword::select('id')->where(function ($q) use ($optionArr) {
+                $q->whereIn('name', $optionArr);
+            })->get();
+
+            //make the condition
+            // $condition[] = ['novel_group_keywords.keyword_id', '=', $keyword_id];
+
+            $my_favorites = $my_favorites->where(function ($q) use ($keyword_id) {
+                $q->whereIn('novel_group_keywords.keyword_id', $keyword_id);
+            });
+        }
+
+        $my_favorites = $my_favorites->paginate(config('define.pagination_long'));
 
         //calculate the one week gap from today to check new items within 7 days
         $week_gap = Carbon::today()->subDays(7);
 
 
-        $query_string = '?filter=' . $filter . '&keyword=' . $keyword_name;
+        $query_string = '?filter=' . $filter . '&option=' . $option;
         //Detect mobile
         if ($this->agent->isMobile()) {
-            return view('mobile.my_page.favorites', compact('my_favorites', 'keywords', 'query_string', 'keyword_name', 'filter', 'week_gap'));
+            return view('mobile.my_page.favorites', compact('my_favorites', 'keywords', 'query_string', 'option', 'filter', 'week_gap'));
         }
-        return view('main.my_page.favorites', compact('my_favorites', 'keywords', 'query_string', 'keyword_name', 'filter', 'week_gap'));
+        return view('main.my_page.favorites', compact('my_favorites', 'keywords', 'query_string', 'option', 'filter', 'week_gap'));
     }
 
 

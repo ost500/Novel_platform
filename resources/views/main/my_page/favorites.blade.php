@@ -3,8 +3,8 @@
     <div class="container" id="favorites" xmlns:v-on="http://www.w3.org/1999/xhtml">
         <div class="wrap">
             <!-- LNB -->
-        @include('main.my_page.left_sidebar')
-        <!-- //LNB -->
+            @include('main.my_page.left_sidebar')
+                    <!-- //LNB -->
 
             <!-- 서브컨텐츠 -->
             <div class="content" id="content">
@@ -14,15 +14,17 @@
                         <ul>
 
                             <li>
-                                <a href="{{route('my_page.favorites').'?filter='.$filter}}"
-                                   @if(!$keyword_name) class="is-active" @endif>전체</a></li>
-                            @foreach($keywords as $keyword)
-
-                                <li>
-                                    <a href="{{route('my_page.favorites').'?filter='.$filter.'&keyword='.$keyword->name }}"
-                                       @if($keyword_name == $keyword->name) class="is-active" @endif>{{$keyword->name}}</a>
-                                </li>
-                            @endforeach
+                                <a href="{{route('my_page.favorites') .'?filter='.$filter.'&option=현대로맨스' }}"
+                                   @if($option == "현대로맨스") class="is-active" @endif>현대로맨스</a>
+                            </li>
+                            <li>
+                                <a href="{{route('my_page.favorites') .'?filter='.$filter.'&option=시대로맨스' }}"
+                                   @if($option == "시대로맨스") class="is-active" @endif>시대로맨스</a>
+                            </li>
+                            <li>
+                                <a href="{{route('my_page.favorites') .'?filter='.$filter.'&option=로맨스판타지' }}"
+                                   @if($option == "로맨스판타지") class="is-active" @endif>로맨스판타지</a>
+                            </li>
                         </ul>
                     </nav>
                 </div>
@@ -72,8 +74,8 @@
             </div>
             <!-- //서브컨텐츠 -->
             <!-- 따라다니는퀵메뉴 -->
-        @include('main.quick_menu')
-        <!-- //따라다니는퀵메뉴 -->
+            @include('main.quick_menu')
+                    <!-- //따라다니는퀵메뉴 -->
         </div>
     </div>
     <!-- //컨테이너 -->

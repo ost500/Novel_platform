@@ -36,6 +36,8 @@ class NickName extends Model
         $nick_main = $this->find($id);
         $nick_main->main = true;
         $nick_main->save();
+        //update users table
+        $nick_main->users()->update(['nickname'=>$nick_main->nickname]);
     }
 
     public function novel_groups()
