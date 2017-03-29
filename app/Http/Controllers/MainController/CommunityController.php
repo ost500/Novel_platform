@@ -133,28 +133,28 @@ class CommunityController extends Controller
         $novel_group_id = $request->novel_group;
         $review_user_id = $request->review_user;
         if ($request->novel_group) {
-            $reviews = Review::selectRaw('reviews.*, novel_groups.*, reviews.title as review_title, sum(total_count) as total_count, reviews.id')
+            $reviews = Review::selectRaw('reviews.*, novel_groups.*, reviews.title as review_title, sum(total_count) as total_count, reviews.id,reviews.user_id')
                 ->join('novel_groups', 'novel_groups.id', '=', 'reviews.novel_group_id')
                 ->join('novels', 'novel_groups.id', '=', 'novels.novel_group_id')
                 ->join('novel_group_keywords', 'novel_group_keywords.novel_group_id', '=', 'novel_groups.id')
-                ->groupBy('reviews.id')->where(['novel_groups.secret' => null, 'reviews.novel_group_id' => $novel_group_id])->orderBy('reviews.created_at', 'desc')
+                ->groupBy('reviews.id','reviews.user_id')->where(['novel_groups.secret' => null, 'reviews.novel_group_id' => $novel_group_id])->orderBy('reviews.created_at', 'desc')
                 ->with('users');
 
         } elseif ($request->review_user) {
-            $reviews = Review::selectRaw('reviews.*, novel_groups.*, reviews.title as review_title, users.name as user_name, sum(total_count) as total_count, reviews.id')
+            $reviews = Review::selectRaw('reviews.*, novel_groups.*, reviews.title as review_title, users.name as user_name, sum(total_count) as total_count, reviews.id,reviews.user_id')
                 ->join('novel_groups', 'novel_groups.id', '=', 'reviews.novel_group_id')
                 ->join('novels', 'novel_groups.id', '=', 'novels.novel_group_id')
                 ->join('users', 'users.id', '=', 'reviews.user_id')
                 ->join('novel_group_keywords', 'novel_group_keywords.novel_group_id', '=', 'novel_groups.id')
-                ->groupBy('reviews.id')->where(['novel_groups.secret' => null, 'reviews.user_id' => $review_user_id])->orderBy('reviews.created_at', 'desc')
+                ->groupBy('reviews.id','reviews.user_id')->where(['novel_groups.secret' => null, 'reviews.user_id' => $review_user_id])->orderBy('reviews.created_at', 'desc')
                 ->with('users');
         } else {
 
-            $reviews = Review::selectRaw('reviews.*, novel_groups.*, reviews.title as review_title, sum(total_count) as total_count, reviews.id')
+            $reviews = Review::selectRaw('reviews.*, novel_groups.*, reviews.title as review_title, sum(total_count) as total_count, reviews.id,reviews.user_id')
                 ->join('novel_groups', 'novel_groups.id', '=', 'reviews.novel_group_id')
                 ->join('novels', 'novel_groups.id', '=', 'novels.novel_group_id')
                 ->join('novel_group_keywords', 'novel_group_keywords.novel_group_id', '=', 'novel_groups.id')
-                ->groupBy('reviews.id')->where('novel_groups.secret', null)->orderBy('reviews.created_at', 'desc')
+                ->groupBy('reviews.id','reviews.user_id')->where('novel_groups.secret', null)->orderBy('reviews.created_at', 'desc')
                 ->with('users');
         }
 
@@ -166,6 +166,10 @@ class CommunityController extends Controller
             $reviews = $reviews->where('reviews.title', 'like', '%' . $search_text . '%');
         } else if ($search_option == 'content') {
             $reviews = $reviews->where('review', 'like', '%' . $search_text . '%');
+        }else if ($search_option == 'nickname') {
+            $reviews = $reviews->whereHas('users', function ($q) use ($search_text) {
+                $q->where('nickname', 'like', '%' . $search_text . '%');
+            });
         }
 
 
