@@ -12,10 +12,7 @@
                 <!-- 페이지헤더 -->
                 <div class="list-header">
                     <h2 class="title">게시글 관리</h2>
-                    <div class="links">
 
-
-                    </div>
                 </div>
                 <!-- //페이지헤더 -->
 
@@ -40,7 +37,7 @@
                                                                                       data-check-item><span></span></label>
                                 </td>
                                 <td class="col-subject">
-                                    <a href="#mode_nav">{{ $article->title }}</a>
+                                    <a href="{{ route('free_board.detail', ['id' => $article->id]) }}">{{ $article->title }}</a>
                                     <span class="hidden">댓글 </span><span
                                             class="comment-cnt">{{ $article->comments_count }}</span>
                                 </td>
@@ -56,7 +53,7 @@
 
                 <!-- 페이징 -->
             @include('pagination_front', ['collection' => $articles, 'url' => route('my_info.post_manage').'?'])
-                <!-- //페이징 -->
+            <!-- //페이징 -->
             </div>
             <!-- //서브컨텐츠 -->
             <!-- 따라다니는퀵메뉴 -->
