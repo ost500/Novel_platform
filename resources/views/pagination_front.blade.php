@@ -4,8 +4,7 @@
             {{-- $collection->render() --}}
             @if($collection->currentPage() >= 2)
                 <li>
-                    <a class="prev-page" href="{{url($url."page=".($collection->currentPage()-1))}}">
-                        &lt;</a>
+                    <a class="prev-page" href="{{url($url."page=".($collection->currentPage()-1))}}"></a>
                 </li>
             @endif
             @if($collection->currentPage() >= 5)

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\MainController;
 use App\FreeBoard;
 use App\FreeBoardLike;
 use App\Http\Controllers\Controller;
+use App\Keyword;
 use App\NovelGroup;
 use App\Review;
 use Illuminate\Http\Request;
@@ -135,6 +136,7 @@ class CommunityController extends Controller
             $reviews = Review::selectRaw('reviews.*, novel_groups.*, reviews.title as review_title, sum(total_count) as total_count, reviews.id')
                 ->join('novel_groups', 'novel_groups.id', '=', 'reviews.novel_group_id')
                 ->join('novels', 'novel_groups.id', '=', 'novels.novel_group_id')
+                ->join('novel_group_keywords', 'novel_group_keywords.novel_group_id', '=', 'novel_groups.id')
                 ->groupBy('reviews.id')->where(['novel_groups.secret' => null, 'reviews.novel_group_id' => $novel_group_id])->orderBy('reviews.created_at', 'desc')
                 ->with('users');
 
@@ -143,6 +145,7 @@ class CommunityController extends Controller
                 ->join('novel_groups', 'novel_groups.id', '=', 'reviews.novel_group_id')
                 ->join('novels', 'novel_groups.id', '=', 'novels.novel_group_id')
                 ->join('users', 'users.id', '=', 'reviews.user_id')
+                ->join('novel_group_keywords', 'novel_group_keywords.novel_group_id', '=', 'novel_groups.id')
                 ->groupBy('reviews.id')->where(['novel_groups.secret' => null, 'reviews.user_id' => $review_user_id])->orderBy('reviews.created_at', 'desc')
                 ->with('users');
         } else {
@@ -150,6 +153,7 @@ class CommunityController extends Controller
             $reviews = Review::selectRaw('reviews.*, novel_groups.*, reviews.title as review_title, sum(total_count) as total_count, reviews.id')
                 ->join('novel_groups', 'novel_groups.id', '=', 'reviews.novel_group_id')
                 ->join('novels', 'novel_groups.id', '=', 'novels.novel_group_id')
+                ->join('novel_group_keywords', 'novel_group_keywords.novel_group_id', '=', 'novel_groups.id')
                 ->groupBy('reviews.id')->where('novel_groups.secret', null)->orderBy('reviews.created_at', 'desc')
                 ->with('users');
         }
@@ -168,9 +172,29 @@ class CommunityController extends Controller
         //genre
         $genre = isset($request->genre) ? $request->genre : "%";
 
-        $reviews = $reviews->whereHas('novel_groups.keywords', function ($q) use ($genre) {
-            $q->where('name', 'like', $genre);
-        });
+        if ($genre == "현대로맨스" or $genre == "시대로맨스" or $genre == "서양역사") {
+
+            $genreArr = "";
+            if ($genre == "현대로맨스") {
+                $genreArr = ['현대', '현대판타지'];
+            } else if ($genre == "시대로맨스") {
+                $genreArr = ['시대', '사극', '동양판타지'];
+            } else if ($genre == "서양역사") {
+                $genreArr = ['서양역사', '로맨스판타지'];
+            }
+
+            //genre is equal to keyword
+            //get id from keyword
+            $keyword_id = Keyword::select('id')->where(function ($q) use ($genreArr) {
+                $q->whereIn('name', $genreArr);
+            })->get();
+
+            //make the condition
+            $reviews = $reviews->where(function ($q) use ($keyword_id) {
+                $q->whereIn('novel_group_keywords.keyword_id', $keyword_id);
+            });
+        }
+
 
         $reviews = $reviews->paginate(config('define.pagination_long'));
 
