@@ -17,6 +17,7 @@ class AskController extends Controller
     public function __construct()
     {
         $this->agent = new Agent();
+        $this->middleware('auth')->only('ask_question');
     }
 
     public function faqs(Request $request)
@@ -65,6 +66,7 @@ class AskController extends Controller
 
     public function ask_question()
     {
+
         //Detect mobile
         if ($this->agent->isMobile()) {
             return view('mobile.ask.ask_question');
