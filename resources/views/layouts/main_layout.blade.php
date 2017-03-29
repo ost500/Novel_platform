@@ -611,7 +611,7 @@
 
         //function to fix header
         function fix_header() {
-            if ($(this).scrollTop() > 120) {
+            if ($(this).scrollTop() >100) {
                 $('.header').addClass('fixed');
                /* $('.header-top').addClass('header-top-scroll');
                 $('.usermenu').addClass('usermenu-scroll');

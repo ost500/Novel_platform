@@ -18,14 +18,8 @@
             <!-- 페이지헤더 -->
             <div class="list-header">
                 <h2 class="title">게시글 관리</h2>
-            <!-- 서브컨텐츠 -->
-            <div class="content" id="content">
-                <!-- 페이지헤더 -->
-                <div class="list-header">
-                    <h2 class="title">게시글 관리</h2>
-
-                </div>
-                <!-- //페이지헤더 -->
+            </div>
+            <!-- //페이지헤더 -->
 
             <!-- 게시판목록 -->
             <form name="bbs_list" action="#">
@@ -49,7 +43,7 @@
                                            value="{{$article->id}}"><span></span></label>
                             </td>
                             <td class="col-subject">
-                                <a href="#mode_nav">{{ $article->title }}</a>
+                                <a href="{{ route('free_board.detail', ['id' => $article->id]) }}">{{ $article->title }}</a>
                                 <span class="hidden">댓글 </span><span
                                         class="comment-cnt">{{ $article->comments_count }}</span>
                             </td>
