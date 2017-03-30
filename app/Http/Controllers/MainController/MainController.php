@@ -50,7 +50,9 @@ class MainController extends Controller
             ->groupBy('novel_group_id')->where('secret', null)->orderBy('sum', 'desc')->havingRaw('max(non_free_agreement) = 0')
             ->with('nicknames')->take($free_today_bests_count)->get();
 
-        $latests = NovelGroup::where('secret', null)->latest()->take(5)->get();
+        $latests = NovelGroup::where('secret', null)->whereHas('novels', function($q){
+            $q->take(1);
+        })->latest()->take(5)->get();
 
         //$reader_reviews = Review::take(6)->with('novel_groups')->get();
         $reader_reviews = Review::selectRaw('reviews.*')

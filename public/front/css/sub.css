@@ -95,7 +95,7 @@
    /* z-index: 2;*/
     position: absolute;
     right: -54px;
-    top: 30px;/*top: 176px;*/
+    top: 30px;
     width: 44px;
 }
 
@@ -2039,6 +2039,7 @@ width: 0;
 
 .novel-detail .post .post-content p {
     margin: 0;
+    word-break: break-all;
 }
 
 .novel-detail .post .post-content .more-btn {
@@ -2050,8 +2051,26 @@ width: 0;
     cursor: pointer;
 }
 
+.novel-detail .post .post-content .less-btn {
+    margin-left: 5px;
+    width: 17px;
+    height: 17px;
+    background: url(../imgs/common/popup_less_btn.png);
+    text-indent: -9999px;
+    cursor: pointer;
+}
+
 .novel-detail .post .post-content .hidden-content {
     display: none;
+}
+
+.novel-detail .post .post-content .show-content {
+    margin-left: 5px;
+    width: 17px;
+    height: 17px;
+    background: url(../imgs/common/popup_more_btn.png);
+    text-indent: -9999px;
+    cursor: pointer;
 }
 
 .novel-detail .novel-view {
@@ -2085,7 +2104,7 @@ width: 0;
 }
 
 .novel-detail .scrap-btns a.is-active {
-    color: #ffa10e;
+    color: #ffcc00;
 }
 
 .novel-detail .scrap-btns .scrap-icon,
@@ -3418,6 +3437,8 @@ width: 0;
 .header-top-scroll {
     /* box-sizing: border-box;*/
     height: 58px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .header-top .logo .logo-img-new {
@@ -3439,12 +3460,12 @@ width: 0;
 .other-novels {
     display: none;
     width: 60%;
-    height:320px;
+    height: 320px;
     top: 16.4%;
     border-bottom: 1px solid #e2d8d6;
     border-right: 1px solid #e2d8d6;
     border-left: 1px solid #e2d8d6;
-    margin:0 0 0 185px;
+    margin: 0 0 0 185px;
     position: absolute;
     z-index: 2;
     background-color: #fff;
@@ -3458,10 +3479,11 @@ width: 0;
     cursor: pointer;
 }
 
-.novel-hover:hover{
+.novel-hover:hover {
     background-color: #54abd9;
-    color:#fff;
+    color: #fff;
 }
+
 .novels-fixed {
     width: 30%;
     top: 12%;

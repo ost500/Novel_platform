@@ -57,13 +57,13 @@
                                              v-if="display.id =={{$novel_comment->id}} && display.status">
 
                                          <textarea name="comment" id="comment{{$novel_comment->id}}" rows="3"
-                                                   style="width:65%;">{{$novel_comment->comment}}</textarea>
+                                                   style="width:80%;">{{$novel_comment->comment}}</textarea>
 
                                             <button name="edit" id="edit{{$novel_comment->id}}"
                                                     v-on:click="update_comment('{{$novel_comment->id}}')"
                                                     class="btn btn-primary inline"
-                                                    style="width:100px;height:51px;vertical-align: top;">
-                                                Edit
+                                                    style="width:18%;height:51px;vertical-align: top;">
+                                                등록
                                             </button>
                                         </div>
 

@@ -27,11 +27,16 @@
                             </div>
                             <div class="post-content">
                                 <p>
-                                    <?php echo substr(nl2br($novel_group->description), 0, 150)  ?>
+                                    <?php echo nl2br(substr($novel_group->description, 0, 200))  ?>
                                     @if(substr($novel_group->description, 150) )
-                                        <button class="more-btn hidden-content-view">더보기</button>
-                                        <span class="hidden-content"> <?php echo substr(nl2br($novel_group->description), 150)  ?> </span>
+                                        <button id="hide_button" class="more-btn hidden-content-view">더보기</button>
+                                        <span id="hidden_content"
+                                              class="hidden-content"> <?php echo nl2br(substr($novel_group->description, 200))  ?>
+                                            <button v-on:click="description_hide()"
+                                                    class="less-btn show-content-view">줄여보기</button>
+                                        </span>
                                     @endif
+
                                 </p>
                             </div>
                         </div>
@@ -190,6 +195,10 @@
     {{--  @php $thumbnail = 'http://homestead.app/img/novel_covers/{{$novel_group->cover_photo}}' @endphp--}}
     @include('social_share', ['url' =>route('each_novel.novel_group', $novel_group->id),'title'=>$novel_group->title,'thumbnail'=>''])
 @endsection
+
+
+
+
 <script type="text/javascript">
     var app = new Vue({
         el: '#novel_group',
@@ -205,6 +214,10 @@
             this.checkFavorite();
         },
         methods: {
+            description_hide : function(){
+                $("#hidden_content").css('display','none');
+                $("#hide_button").css('display','inline');
+            },
 
             checkFavorite: function () {
 

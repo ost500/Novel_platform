@@ -137,6 +137,10 @@
                                     <div class="alarm-container">
                                         <h2 class="alarm-title">소식</h2>
                                         <ul class="alarm-list">
+                                            <li style="text-align: center" v-if="new_speeds_length == 0">
+                                                새 소식이 없습니다.
+                                            </li>
+
                                             <li v-for="new_speed in new_speeds.data"
                                                 v-bind:class="{'is-new' : !new_speed.read}">
                                                 <div class="thumb">
@@ -329,7 +333,7 @@
                 <legend>검색</legend>
                 <div class="search-form-basic">
                     <strong class="search-form-title">일반검색</strong>
-                    <span class="selectbox" >
+                    <span class="selectbox">
                         <span class="show-arrow"></span>
                         <select title="검색옵션" name="search_type" id="search_type">
                             <option value="전체">전체</option>
@@ -486,6 +490,7 @@
             new_speeds: "",
             new_mails: "",
             new_mails_length: "",
+            new_speeds_length: "",
             keywords: "",
             search: ''
         },
@@ -511,7 +516,7 @@
                 this.$http.get('/newspeed')
                         .then(function (response) {
                             this.new_speeds = response.data;
-
+                            this.new_speeds_length = response.data.data.length;
                         });
             },
             get_new_mails: function () {
