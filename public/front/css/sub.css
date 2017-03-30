@@ -95,7 +95,7 @@
    /* z-index: 2;*/
     position: absolute;
     right: -54px;
-    top: 30px;
+    top: 30px;/*top: 176px;*/
     width: 44px;
 }
 
@@ -115,7 +115,7 @@ width: 0;
 .aside-nav.is-fixed .aside-menu {
     position: fixed;
     /*top: 118px;*/
-    top: 76px;
+    top: 150px;
 /*    width: 144px;
     width: 132px;*/
     width: 0;

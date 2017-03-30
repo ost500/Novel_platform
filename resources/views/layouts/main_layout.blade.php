@@ -591,15 +591,15 @@
         if ('{{ !Request::is('novel_group_inning/*')}}' || '{{Request::is('novel_group_inning/*/purchase')}}') {
 
             //Fix the aside menu
-            if ($(this).scrollTop() >1 && $(this).scrollTop() < 180) {
-                $('.aside-nav').css('top', '76px');
-                $('.aside-nav').css('position', 'fixed');
-                $('.aside-nav').css('right', '420px');
+            if ($(this).scrollTop() >100 ) {
+                $('.aside-nav').css('top', '287px');
+              //  $('.aside-nav').css('position', 'fixed');
+              //  $('.aside-nav').css('right', '420px');
               //  $('.aside-nav').addClass('nav-fixed').animate('slow');
             } else {
               $('.aside-nav').css('top', '');
-                $('.aside-nav').css('position', '');
-                $('.aside-nav').css('right', '');
+             //   $('.aside-nav').css('position', '');
+              //  $('.aside-nav').css('right', '');
                /* $('.aside-nav').removeClass('nav-fixed');*/
         }
 
