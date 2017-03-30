@@ -2039,6 +2039,7 @@ width: 0;
 
 .novel-detail .post .post-content p {
     margin: 0;
+    word-break: break-all;
 }
 
 .novel-detail .post .post-content .more-btn {
@@ -2050,8 +2051,26 @@ width: 0;
     cursor: pointer;
 }
 
+.novel-detail .post .post-content .less-btn {
+    margin-left: 5px;
+    width: 17px;
+    height: 17px;
+    background: url(../imgs/common/popup_less_btn.png);
+    text-indent: -9999px;
+    cursor: pointer;
+}
+
 .novel-detail .post .post-content .hidden-content {
     display: none;
+}
+
+.novel-detail .post .post-content .show-content {
+    margin-left: 5px;
+    width: 17px;
+    height: 17px;
+    background: url(../imgs/common/popup_more_btn.png);
+    text-indent: -9999px;
+    cursor: pointer;
 }
 
 .novel-detail .novel-view {
