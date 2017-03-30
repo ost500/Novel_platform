@@ -45,7 +45,7 @@ class NovelGroupController extends Controller
             $novel_groups = NovelGroup::with('novels')->latest()->paginate(10);
 
             if ($request->url('/admin/recommendations')) {
-                $novel_groups = NovelGroup::where('secret', null)->with('novels')->orderBy('recommend_order', 'asc')->paginate(10);
+                $novel_groups = NovelGroup::with('novels')->orderBy('recommend_order', 'asc')->latest()->paginate(10);
 
                 //make recommend_order to null when recommend_order > 5 [max valid order is 5]
                 foreach( $novel_groups as  $novel_group){
