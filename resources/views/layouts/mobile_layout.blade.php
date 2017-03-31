@@ -51,6 +51,15 @@
             background-color: #fff;
             z-index: 2;
             top:0;
+            animation: smoothScroll 1s forwards;
+        }
+        @keyframes smoothScroll {
+            0% {
+                transform: translateY(-40px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
         }
 
         .is-fixed {
@@ -280,7 +289,53 @@
     </div>
     <!-- side menu open //-->
     <!-- header -->
-    <div class="header" id="header">
+    <div style="z-index: 10" id="small_header" hidden class="header fixed">
+        <div class="h_top">
+            <h1 class="top_logo" style="height: 70px;">
+
+                <div class="img-logo" style="padding: 10px 0 0 78px"><a href="{{route('root')}}" class="tl_link img-logo-new"></a></div>
+                {{-- <img src="" class="img_logo" alt="">--}}
+
+
+            </h1>
+            @if(!Request::is('register') && !Request::is('email_confirm/again') && !Request::is('password/reset')  && !Request::is('password/reset/*') && !Request::is('id_search') )
+                <a class="top_left">
+                    <span class="ico_mtop ico_side" id="sidebar_display" {{--v-on:click="showSideMenu()"--}}
+                          style="cursor:pointer;top:3px;">스 메뉴 펼치기</span>
+                </a>
+
+                <div class="top_right_wrap">
+                    <a class="tr_link" v-on:click="showSearchBox()"><span class="ico_mtop h_sch" style="margin: 3px 0 0 8px">검색하기 off</span></a>
+                    <!--<a href="" class="tr_link"><span class="ico_mtop h_sch_on">검색하기 on</span></a>-->
+                    <a href="" class="tr_link"><span class="ico_mtop bookmark" style="margin: 3px 0 0 8px">즐겨찾기 off</span></a>
+                    <!--<a href="" class="tr_link"><span class="ico_mtop bookmark_on">즐겨찾기 on </span></a>-->
+                </div>
+            @endif
+
+        </div>
+        @if(!Request::is('register') && !Request::is('email_confirm/again') && !Request::is('password/reset')  && !Request::is('password/reset/*') && !Request::is('id_search'))
+            <div class="top_nav">
+                <ul class="top_nav_ul">
+                    <li><a href="{{route('bests')}}" class="top_nav_link"><span
+                                    class="top_nav_mn  {{ (Request::is('bests') || Request::is('bests/*'))?"on":"" }}">베스트</span></a>
+                    </li>
+                    <!-- 활성화 되면 클래스 on 추가 -->
+                    <li><a href="{{route('series')}}" class="top_nav_link"><span
+                                    class="top_nav_mn  {{ (Request::is('series') || Request::is('series/*'))?"on":"" }}">연제</span></a>
+                    </li>
+                    <li><a href="{{route('completed')}}" class="top_nav_link"><span
+                                    class="top_nav_mn {{ (Request::is('completed') || Request::is('completed/*'))?"on":"" }}">완결</span></a>
+                    </li>
+                    <li><a href="{{route('free_board')}}" class="top_nav_link"><span
+                                    class="top_nav_mn {{ (Request::is('community/freeboard') || Request::is('community/free_board/*') || Request::is('community/reader_reco') || Request::is('community/reader_reco/*'))?"on":"" }}">커뮤니티</span></a>
+                    </li>
+                </ul>
+            </div>
+        @endif
+    </div>
+    <!-- header //-->
+    <!-- header -->
+    <div class="header" id="header" >
         <div class="h_top">
             <h1 class="top_logo">
 
@@ -325,7 +380,6 @@
         @endif
     </div>
     <!-- header //-->
-
     <!-- search popop open -->
     <div class="popup_bg" style="top:215px;display:none;" id="search_box">
         <div class="msch_popin">
@@ -493,10 +547,10 @@
             fix_header();
         }
 
-        function fix_header() {
+        /*function fix_header() {
             if ($(this).scrollTop() > 1) {
                 $('.header').addClass('fixed');
-                /* $('.mod-nav').addClass('fixed');*/
+                /!* $('.mod-nav').addClass('fixed');*!/
                 $('.header .h_top .top_logo').css('height', '70px');
                 $('.header .h_top .ico_side').css('top', '3px');
                 $('.header .h_top .tr_link  .h_sch').css('margin', '3px 0 0 8px');
@@ -513,6 +567,16 @@
                 $('.header .h_top .tr_link  .bookmark').css('margin', '');
                 $('.header .h_top .top_logo .tl_link').removeClass('img-logo-new');
                 $('.header .h_top .top_logo .img-logo').css('padding', '');
+            }
+        }*/
+        //function to fix header
+        function fix_header() {
+            if ($(this).scrollTop() >100) {
+                $("#small_header").show();
+
+            }
+            else {
+                $("#small_header").hide();
             }
         }
     });
