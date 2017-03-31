@@ -44,9 +44,9 @@
 </div>
 <!-- //모드 -->
 <!-- 헤더 -->
-<header style="z-index: 10" id="small_header" hidden class="header fixed">
+<header style="z-index: 10;display:none" id="small_header" class="header fixed">
 
-    <div class="header-top wrap header-top-scroll" id="header">
+    <div class="header-top wrap header-top-scroll" id="header1">
         <h1 class="logo wrap"><a href="{{ route('root') }}" class="logo-img logo-img-new">여우정원</a></h1>
         <!-- 사용자메뉴 -->
         <div class="usermenu usermenu-scroll">
@@ -54,9 +54,9 @@
             <div class="login-area" id="login-area">
                 @if(Auth::check())
                     <button type="button" class="userbtn userbtn--open"
-                            v-bind:class="{'is-new' : new_speeds.news_count + new_mails.count > 0 }"
-                            id="more_btns_open">
-                        사용자메뉴<i>@{{ new_speeds.news_count + new_mails.count }}</i></button>
+                            v-bind:class="{'is-new' : new_speeds1.news_count + new_mails1.count > 0 }"
+                            id="more_btns_open1">
+                        사용자메뉴<i>@{{ new_speeds1.news_count + new_mails1.count }}</i></button>
 
                     <div class="more-btns" id="more_btns">
                         <div class="layer-popup-wrap">
@@ -64,7 +64,7 @@
                             <!-- 마이페이지팝업 -->
                             <section class="layer-popup layer-popup--myinfo">
                                 <div class="inner">
-                                    <h2 class="myinfo-user-name">@{{ user.name.toString() }}</h2>
+                                    <h2 class="myinfo-user-name">@{{ user1.name.toString() }}</h2>
                                     <ul class="myinfo-nav clr">
                                         <li class="link1"
                                             onclick="location.href = '{{ route('my_info.charge_bead') }}';">
@@ -75,7 +75,7 @@
                                         <li class="link2" onclick="location.href = '{{ route('my_page.favorites') }}';">
 
                                             <a href="{{ route('my_page.favorites') }}">
-                                                선호작<br>@{{ user.favorites_count }}작품</a>
+                                                선호작<br>@{{ user1.favorites_count }}작품</a>
                                         </li>
                                         <li class="link3" onclick="location.href = '{{ route('my_page.index') }}';">
 
@@ -94,18 +94,18 @@
                         </div>
                         <div class="layer-popup-wrap">
                             <a href="{{route('mails.received')}}" class="userbtn userbtn--memo"
-                               v-bind:class="{'is-new' : new_mails.count > 0 }">쪽지<i>@{{ new_mails.count }}</i></a>
+                               v-bind:class="{'is-new' : new_mails1.count > 0 }">쪽지<i>@{{ new_mails1.count }}</i></a>
                             <!-- 쪽지팝업 -->
                             <section class="layer-popup layer-popup--memo">
                                 <div class="inner">
                                     <div class="alarm-container">
                                         <h2 class="alarm-title">받은쪽지함</h2>
                                         <ul class="alarm-list">
-                                            <li style="text-align: center" v-if="new_mails_length == 0">
+                                            <li style="text-align: center" v-if="new_mails_length1 == 0">
                                                 받은 쪽지가 없습니다.
                                             </li>
 
-                                            <li v-for="new_mail in new_mails.data"
+                                            <li v-for="new_mail in new_mails1.data"
                                                 v-bind:class="{'is-new' : !new_mail.read}">
                                                 <div class="thumb">
                                                     <img src="/front/imgs/thumb/memo2.png" alt="">
@@ -129,18 +129,18 @@
                         </div>
                         <div class="layer-popup-wrap">
                             <a href="{{ route('my_page.novels.new_speed') }}" class="userbtn userbtn--alarm"
-                               v-bind:class="{'is-new' : new_speeds.news_count > 0 }">알림<i>@{{ new_speeds.news_count }}</i></a>
+                               v-bind:class="{'is-new' : new_speeds1.news_count > 0 }">알림<i>@{{ new_speeds1.news_count }}</i></a>
                             <!-- 소식팝업 -->
                             <section class="layer-popup layer-popup--news">
                                 <div class="inner">
                                     <div class="alarm-container">
                                         <h2 class="alarm-title">소식</h2>
                                         <ul class="alarm-list">
-                                            <li style="text-align: center" v-if="new_speeds_length == 0">
+                                            <li style="text-align: center" v-if="new_speeds_length1 == 0">
                                                 새 소식이 없습니다.
                                             </li>
 
-                                            <li v-for="new_speed in new_speeds.data"
+                                            <li v-for="new_speed in new_speeds1.data"
                                                 v-bind:class="{'is-new' : !new_speed.read}">
                                                 <div class="thumb">
                                                     <img v-bind:src="new_speed.image" alt="">
@@ -171,7 +171,7 @@
                 @else
                 <!-- 방문자버튼 -->
 
-                    <a href="#mode_nav" class="userbtn userbtn--login" data-modal-id="login_form"
+                    <a href="#mode_nav" class="userbtn userbtn--login" data-modal-id="login_form1"
                        @if($errors->has('name') || $errors->has('password') || isset($login) || isset($loginView) || session('login')) data-modal-start @endif >로그인</a>
 
                 @endif
@@ -180,7 +180,7 @@
 
             <!-- 검색버튼 -->
             <div class="search-area">
-                <a href="#search_form" class="userbtn userbtn--search" data-modal-id="search_form">검색</a>
+                <a href="#"  id= "back_to_top" class="userbtn userbtn--search">검색</a>
                 <a href="{{ route('my_page.favorites') }}" class="userbtn userbtn--scrap-active">선호작</a>
             </div>
         </div>
@@ -236,7 +236,7 @@
     <!-- //GNB -->
     <!-- 로그인모달 -->
 
-    <div id="login_form" class="login-modal" tabindex="0">
+    <div id="login_form1" class="login-modal" tabindex="0">
         <section class="login-form">
             <h2 class="hidden">로그인</h2>
 
@@ -325,7 +325,7 @@
 
 
     <!-- 통합검색모달 -->
-    <div id="search_form" class="search-modal" tabindex="0">
+    <div id="search_form1" class="search-modal" tabindex="0">
         <form name="search_form" action="{{route('search.index')}}" class="search-form" method="post">
             {{csrf_field()}}
             <fieldset class="wrap clr">
@@ -348,7 +348,7 @@
                     <strong class="search-form-title">해시태그 검색</strong>
 
                     <div class="input"><input v-on:keyup="get_keywords()" v-model="search" type="text"
-                                              name="keyword_name" id="keyword_name" class="text1" value=""
+                                              name="keyword_name" id="keyword_name1" class="text1" value=""
                                               title="해시태그 검색어"></div>
                     <div class="submit">
                         <button type="submit" class="userbtn userbtn--search-submit">검색</button>
@@ -359,7 +359,7 @@
                         <div class="list">
 
                             <a v-for="keyword in keywords" style="cursor:pointer"
-                               onclick="searchKeyword(this)">#@{{keyword.name}}</a>
+                               onclick="searchKeywordSmall(this)">#@{{keyword.name}}</a>
 
                         </div>
                     </div>
@@ -374,8 +374,8 @@
 <!-- 헤더 -->
 <header class="header">
 
-    <div class="header-top wrap" id="header">
-        <h1 class="logo wrap"><a href="{{ route('root') }}" class="logo-img">여우정원</a></h1>
+        <div class="header-top wrap" id="header">
+            <h1 class="logo wrap"><a href="{{ route('root') }}" class="logo-img">여우정원</a></h1>
         <!-- 사용자메뉴 -->
         <div class="usermenu">
             <!-- 방문자버튼 -->
@@ -508,7 +508,7 @@
 
             <!-- 검색버튼 -->
             <div class="search-area">
-                <a href="#search_form" class="userbtn userbtn--search" data-modal-id="search_form">검색</a>
+                <a href="#search_form" class="userbtn userbtn--search" id="main_search" data-modal-id="search_form">검색</a>
                 <a href="{{ route('my_page.favorites') }}" class="userbtn userbtn--scrap-active">선호작</a>
             </div>
         </div>
@@ -753,17 +753,14 @@
 <!-- //푸터 -->
 <script>
     function searchKeyword(keyword) {
-
         var keyword_text = keyword.text.replace("#", "");
         $('#keyword_name').val(keyword_text);
-        /* $.post('
-        {{--{{ route('search.index') }}--}}', {'search_type':,'keyword_name':keyword.value}, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
-         .then(function (response) {
-         location.reload();
+    }
 
-         }).catch(function (errors) {
-         console.log(errors);
-         });*/
+    function searchKeywordSmall(keyword) {
+
+        var keyword_text = keyword.text.replace("#", "");
+        $('#keyword_name1').val(keyword_text);
     }
 
 </script>
@@ -786,6 +783,75 @@
 
 
 <script type="text/javascript">
+
+
+    var search_form_small  = new Vue({
+        el: '#search_form1',
+
+        data: {
+            keywords: "",
+            search: ''
+        },
+        mounted: function () {
+            this.get_keywords("");
+        },
+        methods: {
+            get_keywords: function () {
+                this.$http.get('{{ route('popular_keywords') }}?search=' + this.search)
+                        .then(function (response) {
+                            this.keywords = response.data;
+                        });
+            }
+        }
+    });
+
+
+
+
+    var main_layout1 = new Vue({
+        el: '#header1',
+
+        data: {
+            user1: {
+                "name": "@if(Auth::check()){{ Auth::user()->name }}@endif",
+                "favorites_count": "@if(Auth::check()){{ Auth::user()->favorites->count() }}@endif"
+            },
+            new_speeds1: "",
+            new_mails1: "",
+            new_mails_length1: "",
+            new_speeds_length1: ""
+        },
+        mounted: function () {
+
+            @if(Auth::check())
+                    this.get_new_speed1();
+            this.get_new_mails1();
+            @endif
+        },
+        methods: {
+            submit: function (e) {
+
+            },
+            get_new_speed1: function () {
+                this.$http.get('/newspeed')
+                        .then(function (response) {
+                            this.new_speeds1 = response.data;
+                            this.new_speeds_length1 = response.data.data.length;
+                        });
+            },
+            get_new_mails1: function () {
+                this.$http.get('/newmail')
+                        .then(function (response) {
+                            this.new_mails1 = response.data;
+                            this.new_mails_length1 = response.data.data.length;
+
+                        });
+            }
+
+        }
+    });
+
+
     var search = new Vue({
         el: '#search_form',
 
@@ -827,13 +893,6 @@
                     this.get_new_speed();
             this.get_new_mails();
             @endif
-
-
-
-
-
-
-
         },
         methods: {
             submit: function (e) {
@@ -922,33 +981,139 @@
 
         if ('{{ !Request::is('novel_group_inning/*')}}' || '{{Request::is('novel_group_inning/*/purchase')}}') {
 
-            //Fix the aside menu
-            if ($(this).scrollTop() >100 ) {
-                $('.aside-nav').css('top', '287px');
-              //  $('.aside-nav').css('position', 'fixed');
-              //  $('.aside-nav').css('right', '420px');
-              //  $('.aside-nav').addClass('nav-fixed').animate('slow');
-            } else {
-              $('.aside-nav').css('top', '');
-             //   $('.aside-nav').css('position', '');
-              //  $('.aside-nav').css('right', '');
-               /* $('.aside-nav').removeClass('nav-fixed');*/
-        }
-
             //fix the main header
             fix_header();
-
-
         }
 
         //function to fix header
         function fix_header() {
-            if ($(this).scrollTop() >100) {
+            if ($(this).scrollTop() >10 && $('#main_search').hasClass('is-active')) {
+                var modal_bg = $('#modal_bg');
+                var modal = $('#search_form');
+                modal_bg.fadeTo(250, 0, function() { $(this).hide(); $('html').removeClass('is-modal'); });
+                modal.removeClass('modal-popup').add(this).removeClass('is-active');
+                $('#main_search').removeClass('is-active');
+
+
+            }
+            if($(this).scrollTop() >100) {
+
                 $("#small_header").show();
 
             }
             else {
                 $("#small_header").hide();
+
+            }
+        }
+
+        /**
+         * 사용자버튼 더보기
+         */
+        $('#more_btns_open1').on('click', function() {
+            if (! $(this).hasClass('is-active')) {
+                $('#more_btns_open1').addClass('is-active');
+            } else {
+                $('#more_btns_open1').removeClass('is-active');
+            }
+        });
+
+        //On small header when click on search icon scroll back to top and show the search box
+        $('#back_to_top').on('click', function(e) {
+            e.preventDefault();
+            //scroll up
+            $("html, body").animate({ scrollTop: 0 }, 500);
+          //Wait a second and show search box
+           setTimeout(function x() {
+               //Change the seach icon to cross icon
+                $('#main_search').addClass('is-active');
+               //Show the modal
+                var is_fullsize_modal=false;
+               // var modal = $( '#'+$(this).data('modal-id') );
+                var modal = $('#search_form');
+                if ($(this).is('[data-modal-fullsize]')) {
+                    is_fullsize_modal = true;
+                } else {
+                    is_fullsize_modal = false;
+                }
+
+                if (! $('html').hasClass('is-modal')) {
+                    show_modal_bg();
+                    modal.addClass('modal-popup').add(this).addClass('is-active');
+                    if (is_fullsize_modal) {
+                        modal.fadeTo(500, 1, 'easeOutCubic');
+                    } else {
+                        modal.height(modal.children().height());
+                    }
+                    modal_tab(e);
+                }
+
+                // 닫기버튼
+              /*  $('[data-modal-close]').on('click', function(e) {
+                    e.preventDefault();
+                    var opener_id = $(this).closest('.modal-popup').attr('id');
+                    close_modal($('[data-modal-id="'+opener_id+'"]'));
+                });*/
+                // 팝업 자동열기
+               // $('[data-modal-start]').trigger('click');
+
+                // 모달닫기
+                function hide_modal_bg() {
+                    var modal_bg = $('#modal_bg');
+                    modal_bg.fadeTo(250, 0, function() { $(this).hide(); $('html').removeClass('is-modal'); });
+                }
+                // 모달열기
+                function show_modal_bg() {
+                    if ($('#modal_bg').length == 0) {
+                        $('<div id="modal_bg" class="modal-bg"><span></span></div>').appendTo('body');
+                    }
+
+                    var modal_bg = $('#modal_bg');
+                    // fullsize modal
+                    if (is_fullsize_modal == true) {
+                        modal_bg.addClass('modal-bg--fullsize');
+                    } else {
+                        modal_bg.removeClass('modal-bg--fullsize');
+                    }
+                    $('html').addClass('is-modal');
+                    modal_bg.stop().show().fadeTo(400, 1, 'easeOutCubic');
+                }
+                // 팝업닫기
+                function close_modal(el) {
+                    hide_modal_bg();
+                    // fullsize modal
+                    if (is_fullsize_modal == true) {
+                        $('.modal-popup.is-active').stop().clearQueue().fadeTo(500, 0, 'easeOutCubic', function() { $(this).hide() });
+                    }
+                    $('.modal-popup.is-active').add('[data-modal-id].is-active').removeClass('is-active');
+
+                    if (typeof(el) != 'undefined' && typeof(el.trigger) != 'undefined') {
+                        el.trigger('focus');
+                    }
+                }
+               // 모달 탭이동관리
+               function modal_tab(e) {
+                   $(document).one('focusin', function(e) {
+                       if (!$(e.target).closest('.modal-popup.is-active').length) {
+                           $('.modal-popup.is-active').trigger('focus');
+                       }
+                   });
+               }
+
+
+            },1000);
+
+        });
+        function close_modal(el) {
+            hide_modal_bg();
+            // fullsize modal
+            if (is_fullsize_modal == true) {
+                $('.modal-popup.is-active').stop().clearQueue().fadeTo(500, 0, 'easeOutCubic', function() { $(this).hide() });
+            }
+            $('.modal-popup.is-active').add('[data-modal-id].is-active').removeClass('is-active');
+
+            if (typeof(el) != 'undefined' && typeof(el.trigger) != 'undefined') {
+                el.trigger('focus');
             }
         }
 

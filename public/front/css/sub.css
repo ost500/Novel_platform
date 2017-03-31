@@ -114,9 +114,8 @@ width: 0;
 
 .aside-nav.is-fixed .aside-menu {
     position: fixed;
-    /*top: 118px;*/
-    top: 150px;
-/*    width: 144px;
+    top: 118px;
+/*  width: 144px;
     width: 132px;*/
     width: 0;
 }

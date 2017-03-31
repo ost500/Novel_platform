@@ -5,7 +5,12 @@
 
 
 /******* header *******/
-.header {position: relative;width: 100%;}
+.header {position: relative;width: 100%;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: position 10s;
+    -ms-transition: position 10s;
+    -o-transition: position 10s;
+    transition: all 0.5s ease;}
 
 .header .h_top {position: relative;width: 100%;border-bottom:1px solid #e2d9d6;}
 .header .h_top .top_logo {width: auto;margin: 0 200px;height: 140px;text-align: center;}
