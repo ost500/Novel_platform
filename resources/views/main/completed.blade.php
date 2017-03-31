@@ -98,7 +98,7 @@
                 </ul>
                 <!-- //작품목록 -->
                 <!-- 페이징 -->
-            @include('pagination_front', ['collection' => $novel_groups, 'url' => route('completed',['free_or_charged'=>$free_or_charged])."?genre=".$genre."&order=".$order])
+            @include('pagination_front', ['collection' => $novel_groups, 'url' => route('completed',['free_or_charged'=>$free_or_charged])."?genre=".$genre."&order=".$order."&"])
             <!-- //페이징 -->
             </div>
             <!-- //서브컨텐츠 -->
