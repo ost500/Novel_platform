@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\PageController;
 
+use App\Accusation;
+use App\Calculation;
+use App\CalculationEach;
+use App\Notification;
 use App\NovelGroupPublishCompany;
 use App\Company;
 use App\Http\Controllers\Controller;
@@ -9,6 +13,7 @@ use App\Keyword;
 use App\MailLog;
 use App\PublishNovel;
 use DateTime;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use App\MenToMenQuestionAnswer;
 use App\Novel;
@@ -19,6 +24,9 @@ use App\Faq;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Auth;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Input;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 class AdminPageController extends Controller
@@ -28,12 +36,28 @@ class AdminPageController extends Controller
         $this->middleware(['auth', 'admin']);
     }
 
-    public function index()
+    public function index(Request $request)
     {
+
+        if ($request->style == "simple") {
+            return view('admin.index_simple');
+        }
+
         return view('admin.index');
     }
 
-    public function novel()
+    public function code_num()
+    {
+        return view('admin.index_simple');
+    }
+
+    public function recommendations()
+    {
+        $recommends = NovelGroup::where([['secret','=', null],['recommend_order','<>',null]])->with('nicknames')->orderBy('recommend_order','asc')->take(5)->get();
+        return view('admin.recommendations',compact('recommends'));
+    }
+
+    public function novel(Request $request)
     {
         $novel_groups = NovelGroup::all("*");
 
@@ -106,7 +130,7 @@ class AdminPageController extends Controller
 
     public function users()
     {
-        $users = User::paginate(10);
+        $users = User::paginate(config('define.pagination_long'));
         return view('admin.users', compact('users', 'users'));
     }
 
@@ -117,7 +141,7 @@ class AdminPageController extends Controller
 
     public function request(Request $request)
     {
-        $men_to_men_requests = MenToMenQuestionAnswer::orderBy('id', 'desc')->paginate(10);
+        $men_to_men_requests = MenToMenQuestionAnswer::orderBy('id', 'desc')->paginate(config('define.pagination_long'));
         // return \Response::json($men_to_men_requests);
         return view('admin.request', compact('men_to_men_requests'));
     }
@@ -125,13 +149,13 @@ class AdminPageController extends Controller
     public function request_view(Request $request, $id)
     {
         $men_to_men_request = MenToMenQuestionAnswer::where('id', $id)->with('users')->first();
-        $men_to_men_requests = MenToMenQuestionAnswer::orderBy('id', 'desc')->paginate(5);
+        $men_to_men_requests = MenToMenQuestionAnswer::orderBy('id', 'desc')->paginate(config('define.pagination_long'));
         return view('admin.request_view', compact('men_to_men_request', 'men_to_men_requests'));
     }
 
     public function memo(Request $request)
     {
-        $novel_mail_messages = Auth::user()->maillogs()->with('mailboxs')->latest()->paginate(2);
+        $novel_mail_messages = Auth::user()->maillogs()->with('mailboxs')->latest()->paginate(config('define.pagination_long'));
         $page = $request->page;
 //        $page = new Paginator($novel_mail_messages, 2);
 //        return response()->json($novel_mail_messages);
@@ -149,15 +173,28 @@ class AdminPageController extends Controller
 
 //        $mailbox_message = Mailbox::where('id', $id)->with('users')->first();
         $men_to_men_request = MailLog::where('id', $id)->with('mailboxs.users')->with('users')->first();
-        $men_to_men_requests = $request->user()->maillogs()->with('mailboxs.users')->orderBy('id', 'desc')->paginate(2);
+        $men_to_men_requests = $request->user()->maillogs()->with('mailboxs.users')->orderBy('id', 'desc')->paginate(config('define.pagination_long'));
         $page = $request->page;
 //                return response()->json($men_to_men_request);
         return view('admin.mailbox_message', compact('men_to_men_request', 'men_to_men_requests', 'page'));
     }
 
+
+    public function specific_mailbox_create($id = null)
+    {
+        if ($id) {
+            $user = User::where('id', $id)->first();
+
+        } else {
+            $user = null;
+        }
+        return view('admin.specific_mail', compact('user'));
+
+    }
+
     public function mailbox_send(Request $request)
     {
-        $novel_mail_messages = Mailbox::where('from', Auth::user()->id)->with('users')->orderBy('created_at', 'desc')->paginate(2);
+        $novel_mail_messages = Mailbox::where('from', Auth::user()->id)->with('users')->orderBy('created_at', 'desc')->paginate(config('define.pagination_long'));
         $page = $request->page;
 //                return response()->json($novel_mail_messages);
         return view('admin.novel_memo_send', compact('novel_mail_messages', 'page'));
@@ -168,11 +205,11 @@ class AdminPageController extends Controller
 
 //        $mailbox_message = Mailbox::where('id', $id)->with('users')->first();
         $men_to_men_request = Mailbox::where('id', $id)->with('users')->with('maillogs.users')->with('novel_groups')->first();
-        $men_to_men_requests = $request->user()->mailbox()->orderBy('id', 'desc')->paginate(2);
+        $men_to_men_requests = $request->user()->mailbox()->orderBy('id', 'desc')->paginate(config('define.pagination_long'));
         $page = $request->page;
         $maillog_page = $request->maillog_page;
 
-        $mail_logs = MailLog::where('mailbox_id', $id)->with('users')->with('novel_groups')->paginate(5, ["*"], "maillog_page");
+        $mail_logs = MailLog::where('mailbox_id', $id)->with('users')->with('novel_groups')->paginate(config('define.pagination_long'), ["*"], "maillog_page");
 //        return response()->json($men_to_men_request);
         return view('admin.mailbox_send_message', compact('men_to_men_request', 'men_to_men_requests', 'page', 'mail_logs', 'maillog_page'));
     }
@@ -238,30 +275,41 @@ class AdminPageController extends Controller
      * @param null $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function partner_manage_apply($id = null)
+    public function partner_manage_apply(Request $request, $id = null)
     {
 
         $companies = Company::orderBy('name')->get();
-        $apply_requests = NovelGroupPublishCompany::where('status', '!=', '신청하기')->with('novel_groups.users')->with('publish_novel_groups')->with('companies');
+        $apply_requests = NovelGroupPublishCompany::select('publish_novel_groups.*', 'novel_group_publish_companies.*')->join('publish_novel_groups', 'publish_novel_groups.id', '=', 'novel_group_publish_companies.publish_novel_group_id')
+            ->where('status', '!=', '신청하기')->with('publish_novel_groups.users')->with('publish_novel_groups.novel_groups')->with('companies');
 
+//        return response()->json($apply_requests->get());
         if ($id) {
-            //  $apply_requests= PublishNovelGroup::with('novel_groups')->with('users')->with(['companies'=> function($q){ $q->where('company_id','2'); } ])->paginate(5);
-//            $apply_requests = $apply_requests->whereHas('companies', function ($q) use ($id) {
-//                    $q->where('companies.id', $id);
-//            });
             $apply_requests->where('company_id', $id);
-
+        }
+        if ($request->order == "event") {
+            $apply_requests->orderBy('event', 'desc');
         }
 
-        $apply_requests = $apply_requests->paginate(10);
+        $apply_requests = $apply_requests->paginate(config('define.pagination_long'));
         return view('admin.partnership.manage_apply', compact('apply_requests', 'companies'));
 
     }
 
-    public function partner_test_inning($id = null)
+    public function partner_test_inning(Request $request, $id = null)
     {
-        //update today_done=0 to make group visible
-        NovelGroupPublishCompany::where('today_done', '1')->whereDate('updated_at', '!=', Carbon::today()->toDateString())->update(['today_done' => 0]);
+
+        $search = $request->get('search');
+
+        //update today_done=0 to make company visible after days would be over
+        // NovelGroupPublishCompany::where('today_done', '1')->whereDate('updated_at', '!=', Carbon::today()->toDateString())->update(['today_done' => 0]);
+        $todays_done_publish_company = NovelGroupPublishCompany::where('today_done', '1')->whereDate('updated_at', '!=', Carbon::today()->toDateString())->get();
+        $todays_done_publish_company->filter(function ($item) {
+            $carbon_date = new Carbon($item->updated_at);
+            if ($carbon_date->toDateString() == Carbon::today()->subDays($item->days)->toDateString()) {
+                $item->today_done = 0;
+                $item->save();
+            }
+        });
 
         //Get companies list
         $companies = Company::orderBy('name')->get();
@@ -274,24 +322,51 @@ class AdminPageController extends Controller
 
             $today_done = true;
         }
+        //where conditions based on search data
+        if (!$search) { //if search is empty [default]
+            $condition = [['status', '=', '승인'], ['today_done', $today_done]];
+
+        } else {
+            //otherwise search all
+            $condition = ['status' => '승인'];
+        }
 
         //get company wise published groups based on today's done
-        $apply_requests = NovelGroupPublishCompany::where([['status', '=', '승인'], ['today_done', $today_done]])->with('novel_groups.users')->with('publish_novel_groups')->with('companies');
+        $apply_requests = NovelGroupPublishCompany::where($condition)->with('publish_novel_groups.users')->with('publish_novel_groups.novel_groups')->with('companies');
 
         //[company id filter]
-        if ( $id != null and $id !='today_done') {
-            //  $apply_requests= PublishNovelGroup::with('novel_groups')->with('users')->with(['companies'=> function($q){ $q->where('company_id','2'); } ])->paginate(5);
-//            $apply_requests = $apply_requests->whereHas('companies', function ($q) use ($id) {
-//                    $q->where('companies.id', $id);
-//            });
+        if ($id != null and $id != 'today_done') {
+            /*  $apply_requests= PublishNovelGroup::with('novel_groups')->with('users')->with(['companies'=> function($q){ $q->where('company_id','2'); } ])->paginate(5);
+             $apply_requests = $apply_requests->whereHas('companies', function ($q) use ($id) {
+                    $q->where('companies.id', $id);
+             });*/
             $apply_requests->where('company_id', $id);
 
         }
+        // dd($apply_requests->get());
+        //Search by group name
+        if ($search) {
+            $apply_requests = $apply_requests->whereHas('publish_novel_groups.novel_groups', function ($query) use ($search) {
+                $query->where('title', 'like', '%' . $search . '%');
+            });
 
-        $apply_requests = $apply_requests->paginate(10);
+        }
+
+        $apply_requests = $apply_requests->paginate(config('define.pagination_long'));
+
+//        return response()->json($apply_requests);
+        /*  $apply_requests = $apply_requests->filter(function ($item) {
+              if (checkPublishNovelGroup($item->publish_novel_group_id, $item->company_id)) {
+                  return $item;
+              }
+          });
+          $total= $apply_requests->count();
+          $apply_requests = new LengthAwarePaginator($apply_requests,$total,10);*/
+        // dd($apply_requests);
         return view('admin.partnership.test_inning', compact('apply_requests', 'companies', 'id'));
 
     }
+
 
     public function partner_approve_inning($id = null)
     {
@@ -304,7 +379,7 @@ class AdminPageController extends Controller
 
         if ($id) {
 
-            $apply_requests->where('company_id', $id)->where('status','심사중');
+            $apply_requests->where('company_id', $id)->where('status', '심사중');
 
         }
 
@@ -349,5 +424,191 @@ class AdminPageController extends Controller
         return $string ? implode(', ', $string) . ' 전' : '방금 전';
     }
 
+    public function notifications()
+    {
+        $notis = Notification::latest()->paginate(config('define.pagination_long'));
+
+        return view('admin.notification.notifications', compact('notis'));
+    }
+
+    public function notifications_create()
+    {
+
+        return view('admin.notification.create');
+    }
+
+    public function notifications_detail(Request $request, $id)
+    {
+
+        $noti = Notification::find($id);
+        $notifications = Notification::latest()->paginate(config('define.pagination_long'));
+
+        $page = $request->page;
+
+        return view('admin.notification.detail', compact('noti', 'notifications', 'page'));
+    }
+
+    public function notifications_update($id)
+    {
+        $noti = Notification::find($id);
+
+        return view('admin.notification.update', compact('noti'));
+    }
+
+    public function accusations()
+    {
+        $accus = Accusation::latest()->paginate(config('define.pagination_long'));
+
+        return view('admin.accusation.accusations', compact('accus'));
+    }
+
+    public function accusations_detail(Request $request, $id)
+    {
+        $accu = Accusation::with('user')->with('accuUser')->findOrFail($id);
+
+        $accus = Accusation::latest()->paginate(config('define.pagination_long'));
+
+        $page = $request->page;
+
+        $user = $accu->accuUser;
+
+//        return response()->json($accu);
+
+        return view('admin.accusation.detail', compact('accu', 'accus', 'page', 'user'));
+    }
+
+    public function calculation_create()
+    {
+        return view('admin.calculation.create');
+    }
+
+    public function calculation_edit( $id)
+    {
+        $calculation = Calculation::where('id',$id)->first();
+//dd($calculation);
+//dd($calculation);
+        return view('admin.calculation.edit',compact('calculation'));
+    }
+
+    public function calculations()
+    {
+        $cals = Calculation::paginate(config('define.pagination_long'));
+
+        return view('admin.calculation.calculations', compact('cals'));
+    }
+
+
+    public function calculation_eaches($id)
+    {
+        $calculation = Calculation::findOrFail($id);
+        $calEaches = $calculation->calculation_eaches;
+
+        $calculationColumnNames = explode(",", $calculation->column_names);
+        $calEachesData = explode(",", $calculation->data);
+
+        return view('admin.calculation.calculation_eaches', compact('calculation', 'calEaches', 'calculationColumnNames', 'calEachesData'));
+    }
+
+    public function calculation_create1()
+    {
+
+        $path = public_path() . '/excel/' . 'naver.xlsx';
+
+        $newCalculation = Calculation::find(1);
+
+
+        // fetch column names
+        $newCalculation->column_names = str_replace(" ", "", $newCalculation->column_names);
+        $newValueArray = explode(",", $newCalculation->column_names);
+
+        Excel::load($path, function ($reader) use ($newCalculation, $newValueArray) {
+            $objExcel = $reader->getExcel();
+            $sheet = $objExcel->getSheet(0);
+            $highestRow = $sheet->getHighestRow();
+            $highestColumn = $sheet->getHighestColumn();
+
+            // data name
+
+            //  Read a row of data into an array
+            $column = $newCalculation->columnX;
+            $row = $newCalculation->columnY;
+            // from columnX to $highestColumn
+            $keyData = $sheet->rangeToArray($column . $row . ':' . $highestColumn . $row,
+                NULL, TRUE, FALSE);
+
+
+            print_r($newValueArray);
+            $keys = array();
+            $extraKeys = array();
+
+            // result is $keyData[0]
+            foreach ($keyData[0] as $key => $value) {
+                if (in_array($value, $newValueArray)) {
+                    // save keys which we need
+                    $keys[] = $key;
+                } else {
+                    $extraKeys[] = $value;
+                }
+            }
+
+//            print_r($keys);
+
+            // from dataX to highestColumn
+            // fetch all data
+            for ($row = $newCalculation->dataY; $row <= $highestRow; $row++) {
+                //  Read a row of data into an array
+                echo 'A' . $row . ':' . $highestColumn . $row;
+                $rowData = $sheet->rangeToArray($newCalculation->dataX . $row . ':' . $highestColumn . $row,
+                    NULL, TRUE, FALSE);
+
+                $excel[] = $rowData[0];
+            }
+
+
+            foreach ($excel as $rowData) {
+                $newCalculationEach = new CalculationEach();
+                $newCalculationEach->calculation_id = $newCalculation->id;
+                $extraKeysIndex = 0;
+//                print_r($rowData);
+                foreach ($rowData as $key => $value) {
+
+
+                    if (in_array($key, $keys)) {
+                        // save keys which we need
+                        $newCalculationEach->data = $newCalculationEach->data . $value . ",";
+                    } else {
+                        $newCalculationEach->extra_data = $newCalculationEach->extra_data . $extraKeys[$extraKeysIndex] . ":" . $value . ",";
+                        $extraKeysIndex = $extraKeysIndex + 1;
+                    }
+
+//                    print_r($key . "=>" . $value . "\n");
+//                    print_r(in_array($key, $keys));
+
+                }
+                print_r($newCalculationEach->extra_data . "\n");
+
+                // erase last ","
+                $newCalculationEach->data = rtrim($newCalculationEach->data, ",");
+                $newCalculationEach->extra_data = rtrim($newCalculationEach->extra_data, ",");
+
+                $newCalculationEach->save();
+
+            }
+
+
+//            for ($row = 1; $row <= $highestRow; $row++) {
+//                //  Read a row of data into an array
+//                echo 'A' . $row . ':' . $highestColumn . $row;
+//                $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row,
+//                    NULL, TRUE, FALSE);
+//
+//                $excel[] = $rowData[0];
+//            }
+
+//            print_r($excel);
+        })->get();
+
+
+    }
 
 }

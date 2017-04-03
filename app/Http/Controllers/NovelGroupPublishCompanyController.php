@@ -16,6 +16,7 @@ class NovelGroupPublishCompanyController extends Controller
             $publish_company->reject_reason = $request->deny_reason;
         }
         $publish_company->save();
+        flash('상태가 '.$publish_company->status.'로 변경 되었습니다.');
         return response()->json(['data' => $request->status, 'status' => 'ok']);
     }
 

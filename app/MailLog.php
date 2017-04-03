@@ -30,6 +30,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\MailLog whereNovelGroupId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\MailLog whereDeletedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\MailLog whereRead($value)
+ * @property bool $spam
+ * @property bool $mybox
+ * @method static \Illuminate\Database\Query\Builder|\App\MailLog whereSpam($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\MailLog whereMybox($value)
  */
 class MailLog extends Model
 {

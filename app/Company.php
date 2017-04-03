@@ -25,6 +25,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $company_picture
  * @method static \Illuminate\Database\Query\Builder|\App\Company whereAdult($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Company whereCompanyPicture($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\PublishNovel[] $publish_novels
+ * @property string $description
+ * @method static \Illuminate\Database\Query\Builder|\App\Company whereDescription($value)
  */
 class Company extends Model
 {
@@ -34,7 +37,7 @@ class Company extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'initial_inning', 'adult_allowance',
+        'name','description','initial_inning', 'adult_allowance',
     ];
 
     public function publish_novel_groups()

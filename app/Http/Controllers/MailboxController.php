@@ -11,9 +11,17 @@ use App\NovelGroup;
 use Auth;
 
 use Illuminate\Http\Request;
-
+use Jenssegers\Agent\Agent;
 class MailboxController extends Controller
 {
+    var $agent;
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->agent = new Agent();
+    }
+
+
     public function store(Request $request)
     {
 
@@ -42,7 +50,7 @@ class MailboxController extends Controller
         if ($request->hasFile('attachment')) {
             $attachment = $request->file('attachment');
             $original_filename = $attachment->getClientOriginalName();
-            //dd($mail->id);
+            //dd($mails->id);
             $filename = $new_mail->id . $original_filename;
             //set file name for database
             $new_mail->attachment = $filename;
@@ -64,7 +72,7 @@ class MailboxController extends Controller
 
 
 //        $new_mail_log->
-        flash("Mail created.");
+        flash("쪽지가 보내졌습니다");
 
         if (Auth::user()->name == "Admin") {
             return redirect()->route('admin.memo');
@@ -75,12 +83,13 @@ class MailboxController extends Controller
 
     public function store_specific_mail(Request $request)
     {
+
         //dd($request->all());
         Validator::make($request->all(), [
             'to' => 'required|email',
             'subject' => 'required|max:255',
             'body' => 'required',
-            'attachment' => 'mimes:jpeg,png|max:1024',
+            'attachment' => 'mimes:jpeg,png,gif|max:5024',
         ],
             [
                 'to.required' => '작품선택 필수 입니다.',
@@ -89,18 +98,36 @@ class MailboxController extends Controller
                 'subject.max' => '제목은 반드시 255 자리보다 작아야 합니다.',
                 'body.required' => '내용은 필수 입니다.',
                 'attachment.mimes' => '첨부파일은 반드시 다음의 파일 타입이어야 합니다: jpeg, png.',
-                'attachment.max' => '표지1 용량은 1M를 넘지 않아야 합니다',
+                'attachment.max' => '표지1 용량은 5M를 넘지 않아야 합니다',
             ]
         )->validate();
 
+        //if mail sending is blocked then redirect back
+        if (Auth::user()->isMailBlocked()) {
+            $errors= '쪽지 보내기 기능이 관리자에 의해 금지 됐습니다';
+
+            return redirect()->route('mails.create')->withErrors($errors);
+        }
 
         $input = $request->all();
+        $check_user_exist = User::where('email', '=', $request->get('to'))->first();
+        //if email does not exist return with an error
+        if ($check_user_exist == null) {
+            $errors = '해당 이메일 주소의 사용자를 찾을 수 없습니다.';
+            if ($request->get('redirect')) {
+
+                return redirect()->route('mails.create')->withErrors($errors);
+            }
+
+            return redirect()->route('author.specific_mail')->withErrors($errors);
+        }
+
         $new_mail = $request->user()->mailbox()->create($input);
 
         if ($request->hasFile('attachment')) {
             $attachment = $request->file('attachment');
             $original_filename = $attachment->getClientOriginalName();
-            //dd($mail->id);
+            //dd($mails->id);
             $filename = $new_mail->id . $original_filename;
             //set file name for database
             $new_mail->attachment = $filename;
@@ -120,10 +147,20 @@ class MailboxController extends Controller
         $new_mail_log->save();
 
         //Response
-        flash("쪽지를 성공적으로 보냈습니다.");
+        flash("쪽지를 성공적으로 보냈습니다.", 'success');
 
         if (Auth::user()->name == "Admin") {
+
+            if($this->agent->isMobile()){
+                return redirect()->route('mails.sent');
+            }
             return redirect()->route('admin.memo');
+        }
+
+        //
+        if ($request->get('redirect')) {
+
+            return redirect()->route('mails.sent');
         }
 
         return redirect()->route('author.mailbox_send_message', ['id' => $new_mail->id]);
@@ -144,11 +181,29 @@ class MailboxController extends Controller
         $maillogs = MailLog::where('mailbox_id', $id)->get();
         if (count($maillogs) > 0) {
             return response()->json(['error' => 1, 'message' => '이미 읽거나 보내진 쪽지는 삭제할 수 없습니다.', 'status' => "401"]);
-        }else {
+        } else {
             Mailbox::destroy($id);
             flash("삭제 되었습니다");
             return response()->json(['error' => 0, 'message' => 'success', 'status' => "200"]);
         }
+    }
+
+    public function destroy_sent_bulk(Request $request)
+    {
+        $ids = $request->get('ids');
+        foreach ($ids as $id) {
+            $maillogs = MailLog::where('mailbox_id', $id)->with('mailboxs')->get();
+
+            if (count($maillogs) > 0) {
+                flash($maillogs[0]->mailboxs->subject . "이미 읽거나 보내진 쪽지는 삭제할 수 없습니다.", "danger");
+                \Session::now('mail_id', $id);
+                return response()->json(['error' => 1, 'message' => 'fail', 'status' => "401"]);
+            }
+
+            Mailbox::destroy($id);
+        }
+        flash("삭제 되었습니다");
+        return response()->json(['error' => 0, 'message' => 'success', 'status' => "200"]);
     }
 
 }

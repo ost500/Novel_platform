@@ -25,24 +25,46 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @mixin \Eloquent
  * @property \Carbon\Carbon $deleted_at
  * @method static \Illuminate\Database\Query\Builder|\App\Review whereDeletedAt($value)
+ * @property int $novel_group_id
+ * @property string $title
+ * @property int $view_count
+ * @property-read \App\NovelGroup $novel_groups
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\ReviewComment[] $comments
+ * @method static \Illuminate\Database\Query\Builder|\App\Review whereNovelGroupId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Review whereTitle($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Review whereViewCount($value)
  */
 class Review extends Model
 {
     use SoftDeletes;
     protected $dates = ['deleted_at'];
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'user_id','novel_group_id', 'title','review',
+    ];
+
     public function users()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function novels()
+    public function novel_groups()
     {
-        return $this->belongsTo(Novel::class, 'novel_id', 'id');
+        return $this->belongsTo(NovelGroup::class, 'novel_group_id', 'id');
     }
 
     public function myself()
     {
         return $this->belongsTo(Review::class, 'id')->with('users')->with('novels');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(ReviewComment::class);
     }
 }

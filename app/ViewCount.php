@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\ViewCount whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\ViewCount whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \App\Novel $novel
  */
 class ViewCount extends Model
 {
@@ -36,10 +37,11 @@ class ViewCount extends Model
     ];
 
 
-    /*  public function novel()
-      {
-          return $this->belongsTo(Novel::class, 'id');
-      }*/
+    public function novel()
+    {
+        return $this->belongsTo(Novel::class, 'id');
+    }
+
     public function viewCountToday($novel_id)
     {
         $today = Carbon::now()->toDateString();
@@ -48,7 +50,7 @@ class ViewCount extends Model
 
     public function viewCountWeek($novel_id)
     {
-       $start_of_week = Carbon::now()->startOfWeek()->toDateString();
+        $start_of_week = Carbon::now()->startOfWeek()->toDateString();
         return $this->where(['separation' => '2', 'date' => $start_of_week, 'novel_id' => $novel_id])->first();
     }
 

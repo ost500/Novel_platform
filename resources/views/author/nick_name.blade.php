@@ -93,8 +93,6 @@
             },
             methods: {
                 main: function (e) {
-                    console.log(e);
-                    console.log("http://novel.app/nickname.update" + e);
                     Vue.http.headers.common['X-CSRF-TOKEN'] = "{!! csrf_token() !!}";
 //                    var csrfToken = form.querySelector('input[name="_token"]').value;
 

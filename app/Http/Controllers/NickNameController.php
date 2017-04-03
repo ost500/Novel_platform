@@ -97,12 +97,7 @@ class NickNameController extends Controller
     public function update(Request $request, $id)
     {
 
-        Validator::make($request->all(), [
-            'nickname' => 'required|max:255',
-        ], [
-            'nickname.required' => '입력하세요',
-            'nickname.max' => '필명이 너무 깁니다',
-        ])->validate();
+
 
 
         echo $request->has('nickname');
@@ -110,6 +105,13 @@ class NickNameController extends Controller
         echo $id;
 
         if ($request->has('nickname')) {
+            Validator::make($request->all(), [
+                'nickname' => 'required|max:255',
+            ], [
+                'nickname.required' => '입력하세요',
+                'nickname.max' => '필명이 너무 깁니다',
+            ])->validate();
+
             $update_nick = NickName::find($id);
             $update_nick->nickname = $request->nickname;
             $update_nick->save();

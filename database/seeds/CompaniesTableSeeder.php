@@ -17,6 +17,7 @@ class CompaniesTableSeeder extends Seeder
         foreach($arr as $ar){
             $new_com = factory(App\Company::class)->create();
             $new_com->name = $ar;
+            $new_com->company_picture =$new_com->id.'.jpg';
             $new_com->save();
         }
 

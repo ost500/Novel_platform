@@ -19,20 +19,19 @@ $(document).ready(function() {
 	$('#demo-cs-multiselect').chosen({width:'100%'});
 
 
-
 	// DEFAULT RANGE SLIDER
 	// =================================================================
 	// Require noUiSlider
 	// http://refreshless.com/nouislider/
 	// =================================================================
-	$("#demo-range-def").noUiSlider({
-		start: [ 20 ],
-		connect : 'lower',
-		range: {
-			'min': [  0 ],
-			'max': [ 100 ]
-		}
-	}).Link('lower').to($("#demo-range-def-val"));
+	// $("#demo-range-def").noUiSlider({
+	// 	start: [ 20 ],
+	// 	connect : 'lower',
+	// 	range: {
+	// 		'min': [  0 ],
+	// 		'max': [ 100 ]
+	// 	}
+	// }).Link('lower').to($("#demo-range-def-val"));
 
 
 	// RANGE SLIDER - SLIDER STEP BY STEP

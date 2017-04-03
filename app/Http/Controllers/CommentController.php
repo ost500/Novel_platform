@@ -15,7 +15,10 @@ use Validator;
 class CommentController extends Controller
 {
 
-
+    public function __construct()
+    {
+        $this->middleware('auth')->only('store','update','destroy');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -74,13 +77,22 @@ class CommentController extends Controller
         ])->validate();
 
 
+       //if commenting is blocked then redirect
+        if (Auth::user()->isCommentBlocked()) {
+           flash('댓글 기능이 관리자에 의해 금지 됐습니다','danger');
+            return response()->json(['error'=>1,'message' => '댓글 기능이 관리자에 의해 금지 됐습니다']);
+        }
 
         $new_comment = new Comment();
         $new_comment->comment = $request->comment;
         $new_comment->parent_id = $request->parent_id;
         $new_comment->novel_id = $request->novel_id;
+        $new_comment->comment_secret = $request->comment_secret;
         $new_comment->user_id = Auth::user()->id;
         $new_comment->save();
+        return response()->json(['error'=>0,'status' => 'ok']);
+
+
     }
 
     /**
@@ -115,7 +127,7 @@ class CommentController extends Controller
 
 
 //        return response()->json($groups_comments);
-        return view('author.group_comments', compact('groups_comments','comments_count'));
+        return view('author.group_comments', compact('groups_comments', 'comments_count'));
     }
 
     /**
@@ -138,7 +150,21 @@ class CommentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        Validator::make($request->all(), [
+            'comment' => 'required|max:1000',
+        ], [
+            'comment.required' => '입력하세요',
+            'comment.max' => '댓글이 너무 깁니다',
+        ])->validate();
+
+        Comment::where('id', $id)->update([
+            'comment' => $request->get('comment'),
+            'comment_secret' => $request->get('comment_secret'),
+
+        ]);
+        flash('댓글이 수정 되었습니다.','success');
+        return response()->json(['status' => 'ok']);
     }
 
     /**
@@ -150,7 +176,7 @@ class CommentController extends Controller
     public function destroy($id)
     {
         Comment::destroy($id);
-        Comment::where('parent_id',$id)->delete();
-        return response()->json(['status'=>'ok']);
+        Comment::where('parent_id', $id)->delete();
+        return response()->json(['status' => 'ok']);
     }
 }

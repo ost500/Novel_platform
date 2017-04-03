@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Comment;
+use App\Events\NewSpeedEvent;
 use App\Novel;
 use App\NovelGroup;
 use App\User;
@@ -120,9 +121,7 @@ class NovelController extends Controller
         $new_novel->novel_group_id = $request->novel_group_id;
         $new_novel->title = $request->title;
         $new_novel->content = $request->novel_content;
-        if ($request->adult == "on") {
-            $new_novel->adult = true;
-        }
+
 
         if ($request->publish_reservation == "on" && $request->reser_day && $request->reser_time) {
             // echo $request->reser_day . " " . $request->reser_time;
@@ -135,15 +134,20 @@ class NovelController extends Controller
 
         $new_novel->save();
 
-        $new_novel->inning = Novel::find($request->novel_group_id)->novel_groups->novels->count();
+        $new_novel->inning = Novel::where('novel_group_id', $request->novel_group_id)->max('inning') + 1;
+
+        if ($request->adult == "on") {
+            $new_novel->adult = $new_novel->inning;
+        }
 
         $new_novel->save();
 
-        $this->inning_order($new_novel->novel_groups->id);
+//        $this->inning_order($new_novel->novel_groups->id);
 
 
         flash("회차 저장을 성공했습니다");
 
+        event(new NewSpeedEvent("novel", "소설 '" . $new_novel->novel_groups->title . "'의 " . $new_novel->inning . "회 신규 회차가 등록 되었습니다.", "link", $new_novel->novel_groups->cover_photo, $new_novel->novel_groups->id));
 
     }
 
@@ -300,11 +304,12 @@ class NovelController extends Controller
 
         $index = 1;
         foreach ($novels as $novel) {
-            if ($novel->adult != 0) {
-                $novel->inning = $novel->adult;
-                $novel->save();
-                continue;
-            }
+//            if ($novel->adult != 0) {
+//                // this is adult version
+//                $novel->inning = $novel->adult;
+//                $novel->save();
+//                continue;
+//            }
             $novel->inning = $index;
             $novel->save();
             $index++;
@@ -339,6 +344,7 @@ class NovelController extends Controller
         $novel->save();
 
     }
+
     public function cancel_adult($id)
     {
         $novel = Novel::find($id);

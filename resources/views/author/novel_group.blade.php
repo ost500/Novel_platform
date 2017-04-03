@@ -238,7 +238,7 @@
                 reload: function () {
                     this.$http.get('{{ route('novelgroup.novel', ['id' => $novel_group->id]) }}')
                             .then(function (response) {
-                                console.log(response);
+
                                 this.novels = response.data;
                             });
                 },

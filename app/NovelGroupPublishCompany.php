@@ -25,6 +25,18 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \App\NovelGroup $novel_groups
  * @property-read \App\Company $companies
  * @method static \Illuminate\Database\Query\Builder|\App\NovelGroupPublishCompany whereRejectReason($value)
+ * @property bool $today_done
+ * @property int $days
+ * @property int $novels_per_days
+ * @property int $initial_novels
+ * @method static \Illuminate\Database\Query\Builder|\App\NovelGroupPublishCompany whereTodayDone($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\NovelGroupPublishCompany whereDays($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\NovelGroupPublishCompany whereNovelsPerDays($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\NovelGroupPublishCompany whereInitialNovels($value)
+ * @property bool $stop
+ * @property bool $event
+ * @method static \Illuminate\Database\Query\Builder|\App\NovelGroupPublishCompany whereStop($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\NovelGroupPublishCompany whereEvent($value)
  */
 class NovelGroupPublishCompany extends Model
 {
@@ -41,11 +53,6 @@ class NovelGroupPublishCompany extends Model
     public function publish_novel_groups()
     {
         return $this->belongsTo(PublishNovelGroup::class, 'publish_novel_group_id');
-    }
-
-    public function novel_groups()
-    {
-        return $this->belongsTo(NovelGroup::class, 'publish_novel_group_id');
     }
 
     public function companies()

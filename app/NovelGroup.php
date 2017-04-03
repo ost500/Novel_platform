@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Auth;
 
 /**
  * App\NovelGroup
@@ -58,6 +59,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $deleted_at
  * @property-read \App\PublishNovelGroup $publish_novel_groups
  * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereDeletedAt($value)
+ * @property int $nickname_id
+ * @property-read \App\NickName $nicknames
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\RecentlyVisitedNovel[] $recently_visited_novels
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Keyword[] $keywords
+ * @method static \Illuminate\Database\Query\Builder|\App\NovelGroup whereNicknameId($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\NovelGroupHashTag[] $hash_tags
  */
 class NovelGroup extends Model
 {
@@ -68,17 +75,19 @@ class NovelGroup extends Model
      * @var array
      */
     protected $fillable = [
-        'nickname', 'title', 'description','keyword1','keyword2','keyword3','keyword4','keyword5','keyword6','keyword7','novel_group_id','cover_photo',
+        'nickname', 'title', 'description', 'novel_group_id', 'cover_photo', 'cover_photo2',
     ];
 
     public function novels()
     {
         return $this->hasMany(Novel::class);
     }
+
     public function users()
     {
-        return $this->belongsTo(User::class, 'user_id','id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
     public function reviews()
     {
         return $this->hasMany(Review::class);
@@ -99,8 +108,60 @@ class NovelGroup extends Model
         return $this->hasMany(MailLog::class);
     }
 
+    public function calculation_eaches()
+    {
+        return $this->hasMany(CalculationEach::class, 'code_number', 'code_number');
+    }
+
     public function publish_novel_groups()
     {
         return $this->hasOne(PublishNovelGroup::class);
+    }
+
+    public function nicknames()
+    {
+        return $this->belongsTo(NickName::class, 'nickname_id', 'id');
+    }
+
+    public function recently_visited_novels()
+    {
+        return $this->hasMany(RecentlyVisitedNovel::class);
+    }
+
+    public function keywords()
+    {
+        return $this->belongsToMany(Keyword::class,
+            'novel_group_keywords', 'novel_group_id', 'keyword_id')
+            ->withPivot('id', 'novel_group_id', 'keyword_id', 'created_at', 'updated_at');
+    }
+
+    public function hash_tags()
+    {
+        return $this->hasMany(NovelGroupHashTag::class);
+    }
+
+    public function getNovelGroupViewCount()
+    {
+        $total_view_count = Novel::selectRaw(' sum(total_count) as total_view_count ')->where('novel_group_id', $this->id)->first();
+        if ($total_view_count) {
+            return $total_view_count->total_view_count;
+        }
+    }
+
+    public function getNovelGroupFavoriteCount($novel_group_id)
+    {
+        $favorite_count = Favorite::selectRaw('  count(novel_group_id) as favorite_count ')->where('novel_group_id', $novel_group_id)->first();
+        if ($favorite_count) {
+            return $favorite_count->favorite_count;
+        }
+    }
+
+    public function checkUserFavourite($novel_group_id)
+    {
+
+        $favorite = Favorite::where(['novel_group_id' => $novel_group_id, 'user_id' => Auth::user()->id])->first();
+        if ($favorite) {
+            return true;
+        }
     }
 }

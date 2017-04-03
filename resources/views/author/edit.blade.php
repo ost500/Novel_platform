@@ -1,6 +1,7 @@
 @extends('layouts.app')
-
 @section('content')
+
+    <link href="/plugins/chosen/chosen.min.css" rel="stylesheet">
     <div id="content-container" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 
         <div id="page-title">
@@ -27,34 +28,30 @@
             @endif
 
 
-            <div class="row" id="novel_group_edit">
+            <div class="row">
                 <div class="col-sm-12">
 
-                    <div class="panel">
+                    <div class="panel" id="novel_group_edit">
 
                         <form name="novel_group_update" id="novel_group_update"
                               class="panel-body form-horizontal form-padding" method="post"
-                              action="{{route('novelgroups.update',['id'=>$id]) }}"
+                              action="{{route('novelgroups.update',['id'=>$novel_group->id]) }}"
                               enctype="multipart/form-data">
                             <input name="_method" type="hidden" value="PUT">
                             {{ csrf_field() }}
-                            {{--  <input name="novel_group_id" id="novel_group_id" type="hidden" :value="fillItem.id" >
-                            <meta id="token" name="token" content="{{ csrf_token() }}">  v-on:submit.prevent="onSubmit(fillItem.id)"     --}}
 
-                                    <!--Static-->
-                            <!--div class="form-group">
-                                <label class="col-md-2 control-label">Static</label>
-                                <div class="col-md-9"><p class="form-control-static">Username</p></div>
-                            </div-->
 
                             <div class="form-group">
                                 <label class="col-md-2 control-label" for="demo-text-input">필명</label>
 
                                 <div class="col-md-9">
-                                    <select class="form-control" name="nickname" v-model="fillItem.nickname">
-                                        <option value="">필명선택</option>
-                                        <option v-for="nick_name in nick_names"
-                                                :value="nick_name.id"> @{{ nick_name.nickname }} </option>
+                                    <select class="form-control" name="nickname_id">
+                                        {{--<option value="">필명선택</option>--}}
+
+                                        @foreach($nicknames as $nickname)
+                                            <option value="{{$nickname->id}}"
+                                                    @if($nickname->id==$novel_group->nicknames->id) selected @endif >{{$nickname->nickname}}</option>
+                                        @endforeach
 
                                     </select>
 
@@ -67,7 +64,7 @@
 
                                 <div class="col-md-9">
                                     <input type="text" name="title" id="demo-email-input" class="form-control"
-                                           v-model="fillItem.title" placeholder="작품 제목을 입력해 주세요."
+                                           value="{{$novel_group->title}}" placeholder="작품 제목을 입력해 주세요."
                                            data-bv-field="title">
                                 </div>
                             </div>
@@ -77,68 +74,40 @@
 
                                 <div class="col-md-9">
                                     <textarea name="description" id="demo-textarea-input" rows="9" class="form-control"
-                                              placeholder="작품 소개를 입력해 주세요" v-model="fillItem.description"></textarea>
+                                              placeholder="작품 소개를 입력해 주세요">{{$novel_group->description}}</textarea>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-2 control-label" for="demo-text-input">키워드</label>
+                                <label class="col-md-2 control-label" for="demo-text-input">장르</label>
 
                                 <div class="col-md-9">
                                     <select name="keyword1" class="form-control inline"
-                                            v-model="fillItem.keyword1"
                                             style="width:14%;" size=10>
                                         <option value="">장르</option>
-                                        <option v-for="keyword in keyword1"
-                                                :value="keyword.id"> @{{keyword.name }} </option>
+                                        @foreach($keyword1 as $keyword)
+                                            <option value="{{$keyword->id}}"
+                                                    @if($keyword->id==$novel_group->keywords['0']->id) selected @endif>{{$keyword->name}}
+                                            </option>
+                                        @endforeach
                                     </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label" for="demo-text-input">해시태그</label>
 
-                                    <select name="keyword2" class="form-control inline"
-                                            v-model="fillItem.keyword2"
-                                            style="width:14%;" size=10>
-                                        <option value="">배경</option>
-                                        <option v-for="keyword in keyword2"
-                                                :value="keyword.id"> @{{keyword.name }} </option>
-                                    </select>
-
-                                    <select name="keyword3" class="form-control inline"
-                                            v-model="fillItem.keyword3"
-                                            style="width:14%;" size=10>
-                                        <option value="">소재</option>
-                                        <option v-for="keyword in keyword3"
-                                                :value="keyword.id"> @{{keyword.name }} </option>
-                                    </select>
-
-                                    <select name="keyword4" class="form-control inline"
-                                            v-model="fillItem.keyword4"
-                                            style="width:14%;" size=10>
-                                        <option value="">관계</option>
-                                        <option v-for="keyword in keyword4"
-                                                :value="keyword.id"> @{{keyword.name }} </option>
-                                    </select>
-
-                                    <select name="keyword5" class="form-control inline"
-                                            v-model="fillItem.keyword5"
-                                            style="width:14%;" size=10>
-                                        <option value="">남주인공</option>
-                                        <option v-for="keyword in keyword5"
-                                                :value="keyword.id"> @{{keyword.name }} </option>
-                                    </select>
-
-                                    <select name="keyword6" class="form-control inline"
-                                            v-model="fillItem.keyword6"
-                                            style="width:14%;" size=10>
-                                        <option value="">여주인공</option>
-                                        <option v-for="keyword in keyword6"
-                                                :value="keyword.id"> @{{keyword.name }} </option>
-                                    </select>
-
-                                    <select name="keyword7" class="form-control inline"
-                                            v-model="fillItem.keyword7"
-                                            style="width:14%;" size=10>
-                                        <option value="">분위기/기타</option>
-                                        <option v-for="keyword in keyword7"
-                                                :value="keyword.id"> @{{keyword.name }} </option>
+                                <div class="col-md-9">
+                                    <select id="demo-cs-multiselect" name="hash_tags[]"
+                                            data-placeholder="Choose a HashTag" multiple tabindex="4">
+                                        @foreach($hash_tag_keywords as $hash_tag_keyword)
+                                            <option value="{{$hash_tag_keyword->name}}"
+                                                    @foreach($selected_hash_tags as $selected_hash_tag)
+                                                    @if($selected_hash_tag->tag == $hash_tag_keyword->name) selected @endif @endforeach
+                                                    >
+                                             {{--   <button v-on:keyup="removeTag('{{$hash_tag_keyword->name}}')"></button>--}}
+                                                {{$hash_tag_keyword->name}}
+                                            </option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -158,9 +127,11 @@
 
                                 <div class="col-md-9" style="text-align: left">
 
-                                    <img v-if="fillItem.cover_photo != null"
-                                         v-bind:src="'/img/novel_covers/' + fillItem.cover_photo" class="index_img">
-                                    <img v-else v-bind:src="'/img/novel_covers/default_.jpg'" class="index_img">
+                                    @if($novel_group->cover_photo)
+                                        <img src="/img/novel_covers/{{$novel_group->cover_photo}}" class="index_img">
+                                    @else
+                                        <img src="/img/novel_covers/default_.jpg" class="index_img">
+                                    @endif
                                 </div>
                             </div>
                             <div class="form-group">
@@ -180,10 +151,11 @@
                                 <label class="col-md-2 control-label"></label>
 
                                 <div class="col-md-9" style="text-align: left">
-
-                                    <img v-if="fillItem.cover_photo2 != null"
-                                         v-bind:src="'/img/novel_covers/' + fillItem.cover_photo2" class="index_img">
-                                    <img v-else v-bind:src="'/img/novel_covers/default_.jpg'" class="index_img">
+                                    @if($novel_group->cover_photo2)
+                                        <img src="/img/novel_covers/+{{$novel_group->cover_photo2}}" class="index_img">
+                                    @else
+                                        <img src="/img/novel_covers/default_.jpg" class="index_img">
+                                    @endif
                                 </div>
                             </div>
 
@@ -220,7 +192,7 @@
 
                             <div class="form-group">
                                 <div class="col-md-12 text-center">
-                                    <button type="submit" class="btn btn-lg btn-primary">최신 정보</button>
+                                    <button type="submit" class="btn btn-lg btn-primary">수정</button>
                                     <button type="button" class="btn btn-lg btn-danger back">취소</button>
                                 </div>
                             </div>
@@ -232,57 +204,10 @@
 
         </div>
     </div>
+    <script src="/plugins/bootstrap-select/bootstrap-select.min.js"></script>
+    <!--Chosen [ OPTIONAL ]-->
+    <script src="/plugins/chosen/chosen.jquery.min.js"></script>
 
-    <script>
-        //
-
-        var app = new Vue({
-            el: '#novel_group_edit',
-            data: {
-                fillItem: {},
-                novel_group: [],
-                nick_names: [],
-                keyword1: [],
-                keyword2: [],
-                keyword3: [],
-                keyword4: [],
-                keyword5: [],
-                keyword6: [],
-                keyword7: [],
-
-
-                formErrors: {},
-
-            },
-
-            mounted: function () {
-                this.$http.get('{{ route( 'novelgroups.edit',['[id'=>$id]) }}')
-                        .then(function (response) {
-                            this.fillItem = response.data['novel_group'];
-                            this.nick_names = response.data['nick_names'];
-                            this.keyword1 = response.data['keyword1'];
-                            this.keyword2 = response.data['keyword2'];
-                            this.keyword3 = response.data['keyword3'];
-                            this.keyword4 = response.data['keyword4'];
-                            this.keyword5 = response.data['keyword5'];
-                            this.keyword6 = response.data['keyword6'];
-                            this.keyword7 = response.data['keyword7'];
-
-                        });
-
-            },
-            method: {
-                /*     getCoverPhotoName:function(){
-
-                 console.log(this.fillItem.cover_photo);
-                 // return this.fillItem.cover_photo;
-                 $('#cover_photo').attr('value',this.fillItem.cover_photo);
-                 }*/
-
-            }
-
-        });
-
-    </script>
+    <script src="/js/demo/form-component.js"></script>
 
 @endsection

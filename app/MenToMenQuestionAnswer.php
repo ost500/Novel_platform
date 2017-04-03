@@ -25,6 +25,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\MenToMenQuestionAnswer whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\MenToMenQuestionAnswer whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $category
+ * @method static \Illuminate\Database\Query\Builder|\App\MenToMenQuestionAnswer whereCategory($value)
  */
 class MenToMenQuestionAnswer extends Model
 {
@@ -34,7 +36,7 @@ class MenToMenQuestionAnswer extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'title', 'question','answer','status',
+        'user_id','category','title', 'question','answer','status',
     ];
 
     public function users()

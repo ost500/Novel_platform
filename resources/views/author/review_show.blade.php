@@ -21,14 +21,13 @@
 
                 <div>
                     <span class="nick">{{ $comment->users->name }}</span> {{ $comment->created_at }}
-                    <button class="btn btn-xs btn-pink">N</button>
                     <button class="btn  btn-xs btn-danger"
-                            onclick="javascript:app4_index.reviewDestroy( {{$comment->id .','.$comment->novels->novel_group_id}} )">
+                            onclick="javascript:app4_index.reviewDestroy( {{$comment->id .','.$comment->novel_groups->id}} )">
                         X
                     </button>
                 </div>
                 <div class="content">
-                    <span class="inning">{{ $comment->novels->inning }} 회</span> {{ $comment->review }}
+                    <span class="inning"> </span> {{ $comment->review }}
                 </div>
                 <div class="button">
 

@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Keyword whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Keyword whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\NovelGroup[] $novel_groups
  */
 class Keyword extends Model
 {
@@ -31,4 +32,11 @@ class Keyword extends Model
     protected $fillable = [
         'category', 'name',
     ];
+
+    public function novel_groups()
+    {
+        return $this->belongsToMany(NovelGroup::class,
+            'novel_group_keywords', 'keyword_id', 'novel_group_id')
+            ->withPivot('keyword_id', 'novel_group_id','created_at');
+    }
 }

@@ -27,6 +27,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Novel[] $novels
  * @property-read \App\User $users
  * @method static \Illuminate\Database\Query\Builder|\App\PublishNovelGroup whereUserId($value)
+ * @property bool $event
+ * @method static \Illuminate\Database\Query\Builder|\App\PublishNovelGroup whereEvent($value)
  */
 class PublishNovelGroup extends Model
 {

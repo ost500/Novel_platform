@@ -51,7 +51,8 @@
 
                                                     <img class="index_img" v-if="group.cover_photo != null"
                                                          v-bind:src="'/img/novel_covers/' + group.cover_photo">
-                                                    <img class="index_img" v-else v-bind:src="'/img/novel_covers/default_.jpg'">
+                                                    <img class="index_img" v-else
+                                                         v-bind:src="'/img/novel_covers/default_.jpg'">
 
                                                 </a>
                                             </td>
@@ -67,7 +68,12 @@
                                                     </tr>
                                                     <tr>
                                                         <td>등록된 회차수 : @{{ group.max_inning }}화, 마지막 업로드 일자
-                                                            : @{{ latested(group.id) }}</td>
+                                                            : @{{ latested(group.id) }},
+                                                            <button class="btn btn-mint" v-if="group.secret != null"
+                                                                    v-on:click="non_secret(group.id)"> 비밀글
+                                                            </button>
+                                                        </td>
+
                                                     </tr>
                                                     <tr>
                                                         <td class="padding-top-10 text-right">
@@ -83,9 +89,15 @@
                                                             <button class="btn btn-success"
                                                                     v-on:click="go_to_edit(group.id)">수정
                                                             </button>
-                                                            <button class="btn btn-mint">비밀</button>
+                                                            <button class="btn btn-mint" v-if="group.secret == null"
+                                                                    v-on:click="secret(group.id)"> 비밀
+                                                            </button>
+
                                                             <button class="btn btn-warning"
                                                                     v-on:click="destroy(group.id)">삭제
+                                                            </button>
+                                                            <button class="btn btn-mint" v-if="group.secret == null"
+                                                                    v-on:click="clone_for_publish(group.id)"> 15세 개정판 생성
                                                             </button>
                                                         </td>
                                                     </tr>
@@ -236,7 +248,7 @@
 
             watch: {
                 order: function (val) {
-                    console.log(val);
+
                     this.pagination(this.page.current_page);
                 }
             },
@@ -246,7 +258,7 @@
                 pagination: function (page) {
                     this.$http.get('{{ route('novelgroups.index') }}?page=' + page + '&order=' + this.order)
                             .then(function (response) {
-                                console.log(response);
+
                                 this.novel_groups = response.data.novel_groups.data;
                                 this.commentsCountData = response.data['count_data'];
                                 this.reviewsCountData = response.data['review_count_data'];
@@ -260,7 +272,7 @@
                                 }
                                 // this.check_agreemet();
 
-                                console.log(response.data.novel_groups.current_page);
+
                                 //about page
                                 if (response.data.novel_groups.current_page > 1) {
                                     this.page.page_first = true;
@@ -283,7 +295,7 @@
                                 this.page.current_page = response.data.novel_groups.current_page;
                                 this.page.from = response.data.novel_groups.from;
                                 this.page.last_page = response.data.novel_groups.last_page;
-                                console.log(this);
+
 
 
                             });
@@ -326,15 +338,14 @@
                 },
 
                 go_to_group: function (id) {
-                    window.location.assign('{{ url('author/novelgroup') }}' + "/" + id);
+                    window.location.assign('{{ url('/author/management/novelgroups') }}' + "/" + id);
                 },
                 go_to_edit: function (id) {
-                    window.location.assign('/author/' + id + '/edit');
+                    window.location.assign('/author/management/novelgroups/' + id + '/edit');
                 },
 
                 commentsDisplay: function (id) {
-                    console.log("TF" + this.comment_show.TF);
-                    console.log("ID" + this.comment_show.id);
+
 
                     var comments_url = '/comments/' + id;
                     if (this.comment_show.TF == true && this.comment_show.id == id) {
@@ -359,12 +370,10 @@
                             commonAlertBox("comment");
                         }
                     }
-                    console.log("TF" + this.comment_show.TF);
-                    console.log("ID" + this.comment_show.id);
+
                 },
                 commentsDisplay_after_commenting: function (id) {
-                    console.log("TF" + this.comment_show.TF);
-                    console.log("ID" + this.comment_show.id);
+
 
                     var comments_url = '/comments/' + id;
 
@@ -385,8 +394,7 @@
                         commonAlertBox("comment");
                     }
 
-                    console.log("TF" + this.comment_show.TF);
-                    console.log("ID" + this.comment_show.id);
+
                 },
                 commentId: function (id) {
                     return "response" + id;
@@ -415,6 +423,32 @@
                             commonAlertBox("review");
                         }
                     }
+
+                },
+                reviewsDisplay_after_deleting: function (id) {
+
+                    var comments_url = '/reviews/' + id;
+                    /*  if (this.review_show.TF == true && this.review_show.id == id) {
+                     this.review_show.TF = false;
+                     this.review_show.id = 0;
+                     }
+                     else {*/
+
+                    if (this.reviewsCountData[id] != 0) {
+                        this.$http.get(comments_url)
+                                .then(function (response) {
+                                    // document.getElementById('response').setAttribute('id','response'+id)
+                                    document.getElementById('review_response' + id).innerHTML = response.data;
+                                });
+                        this.review_show.TF = true;
+                        this.review_show.id = id;
+
+                        this.comment_show.TF = false;
+                        this.comment_show.id = 0;
+                    } else {
+                        commonAlertBox("review");
+                    }
+
 
                 },
                 reviewId: function (id) {
@@ -447,7 +481,137 @@
                                                 type: 'warning',
                                                 icon: 'fa fa-check',
                                                 //message : "Hello " + name + ".<br> You've chosen <strong>" + answer + "</strong>",
-                                                message: "삭제 되었습니다.",
+                                                message: response.data.message,
+                                                //container : 'floating',
+                                                container: 'page',
+                                                timer: 4000
+                                            });
+
+                                        })
+                                        .catch(function (data, status, request) {
+                                            var errors = data.data;
+                                            this.formErrors = errors;
+                                        });
+
+                            }
+
+                        }
+                    });
+                },
+                secret: function (e) {
+                    bootbox.confirm({
+                        message: "비밀로 하시겠습니까?",
+
+                        buttons: {
+                            confirm: {
+                                label: "비밀"
+                            },
+                            cancel: {
+                                label: '취소'
+                            }
+                        },
+
+                        callback: function (result) {
+
+                            if (result) {
+                                Vue.http.headers.common['X-CSRF-TOKEN'] = "{!! csrf_token() !!}";
+                                //                    var csrfToken = form.querySelector('input[name="_token"]').value;
+
+                                app4_index.$http.put("{{ url('novelgroup/secret/') }}/" + e, "", {headers: {'X-CSRF-TOKEN': '{!! csrf_token() !!}'}})
+                                        .then(function (response) {
+                                            app4_index.reload();
+                                            $.niftyNoty({
+                                                type: 'warning',
+                                                icon: 'fa fa-check',
+                                                //message : "Hello " + name + ".<br> You've chosen <strong>" + answer + "</strong>",
+                                                message: "비밀이 되었습니다.",
+                                                //container : 'floating',
+                                                container: 'page',
+                                                timer: 4000
+                                            });
+
+                                        })
+                                        .catch(function (data, status, request) {
+                                            var errors = data.data;
+                                            this.formErrors = errors;
+                                        });
+
+                            }
+
+                        }
+                    });
+                },
+                non_secret: function (e) {
+                    bootbox.confirm({
+                        message: "비밀을 해제 하시겠습니까?",
+
+                        buttons: {
+                            confirm: {
+                                label: "비밀 해제"
+                            },
+                            cancel: {
+                                label: '취소'
+                            }
+                        },
+
+                        callback: function (result) {
+
+                            if (result) {
+                                Vue.http.headers.common['X-CSRF-TOKEN'] = "{!! csrf_token() !!}";
+                                //                    var csrfToken = form.querySelector('input[name="_token"]').value;
+
+                                app4_index.$http.put("{{ url('novelgroup/non_secret/') }}/" + e, "", {headers: {'X-CSRF-TOKEN': '{!! csrf_token() !!}'}})
+                                        .then(function (response) {
+                                            app4_index.reload();
+                                            $.niftyNoty({
+                                                type: 'warning',
+                                                icon: 'fa fa-check',
+                                                //message : "Hello " + name + ".<br> You've chosen <strong>" + answer + "</strong>",
+                                                message: "비밀이 해제 되었습니다.",
+                                                //container : 'floating',
+                                                container: 'page',
+                                                timer: 4000
+                                            });
+
+                                        })
+                                        .catch(function (data, status, request) {
+                                            var errors = data.data;
+                                            this.formErrors = errors;
+                                        });
+
+                            }
+
+                        }
+                    });
+                },
+                clone_for_publish: function (e) {
+                    bootbox.confirm({
+                        message: "15세 개정판을 만드시겠습니까?",
+
+                        buttons: {
+                            confirm: {
+                                label: "생성"
+                            },
+                            cancel: {
+                                label: '취소'
+                            }
+                        },
+
+                        callback: function (result) {
+
+                            if (result) {
+                                Vue.http.headers.common['X-CSRF-TOKEN'] = "{!! csrf_token() !!}";
+                                //                    var csrfToken = form.querySelector('input[name="_token"]').value;
+
+                                app4_index.$http.post("{{ url('novelgroup/clone_for_publish/') }}/" + e, "", {headers: {'X-CSRF-TOKEN': '{!! csrf_token() !!}'}})
+                                        .then(function (response) {
+
+                                            app4_index.reload();
+                                            $.niftyNoty({
+                                                type: 'warning',
+                                                icon: 'fa fa-check',
+                                                //message : "Hello " + name + ".<br> You've chosen <strong>" + answer + "</strong>",
+                                                message: "[15세 개정판]이 복제 되었습니다.",
                                                 //container : 'floating',
                                                 container: 'page',
                                                 timer: 4000
@@ -473,13 +637,13 @@
                 reload: function () {
                     this.$http.get('{{ route('novelgroups.index') }}')
                             .then(function (response) {
-                                console.log(response);
+
                                 this.novel_groups = response.data.novel_groups.data;
                                 this.commentsCountData = response.data['count_data'];
                                 this.reviewsCountData = response.data['review_count_data'];
                                 this.latested_at = response.data['latested_at'];
 
-//                                console.log(this.author.author_agreement);
+//
                                 this.author = response.data['author'];
                                 if (this.author.author_agreement == 0) {
                                     //  $('.author_agreement_dialog').show();
@@ -487,7 +651,6 @@
                                 }
                                 // this.check_agreemet();
 
-                                console.log(response.data.novel_groups.current_page);
                                 //about page
                                 if (response.data.novel_groups.current_page > 1) {
                                     this.page.page_first = true;
@@ -510,43 +673,51 @@
                                 this.page.current_page = response.data.novel_groups.current_page;
                                 this.page.from = response.data.novel_groups.from;
                                 this.page.last_page = response.data.novel_groups.last_page;
-                                console.log(this);
+
                                 $("#page-title").click(function () {
-                                    console.log(this);
+
                                 });
 
                             });
 
                 },
 
-                /*  check_agreemet: function () {
-                 console.log(this.author.author_agreement);
+                reviewDestroy: function (id, group_id) {
 
-                 }*/
+                    bootbox.confirm({
+                        message: "삭제 하시겠습니까?",
+                        buttons: {
+                            confirm: {
+                                label: "삭제"
+                            },
+                            cancel: {
+                                label: '취소'
+                            }
+                        },
+                        callback: function (result) {
+                            if (result) {
+                                $.ajax({
+                                    type: 'DELETE',
+                                    url: '/reviews/' + id,
+                                    headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken},
+                                    success: function (response) {
+                                        app4_index.reviewsDisplay_after_deleting(group_id);
+
+                                    }, error: function (data2) {
+
+                                    }
+                                })
+                            }
+                        }
+                    });
+
+                }
 
 
             }
         });
 
 
-        /*  var app5 = new Vue({
-         el: '#comment_list',
-         data: {
-         novel_groups: [],
-         my_comments: [],
-         },
-         mounted: function () {
-         this.$http.get('{{-- route('novels.index')--}}')
-         .then(function (response) {
-         this.novel_groups = response.data;
-         });
-         this.$http.get('{{-- route('comments.index') --}}')
-         .then(function (response) {
-         this.my_comments = response.data;
-         });
-
-         }
-         })*/
     </script>
 
 

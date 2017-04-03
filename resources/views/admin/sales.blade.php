@@ -135,7 +135,7 @@
             el: '#novel_list',
             data: {
                 novel_groups: [],
-                my_comments: [],
+                my_comments: []
             },
             mounted: function () {
                 this.$http.get('{{ route('novels.index') }}')
@@ -210,7 +210,7 @@
             el: '#comment_list',
             data: {
                 novel_groups: [],
-                my_comments: [],
+                my_comments: []
             },
             mounted: function () {
                 this.$http.get('{{ route('novels.index') }}')

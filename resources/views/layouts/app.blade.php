@@ -12,11 +12,13 @@
 
     <!-- Styles -->
     <link href="/css/app.css" rel="stylesheet">
+    <link href="/css/extra.css" rel="stylesheet">
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;subset=latin" rel="stylesheet">
     <link href="/css/bootstrap.css" rel="stylesheet">
     <link href="/css/nifty.css" rel="stylesheet">
     <link href="/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link href="/plugins/pace/pace.min.css" rel="stylesheet">
+
     <link href="/css/common.css" rel="stylesheet">
 
     <!-- Scripts -->
@@ -27,6 +29,9 @@
 
     <script src="/plugins/bootstrap-timepicker/bootstrap-timepicker.js"></script>
 
+    <!--BootstrapJS [ RECOMMENDED ]-->
+    <script src="/js/bootstrap.min.js"></script>
+    <!--Bootstrap Tags Input [ OPTIONAL ]-->
     {{--jquery-ui css--}}
     <link href="/css/jquery-ui/jquery-ui.min.css" rel="stylesheet">
     <link href="/css/jquery-ui/jquery-ui.structure.min.css" rel="stylesheet">
@@ -50,10 +55,11 @@
         <div id="navbar-container" class="boxed">
 
             <div class="navbar-header">
-                <a href="{{ route('author_index') }}" class="navbar-brand">
+                <a href="{{ route('root') }}" class="navbar-brand">
                     <img src="/img/logo.png" alt="Nifty Logo" class="brand-icon">
+
                     <div class="brand-title">
-                        <span class="brand-text">로고</span>
+                        <span class="brand-text">{{ config('app.name', 'Laravel') }}</span>
                     </div>
                 </a>
             </div>
@@ -92,6 +98,7 @@
                                                      document.getElementById('logout-form').submit();">
                                 <button class="btn btn-danger">로그아웃</button>
                             </a>
+
                             <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
                                 {{ csrf_field() }}
                             </form>
@@ -118,7 +125,6 @@
                 </div>
 
 
-
                 <div id="mainnav-menu-wrap">
                     <div class="nano">
                         <div class="nano-content">
@@ -129,7 +135,7 @@
 
 
                                 <!--Menu list item-->
-                                    <li class="{{ (Request::is('author/management/novelgroups')||Request::is('author/management/novelgroups/create')||Request::is('author/management/create_novel/*')||Request::is('author/management/novelgroups/*')||Request::is('author/management/update_novel/*')||Request::is('author/management/show_novel/*'))?"active-link":"" }}">
+                                <li class="{{ (Request::is('author/management/novelgroups')||Request::is('author/management/novelgroups/create')||Request::is('author/management/create_novel/*')||Request::is('author/management/novelgroups/*')||Request::is('author/management/update_novel/*')||Request::is('author/management/show_novel/*'))?"active-link":"" }}">
                                     <a href="#">
                                         <i class="fa fa-book"></i>
                                         <span class="menu-title">
@@ -148,7 +154,7 @@
 
                                 <li class="list-divider"></li>
 
-                                <li>
+                                <li class="{{Request::is('author/calculations')?"active-link":"" }}">
                                     <a href="widgets.html">
                                         <i class="fa fa-money"></i>
                                         <span class="menu-title">
@@ -157,10 +163,10 @@
                                         <i class="arrow"></i>
                                     </a>
 
-                                    <ul class="collapse">
-                                        <li><a href="novel_write.html">여우수익내역</a></li>
-                                        <li><a href="novel_write.html">퍼블리싱내역</a></li>
-                                        <li><a href="novel_write.html">환급정산내역</a></li>
+                                    <ul class="collapse {{ (Request::is('author/calculations/*') || Request::is('author/calculations'))?"in":"" }}">
+                                        <li><a href="{{ route('author.benefit') }}">여우수익내역</a></li>
+                                        <li><a href="{{ route('author.calculations') }}">퍼블리싱내역</a></li>
+                                        {{--<li><a href="novel_write.html">환급정산내역</a></li>--}}
                                     </ul>
                                 </li>
 
@@ -178,12 +184,13 @@
                                     <ul class="collapse {{ (Request::is('author/partnership/*') )?"in":"" }}">
                                         <li><a href="{{ route('author.partner_apply') }}">연재신청</a></li>
                                         <li><a href="{{ route('author.partner_apply_list') }}">연재신청내역</a></li>
+                                        <li><a href="{{ route('author.partner_test_inning') }}">회차별 심사</a></li>
                                     </ul>
                                 </li>
 
                                 <li class="list-divider"></li>
 
-                                <li class="{{ (Request::is('author/mailbox/receive_mail')||Request::is('author/mailbox/receive_mail/*')||Request::is('author/mailbox/sent_mail')||Request::is('author/mailbox/sent_mail/*')||Request::is('author/mailbox/create_mail')||Request::is('author/mailbox_message/*'))?"active-link":"" }}">
+                                <li class="{{ (Request::is('author/mailbox/receive_mail')||Request::is('author/mailbox/*')||Request::is('author/mailbox/sent_mail')||Request::is('author/mailbox/sent_mail/*')||Request::is('author/mailbox/create_mail')||Request::is('author/mailbox_message/*'))?"active-link":"" }}">
 
                                     <a href="{{ route('author.novel_memo')}}">
                                         <i class="fa fa-envelope"></i>
@@ -192,7 +199,7 @@
                                         </span>
                                         <i class="arrow"></i>
                                     </a>
-                                    <ul class="collapse {{ (Request::is('author/mailbox/receive_mail')||Request::is('author/mailbox/receive_mail/*')||Request::is('author/mailbox/sent_mail')||Request::is('author/mailbox/sent_mail/*')||Request::is('author/mailbox/create_mail'))?"in":"" }}">
+                                    <ul class="collapse {{ (Request::is('author/mailbox/receive_mail')||Request::is('author/mailbox/*')||Request::is('author/mailbox/sent_mail')||Request::is('author/mailbox/sent_mail/*')||Request::is('author/mailbox/create_mail'))?"in":"" }}">
                                         <li><a href="{{ route('author.novel_memo')}}">받은쪽지함</a></li>
                                         <li><a href="{{ route('author.novel_memo_send')}}">보낸쪽지함</a></li>
                                     </ul>
@@ -212,6 +219,20 @@
                                     <ul class="collapse {{ (Request::is('author/men_to_men/request_create')||Request::is('author/men_to_men/requests')||Request::is('author/men_to_men/requests/*'))?"in":"" }}">
                                         <li><a href="{{ route('author.novel_request')}}">1:1문의</a></li>
                                         <li><a href="{{ route('author.novel_request_list')}}">1:1문의내역</a></li>
+                                    </ul>
+                                </li>
+                                <li class="{{ (Request::is('author/gifts/send_gift')||Request::is('author/gifts/sent_gifts'))?"active-link":"" }}">
+                                    <a href="{{route('author.send_gift')}}">
+                                        <i class="fa fa-send"></i>
+                                        <span class="menu-title">
+                                            <strong>선물</strong>
+                                        </span>
+                                        <i class="arrow"></i>
+                                    </a>
+
+                                    <ul class="collapse {{ (Request::is('author/gifts/send_gift')||Request::is('author/gifts/sent_gifts'))?"in":"" }}">
+                                        <li><a href="{{ route('author.send_gift')}}">선물보내기</a></li>
+                                        <li><a href="{{ route('author.sent_gifts')}}">보낸 선물 내역</a></li>
                                     </ul>
                                 </li>
 
@@ -262,7 +283,6 @@
     </div>
 
 
-
 </div>
 
 
@@ -271,11 +291,11 @@
 {{--<footer id="footer">--}}
 
 
-    {{--<!-- Visible when footer positions are static -->--}}
-    {{--<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->--}}
-    {{--<div class="hide-fixed pull-right pad-rgt"></div>--}}
+{{--<!-- Visible when footer positions are static -->--}}
+{{--<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->--}}
+{{--<div class="hide-fixed pull-right pad-rgt"></div>--}}
 
-    {{--<p class="pad-lft"></p>--}}
+{{--<p class="pad-lft"></p>--}}
 
 
 {{--</footer>--}}
@@ -312,11 +332,13 @@
             <!--Modal body-->
             <div class="modal-body">
                 <h4 class="text-thin">Bootstrap Modal Vertical Alignment Center</h4>
+
                 <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
                     laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
                     ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
                 <hr>
                 <h4 class="text-thin">Popover in a modal</h4>
+
                 <p>This
                     <button class="btn btn-sm btn-warning demo-modal-popover add-popover" data-toggle="popover"
                             data-trigger="focus"
@@ -327,6 +349,7 @@
                 </p>
                 <hr>
                 <h4 class="text-thin">Tooltips in a modal</h4>
+
                 <p>
                     <a class="btn-link add-tooltip" href="#" data-original-title="Tooltip">This link</a> and
                     <a class="btn-link add-tooltip" href="#" data-original-title="Tooltip">that link</a> should have
@@ -365,12 +388,14 @@
             <!--Modal body-->
             <div class="modal-body">
                 <h4 class="text-thin">Bootstrap Modal Vertical Alignment Center</h4>
+
                 <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
                     laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
                     ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
 
                 <hr>
                 <h4 class="text-thin">Popover in a modal</h4>
+
                 <p>This
                     <button class="btn btn-sm btn-warning demo-modal-popover add-popover" data-toggle="popover"
                             data-trigger="focus"
@@ -383,6 +408,7 @@
                 <hr>
 
                 <h4 class="text-thin">Tooltips in a modal</h4>
+
                 <p><a class="btn-link add-tooltip" href="#" data-original-title="Tooltip">This link</a> and <a
                             class="btn-link add-tooltip" data-toggle="tooltip" href="#" data-original-title="Tooltip"
                             title="">that link</a> should have tooltips on hover.</p>
@@ -451,7 +477,7 @@
 <script src="/js/ui-alerts.js"></script>
 
 {{--laravel 기본 스크립트--}}
-<script src="/js/app.js"></script>
+{{--<script src="/js/app.js"></script>--}}
 
 {{--jquery UI--}}
 <script src="/js/jquery-ui/jquery-ui.min.js"></script>

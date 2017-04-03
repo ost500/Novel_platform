@@ -29,11 +29,22 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Comment[] $myself
  * @property \Carbon\Carbon $deleted_at
  * @method static \Illuminate\Database\Query\Builder|\App\Comment whereDeletedAt($value)
+ * @property bool $comment_secret
+ * @method static \Illuminate\Database\Query\Builder|\App\Comment whereCommentSecret($value)
  */
 class Comment extends Model
 {
     use SoftDeletes;
     protected $dates = ['deleted_at'];
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'user_id', 'novel_id','parent_id','comment',
+    ];
 
     public function users()
     {

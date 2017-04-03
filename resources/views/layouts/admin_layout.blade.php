@@ -14,6 +14,8 @@
     <link href="/css/app.css" rel="stylesheet">
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;subset=latin" rel="stylesheet">
     <link href="/css/bootstrap.css" rel="stylesheet">
+
+    <link href="/css/extra.css" rel="stylesheet">
     <link href="/css/nifty.css" rel="stylesheet">
     <link href="/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link href="/plugins/pace/pace.min.css" rel="stylesheet">
@@ -26,7 +28,7 @@
     <link href="/css/common.css" rel="stylesheet">
 
     <script src="/plugins/bootstrap-timepicker/bootstrap-timepicker.js"></script>
-
+    <script src="/plugins/bootstrap-datepicker/bootstrap-datepicker.js"></script>
     {{--jquery-ui css--}}
     <link href="/css/jquery-ui/jquery-ui.min.css" rel="stylesheet">
     <link href="/css/jquery-ui/jquery-ui.structure.min.css" rel="stylesheet">
@@ -48,10 +50,10 @@
         <div id="navbar-container" class="boxed">
 
             <div class="navbar-header">
-                <a href="index.html" class="navbar-brand">
+                <a href="{{ route('root') }}" class="navbar-brand">
                     <img src="/img/logo.png" alt="Nifty Logo" class="brand-icon">
                     <div class="brand-title">
-                        <span class="brand-text">로고</span>
+                        <span class="brand-text">{{ config('app.name', 'Laravel') }}</span>
                     </div>
                 </a>
             </div>
@@ -115,7 +117,6 @@
                 </div>
 
 
-
                 <div id="mainnav-menu-wrap">
                     <div class="nano">
                         <div class="nano-content">
@@ -134,30 +135,35 @@
 
                                 <li class="list-divider"></li>
 
-                                <li class="{{ (Request::is('admin/sales'))?"active-link":"" }}">
-                                    <a href="{{ route('admin.sales') }}">
-                                        <i class="fa fa-book"></i>
-                                        <span class="menu-title">
-                                            <strong>매출관리</strong>
-                                        </span>
-                                    </a>
-                                </li>
+                                {{--<li class="{{ (Request::is('admin/sales'))?"active-link":"" }}">--}}
+                                    {{--<a href="{{ route('admin.sales') }}">--}}
+                                        {{--<i class="fa fa-book"></i>--}}
+                                        {{--<span class="menu-title">--}}
+                                            {{--<strong>매출관리</strong>--}}
+                                        {{--</span>--}}
+                                    {{--</a>--}}
+                                {{--</li>--}}
 
-                                <li class="list-divider"></li>
+                                {{--<li class="list-divider"></li>--}}
 
-                                <li class="{{ (Request::is('admin/novel')||Request::is('admin/novel/*'))?"active-link":"" }}">
+                                <li class="{{ (Request::is('admin/novel')||Request::is('admin/novel/*') || Request::is('admin/recommendations'))?"active-link":"" }}">
                                     <a href="{{ route('admin.novel') }}">
                                         <i class="fa fa-book"></i>
                                         <span class="menu-title">
                                             <strong>작품관리</strong>
                                         </span>
                                     </a>
+                                    <ul class="collapse {{ (Request::is('admin/novel')||Request::is('admin/novel/*') ||Request::is('admin/recommendations'))?"in":"" }}">
+                                        <li><a href="{{route('admin.novel')}}">작품 관리</a></li>
+                                        <li><a href="{{route('admin.recommendations')}}">여기, 정오의 추천</a></li>
+
+                                    </ul>
                                 </li>
 
 
                                 <li class="list-divider"></li>
 
-                                <li>
+                                <li class="{{(Request::is('admin/calculations')||Request::is('admin/calculations/*')||Request::is('admin/calculation/*'))?"active-link":"" }}">
                                     <a href="widgets.html">
                                         <i class="fa fa-money"></i>
                                         <span class="menu-title">
@@ -166,11 +172,10 @@
                                         <i class="arrow"></i>
                                     </a>
 
-                                    <ul class="collapse">
-                                        <li><a href="novel.html">환급신청</a></li>
-                                        <li><a href="novel_write.html">여우수익내역</a></li>
-                                        <li><a href="novel_write.html">퍼블리싱내역</a></li>
-                                        <li><a href="novel_write.html">환급정산내역</a></li>
+                                    <ul class="collapse {{ (Request::is('admin/calculations')||Request::is('admin/calculation/*')||Request::is('admin/calculations/*'))?"in":"" }}">
+                                        <li><a href="{{ route('code_num')  }}">작품 코드번호 입력</a></li>
+                                        <li><a href="{{route('calculation.create')}}">정산 등록</a></li>
+                                        <li><a href="{{route('calculation')}}">정산 내역</a></li>
                                     </ul>
                                 </li>
 
@@ -228,7 +233,7 @@
 
                                 <li class="list-divider"></li>
 
-                                <li  class="{{ (Request::is('admin/keywords')||Request::is('admin/keywords/*')||Request::is('admin/keywords/create'))?"active-link":"" }}">
+                                <li class="{{ (Request::is('admin/keywords')||Request::is('admin/keywords/*')||Request::is('admin/keywords/create'))?"active-link":"" }}">
                                     <a href="{{ route('admin.keywords')}}">
                                         <i class="fa fa-send"></i>
                                         <span class="menu-title">
@@ -243,24 +248,53 @@
                                 </li>
                                 <li class="list-divider"></li>
 
-                                <li  class="{{ (Request::is('admin/faqs')||Request::is('admin/faqs/*')||Request::is('admin/faqs/create'))?"active-link":"" }}">
+                                <li class="{{ (Request::is('admin/faqs')||Request::is('admin/faqs/*')||Request::is('admin/faqs/create'))?"active-link":"" }}">
                                     <a href="{{ route('admin.faqs')}}">
                                         <i class="fa fa-send"></i>
                                         <span class="menu-title">
                                             <strong>FAQ</strong>
                                         </span>
                                         <i class="arrow"></i>
-                                        </a>
-                                        <ul class="collapse  {{ (Request::is('admin/faqs')||Request::is('admin/faqs/*')||Request::is('admin/faqs/create'))?"in":"" }}">
-                                            <li><a href="{{ route('admin.faqs')}}">FAQ</a></li>
-                                            <li><a href="{{ route('admin.faqs.create')}}">FAQ 등록</a></li>
-                                        </ul>
+                                    </a>
+                                    <ul class="collapse  {{ (Request::is('admin/faqs')||Request::is('admin/faqs/*')||Request::is('admin/faqs/create'))?"in":"" }}">
+                                        <li><a href="{{ route('admin.faqs')}}">FAQ</a></li>
+                                        <li><a href="{{ route('admin.faqs.create')}}">FAQ 등록</a></li>
+                                    </ul>
+                                </li>
+                                <li class="list-divider"></li>
+
+                                <li class="{{ (Request::is('admin/notifications')||Request::is('admin/notifications/*')||Request::is('admin/notifications/create'))?"active-link":"" }}">
+                                    <a href="{{ route('admin.notifications')}}">
+                                        <i class="fa fa-send"></i>
+                                        <span class="menu-title">
+                                            <strong>공지사항 관리</strong>
+                                        </span>
+                                        <i class="arrow"></i>
+                                    </a>
+                                    <ul class="collapse  {{ (Request::is('admin/notifications')||Request::is('admin/notifications/*')||Request::is('admin/notifications/create'))?"in":"" }}">
+                                        <li><a href="{{ route('admin.notifications')}}">공지사항</a></li>
+                                        <li><a href="{{ route('admin.notifications.create')}}">공지사항 등록</a></li>
+                                    </ul>
                                 </li>
 
 
                                 <li class="list-divider"></li>
 
+                                <li class="{{ (Request::is('admin/notifications')||Request::is('admin/notifications/*')||Request::is('admin/notifications/create'))?"active-link":"" }}">
+                                    <a href="{{ route('admin.notifications')}}">
+                                        <i class="fa fa-send"></i>
+                                        <span class="menu-title">
+                                            <strong>신고 관리</strong>
+                                        </span>
+                                        <i class="arrow"></i>
+                                    </a>
+                                    <ul class="collapse  {{ (Request::is('admin/accusations')||Request::is('admin/accusations/*')||Request::is('admin/notifications/create'))?"in":"" }}">
+                                        <li><a href="{{ route('admin.accusations')}}">신고 리스트</a></li>
 
+                                    </ul>
+                                </li>
+
+                                <li class="list-divider"></li>
 
 
                             </ul>
@@ -277,7 +311,6 @@
     </div>
 
 
-
 </div>
 
 
@@ -286,11 +319,11 @@
 {{--<footer id="footer">--}}
 
 
-    {{--<!-- Visible when footer positions are static -->--}}
-    {{--<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->--}}
-    {{--<div class="hide-fixed pull-right pad-rgt"></div>--}}
+{{--<!-- Visible when footer positions are static -->--}}
+{{--<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->--}}
+{{--<div class="hide-fixed pull-right pad-rgt"></div>--}}
 
-    {{--<p class="pad-lft"></p>--}}
+{{--<p class="pad-lft"></p>--}}
 
 
 {{--</footer>--}}
@@ -453,10 +486,11 @@
 <!--End Small Bootstrap Modal-->
 
 
+{{--laravel 기본 스크립트--}}
+<script src="/js/app.js"></script>
+{{--<script src="/js/bootstrap.min.js"></script>--}}
 
-<script src="/js/bootstrap.min.js"></script>
 <script src="/js/nifty.min.js"></script>
-
 <script src="/plugins/bootstrap-select/bootstrap-select.min.js"></script>
 <script src="/plugins/bootbox/bootbox.min.js"></script>
 
@@ -464,13 +498,10 @@
 <script src="/js/ui-modals.js"></script>
 <script src="/js/ui-alerts.js"></script>
 
-{{--laravel 기본 스크립트--}}
-<script src="/js/app.js"></script>
 
 {{--jquery UI--}}
 <script src="/js/jquery-ui/jquery-ui.min.js"></script>
 
-<script src="/js/nifty.min.js"></script>
 
 </body>
 </html>
