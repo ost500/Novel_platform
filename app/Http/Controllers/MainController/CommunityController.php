@@ -32,6 +32,10 @@ class CommunityController extends Controller
             $articles = $articles->where('title', 'like', '%' . $search_text . '%');
         } else if ($search_option == 'content') {
             $articles = $articles->where('content', 'like', '%' . $search_text . '%');
+        } else if ($search_option == 'nickname') {
+            $articles = $articles->whereHas('users', function ($q) use ($search_text) {
+                $q->where('nickname', 'like', '%' . $search_text . '%');
+            });
         }
 
         $articles = $articles->latest()->with('users')->withCount('comments')->paginate(config('define.pagination_long'));
@@ -138,7 +142,7 @@ class CommunityController extends Controller
                 ->join('novel_groups', 'novel_groups.id', '=', 'reviews.novel_group_id')
                 ->join('novels', 'novel_groups.id', '=', 'novels.novel_group_id')
                 ->join('novel_group_keywords', 'novel_group_keywords.novel_group_id', '=', 'novel_groups.id')
-                ->groupBy('reviews.id','reviews.user_id')->where(['novel_groups.secret' => null, 'reviews.novel_group_id' => $novel_group_id])->orderBy('reviews.created_at', 'desc')
+                ->groupBy('reviews.id', 'reviews.user_id')->where(['novel_groups.secret' => null, 'reviews.novel_group_id' => $novel_group_id])->orderBy('reviews.created_at', 'desc')
                 ->with('users');
 
         } elseif ($request->review_user) {
@@ -148,7 +152,7 @@ class CommunityController extends Controller
                 ->join('novels', 'novel_groups.id', '=', 'novels.novel_group_id')
                 ->join('users', 'users.id', '=', 'reviews.user_id')
                 ->join('novel_group_keywords', 'novel_group_keywords.novel_group_id', '=', 'novel_groups.id')
-                ->groupBy('reviews.id','reviews.user_id')->where(['novel_groups.secret' => null, 'reviews.user_id' => $review_user_id])->orderBy('reviews.created_at', 'desc')
+                ->groupBy('reviews.id', 'reviews.user_id')->where(['novel_groups.secret' => null, 'reviews.user_id' => $review_user_id])->orderBy('reviews.created_at', 'desc')
                 ->with('users');
         } else {
 
@@ -156,7 +160,7 @@ class CommunityController extends Controller
                 ->join('novel_groups', 'novel_groups.id', '=', 'reviews.novel_group_id')
                 ->join('novels', 'novel_groups.id', '=', 'novels.novel_group_id')
                 ->join('novel_group_keywords', 'novel_group_keywords.novel_group_id', '=', 'novel_groups.id')
-                ->groupBy('reviews.id','reviews.user_id')->where('novel_groups.secret', null)->orderBy('reviews.created_at', 'desc')
+                ->groupBy('reviews.id', 'reviews.user_id')->where('novel_groups.secret', null)->orderBy('reviews.created_at', 'desc')
                 ->with('users');
         }
 
@@ -168,7 +172,7 @@ class CommunityController extends Controller
             $reviews = $reviews->where('reviews.title', 'like', '%' . $search_text . '%');
         } else if ($search_option == 'content') {
             $reviews = $reviews->where('review', 'like', '%' . $search_text . '%');
-        }else if ($search_option == 'nickname') {
+        } else if ($search_option == 'nickname') {
             $reviews = $reviews->whereHas('users', function ($q) use ($search_text) {
                 $q->where('nickname', 'like', '%' . $search_text . '%');
             });

@@ -127,6 +127,7 @@
                         <select name="search_option" title="검색옵션">
                             <option value="title">제목</option>
                             <option value="content">내용</option>
+                            <option value="nickname">글쓴이</option>
                         </select>
                     </span>
                         <input name="search_text" type="text" class="text1" title="검색어">
