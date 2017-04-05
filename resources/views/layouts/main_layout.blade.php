@@ -43,7 +43,7 @@
     </ul>
 </div>
 <!-- //모드 -->
-<!-- 헤더 -->
+<!-- small 헤더 -->
 <header style="z-index: 10;display:none" id="small_header" class="header fixed">
 
     <div class="header-top wrap header-top-scroll" id="header1">
@@ -371,7 +371,7 @@
 <!-- //통합검색모달 -->
 </header>
 <!-- //헤더 -->
-<!-- 헤더 -->
+<!-- small 헤더 -->
 <header class="header">
 
     <div class="header-top wrap" id="header">
@@ -392,7 +392,7 @@
                             <!-- 마이페이지팝업 -->
                             <section class="layer-popup layer-popup--myinfo">
                                 <div class="inner">
-                                    <h2 class="myinfo-user-name">@{{ user.name.toString() }}</h2>
+                                    <h2 class="myinfo-user-name">@{{ user.nickname.toString() }}</h2>
                                     <ul class="myinfo-nav clr">
                                         <li class="link1"
                                             onclick="location.href = '{{ route('my_info.charge_bead') }}';">
@@ -876,7 +876,7 @@
 
         data: {
             user: {
-                "name": "@if(Auth::check()){{ Auth::user()->name }}@endif",
+                "nickname": "@if(Auth::check()){{ Auth::user()->nickname }}@endif",
                 "favorites_count": "@if(Auth::check()){{ Auth::user()->favorites->count() }}@endif"
             },
             new_speeds: "",
