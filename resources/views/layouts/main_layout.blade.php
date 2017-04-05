@@ -172,7 +172,7 @@
                 <!-- 방문자버튼 -->
 
                     <a href="#mode_nav" class="userbtn userbtn--login" data-modal-id="login_form1"
-                       >로그인</a>
+                    >로그인</a>
 
                 @endif
             </div>
@@ -396,18 +396,27 @@
                                     <ul class="myinfo-nav clr">
                                         <li class="link1"
                                             onclick="location.href = '{{ route('my_info.charge_bead') }}';">
-                                            <a href="{{ route('my_info.charge_bead') }}">
+                                            <a style="color:#998878"  href="{{ route('my_info.charge_bead') }}">
                                                 보유구슬<br>
+                                            </a>
+                                            <a href="{{ route('my_info.charge_bead') }}">
                                                 {{ Auth::user()->bead }}개</a>
                                         </li>
                                         <li class="link2" onclick="location.href = '{{ route('my_page.favorites') }}';">
 
+                                            <a style="color:#998878"  href="{{ route('my_page.favorites') }}">
+                                                선호작<br>
+                                            </a>
                                             <a href="{{ route('my_page.favorites') }}">
-                                                선호작<br>@{{ user.favorites_count }}작품</a>
+                                                @{{ user.favorites_count }}작품</a>
                                         </li>
                                         <li class="link3" onclick="location.href = '{{ route('my_page.index') }}';">
 
-                                            <a href="{{route('my_page.index')}}">MY정보<br>관리하기</a>
+                                            <a style="color:#998878"  href="{{route('my_page.index')}}">MY정보<br>
+                                            </a>
+                                            <a href="{{ route('my_page.index') }}">
+                                                관리하기
+                                            </a>
                                         </li>
                                     </ul>
                                     <div class="logout-btn"><a href="{{url('/logout')}}" onclick="event.preventDefault();
@@ -1029,7 +1038,7 @@
 
             });
 
-            $("html, body").on("scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove", function(){
+            $("html, body").on("scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove", function () {
                 $("html, body").stop();
 
             });
@@ -1059,68 +1068,68 @@
                     modal_tab(e);
                 }
 
-            // 닫기버튼
-            /*  $('[data-modal-close]').on('click', function(e) {
-             e.preventDefault();
-             var opener_id = $(this).closest('.modal-popup').attr('id');
-             close_modal($('[data-modal-id="'+opener_id+'"]'));
-             });*/
-            // 팝업 자동열기
-            // $('[data-modal-start]').trigger('click');
+                // 닫기버튼
+                /*  $('[data-modal-close]').on('click', function(e) {
+                 e.preventDefault();
+                 var opener_id = $(this).closest('.modal-popup').attr('id');
+                 close_modal($('[data-modal-id="'+opener_id+'"]'));
+                 });*/
+                // 팝업 자동열기
+                // $('[data-modal-start]').trigger('click');
 
-            // 모달닫기
-            function hide_modal_bg() {
-                var modal_bg = $('#modal_bg');
-                modal_bg.fadeTo(250, 0, function () {
-                    $(this).hide();
-                    $('html').removeClass('is-modal');
-                });
-            }
-
-            // 모달열기
-            function show_modal_bg() {
-                if ($('#modal_bg').length == 0) {
-                    $('<div id="modal_bg" class="modal-bg"><span></span></div>').appendTo('body');
-                }
-
-                var modal_bg = $('#modal_bg');
-                // fullsize modal
-                if (is_fullsize_modal == true) {
-                    modal_bg.addClass('modal-bg--fullsize');
-                } else {
-                    modal_bg.removeClass('modal-bg--fullsize');
-                }
-                $('html').addClass('is-modal');
-                modal_bg.stop().show().fadeTo(400, 1, 'easeOutCubic');
-            }
-
-            // 팝업닫기
-            function close_modal(el) {
-                hide_modal_bg();
-                // fullsize modal
-                if (is_fullsize_modal == true) {
-                    $('.modal-popup.is-active').stop().clearQueue().fadeTo(500, 0, 'easeOutCubic', function () {
-                        $(this).hide()
+                // 모달닫기
+                function hide_modal_bg() {
+                    var modal_bg = $('#modal_bg');
+                    modal_bg.fadeTo(250, 0, function () {
+                        $(this).hide();
+                        $('html').removeClass('is-modal');
                     });
                 }
-                $('.modal-popup.is-active').add('[data-modal-id].is-active').removeClass('is-active');
 
-                if (typeof(el) != 'undefined' && typeof(el.trigger) != 'undefined') {
-                    el.trigger('focus');
-                }
-            }
-
-            // 모달 탭이동관리
-            function modal_tab(e) {
-                $(document).one('focusin', function (e) {
-                    if (!$(e.target).closest('.modal-popup.is-active').length) {
-                        $('.modal-popup.is-active').trigger('focus');
+                // 모달열기
+                function show_modal_bg() {
+                    if ($('#modal_bg').length == 0) {
+                        $('<div id="modal_bg" class="modal-bg"><span></span></div>').appendTo('body');
                     }
-                });
-            }
+
+                    var modal_bg = $('#modal_bg');
+                    // fullsize modal
+                    if (is_fullsize_modal == true) {
+                        modal_bg.addClass('modal-bg--fullsize');
+                    } else {
+                        modal_bg.removeClass('modal-bg--fullsize');
+                    }
+                    $('html').addClass('is-modal');
+                    modal_bg.stop().show().fadeTo(400, 1, 'easeOutCubic');
+                }
+
+                // 팝업닫기
+                function close_modal(el) {
+                    hide_modal_bg();
+                    // fullsize modal
+                    if (is_fullsize_modal == true) {
+                        $('.modal-popup.is-active').stop().clearQueue().fadeTo(500, 0, 'easeOutCubic', function () {
+                            $(this).hide()
+                        });
+                    }
+                    $('.modal-popup.is-active').add('[data-modal-id].is-active').removeClass('is-active');
+
+                    if (typeof(el) != 'undefined' && typeof(el.trigger) != 'undefined') {
+                        el.trigger('focus');
+                    }
+                }
+
+                // 모달 탭이동관리
+                function modal_tab(e) {
+                    $(document).one('focusin', function (e) {
+                        if (!$(e.target).closest('.modal-popup.is-active').length) {
+                            $('.modal-popup.is-active').trigger('focus');
+                        }
+                    });
+                }
 
 
-        }, 1000);
+            }, 1000);
         });
 
         function close_modal(el) {
