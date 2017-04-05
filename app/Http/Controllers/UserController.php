@@ -151,10 +151,11 @@ class UserController extends Controller
 
         if ($user->nickname != $request->nickname) {
             Validator::make($request->all(), [
-                'nickname' => 'min:1|max:8',
+                'nickname' => 'min:1|max:8|regex:/^\S*$/u',
             ], [
                 'nickname.min' => '닉네임은 1자리 이상만 가능합니다',
                 'nickname.max' => '닉네임은 8자리 이하만 가능합니다',
+                'nickname.regex' => '닉네임에 공백이 들어갈 수 없습니다',
             ])->validate();
 
 
