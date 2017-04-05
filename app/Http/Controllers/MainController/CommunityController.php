@@ -133,6 +133,7 @@ class CommunityController extends Controller
         $novel_group_id = $request->novel_group;
         $review_user_id = $request->review_user;
         if ($request->novel_group) {
+            //이 소설의 다른 추천 보기
             $reviews = Review::selectRaw('reviews.*, novel_groups.*, reviews.title as review_title, sum(total_count) as total_count, reviews.id,reviews.user_id')
                 ->join('novel_groups', 'novel_groups.id', '=', 'reviews.novel_group_id')
                 ->join('novels', 'novel_groups.id', '=', 'novels.novel_group_id')
@@ -141,6 +142,7 @@ class CommunityController extends Controller
                 ->with('users');
 
         } elseif ($request->review_user) {
+            // 작성자의 다른 추천 보기
             $reviews = Review::selectRaw('reviews.*, novel_groups.*, reviews.title as review_title, users.name as user_name, sum(total_count) as total_count, reviews.id,reviews.user_id')
                 ->join('novel_groups', 'novel_groups.id', '=', 'reviews.novel_group_id')
                 ->join('novels', 'novel_groups.id', '=', 'novels.novel_group_id')
