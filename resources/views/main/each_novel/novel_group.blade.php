@@ -12,7 +12,7 @@
 
                         <div class="post">
                             <div class="post-header">
-                                <h2 class="title">{{str_limit($novel_group->title, 35)}}</h2>
+                                <h2 class="title">{{$novel_group->title}}</h2>
 
                                 <p class="writer">{{$novel_group->nicknames->nickname }} <a
                                             href="{{ route('mails.create', ['id' => $novel_group->users->id]) }}"><i

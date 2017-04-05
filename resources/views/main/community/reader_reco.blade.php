@@ -70,7 +70,7 @@
                                                 href="{{ route('reader_reco.detail', ['id' => $review->id]) }}">{{$review->review_title}}</a></strong>
                                     <span class="writer">{{$review->users->nickname}}</span>
                                 </div>
-                                <p class="post-content">{{ substr($review->review, 0, 200) }}</p>
+                                <p class="post-content">{{ str_limit($review->review, 260) }}</p>
 
                                 <p class="post-info">
                                     @foreach ($review->novel_groups->keywords as $keyword)

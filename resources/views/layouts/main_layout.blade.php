@@ -68,18 +68,26 @@
                                     <ul class="myinfo-nav clr">
                                         <li class="link1"
                                             onclick="location.href = '{{ route('my_info.charge_bead') }}';">
-                                            <a href="{{ route('my_info.charge_bead') }}">
+                                            <a style="color:#998878"  href="{{ route('my_info.charge_bead') }}">
                                                 보유구슬<br>
+                                            </a>
+                                            <a href="{{ route('my_info.charge_bead') }}">
                                                 {{ Auth::user()->bead }}개</a>
                                         </li>
                                         <li class="link2" onclick="location.href = '{{ route('my_page.favorites') }}';">
 
+                                            <a style="color:#998878"  href="{{ route('my_page.favorites') }}">
+                                                선호작<br>
+                                            </a>
                                             <a href="{{ route('my_page.favorites') }}">
-                                                선호작<br>@{{ user1.favorites_count }}작품</a>
+                                                @{{ user1.favorites_count }}작품</a>
                                         </li>
                                         <li class="link3" onclick="location.href = '{{ route('my_page.index') }}';">
 
-                                            <a href="{{route('my_page.index')}}">MY정보<br>관리하기</a>
+                                            <a style="color:#998878"  href="{{route('my_page.index')}}">MY정보<br>
+                                            </a>
+                                            <a href="{{ route('my_page.index') }}">
+                                                관리하기</a>
                                         </li>
                                     </ul>
                                     <div class="logout-btn"><a href="{{url('/logout')}}" onclick="event.preventDefault();

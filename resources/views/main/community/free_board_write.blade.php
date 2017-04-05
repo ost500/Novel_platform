@@ -35,13 +35,13 @@
                                 <div class="item-cols">
                                     <label for="title" class="label">제목</label>
 
-                                    <div class="input"><input type="text" class="text2" name="title" id="title"></div>
+                                    <div class="input"><input type="text" class="text2" name="title" id="title" value="{{ old('title') }}"></div>
                                 </div>
                                 <div class="item-cols">
                                     <label for="question" class="label">내용</label>
 
                                     <div class="input"><textarea class="textarea2" rows="10" name="content"
-                                                                 id="content"></textarea></div>
+                                                                 id="content">{{ old('content') }}</textarea></div>
                                 </div>
 
                             </div>

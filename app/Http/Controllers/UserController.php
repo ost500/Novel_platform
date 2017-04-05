@@ -307,7 +307,7 @@ class UserController extends Controller
     public function search_by_name(Request $request)
     {
 
-        $user_names = User::select('id', 'name', 'email', 'nickname')->where('name', 'like', $request->get('name') . '%')->orWhere('email', 'like', $request->get('name') . '%')->get();
+        $user_names = User::select('id', 'name', 'email', 'nickname')->where('nickname', 'like', $request->get('name') . '%')->orWhere('email', 'like', $request->get('name') . '%')->get();
         return response()->json(['user_names' => $user_names, 'message' => 'ok']);
     }
 }

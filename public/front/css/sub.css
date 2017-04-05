@@ -92,7 +92,7 @@
 
 /* ASIDE NAV */
 .aside-nav {
-   /* z-index: 2;*/
+    /* z-index: 2;*/
     position: absolute;
     right: -54px;
     top: 30px;
@@ -115,8 +115,8 @@ width: 0;
 .aside-nav.is-fixed .aside-menu {
     position: fixed;
     top: 118px;
-/*  width: 144px;
-    width: 132px;*/
+    /*  width: 144px;
+        width: 132px;*/
     width: 0;
 }
 
@@ -1993,6 +1993,7 @@ width: 0;
 }
 
 .novel-detail .post .post-header > .title {
+    width: 72%;
     color: #685f59;
     font-size: 32px;
     font-weight: 400;
@@ -3417,6 +3418,7 @@ width: 0;
     z-index: 2;
     animation: smoothScroll 1s forwards;
 }
+
 @keyframes smoothScroll {
     0% {
         transform: translateY(-40px);
@@ -3493,6 +3495,7 @@ width: 0;
     z-index: 2;
     background-color: #fff;
 }
+
 .fa.fa-heart {
     color: red;
 }
