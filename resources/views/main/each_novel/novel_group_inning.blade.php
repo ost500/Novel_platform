@@ -623,7 +623,7 @@
         else  $('.fixed-wrapper').removeClass('pre-next-fixed');
 
 
-        console.log($(".comments").position().bottom);
+        console.log($(this).scrollTop());
 
         if (($(this).scrollTop() + 400 > $(".comments").position().top && ($(this).scrollTop() + 450 < $(".comments").position().top + $(".comments").height() ))) {
             if (parseInt($('.gotop-btn').css('bottom')) >= 0) {
@@ -636,7 +636,7 @@
         }
         else if ($(this).scrollTop() + 400 < ($(".comments").position().top )) {
 
-            $('.gotop-btn').css('bottom', 494);
+            $('.gotop-btn').position().top = $(".comments").position().top;
             console.log('else if');
         }
         else {

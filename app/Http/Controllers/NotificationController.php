@@ -107,7 +107,7 @@ class NotificationController extends Controller
 
     public function footer_noti()
     {
-        $noti = Notification::latest()->select('id', 'title')->first();
+        $noti = Notification::latest()->select('id', 'title')->where('posting', 1)->first();
 
         return response()->json($noti);
     }
