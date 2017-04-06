@@ -1916,24 +1916,44 @@ width: 0;
     background: none;
 }
 
+.above_gotop-btn {
+
+
+
+
+
+}
+
 .episode-comment .gotop-btn {
-    box-sizing: border-box;
     position: absolute;
     bottom: 0;
     right: 0;
-    display: inline-block;
-    width: 60px;
     margin-right: -60px;
     margin-bottom: -1px;
-    padding: 15px;
-    border: 1px solid #e2d8d6;
-    background: #fff;
+    width: 60px;
+
+    display: inline-block;
+    box-sizing: border-box;
+
     color: #949494;
     font-family: 'ng';
     font-size: 15px;
     text-align: center;
     vertical-align: middle;
     text-transform: uppercase;
+
+    border: 1px solid #e2d8d6;
+    background: #fff;
+    padding: 15px;
+    /*top:342px;*/
+}
+
+.gototop_fixed_add {
+    /*position: fixed;*/
+}
+.gototop_fixed {
+
+    position: fixed;
 }
 
 .episode-comment .gotop-btn .gotop-icon {
@@ -3452,11 +3472,15 @@ width: 0;
 .pre-next-fixed {
     position: fixed;
     top: 217px;
-    width: 50%;
-    background-color: #fff;
+    width: 952px;
     z-index: 2;
-    left: 476px;
+
 }
+
+.fixed-wrapper {
+}
+
+
 
 .other-novels {
     display: none;
