@@ -110,6 +110,7 @@ Route::group(['prefix' => 'author'], function () {
     Route::get('calculations', ['as' => 'author.calculations', 'uses' => 'PageController\AuthorPageController@calculations']);
     Route::get('calculations/benefit', ['as' => 'author.benefit', 'uses' => 'PageController\AuthorPageController@benefit']);
     Route::get('calculations/{code_num}', ['as' => 'author.calculations_detail', 'uses' => 'PageController\AuthorPageController@calculations_detail']);
+    Route::get('calculations/benefit/{month}', ['as' => 'author.benefit.monthly', 'uses' => 'PageController\AuthorPageController@benefit_monthly']);
 
 
 
