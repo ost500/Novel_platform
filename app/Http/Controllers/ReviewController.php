@@ -7,6 +7,7 @@ use App\Review;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Validator;
+
 class ReviewController extends Controller
 {
     /**
@@ -118,6 +119,14 @@ class ReviewController extends Controller
     public function destroy($id)
     {
         Review::destroy($id);
+        return response()->json(['status' => 'ok']);
+    }
+
+    public function destroy_group(Request $request)
+    {
+        $ids = $request->get('ids');
+        Review::destroy($ids);
+        flash('삭제 되었습니다.');
         return response()->json(['status' => 'ok']);
     }
 }

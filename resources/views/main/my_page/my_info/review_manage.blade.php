@@ -1,15 +1,21 @@
 @extends('layouts.main_layout')
 @section('content')
     <!-- 컨테이너 -->
-    <div class="container">
-        <div class="wrap">
+    <div class="container" xmlns:v-on="http://www.w3.org/1999/xhtml">
+        <div class="wrap" id="review_manage">
             <!-- LNB -->
         @include('main.my_page.left_sidebar')
         <!-- //LNB -->
 
             <!-- 서브컨텐츠 -->
             <div class="content" id="content">
-                <!-- 페이지헤더 -->
+                @if(Session::has('flash_message'))
+                    {{-- important, success, warning, danger and info --}}
+                    <div class="alert alert-success">
+                        {{Session('flash_message')}}
+                    </div>
+            @endif
+            <!-- 페이지헤더 -->
                 <div class="list-header">
                     <h2 class="title">추천 리뷰 관리</h2>
 
@@ -33,7 +39,9 @@
 
                         @foreach ($articles as $article)
                             <tr>
-                                <td class="col-check"><label class="checkbox2"><input type="checkbox"
+                                <td class="col-check"><label class="checkbox2"><input class="checkboxes"
+                                                                                      value="{{ $article->id }}"
+                                                                                      type="checkbox"
                                                                                       data-check-item><span></span></label>
                                 </td>
                                 <td class="col-subject">
@@ -48,12 +56,17 @@
 
                         </tbody>
                     </table>
+                    <div class="left-btns">
+                        <button type="button" class="btn" v-on:click="destroy()"
+                                @if(count($articles) == 0)  disabled @endif>삭제
+                        </button>
+                    </div>
                 </form>
                 <!-- //게시판목록 -->
 
                 <!-- 페이징 -->
             @include('pagination_front', ['collection' => $articles, 'url' => route('my_info.review_manage').'?'])
-                <!-- //페이징 -->
+            <!-- //페이징 -->
             </div>
             <!-- //서브컨텐츠 -->
             <!-- 따라다니는퀵메뉴 -->
@@ -62,5 +75,37 @@
         </div>
     </div>
     <!-- //컨테이너 -->
+
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#review_manage',
+            data: {
+                info: {ids: '', type: ''}
+            },
+
+            methods: {
+                destroy: function () {
+
+                    this.info.ids = $(".checkboxes:checked").map(function () {
+                        return this.value;
+                    }).get();
+                    if (this.info.ids.length > 0) {
+
+                        if (confirm('삭제 하시겠습니까?')) {
+                            app.$http.post('{{ route('reviews.destroy_group') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                                    .then(function (response) {
+                                        location.reload();
+
+                                    }).catch(function (errors) {
+                                //console.log(errors);
+                            });
+                        }
+                    }
+                }
+
+            }
+        });
+    </script>
+
 
 @endsection
