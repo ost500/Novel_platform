@@ -389,7 +389,9 @@
 
                             </ul>
                             <!-- TOP버튼 -->
-                            <a href="#original" class="gotop-btn"><i class="gotop-icon"></i>Top</a>
+                            <div class="gotop-btn">
+                                <a href="#original" id="gotop"><i class="gotop-icon"></i>Top</a>
+                            </div>
                         </div>
                     </section>
                     <!-- //댓글목록 -->
@@ -599,6 +601,33 @@
             //Fix the inning pre and next
             if ($(this).scrollTop() > 300 && $(this).scrollTop() < 1350)   $('.prev-next-episode').addClass('pre-next-fixed');
             else  $('.prev-next-episode').removeClass('pre-next-fixed');
+
+            /* if($(window).scrollTop() + $(window).height() == $(document).height()) {
+             alert("bottom!");
+             }s*/
+            if ($(this).scrollTop() > $('.comments').position().top - 380) {
+                $('#gotop').addClass('gotop-btn-fixed');
+                $('.gotop-btn').css('padding', '0px');
+                $('.gotop-btn').css('text-align', 'left');
+                $('.gotop-btn').css('border', '0px');
+                //   console.log($('#footer-area').offset().top-$('.comments').innerHeight() );
+                if ($(this).scrollTop() > $('#footer-area').position().top - 700) {
+                    console.log('fdgfdgfdg');
+                    $('#gotop').css('position', 'absolute');
+                    $('#gotop').css('top', '254px');
+
+                } else {
+
+                    $('#gotop').css('position', '');
+                    $('#gotop').css('top', '');
+                }
+            }
+            else {
+                $('#gotop').removeClass('gotop-btn-fixed');
+                $('.gotop-btn').css('padding', '');
+                $('.gotop-btn').css('text-align', '');
+                $('.gotop-btn').css('border', '');
+            }
         });
 
     </script>
