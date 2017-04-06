@@ -68,7 +68,7 @@
                                     <ul class="myinfo-nav clr">
                                         <li class="link1"
                                             onclick="location.href = '{{ route('my_info.charge_bead') }}';">
-                                            <a style="color:#998878"  href="{{ route('my_info.charge_bead') }}">
+                                            <a style="color:#998878" href="{{ route('my_info.charge_bead') }}">
                                                 보유구슬<br>
                                             </a>
                                             <a href="{{ route('my_info.charge_bead') }}">
@@ -76,7 +76,7 @@
                                         </li>
                                         <li class="link2" onclick="location.href = '{{ route('my_page.favorites') }}';">
 
-                                            <a style="color:#998878"  href="{{ route('my_page.favorites') }}">
+                                            <a style="color:#998878" href="{{ route('my_page.favorites') }}">
                                                 선호작<br>
                                             </a>
                                             <a href="{{ route('my_page.favorites') }}">
@@ -84,7 +84,7 @@
                                         </li>
                                         <li class="link3" onclick="location.href = '{{ route('my_page.index') }}';">
 
-                                            <a style="color:#998878"  href="{{route('my_page.index')}}">MY정보<br>
+                                            <a style="color:#998878" href="{{route('my_page.index')}}">MY정보<br>
                                             </a>
                                             <a href="{{ route('my_page.index') }}">
                                                 관리하기</a>
@@ -179,7 +179,7 @@
                 @else
                 <!-- 방문자버튼 -->
 
-                    <a href="#mode_nav" class="userbtn userbtn--login" data-modal-id="login_form1"
+                    <a href="#mode_nav" class="userbtn userbtn--login" data-modal-id="login_form"
                     >로그인</a>
 
                 @endif
@@ -404,7 +404,7 @@
                                     <ul class="myinfo-nav clr">
                                         <li class="link1"
                                             onclick="location.href = '{{ route('my_info.charge_bead') }}';">
-                                            <a style="color:#998878"  href="{{ route('my_info.charge_bead') }}">
+                                            <a style="color:#998878" href="{{ route('my_info.charge_bead') }}">
                                                 보유구슬<br>
                                             </a>
                                             <a href="{{ route('my_info.charge_bead') }}">
@@ -412,7 +412,7 @@
                                         </li>
                                         <li class="link2" onclick="location.href = '{{ route('my_page.favorites') }}';">
 
-                                            <a style="color:#998878"  href="{{ route('my_page.favorites') }}">
+                                            <a style="color:#998878" href="{{ route('my_page.favorites') }}">
                                                 선호작<br>
                                             </a>
                                             <a href="{{ route('my_page.favorites') }}">
@@ -420,7 +420,7 @@
                                         </li>
                                         <li class="link3" onclick="location.href = '{{ route('my_page.index') }}';">
 
-                                            <a style="color:#998878"  href="{{route('my_page.index')}}">MY정보<br>
+                                            <a style="color:#998878" href="{{route('my_page.index')}}">MY정보<br>
                                             </a>
                                             <a href="{{ route('my_page.index') }}">
                                                 관리하기
@@ -999,31 +999,20 @@
         if ('{{ !Request::is('novel_group_inning/*')}}' || '{{Request::is('novel_group_inning/*/purchase')}}') {
 
             //fix the main header
-            fix_header();
-        }
+
+
 
         //function to fix header
-        function fix_header() {
-            if ($(this).scrollTop() > 10 && $('#main_search').hasClass('is-active')) {
-                var modal_bg = $('#modal_bg');
-                var modal = $('#search_form');
-                modal_bg.fadeTo(250, 0, function () {
-                    $(this).hide();
-                    $('html').removeClass('is-modal');
-                });
-                modal.removeClass('modal-popup').add(this).removeClass('is-active');
-                $('#main_search').removeClass('is-active');
 
-
-            }
             if ($(this).scrollTop() > 100) {
 
                 $("#small_header").show();
+                $('.login-modal').css('top', '125px');
 
             }
             else {
                 $("#small_header").hide();
-
+                $('.login-modal').css('top', '');
             }
         }
 

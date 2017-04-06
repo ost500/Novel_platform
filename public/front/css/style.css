@@ -125,7 +125,7 @@ a:focus {
 .show-arrow {
     content: '';
     position: absolute;
-    right:20px;
+    right: 20px;
     top: 0;
     bottom: 0;
     border-right: 1px solid #cdc7c8;
@@ -1052,8 +1052,9 @@ html.is-modal body {
 
 /* 로그인 모달 */
 .login-modal {
+    z-index: 3;
     visibility: hidden;
-    position: absolute;
+    position: fixed;
     left: 0;
     right: 0;
     overflow: hidden;
