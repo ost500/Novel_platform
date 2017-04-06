@@ -45,7 +45,7 @@
 
                         <!-- 연재상세내용 -->
                         <div class="episode-content">
-                            <p>
+                            <p id="content_paragraph">
                                 <?php echo nl2br($novel_group_inning->content, false); ?>
                             </p>
 
@@ -612,7 +612,14 @@
         else   $('.other-novels').removeClass('novels-fixed');
 
         //Fix the inning pre and next
-        if ($(this).scrollTop() > 300 && $(this).scrollTop() < ($(".datetime").position().top + 10))   $('.fixed-wrapper').addClass('pre-next-fixed');
+        if ($(this).scrollTop() > 188 && $(this).scrollTop() < ($(".datetime").position().top - 40)) {
+            $('.fixed-wrapper').css('display', 'block');
+            $('.fixed-wrapper').addClass('pre-next-fixed');
+        }
+
+        else if ($(this).scrollTop() > ($(".datetime").position().top - 40)) {
+            $('.fixed-wrapper').css('display', 'none');
+        }
         else  $('.fixed-wrapper').removeClass('pre-next-fixed');
 
 
