@@ -51,10 +51,12 @@ class SearchController extends Controller
             $novel_groups = $novel_groups->where('novel_groups.nickname_id', $nickname_id);
         } else {
             // search in novel_groups or novels
-            $novel_groups = $novel_groups->where(function ($query) use ($title) {
-                $query->where([['novel_groups.title', 'like', '%' . $title . '%']])->orWhere([['novels.title', 'like', '%' . $title . '%']]);
+            $novel_groups = $novel_groups->where(function ($query) use ($title, $nickname_id) {
+                $query->where('novel_groups.title', 'like', '%' . $title . '%')->orWhere('novels.title', 'like', '%' . $title . '%')->orWhere('nick_names.nickname', 'like', '%' . $title . '%');
             });
         }
+
+//        return $novel_groups->toSql();
 
         //Search if Hash tag or keyword is there
         if ($keyword_name) {

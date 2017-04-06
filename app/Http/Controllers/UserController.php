@@ -14,6 +14,7 @@ use Mail;
 use Session;
 use Validator;
 use Jenssegers\Agent\Agent;
+
 class UserController extends Controller
 {
     var $agent;
@@ -22,6 +23,7 @@ class UserController extends Controller
     {
         $this->agent = new Agent();
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -149,10 +151,11 @@ class UserController extends Controller
 
         if ($user->nickname != $request->nickname) {
             Validator::make($request->all(), [
-                'nickname' => 'min:1|max:8',
+                'nickname' => 'min:1|max:8|regex:/^\S*$/u',
             ], [
                 'nickname.min' => '닉네임은 1자리 이상만 가능합니다',
                 'nickname.max' => '닉네임은 8자리 이하만 가능합니다',
+                'nickname.regex' => '닉네임에 공백이 들어갈 수 없습니다',
             ])->validate();
 
 
@@ -258,7 +261,7 @@ class UserController extends Controller
     {
 
         try {
-              $user = Auth::user();
+            $user = Auth::user();
 
             Mail::to(Auth::user())->send(new VerifyEmail(Auth::user()));
 
@@ -304,7 +307,7 @@ class UserController extends Controller
     public function search_by_name(Request $request)
     {
 
-        $user_names = User::select('id', 'name', 'email')->where('name', 'like', $request->get('name') . '%')->orWhere('email', 'like', $request->get('name') . '%')->get();
+        $user_names = User::select('id', 'name', 'email', 'nickname')->where('nickname', 'like', $request->get('name') . '%')->orWhere('email', 'like', $request->get('name') . '%')->get();
         return response()->json(['user_names' => $user_names, 'message' => 'ok']);
     }
 }

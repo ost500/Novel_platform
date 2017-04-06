@@ -45,6 +45,7 @@ Route::put('novels/update_agreement/{id}', ['as' => 'novels.update_agreement', '
 Route::put('novels/make_adult/{id}', ['as' => 'novels.make_adult', 'uses' => 'NovelController@make_adult']);
 Route::put('novels/cancel_adult/{id}', ['as' => 'novels.cancel_adult', 'uses' => 'NovelController@cancel_adult']);
 Route::resource('reviews', 'ReviewController');
+Route::post('reviews/destroy_group', ['as' => 'reviews.destroy_group', 'uses' => 'ReviewController@destroy_group']);
 Route::resource('comments', 'CommentController');
 Route::resource('mentomen', 'MenToMenQuestionAnswerController');
 Route::resource('faqs', 'FaqController');
@@ -56,7 +57,7 @@ Route::resource('keywords', 'KeywordController');
 Route::get('popular_keywords', ['as' => 'popular_keywords', 'uses' => 'KeywordController@popular_keywords']);
 Route::resource('companies', 'CompanyController');
 Route::resource('publish_companies', 'NovelGroupPublishCompanyController', ['only' => ['update']]);
-Route::resource('presents', 'PresentController', ['only' => ['store','update']]);
+Route::resource('presents', 'PresentController', ['only' => ['store', 'update']]);
 Route::resource('pieces', 'PieceController', ['only' => ['store']]);
 
 Route::delete('maillogs/{id}', ['as' => 'maillog.destroy', 'uses' => 'MailLogController@destroy']);
@@ -111,9 +112,6 @@ Route::group(['prefix' => 'author'], function () {
     Route::get('calculations/benefit', ['as' => 'author.benefit', 'uses' => 'PageController\AuthorPageController@benefit']);
     Route::get('calculations/{code_num}', ['as' => 'author.calculations_detail', 'uses' => 'PageController\AuthorPageController@calculations_detail']);
     Route::get('calculations/benefit/{month}', ['as' => 'author.benefit.monthly', 'uses' => 'PageController\AuthorPageController@benefit_monthly']);
-
-
-
 
 
     Route::get('/management/create_novel/{id}', ['as' => 'author.inning', 'uses' => 'PageController\AuthorPageController@create_inning']);

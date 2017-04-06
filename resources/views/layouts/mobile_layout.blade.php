@@ -50,9 +50,10 @@
             width: 640px;
             background-color: #fff;
             z-index: 2;
-            top:0;
+            top: 0;
             animation: smoothScroll 1s forwards;
         }
+
         @keyframes smoothScroll {
             0% {
                 transform: translateY(-40px);
@@ -64,12 +65,12 @@
 
         .is-fixed {
             position: fixed;
-           /* width: 29.53%;*/
-             width: 87.91%;
+            /* width: 29.53%;*/
+            width: 87.91%;
             background-color: #fff;
             z-index: 2;
             top: 0;
-           /* left: 671px;*/
+            /* left: 671px;*/
             left: 38px;
             border-bottom: 1px solid #e2d9d6;
         }
@@ -188,19 +189,19 @@
                             {{ csrf_field() }}
                         </form>
                     </div>
-                    @else
-                            <!-- 로그인 버튼 -->
+            @else
+                <!-- 로그인 버튼 -->
                     <div class="login_btn_wrap">
                         <a href="{{url('/login')}}" class="login_btn">로그인</a>
                         <!--<a href="" class="login_btn">로그아웃</a>-->
                         <a href="{{url('/register')}}" class="login_btn">회원가입</a>
                     </div>
-                    @endif
-                            <!-- 로그인 버튼 //-->
+            @endif
+            <!-- 로그인 버튼 //-->
 
-                    <!-- close 버튼 -->
-                    <a href="#" class="sidemn_close" id="ico_close"><span class="ico_close">닫기</span></a>
-                    <!-- close 버튼 //-->
+                <!-- close 버튼 -->
+                <a href="#" class="sidemn_close" id="ico_close"><span class="ico_close">닫기</span></a>
+                <!-- close 버튼 //-->
             </div>
             <!-- 로그인 및 사용자 정보 //-->
 
@@ -293,21 +294,24 @@
         <div class="h_top">
             <h1 class="top_logo" style="height: 70px;">
 
-                <div class="img-logo" style="padding: 10px 0 0 78px"><a href="{{route('root')}}" class="tl_link img-logo-new"></a></div>
+                <div class="img-logo" style="padding: 10px 0 0 78px"><a href="{{route('root')}}"
+                                                                        class="tl_link img-logo-new"></a></div>
                 {{-- <img src="" class="img_logo" alt="">--}}
 
 
             </h1>
             @if(!Request::is('register') && !Request::is('email_confirm/again') && !Request::is('password/reset')  && !Request::is('password/reset/*') && !Request::is('id_search') )
                 <a class="top_left">
-                    <span class="ico_mtop ico_side" id="sidebar_display" {{--v-on:click="showSideMenu()"--}}
-                          style="cursor:pointer;top:3px;">스 메뉴 펼치기</span>
+                    <span class="ico_mtop ico_side" id="sidebar_display_small" {{--v-on:click="showSideMenu()"--}}
+                    style="cursor:pointer;top:3px;">스 메뉴 펼치기</span>
                 </a>
 
                 <div class="top_right_wrap">
-                    <a class="tr_link" v-on:click="showSearchBox()"><span class="ico_mtop h_sch" style="margin: 3px 0 0 8px">검색하기 off</span></a>
+                    <a class="tr_link" v-on:click="showSearchBox_small()"><span class="ico_mtop h_sch"
+                                                                          style="margin: 3px 0 0 8px">검색하기 off</span></a>
                     <!--<a href="" class="tr_link"><span class="ico_mtop h_sch_on">검색하기 on</span></a>-->
-                    <a href="" class="tr_link"><span class="ico_mtop bookmark" style="margin: 3px 0 0 8px">즐겨찾기 off</span></a>
+                    <a href="" class="tr_link"><span class="ico_mtop bookmark"
+                                                     style="margin: 3px 0 0 8px">즐겨찾기 off</span></a>
                     <!--<a href="" class="tr_link"><span class="ico_mtop bookmark_on">즐겨찾기 on </span></a>-->
                 </div>
             @endif
@@ -335,7 +339,7 @@
     </div>
     <!-- header //-->
     <!-- header -->
-    <div class="header" id="header" >
+    <div class="header" id="header">
         <div class="h_top">
             <h1 class="top_logo">
 
@@ -347,11 +351,12 @@
             @if(!Request::is('register') && !Request::is('email_confirm/again') && !Request::is('password/reset')  && !Request::is('password/reset/*') && !Request::is('id_search') )
                 <a class="top_left">
                     <span class="ico_mtop ico_side" id="sidebar_display" {{--v-on:click="showSideMenu()"--}}
-                          style="cursor:pointer">스 메뉴 펼치기</span>
+                    style="cursor:pointer">스 메뉴 펼치기</span>
                 </a>
 
                 <div class="top_right_wrap">
-                    <a class="tr_link" v-on:click="showSearchBox()"><span class="ico_mtop h_sch">검색하기 off</span></a>
+                    <a class="tr_link" v-on:click="showSearchBox()"><span
+                                class="ico_mtop h_sch">검색하기 off</span></a>
                     <!--<a href="" class="tr_link"><span class="ico_mtop h_sch_on">검색하기 on</span></a>-->
                     <a href="" class="tr_link"><span class="ico_mtop bookmark">즐겨찾기 off</span></a>
                     <!--<a href="" class="tr_link"><span class="ico_mtop bookmark_on">즐겨찾기 on </span></a>-->
@@ -428,9 +433,9 @@
     </div>
     <!-- search popop open //-->
 
-    @yield('content')
+@yield('content')
 
-            <!-- bottom -->
+<!-- bottom -->
     <div class="bottom">
         <div class="footer">
             <ul class="ftmn_wrap">
@@ -462,7 +467,37 @@
                 $('#sidebar').show();
             },
             showSearchBox: function () {
+                console.log('hi');
                 $('#search_box').show();
+            }
+        }
+    });
+    var small_header = new Vue({
+        el: '#small_header',
+        data: {},
+        methods: {
+            showSideMenu_small: function () {
+                $('#sidebar').show();
+                $("html, body").animate({scrollTop: 0}, 500, function () {
+
+                });
+
+                $("html, body").on("scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove", function(){
+                    $("html, body").stop();
+
+                });
+            },
+            showSearchBox_small: function () {
+
+                $('#search_box').show();
+                $("html, body").animate({scrollTop: 0}, 500, function () {
+
+                });
+
+                $("html, body").on("scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove", function(){
+                    $("html, body").stop();
+
+                });
             }
         }
     });
@@ -548,30 +583,30 @@
         }
 
         /*function fix_header() {
-            if ($(this).scrollTop() > 1) {
-                $('.header').addClass('fixed');
-                /!* $('.mod-nav').addClass('fixed');*!/
-                $('.header .h_top .top_logo').css('height', '70px');
-                $('.header .h_top .ico_side').css('top', '3px');
-                $('.header .h_top .tr_link  .h_sch').css('margin', '3px 0 0 8px');
-                $('.header .h_top .tr_link  .bookmark').css('margin', '3px 0 0 8px');
-                $('.header .h_top .top_logo .tl_link').addClass('img-logo-new');
-                $('.header .h_top .top_logo .img-logo').css('padding', '10px 0 0 78px');
+         if ($(this).scrollTop() > 1) {
+         $('.header').addClass('fixed');
+         /!* $('.mod-nav').addClass('fixed');*!/
+         $('.header .h_top .top_logo').css('height', '70px');
+         $('.header .h_top .ico_side').css('top', '3px');
+         $('.header .h_top .tr_link  .h_sch').css('margin', '3px 0 0 8px');
+         $('.header .h_top .tr_link  .bookmark').css('margin', '3px 0 0 8px');
+         $('.header .h_top .top_logo .tl_link').addClass('img-logo-new');
+         $('.header .h_top .top_logo .img-logo').css('padding', '10px 0 0 78px');
 
-            }
-            else {
-                $('.header').removeClass('fixed');
-                $('.header .h_top .top_logo').css('height', '');
-                $('.header .h_top .ico_side').css('top', '');
-                $('.header .h_top .tr_link  .h_sch').css('margin', '');
-                $('.header .h_top .tr_link  .bookmark').css('margin', '');
-                $('.header .h_top .top_logo .tl_link').removeClass('img-logo-new');
-                $('.header .h_top .top_logo .img-logo').css('padding', '');
-            }
-        }*/
+         }
+         else {
+         $('.header').removeClass('fixed');
+         $('.header .h_top .top_logo').css('height', '');
+         $('.header .h_top .ico_side').css('top', '');
+         $('.header .h_top .tr_link  .h_sch').css('margin', '');
+         $('.header .h_top .tr_link  .bookmark').css('margin', '');
+         $('.header .h_top .top_logo .tl_link').removeClass('img-logo-new');
+         $('.header .h_top .top_logo .img-logo').css('padding', '');
+         }
+         }*/
         //function to fix header
         function fix_header() {
-            if ($(this).scrollTop() >100) {
+            if ($(this).scrollTop() > 100) {
                 $("#small_header").show();
 
             }
@@ -583,22 +618,42 @@
 
     //left slide of sidebar
     $('#sidebar_display').click(function () {
-        $('#sidebar').show().animate({left:0}, 'slow');
-       //change background
+        $('#sidebar').show().animate({left: 0}, 'slow');
+        //change background
         setTimeout(function x() {
             var wdth = $(".popup_bg").width() / $('.popup_bg').parent().width() * 100;
-            if(wdth==100 ) $('.popup_bg').css('background-color','rgba(0,0,0,0.7');
+            if (wdth == 100) $('.popup_bg').css('background-color', 'rgba(0,0,0,0.7');
 
-        },600);
+        }, 600);
+
+    });
+    //left slide of sidebar
+    $('#sidebar_display_small').click(function () {
+        $('#sidebar').show().animate({left: 0}, 'slow');
+        //change background
+        setTimeout(function x() {
+            var wdth = $(".popup_bg").width() / $('.popup_bg').parent().width() * 100;
+            if (wdth == 100) $('.popup_bg').css('background-color', 'rgba(0,0,0,0.7');
+
+        }, 600);
+
+        $("html, body").animate({scrollTop: 0}, 500, function () {
+
+        });
+
+        $("html, body").on("scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove", function(){
+            $("html, body").stop();
+
+        });
 
     });
     $('#ico_close').click(function () {
         $('#sidebar').animate({left: -479});
-        $('.popup_bg').css('background-color','transparent');
+        $('.popup_bg').css('background-color', 'transparent');
         setTimeout(function x() {
             $('#sidebar').hide();
 
-        },600);
+        }, 600);
     });
 
 </script>

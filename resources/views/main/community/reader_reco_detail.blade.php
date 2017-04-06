@@ -13,48 +13,23 @@
                         <a href="{{route('free_board')}}">자유게시판</a>
                     </li>
                     <li>
-
-
                         <a href="{{route('reader_reco')}}" class="is-active">독자추천</a><br>
                         <a href="{{route('reader_reco')}}"
                            @if($genre=='%')class="is-active lnb-depth1-2"
                            @else class="lnb-depth1-2" @endif>전체</a><br>
-                        <a href="{{route('reader_reco')}}?genre=현대"
-                           @if($genre=='현대판타지' || $genre == '현대')class="is-active lnb-depth1-2"
+                        <a href="{{route('reader_reco')}}?genre=현대로맨스"
+                           @if($genre == '현대로맨스')class="is-active lnb-depth1-2"
                            @else class="lnb-depth1-2"@endif>현대로맨스</a>
-                        <ul class="lnb-depth2">
-                            @if($genre=='현대판타지' || $genre == '현대')
-                                <li><a href="{{route('reader_reco')}}?genre=현대"
-                                       @if($genre=='현대')class="is-active"@endif>현대</a></li>
-                                <li><a href="{{route('reader_reco')}}?genre=현대판타지"
-                                       @if($genre=='현대판타지')class="is-active"@endif>현대판타지</a></li>
-                            @endif
-                        </ul>
-                        <a href="{{route('reader_reco')}}?genre=시대"
-                           @if(($genre=='시대' or $genre == '사극' or $genre == '동양판타지'))class="is-active lnb-depth1-2"
+
+                        <a href="{{route('reader_reco')}}?genre=시대로맨스"
+                           @if(($genre == '시대로맨스'))class="is-active lnb-depth1-2"
                            @else class="lnb-depth1-2"@endif>시대로맨스</a>
-                        <ul class="lnb-depth2">
-                            @if(($genre=='시대' or $genre == '사극' or $genre == '동양판타지'))
-                                <li><a href="{{route('reader_reco')}}?genre=시대"
-                                       @if($genre=='시대')class="is-active"@endif>시대</a></li>
-                                <li><a href="{{route('reader_reco')}}?genre=사극"
-                                       @if($genre=='사극')class="is-active"@endif>사극</a></li>
-                                <li><a href="{{route('reader_reco')}}?genre=동양판타지"
-                                       @if($genre=='동양판타지')class="is-active"@endif>동양판타지</a></li>
-                            @endif
-                        </ul>
-                        <a href="{{route('reader_reco')}}?genre=서양역사"
-                           @if(($genre=='서양역사' or $genre == '로맨스판타지'))class="is-active lnb-depth1-2"
-                           @else class="lnb-depth1-2"@endif>서양역사</a>
-                        <ul class="lnb-depth2">
-                            @if(($genre=='서양역사' or $genre == '로맨스판타지'))
-                                <li><a href="{{route('reader_reco')}}?genre=서양역사"
-                                       @if($genre=='서양역사')class="is-active"@endif>서양역사</a></li>
-                                <li><a href="{{route('reader_reco')}}?genre=로맨스판타지"
-                                       @if($genre=='로맨스판타지')class="is-active"@endif>로맨스판타지</a></li>
-                            @endif
-                        </ul>
+
+                        <a href="{{route('reader_reco')}}?genre=로맨스판타지"
+                           @if(($genre=='로맨스판타지'))class="is-active lnb-depth1-2"
+                           @else class="lnb-depth1-2"@endif>로맨스판타지</a>
                     </li>
+
                 </ul>
 
             </nav>
@@ -91,7 +66,7 @@
                                 <span>{{$review->novel_groups->keywords[0]->name}}</span>
                                 <span>총 {{$review->novel_groups->novels->count()}}화</span>
                                 <span>조회수 {{ $review->total_count }}</span>
-                                <span>선호작 {{ $review->novel_groups->favorites->count() }}명</span>
+                                <span>선호작 {{ $review->novel_groups->favorites_count }}명</span>
                             </p>
 
                             <div class="scrap-btns">

@@ -45,7 +45,7 @@
 
                         <!-- 연재상세내용 -->
                         <div class="episode-content">
-                            <p>
+                            <p id="content_paragraph">
                                 <?php echo nl2br($novel_group_inning->content, false); ?>
                             </p>
 
@@ -95,15 +95,19 @@
                             </div>
                         </div>
                         <!-- 이전다음버튼 -->
+
                         <div class="prev-next-episode">
-                            @if($prev_inning_id)
-                                <a href="{{ route('each_novel.novel_group_inning', ['id' => $prev_inning_id]) }}"
-                                   class="prev-btn"><i class="prev-episode-icon">이전회</i></a>
-                            @endif
-                            @if($next_inning_id)
-                                <a href="{{ route('each_novel.novel_group_inning', ['id' => $next_inning_id]) }}"
-                                   class="next-btn"><i class="next-episode-icon">다음회</i></a>
-                            @endif
+                            <div class="fixed-wrapper">
+
+                                @if($prev_inning_id)
+                                    <a href="{{ route('each_novel.novel_group_inning', ['id' => $prev_inning_id]) }}"
+                                       class="prev-btn"><i class="prev-episode-icon">이전회</i></a>
+                                @endif
+                                @if($next_inning_id)
+                                    <a href="{{ route('each_novel.novel_group_inning', ['id' => $next_inning_id]) }}"
+                                       class="next-btn"><i class="next-episode-icon">다음회</i></a>
+                                @endif
+                            </div>
                         </div>
                         <!-- //이전다음버튼 -->
                     </div>
@@ -181,7 +185,7 @@
                                         <li>
                                             <div class="comment-wrap">
                                                 <div class="comment-info"><span
-                                                            class="writer @if(Auth::user()->id ==$novel_group_inning_comment[0]->users->id) is-author @endif">{{$novel_group_inning_comment[0]->users->nickname}}</span><span
+                                                            class="writer @if($novel_group_inning_comment[0]->user_id ==$novel_group_inning->user_id) is-author @endif">{{$novel_group_inning_comment[0]->users->nickname}}</span><span
                                                             class="datetime"
                                                             style="padding-right:1px;">{{$novel_group_inning_comment[0]->created_at}}</span>
                                                     @if($novel_group_inning_comment[0]->comment_secret ==true)
@@ -301,7 +305,7 @@
                                             <li>
                                                 <div class="comment-wrap is-reply">
                                                     <div class="comment-info"><span
-                                                                class="writer @if(Auth::user()->id ==$novel_group_inning_comment_reply->users->id) is-author @endif">{{$novel_group_inning_comment_reply->users->nickname}}</span><span
+                                                                class="writer @if($novel_group_inning_comment_reply->user_id == $novel_group_inning->user_id) is-author @endif">{{$novel_group_inning_comment_reply->users->nickname}}</span><span
                                                                 class="datetime"
                                                                 style="padding-right:1px;">{{$novel_group_inning_comment_reply->created_at}}</span>
                                                         @if($novel_group_inning_comment_reply->comment_secret ==true)

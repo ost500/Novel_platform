@@ -26,7 +26,7 @@ class FCMController extends Controller
         $url = 'https://fcm.googleapis.com/fcm/send';
 
         $notification["body"] = $message["message"];
-        $notification["title"] = "여우정원";
+        $notification["title"] = "마음의 편지 To.수원대";
         $notification["sound"] = "default";
 
 
