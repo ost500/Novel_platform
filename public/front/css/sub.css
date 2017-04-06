@@ -1926,7 +1926,8 @@ width: 0;
 
 .episode-comment .gotop-btn {
     position: absolute;
-    bottom: 0;
+   /* bottom: 0;*/
+    top:-1px;
     right: 0;
     margin-right: -60px;
     margin-bottom: -1px;
@@ -1954,6 +1955,16 @@ width: 0;
 .gototop_fixed {
 
     position: fixed;
+}
+.gotop-btn-fixed{
+    position: fixed;
+    top: 636px;
+    border: 1px solid #e2d8d6;
+    background: #fff;
+    /* width:87px;*/
+    padding: 15px;
+    text-align: center;
+
 }
 
 .episode-comment .gotop-btn .gotop-icon {

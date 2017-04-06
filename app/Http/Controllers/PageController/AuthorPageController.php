@@ -19,6 +19,7 @@ use App\Http\Controllers\Controller;
 use App\ViewCount;
 use Auth;
 use App\Keyword;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\Paginator;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -139,14 +140,14 @@ class AuthorPageController extends Controller
     public function mailbox_index(Request $request)
     {
         $novel_mail_messages = Auth::user()->maillogs()->with('mailboxs.users');
-        $novel_mail_messages=$novel_mail_messages->whereHas('mailboxs', function ($query) {
-            $query->where('from','1');
+        $novel_mail_messages = $novel_mail_messages->whereHas('mailboxs', function ($query) {
+            $query->where('from', '1');
         });
 
-        $novel_mail_messages=$novel_mail_messages->latest()->paginate(2);
-       // dd($novel_mail_messages);
+        $novel_mail_messages = $novel_mail_messages->latest()->paginate(2);
+        // dd($novel_mail_messages);
         $page = $request->page;
-   //    return response()->json($novel_mail_messages);
+        //    return response()->json($novel_mail_messages);
         return view('author.novel_memo', compact('novel_mail_messages', 'page'));
     }
 
@@ -364,7 +365,7 @@ class AuthorPageController extends Controller
         $apply_requests = NovelGroupPublishCompany::where($condition)->with('publish_novel_groups.users')->with('publish_novel_groups.novel_groups')->with('companies');
 
         $apply_requests = $apply_requests->whereHas('publish_novel_groups', function ($query) {
-            $query->where('user_id',Auth::user()->id);
+            $query->where('user_id', Auth::user()->id);
         });
 
         //[company id filter]
@@ -432,16 +433,47 @@ class AuthorPageController extends Controller
 
     public function benefit()
     {
-        $myPurchasedNovel = PurchasedNovel::join('novels', 'novels.id', '=', 'purchased_novels.id')
-            ->join('novel_groups', 'purchased_novels.user_id', '=', 'novel_groups.id')
-            ->join('users', 'novels.novel_group_id', '=', 'users.id')
-            ->selectRaw('novels.title as n_title, novel_groups.title as ng_title, users.name, method')
-            ->where('novels.user_id', Auth::user()->id)->paginate(config('define.pagination_long'));
+        //Find the previous year date from today date
+        $previous_year = Carbon::now()->subYear(1)->firstOfMonth()->toDateString();
 
-//        return response()->json($myPurchasedNovel);
+        //Fetch all month wise data greater than previous_year with purchased novels count and purchased novel_group count
+        $myPurchasedNovel = PurchasedNovel::selectRaw('month(purchased_novels.created_at) as month, year(purchased_novels.created_at) as year,count(novel_id) as purchased_novel_count, count(distinct(novels.novel_group_id)) as novel_group_count')
+            ->join('novels', 'novels.id', '=', 'purchased_novels.novel_id')
+            ->join('novel_groups', 'novels.novel_group_id', '=', 'novel_groups.id')
+            ->groupBy('month', 'year')
+            ->where('purchased_novels.user_id', Auth::user()->id)->whereDate('purchased_novels.created_at', '>', $previous_year)
+            ->orderBy('year','desc')->orderBy('month','desc')->get();
 
+        // $myPurchasedNovel= $myPurchasedNovel->paginate(config('define.pagination_long'));
+        // return response()->json($myPurchasedNovel);
         return view('author.benefit', compact('myPurchasedNovel'));
 
+    }
+
+    public function benefit_monthly($month_date)
+    {
+        //Get the first and last date of given year and month
+        $dateData = explode('-',$month_date);
+        $date = Carbon::create($dateData[0],$dateData[1],'1');
+
+        $start_date = $date->firstOfMonth()->toDateString();
+        $end_date = $date->lastOfMonth()->toDateString();
+        // to include the last date of month
+        if($end_date==$date->lastOfMonth()->toDateString()){ $end_date=$date->addDay(1)->toDateString(); }
+
+        //Get the data group wise between the start_date and end date [group by novel_group_id]
+        $myPurchasedNovel = PurchasedNovel::selectRaw('novels.novel_group_id,novel_groups.title as novel_group_title,count(novel_id) as purchased_novel_count')
+            ->join('novels', 'novels.id', '=', 'purchased_novels.novel_id')
+            ->join('novel_groups', 'novels.novel_group_id', '=', 'novel_groups.id')
+            ->groupBy('novel_group_id')
+            ->where('purchased_novels.user_id', Auth::user()->id)->whereBetween('purchased_novels.created_at',[$start_date,$end_date]);
+
+        //Pagination
+        $myPurchasedNovel = $myPurchasedNovel->paginate(config('define.pagination_long'));
+        //return response()->json($myPurchasedNovel);
+        $month=$date->month;
+        $year=$date->year;
+        return view('author.benefit_monthly', compact('myPurchasedNovel', 'month_date','month','year'));
     }
 
     public function send_gift()
