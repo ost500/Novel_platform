@@ -85,7 +85,7 @@ class AuthorPageController extends Controller
         $this_month_count = $novel->month_count = $novel->month_count + 1;
         $this_year_count = $novel->year_count = $novel->year_count + 1;
         $this_total_count = $novel->total_count = $novel->total_count + 1;
-        $novel->save();
+//        $novel->save();
 
 
         return view('author.novel_inning_show', compact('novel', 'today_count', 'this_week_count', 'this_month_count'));

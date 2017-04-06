@@ -236,10 +236,11 @@ class CommunityController extends Controller
         }, 'comments.users'])
             ->join('novel_groups', 'novel_groups.id', '=', 'reviews.novel_group_id')
             ->join('novels', 'novel_groups.id', '=', 'novels.novel_group_id')
-            ->join('favorites', 'novel_groups.id', '=', 'favorites.novel_group_id')
+
+//            ->join('favorites', 'novel_groups.id', '=', 'favorites.novel_group_id')
             ->selectRaw('reviews.id as review_id, reviews.*, reviews.title as review_title, sum(total_count) as total_count, reviews.id')
             ->where('reviews.id', $id)
-            ->groupBy('reviews.id')->get()[0];
+            ->groupBy('reviews.id')->first();
 
         $next_review_id = Review::where('id', '>', $review->review_id)->min('id');
         $next_review = Review::with('users')->find($next_review_id);

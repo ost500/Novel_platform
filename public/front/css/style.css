@@ -818,7 +818,7 @@ html.is-modal body {
     filter: alpha(opacity=0);
     position: fixed;
     left: 0;
-    top: 120px;
+    top: 175px;
     min-width: 1011px;
     min-width: 954px;
     right: 0;

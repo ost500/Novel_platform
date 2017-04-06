@@ -74,6 +74,7 @@ class EachController extends Controller
 
         //Get the session data and Check if session has data i.e viewed novels
         $viewed_novels = Session::get('viewed_novels');
+        $novel = Novel::where('id', $novel_id)->first();
 
         if ($viewed_novels) {
             //if novel id exist in the session already viewed set increment to false
@@ -83,6 +84,8 @@ class EachController extends Controller
                     $increment = false;
                 }
             }
+        } else if (Auth::check() && $novel->user_id == Auth::user()->id) {
+            $increment = false;
         } else {
             $viewed_novels = array();
         }
@@ -90,7 +93,7 @@ class EachController extends Controller
         if ($increment) {
 
             //increase the view counts
-            $novel = Novel::where('id', $novel_id)->first();
+
             $today_count = $novel->today_count = $novel->today_count + 1;
             $this_week_count = $novel->week_count = $novel->week_count + 1;
             $this_month_count = $novel->month_count = $novel->month_count + 1;

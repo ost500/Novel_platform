@@ -185,7 +185,7 @@
                                         <li>
                                             <div class="comment-wrap">
                                                 <div class="comment-info"><span
-                                                            class="writer @if(Auth::user()->id ==$novel_group_inning_comment[0]->users->id) is-author @endif">{{$novel_group_inning_comment[0]->users->nickname}}</span><span
+                                                            class="writer @if($novel_group_inning_comment[0]->user_id ==$novel_group_inning->user_id) is-author @endif">{{$novel_group_inning_comment[0]->users->nickname}}</span><span
                                                             class="datetime"
                                                             style="padding-right:1px;">{{$novel_group_inning_comment[0]->created_at}}</span>
                                                     @if($novel_group_inning_comment[0]->comment_secret ==true)
@@ -305,7 +305,7 @@
                                             <li>
                                                 <div class="comment-wrap is-reply">
                                                     <div class="comment-info"><span
-                                                                class="writer @if(Auth::user()->id ==$novel_group_inning_comment_reply->users->id) is-author @endif">{{$novel_group_inning_comment_reply->users->nickname}}</span><span
+                                                                class="writer @if($novel_group_inning_comment_reply->user_id == $novel_group_inning->user_id) is-author @endif">{{$novel_group_inning_comment_reply->users->nickname}}</span><span
                                                                 class="datetime"
                                                                 style="padding-right:1px;">{{$novel_group_inning_comment_reply->created_at}}</span>
                                                         @if($novel_group_inning_comment_reply->comment_secret ==true)
