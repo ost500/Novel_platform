@@ -47,15 +47,7 @@
                 </div>
                 @endif
                         <!-- 작품목록 -->
-                <div class="sort-nav sort-nav--novel">
-                    <div style="float:left;margin-left: 10px;">
-                        @if($novel_group_id){{$reviews[0]->title}}의 다른 리뷰들 @endif
-                        @if($review_user_id){{$reviews[0]->user_name}}님의 리뷰들@endif
-                    </div>
-                    <div style="float:right;margin-right: 10px;">
-                        {{--  {{$reviews->Total()}}개의 결과물--}}
-                    </div>
-                </div>
+
                 <ul class="novel-list">
                     @foreach ($reviews as $review)
                         <li>
