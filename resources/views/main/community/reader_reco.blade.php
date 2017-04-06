@@ -27,9 +27,9 @@
                            @if(($genre == '시대로맨스'))class="is-active lnb-depth1-2"
                            @else class="lnb-depth1-2"@endif>시대로맨스</a>
 
-                        <a href="{{route('reader_reco')}}?genre=서양역사"
-                           @if(($genre=='서양역사'))class="is-active lnb-depth1-2"
-                           @else class="lnb-depth1-2"@endif>서양역사</a>
+                        <a href="{{route('reader_reco')}}?genre=로맨스판타지"
+                           @if(($genre=='로맨스판타지'))class="is-active lnb-depth1-2"
+                           @else class="lnb-depth1-2"@endif>로맨스판타지</a>
                     </li>
 
 

@@ -182,14 +182,14 @@ class CommunityController extends Controller
         //genre
         $genre = isset($request->genre) ? $request->genre : "%";
 
-        if ($genre == "현대로맨스" or $genre == "시대로맨스" or $genre == "서양역사") {
+        if ($genre == "현대로맨스" or $genre == "시대로맨스" or $genre == "로맨스판타지") {
 
             $genreArr = "";
             if ($genre == "현대로맨스") {
                 $genreArr = ['현대', '현대판타지'];
             } else if ($genre == "시대로맨스") {
                 $genreArr = ['시대', '사극', '동양판타지'];
-            } else if ($genre == "서양역사") {
+            } else if ($genre == "로맨스판타지") {
                 $genreArr = ['서양역사', '로맨스판타지'];
             }
 
