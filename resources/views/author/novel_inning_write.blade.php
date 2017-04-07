@@ -22,7 +22,7 @@
 
                 <div class="row" id="novel_submit">
                     <div class="col-sm-12">
-                        <div id="errors_show" class="alert alert-danger" v-if="formErrors" >
+                        <div id="errors_show" class="alert alert-danger" v-if="formErrors">
                             <ul>
                                 <li v-if="errors['title']">@{{ errors.title.toString() }}</li>
                                 <li v-if="errors['novel_content']">@{{ errors.novel_content.toString() }}</li>
@@ -102,7 +102,15 @@
                                     <div class="col-md-9">
                                         <textarea v-model="novel.novel_content" name="novel_content"
                                                   id="demo-textarea-input" rows="20" class="form-control"
-                                                  placeholder="작품 소개를 입력해 주세요"></textarea>
+                                                  placeholder="공백 포함 3천 자 미만은 등록되지 않습니다.
+
+다음의 내용을 포함하고 있는 글은 통보 없이 삭제될 수 있으며, 만약 유료로 판매되었을 경우 독자에게 전액 환불 처리되니 유의하여 주시기 바랍니다.
+-로맨스 소설의 범주를 벗어난 비상식적인 성적 표현 및 외설적인 내용
+-공서양속을 해치는 내용
+-타인의 권리나 인격을 침해하는 내용
+-분란을 조장하는 내용
+-해당 소설과 관련 없는 내용
+-그 밖에 약관의 규정을 어기는 내용"></textarea>
                                     </div>
                                 </div>
 
@@ -146,8 +154,9 @@
 
                                 <div class="form-group">
                                     <div class="col-md-12 text-center">
-                                        <button id="novel_submit" class="btn btn-lg btn-primary">회차저장</button>
-                                        <button class="btn btn-lg btn-danger back">취소</button>
+                                        <button type="submit" class="btn btn-lg btn-primary">회차저장</button>
+                                        <button class="btn btn-lg btn-danger" v-on:click.prevent="confirm_back()">취소
+                                        </button>
                                     </div>
                                 </div>
                             </form>
@@ -192,19 +201,40 @@
                     var time = $("#reser_time").val();
                     this.novel.reser_time = time;
 
-                    console.log(this.novel);
+                    // console.log(this.novel);
                     this.$http.post(action, this.novel, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                             .then(function (response) {
-                                 window.location.href = '{{  route('author_novel_group',['id' => $novel_group->id]) }}';
+                                window.location.href = '{{  route('author_novel_group',['id' => $novel_group->id]) }}';
                             })
                             .catch(function (errors) {
 
                                 this.errors = errors.data;
                                 this.formErrors = true;
-                                $("html, body").animate({ scrollTop: 0 }, "slow");
+                                $("html, body").animate({scrollTop: 0}, "slow");
                                 return false;
 
                             });
+                },
+                confirm_back: function () {
+                    bootbox.confirm({
+                        message: "취소 하시겠습니까?",
+
+                        buttons: {
+                            confirm: {
+                                label: "예"
+                            },
+                            cancel: {
+                                label: '아니오'
+                            }
+                        },
+
+                        callback: function (result) {
+
+                            if (result) {
+                                location.assign('{{route('author_novel_group',['id'=>$novel_group->id])}}');
+                            }
+                        }
+                    });
                 }
             }
         });

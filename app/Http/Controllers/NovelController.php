@@ -106,14 +106,13 @@ class NovelController extends Controller
 
         Validator::make($request->all(), [
             'title' => 'required|max:255',
-            'novel_content' => 'required',
-            'author_comment' => 'required',
+            'novel_content' => 'required|min:3000',
         ],
             [
                 'title.required' => '제목은 필수 입니다.',
                 'title.max' => '제목은 반드시 255 자리보다 작아야 합니다.',
                 'novel_content.required' => '내용은 필수 입니다.',
-                'author_comment.required' => '작가의 말은 필수 입니다.',
+                'novel_content.min' => '3000자 이상 입력해야 합니다.',
             ]
         )->validate();
 
@@ -145,7 +144,6 @@ class NovelController extends Controller
         $new_novel->save();
 
 //        $this->inning_order($new_novel->novel_groups->id);
-
 
         flash("회차 저장을 성공했습니다");
 
@@ -208,14 +206,13 @@ class NovelController extends Controller
 
         Validator::make($request->all(), [
             'title' => 'required|max:255',
-            'content' => 'required',
-            'author_comment' => 'required',
+            'content' => 'required|min:3000',
         ],
             [
                 'title.required' => '제목은 필수 입니다.',
                 'title.max' => '제목은 반드시 255 자리보다 작아야 합니다.',
                 'content.required' => '내용은 필수 입니다.',
-                'author_comment.required' => '작가의 말은 필수 입니다.',
+                'content.min' => '3000자 이상 입력해야 합니다.',
             ]
         )->validate();
 
