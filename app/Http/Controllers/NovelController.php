@@ -11,7 +11,9 @@ use Auth;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Validator;
-
+use App\Mailbox;
+use App\MailLog;
+use App\Favorite;
 class NovelController extends Controller
 {
     /**
@@ -353,5 +355,23 @@ class NovelController extends Controller
         $novel->save();
 
     }
+
+
+    public function make_closed($id)
+    {
+        $novel = Novel::findOrFail($id);
+        $novel->closed = Carbon::now();
+        $novel->save();
+
+    }
+    public function cancel_closed($id)
+    {
+
+        $novel = Novel::findOrFail($id);
+        $novel->closed = null;
+        $novel->save();
+
+    }
+
 
 }

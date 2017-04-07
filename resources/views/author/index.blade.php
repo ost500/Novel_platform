@@ -67,8 +67,8 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>등록된 회차수 : @{{ group.max_inning }}화, 마지막 업로드 일자
-                                                            : @{{ latested(group.id) }} |
+                                                        <td>등록된 회차수 : @{{ group.max_inning }}화 | 마지막 업로드 일자
+                                                            : @{{ latested(group.id) }} &nbsp;
                                                             <button class="btn btn-mint" v-if="group.secret != null"
                                                                     v-on:click="non_secret(group.id)"> 비밀글
                                                             </button>
