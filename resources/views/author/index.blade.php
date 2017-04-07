@@ -642,10 +642,10 @@
 
 //                                console.log(this.author.author_agreement);
                                 this.author = response.data['author'];
-                                if (this.author.author_agreement == 0) {
-                                    //  $('.author_agreement_dialog').show();
-                                    agreement();
-                                }
+//                                if (this.author.author_agreement == 0) {
+//                                    //  $('.author_agreement_dialog').show();
+//                                    agreement();
+//                                }
                                 // this.check_agreemet();
                                 //about page
                                 if (response.data.novel_groups.current_page > 1) {
