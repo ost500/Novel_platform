@@ -125,7 +125,7 @@ a:focus {
 .show-arrow {
     content: '';
     position: absolute;
-    right:20px;
+    right: 20px;
     top: 0;
     bottom: 0;
     border-right: 1px solid #cdc7c8;
@@ -830,7 +830,7 @@ html.is-modal body {
     z-index: 1001;
     position: absolute;
     left: 0;
-    top: 223px;
+    top: 0;
     right: 0;
     bottom: 0;
     background: #000;
@@ -923,7 +923,8 @@ html.is-modal body {
 
 .search-modal {
     visibility: hidden;
-    position: absolute;
+    position: fixed;
+    z-index: 5;
     left: 0;
     right: 0;
     overflow: hidden;
@@ -943,7 +944,7 @@ html.is-modal body {
     opacity: 0;
     filter: alpha(opacity=0);
     overflow: hidden;
-    z-index: 1001;
+    z-index: 5;
     position: absolute;
     left: 0;
     top: 0;
@@ -1052,8 +1053,9 @@ html.is-modal body {
 
 /* 로그인 모달 */
 .login-modal {
+    z-index: 3;
     visibility: hidden;
-    position: absolute;
+    position: fixed;
     left: 0;
     right: 0;
     overflow: hidden;

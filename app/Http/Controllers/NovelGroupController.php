@@ -181,6 +181,7 @@ class NovelGroupController extends Controller
         $new_novel_group->description = $request->description;
         $new_novel_group->cover_photo = $request->cover_photo;
         $new_novel_group->cover_photo2 = $request->cover_photo2;
+        $new_novel_group->secret = Carbon::now();
         $new_novel_group->save();
 
 

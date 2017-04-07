@@ -68,7 +68,7 @@
                                     <ul class="myinfo-nav clr">
                                         <li class="link1"
                                             onclick="location.href = '{{ route('my_info.charge_bead') }}';">
-                                            <a style="color:#998878"  href="{{ route('my_info.charge_bead') }}">
+                                            <a style="color:#998878" href="{{ route('my_info.charge_bead') }}">
                                                 보유구슬<br>
                                             </a>
                                             <a href="{{ route('my_info.charge_bead') }}">
@@ -76,7 +76,7 @@
                                         </li>
                                         <li class="link2" onclick="location.href = '{{ route('my_page.favorites') }}';">
 
-                                            <a style="color:#998878"  href="{{ route('my_page.favorites') }}">
+                                            <a style="color:#998878" href="{{ route('my_page.favorites') }}">
                                                 선호작<br>
                                             </a>
                                             <a href="{{ route('my_page.favorites') }}">
@@ -84,7 +84,7 @@
                                         </li>
                                         <li class="link3" onclick="location.href = '{{ route('my_page.index') }}';">
 
-                                            <a style="color:#998878"  href="{{route('my_page.index')}}">MY정보<br>
+                                            <a style="color:#998878" href="{{route('my_page.index')}}">MY정보<br>
                                             </a>
                                             <a href="{{ route('my_page.index') }}">
                                                 관리하기</a>
@@ -179,7 +179,7 @@
                 @else
                 <!-- 방문자버튼 -->
 
-                    <a href="#mode_nav" class="userbtn userbtn--login" data-modal-id="login_form1"
+                    <a href="#mode_nav" class="userbtn userbtn--login" data-modal-id="login_form"
                     >로그인</a>
 
                 @endif
@@ -188,7 +188,7 @@
 
             <!-- 검색버튼 -->
             <div class="search-area">
-                <a href="#" id="back_to_top" class="userbtn userbtn--search">검색</a>
+                <a  data-modal-id="search_form" class="userbtn userbtn--search">검색</a>
                 <a href="{{ route('my_page.favorites') }}" class="userbtn userbtn--scrap-active">선호작</a>
             </div>
         </div>
@@ -404,7 +404,7 @@
                                     <ul class="myinfo-nav clr">
                                         <li class="link1"
                                             onclick="location.href = '{{ route('my_info.charge_bead') }}';">
-                                            <a style="color:#998878"  href="{{ route('my_info.charge_bead') }}">
+                                            <a style="color:#998878" href="{{ route('my_info.charge_bead') }}">
                                                 보유구슬<br>
                                             </a>
                                             <a href="{{ route('my_info.charge_bead') }}">
@@ -412,7 +412,7 @@
                                         </li>
                                         <li class="link2" onclick="location.href = '{{ route('my_page.favorites') }}';">
 
-                                            <a style="color:#998878"  href="{{ route('my_page.favorites') }}">
+                                            <a style="color:#998878" href="{{ route('my_page.favorites') }}">
                                                 선호작<br>
                                             </a>
                                             <a href="{{ route('my_page.favorites') }}">
@@ -420,7 +420,7 @@
                                         </li>
                                         <li class="link3" onclick="location.href = '{{ route('my_page.index') }}';">
 
-                                            <a style="color:#998878"  href="{{route('my_page.index')}}">MY정보<br>
+                                            <a style="color:#998878" href="{{route('my_page.index')}}">MY정보<br>
                                             </a>
                                             <a href="{{ route('my_page.index') }}">
                                                 관리하기
@@ -999,31 +999,22 @@
         if ('{{ !Request::is('novel_group_inning/*')}}' || '{{Request::is('novel_group_inning/*/purchase')}}') {
 
             //fix the main header
-            fix_header();
-        }
+
+
 
         //function to fix header
-        function fix_header() {
-            if ($(this).scrollTop() > 10 && $('#main_search').hasClass('is-active')) {
-                var modal_bg = $('#modal_bg');
-                var modal = $('#search_form');
-                modal_bg.fadeTo(250, 0, function () {
-                    $(this).hide();
-                    $('html').removeClass('is-modal');
-                });
-                modal.removeClass('modal-popup').add(this).removeClass('is-active');
-                $('#main_search').removeClass('is-active');
 
-
-            }
             if ($(this).scrollTop() > 100) {
 
                 $("#small_header").show();
+                $('.login-modal').css('top', '125px');
+                $('.search-modal').css('top', '125px');
 
             }
             else {
                 $("#small_header").hide();
-
+                $('.login-modal').css('top', '');
+                $('.search-modal').css('top', '');
             }
         }
 
@@ -1039,106 +1030,106 @@
         });
 
         //On small header when click on search icon scroll back to top and show the search box
-        $('#back_to_top').on('click', function (e) {
-            e.preventDefault();
-            //scroll up
-            $("html, body").animate({scrollTop: 0}, 500, function () {
-
-            });
-
-            $("html, body").on("scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove", function () {
-                $("html, body").stop();
-
-            });
-
-            //Wait a second and show search box
-            setTimeout(function x() {
-                //Change the seach icon to cross icon
-                $('#main_search').addClass('is-active');
-                //Show the modal
-                var is_fullsize_modal = false;
-                // var modal = $( '#'+$(this).data('modal-id') );
-                var modal = $('#search_form');
-                if ($(this).is('[data-modal-fullsize]')) {
-                    is_fullsize_modal = true;
-                } else {
-                    is_fullsize_modal = false;
-                }
-
-                if (!$('html').hasClass('is-modal')) {
-                    show_modal_bg();
-                    modal.addClass('modal-popup').add(this).addClass('is-active');
-                    if (is_fullsize_modal) {
-                        modal.fadeTo(500, 1, 'easeOutCubic');
-                    } else {
-                        modal.height(modal.children().height());
-                    }
-                    modal_tab(e);
-                }
-
-                // 닫기버튼
-                /*  $('[data-modal-close]').on('click', function(e) {
-                 e.preventDefault();
-                 var opener_id = $(this).closest('.modal-popup').attr('id');
-                 close_modal($('[data-modal-id="'+opener_id+'"]'));
-                 });*/
-                // 팝업 자동열기
-                // $('[data-modal-start]').trigger('click');
-
-                // 모달닫기
-                function hide_modal_bg() {
-                    var modal_bg = $('#modal_bg');
-                    modal_bg.fadeTo(250, 0, function () {
-                        $(this).hide();
-                        $('html').removeClass('is-modal');
-                    });
-                }
-
-                // 모달열기
-                function show_modal_bg() {
-                    if ($('#modal_bg').length == 0) {
-                        $('<div id="modal_bg" class="modal-bg"><span></span></div>').appendTo('body');
-                    }
-
-                    var modal_bg = $('#modal_bg');
-                    // fullsize modal
-                    if (is_fullsize_modal == true) {
-                        modal_bg.addClass('modal-bg--fullsize');
-                    } else {
-                        modal_bg.removeClass('modal-bg--fullsize');
-                    }
-                    $('html').addClass('is-modal');
-                    modal_bg.stop().show().fadeTo(400, 1, 'easeOutCubic');
-                }
-
-                // 팝업닫기
-                function close_modal(el) {
-                    hide_modal_bg();
-                    // fullsize modal
-                    if (is_fullsize_modal == true) {
-                        $('.modal-popup.is-active').stop().clearQueue().fadeTo(500, 0, 'easeOutCubic', function () {
-                            $(this).hide()
-                        });
-                    }
-                    $('.modal-popup.is-active').add('[data-modal-id].is-active').removeClass('is-active');
-
-                    if (typeof(el) != 'undefined' && typeof(el.trigger) != 'undefined') {
-                        el.trigger('focus');
-                    }
-                }
-
-                // 모달 탭이동관리
-                function modal_tab(e) {
-                    $(document).one('focusin', function (e) {
-                        if (!$(e.target).closest('.modal-popup.is-active').length) {
-                            $('.modal-popup.is-active').trigger('focus');
-                        }
-                    });
-                }
-
-
-            }, 1000);
-        });
+//        $('#back_to_top').on('click', function (e) {
+//            e.preventDefault();
+//            //scroll up
+//            $("html, body").animate({scrollTop: 0}, 500, function () {
+//
+//            });
+//
+//            $("html, body").on("scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove", function () {
+//                $("html, body").stop();
+//
+//            });
+//
+//            //Wait a second and show search box
+//            setTimeout(function x() {
+//                //Change the seach icon to cross icon
+//                $('#main_search').addClass('is-active');
+//                //Show the modal
+//                var is_fullsize_modal = false;
+//                // var modal = $( '#'+$(this).data('modal-id') );
+//                var modal = $('#search_form');
+//                if ($(this).is('[data-modal-fullsize]')) {
+//                    is_fullsize_modal = true;
+//                } else {
+//                    is_fullsize_modal = false;
+//                }
+//
+//                if (!$('html').hasClass('is-modal')) {
+//                    show_modal_bg();
+//                    modal.addClass('modal-popup').add(this).addClass('is-active');
+//                    if (is_fullsize_modal) {
+//                        modal.fadeTo(500, 1, 'easeOutCubic');
+//                    } else {
+//                        modal.height(modal.children().height());
+//                    }
+//                    modal_tab(e);
+//                }
+//
+//                // 닫기버튼
+//                /*  $('[data-modal-close]').on('click', function(e) {
+//                 e.preventDefault();
+//                 var opener_id = $(this).closest('.modal-popup').attr('id');
+//                 close_modal($('[data-modal-id="'+opener_id+'"]'));
+//                 });*/
+//                // 팝업 자동열기
+//                // $('[data-modal-start]').trigger('click');
+//
+//                // 모달닫기
+//                function hide_modal_bg() {
+//                    var modal_bg = $('#modal_bg');
+//                    modal_bg.fadeTo(250, 0, function () {
+//                        $(this).hide();
+//                        $('html').removeClass('is-modal');
+//                    });
+//                }
+//
+//                // 모달열기
+//                function show_modal_bg() {
+//                    if ($('#modal_bg').length == 0) {
+//                        $('<div id="modal_bg" class="modal-bg"><span></span></div>').appendTo('body');
+//                    }
+//
+//                    var modal_bg = $('#modal_bg');
+//                    // fullsize modal
+//                    if (is_fullsize_modal == true) {
+//                        modal_bg.addClass('modal-bg--fullsize');
+//                    } else {
+//                        modal_bg.removeClass('modal-bg--fullsize');
+//                    }
+//                    $('html').addClass('is-modal');
+//                    modal_bg.stop().show().fadeTo(400, 1, 'easeOutCubic');
+//                }
+//
+//                // 팝업닫기
+//                function close_modal(el) {
+//                    hide_modal_bg();
+//                    // fullsize modal
+//                    if (is_fullsize_modal == true) {
+//                        $('.modal-popup.is-active').stop().clearQueue().fadeTo(500, 0, 'easeOutCubic', function () {
+//                            $(this).hide()
+//                        });
+//                    }
+//                    $('.modal-popup.is-active').add('[data-modal-id].is-active').removeClass('is-active');
+//
+//                    if (typeof(el) != 'undefined' && typeof(el.trigger) != 'undefined') {
+//                        el.trigger('focus');
+//                    }
+//                }
+//
+//                // 모달 탭이동관리
+//                function modal_tab(e) {
+//                    $(document).one('focusin', function (e) {
+//                        if (!$(e.target).closest('.modal-popup.is-active').length) {
+//                            $('.modal-popup.is-active').trigger('focus');
+//                        }
+//                    });
+//                }
+//
+//
+//            }, 1000);
+//        });
 
         function close_modal(el) {
             hide_modal_bg();
