@@ -22,9 +22,9 @@
                 <div>
                     <span class="nick">{{ $comment[0]->users->name }}</span> {{ $comment[0]->created_at }}
 
-                    <button class="btn  btn-xs btn-danger" id="comment_destroy{{$comment[0]->id}}"
-                            onclick="destroyComment({{$comment[0]->id}})">X
-                    </button>
+                    {{--<button class="btn  btn-xs btn-danger" id="comment_destroy{{$comment[0]->id}}"--}}
+                            {{--onclick="destroyComment({{$comment[0]->id}})">X--}}
+                    {{--</button>--}}
 
                 </div>
                 <div class="content">
@@ -41,9 +41,9 @@
                 <div class="review reply">
                     <div>
                         <span class="nick">{{ $child->users->name }}</span> {{ $child->created_at }}
-                        <button class="btn  btn-xs btn-danger" id="comment_destroy{{$child->id}}"
-                                onclick="destroyComment({{$child->id}})">X
-                        </button>
+                        {{--<button class="btn  btn-xs btn-danger" id="comment_destroy{{$child->id}}"--}}
+                                {{--onclick="destroyComment({{$child->id}})">X--}}
+                        {{--</button>--}}
                     </div>
                     <div class="content">
                         <span class="inning">{{ $child->novels->inning }}회</span> {{ $child->comment }}

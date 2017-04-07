@@ -18,17 +18,17 @@
 
 
             <div class="review">
-
                 <div>
-                    <span class="nick">{{ $comment->users->name }}</span> {{ $comment->created_at }}
-                    <button class="btn  btn-xs btn-danger"
-                            onclick="javascript:app4_index.reviewDestroy( {{$comment->id .','.$comment->novel_groups->id}} )">
-                        X
-                    </button>
+                    <a href="{{ route('reader_reco.detail', ['id' => $comment->id]) }}"><span class="nick">  {{ $comment->title }}</span></a>
                 </div>
-                <div class="content">
-                    <span class="inning"> </span> {{ $comment->review }}
+                <div  class="content">
+                    <span class="">{{ $comment->users->nickname }}</span> |  {{ $comment->created_at }}
+                    {{--<button class="btn  btn-xs btn-danger"--}}
+                            {{--onclick="javascript:app4_index.reviewDestroy( {{$comment->id .','.$comment->novel_groups->id}} )">--}}
+                        {{--X--}}
+                    {{--</button>--}}
                 </div>
+
                 <div class="button">
 
                     <button class="btn btn-xs btn-danger">신고</button>

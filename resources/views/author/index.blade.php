@@ -87,15 +87,15 @@
 
                                                             </button>
                                                             <button class="btn btn-success"
-                                                                    v-on:click="go_to_edit(group.id)">수정
+                                                                    v-on:click="go_to_edit(group.id)">작품정보
                                                             </button>
-                                                            <button class="btn btn-mint" v-if="group.secret == null"
-                                                                    v-on:click="secret(group.id)"> 비밀
-                                                            </button>
+                                                            {{--<button class="btn btn-mint" v-if="group.secret == null"--}}
+                                                                    {{--v-on:click="secret(group.id)"> 비밀--}}
+                                                            {{--</button>--}}
 
-                                                            <button class="btn btn-warning"
-                                                                    v-on:click="destroy(group.id)">삭제
-                                                            </button>
+                                                            {{--<button class="btn btn-warning"--}}
+                                                                    {{--v-on:click="destroy(group.id)">삭제--}}
+                                                            {{--</button>--}}
                                                             <button class="btn btn-mint" v-if="group.secret == null"
                                                                     v-on:click="clone_for_publish(group.id)"> 15세 개정판 생성
                                                             </button>
@@ -130,23 +130,22 @@
                                 </div>
 
                                 <div class="fixed-table-pagination" style="display: block;">
-                                    <div class="pull-left">
-                                        <button class="btn btn-danger">선택삭제</button>
-                                    </div>
+                                    {{--<div class="pull-left">--}}
+                                        {{--<button class="btn btn-danger">선택삭제</button>--}}
+                                    {{--</div>--}}
 
                                     <div class="pull-right">
                                         <ul class="pagination">
 
                                             <li v-if="page.page_first" class="page-first"><a v-on:click="pagination(1)"
                                                                                              href="#">&lt;&lt;</a></li>
-                                            <li v-else class="page-first disabled"><a v-on:click="pagination(1)"
-                                                                                      href="#">&lt;&lt;</a></li>
+                                            <li v-else class="page-first disabled"><a >&lt;&lt;</a></li>
 
                                             <li v-if="page.page_pre" class="page-pre"><a
                                                         v-on:click="pagination(page.current_page - 1)" href="#">&lt;</a>
                                             </li>
                                             <li v-else class="page-pre disabled"><a
-                                                        v-on:click="pagination(page.current_page - 1)" href="#">&lt;</a>
+                                                       >&lt;</a>
                                             </li>
 
 
@@ -183,13 +182,13 @@
                                                         v-on:click="pagination(page.current_page + 1)" href="#">&gt;</a>
                                             </li>
                                             <li v-else class="page-next disabled"><a
-                                                        v-on:click="pagination(page.current_page + 1)" href="#">&gt;</a>
+                                                       >&gt;</a>
                                             </li>
                                             <li v-if="page.page_last" class="page-last"><a
                                                         v-on:click="pagination(page.last_page)" href="#">&gt;&gt;</a>
                                             </li>
                                             <li v-else class="page-last disabled"><a
-                                                        v-on:click="pagination(page.last_page)" href="#">&gt;&gt;</a>
+                                                       >&gt;&gt;</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -266,10 +265,10 @@
 
 //                                console.log(this.author.author_agreement);
                                 this.author = response.data['author'];
-                                if (this.author.author_agreement == 0) {
-                                    //  $('.author_agreement_dialog').show();
-                                    agreement();
-                                }
+//                                if (this.author.author_agreement == 0) {
+//                                    //  $('.author_agreement_dialog').show();
+//                                    agreement();
+//                                }
                                 // this.check_agreemet();
 
 
@@ -296,7 +295,7 @@
                                 this.page.from = response.data.novel_groups.from;
                                 this.page.last_page = response.data.novel_groups.last_page;
 
-
+                                console.log(response.data);
 
                             });
 
