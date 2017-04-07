@@ -30,7 +30,7 @@ class EachController extends Controller
     {
 
         $novel_group = NovelGroup::where('id', $id)->with('users')->with('keywords')->with('hash_tags')->with(['novels' => function ($query) {
-            $query->orderBy('inning', 'desc');
+            $query->where('closed', null)->orderBy('inning', 'desc');
         }])->with('nicknames')->first();
         //if user is logged in then get his recently visited novel
         if (Auth::check()) {

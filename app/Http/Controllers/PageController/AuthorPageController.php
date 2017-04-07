@@ -398,10 +398,13 @@ class AuthorPageController extends Controller
 
     public function calculations()
     {
-
+        $nicknames=User::select('nickname')->get();
+        $allNovelGroups=NovelGroup::select(['id','title'])->get();
         $myNovelGroups = NovelGroup::where('user_id', Auth::user()->id)->withCount('calculation_eaches')->paginate(config('define.pagination_long'));
+
+       // dd( date("F", mktime(0, 0, 0, 2, 1)));
 //        return response()->json($myNovelGroups);
-        return view('author.calculations', compact('myNovelGroups'));
+        return view('author.calculations', compact('myNovelGroups','nicknames','allNovelGroups'));
     }
 
     public function calculations_detail($code_num)
