@@ -22,10 +22,50 @@
                 <div class="col-sm-12">
 
                     <div class="panel">
-                        <div class="panel-body">
-                            <div class="table-responsive" style="min-height:500px">
-                                <div id="manage_apply">
 
+                        <div class="panel-body">
+
+                            <div class="table-responsive" style="min-height:500px">
+
+                                <div id="manage_apply">
+                                    <div class="fixed-table margin-bottom-10">
+                                        <form action="{{route('calculation')}}" menthod="post">
+                                            <div class="form-group">
+                                                <div class="col-md-2" style="margin:0 55px 10px 0;">
+                                                    <select class="form-control" name="nickname_id">
+                                                        <option value="">필명선택</option>
+                                                        @foreach($nicknames as $nickname)
+                                                            <option value="{{$nickname}}">{{$nickname->nickname}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-2" style="margin:0 55px 10px 0;">
+                                                    <select class="form-control" name="title">
+                                                        <option value="">필명선택</option>
+                                                        @foreach($allNovelGroups as $novel_group)
+                                                            <option value="{{$novel_group->id}}}">{{$novel_group->title}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-2" style="margin:0 55px 10px 0;">
+                                                    <select class="form-control" name="year">
+                                                        <option value="">필명선택</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-2" style="margin:0 55px 10px 0;">
+                                                    <select class="form-control" name="month">
+                                                        @for( $i=1;$i<=12;$i++)
+                                                            <option value="{{$i}}">{{$i}}</option>
+                                                        @endfor
+                                                    </select>
+                                                </div>
+                                                <div class="" style="margin:0 55px 10px 0;">
+                                                    <button type="submit" class="btn btn-info">Search</button>
+                                                </div>
+                                            </div>
+                                        </form>
+
+                                    </div>
 
                                     <table id="demo-foo-addrow"
                                            class="table table-bordered table-hover toggle-circle default footable-loaded footable"
@@ -66,6 +106,7 @@
 
                             </div>
                             {{-- <div id="response"></div>--}}
+
                             <div class="fixed-table-pagination" style="display: block;">
                                 <div class="pull-left">
                                     {{-- <button class="btn btn-danger">선택삭제</button>--}}
