@@ -403,7 +403,7 @@
                         </div>
                         {{--페이징--}}
                         @include('pagination_front', ['collection' => $novel_group_inning_comments, 'url' => route('each_novel.novel_group_inning',['id'=>$novel_group_inning->id])."?"])
-                        {{--//페이징--}}
+                        {{--페이징--}}
                     </section>
                     <!-- //댓글목록 -->
 
@@ -632,14 +632,14 @@
         /* if($(window).scrollTop() + $(window).height() == $(document).height()) {
          alert("bottom!");
          }s*/
-        if ($(this).scrollTop() > $('.comments').position().top - 380) {
+        if ($(this).scrollTop() > $('.comments').position().top - 340) {
             $('#gotop').addClass('gotop-btn-fixed');
             $('.gotop-btn').css('padding', '0px');
             $('.gotop-btn').css('text-align', 'left');
             $('.gotop-btn').css('border', '0px');
             //   console.log($('#footer-area').offset().top-$('.comments').innerHeight() );
             if ($(this).scrollTop() > $('#footer-area').position().top - 700) {
-                console.log('fdgfdgfdg');
+
                 $('#gotop').css('position', 'absolute');
                 $('#gotop').css('top', '254px');
 
