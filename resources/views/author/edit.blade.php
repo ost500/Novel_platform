@@ -152,9 +152,9 @@
 
                                 <div class="col-md-9" style="text-align: left">
                                     @if($novel_group->cover_photo2)
-                                        <img src="/img/novel_covers/+{{$novel_group->cover_photo2}}" class="index_img">
-                                    @else
-                                        <img src="/img/novel_covers/default_.jpg" class="index_img">
+                                       <img src="/img/novel_covers/{{$novel_group->cover_photo2}}" class="index_img">
+                                {{--    @else
+                                        <img src="/img/novel_covers/default_.jpg" class="index_img">--}}
                                     @endif
                                 </div>
                             </div>
