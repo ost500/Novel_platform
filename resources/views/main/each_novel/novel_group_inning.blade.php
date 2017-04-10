@@ -153,7 +153,7 @@
                     <!-- //댓글쓰기 -->
 
                     <!-- 댓글목록 -->
-                    <section class="episode-comment">
+                    <section id="comment_section" class="episode-comment">
                         <div class="comments">
                             <div class="comment-list-header">
                                 <h2 class="title">댓글</h2>
@@ -602,9 +602,18 @@
     $(".alert").delay(5000).slideUp(200, function () {
         $(this).alert('close');
     });
+    $(function () {
+        @if($page)
+            $('html,body').animate({
+            scrollTop: $("#comment_section").offset().top
+        });
+        @endif
+    });
+
 
     //Scroll and fix the inning  head
     $(window).scroll(function () {
+
         //Fix the novels list popup
         if ($(this).scrollTop() > 265) $('.other-novels').addClass('novels-fixed');
         else   $('.other-novels').removeClass('novels-fixed');

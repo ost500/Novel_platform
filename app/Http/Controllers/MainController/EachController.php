@@ -72,6 +72,7 @@ class EachController extends Controller
     {
 
         $increment = true;
+        $page = $request->page;
 
         //Get the session data and Check if session has data i.e viewed novels
         $viewed_novels = Session::get('viewed_novels');
@@ -210,10 +211,10 @@ class EachController extends Controller
 
         //Detect mobile
         if ($this->agent->isMobile()) {
-            return view('mobile.each_novel.novel_group_inning', compact('novel_group_inning', 'novel_group_inning_comments', 'show_favorite', 'share', 'next_inning_id', 'prev_inning_id', 'order'));
+            return view('mobile.each_novel.novel_group_inning', compact('novel_group_inning', 'novel_group_inning_comments', 'show_favorite', 'share', 'next_inning_id', 'prev_inning_id', 'order', 'page'));
         }
 
-        return view('main.each_novel.novel_group_inning', compact('novel_group_inning', 'novel_group_inning_comments', 'show_favorite', 'share', 'next_inning_id', 'prev_inning_id', 'order'));
+        return view('main.each_novel.novel_group_inning', compact('novel_group_inning', 'novel_group_inning_comments', 'show_favorite', 'share', 'next_inning_id', 'prev_inning_id', 'order', 'page'));
     }
 
     public function novel_group_review($novel_group_id)
