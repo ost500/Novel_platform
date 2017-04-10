@@ -45,26 +45,31 @@
                                         </td>
                                         <td class="text-center col-md-1">@{{ novel.total_count }}</td>
                                         <td class="text-center">
-                                            <button type="button" class="btn btn-primary"
+
+                                            <button type="button" id="non_free" class="btn btn-default"
                                                     v-if="novel.non_free_agreement==0"
                                                     v-on:click="show_nonFreeAgreement(novel.id)">유료화
                                             </button>
-                                            <button class="btn btn-info" v-if="novel.closed == null"
-                                                    v-on:click="make_closed(novel.id)">공개
+                                            <button  class="btn btn-mint" v-if="novel.closed ==0"
+                                                    v-on:click="">공개
                                             </button>
-                                            <button class="btn btn-mint" v-if="novel.closed != null"
-                                                    v-on:click="cancel_closed(novel.id)"> 미공개
+                                            <button  class="btn btn-default" v-if="novel.closed ==1"
+                                                    v-on:click="cancel_closed(novel.id)">공개
                                             </button>
-                                            <a v-on:click="go_to_update(novel.id)">
-                                                <button class="btn btn-success">수정</button>
-                                            </a>
-                                            <button class="btn btn-warning" v-on:click="destroy(novel.id)">삭제</button>
-                                            <button v-if="novel.adult==0" class="btn btn-danger"
+
+                                            <button  class="btn btn-default" v-if="novel.closed ==0"
+                                                     v-on:click="make_closed(novel.id)"> 미공개
+                                            </button>
+                                            <button  class="btn btn-mint"  v-if="novel.closed ==1"
+                                                    v-on:click=""> 미공개
+                                            </button>
+                                            <button class="btn btn-default" v-on:click="destroy(novel.id)">삭제</button>
+                                            {{--<button v-if="novel.adult==0" class="btn btn-danger"
                                                     v-on:click="make_adult(novel.id)">19금
                                             </button>
                                             <button v-else class="btn btn-danger" v-on:click="cancel_adult(novel.id)">
                                                 19금 취소
-                                            </button>
+                                            </button>--}}
                                         </td>
                                     </tr>
 
@@ -89,7 +94,16 @@
             el: '#novel_group',
             data: {
                 novels: [],
-                formErrors: {}
+                formErrors: {},
+                makeClosed: false,
+                cancelClosed: false
+            },
+            computed:{
+                classObjectMake:{
+                    'btn-info':this.makeClosed
+                }, classObjectCancel:{
+                    'btn-mint':this.cancelClosed
+                }
             },
             mounted: function () {
                 this.reload();
@@ -310,6 +324,7 @@
                                 app_novel.$http.put("{{ url('novels/cancel_closed/') }}/" + e, "", {headers: {'X-CSRF-TOKEN': '{!! csrf_token() !!}'}})
                                         .then(function (response) {
                                             app_novel.reload();
+
                                             $.niftyNoty({
                                                 type: 'warning',
                                                 icon: 'fa fa-check',

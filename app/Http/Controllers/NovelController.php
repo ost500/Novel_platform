@@ -357,7 +357,7 @@ class NovelController extends Controller
     public function make_closed($id)
     {
         $novel = Novel::findOrFail($id);
-        $novel->closed = Carbon::now();
+        $novel->closed = 1;
         $novel->save();
 
     }
@@ -365,7 +365,7 @@ class NovelController extends Controller
     {
 
         $novel = Novel::findOrFail($id);
-        $novel->closed = null;
+        $novel->closed = 0;
         $novel->save();
 
     }

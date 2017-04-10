@@ -14,7 +14,7 @@ class AddNovelsSecret extends Migration
     public function up()
     {
         Schema::table('novels', function (Blueprint $table) {
-            $table->dateTime('closed')->nullable();
+            $table->boolean('closed')->default(1);
         });
     }
 
