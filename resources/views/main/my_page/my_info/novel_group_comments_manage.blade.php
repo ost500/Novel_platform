@@ -55,16 +55,24 @@
                                         </div>
                                         <div class="comment-content " id="comment_box{{$novel_comment->id}}"
                                              v-if="display.id =={{$novel_comment->id}} && display.status">
-
+                                            <div class="comment-form-wrap">
                                          <textarea name="comment" id="comment{{$novel_comment->id}}" rows="3"
-                                                   style="width:80%;">{{$novel_comment->comment}}</textarea>
-
-                                            <button name="edit" id="edit{{$novel_comment->id}}"
-                                                    v-on:click="update_comment('{{$novel_comment->id}}')"
-                                                    class="btn btn-primary inline"
-                                                    style="width:18%;height:51px;vertical-align: top;">
-                                                등록
-                                            </button>
+                                                   style="width:100%;">{{$novel_comment->comment}}</textarea>
+                                                <div class="comment-form-btns">
+<span class="submit">
+                                                <button name="edit" id="edit{{$novel_comment->id}}"
+                                                        @if($novel_comment->review_id)
+                                                        v-on:click="update_comment('{{$novel_comment->id}}','review')"
+                                                        @else
+                                                        v-on:click="update_comment('{{$novel_comment->id}}','free_board')"
+                                                        @endif
+                                                        class="btn"
+                                                >
+                                                    수정
+                                                </button>
+    </span>
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <div class="comment-etc-info">{{str_limit($novel_comment->novel_group_title,70)}}
@@ -123,7 +131,7 @@
                                 .then(function (response) {
                                     location.reload();
                                 }).catch(function (errors) {
-                           // console.log(errors);
+                            // console.log(errors);
                         });
                     }
                 },
@@ -138,7 +146,7 @@
                                 location.reload();
 
                             }).catch(function (errors) {
-                       // console.log(errors);
+                        // console.log(errors);
                     });
                 }
             }
