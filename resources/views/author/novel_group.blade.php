@@ -34,7 +34,7 @@
                                 <table class="table table-bordered" id="novel_group">
                                     <tbody>
 
-                                    <tr v-for="novel in novels">
+                                    <tr v-for="(novel,index) in novels">
                                         <td class="text-center col-md-1">@{{ novel.inning }}화</td>
                                         <td class="col-md-8"><a href="#"
                                                                 v-on:click="go_to_update(novel.id)">@{{ novel.title }}</a>
@@ -47,7 +47,7 @@
                                         <td class="text-center">
 
                                             <button type="button" id="non_free" class="btn btn-default"
-                                                    v-if="novel.non_free_agreement==0"
+                                                    v-if="novel.non_free_agreement==0 && index < novels.length-2"
                                                     v-on:click="show_nonFreeAgreement(novel.id)">유료화
                                             </button>
                                             <button  class="btn btn-mint" v-if="novel.closed ==0"
