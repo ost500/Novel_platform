@@ -42,7 +42,7 @@
                     <h2 class="bbs-view-title">{{ $mail->subject }}</h2>
                     <div class="bbs-view-info">
                         <div class="writer">{{ $mail->users->nickname}}</div>
-                        <div class="etc"><span>작성일 {{ $mail->created_at }}</span>
+                        <div class="etc"><span>발송시각 {{ $mail->created_at }}</span>
                             {{--<span>조회수 {{ $mail->view_count }}</span></div>--}}
                         </div>
                     {{--<div class="bbs-view-manage"><a href="#mode_nav"><i class="setup-icon">수정</i></a></div>--}}
