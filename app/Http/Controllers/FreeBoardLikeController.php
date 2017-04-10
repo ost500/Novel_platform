@@ -20,7 +20,7 @@ class FreeBoardLikeController extends Controller
             'user_id' => Auth::user()->id,
             'free_board_id' => $request->get('free_board_id')
         ]);
-      //  flash('ÀÚÀ¯°Ô½ÃÆÇ ±ÛÀÌ ¼º°øÀûÀ¸·Î µî·Ï µÇ¾ú½À´Ï´Ù');
+      //  flash('ï¿½ï¿½ï¿½ï¿½ï¿½Ô½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½');
         return response()->json(['success' => 'ok']);
     }
 
