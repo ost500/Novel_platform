@@ -138,7 +138,7 @@
                         </ul>
                     </div>
 
-                    <div class="payment-option">
+                    <div hidden class="payment-option">
                         <h3 class="payment-title">이메일</h3>
                         <ul class="payment-list">
                             <input type="text" name="LGD_BUYEREMAIL" id="gift_marble" size="25"
@@ -146,7 +146,7 @@
 
                         </ul>
                     </div>
-                    <div class="payment-option">
+                    <div hidden class="payment-option">
                         <h3 class="payment-title">이름</h3>
                         <ul class="payment-list">
                             <input type="text" name="LGD_BUYER" id="gift_marble" size="25">
