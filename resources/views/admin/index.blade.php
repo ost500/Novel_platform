@@ -130,23 +130,22 @@
                                 </div>
 
                                 <div class="fixed-table-pagination" style="display: block;">
-                                    <div class="pull-left">
-                                        <button class="btn btn-danger">선택삭제</button>
-                                    </div>
+                                    {{--<div class="pull-left">--}}
+                                    {{--<button class="btn btn-danger">선택삭제</button>--}}
+                                    {{--</div>--}}
 
                                     <div class="pull-right">
                                         <ul class="pagination">
 
                                             <li v-if="page.page_first" class="page-first"><a v-on:click="pagination(1)"
                                                                                              href="#">&lt;&lt;</a></li>
-                                            <li v-else class="page-first disabled"><a v-on:click="pagination(1)"
-                                                                                      href="#">&lt;&lt;</a></li>
+                                            <li v-else class="page-first disabled"><a>&lt;&lt;</a></li>
 
-                                            <li v-if="page.page_pre" class="page-pre"><a
+                                            <li v-if="page.page_first" class="page-pre"><a
                                                         v-on:click="pagination(page.current_page - 1)" href="#">&lt;</a>
                                             </li>
                                             <li v-else class="page-pre disabled"><a
-                                                        v-on:click="pagination(page.current_page - 1)" href="#">&lt;</a>
+                                                >&lt;</a>
                                             </li>
 
 
@@ -183,13 +182,13 @@
                                                         v-on:click="pagination(page.current_page + 1)" href="#">&gt;</a>
                                             </li>
                                             <li v-else class="page-next disabled"><a
-                                                        v-on:click="pagination(page.current_page + 1)" href="#">&gt;</a>
+                                                >&gt;</a>
                                             </li>
                                             <li v-if="page.page_last" class="page-last"><a
                                                         v-on:click="pagination(page.last_page)" href="#">&gt;&gt;</a>
                                             </li>
                                             <li v-else class="page-last disabled"><a
-                                                        v-on:click="pagination(page.last_page)" href="#">&gt;&gt;</a>
+                                                >&gt;&gt;</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -266,36 +265,38 @@
 
 //                                console.log(this.author.author_agreement);
                                 this.author = response.data['author'];
-                                if (this.author.author_agreement == 0) {
-                                    //  $('.author_agreement_dialog').show();
-                                    agreement();
-                                }
+//                                if (this.author.author_agreement == 0) {
+//                                    //  $('.author_agreement_dialog').show();
+//                                    agreement();
+//                                }
                                 // this.check_agreemet();
 
 
                                 //about page
                                 if (response.data.novel_groups.current_page > 1) {
                                     this.page.page_first = true;
-
-
+                                } else {
+                                    this.page.page_first = false;
                                 }
+
                                 if (response.data.novel_groups.current_page >= 2) {
                                     this.page.page_pre = true;
 
                                 }
                                 if (response.data.novel_groups.last_page - 1 >= response.data.novel_groups.current_page) {
                                     this.page.page_next = true;
-
+                                } else {
+                                    this.page.page_next = false;
                                 }
                                 if (response.data.novel_groups.last_page != response.data.novel_groups.current_page) {
                                     this.page.page_last = true;
-
+                                } else{
+                                    this.page.page_last = false;
                                 }
                                 //store current page value
                                 this.page.current_page = response.data.novel_groups.current_page;
                                 this.page.from = response.data.novel_groups.from;
                                 this.page.last_page = response.data.novel_groups.last_page;
-
 
 
                             });
@@ -654,8 +655,8 @@
                                 //about page
                                 if (response.data.novel_groups.current_page > 1) {
                                     this.page.page_first = true;
-
-
+                                } else {
+                                    this.page.page_first = false;
                                 }
                                 if (response.data.novel_groups.current_page >= 2) {
                                     this.page.page_pre = true;

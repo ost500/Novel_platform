@@ -13,6 +13,7 @@ use App\NovelGroup;
 use App\Novel;
 use Auth;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Routing\Redirector;
 use Session;
 use Jenssegers\Agent\Agent;
@@ -71,6 +72,7 @@ class EachController extends Controller
     {
 
         $increment = true;
+        $page = $request->page;
 
         //Get the session data and Check if session has data i.e viewed novels
         $viewed_novels = Session::get('viewed_novels');
@@ -177,7 +179,10 @@ class EachController extends Controller
 
             }
         }
+        // 한 페이지당 댓글 길이를 바꾸려면 forPage메서드 안에 두번째 파라미터 숫자와 Length.. 3번째 파라미터 숫자를 동시에 바꿔야 한다
+        $novel_group_inning_comments = new LengthAwarePaginator($novel_group_inning_comments->forPage($request->page, 10), $novel_group_inning_comments->count(), 10, $request->page);
 
+//        return response()->json([$novel_group_inning_comments->count(), $novel_group_inning_comments]);
 // dd($novel_group_inning_comments);
 //Social Share
         $share = new Share();
@@ -206,10 +211,10 @@ class EachController extends Controller
 
         //Detect mobile
         if ($this->agent->isMobile()) {
-            return view('mobile.each_novel.novel_group_inning', compact('novel_group_inning', 'novel_group_inning_comments', 'show_favorite', 'share', 'next_inning_id', 'prev_inning_id', 'order'));
+            return view('mobile.each_novel.novel_group_inning', compact('novel_group_inning', 'novel_group_inning_comments', 'show_favorite', 'share', 'next_inning_id', 'prev_inning_id', 'order', 'page'));
         }
 
-        return view('main.each_novel.novel_group_inning', compact('novel_group_inning', 'novel_group_inning_comments', 'show_favorite', 'share', 'next_inning_id', 'prev_inning_id', 'order'));
+        return view('main.each_novel.novel_group_inning', compact('novel_group_inning', 'novel_group_inning_comments', 'show_favorite', 'share', 'next_inning_id', 'prev_inning_id', 'order', 'page'));
     }
 
     public function novel_group_review($novel_group_id)

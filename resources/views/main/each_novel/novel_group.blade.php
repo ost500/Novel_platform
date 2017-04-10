@@ -28,7 +28,7 @@
                             <div class="post-content">
                                 <p>
                                     <?php echo nl2br(substr($novel_group->description, 0, 200))  ?>
-                                    @if(substr($novel_group->description, 150) )
+                                    @if(substr($novel_group->description, 200) )
                                         <button id="hide_button" class="more-btn hidden-content-view">더보기</button>
                                         <span id="hidden_content"
                                               class="hidden-content"> <?php echo nl2br(substr($novel_group->description, 200))  ?>
