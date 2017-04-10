@@ -43,6 +43,7 @@
                                             </button>
 
                                         </td>
+                                        <td class="text-center col-md-1">@{{ novel.total_count }}</td>
                                         <td class="text-center">
                                             <button type="button" class="btn btn-primary"
                                                     v-if="novel.non_free_agreement==0"
