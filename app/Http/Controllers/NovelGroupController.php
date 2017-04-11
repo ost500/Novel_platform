@@ -48,8 +48,8 @@ class NovelGroupController extends Controller
                 $novel_groups = NovelGroup::with('novels')->orderBy('recommend_order', 'asc')->latest()->paginate(10);
 
                 //make recommend_order to null when recommend_order > 5 [max valid order is 5]
-                foreach( $novel_groups as  $novel_group){
-                    if($novel_group->recommend_order > 5) $novel_group->recommend_order = null;
+                foreach ($novel_groups as $novel_group) {
+                    if ($novel_group->recommend_order > 5) $novel_group->recommend_order = null;
                 }
             }
 
@@ -269,9 +269,10 @@ class NovelGroupController extends Controller
 
     public function show_novel($id)
     {
-        //
-        $novel_group = NovelGroup::find($id)->novels->sortByDesc('inning')->values();
-        return \Response::json($novel_group);
+        $novel_group_model = NovelGroup::find($id);
+        $novel_secret = $novel_group_model->secret;
+        $novel_group = $novel_group_model->novels->sortByDesc('inning')->values();
+        return \Response::json([$novel_group, $novel_secret]);
     }
 
     /**
@@ -567,7 +568,7 @@ class NovelGroupController extends Controller
 
         foreach ($request->all() as $item) {
             //999 used for sorting  asc in index method for admin
-            if($item['recommend_order'] ==null) $item['recommend_order']=999;
+            if ($item['recommend_order'] == null) $item['recommend_order'] = 999;
 
             $novel_group_recommend_order = NovelGroup::findOrFail($item['id']);
             $novel_group_recommend_order->recommend_order = $item['recommend_order'];

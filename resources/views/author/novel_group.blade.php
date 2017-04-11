@@ -62,6 +62,12 @@
                                             <button class="btn btn-default" v-if="novel.open ==0"
                                                     v-on:click="make_closed(novel.id)">공개
                                             </button>
+                                            <button class="btn btn-mint" v-if="novel_group_secret != null"
+                                            >비밀
+                                            </button>
+                                            <button class="btn btn-default" v-else
+                                            >비밀
+                                            </button>
 
 
                                             <button class="btn btn-default" v-on:click="destroy(novel.id)">삭제</button>
@@ -97,7 +103,8 @@
                 novels: [],
                 formErrors: {},
                 makeClosed: false,
-                cancelClosed: false
+                cancelClosed: false,
+                novel_group_secret: ""
             },
             computed: {
                 classObjectMake: {
@@ -258,7 +265,9 @@
                     this.$http.get('{{ route('novelgroup.novel', ['id' => $novel_group->id]) }}')
                             .then(function (response) {
 
-                                this.novels = response.data;
+                                this.novels = response.data[0];
+                                this.novel_group_secret = response.data[1];
+                                console.log(this.novel_group_secret);
                             });
                 },
 
