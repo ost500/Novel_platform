@@ -12,6 +12,7 @@
 
         <ol class="breadcrumb">
             <li><a href="#">어드민</a></li>
+            <li><a href="#">정산관리</a></li>
             <li class="active">정산내역</li>
         </ol>
 

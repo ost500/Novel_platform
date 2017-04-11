@@ -3,13 +3,14 @@
     <div id="content-container">
 
         <div id="page-title">
-            <h1 class="page-header text-overflow">1:1문의내역</h1>
+            <h1 class="page-header text-overflow">1:1문의</h1>
         </div>
 
 
         <ol class="breadcrumb">
             <li><a href="#">어드민</a></li>
-            <li class="active"><a href="#">1:1문의</a></li>
+            <li><a href="#">1:1문의</a></li>
+            <li class="active">1:1문의</li>
         </ol>
 
 

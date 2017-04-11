@@ -9,7 +9,7 @@
 
 
         <ol class="breadcrumb">
-            <li><a href="#">관리자홈</a></li>
+            <li><a href="#">어드민</a></li>
             <li><a href="#">정산관리</a></li>
             <li class="active">작품 코드번호 입력</li>
         </ol>

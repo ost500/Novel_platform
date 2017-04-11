@@ -9,6 +9,7 @@
 
 
         <ol class="breadcrumb">
+            <li><a href="#">어드민</a></li>
             <li><a href="#">공지사항 관리</a></li>
             <li class="active"><a href="#">공지사항 등록</a></li>
 
@@ -109,7 +110,7 @@
                             <div class="form-group">
                                 <div class="col-md-12 text-center">
                                     <button type="submit" class="btn btn-lg btn-primary">작품저장</button>
-                                    <button class="btn btn-lg btn-danger">취소</button>
+                                    <button  type="button" class="btn btn-lg btn-danger" onclick="window.location.href='{{route('admin.notifications')}}'">취소</button>
                                 </div>
                             </div>
                         </form>

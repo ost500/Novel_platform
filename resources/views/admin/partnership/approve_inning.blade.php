@@ -11,7 +11,8 @@
 
         <ol class="breadcrumb">
             <li><a href="#">어드민</a></li>
-            <li class="active">연재신청내역</li>
+            <li><a href="#">제휴업체관리</a></li>
+            <li class="active">회차별 심사 승인</li>
         </ol>
 
 

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends(Auth::user()->isAdmin()? 'layouts.admin_layout' : 'layouts.app')
 @section('content')
 
     <div id="content-container">
@@ -9,7 +9,7 @@
 
 
         <ol class="breadcrumb">
-            <li><a href="#">작가홈</a></li>
+            <li><a href="#"> @if (Auth::user()->isAdmin())어드민@else 작가홈@endif</a></li>
             <li><a href="#">쪽지함</a></li>
             <li class="active"><a href="#">쪽지보내기</a></li>
         </ol>
