@@ -114,7 +114,7 @@
 
                                     <div class="col-sm-2" v-for="company in companies">
                                         <div>
-                                            <img src="http://211.110.165.137/img/novel_covers/default_.jpg"
+                                            <img src="/img/novel_covers/default_.jpg"
                                                  width="150" v-if="company.company_picture == ''">
                                             <img :src="'/img/company_pictures/'+company.company_picture" width="150"
                                                  class="index_img" v-else>
@@ -138,7 +138,7 @@
                             <div id="adult_confirm">
                                 <hr>
 
-                                <div class="form-group pad-ver" v-if="adult_publish===true">
+                                <div class="form-group pad-ver" {{--v-if="adult_publish===true"--}}>
                                     <label class="col-lg-1 control-label text-left" for="inputSubject">19금 연재</label>
 
                                     <div class="col-lg-11">
@@ -147,11 +147,11 @@
 
                                             <label style="margin-left:20px"
                                                    class="form-radio form-icon active form-text">
-                                                <input type="radio" name="ico-w-label" checked="">
+                                                <input type="radio" name="publish_adult" value="1" checked>
                                                 예</label>
 
                                             <label class="form-radio form-icon form-text">
-                                                <input id="adult_checkbox" type="radio" name="ico-w-label"> 아니오</label>
+                                                <input id="adult_checkbox" type="radio" name="publish_adult" value="0"> 아니오</label>
 
                                         </div>
                                     </div>
@@ -230,10 +230,8 @@
 
                     this.companies.some(function (element) {
 
-                        console.log(element);
+                         if (element.selected == true && element.adult == 1) {
 
-                        if (element.selected == true && element.adult == 1) {
-                            console.log(element + "v2");
                             apply.adult_publish = true;
 
                             return (element.selected == true);
@@ -241,14 +239,11 @@
                         apply.adult_publish = false;
                     });
 
-                    console.log(this.adult_publish);
-
-
                 },
 
                 novel_group_checked: function () {
-                    console.log('hi');
-                    console.log(this.clicked_novel_group);
+
+                 //   console.log(this.clicked_novel_group);
                     this.$http.get('{{ route('author.partner_apply.proper_company')."?novel_group="}}' + this.clicked_novel_group)
                             .then(function (response) {
                                 console.log(response);
@@ -285,7 +280,7 @@
                                 callback: function () {
 
                                     var form = $("#form_data");
-                                    console.log(form);
+                                  // console.log(form.serialize());
                                     $.ajax({
                                         type: 'POST',
                                         url: '{{ route('publishnovelgroups.store') }}/?event=1',
@@ -294,14 +289,11 @@
                                         },
                                         data: form.serialize(),
                                         success: function (response) {
-                                            console.log(response);
-
                                             window.location.assign('{{route('author.partner_apply_list')}}');
                                         },
                                         error: function (data2) {
                                             $("#errors").show();
                                             apply.errors = data2.responseJSON;
-                                            console.log(apply.errors);
                                             apply.formErrors = true;
                                             $("#errors").focus();
                                         }
