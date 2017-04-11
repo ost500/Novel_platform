@@ -5,6 +5,7 @@ namespace App\Http\Controllers\PageController;
 use App\Accusation;
 use App\Calculation;
 use App\CalculationEach;
+use App\Configuration;
 use App\Notification;
 use App\NovelGroupPublishCompany;
 use App\Company;
@@ -53,8 +54,8 @@ class AdminPageController extends Controller
 
     public function recommendations()
     {
-        $recommends = NovelGroup::where([['secret','=', null],['recommend_order','<>',null]])->with('nicknames')->orderBy('recommend_order','asc')->take(5)->get();
-        return view('admin.recommendations',compact('recommends'));
+        $recommends = NovelGroup::where([['secret', '=', null], ['recommend_order', '<>', null]])->with('nicknames')->orderBy('recommend_order', 'asc')->take(5)->get();
+        return view('admin.recommendations', compact('recommends'));
     }
 
     public function novel(Request $request)
@@ -131,7 +132,7 @@ class AdminPageController extends Controller
     public function users()
     {
         $users = User::paginate(config('define.pagination_long'));
-        return view('admin.users', compact('users', 'users'));
+        return view('admin.users', compact('users'));
     }
 
     public function profile()
@@ -482,12 +483,12 @@ class AdminPageController extends Controller
         return view('admin.calculation.create');
     }
 
-    public function calculation_edit( $id)
+    public function calculation_edit($id)
     {
-        $calculation = Calculation::where('id',$id)->first();
+        $calculation = Calculation::where('id', $id)->first();
 //dd($calculation);
 //dd($calculation);
-        return view('admin.calculation.edit',compact('calculation'));
+        return view('admin.calculation.edit', compact('calculation'));
     }
 
     public function calculations()
@@ -609,6 +610,13 @@ class AdminPageController extends Controller
         })->get();
 
 
+    }
+
+    public function commissions()
+    {
+        $users = User::orderBy('commission', 'desc')->paginate(config('define.pagination_long'));
+        $commission_default = Configuration::where('config_name', 'commission')->first()->config_value;
+        return view('admin.commissions', compact('users', 'commission_default'));
     }
 
 }

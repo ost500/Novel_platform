@@ -215,6 +215,10 @@ Route::group(['prefix' => 'admin'], function () {
     Route::put('/calculations/{id}/update_column_names', ['as' => 'calculation.update_column_names', 'uses' => 'CalculationController@updateColumnNames']);
     Route::get('calculations/download/{id}', ['as' => 'calculations_down', 'uses' => 'CalculationController@excel_down']);
     Route::get('/recommendations', ['as' => 'admin.recommendations', 'uses' => 'PageController\AdminPageController@recommendations']);
+    
+    Route::get('/commissions', ['as' => 'admin.commissions', 'uses' => 'PageController\AdminPageController@commissions']);
+    Route::post('/commissions_default', ['as' => 'admin.commissions_default', 'uses' => 'ConfigurationController@commissions_default']);
+    Route::post('/commissions_eaches', ['as' => 'admin.commissions_each', 'uses' => 'UserController@commissions_each']);
 
 });
 

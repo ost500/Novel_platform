@@ -135,6 +135,17 @@
 
                                 <li class="list-divider"></li>
 
+                                <li class="{{ (Request::is('admin/commissions')||Request::is('admin/commissions/*'))?"active-link":"" }}">
+                                    <a href="{{ route('admin.commissions') }}">
+                                        <i class="fa fa-book"></i>
+                                        <span class="menu-title">
+                                            <strong>수수료 관리</strong>
+                                        </span>
+                                    </a>
+                                </li>
+
+                                <li class="list-divider"></li>
+
                                 {{--<li class="{{ (Request::is('admin/sales'))?"active-link":"" }}">--}}
                                     {{--<a href="{{ route('admin.sales') }}">--}}
                                         {{--<i class="fa fa-book"></i>--}}

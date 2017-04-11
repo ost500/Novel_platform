@@ -148,7 +148,7 @@ class UserController extends Controller
             }
         }
 
-        $nickname=trim($request->nickname);
+        $nickname = trim($request->nickname);
         if ($user->nickname != $nickname) {
 
             Validator::make($request->all(), [
@@ -161,16 +161,16 @@ class UserController extends Controller
             ])->validate();
 
             //check if nickname already exist or not
-            $nickname_already_exist = NickName::where('nickname',$nickname)->first();
-            if($nickname_already_exist){
-                $error = ['nickname' => $nickname." 닉네임이 이미 존재 합니다."];
+            $nickname_already_exist = NickName::where('nickname', $nickname)->first();
+            if ($nickname_already_exist) {
+                $error = ['nickname' => $nickname . " 닉네임이 이미 존재 합니다."];
                 return redirect()->back()->withErrors($error);
             }
             // if nickname refreshed
             if ($user->nickname_at > Carbon::now()->addMonth(1) || $user->nickname_at == null) {
 
                 //update in the nickname table also
-                NickName::where('nickname', $user->nickname)->update(['nickname'=>$nickname]);
+                NickName::where('nickname', $user->nickname)->update(['nickname' => $nickname]);
 
                 // if nickname edited time took more than 1 month || nickname first changed
                 $user->nickname = $nickname;
@@ -325,5 +325,22 @@ class UserController extends Controller
         }
 
         return response()->json(['user_names' => $user_names, 'message' => 'ok']);
+    }
+
+    public function commissions_each(Request $request)
+    {
+
+        foreach ($request->all() as $item) {
+            $commission_user = User::find($item['id']);
+            if ($item['val'] == "") {
+                $commission_user->commission = null;
+            } else {
+                $commission_user->commission = (int)$item['val'];
+            }
+
+            $commission_user->save();
+        }
+
+        return $request->all();
     }
 }
