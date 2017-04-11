@@ -113,9 +113,9 @@
                                         <div class="col-md-12 text-center">
                                             <button class="btn btn-lg btn-primary">저장
                                             </button>
-                                            <button type="button" class="btn btn-lg btn-danger back"
+                                           {{-- <button type="button" class="btn btn-lg btn-danger back"
                                                     v-on:click="go_to_back()">취소
-                                            </button>
+                                            </button>--}}
                                         </div>
                                     </div>
                                 </form>
