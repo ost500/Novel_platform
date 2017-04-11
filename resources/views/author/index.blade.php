@@ -239,7 +239,7 @@
 
 
                 /* this.$http.get('
-                {{-- route('comments.index') --}}')
+                {{-- route('comments.index') --}}
                  .then(function (response) {
                  this.my_comments = response.data;
                  }); */

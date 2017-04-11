@@ -67,8 +67,8 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>등록된 회차수 : @{{ group.max_inning }}화, 마지막 업로드 일자
-                                                            : @{{ latested(group.id) }},
+                                                        <td>등록된 회차수 : @{{ group.max_inning }}화 | 마지막 업로드 일자
+                                                            : @{{ latested(group.id) }}  &nbsp;
                                                             <button class="btn btn-mint" v-if="group.secret != null"
                                                                     v-on:click="non_secret(group.id)"> 비밀글
                                                             </button>
@@ -97,7 +97,7 @@
                                                                     v-on:click="destroy(group.id)">삭제
                                                             </button>
                                                             <button class="btn btn-mint" v-if="group.secret == null"
-                                                                    v-on:click="clone_for_publish(group.id)"> 15세 개정판 생성
+                                                                    v-on:click="clone_for_publish(group.id)"> 클린버전 게시판 생성
                                                             </button>
                                                         </td>
                                                     </tr>
@@ -587,7 +587,7 @@
                 },
                 clone_for_publish: function (e) {
                     bootbox.confirm({
-                        message: "15세 개정판을 만드시겠습니까?",
+                        message: "클린버전 게시판을 생성하시겠습니까?",
 
                         buttons: {
                             confirm: {
@@ -612,7 +612,7 @@
                                                 type: 'warning',
                                                 icon: 'fa fa-check',
                                                 //message : "Hello " + name + ".<br> You've chosen <strong>" + answer + "</strong>",
-                                                message: "[15세 개정판]이 복제 되었습니다.",
+                                                message: "[클린버전 게시판이 생성 되었습니다.",
                                                 //container : 'floating',
                                                 container: 'page',
                                                 timer: 4000
