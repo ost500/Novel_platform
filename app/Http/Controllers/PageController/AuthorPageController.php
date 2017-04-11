@@ -176,7 +176,7 @@ class AuthorPageController extends Controller
 
     public function mailbox_send(Request $request)
     {
-        $novel_mail_messages = Mailbox::where('from', Auth::user()->id)->with('users')->orderBy('created_at', 'desc')->paginate(2);
+        $novel_mail_messages = Mailbox::where('from', Auth::user()->id)->with('users')->orderBy('created_at', 'desc')->paginate(10);
         $page = $request->page;
 //                return response()->json($novel_mail_messages);
         return view('author.novel_memo_send', compact('novel_mail_messages', 'page'));

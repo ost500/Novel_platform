@@ -48,12 +48,19 @@ class NickNameController extends Controller
     {
 
         Validator::make($request->all(), [
-            'nickname' => 'required|max:255',
+            'nickname' => 'required|min:1|max:8|regex:/^\S*$/u',
         ], [
             'nickname.required' => '입력하세요',
-            'nickname.max' => '필명이 너무 깁니다',
+            'nickname.min' => '닉네임은 1자리 이상만 가능합니다',
+            'nickname.max' => '닉네임은 8자리 이하만 가능합니다',
+            'nickname.regex' => '닉네임에 공백이 들어갈 수 없습니다',
         ])->validate();
 
+        //check if nickname already exist or not
+        $nickname_already_exist = NickName::where('nickname', trim($request->nickname))->first();
+        if ($nickname_already_exist) {
+            return response()->json(['error' => 1, 'message' => '닉네임이 이미 존재 합니다.']);
+        }
         $new_nickname = new NickName();
         $new_nickname->user_id = Auth::user()->id;
         $new_nickname->nickname = $request->nickname;
@@ -62,7 +69,7 @@ class NickNameController extends Controller
         if ($request->main) {
             $new_nickname->nick_main(Auth::user()->id, $new_nickname->id);
         }
-
+        return response()->json(['error' => 0, 'message' => 'Ok']);
     }
 
     /**
@@ -97,29 +104,39 @@ class NickNameController extends Controller
     public function update(Request $request, $id)
     {
 
+        /*  echo $request->has('nickname');
+          echo $request->nickname;
+          echo $id;*/
 
-
-
-        echo $request->has('nickname');
-        echo $request->nickname;
-        echo $id;
-
-        if ($request->has('nickname')) {
+       // if ($request->has('nickname')) {
             Validator::make($request->all(), [
-                'nickname' => 'required|max:255',
+                'nickname' => 'required|min:1|max:8|regex:/^\S*$/u',
             ], [
                 'nickname.required' => '입력하세요',
-                'nickname.max' => '필명이 너무 깁니다',
+                'nickname.min' => '닉네임은 1자리 이상만 가능합니다',
+                'nickname.max' => '닉네임은 8자리 이하만 가능합니다',
+                'nickname.regex' => '닉네임에 공백이 들어갈 수 없습니다',
             ])->validate();
 
+            $nickname=trim($request->nickname);
             $update_nick = NickName::find($id);
-            $update_nick->nickname = $request->nickname;
-            $update_nick->save();
-            return;
-        }
+            if ($update_nick->nickname != $nickname) {
+                //check if nickname already exist or not
+                $nickname_already_exist = NickName::where('nickname', $nickname)->first();
+                if ($nickname_already_exist) {
+                    return response()->json(['error' => 1, 'message' => '닉네임이 이미 존재 합니다.']);
+                }
+                $update_nick->nickname = $nickname;
+                $update_nick->save();
+
+                $new_nick = new NickName();
+                $new_nick->nick_main(Auth::user()->id, $id);
+            }
+            return response()->json(['error' => 0, 'message' => 'Ok']);
+       // }
         //메인으로 바꾸기용
-        $new_nick = new NickName();
-        $new_nick->nick_main(Auth::user()->id, $id);
+       // $new_nick = new NickName();
+        //$new_nick->nick_main(Auth::user()->id, $id);
         //nick_main 은 해당 유저(Auth::user()->id) 에 $id 값에 해당하는 닉네임을 메인으로 바꾼다
     }
 

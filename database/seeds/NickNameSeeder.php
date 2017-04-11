@@ -19,8 +19,8 @@ class NickNameSeeder extends Seeder
             $nick1 = $user->nicknames()->save(factory(App\NickName::class)->make());
             $nick1->main = true;
             $nick1->save();
-
-            $user->nicknames()->save(factory(App\NickName::class)->make());
+            $user->nickname=$nick1->nickname;
+            $user->save();
         });
     }
 }
