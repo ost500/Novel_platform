@@ -148,22 +148,34 @@ class UserController extends Controller
             }
         }
 
+        $nickname=trim($request->nickname);
+        if ($user->nickname != $nickname) {
 
-        if ($user->nickname != $request->nickname) {
             Validator::make($request->all(), [
-                'nickname' => 'min:1|max:8|regex:/^\S*$/u',
+                'nickname' => 'required|min:1|max:8|regex:/^\S*$/u',
             ], [
+                'nickname.required' => '입력하세요',
                 'nickname.min' => '닉네임은 1자리 이상만 가능합니다',
                 'nickname.max' => '닉네임은 8자리 이하만 가능합니다',
                 'nickname.regex' => '닉네임에 공백이 들어갈 수 없습니다',
             ])->validate();
 
-
+            //check if nickname already exist or not
+            $nickname_already_exist = NickName::where('nickname',$nickname)->first();
+            if($nickname_already_exist){
+                $error = ['nickname' => $nickname." 닉네임이 이미 존재 합니다."];
+                return redirect()->back()->withErrors($error);
+            }
             // if nickname refreshed
             if ($user->nickname_at > Carbon::now()->addMonth(1) || $user->nickname_at == null) {
+
+                //update in the nickname table also
+                NickName::where('nickname', $user->nickname)->update(['nickname'=>$nickname]);
+
                 // if nickname edited time took more than 1 month || nickname first changed
-                $user->nickname = $request->nickname;
+                $user->nickname = $nickname;
                 $user->nickname_at = Carbon::now();
+
             } else {
                 // else editing now allowed
                 $error = ['nickname' => "닉네임은 2회부터 30일에 한번만 변경 가능합니다"];
