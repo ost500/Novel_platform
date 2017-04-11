@@ -16,7 +16,7 @@
         <ol class="breadcrumb">
             <li><a href="#">작가홈</a></li>
             <li><a href="#">작품관리</a></li>
-            <li class="active">작품회차목록</li>
+            <li class="active">작품등록</li>
         </ol>
 
 

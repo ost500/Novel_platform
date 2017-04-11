@@ -4,13 +4,14 @@
     <div id="content-container" xmlns:v-on="http://www.w3.org/1999/xhtml">
 
         <div id="page-title">
-            <h1 class="page-header text-overflow">구슬 선물하기</h1>
+            <h1 class="page-header text-overflow">선물보내기</h1>
         </div>
 
 
         <ol class="breadcrumb">
             <li><a href="#">작가홈</a></li>
-            <li class="active"><a href="#">구슬 선물하기</a></li>
+            <li><a href="#">선물</a></li>
+            <li class="active"><a href="#">선물보내기</a></li>
         </ol>
 
 

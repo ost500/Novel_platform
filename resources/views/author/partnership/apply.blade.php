@@ -5,13 +5,14 @@
         <div id="content-container">
 
             <div id="page-title">
-                <h1 class="page-header text-overflow">제휴연재신청</h1>
+                <h1 class="page-header text-overflow">연재신청</h1>
             </div>
 
 
             <ol class="breadcrumb">
                 <li><a href="#">작가홈</a></li>
-                <li class="active"><a href="#">제휴연재신청</a></li>
+                <li><a href="#">제휴연재신청</a></li>
+                <li class="active">연재신청</li>
             </ol>
 
 

@@ -10,6 +10,7 @@
 
         <ol class="breadcrumb">
             <li><a href="#">작가홈</a></li>
+            <li><a href="#">선물</a></li>
             <li class="active"><a href="#">보낸 선물 내역</a></li>
         </ol>
 
