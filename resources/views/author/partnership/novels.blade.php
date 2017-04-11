@@ -10,7 +10,7 @@
                         19금
                     </button>
                 @endif
-                <span style="margin-left:1%;cursor: pointer;"  class="glyphicon glyphicon-download-alt" onclick="app.downloadNovel_ePub({{$novel->id}})" ></span>
+               {{-- <span style="margin-left:1%;cursor: pointer;"  class="glyphicon glyphicon-download-alt" onclick="app.downloadNovel_ePub({{$novel->id}})" ></span>--}}
             </td>
             {{--            <td>@if(count($novel->publish_novels) >0 )
                                 {{$novel->publish_novels->updated_at}}
