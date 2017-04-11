@@ -82,9 +82,9 @@
                     <!--Messages Dropdown-->
                     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                     <li class="dropdown">
-                        <a href="#">
+                       {{-- <a href="#">
                             <i class="fa fa-lg"></i>
-                        </a>
+                        </a>--}}
                     </li>
                     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                     <!--End message dropdown-->
@@ -221,6 +221,7 @@
                                         <li><a href="{{ route('author.novel_request_list')}}">1:1문의내역</a></li>
                                     </ul>
                                 </li>
+                                <li class="list-divider"></li>
                                 <li class="{{ (Request::is('author/gifts/send_gift')||Request::is('author/gifts/sent_gifts'))?"active-link":"" }}">
                                     <a href="{{route('author.send_gift')}}">
                                         <i class="fa fa-send"></i>
@@ -466,7 +467,7 @@
 
 <script src="/js/common.js"></script>
 
-<script src="/js/bootstrap.min.js"></script>
+{{--<script src="/js/bootstrap.min.js"></script>--}}
 <script src="/js/nifty.min.js"></script>
 
 <script src="/plugins/bootstrap-select/bootstrap-select.min.js"></script>
@@ -482,7 +483,7 @@
 {{--jquery UI--}}
 <script src="/js/jquery-ui/jquery-ui.min.js"></script>
 
-<script src="/js/nifty.min.js"></script>
+{{--<script src="/js/nifty.min.js"></script>--}}
 
 {{--jquery contextMenu--}}
 <script src="/plugins/jquery-contextMenu/jquery.contextMenu.js"></script>

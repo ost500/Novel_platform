@@ -39,8 +39,7 @@
                                             </tr>
                                             @foreach($users as $user)
                                                 <tr>
-                                                    <td class="text-center col-md-2"><a
-                                                                href="user/{{ $user->id }}">{{ $user->name }}</a>
+                                                    <td class="text-center col-md-2">{{ $user->name }}
                                                     </td>
                                                     <td class="text-center">{{ $user->email }}</td>
                                                     <td class="text-center">{{ $user->phone_num }}</td>

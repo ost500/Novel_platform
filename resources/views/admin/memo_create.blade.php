@@ -9,7 +9,8 @@
 
 
         <ol class="breadcrumb">
-            <li><a href="#">작가홈</a></li>
+            <li><a href="#">어드민</a></li>
+            <li><a href="#">쪽지함</a></li>
             <li class="active"><a href="#">쪽지보내기</a></li>
         </ol>
 

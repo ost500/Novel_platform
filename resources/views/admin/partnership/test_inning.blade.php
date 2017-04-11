@@ -6,13 +6,14 @@
          xmlns:v-on.enter="http://www.w3.org/1999/xhtml">
 
         <div id="page-title">
-            <h1 class="page-header text-overflow">연재신청내역</h1>
+            <h1 class="page-header text-overflow">회차별 심사</h1>
         </div>
 
 
         <ol class="breadcrumb">
             <li><a href="#">어드민</a></li>
-            <li class="active">연재신청내역</li>
+            <li><a href="#">제휴업체관리</a></li>
+            <li class="active">회차별 심사</li>
         </ol>
 
 

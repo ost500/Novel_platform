@@ -9,8 +9,8 @@
 
 
         <ol class="breadcrumb">
-            <li><a href="#">관리자홈</a></li>
-            <li><a href="#">정산관리</a></li>
+            <li><a href="#">어드민</a></li>
+            <li><a href="#">작품관리</a></li>
             <li class="active">여기, 정오의 추천 </li>
         </ol>
 

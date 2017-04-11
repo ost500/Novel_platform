@@ -10,7 +10,8 @@
 
 
         <ol class="breadcrumb">
-            <li><a href="#">어드민</a></li>
+            <li><a href="#">작가홈</a></li>
+            <li><a href="#">제휴연재신청</a></li>
             <li class="active">연재신청내역</li>
         </ol>
 

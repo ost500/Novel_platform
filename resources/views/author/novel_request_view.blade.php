@@ -10,7 +10,8 @@
 
         <ol class="breadcrumb">
             <li><a href="#">작가홈</a></li>
-            <li class="active"><a href="#">1:1문의내역</a></li>
+            <li><a href="#">1:1문의</a></li>
+            <li class="active">1:1문의내역</li>
         </ol>
 
 
