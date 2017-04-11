@@ -467,7 +467,7 @@
 
 <script src="/js/common.js"></script>
 
-<script src="/js/bootstrap.min.js"></script>
+{{--<script src="/js/bootstrap.min.js"></script>--}}
 <script src="/js/nifty.min.js"></script>
 
 <script src="/plugins/bootstrap-select/bootstrap-select.min.js"></script>
@@ -483,7 +483,7 @@
 {{--jquery UI--}}
 <script src="/js/jquery-ui/jquery-ui.min.js"></script>
 
-<script src="/js/nifty.min.js"></script>
+{{--<script src="/js/nifty.min.js"></script>--}}
 
 {{--jquery contextMenu--}}
 <script src="/plugins/jquery-contextMenu/jquery.contextMenu.js"></script>
