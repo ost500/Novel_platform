@@ -50,19 +50,20 @@
                                                     v-if="novel.non_free_agreement==0 && index < novels.length-2"
                                                     v-on:click="show_nonFreeAgreement(novel.id)">유료화
                                             </button>
-                                            <button  class="btn btn-mint" v-if="novel.open ==0"
-                                                    v-on:click="">공개
+                                            <button type="button" id="non_free" class="btn btn-mint"
+                                                    v-else-if="novel.non_free_agreement!=0 && index < novels.length-2"
+                                            >유료화
                                             </button>
-                                            <button  class="btn btn-default" v-if="novel.open ==1"
+
+                                            </button>
+                                            <button class="btn btn-mint" v-if="novel.open ==1"
+                                                    v-on:click="make_closed(novel.id)">공개
+                                            </button>
+                                            <button class="btn btn-default" v-if="novel.open ==0"
                                                     v-on:click="cancel_closed(novel.id)">공개
                                             </button>
 
-                                            <button  class="btn btn-default" v-if="novel.open ==0"
-                                                     v-on:click="make_closed(novel.id)"> 미공개
-                                            </button>
-                                            <button  class="btn btn-mint"  v-if="novel.open ==1"
-                                                    v-on:click=""> 미공개
-                                            </button>
+
                                             <button class="btn btn-default" v-on:click="destroy(novel.id)">삭제</button>
                                             {{--<button v-if="novel.adult==0" class="btn btn-danger"
                                                     v-on:click="make_adult(novel.id)">19금
@@ -98,11 +99,11 @@
                 makeClosed: false,
                 cancelClosed: false
             },
-            computed:{
-                classObjectMake:{
-                    'btn-info':this.makeClosed
-                }, classObjectCancel:{
-                    'btn-mint':this.cancelClosed
+            computed: {
+                classObjectMake: {
+                    'btn-info': this.makeClosed
+                }, classObjectCancel: {
+                    'btn-mint': this.cancelClosed
                 }
             },
             mounted: function () {

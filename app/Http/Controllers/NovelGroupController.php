@@ -539,6 +539,8 @@ class NovelGroupController extends Controller
                     break;
                 }
                 $new_novel = $cloning_novel->replicate();
+                $new_novel->non_free_agreement = false;
+                $new_novel->open = false;
                 $new_novel->novel_group_id = $new_novel_group->id;
                 $new_novel->push();
             }
