@@ -42,24 +42,26 @@
 
                         </div>
                         <!-- 받는사람찾기결과 -->
-                      <div style="margin-left: 139px;margin-bottom:1%; top: 18.7%;
-    width: 30%;height: 125px;border:1px solid #e9e9e9;
-    background-color: #fff; overflow-y: scroll;display:none" v-show="display">
+                        <div class="form-group" v-show="display" style="display: none;">
+                            <label class="col-lg-1 control-label text-left" style="margin-right: 12px;"
+                                   for="inputSubject"></label>
 
-                            <div class="col-lg-11" style="padding-top: 6px;" v-for="user_name in user_names"
-                                 v-if="user_name.id !='{{Auth::user()->id}}'"
-                                 style=" display:block;">
-                                                <span class="user-name">@{{ user_name.name }}
-                                                    (@{{ user_name.email }})</span>
-                               {{-- <button type="button" class="delete-btn">삭제</button> --}}
-                                <label class="form-radio form-normal form-primary form-text">
-                                    <input type="radio" name="user_id"
-                                           v-on:click="fillName(user_name.name,user_name.id )">
-                                    <span></span>
-                                </label>
+                            <div style="top: 18.7%;width: 30%;height: 125px;border:1px solid #e9e9e9;
+    background-color: #fff; overflow-y: scroll;">
+                                <div class="col-lg-11" style="padding-top: 6px;" v-for="user_name in user_names"
+                                     v-if="user_name.id !='{{Auth::user()->id}}'"
+                                     style=" display:block;">
+                                    <span class="user-name">@{{ user_name.nickname }}</span>
+                                    {{-- <button type="button" class="delete-btn">삭제</button> --}}
+                                    <label class="form-radio form-normal form-primary form-text">
+                                        <input type="radio" name="user_id"
+                                               v-on:click="fillName(user_name.nickname,user_name.id )">
+                                        <span></span>
+                                    </label>
+                                </div>
+                                <br>
+
                             </div>
-                            <br>
-
                         </div>
 
                         <!-- //받는사람찾기결과 -->
@@ -88,7 +90,8 @@
 
                             <div class="col-lg-11">
                                 <img src="/img/marble3_icon.png"><span class="item-name">내가 가진 구슬</span>
-                                <strong class="item-name" style="color:green;font-size: medium;"> {{$user_bead->bead}}개</strong>
+                                <strong class="item-name" style="color:green;font-size: medium;"> {{$user_bead->bead}}
+                                    개</strong>
                             </div>
                         </div>
 
@@ -130,7 +133,7 @@
                 display: false
             },
             mounted: function () {
-                this.searchByName();
+                // this.searchByName();
             },
             methods: {
 
@@ -140,8 +143,14 @@
                             .then(function (response) {
 
                                 this.user_names = response.data['user_names'];
-                                this.display = true;
-                                $('#first').css('margin-bottom','0px');
+                                if (this.user_names) {
+                                    this.display = true;
+                                    $('#first').css('margin-bottom', '0px');
+                                } else {
+                                    this.display = false;
+                                    $('#first').css('margin-bottom', '15px');
+                                }
+
                             })
                             .catch(function (response, status, request) {
 
@@ -165,8 +174,8 @@
                 },
 
                 //Fill the selected user name in the input box
-                fillName: function (name, user_id) {
-                    app_gift.search_info.name = name;
+                fillName: function (nickname, user_id) {
+                    app_gift.search_info.name = nickname;
                     app_gift.gift_info.user_id = user_id;
 
                 }
