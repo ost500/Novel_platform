@@ -57,10 +57,10 @@
 
                                             </button>
                                             <button class="btn btn-mint" v-if="novel.open ==1"
-                                                    v-on:click="make_closed(novel.id)">공개
+                                                    v-on:click="cancel_closed(novel.id)">공개
                                             </button>
                                             <button class="btn btn-default" v-if="novel.open ==0"
-                                                    v-on:click="cancel_closed(novel.id)">공개
+                                                    v-on:click="make_closed(novel.id)">공개
                                             </button>
 
 
