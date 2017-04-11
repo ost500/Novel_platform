@@ -529,7 +529,7 @@ class NovelGroupController extends Controller
             // novel_group to clone
             $new_novel_group = $cloning_novel_group->replicate();
             $new_novel_group->secret = Carbon::now();
-            $new_novel_group->title = $new_novel_group->title . " [클린 버젼]";
+            $new_novel_group->title = $new_novel_group->title . " (클린버전)";
             $new_novel_group->push();
             // novel_group cloned
 
@@ -539,6 +539,8 @@ class NovelGroupController extends Controller
                     break;
                 }
                 $new_novel = $cloning_novel->replicate();
+                $new_novel->non_free_agreement = false;
+                $new_novel->open = false;
                 $new_novel->novel_group_id = $new_novel_group->id;
                 $new_novel->push();
             }

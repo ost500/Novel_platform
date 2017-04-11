@@ -21,6 +21,7 @@ class CommunityController extends Controller
     public function __construct()
     {
         $this->agent = new Agent();
+        $this->middleware('auth')->only('free_board_detail_auth');
     }
 
     public function free_board(Request $request)
@@ -52,6 +53,11 @@ class CommunityController extends Controller
 
         }
         return view('main.community.free_board', compact('articles', 'weekly_best', 'search_option', 'search_text', 'page'));
+    }
+
+    public function free_board_detail_auth($id)
+    {
+        return redirect()->route('free_board.detail', ['id' => $id]);
     }
 
     public function free_board_detail(Request $request, $id)
@@ -236,7 +242,6 @@ class CommunityController extends Controller
         }, 'comments.users'])
             ->join('novel_groups', 'novel_groups.id', '=', 'reviews.novel_group_id')
             ->join('novels', 'novel_groups.id', '=', 'novels.novel_group_id')
-
 //            ->join('favorites', 'novel_groups.id', '=', 'favorites.novel_group_id')
             ->selectRaw('reviews.id as review_id, reviews.*, reviews.title as review_title, sum(total_count) as total_count, reviews.id')
             ->where('reviews.id', $id)

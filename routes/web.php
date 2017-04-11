@@ -54,7 +54,7 @@ Route::resource('faqs', 'FaqController');
 Route::resource('favorites', 'FavoriteController', ['only' => ['store', 'destroy']]);
 Route::get('/favorites_login', ['as' => 'favorite.login', 'uses' => 'FavoriteController@login_auth']);
 
-Route::resource('free_board_likes', 'FreeBoardLikeController', ['only' => ['store', 'destroy']]);
+Route::resource('free_board_likes', 'FreeBoardLikeController');
 Route::resource('keywords', 'KeywordController');
 Route::get('popular_keywords', ['as' => 'popular_keywords', 'uses' => 'KeywordController@popular_keywords']);
 Route::resource('companies', 'CompanyController');
@@ -233,6 +233,7 @@ Route::get('/footer_noti', ['as' => 'footer_noti', 'uses' => 'NotificationContro
 Route::group(['prefix' => 'community'], function () {
     Route::get('freeboard', ['as' => 'free_board', 'uses' => 'MainController\CommunityController@free_board']);
     Route::get('freeboard/{id}', ['as' => 'free_board.detail', 'uses' => 'MainController\CommunityController@free_board_detail']);
+    Route::get('freeboard_auth/{id}', ['as' => 'free_board_auth.detail', 'uses' => 'MainController\CommunityController@free_board_detail_auth']);
     // same url diffrent request for the redirection after login
 
     Route::get('freeboard_write', ['middleware' => 'auth', 'as' => 'free_board.write', 'uses' => 'MainController\CommunityController@free_board_write']);

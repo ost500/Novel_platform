@@ -31,12 +31,13 @@ class EachController extends Controller
     {
 
         $novel_group = NovelGroup::where('id', $id)->with('users')->with('keywords')->with('hash_tags')->with(['novels' => function ($query) {
-            $query->where('closed', null)->orderBy('inning', 'desc');
+            $query->where('open', true)->orderBy('inning', 'desc');
         }])->with('nicknames')->first();
         //if user is logged in then get his recently visited novel
         if (Auth::check()) {
             //$favorite_display=$novel_group->checkUserFavourite($novel_group->id);
-            $recently_visited_novel = RecentlyVisitedNovel::where(['user_id' => Auth::user()->id, 'novel_group_id' => $novel_group->id])->with('novels')->first();
+            $recently_visited_novel = RecentlyVisitedNovel::where(['recently_visited_novels.user_id' => Auth::user()->id, 'recently_visited_novels.novel_group_id' => $novel_group->id])
+                ->join('novels', 'novels.id', '=', 'recently_visited_novels.novel_id')->where('open', true)->with('novels')->first();
         } else {
             //$favorite_display=false;
             $recently_visited_novel = '';

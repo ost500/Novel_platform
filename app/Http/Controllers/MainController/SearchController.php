@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Keyword;
 use App\NovelGroup;
 use Jenssegers\Agent\Agent;
+
 class SearchController extends Controller
 {
     var $agent;
@@ -26,6 +27,11 @@ class SearchController extends Controller
             ->join('novel_group_keywords', 'novel_group_keywords.novel_group_id', '=', 'novel_groups.id')
             ->join('novel_group_hash_tags', 'novel_group_hash_tags.novel_group_id', '=', 'novel_groups.id')
             ->groupBy('novels.novel_group_id');
+
+
+        // only open true at least one
+        $novel_groups = $novel_groups->selectRaw('max(novels.open)')->havingRaw('max(novels.open) > 0');
+
 
         //get search criteria
         $nickname_id = $request->get('nickname_id');
@@ -76,6 +82,7 @@ class SearchController extends Controller
 
         $novel_groups = $novel_groups->with('nicknames')->with('keywords')->withCount('novels')->orderBy('new', 'desc')->paginate(config('define.pagination_long'));
         //  return response()->json($novel_groups);
+//        return response()->json([$request->all(), $novel_groups]);
         //Detect mobile
         if ($this->agent->isMobile()) {
             return view('mobile.search.index', compact('novel_groups', 'search_type', 'title', 'keyword_name'));
