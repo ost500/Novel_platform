@@ -44,23 +44,23 @@
 
                                         </td>
                                         <td class="text-center col-md-1">@{{ novel.total_count }}</td>
-                                        <td class="text-center">
+                                        <td class="text-center col-md-3">
 
                                             <button type="button" id="non_free" class="btn btn-default"
                                                     v-if="novel.non_free_agreement==0 && index < novels.length-2"
                                                     v-on:click="show_nonFreeAgreement(novel.id)">유료화
                                             </button>
-                                            <button  class="btn btn-mint" v-if="novel.closed ==0"
+                                            <button  class="btn btn-mint" v-if="novel.open ==0"
                                                     v-on:click="">공개
                                             </button>
-                                            <button  class="btn btn-default" v-if="novel.closed ==1"
+                                            <button  class="btn btn-default" v-if="novel.open ==1"
                                                     v-on:click="cancel_closed(novel.id)">공개
                                             </button>
 
-                                            <button  class="btn btn-default" v-if="novel.closed ==0"
+                                            <button  class="btn btn-default" v-if="novel.open ==0"
                                                      v-on:click="make_closed(novel.id)"> 미공개
                                             </button>
-                                            <button  class="btn btn-mint"  v-if="novel.closed ==1"
+                                            <button  class="btn btn-mint"  v-if="novel.open ==1"
                                                     v-on:click=""> 미공개
                                             </button>
                                             <button class="btn btn-default" v-on:click="destroy(novel.id)">삭제</button>
