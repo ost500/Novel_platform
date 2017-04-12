@@ -10,6 +10,7 @@ use App\MailLog;
 use App\Novel;
 use App\NovelGroupHashTag;
 use App\NovelGroupKeyword;
+use App\NovelGroupNotification;
 use App\User;
 use Auth;
 use Carbon\Carbon;
@@ -134,6 +135,8 @@ class NovelGroupController extends Controller
     public function store(Request $request)
     {
 
+
+       // return response()->json($favorite_users);
         //   dd($request->all());
 
 
@@ -239,6 +242,17 @@ class NovelGroupController extends Controller
             // $new_novel_group = $request->user()->novel_groups()->create($input);
             $new_novel_group->cover_photo = "default_.jpg";
             $new_novel_group->save();
+        }
+
+        //Find users who have made authors novel group favorite
+        $favorite_users = Favorite::select(['favorites.user_id'])->join('novel_groups', 'novel_groups.id', '=', 'favorites.novel_group_id')
+            ->where('novel_groups.user_id',Auth::User()->id)->distinct('user_id')->get();
+        //Store the new novel group notification
+        foreach($favorite_users as $favorite_user){
+            NovelGroupNotification::create([
+                'user_id'=>$favorite_user->user_id,
+                'novel_group_id'=>$new_novel_group->id,
+            ]);
         }
 
 
