@@ -264,7 +264,7 @@
 
                                     <ul class="collapse {{ (Request::is('author/profile/information')||Request::is('author/profile/nickname'))?"in":"" }}">
                                         <li><a href="{{ route("author.profile") }}">작가정보관리</a></li>
-                                        <li><a href="{{ route("author.nickname") }}">필명관리</a></li>
+                                        <li><a href="{{ route("author.nickname") }}">필명등록</a></li>
                                     </ul>
                                 </li>
 
