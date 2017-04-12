@@ -876,6 +876,7 @@ html.is-modal body {
     font-family: 'nbg';
     font-size: 24px;
     font-weight: 400;
+
 }
 
 .share-modal {
@@ -887,6 +888,7 @@ html.is-modal body {
     height: 0;
     -webkit-transition: height .5s ease;
     transition: height .5s ease;
+
 }
 
 .share-modal.is-active {

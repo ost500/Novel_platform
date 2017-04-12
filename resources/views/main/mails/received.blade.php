@@ -49,7 +49,7 @@
                                     <td class="col-subject">
                                         <a href="{{ route('mails.detail', ['id' => $received_mail->id]) }}">{{$received_mail->mailboxs->subject}}</a>
                                     </td>
-                                    <td class="col-datetime">{{$received_mail->created_at}}</td>
+                                    <td class="col-datetime">{{time_elapsed_string($received_mail->created_at)}}</td>
                                 </tr>
                             @endforeach
                         @else

@@ -375,7 +375,7 @@
             </fieldset>
         </form>
     </div>
-@yield('header')
+
 <!-- //통합검색모달 -->
 </header>
 <!-- //헤더 -->
@@ -1008,12 +1008,14 @@
                 $("#small_header").show();
                 $('.login-modal').css('top', '125px');
                 $('.search-modal').css('top', '125px');
+                $('.share-modal').css('top', 89 + $(this).scrollTop());
 
             }
             else {
                 $("#small_header").hide();
                 $('.login-modal').css('top', '');
                 $('.search-modal').css('top', '');
+                $('.share-modal').css('top', '');
             }
         }
 
