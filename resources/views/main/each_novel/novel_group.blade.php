@@ -20,7 +20,7 @@
 
                                 <p class="post-info">
                                     <span>@if(count($novel_group->keywords) >0) {{$novel_group->keywords[0]->name }} @endif</span>
-                                    <span>총{{$novel_group->max_inning}}화</span>
+                                    <span>총 {{$novel_group->novels->count()}}화</span>
                                     <span>조회수{{ $novel_group->getNovelGroupViewCount($novel_group->id)}}</span>
                                     <span>선호작 {{$novel_group->getNovelGroupFavoriteCount($novel_group->id)}} 명</span>
                                 </p>
