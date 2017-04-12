@@ -62,8 +62,8 @@
                                                     v-on:click="make_closed(novel.id)">공개
                                             </button>
 
-                                            <button class="btn btn-default" v-if="novel.novel_secret ==0"
-                                                    v-on:click="make_secret(novel.id)">비밀
+                                            <button class="btn btn-default" v-if="novel.novel_secret ==0  "
+                                                    v-on:click="make_secret(novel.id,novel.non_free_agreement)">비밀
                                             </button>
                                             <button class="btn btn-info" v-if="novel.novel_secret ==1"
                                                     v-on:click="non_secret(novel.id)">비밀
@@ -279,7 +279,7 @@
                 },
                 make_closed: function (e) {
                     bootbox.confirm({
-                        message: "미공개로 전환 하시겠습니까?",
+                        message: "공개로 전환 하시겠습니까?",
 
                         buttons: {
                             confirm: {
@@ -355,7 +355,18 @@
                     });
                 },
 
-                make_secret: function (e) {
+                make_secret: function (e, non_free_agreement) {
+
+                    if (non_free_agreement) {
+
+                        bootbox.alert({
+                            message: "유료 소설은 비밀로 변경할 수 없습니다."
+
+                        });
+                        return;
+                    }
+
+
                     bootbox.confirm({
                         message: "비밀로 전환 하시겠습니까?",
 

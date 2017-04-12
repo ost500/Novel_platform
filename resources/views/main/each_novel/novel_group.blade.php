@@ -75,7 +75,7 @@
                                             <span class="no">{{ $recently_visited_novel->novels->inning }}화</span>
                                             <span class="datetime">{{$recently_visited_novel->novels->created_at->format('Y-m-d')}}</span>
                                         </div>
-                                        <div class="col-title"> @if($recently_visited_novel->novels->novel_secret){{str_limit($recently_visited_novel->novels->title, 60)}}@else<a
+                                        <div class="col-title"> @if($recently_visited_novel->novels->novel_secret)<span style="color: #aaa4a1;"> 비밀글 입니다 </span>@else<a
                                                     href="{{route('each_novel.novel_group_inning',['id'=>$recently_visited_novel->novel_id])}}">{{str_limit($recently_visited_novel->novels->title,60)}}
                                                 <i class="up-icon">Up</i></a>@endif</div>
                                         <div class="col-charge"><span class="open">열림</span></div>
@@ -96,7 +96,7 @@
                                                 <span class="no">{{$novel->inning}} 화</span>
                                                 <span class="datetime">{{$novel->created_at->format('Y-m-d')}}</span>
                                             </div>
-                                            <div class="col-title"> @if($novel->novel_secret){{str_limit($novel->title, 60)}}@else
+                                            <div class="col-title"> @if($novel->novel_secret)<span style="color: #aaa4a1;"> 비밀글 입니다</span> @else
                                                     <a href="{{route('each_novel.novel_group_inning',['id'=>$novel->id])}}">{{str_limit($novel->title, 60)}}{{--<i
                                                         class="up-icon">Up</i>--}}</a>   @endif</div>
                                             <div class="col-charge">@if($novel->non_free_agreement > 0) 유료 @else <span
