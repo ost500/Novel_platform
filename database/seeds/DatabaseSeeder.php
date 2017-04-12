@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
 
         if (!app()->environment('production')) {
             $this->runDevSeed();
+        } else {
+            $this->call(ServerSeeder::class);
         }
 
         $this->tearDown();
