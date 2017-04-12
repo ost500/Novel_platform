@@ -6,6 +6,7 @@ use App\Comment;
 use App\Events\NewSpeedEvent;
 use App\Novel;
 use App\NovelGroup;
+use App\RecentlyVisitedNovel;
 use App\User;
 use Auth;
 use Illuminate\Http\Request;
@@ -14,6 +15,7 @@ use Validator;
 use App\Mailbox;
 use App\MailLog;
 use App\Favorite;
+
 class NovelController extends Controller
 {
     /**
@@ -282,6 +284,8 @@ class NovelController extends Controller
         $novel = Novel::find($id);
         $novel->delete();
 
+        RecentlyVisitedNovel::where('novel_id', $id)->delete();
+
         $this->inning_order($novel->novel_groups->id);
 
 //        $my_novel = Novel::where('user_id',Auth::user()->id)->orderBy('created_at')->get();
@@ -361,6 +365,7 @@ class NovelController extends Controller
         $novel->save();
 
     }
+
     public function cancel_closed($id)
     {
 
