@@ -173,7 +173,9 @@
                                 <h2 class="hash-tag-title">해시태그</h2>
                                 <ul class="hash-tag-list">
                                     @foreach($novel_group->hash_tags as $hash_tag)
-                                        <li><a href="#mode_nav">{{$hash_tag->tag}}</a></li>
+                                        <li>
+                                            <a href="{{ route('search')."?keyword_name=".$hash_tag->tag }}">{{$hash_tag->tag}}</a>
+                                        </li>
                                     @endforeach
 
                                 </ul>
