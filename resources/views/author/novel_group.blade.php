@@ -52,21 +52,21 @@
                                             </button>
                                             <button type="button" id="non_free" class="btn btn-mint"
                                                     v-else-if="novel.non_free_agreement!=0 && index < novels.length-2"
-                                            >유료화
+                                                    >유료화
                                             </button>
 
                                             </button>
-                                            <button class="btn btn-mint" v-if="novel.open ==1"
-                                                    v-on:click="cancel_closed(novel.id)">공개
+                                            <button class="btn btn-mint" v-if="novel.open ==1">공개
                                             </button>
                                             <button class="btn btn-default" v-if="novel.open ==0"
                                                     v-on:click="make_closed(novel.id)">공개
                                             </button>
-                                            <button class="btn btn-mint" v-if="novel_group_secret != null"
-                                            >비밀
+
+                                            <button class="btn btn-default" v-if="novel.novel_secret ==0  "
+                                                    v-on:click="make_secret(novel.id,novel.non_free_agreement)">비밀
                                             </button>
-                                            <button class="btn btn-default" v-else
-                                            >비밀
+                                            <button class="btn btn-info" v-if="novel.novel_secret ==1"
+                                                    v-on:click="non_secret(novel.id)">비밀
                                             </button>
 
 
@@ -265,9 +265,9 @@
                     this.$http.get('{{ route('novelgroup.novel', ['id' => $novel_group->id]) }}')
                             .then(function (response) {
 
-                                this.novels = response.data[0];
-                                this.novel_group_secret = response.data[1];
-                                console.log(this.novel_group_secret);
+                                this.novels = response.data;
+                                // this.novel_group_secret = response.data[1];
+                                // console.log(this.novels);
                             });
                 },
 
@@ -279,7 +279,7 @@
                 },
                 make_closed: function (e) {
                     bootbox.confirm({
-                        message: "미공개로 전환 하시겠습니까?",
+                        message: "공개로 전환 하시겠습니까?",
 
                         buttons: {
                             confirm: {
@@ -332,6 +332,95 @@
                             if (result) {
                                 Vue.http.headers.common['X-CSRF-TOKEN'] = "{!! csrf_token() !!}";
                                 app_novel.$http.put("{{ url('novels/cancel_closed/') }}/" + e, "", {headers: {'X-CSRF-TOKEN': '{!! csrf_token() !!}'}})
+                                        .then(function (response) {
+                                            app_novel.reload();
+
+                                            $.niftyNoty({
+                                                type: 'warning',
+                                                icon: 'fa fa-check',
+                                                message: "비밀이 해제 되었습니다.",
+                                                container: 'page',
+                                                timer: 4000
+                                            });
+
+                                        })
+                                        .catch(function (data, status, request) {
+                                            var errors = data.data;
+                                            this.formErrors = errors;
+                                        });
+
+                            }
+
+                        }
+                    });
+                },
+
+                make_secret: function (e, non_free_agreement) {
+
+                    if (non_free_agreement) {
+
+                        bootbox.alert({
+                            message: "유료 소설은 비밀로 변경할 수 없습니다."
+
+                        });
+                        return;
+                    }
+
+
+                    bootbox.confirm({
+                        message: "비밀로 전환 하시겠습니까?",
+
+                        buttons: {
+                            confirm: {
+                                label: "확인"
+                            },
+                            cancel: {
+                                label: '취소'
+                            }
+                        },
+
+                        callback: function (result) {
+
+                            if (result) {
+                                Vue.http.headers.common['X-CSRF-TOKEN'] = "{!! csrf_token() !!}";
+                                app_novel.$http.put("{{ url('novels/secret/') }}/" + e, "", {headers: {'X-CSRF-TOKEN': '{!! csrf_token() !!}'}})
+                                        .then(function (response) {
+                                            app_novel.reload();
+                                            $.niftyNoty({
+                                                type: 'warning',
+                                                icon: 'fa fa-check',
+                                                message: "비밀이 되었습니다.",
+                                                container: 'page',
+                                                timer: 4000
+                                            });
+
+                                        })
+                                        .catch(function (data, status, request) {
+                                            var errors = data.data;
+                                            this.formErrors = errors;
+                                        });
+                            }
+                        }
+                    });
+                },
+                non_secret: function (e) {
+                    bootbox.confirm({
+                        message: "비밀 상태를 해제 하시겠습니까?",
+
+                        buttons: {
+                            confirm: {
+                                label: "확인"
+                            },
+                            cancel: {
+                                label: '취소'
+                            }
+                        },
+
+                        callback: function (result) {
+
+                            if (result) {
+                                Vue.http.headers.common['X-CSRF-TOKEN'] = "{!! csrf_token() !!}";
+                                app_novel.$http.put("{{ url('novels/non_secret/') }}/" + e, "", {headers: {'X-CSRF-TOKEN': '{!! csrf_token() !!}'}})
                                         .then(function (response) {
                                             app_novel.reload();
 

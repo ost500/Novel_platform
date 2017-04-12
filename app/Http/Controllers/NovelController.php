@@ -375,5 +375,21 @@ class NovelController extends Controller
 
     }
 
+    //Make novel secret
+    public function secret($id)
+    {
+        $novel = Novel::findOrFail($id);
+        $novel->novel_secret = 1;
+        $novel->save();
+
+    }
+
+    //Make novel non-secret
+    public function non_secret($id)
+    {
+        $novel = Novel::findOrFail($id);
+        $novel->novel_secret = 0;
+        $novel->save();
+    }
 
 }

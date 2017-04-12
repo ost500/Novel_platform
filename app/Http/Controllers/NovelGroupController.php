@@ -270,9 +270,8 @@ class NovelGroupController extends Controller
     public function show_novel($id)
     {
         $novel_group_model = NovelGroup::find($id);
-        $novel_secret = $novel_group_model->secret;
         $novel_group = $novel_group_model->novels->sortByDesc('inning')->values();
-        return \Response::json([$novel_group, $novel_secret]);
+        return \Response::json($novel_group);
     }
 
     /**
