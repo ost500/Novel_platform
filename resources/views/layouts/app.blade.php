@@ -195,13 +195,14 @@
                                     <a href="{{ route('author.novel_memo')}}">
                                         <i class="fa fa-envelope"></i>
                                         <span class="menu-title">
-                                            <strong>쪽지함</strong>
+                                            <strong>작가전용쪽지함</strong>
                                         </span>
                                         <i class="arrow"></i>
                                     </a>
                                     <ul class="collapse {{ (Request::is('author/mailbox/receive_mail')||Request::is('author/mailbox/*')||Request::is('author/mailbox/sent_mail')||Request::is('author/mailbox/sent_mail/*')||Request::is('author/mailbox/create_mail'))?"in":"" }}">
                                         <li><a href="{{ route('author.novel_memo')}}">받은쪽지함</a></li>
                                         <li><a href="{{ route('author.novel_memo_send')}}">보낸쪽지함</a></li>
+                                        <li><a href="{{ route('author.novel_memo_create')}}">선호작 쪽지 보내기</a></li>
                                     </ul>
                                 </li>
 
@@ -226,13 +227,13 @@
                                     <a href="{{route('author.send_gift')}}">
                                         <i class="fa fa-send"></i>
                                         <span class="menu-title">
-                                            <strong>선물</strong>
+                                            <strong>구슬 선물</strong>
                                         </span>
                                         <i class="arrow"></i>
                                     </a>
 
                                     <ul class="collapse {{ (Request::is('author/gifts/send_gift')||Request::is('author/gifts/sent_gifts'))?"in":"" }}">
-                                        <li><a href="{{ route('author.send_gift')}}">선물보내기</a></li>
+                                        <li><a href="{{ route('author.send_gift')}}">구슬 선물하기</a></li>
                                         <li><a href="{{ route('author.sent_gifts')}}">보낸 선물 내역</a></li>
                                     </ul>
                                 </li>

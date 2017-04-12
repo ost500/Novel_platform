@@ -141,7 +141,7 @@
 
                                                 </tr>
                                                 <tr>
-                                                    <td v-if="{{$apply_request->id }} == novel_show.id && novel_show.TF"> {{$apply_request->days.' 일 - '.$apply_request->novels_per_days.' 회차'  }}</td>
+                                                    <td v-if="{{$apply_request->id }} == novel_show.id && novel_show.TF"> {{$apply_request->days.' 일 마다 - '.$apply_request->novels_per_days.' 편씩 연재합니다.'  }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="3"

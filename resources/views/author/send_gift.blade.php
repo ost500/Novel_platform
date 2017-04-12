@@ -79,9 +79,9 @@
                         <div class="form-group">
                             <label class="col-lg-1 control-label text-left" for="inputSubject">구슬선물</label>
 
-                            <div class="col-lg-11">
+                            <div class="col-lg-2">
                                 <input type="text" name="numbers" id="gift_marble" v-model="gift_info.numbers"
-                                       class="form-control">
+                                       class="form-control" placeholder="선물할 구슬 갯수를 적어주세요">
                                 <span class="text">구매한 구슬만 선물이 가능합니다.</span><br>
                                 {{--<span v-if="errors['numbers']" class="error text-danger">@{{ errors['numbers'] }}</span>--}}
                             </div>
@@ -90,7 +90,7 @@
                             <label class="col-lg-1 control-label text-left" for="inputSubject"></label>
 
                             <div class="col-lg-11">
-                                <img src="/img/marble3_icon.png"><span class="item-name">내가 가진 구슬</span>
+                                <img src="/img/marble3_icon.png"><span class="item-name"> 내가 가진 구슬</span>
                                 <strong class="item-name" style="color:green;font-size: medium;"> {{$user_bead->bead}}
                                     개</strong>
                             </div>

@@ -23,7 +23,7 @@
                     <div class="row">
                         <div class="col-sm-7">
                             <a href="{{route('author.novel_memo_create')}}">
-                                <button type="button" class="btn btn-primary">쪽지보내기</button>
+                                <button type="button" class="btn btn-primary">선호작 쪽지 보내기</button>
                             </a>
                         </div>
                         <hr class="hr-sm visible-xs">
@@ -58,7 +58,7 @@
 
                                     <td class="from ">
                                         <a id="demo{{ $novel_mail_message->id }}"
-                                           href="#">@if($novel_mail_message->mailboxs->users) {{$novel_mail_message->mailboxs->users->name}} @endif</a>
+                                           href="#">@if($novel_mail_message->mailboxs->users) {{$novel_mail_message->mailboxs->users->nickname}} @endif</a>
                                     </td>
                                     <td class="text-left"><a
                                                 href="{{route('author.mailbox_message',['id'=> $novel_mail_message->id ])}}/?page={{$page}}">{{$novel_mail_message->mailboxs->subject}} </a>
