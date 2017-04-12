@@ -144,7 +144,7 @@
 
                                     <div class="col-lg-11">
                                         <div class="padding-top-10">
-                                            해당 제휴 업체는 19금 소설 연재가 불가능한 업체입니다. 추후 성인 회차를 추가할 계획이 있으십니까?
+                                            청소년 이용 불가 작품입니까?
 
                                             <label style="margin-left:20px"
                                                    class="form-radio form-icon active form-text">
