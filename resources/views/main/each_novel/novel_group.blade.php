@@ -43,8 +43,7 @@
                         </div>
                     </div>
                     <div class="novel-view">
-                        <a href="{{route('each_novel.novel_group.review',['id'=>$novel_group->id])}}"
-                           class="btn btn--special" style="width:140px;">독자추천 글쓰기</a>
+
                         @if($novel_group->novels->count() > 0)
                             <a href="{{route('each_novel.novel_group_inning',['id'=>$novel_group->novels[0]->id])}}"
                                class="btn btn--special">첫화보기</a>
@@ -58,7 +57,9 @@
                            v-show="add_favorite_disp"><i class="scrap-icon"></i>선호작추가</a>
                         <a href="#" class="is-active" v-on:click="removeFromFavorite()" id="remove_favorite"
                            v-show="remove_favorite_disp" display="none"><i class="scrap-active-icon"></i>선호작추가</a>
-                        <a href="#share_form" data-modal-id="share_form"><i class="share-icon"></i>공유하기</a>
+                        <a href="#" data-modal-id="share_form"><i class="share-icon"></i>공유하기</a>
+                        <a href="{{route('each_novel.novel_group.review',['id'=>$novel_group->id])}}"><i
+                                    class="recommendation-icon"></i>추천글쓰기</a>
                     </div>
                 </section>
                 <!-- //연재소개 -->
@@ -75,39 +76,40 @@
                                             <span class="no">{{ $recently_visited_novel->novels->inning }}화</span>
                                             <span class="datetime">{{$recently_visited_novel->novels->created_at->format('Y-m-d')}}</span>
                                         </div>
-                                        <div class="col-title"> @if($recently_visited_novel->novels->novel_secret)<span style="color: #aaa4a1;"> 비밀글 입니다 </span>@else<a
+                                        <div class="col-title"> @if($recently_visited_novel->novels->novel_secret)<span
+                                                    style="color: #aaa4a1;"> 비밀글 입니다 </span>@else<a
                                                     href="{{route('each_novel.novel_group_inning',['id'=>$recently_visited_novel->novel_id])}}">{{str_limit($recently_visited_novel->novels->title,60)}}
                                                 <i class="up-icon">Up</i></a>@endif</div>
                                         <div class="col-charge"><span class="open">열림</span></div>
                                     </li>
                                 </ul>
                             </section>
-                            @endif
-                                    <!-- //최근읽은회차 -->
+                    @endif
+                    <!-- //최근읽은회차 -->
 
-                            <!-- 연재회차 -->
-                            <section class="episode-list-wrap">
-                                <h2 class="episode-title">연재회차</h2>
-                                <ul class="episode-list">
-                                    @foreach($novel_group->novels as $novel)
-                                        @if($novel->publish_reservation > $latest_time)  @continue; @endif
-                                        <li>
-                                            <div class="col-no">
-                                                <span class="no">{{$novel->inning}} 화</span>
-                                                <span class="datetime">{{$novel->created_at->format('Y-m-d')}}</span>
-                                            </div>
-                                            <div class="col-title"> @if($novel->novel_secret)<span style="color: #aaa4a1;"> 비밀글 입니다</span> @else
-                                                    <a href="{{route('each_novel.novel_group_inning',['id'=>$novel->id])}}">{{str_limit($novel->title, 60)}}{{--<i
+                        <!-- 연재회차 -->
+                        <section class="episode-list-wrap">
+                            <h2 class="episode-title">연재회차</h2>
+                            <ul class="episode-list">
+                                @foreach($novel_group->novels as $novel)
+                                    @if($novel->publish_reservation > $latest_time)  @continue; @endif
+                                    <li>
+                                        <div class="col-no">
+                                            <span class="no">{{$novel->inning}} 화</span>
+                                            <span class="datetime">{{$novel->created_at->format('Y-m-d')}}</span>
+                                        </div>
+                                        <div class="col-title"> @if($novel->novel_secret)<span style="color: #aaa4a1;"> 비밀글 입니다</span> @else
+                                                <a href="{{route('each_novel.novel_group_inning',['id'=>$novel->id])}}">{{str_limit($novel->title, 60)}}{{--<i
                                                         class="up-icon">Up</i>--}}</a>   @endif</div>
-                                            <div class="col-charge">@if($novel->non_free_agreement > 0) 유료 @else <span
-                                                        class="free">무료</span> @endif {{-- <span class="open">열림</span>--}}
-                                            </div>
-                                        </li>
-                                    @endforeach
+                                        <div class="col-charge">@if($novel->non_free_agreement > 0) 유료 @else <span
+                                                    class="free">무료</span> @endif {{-- <span class="open">열림</span>--}}
+                                        </div>
+                                    </li>
+                                @endforeach
 
-                                </ul>
-                            </section>
-                            <!-- //연재회차 -->
+                            </ul>
+                        </section>
+                        <!-- //연재회차 -->
 
                     </div>
                     <div class="episode-list-aside">
@@ -176,8 +178,8 @@
 
                                 </ul>
                             </section>
-                            @endif
-                                    <!-- //해시태그 -->
+                    @endif
+                    <!-- //해시태그 -->
                     </div>
                 </div>
                 <!-- //연재회차,작가다른작품,해시태그 -->
@@ -185,8 +187,8 @@
             </div>
             <!-- //서브컨텐츠 -->
             <!-- 따라다니는퀵메뉴 -->
-            @include('main.quick_menu')
-                    <!-- //따라다니는퀵메뉴 -->
+        @include('main.quick_menu')
+        <!-- //따라다니는퀵메뉴 -->
         </div>
 
     </div>
