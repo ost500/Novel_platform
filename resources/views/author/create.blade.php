@@ -152,7 +152,7 @@
 
 
                             <div class="form-group">
-                                <label class="col-md-2 control-label">표지 직접등록1</label>
+                                <label class="col-md-2 control-label">표지 직접등록</label>
 
                                 <div class="col-md-9">
                                     <input type="file" name="cover_photo" id="demo-password-input" class="form-control"
@@ -164,7 +164,7 @@
 
 
                             <div class="form-group">
-                                <label class="col-md-2 control-label">표지 직접등록2</label>
+                                <label class="col-md-2 control-label">보조 표지</label>
 
                                 <div class="col-md-9">
                                     <input type="file" name="cover_photo2" id="demo-password-input"
