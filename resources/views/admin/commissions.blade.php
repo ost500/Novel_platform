@@ -88,33 +88,33 @@
 
                                                     {{-- $users->render() --}}
                                                     <li class="page-first  @if($users->currentPage() ==1)  disabled @endif">
-                                                        <a href=" @if($users->currentPage() ==1)  #  @else {{url('/admin/users'."?page=1")}} @endif">
+                                                        <a href=" @if($users->currentPage() ==1)  #  @else {{url('/admin/commissions'."?page=1")}} @endif">
                                                             &lt;&lt;</a>
                                                     </li>
                                                     @if($users->currentPage() >= 2)
                                                         <li class="page-pre"><a
-                                                                    href="{{url('/admin/users'."?page=".($users->currentPage()-1))}}">
+                                                                    href="{{url('/admin/commissions'."?page=".($users->currentPage()-1))}}">
                                                                 &lt;</a></li>
                                                     @endif
                                                     @if($users->currentPage() >= 5)
                                                         <li class="page-pre"><a
-                                                                    href="{{url('/admin/users'."?page=".($users->currentPage()-4))}}">{{$users->currentPage()-4}}</a>
+                                                                    href="{{url('/admin/commissions'."?page=".($users->currentPage()-4))}}">{{$users->currentPage()-4}}</a>
                                                         </li>
                                                     @endif
                                                     @if($users->currentPage() >= 4)
                                                         <li class="page-pre">
-                                                            <a href="{{url('/admin/users'."?page=".($users->currentPage()-3))}}">{{$users->currentPage()-3}}</a>
+                                                            <a href="{{url('/admin/commissions'."?page=".($users->currentPage()-3))}}">{{$users->currentPage()-3}}</a>
                                                         </li>
                                                     @endif
                                                     @if($users->currentPage() >= 3)
                                                         <li class="page-pre">
 
-                                                            <a href="{{url('/admin/users'."?page=".($users->currentPage()-2))}}">{{$users->currentPage()-2}}</a>
+                                                            <a href="{{url('/admin/commissions'."?page=".($users->currentPage()-2))}}">{{$users->currentPage()-2}}</a>
                                                         </li>
                                                     @endif
                                                     @if($users->currentPage() >= 2)
                                                         <li class="page-pre">
-                                                            <a href="{{url('/admin/users'."?page=".($users->currentPage()-1))}}">{{$users->currentPage()-1}}</a>
+                                                            <a href="{{url('/admin/commissions'."?page=".($users->currentPage()-1))}}">{{$users->currentPage()-1}}</a>
                                                         </li>
                                                     @endif
 
@@ -123,34 +123,34 @@
 
                                                     @if($users->lastPage()-1 >= $users->currentPage())
                                                         <li class="page-number">
-                                                            <a href="{{url('/admin/users'."?page=".($users->currentPage()+1))}}">{{$users->currentPage()+1}}</a>
+                                                            <a href="{{url('/admin/commissions'."?page=".($users->currentPage()+1))}}">{{$users->currentPage()+1}}</a>
                                                         </li>
                                                     @endif
                                                     @if($users->lastPage()-2 >= $users->currentPage())
                                                         <li class="page-number">
-                                                            <a href="{{url('/admin/users'."?page=".($users->currentPage()+2))}}">{{$users->currentPage()+2}}</a>
+                                                            <a href="{{url('/admin/commissions'."?page=".($users->currentPage()+2))}}">{{$users->currentPage()+2}}</a>
                                                         </li>
                                                     @endif
                                                     @if($users->lastPage()-3 >= $users->currentPage())
                                                         <li class="page-number"><a
-                                                                    href="{{url('/admin/users'."?page=".($users->currentPage()+3))}}">{{$users->currentPage()+3}}</a>
+                                                                    href="{{url('/admin/commissions'."?page=".($users->currentPage()+3))}}">{{$users->currentPage()+3}}</a>
                                                         </li>
                                                     @endif
                                                     @if($users->lastPage()-4 >= $users->currentPage())
                                                         <li class="page-number">
-                                                            <a href="{{url('/admin/users'."?page=".($users->currentPage()+4))}}">{{$users->currentPage()+4}}</a>
+                                                            <a href="{{url('/admin/commissions'."?page=".($users->currentPage()+4))}}">{{$users->currentPage()+4}}</a>
                                                         </li>
                                                     @endif
 
                                                     @if($users->lastPage()-1 >= $users->currentPage())
                                                         <li class="page-next">
-                                                            <a href="{{url('/admin/users'."?page=".($users->currentPage()+1))}}">
+                                                            <a href="{{url('/admin/commissions'."?page=".($users->currentPage()+1))}}">
                                                                 &gt;</a>
                                                         </li>
                                                     @endif
 
                                                     <li class="page-last  @if($users->currentPage() == $users->lastPage())  disabled @endif">
-                                                        <a href=" @if($users->currentPage() ==$users->lastPage())  #  @else{{url('/admin/users'."?page=".($users->lastPage()))}} @endif">
+                                                        <a href=" @if($users->currentPage() ==$users->lastPage())  #  @else{{url('/admin/commissions'."?page=".($users->lastPage()))}} @endif">
                                                             &gt;&gt;</a>
                                                     </li>
                                                 </ul>
