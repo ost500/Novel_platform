@@ -13,11 +13,11 @@
                         <header class="episode-header">
                             <div class="titles">
                                 <h1 class="series-title"><a
-                                            href="{{ route('each_novel.novel_group', ['id' => $novel_group_inning->novel_groups->id]) }}">{{ $novel_group_inning->novel_groups->title }}</a>
+                                            href="{{ route('each_novel.novel_group', ['id' => $novel_group_inning->novel_groups->id]) }}">{{ str_limit($novel_group_inning->novel_groups->title,45) }}</a>
                                 </h1>
 
                                 <p class="episode-title">
-                                    <a href="{{ route('each_novel.novel_group', ['id' => $novel_group_inning->novel_groups->id]) }}"> {{ $novel_group_inning->title }}</a>
+                                    <a href="{{ route('each_novel.novel_group', ['id' => $novel_group_inning->novel_groups->id]) }}"> {{ str_limit($novel_group_inning->title,15) }}</a>
                                 </p>
                             </div>
                             <div class="controls">
