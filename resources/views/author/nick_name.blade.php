@@ -32,18 +32,18 @@
                                   {{--  <div class="padding-bottom-5">
                                         <button class="btn btn-primary" id="novels-user-nick-form">필명추가</button>
                                     </div>--}}
-                                    <table class="table table-bordered" id="nickname">
+                                    <table class="table table-bordered" id="nickname" style="width: 50%;">
                                         <tbody>
-                                        <tr v-for="nick in nicks" :key="nick.id">
+                                        <tr v-for="nick in nicks" :key="nick.id"  >
 
 
-                                            <td class="col-md-9">@{{ nick.nickname }}
+                                            <td class="col-md-6">@{{ nick.nickname }}
                                                 <button v-if="nick.main"
                                                         class="btn btn-xs btn-danger btn-circle">메인
                                                 </button>
                                             </td>
 
-                                            <td class="text-center">
+                                            <td class="text-center col-md-2">
 
                                               {{--  <button v-if="nick.main == false"
                                                         class="btn btn-primary" v-on:click="main(nick.id)">메인전환
