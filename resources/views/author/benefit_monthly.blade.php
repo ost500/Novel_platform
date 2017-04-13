@@ -37,8 +37,8 @@
                                         <tr>
                                             <th class="text-center">날짜</th>
                                             <th class="text-center">작가명</th>
-                                            <th class="text-center">작품명</th>
                                             <th class="text-center">판매 수</th>
+                                            <th class="text-center">정산</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -51,10 +51,10 @@
                                         @foreach($myPurchasedNovel as $purchased)
 
                                             <tr>
-                                                <td class="col-md-2 text-center">{{ $year.'-'.$month }}</td>
+                                                <td class="col-md-1 text-center">{{ $year.'-'.$month }}</td>
                                                 <td class="col-md-2 text-center">{{ $purchased->novel_group_title }}</td>
                                                 <td class="col-md-1 text-center">{{ $purchased->purchased_novel_count }}</td>
-                                                <td class="col-md-1 text-center">{{ $purchased->purchased_novel_count*1000 }}</td>
+                                                <td class="col-md-1 text-center">{{ $purchased->purchased_novel_count*1000 * $commission}}</td>
 
                                             </tr>
                                         @endforeach
@@ -72,7 +72,7 @@
                                 </div>
 
                                 <div class="pull-right">
-                                   @include('pagination', ['collection' => $myPurchasedNovel, 'url' => route('author.benefit.monthly',['month'=>$year.'-'.$month ])])
+                                    @include('pagination', ['collection' => $myPurchasedNovel, 'url' => route('author.benefit.monthly',['month'=>$year.'-'.$month ])])
                                 </div>
                             </div>
 
