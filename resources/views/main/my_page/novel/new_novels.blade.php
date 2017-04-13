@@ -39,7 +39,7 @@
                                         <div class="post">
                                             <strong class="title"><a
                                                         href="{{route('each_novel.novel_group',['id'=>$notification->id])}}">{{str_limit($notification->title,20)}}</a></strong>
-                                            <span class="datetime">{{$notification->created_at}}</span>
+                                            <span class="datetime">{{$notification->notification_date}}</span>
                                         </div>
                                     </li>
                                 @endforeach

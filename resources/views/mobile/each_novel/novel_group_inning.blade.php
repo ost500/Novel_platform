@@ -498,7 +498,6 @@
                 },
 
                 commentDelete: function (comment_id) {
-                    if (confirm('삭제 하시겠습니까?')) {
                         app.$http.delete('{{ url('comments') }}/' + comment_id, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                                 .then(function (response) {
                                     location.reload();
@@ -506,7 +505,6 @@
                                 .catch(function (errors) {
                                     window.location.assign('{{ url('/login')}}');
                                 });
-                    }
                 },
 
                 addToFavorite: function (novel_group_id) {

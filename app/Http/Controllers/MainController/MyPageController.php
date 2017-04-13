@@ -154,7 +154,7 @@ class MyPageController extends Controller
 
         //Detect mobile
         if ($this->agent->isMobile()) {
-            return view('mobile.my_page.novel.new_novels', compact('new_novels', 'other_novels'));
+            return view('mobile.my_page.novel.new_novels', compact('authors', 'notifications'));
         }
         return view('main.my_page.novel.new_novels', compact('authors', 'notifications'));
     }

@@ -1,8 +1,8 @@
 @extends('layouts.mobile_mypage_layout')
 @section('content')
         <!-- 내용 -->
-<div class="container">
-    <div class="cont_wrap">
+<div class="container" xmlns:v-on="http://www.w3.org/1999/xhtml">
+    <div class="cont_wrap" id="novel_group_notifications">
         <!-- 셀렉트박스 -->
         @include('mobile.my_page.select_bar')
                 <!-- 셀렉트박스 //-->
@@ -14,41 +14,36 @@
         <!-- 리스트 -->
         <table class="tbl_dotline">
             <tbody>
-            @foreach($new_novels as $new_novel )
+            @if($authors->isEmpty())
                 <tr>
                     <td>
                         <div class="wid_imglst_wrap">
-                            <div class="wid_imglst_tit">{{$new_novel->nicknames->nickname}}</div>
+                            <div class="wid_imglst_tit" style="text-align: center;">신작이 없습니다.</div>
+                        </div>
+                    </td>
+                </tr>
+            @endif
+            @foreach($authors as $author )
+                <tr>
+                    <td>
+                        <div class="wid_imglst_wrap">
+                            <div class="wid_imglst_tit">{{$author->nickname}}</div>
                             <ul class="wid_imglst">
-                                <li>
-                                    <a href="{{route('each_novel.novel_group',['id'=>$new_novel->id])}}"
-                                       class="wid_imglst_a">
-                                    <span class="widlst_img">
-
-                                            <img src="/img/novel_covers/{{$new_novel->cover_photo}}"
-                                                 alt="망의 연월"></span>
-											<span class="widlst_txt">
-												<strong>{{str_limit($new_novel->title,20)}}</strong>
-												<span class="widlst_time">{{$new_novel->new}}</span>
-											</span>
-
-                                    </a>
-                                </li>
-                                @foreach($other_novels[$new_novel->user_id] as $other_novel )
+                                @foreach($notifications[$author->user_id] as $notification )
                                     <li>
-                                        <a href="{{route('each_novel.novel_group',['id'=>$other_novel->id])}}"
+                                        <a href="{{route('each_novel.novel_group',['id'=>$notification->id])}}"
                                            class="wid_imglst_a">
                                             <span class="widlst_img"><img
-                                                        src="/img/novel_covers/{{$other_novel->cover_photo}}"></span>
+                                                        src="/img/novel_covers/{{$notification->cover_photo}}"></span>
 											<span class="widlst_txt">
-												<strong>{{str_limit($other_novel->title,20)}}</strong>
-												<span class="widlst_time">{{$other_novel->new}}</span>
+												<strong>{{str_limit($notification->title,20)}}</strong>
+												<span class="widlst_time">{{$notification->notification_date}}</span>
 											</span>
                                         </a>
                                     </li>
                                 @endforeach
                             </ul>
-                          {{--  <a href="" class="btn_x_a"><span class="btn_x_icon">삭제</span></a>--}}
+                            <a class="btn_x_a" style="cursor:pointer;" v-on:click="remove_notifications('{{$author->user_id}}')"><span class="btn_x_icon">삭제</span></a>
                         </div>
                     </td>
                 </tr>
@@ -61,4 +56,25 @@
     </div>
 </div>
 <!-- 내용 //-->
+<script>
+    var app_noti = new Vue({
+        el: '#novel_group_notifications',
+        data: {
+
+        },
+
+        methods: {
+            remove_notifications:function(author_id){
+                    this.$http.delete('{{ route('novel_group_notifications.destroy',['id'=>""]) }}/'+author_id, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                            .then(function (response) {
+                                location.reload();
+                            })
+                            .catch(function (errors) {
+
+                                window.location.assign('{{ url('/login')}}');
+                            });
+            }
+        }
+    });
+</script>
 @endsection
