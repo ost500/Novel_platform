@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Validator;
 use Auth;
+
 class ReviewController extends Controller
 {
     /**
@@ -52,7 +53,7 @@ class ReviewController extends Controller
 
         //if posting is blocked then redirect back with error
         if (Auth::user()->isPostingBlocked()) {
-            $error='글쓰기가 관리자에 의해 차단 됐습니다';
+            $error = '글쓰기가 관리자에 의해 차단 됐습니다';
             return redirect()->back()->withErrors($error);
         }
 
@@ -72,7 +73,7 @@ class ReviewController extends Controller
     {
 
 
-        $groups_reviews = Review::where('novel_group_id', $id)->with('users')->with('novel_groups')->get();
+        $groups_reviews = Review::where('novel_group_id', $id)->with('users')->with('novel_groups')->paginate(5);
 
 
 //        return response()->json($groups_reviews);

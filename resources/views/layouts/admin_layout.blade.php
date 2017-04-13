@@ -16,7 +16,7 @@
     <link href="/css/bootstrap.css?v=3" rel="stylesheet">
 
     <link href="/css/extra.css?v=2" rel="stylesheet">
-    <link href="/css/nifty.css?v=5" rel="stylesheet">
+    <link href="/css/nifty.css?v=6" rel="stylesheet">
     <link href="/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link href="/plugins/pace/pace.min.css" rel="stylesheet">
 

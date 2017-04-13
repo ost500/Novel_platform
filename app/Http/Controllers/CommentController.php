@@ -109,27 +109,24 @@ class CommentController extends Controller
 
         $groups_comments = new Collection();
 
-        $comments_count = 0;
 
-        foreach ($group_novel as $novel) {
-            foreach ($novel->comments as $comment) {
-                if ($comment->parent_id == 0) {
-                    $comments_count++;
-                    //부모가 없는 댓글들만 불러온다
-                    $single_comment = $comment->myself;
-                    $single_comment->put('children', $comment->children->sortByDesc('created_at'));
-                    $comments_count += $comment->children->count();
-                    //자식들을 달아준다
-                    $groups_comments->put($comments_count, $single_comment);
-                    //콜렉션에 넣어준다
-                }
-            }
-        }
-//        $groups_comments = new Paginator($groups_comments, 2);
+        $groups_comments = Comment::join('novels', 'novels.id', '=', 'comments.novel_id')
+            ->selectRaw('comments.created_at, comments.*, novels.novel_group_id')
+            ->where('novel_group_id', $id)->where('parent_id', 0)
+            ->latest()
+            ->with('children')->with('users')->with('novels')
+            ->paginate(5);
 
-        $groups_comments = new LengthAwarePaginator($groups_comments, $comments_count, 2, $request->page);
 
-//        return response()->json($groups_comments);
+        $comments_count = $groups_comments->total();
+        
+
+
+//        $groups_comments = $groups_comments->sortByDesc('created_at');
+
+//        $groups_comments = new LengthAwarePaginator($groups_comments->forPage($request->page, 2), $comments_count, 2, $request->page);
+
+//        return response()->json([$comments_count, $groups_comments]);
         return view('author.group_comments', compact('groups_comments', 'comments_count'));
     }
 
