@@ -261,8 +261,9 @@ class MyInfoController extends Controller
 
     public function purchased_novel_list()
     {
-        $purchasedNovels = PurchasedNovel::where('user_id', Auth::user()->id)->with('novels')->latest()->paginate(config('define.pagination_long'));
+        $purchasedNovels = PurchasedNovel::where('user_id', Auth::user()->id)->with('novels.novel_groups')->latest()->paginate(config('define.pagination_long'));
         //Detect mobile
+//        return response()->json($purchasedNovels);
         if ($this->agent->isMobile()) {
             return view('mobile.my_page.use_info.purchased_novel_list', compact('purchasedNovels'));
         }
