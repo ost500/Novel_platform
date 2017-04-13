@@ -183,10 +183,12 @@
                                         <i class="arrow"></i>
                                     </a>
 
-                                    <ul class="collapse {{ (Request::is('admin/calculations')||Request::is('admin/calculation/*')||Request::is('admin/calculations/*'))?"in":"" }}">
+                                    <ul class="collapse {{ (Request::is('admin/calculations')||Request::is('admin/calculation/*')||Request::is('admin/calculations/*') ||Request::is('admin/all_calculations') ||Request::is('admin/all_calculations/*'))?"in":"" }}">
                                         <li><a href="{{ route('code_num')  }}">작품 코드번호 입력</a></li>
                                         <li><a href="{{route('calculation.create')}}">정산 등록</a></li>
-                                        <li><a href="{{route('calculation')}}">정산 내역</a></li>
+                                        {{--<li><a href="{{route('calculation')}}">정산 내역</a></li>--}}
+                                        <li><a href="{{route('calculation')}}">퍼블리싱 정산 내역</a></li>
+                                        <li><a href="{{route('calculation.all')}}">여우정원 정산 내역</a></li>
                                     </ul>
                                 </li>
 
