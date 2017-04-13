@@ -59,7 +59,7 @@
                                             <button class="btn btn-mint" v-if="novel.open ==1">공개
                                             </button>
                                             <button class="btn btn-default" v-if="novel.open ==0"
-                                                    v-on:click="make_closed(novel.id)">공개
+                                                    v-on:click="make_open(novel.id)">공개
                                             </button>
 
                                             <button class="btn btn-default" v-if="novel.novel_secret ==0  "
@@ -277,7 +277,7 @@
                 go_to_novel: function (e) {
                     window.location.assign('{{ url('/author/management/show_novel/') }}' + "/" + e);
                 },
-                make_closed: function (e) {
+                make_open: function (e) {
                     bootbox.confirm({
                         message: "공개로 전환 하시겠습니까?",
 
@@ -294,7 +294,7 @@
 
                             if (result) {
                                 Vue.http.headers.common['X-CSRF-TOKEN'] = "{!! csrf_token() !!}";
-                                app_novel.$http.put("{{ url('novels/make_closed/') }}/" + e, "", {headers: {'X-CSRF-TOKEN': '{!! csrf_token() !!}'}})
+                                app_novel.$http.put("{{ url('novels/make_open/') }}/" + e, "", {headers: {'X-CSRF-TOKEN': '{!! csrf_token() !!}'}})
                                         .then(function (response) {
                                             app_novel.reload();
                                             $.niftyNoty({
@@ -314,7 +314,7 @@
                         }
                     });
                 },
-                cancel_closed: function (e) {
+                cancel_open: function (e) {
                     bootbox.confirm({
                         message: "공개로 전환 하시겠습니까?",
 
@@ -331,7 +331,7 @@
 
                             if (result) {
                                 Vue.http.headers.common['X-CSRF-TOKEN'] = "{!! csrf_token() !!}";
-                                app_novel.$http.put("{{ url('novels/cancel_closed/') }}/" + e, "", {headers: {'X-CSRF-TOKEN': '{!! csrf_token() !!}'}})
+                                app_novel.$http.put("{{ url('novels/cancel_open/') }}/" + e, "", {headers: {'X-CSRF-TOKEN': '{!! csrf_token() !!}'}})
                                         .then(function (response) {
                                             app_novel.reload();
 

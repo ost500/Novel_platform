@@ -359,7 +359,7 @@ class NovelController extends Controller
     }
 
 
-    public function make_closed($id)
+    public function make_open($id)
     {
         $novel = Novel::findOrFail($id);
         $novel->open = 1;
@@ -383,7 +383,7 @@ class NovelController extends Controller
 
     }
 
-    public function cancel_closed($id)
+    public function cancel_open($id)
     {
 
         $novel = Novel::findOrFail($id);
