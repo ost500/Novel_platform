@@ -462,7 +462,7 @@ h6,
     left: 0;
     background-color: #ffffff;
     padding: 0 8px;
-    box-shadow: inset -4px 0 0 0 #3B322B ;
+    box-shadow: inset -4px 0 0 0 #3B322B;
 }
 
 @media (min-width: 992px) {
@@ -5980,8 +5980,8 @@ a.list-group-item-dark:focus {
 .pagination > li a:hover,
 .pagination > li a:focus {
     background-color: #ffffff;
-    border-color: #947a63 ;
-    color: #947a63 ;
+    border-color: #947a63;
+    color: #947a63;
     box-shadow: inset 0 0 1px #54abd9;
     z-index: 2;
     -webkit-transition: border-color, 0.3s;
@@ -7676,6 +7676,11 @@ a.text-dark:focus {
 
 .padding-top-10 {
     padding-top: 10px;
+}
+
+.description_for_apply {
+    height: 170px;
+    overflow: hidden;
 }
 
 .padding-bottom-1 {

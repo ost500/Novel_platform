@@ -113,15 +113,15 @@
                                 <div class="col-lg-11 text-center">
 
 
-                                    <div class="col-sm-2" v-for="company in companies">
+                                    <div class="col-sm-2" style="height:450px" v-for="company in companies">
                                         <div>
                                             <img src="/img/novel_covers/default_.jpg"
-                                                 width="150" v-if="company.company_picture == ''">
-                                            <img :src="'/img/company_pictures/'+company.company_picture" width="150"
-                                                 class="index_img" v-else>
+                                                 class="index_img" width="150" v-if="company.company_picture == ''">
+                                            <img :src="'/img/company_pictures/'+company.company_picture"
+                                                 class="index_img" width="150" v-else>
                                         </div>
 
-                                        <div class="padding-top-10">
+                                        <div class="padding-top-10" >
                                             <label class="form-checkbox form-icon form-text">
                                                 <input type="checkbox" :name="'company'+company.id"
                                                        value="true" v-on:change="company_check(company)"
@@ -130,7 +130,7 @@
                                         <div class="padding-top-10">초기연재 @{{company.initial_inning}}편</div>
                                         <div class="padding-top-10" v-if="company.adult==1">19금 불가</div>
                                         <div class="padding-top-10"  v-if="company.adult==0" style="margin-bottom:7%"></div>
-                                        <div class="padding-top-10" >@{{company.description}}</div>
+                                        <div class="padding-top-10 description_for_apply" style="word-break:break-word;" >@{{company.description}}</div>
                                     </div>
 
 

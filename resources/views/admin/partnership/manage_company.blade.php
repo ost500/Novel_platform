@@ -53,7 +53,7 @@
 													</td>
 													<td class="text-center" style="word-wrap: break-word;width:20%" ><?php echo nl2br($company->description, false); ?></td>
 													<td class="text-center">{{$company->initial_inning}} </td>
-													<td class="text-center">@if($company->adult_allowance)  Yes @else No  @endif </td>
+													<td class="text-center">@if($company->adult)  예 @else 아니오  @endif </td>
 													<td class="text-center">
 														<a href="{{route('admin.partner_edit_company',['id'=>$company->id])}}"><button class="btn btn-success">수정</button></a>
 														<button class="btn btn-warning"  onclick="destroy({{$company->id}})" >삭제</button>
