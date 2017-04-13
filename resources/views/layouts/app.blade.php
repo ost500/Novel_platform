@@ -258,14 +258,14 @@
                                     <a href="/">
                                         <i class="fa fa-user"></i>
                                         <span class="menu-title">
-                                            <strong>내정보</strong>
+                                            <strong>작가정보</strong>
                                         </span>
                                         <i class="arrow"></i>
                                     </a>
 
 
                                     <ul class="collapse {{ (Request::is('author/profile/information')||Request::is('author/profile/nickname'))?"in":"" }}">
-                                        <li><a href="{{ route("author.profile") }}">작가정보관리</a></li>
+                                        <li><a href="{{ route("author.profile") }}">필수정산정보</a></li>
                                         <li><a href="{{ route("author.nickname") }}">필명등록</a></li>
                                     </ul>
                                 </li>

@@ -68,7 +68,7 @@
                                         <div class="col-md-9">
                                             <input type="text" name="name" id="demo-email-input" class="form-control"
 
-                                                   placeholder="작가 이름을 입력해 주세요." v-model="profile.name">
+                                                   placeholder="작가 이름을 입력해 주세요." v-model="profile.user_name">
                                         </div>
 
                                     </div>
