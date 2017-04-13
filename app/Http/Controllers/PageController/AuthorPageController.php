@@ -496,7 +496,9 @@ class AuthorPageController extends Controller
         //return response()->json($myPurchasedNovel);
         $month = $date->month;
         $year = $date->year;
-        return view('author.benefit_monthly', compact('myPurchasedNovel', 'month_date', 'month', 'year'));
+
+        $commission = (100 - Auth::user()->commission) / 100;
+        return view('author.benefit_monthly', compact('myPurchasedNovel', 'month_date', 'month', 'year', 'commission'));
     }
 
     public function send_gift()

@@ -56,10 +56,10 @@
 
             <div class="navbar-header">
                 <a href="{{ route('root') }}" class="navbar-brand">
-                    <img src="/img/logo.png" alt="Nifty Logo" class="brand-icon">
+                    <img style="margin-left:10px; margin-right:-8px" src="/front/imgs/common/foxgarden_author_logo.png" alt="Nifty Logo" class="brand-icon">
 
                     <div class="brand-title">
-                        <span class="brand-text">{{ config('app.name', 'Laravel') }}</span>
+                        <img src="/front/imgs/common/foxgarden_author_logo2.png" alt="Nifty Logo">
                     </div>
                 </a>
             </div>

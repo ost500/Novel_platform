@@ -4,14 +4,14 @@
     <div id="content-container" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 
         <div id="page-title">
-            <h1 class="page-header text-overflow">작품목록</h1>
+            <h1 class="page-header text-overflow">작품 관리</h1>
         </div>
 
 
         <ol class="breadcrumb">
-            <li><a href="#">작가홈</a></li>
+            <li><a href="#">어드민</a></li>
             <li><a href="#">작품관리</a></li>
-            <li class="active">작품목록</li>
+            <li class="active">작품 관리</li>
         </ol>
 
 
@@ -62,7 +62,7 @@
                                                     <tr>
                                                         <td><h4>
                                                                 <a style="cursor:pointer"
-                                                                   v-on:click="go_to_group(group.id)">@{{ group.title }} &nbsp;</a>
+                                                                   v-on:click="go_to_group(group.id)">@{{ group.title }}</a>
                                                             </h4>
                                                         </td>
                                                     </tr>
@@ -78,26 +78,27 @@
                                                     <tr>
                                                         <td class="padding-top-10 text-right">
                                                             <button class="btn btn-primary"
-                                                                    v-on:click="commentsDisplay(group.id)">
+                                                                    v-on:click="commentsDisplay(group.id, 1)">
                                                                 댓글 @{{ check(group.id) }}
                                                             </button>
                                                             <button class="btn btn-info"
-                                                                    v-on:click="reviewsDisplay(group.id)">
+                                                                    v-on:click="reviewsDisplay(group.id, 1)">
                                                                 리뷰 @{{ check_review(group.id) }}
 
                                                             </button>
                                                             <button class="btn btn-success"
-                                                                    v-on:click="go_to_edit(group.id)">작품정보
+                                                                    v-on:click="go_to_edit(group.id)">수정
                                                             </button>
-                                                            {{--<button class="btn btn-mint" v-if="group.secret == null"--}}
-                                                                    {{--v-on:click="secret(group.id)"> 비밀--}}
-                                                            {{--</button>--}}
-
-                                                            {{--<button class="btn btn-warning"--}}
-                                                                    {{--v-on:click="destroy(group.id)">삭제--}}
-                                                            {{--</button>--}}
                                                             <button class="btn btn-mint" v-if="group.secret == null"
-                                                                    v-on:click="clone_for_publish(group.id)">클린버전 게시판 생성
+                                                                    v-on:click="secret(group.id)"> 비밀
+                                                            </button>
+
+                                                            <button class="btn btn-warning"
+                                                                    v-on:click="destroy(group.id)">삭제
+                                                            </button>
+                                                            <button class="btn btn-mint" v-if="group.secret == null"
+                                                                    v-on:click="clone_for_publish(group.id)"> 클린버전 게시판
+                                                                생성
                                                             </button>
                                                         </td>
                                                     </tr>
@@ -109,16 +110,222 @@
 
                                         </tr>
                                         <tr>
+                                            {{--comment--}}
                                             <td colspan="2">
                                                 <div v-bind:id="commentId(group.id)"
-                                                     v-if="group.id == comment_show.id && comment_show.TF"></div>
+                                                     v-if="group.id == comment_show.id && comment_show.TF">
+                                                </div>
+
+                                                <div v-if="group.id == comment_show.id && comment_show.TF">
+
+                                                    <div class="pull-right">
+                                                        <ul class="pagination">
+
+                                                            <li v-if="comment_page.page_first" class="page-first"><a
+                                                                        style="cursor:pointer"
+                                                                        v-on:click="comment_pagination(1)"
+
+                                                                >&lt;&lt;</a></li>
+                                                            <li v-else class="page-first disabled"><a
+                                                                        style="cursor:pointer">&lt;&lt;</a></li>
+
+                                                            <li v-if="comment_page.page_first" class="page-pre"><a
+                                                                        style="cursor:pointer"
+                                                                        v-on:click="comment_pagination(comment_page.current_page - 1)"
+                                                                >&lt;</a>
+                                                            </li>
+                                                            <li v-else class="page-pre disabled"><a
+                                                                        style="cursor:pointer"
+                                                                >&lt;</a>
+                                                            </li>
+
+
+                                                            <li v-if="comment_page.current_page >= 5"
+                                                                class="page-number">
+                                                                <a style="cursor:pointer"
+                                                                   v-on:click="comment_pagination(comment_page.current_page - 4)"
+                                                                >@{{ comment_page.current_page - 4 }}</a>
+                                                            </li>
+                                                            <li v-if="comment_page.current_page >= 4"
+                                                                class="page-number">
+                                                                <a style="cursor:pointer"
+                                                                   v-on:click="comment_pagination(comment_page.current_page - 3)"
+                                                                >@{{ comment_page.current_page - 3 }}</a>
+                                                            </li>
+                                                            <li v-if="comment_page.current_page >= 3"
+                                                                class="page-number">
+                                                                <a style="cursor:pointer"
+                                                                   v-on:click="comment_pagination(comment_page.current_page - 2)"
+                                                                >@{{ comment_page.current_page - 2 }}</a>
+                                                            </li>
+                                                            <li v-if="comment_page.current_page >= 2"
+                                                                class="page-number">
+                                                                <a style="cursor:pointer"
+                                                                   v-on:click="comment_pagination(comment_page.current_page - 1)"
+                                                                >@{{ comment_page.current_page - 1 }}</a>
+                                                            </li>
+
+                                                            <li class="page-number active">
+                                                                <a>@{{ comment_page.current_page }}</a></li>
+
+                                                            <li v-if="(comment_page.last_page-1) >= comment_page.current_page"
+                                                                class="page-number">
+                                                                <a style="cursor:pointer"
+                                                                   v-on:click="comment_pagination(comment_page.current_page + 1)"
+                                                                >@{{ comment_page.current_page + 1 }}</a>
+                                                            </li>
+                                                            <li v-if="(comment_page.last_page-2) >= comment_page.current_page"
+                                                                class="page-number">
+                                                                <a style="cursor:pointer"
+                                                                   v-on:click="comment_pagination(comment_page.current_page + 2)"
+                                                                >@{{ comment_page.current_page + 2 }}</a>
+                                                            </li>
+                                                            <li v-if="(comment_page.last_page-3) >= comment_page.current_page"
+                                                                class="page-number">
+                                                                <a style="cursor:pointer"
+                                                                   v-on:click="comment_pagination(comment_page.current_page + 3)"
+                                                                >@{{ comment_page.current_page + 3 }}</a>
+                                                            </li>
+                                                            <li v-if="(comment_page.last_page-4) >= comment_page.current_page"
+                                                                class="page-number">
+                                                                <a style="cursor:pointer"
+                                                                   v-on:click="comment_pagination(comment_page.current_page + 4)"
+                                                                >@{{ comment_page.current_page + 4 }}</a>
+                                                            </li>
+
+
+                                                            <li v-if="comment_page.page_next" class="page-next"><a
+                                                                        style="cursor:pointer"
+                                                                        v-on:click="comment_pagination(comment_page.current_page + 1)"
+                                                                >&gt;</a>
+                                                            </li>
+                                                            <li v-else class="page-next disabled"><a
+                                                                        style="cursor:pointer"
+                                                                >&gt;</a>
+                                                            </li>
+                                                            <li v-if="comment_page.page_last" class="page-last"><a
+                                                                        style="cursor:pointer"
+                                                                        v-on:click="comment_pagination(comment_page.last_page)"
+                                                                >&gt;&gt;</a>
+                                                            </li>
+                                                            <li v-else class="page-last disabled"><a
+                                                                        style="cursor:pointer"
+                                                                >&gt;&gt;</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+
+                                                <div v-if="group.id == comment_show.id && comment_show.TF">
+
+
+                                                </div>
                                                 <div v-bind:id="commentId(group.id)" v-else hidden></div>
                                             </td>
                                         </tr>
                                         <tr>
+                                            {{--review--}}
                                             <td colspan="2">
                                                 <div v-bind:id="reviewId(group.id)"
                                                      v-if="group.id == review_show.id && review_show.TF"></div>
+                                                <div v-if="group.id == review_show.id && review_show.TF">
+                                                    <div class="pull-right">
+                                                        <ul class="pagination">
+
+                                                            <li v-if="review_page.page_first" class="page-first"><a
+                                                                        style="cursor:pointer"
+                                                                        v-on:click="review_pagination(1)"
+
+                                                                >&lt;&lt;</a></li>
+                                                            <li v-else class="page-first disabled"><a
+                                                                        style="cursor:pointer">&lt;&lt;</a></li>
+
+                                                            <li v-if="review_page.page_first" class="page-pre"><a
+                                                                        style="cursor:pointer"
+                                                                        v-on:click="review_pagination(review_page.current_page - 1)"
+                                                                >&lt;</a>
+                                                            </li>
+                                                            <li v-else class="page-pre disabled"><a
+                                                                        style="cursor:pointer"
+                                                                >&lt;</a>
+                                                            </li>
+
+
+                                                            <li v-if="review_page.current_page >= 5"
+                                                                class="page-number">
+                                                                <a style="cursor:pointer"
+                                                                   v-on:click="review_pagination(review_page.current_page - 4)"
+                                                                >@{{ review_page.current_page - 4 }}</a>
+                                                            </li>
+                                                            <li v-if="review_page.current_page >= 4"
+                                                                class="page-number">
+                                                                <a style="cursor:pointer"
+                                                                   v-on:click="review_pagination(review_page.current_page - 3)"
+                                                                >@{{ review_page.current_page - 3 }}</a>
+                                                            </li>
+                                                            <li v-if="review_page.current_page >= 3"
+                                                                class="page-number">
+                                                                <a style="cursor:pointer"
+                                                                   v-on:click="review_pagination(review_page.current_page - 2)"
+                                                                >@{{ review_page.current_page - 2 }}</a>
+                                                            </li>
+                                                            <li v-if="review_page.current_page >= 2"
+                                                                class="page-number">
+                                                                <a style="cursor:pointer"
+                                                                   v-on:click="review_pagination(review_page.current_page - 1)"
+                                                                >@{{ review_page.current_page - 1 }}</a>
+                                                            </li>
+
+                                                            <li class="page-number active">
+                                                                <a>@{{ review_page.current_page }}</a></li>
+
+                                                            <li v-if="(review_page.last_page-1) >= review_page.current_page"
+                                                                class="page-number">
+                                                                <a style="cursor:pointer"
+                                                                   v-on:click="review_pagination(review_page.current_page + 1)"
+                                                                >@{{ review_page.current_page + 1 }}</a>
+                                                            </li>
+                                                            <li v-if="(review_page.last_page-2) >= review_page.current_page"
+                                                                class="page-number">
+                                                                <a style="cursor:pointer"
+                                                                   v-on:click="review_pagination(review_page.current_page + 2)"
+                                                                >@{{ review_page.current_page + 2 }}</a>
+                                                            </li>
+                                                            <li v-if="(review_page.last_page-3) >= review_page.current_page"
+                                                                class="page-number">
+                                                                <a style="cursor:pointer"
+                                                                   v-on:click="review_pagination(review_page.current_page + 3)"
+                                                                >@{{ review_page.current_page + 3 }}</a>
+                                                            </li>
+                                                            <li v-if="(review_page.last_page-4) >= review_page.current_page"
+                                                                class="page-number">
+                                                                <a style="cursor:pointer"
+                                                                   v-on:click="review_pagination(review_page.current_page + 4)"
+                                                                >@{{ review_page.current_page + 4 }}</a>
+                                                            </li>
+
+
+                                                            <li v-if="review_page.page_next" class="page-next"><a
+                                                                        style="cursor:pointer"
+                                                                        v-on:click="review_pagination(review_page.current_page + 1)"
+                                                                >&gt;</a>
+                                                            </li>
+                                                            <li v-else class="page-next disabled"><a
+                                                                        style="cursor:pointer"
+                                                                >&gt;</a>
+                                                            </li>
+                                                            <li v-if="review_page.page_last" class="page-last"><a
+                                                                        style="cursor:pointer"
+                                                                        v-on:click="review_pagination(review_page.last_page)"
+                                                                >&gt;&gt;</a>
+                                                            </li>
+                                                            <li v-else class="page-last disabled"><a
+                                                                        style="cursor:pointer"
+                                                                >&gt;&gt;</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
                                                 <div v-bind:id="reviewId(group.id)" v-else hidden></div>
                                             </td>
                                         </tr>
@@ -131,7 +338,7 @@
 
                                 <div class="fixed-table-pagination" style="display: block;">
                                     {{--<div class="pull-left">--}}
-                                        {{--<button class="btn btn-danger">선택삭제</button>--}}
+                                    {{--<button class="btn btn-danger">선택삭제</button>--}}
                                     {{--</div>--}}
 
                                     <div class="pull-right">
@@ -139,13 +346,13 @@
 
                                             <li v-if="page.page_first" class="page-first"><a v-on:click="pagination(1)"
                                                                                              href="#">&lt;&lt;</a></li>
-                                            <li v-else class="page-first disabled"><a >&lt;&lt;</a></li>
+                                            <li v-else class="page-first disabled"><a>&lt;&lt;</a></li>
 
-                                            <li v-if="page.page_pre" class="page-pre"><a
+                                            <li v-if="page.page_first" class="page-pre"><a
                                                         v-on:click="pagination(page.current_page - 1)" href="#">&lt;</a>
                                             </li>
                                             <li v-else class="page-pre disabled"><a
-                                                       >&lt;</a>
+                                                >&lt;</a>
                                             </li>
 
 
@@ -182,13 +389,13 @@
                                                         v-on:click="pagination(page.current_page + 1)" href="#">&gt;</a>
                                             </li>
                                             <li v-else class="page-next disabled"><a
-                                                       >&gt;</a>
+                                                >&gt;</a>
                                             </li>
                                             <li v-if="page.page_last" class="page-last"><a
                                                         v-on:click="pagination(page.last_page)" href="#">&gt;&gt;</a>
                                             </li>
                                             <li v-else class="page-last disabled"><a
-                                                       >&gt;&gt;</a>
+                                                >&gt;&gt;</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -229,6 +436,24 @@
                     'from': 0,
                     'last_page': 0
                 },
+                comment_page: {
+                    'page_first': false,
+                    'page_pre': false,
+                    'page_next': false,
+                    'page_last': false,
+                    'current_page': 0,
+                    'from': 0,
+                    'last_page': 0
+                },
+                review_page: {
+                    'page_first': false,
+                    'page_pre': false,
+                    'page_next': false,
+                    'page_last': false,
+                    'current_page': 0,
+                    'from': 0,
+                    'last_page': 0
+                },
                 order: "정렬"
 
 
@@ -239,7 +464,7 @@
 
 
                 /* this.$http.get('
-                {{-- route('comments.index') --}}
+                {{-- route('comments.index') --}}')
                  .then(function (response) {
                  this.my_comments = response.data;
                  }); */
@@ -275,27 +500,29 @@
                                 //about page
                                 if (response.data.novel_groups.current_page > 1) {
                                     this.page.page_first = true;
-
-
+                                } else {
+                                    this.page.page_first = false;
                                 }
+
                                 if (response.data.novel_groups.current_page >= 2) {
                                     this.page.page_pre = true;
 
                                 }
                                 if (response.data.novel_groups.last_page - 1 >= response.data.novel_groups.current_page) {
                                     this.page.page_next = true;
-
+                                } else {
+                                    this.page.page_next = false;
                                 }
                                 if (response.data.novel_groups.last_page != response.data.novel_groups.current_page) {
                                     this.page.page_last = true;
-
+                                } else {
+                                    this.page.page_last = false;
                                 }
                                 //store current page value
                                 this.page.current_page = response.data.novel_groups.current_page;
                                 this.page.from = response.data.novel_groups.from;
                                 this.page.last_page = response.data.novel_groups.last_page;
 
-                                console.log(response.data);
 
                             });
 
@@ -343,9 +570,15 @@
                     window.location.assign('/author/management/novelgroups/' + id + '/edit');
                 },
 
-                commentsDisplay: function (id) {
+                comment_pagination: function (page) {
+                    this.comment_show.TF = false;
+                    this.commentsDisplay(this.comment_show.id, page);
+                },
 
-                    var comments_url = '/comments/' + id;
+                commentsDisplay: function (id, page) {
+
+
+                    var comments_url = '/comments/' + id + '?page=' + page;
                     if (this.comment_show.TF == true && this.comment_show.id == id) {
                         this.comment_show.TF = false;
                         this.comment_show.id = 0;
@@ -358,6 +591,8 @@
                                         // document.getElementById('response').setAttribute('id','response'+id)
 
                                         $('#response' + id).html(response.data);
+
+
                                     });
                             this.review_show.TF = false;
                             this.review_show.id = 0;
@@ -371,6 +606,7 @@
 
                 },
                 commentsDisplay_after_commenting: function (id) {
+
 
                     var comments_url = '/comments/' + id;
 
@@ -391,13 +627,19 @@
                         commonAlertBox("comment");
                     }
 
+
                 },
                 commentId: function (id) {
                     return "response" + id;
                 },
-                reviewsDisplay: function (id) {
 
-                    var comments_url = '/reviews/' + id;
+                review_pagination: function (page) {
+                    this.review_show.TF = false;
+                    this.reviewsDisplay(this.review_show.id, page);
+                },
+                reviewsDisplay: function (id, page) {
+
+                    var comments_url = '/reviews/' + id + '?page=' + page;
                     if (this.review_show.TF == true && this.review_show.id == id) {
                         this.review_show.TF = false;
                         this.review_show.id = 0;
@@ -408,7 +650,7 @@
                             this.$http.get(comments_url)
                                     .then(function (response) {
                                         // document.getElementById('response').setAttribute('id','response'+id)
-                                        document.getElementById('review_response' + id).innerHTML = response.data;
+                                        $('#review_response' + id).html(response.data);
                                     });
                             this.review_show.TF = true;
                             this.review_show.id = id;
@@ -444,7 +686,7 @@
                     } else {
                         commonAlertBox("review");
                     }
-                    /// }
+
 
                 },
                 reviewId: function (id) {
@@ -607,7 +849,7 @@
                                                 type: 'warning',
                                                 icon: 'fa fa-check',
                                                 //message : "Hello " + name + ".<br> You've chosen <strong>" + answer + "</strong>",
-                                                message: "클린버전 게시판이 생성 되었습니다.",
+                                                message: "[클린버전 게시판이 생성 되었습니다.",
                                                 //container : 'floating',
                                                 container: 'page',
                                                 timer: 4000
@@ -639,18 +881,19 @@
                                 this.reviewsCountData = response.data['review_count_data'];
                                 this.latested_at = response.data['latested_at'];
 
-//                                console.log(this.author.author_agreement);
+//
                                 this.author = response.data['author'];
-//                                if (this.author.author_agreement == 0) {
-//                                    //  $('.author_agreement_dialog').show();
-//                                    agreement();
-//                                }
+                                if (this.author.author_agreement == 0) {
+                                    //  $('.author_agreement_dialog').show();
+                                    agreement();
+                                }
                                 // this.check_agreemet();
+
                                 //about page
                                 if (response.data.novel_groups.current_page > 1) {
                                     this.page.page_first = true;
-
-
+                                } else {
+                                    this.page.page_first = false;
                                 }
                                 if (response.data.novel_groups.current_page >= 2) {
                                     this.page.page_pre = true;
@@ -668,7 +911,9 @@
                                 this.page.current_page = response.data.novel_groups.current_page;
                                 this.page.from = response.data.novel_groups.from;
                                 this.page.last_page = response.data.novel_groups.last_page;
+
                                 $("#page-title").click(function () {
+
                                 });
 
                             });
@@ -676,6 +921,7 @@
                 },
 
                 reviewDestroy: function (id, group_id) {
+
                     bootbox.confirm({
                         message: "삭제 하시겠습니까?",
                         buttons: {
@@ -704,34 +950,12 @@
                     });
 
                 }
-                /*  check_agreemet: function () {
-                 console.log(this.author.author_agreement);
-
-                 }*/
 
 
             }
         });
 
 
-        /*  var app5 = new Vue({
-         el: '#comment_list',
-         data: {
-         novel_groups: [],
-         my_comments: [],
-         },
-         mounted: function () {
-         this.$http.get('{{-- route('novels.index')--}}')
-         .then(function (response) {
-         this.novel_groups = response.data;
-         });
-         this.$http.get('{{-- route('comments.index') --}}')
-         .then(function (response) {
-         this.my_comments = response.data;
-         });
-
-         }
-         })*/
     </script>
 
 

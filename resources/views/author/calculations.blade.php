@@ -41,9 +41,8 @@
                                                     </select>
                                                 </div>--}}
                                                 <div class="col-md-2" style="margin:0 55px 10px 0;">
-                                                    <select class="form-control" name="title"
-                                                            v-model="search_info.novel_group_id">
-                                                        <option value="">소설</option>
+                                                    <select class="form-control" name="title">
+                                                        <option value="">소설 선택</option>
                                                         @foreach($allNovelGroups as $novel_group)
                                                             <option value="{{$novel_group->id}}">{{$novel_group->title}}</option>
                                                         @endforeach

@@ -143,7 +143,7 @@
                                     <div class="input">
                                         <input type="text" name="numbers" id="gift_marble" class="text2" size="25"
                                                v-model="gift_info.numbers">
-                                        <span class="input-desc">구매한 구슬만 선물이 가능합니다.</span><br>
+                                        <span class="input-desc">내가 가진 구슬 내에서 선물이 가능합니다.</span><br>
                                         <span class="input-desc" style="color:#b3383c;"
                                               v-if="errors['numbers']">@{{errors.numbers.toString() }}</span>
                                     </div>
