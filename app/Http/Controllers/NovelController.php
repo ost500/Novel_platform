@@ -6,6 +6,7 @@ use App\Comment;
 use App\Events\NewSpeedEvent;
 use App\Novel;
 use App\NovelGroup;
+use App\NovelGroupNotification;
 use App\RecentlyVisitedNovel;
 use App\User;
 use Auth;
@@ -358,15 +359,31 @@ class NovelController extends Controller
     }
 
 
-    public function make_closed($id)
+    public function make_open($id)
     {
         $novel = Novel::findOrFail($id);
         $novel->open = 1;
         $novel->save();
 
+        //Find open novels count
+        $open_novels_count = Novel::where(['novel_group_id' => $novel->novel_group_id, 'open' => '1'])->count();
+        //If only one novel is open send the novel group opened notification to all users who this novel_group
+        if ($open_novels_count == 1) {
+            //Find users who have made authors novel group favorite
+            $favorite_users = Favorite::select(['favorites.user_id'])->join('novel_groups', 'novel_groups.id', '=', 'favorites.novel_group_id')
+                ->where(['novel_groups.user_id' => Auth::User()->id, 'favorites.novel_group_id' => $novel->novel_group_id])->distinct('user_id')->get();
+            //Store the new novel group notification
+            foreach ($favorite_users as $favorite_user) {
+                NovelGroupNotification::create([
+                    'user_id' => $favorite_user->user_id,
+                    'novel_group_id' => $novel->novel_group_id,
+                ]);
+            }
+        }
+
     }
 
-    public function cancel_closed($id)
+    public function cancel_open($id)
     {
 
         $novel = Novel::findOrFail($id);

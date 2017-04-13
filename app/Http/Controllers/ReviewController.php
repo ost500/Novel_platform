@@ -7,7 +7,7 @@ use App\Review;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Validator;
-
+use Auth;
 class ReviewController extends Controller
 {
     /**
@@ -48,6 +48,13 @@ class ReviewController extends Controller
             'review.required' => '내용은 필수 입니다.',
 
         ])->validate();
+
+
+        //if posting is blocked then redirect back with error
+        if (Auth::user()->isPostingBlocked()) {
+            $error='글쓰기가 관리자에 의해 차단 됐습니다';
+            return redirect()->back()->withErrors($error);
+        }
 
         $request->user()->reviews()->create($request->all());
         flash('독자추천 글이 성공적으로 등록 되었습니다');

@@ -10,6 +10,7 @@ use App\MailLog;
 use App\Novel;
 use App\NovelGroupHashTag;
 use App\NovelGroupKeyword;
+use App\NovelGroupNotification;
 use App\User;
 use Auth;
 use Carbon\Carbon;
@@ -134,6 +135,8 @@ class NovelGroupController extends Controller
     public function store(Request $request)
     {
 
+
+        // return response()->json($favorite_users);
         //   dd($request->all());
 
 
@@ -240,7 +243,6 @@ class NovelGroupController extends Controller
             $new_novel_group->cover_photo = "default_.jpg";
             $new_novel_group->save();
         }
-
 
         flash("생성을 성공했습니다");
         //  return redirect()->route('author_novel_group', ['id' => $new_novel_group->id]);

@@ -7,6 +7,7 @@ use App\NewSpeed;
 use App\NewSpeedLog;
 use App\Notification;
 
+use App\NovelGroupNotification;
 use App\PurchasedNovel;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -133,34 +134,29 @@ class MyPageController extends Controller
 
     public function new_novels(Request $request)
     {
-
-        //get new novels
-        $new_novels = NovelGroup::selectRaw('novel_groups.*,novels.novel_group_id,max(novels.created_at) as new, users.nickname')
-            ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
+        //Get the authors who's novel groups are users favorite
+        $authors = NovelGroupNotification::select('novel_groups.user_id', 'users.nickname')->join('novel_groups', 'novel_groups.id', '=', 'novel_group_notifications.novel_group_id')
             ->join('users', 'users.id', '=', 'novel_groups.user_id')
-            ->groupBy('novels.novel_group_id')
-            ->with('nicknames')
-            ->orderBy('new', 'desc')->paginate(10)->unique('user_id');
+            ->where('novel_group_notifications.user_id', Auth::User()->id)
+            ->distinct('user_id')->get();
 
-        //get other novels of each author
-        $other_novels = array();
-        foreach ($new_novels as $novel) {
-
-            $other_novels[$novel->user_id] = NovelGroup::selectRaw('novel_groups.*,novels.novel_group_id,max(novels.created_at) as new, nick_names.id as nickname_id')
-                ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
-                ->join('users', 'users.id', '=', 'novel_groups.user_id')
-                ->join('nick_names', 'novel_groups.nickname_id', '=', 'nick_names.id')
-                ->groupBy('novels.novel_group_id')
-                ->where([['nick_names.id', '=', $novel->nicknames->id], ['novel_groups.id', '<>', $novel->novel_group_id]])
-                ->with('nicknames')
-                ->orderBy('new', 'desc')->take(2)->get();
+        //get notifications for each author
+        $notifications = array();
+        foreach ($authors as $author) {
+            $notifications[$author->user_id] = NovelGroupNotification::select('novel_group_notifications.id as novel_group_notification_id', 'novel_group_notifications.created_at as notification_date', 'novel_groups.*')
+                ->join('novel_groups', 'novel_groups.id', '=', 'novel_group_notifications.novel_group_id')
+                ->where(['novel_group_notifications.user_id' => Auth::User()->id, 'novel_groups.user_id' => $author->user_id])
+                ->orderBy('notification_date', 'desc')->get();
         }
-//         return response()->json(['aa'=>$new_novels,'bb'=>$other_novels]);
+
+
+        //return response()->json(['aa'=>$new_novels,'bb'=>$other_novels]);
+
         //Detect mobile
         if ($this->agent->isMobile()) {
-            return view('mobile.my_page.novel.new_novels', compact('new_novels', 'other_novels'));
+            return view('mobile.my_page.novel.new_novels', compact('authors', 'notifications'));
         }
-        return view('main.my_page.novel.new_novels', compact('new_novels', 'other_novels'));
+        return view('main.my_page.novel.new_novels', compact('authors', 'notifications'));
     }
 
     public function new_speed()
