@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin_layout')
 @section('content')
 
 
@@ -32,17 +32,19 @@
                                     <div class="fixed-table margin-bottom-10">
                                         <form action="{{route('calculation')}}" menthod="post">
                                             <div class="form-group" style="margin:10px;">
-                                                {{--<div class="col-md-2" style="margin:0 55px 10px 0;">
-                                                    <select class="form-control" name="nickname_id">
+                                                <div class="col-md-2" style="margin:0 55px 10px 0;">
+                                                    <select class="form-control" name="nickname_id"
+                                                            v-model="search_info.nickname_id">
                                                         <option value="">필명선택</option>
                                                         @foreach($nicknames as $nickname)
-                                                            <option value="{{$nickname}}">{{$nickname->nickname}}</option>
+                                                            <option value="{{$nickname->id}}">{{$nickname->nickname}}</option>
                                                         @endforeach
                                                     </select>
-                                                </div>--}}
+                                                </div>
                                                 <div class="col-md-2" style="margin:0 55px 10px 0;">
-                                                    <select class="form-control" name="title">
-                                                        <option value="">소설 선택</option>
+                                                    <select class="form-control" name="title"
+                                                            v-model="search_info.novel_group_id">
+                                                        <option value="">소설</option>
                                                         @foreach($allNovelGroups as $novel_group)
                                                             <option value="{{$novel_group->id}}">{{$novel_group->title}}</option>
                                                         @endforeach
@@ -105,8 +107,9 @@
                                                     <td class="col-md-1 text-center">{{ $novelGroup->id }}</td>
 
                                                     <td class="col-md-1 text-center">{{ $novelGroup->code_number }}</td>
-                                                    <td class="col-md-2 text-center"><a style="cursor: pointer;"
-                                                                                        v-on:click="go_to_calculation_detail('{{$novelGroup->code_number}}')">{{ $novelGroup->title }}</a>
+                                                    <td class="col-md-2 text-center">
+                                                        <a style="cursor: pointer;"
+                                                           v-on:click="go_to_calculation_detail('{{$novelGroup->code_number}}')">{{ $novelGroup->title }}</a>
                                                     </td>
                                                     <td class="col-md-1 text-center">{{ $novelGroup->calculation_eaches_count }}
                                                     </td>
@@ -128,7 +131,7 @@
                                 </div>
 
                                 <div class="pull-right">
-                                    @include('pagination', ['collection' => $myNovelGroups, 'url' => route('author.calculations')])
+                                    @include('pagination', ['collection' => $myNovelGroups, 'url' => route('calculation.all')])
                                 </div>
                             </div>
 
@@ -147,7 +150,12 @@
         var app_cal = new Vue({
             el: '#calculations',
             data: {
-                search_info: {novel_group_id: '{{$novel_group_id}}', year: '{{$year}}', month: '{{$month}}'}
+                search_info: {
+                    nickname_id: '{{$nickname_id}}',
+                    novel_group_id: '{{$novel_group_id}}',
+                    year: '{{$year}}',
+                    month: '{{$month}}'
+                }
 
             },
             methods: {
@@ -164,8 +172,9 @@
                         });
                         return;
                     }
-                    location.assign('{{ route('author.calculations')}}' + '?novel_group_id=' + this.search_info.novel_group_id + '&year=' + this.search_info.year + '&month=' + this.search_info.month);
+                    location.assign('{{ route('calculation.all')}}' + '?nickname_id=' + this.search_info.nickname_id + '&novel_group_id=' + this.search_info.novel_group_id + '&year=' + this.search_info.year + '&month=' + this.search_info.month);
                 },
+
                 go_to_calculation_detail: function (code_number) {
                     if (code_number == "") {
                         bootbox.alert("퍼블리생 내역이 없거나 코드 번호가 할당 되지 않았습니다. 관리자에게 문의 하세요.", function () {

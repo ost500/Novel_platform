@@ -6,6 +6,7 @@ use App\Accusation;
 use App\Calculation;
 use App\CalculationEach;
 use App\Configuration;
+use App\NickName;
 use App\Notification;
 use App\NovelGroupPublishCompany;
 use App\Company;
@@ -496,6 +497,39 @@ class AdminPageController extends Controller
         $cals = Calculation::paginate(config('define.pagination_long'));
 
         return view('admin.calculation.calculations', compact('cals'));
+    }
+
+    public function all_calculations(Request $request)
+    {
+        $nickname_id = $request->nickname_id;
+        $novel_group_id = $request->novel_group_id;
+        $year = $request->year;
+        $month = $request->month;
+
+        $myNovelGroups = NovelGroup::withCount('calculation_eaches');
+
+        //Search Filters
+        if ($nickname_id) {
+            $myNovelGroups = $myNovelGroups->where('nickname_id', $nickname_id);
+        }
+        if ($novel_group_id) {
+            $myNovelGroups = $myNovelGroups->where('id', $novel_group_id);
+        }
+        if ($year) {
+            $myNovelGroups = $myNovelGroups->whereYear('created_at', $year);
+            if ($month) {
+                $myNovelGroups = $myNovelGroups->whereMonth('created_at', $month);
+            }
+        }
+
+
+        $myNovelGroups = $myNovelGroups->paginate(config('define.pagination_long'));
+//        return response()->json($myNovelGroups);
+        //For drop downs
+        $nicknames = NickName::select('id','nickname')->get();
+        $allNovelGroups = NovelGroup::select(['id', 'title'])->get();
+        $current_year = Carbon::now()->year;
+        return view('admin.calculation.all_calculations', compact('myNovelGroups', 'nicknames', 'allNovelGroups', 'current_year','nickname_id', 'novel_group_id', 'year', 'month'));
     }
 
 
