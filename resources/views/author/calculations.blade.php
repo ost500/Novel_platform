@@ -106,8 +106,8 @@
                                                     <td class="col-md-1 text-center">{{ $novelGroup->id }}</td>
 
                                                     <td class="col-md-1 text-center">{{ $novelGroup->code_number }}</td>
-                                                    <td class="col-md-2 text-center"><a
-                                                                href="{{ route('author.calculations_detail', ['id' => $novelGroup->code_number]) }}">{{ $novelGroup->title }}</a>
+                                                    <td class="col-md-2 text-center"><a style="cursor: pointer;"
+                                                                                        v-on:click="go_to_calculation_detail('{{$novelGroup->code_number}}')">{{ $novelGroup->title }}</a>
                                                     </td>
                                                     <td class="col-md-1 text-center">{{ $novelGroup->calculation_eaches_count }}
                                                     </td>
@@ -153,19 +153,27 @@
             },
             methods: {
                 search: function () {
-                    if(this.search_info.month && this.search_info.year==""){
+                    if (this.search_info.month && this.search_info.year == "") {
                         bootbox.alert("년을 입력하세요", function () {
                             /* $.niftyNoty({
                              type: 'danger',
                              icon: 'fa fa-danger',
                              message: '월을 입력하세요.',
-                            // container: 'floating',
+                             // container: 'floating',
                              timer: 3000
                              });*/
                         });
                         return;
                     }
-                   location.assign('{{ route('author.calculations')}}' + '?novel_group_id=' + this.search_info.novel_group_id + '&year=' + this.search_info.year + '&month=' + this.search_info.month);
+                    location.assign('{{ route('author.calculations')}}' + '?novel_group_id=' + this.search_info.novel_group_id + '&year=' + this.search_info.year + '&month=' + this.search_info.month);
+                },
+                go_to_calculation_detail: function (code_number) {
+                    if (code_number == "") {
+                        bootbox.alert("퍼블리생 내역이 없거나 코드 번호가 할당 되지 않았습니다. 관리자에게 문의 하세요.", function () {
+                        });
+                        return;
+                    }
+                    location.assign('{{ route('author.calculations_detail', ['id' =>'']) }}/' + code_number);
                 }
 
             }
