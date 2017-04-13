@@ -256,10 +256,12 @@ class UserController extends Controller
             $user->auth_email = 1;
             $user->auth_mail_code = null;
             $user->save();
-            flash('이메일 인증에 성공했습니다. 로그인해 주세요');
+
             if (Auth::check()) {
+                flash('이메일 인증에 성공했습니다.');
                 return redirect()->route('my_info.edit');
             } else {
+                flash('이메일 인증에 성공했습니다. 로그인해 주세요');
                 return redirect()->route('root', ['login' => $user->name]);
             }
 

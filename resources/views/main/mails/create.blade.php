@@ -130,7 +130,7 @@
                 },
                 alert_msg: '',
                 gift_info: {user_id: '', content: '', numbers: ''},
-                search_info: {name: ''},
+                search_info: {name: '{{$user->email}}'},
                 user_names: [],
                 errors: {},
                 display: false

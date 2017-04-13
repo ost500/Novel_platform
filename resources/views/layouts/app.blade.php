@@ -15,7 +15,7 @@
     <link href="/css/extra.css?v=2" rel="stylesheet">
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;subset=latin" rel="stylesheet">
     <link href="/css/bootstrap.css" rel="stylesheet">
-    <link href="/css/nifty.css" rel="stylesheet">
+    <link href="/css/nifty.css?v=10" rel="stylesheet">
     <link href="/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link href="/plugins/pace/pace.min.css" rel="stylesheet">
 
@@ -72,8 +72,10 @@
                     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                     <li class="tgl-menu-btn">
                         <a class="mainnav-toggle" href="#">
-                            <i class="fa fa-navicon fa-lg"></i>
+                            <i class="fa fa-navicon fa-lg"> </i>
+
                         </a>
+
                     </li>
                     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                     <!--End Navigation toogle button-->
@@ -195,13 +197,14 @@
                                     <a href="{{ route('author.novel_memo')}}">
                                         <i class="fa fa-envelope"></i>
                                         <span class="menu-title">
-                                            <strong>쪽지함</strong>
+                                            <strong>작가전용쪽지함</strong>
                                         </span>
                                         <i class="arrow"></i>
                                     </a>
                                     <ul class="collapse {{ (Request::is('author/mailbox/receive_mail')||Request::is('author/mailbox/*')||Request::is('author/mailbox/sent_mail')||Request::is('author/mailbox/sent_mail/*')||Request::is('author/mailbox/create_mail'))?"in":"" }}">
                                         <li><a href="{{ route('author.novel_memo')}}">받은쪽지함</a></li>
                                         <li><a href="{{ route('author.novel_memo_send')}}">보낸쪽지함</a></li>
+                                        <li><a href="{{ route('author.novel_memo_create')}}">선호작 쪽지 보내기</a></li>
                                     </ul>
                                 </li>
 
@@ -226,13 +229,13 @@
                                     <a href="{{route('author.send_gift')}}">
                                         <i class="fa fa-send"></i>
                                         <span class="menu-title">
-                                            <strong>선물</strong>
+                                            <strong>구슬 선물</strong>
                                         </span>
                                         <i class="arrow"></i>
                                     </a>
 
                                     <ul class="collapse {{ (Request::is('author/gifts/send_gift')||Request::is('author/gifts/sent_gifts'))?"in":"" }}">
-                                        <li><a href="{{ route('author.send_gift')}}">선물보내기</a></li>
+                                        <li><a href="{{ route('author.send_gift')}}">구슬 선물하기</a></li>
                                         <li><a href="{{ route('author.sent_gifts')}}">보낸 선물 내역</a></li>
                                     </ul>
                                 </li>
@@ -255,15 +258,15 @@
                                     <a href="/">
                                         <i class="fa fa-user"></i>
                                         <span class="menu-title">
-                                            <strong>내정보</strong>
+                                            <strong>작가정보</strong>
                                         </span>
                                         <i class="arrow"></i>
                                     </a>
 
 
                                     <ul class="collapse {{ (Request::is('author/profile/information')||Request::is('author/profile/nickname'))?"in":"" }}">
-                                        <li><a href="{{ route("author.profile") }}">작가정보관리</a></li>
-                                        <li><a href="{{ route("author.nickname") }}">필명관리</a></li>
+                                        <li><a href="{{ route("author.profile") }}">필수정산정보</a></li>
+                                        <li><a href="{{ route("author.nickname") }}">필명등록</a></li>
                                     </ul>
                                 </li>
 

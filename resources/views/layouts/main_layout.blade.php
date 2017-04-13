@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/front/css/font/nanum_barun_gothic.css" type="text/css">
     <link rel="stylesheet" href="/front/css/font/nanum_gothic.css" type="text/css">
     <link rel="stylesheet" href="/front/css/font/nanum_myeongjo.css" type="text/css">
-    <link rel="stylesheet" href="/front/css/icons.css" type="text/css">
+    <link rel="stylesheet" href="/front/css/icons.css?v=6" type="text/css">
     <link rel="stylesheet" href="/front/css/style.css?v={{time()}}" type="text/css">
     <link rel="stylesheet" href="/front/css/sub.css?v={{time()}}" type="text/css">
     <link rel="stylesheet" href="/front/css/main.css?v={{time()}}" type="text/css">
@@ -375,7 +375,7 @@
             </fieldset>
         </form>
     </div>
-@yield('header')
+
 <!-- //통합검색모달 -->
 </header>
 <!-- //헤더 -->
@@ -1008,12 +1008,14 @@
                 $("#small_header").show();
                 $('.login-modal').css('top', '125px');
                 $('.search-modal').css('top', '125px');
+                $('.share-modal').css('top', 89 + $(this).scrollTop());
 
             }
             else {
                 $("#small_header").hide();
                 $('.login-modal').css('top', '');
                 $('.search-modal').css('top', '');
+                $('.share-modal').css('top', '');
             }
         }
 

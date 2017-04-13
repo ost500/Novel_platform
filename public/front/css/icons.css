@@ -28,6 +28,10 @@
 .share-icon { width: 26px; height: 26px; }
 .share-icon:before { width: 26px; height: 26px; background: url(../imgs/common/share_icon.png); }
 
+/* 추천글 */
+.recommendation-icon { width: 26px; height: 26px; }
+.recommendation-icon:before { width: 26px; height: 26px; background: url(../imgs/common/reco_icon.png);}
+
 /* UP */
 .up-icon { width: 23px; height: 17px; }
 .up-icon:before { width: 23px; height: 17px; background: url(../imgs/common/up_icon.png); }

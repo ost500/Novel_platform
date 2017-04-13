@@ -18,7 +18,7 @@
         <div id="page-content">
 
             <div id="create_request" class="panel panel-default panel-left">
-                <div class="alert alert-danger" v-if="formErrors">
+                <div hidden id="errorbox" class="alert alert-danger" v-if="formErrors">
                     <ul>
                         <li v-if="errors['title']">@{{ errors.title.toString() }}</li>
                         <li v-if="errors['question']">@{{ errors.question.toString() }}</li>
@@ -80,7 +80,7 @@
             el: '#create_request',
             data: {
 
-                new_men_to_menRequest: {'title': '', 'question': ''},
+                new_men_to_menRequest: {'title': '', 'question': '', 'category':'작가 문의'},
                 errors: {},
                 formErrors:false
             },
@@ -96,10 +96,10 @@
                         }
                     }).then(function (response) {
 
-                        window.location.href = $redirect_url + '/' + response.data['id'];
+                        window.location.reload();
 
                     }).catch(function (errors) {
-
+                        $("#errorbox").show();
                         this.errors = errors.data;
                         this.formErrors=true;
                          console.log(this.errors);

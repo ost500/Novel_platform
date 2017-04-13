@@ -144,7 +144,7 @@
 
                                     <div class="col-lg-11">
                                         <div class="padding-top-10">
-                                            해당 제휴 업체는 19금 소설 연재가 불가능한 업체입니다. 추후 성인 회차를 추가할 계획이 있으십니까?
+                                            청소년 이용 불가 작품입니까?
 
                                             <label style="margin-left:20px"
                                                    class="form-radio form-icon active form-text">
@@ -272,8 +272,8 @@
 
 
                     bootbox.dialog({
-                        message: "본인의 작품이 네이버 타임딜, 카카오페이지, 기다리면 무료 등,<br> 각 제휴처의 이벤트에 참여하는지 체크해 주세요",
-                        title: "이벤트 참여 여부 확인",
+                        message: "만약 각 제휴사의 할인 및 무료 대여 이벤트 등이 제공된다면 참여하시겠습니까?<br> (최대 할인율 50%) 이벤트는 반드시 진행되는 것은 아니며 해당 제휴사의 심사에 의해 결정 됩니다.",
+                        title: "",
                         buttons: {
                             success: {
                                 label: "이벤트 수락",

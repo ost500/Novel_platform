@@ -2026,7 +2026,7 @@ width: 0;
 }
 
 .novel-detail .post .post-header > .title {
-    width: 72%;
+    width: 60%;
     color: #685f59;
     font-size: 32px;
     font-weight: 400;
@@ -2140,9 +2140,15 @@ width: 0;
     color: #ffcc00;
 }
 
+.novel-detail .scrap-btns a.recommendation-custom-icon {
+    color: #ffcc00;
+}
+
 .novel-detail .scrap-btns .scrap-icon,
 .novel-detail .scrap-btns .scrap-active-icon,
-.novel-detail .scrap-btns .share-icon {
+.novel-detail .scrap-btns .share-icon,
+.novel-detail .scrap-btns .recommendation-icon
+{
     position: relative;
     display: block;
     width: auto;
@@ -2151,9 +2157,12 @@ width: 0;
     vertical-align: middle;
 }
 
+
 .novel-detail .scrap-btns .scrap-icon:before,
 .novel-detail .scrap-btns .scrap-active-icon:before,
-.novel-detail .scrap-btns .share-icon:before {
+.novel-detail .scrap-btns .share-icon:before,
+.novel-detail .scrap-btns .recommendation-icon:before
+{
     margin: 0 auto;
 }
 
