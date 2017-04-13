@@ -77,8 +77,8 @@
 
                             <div class="col-lg-11">
                             <label class="form-checkbox form-icon">
-                                <input type="checkbox" id="adult_allowance" name="adult_allowance"
-                                       @if(old('adult_allowance')) checked @endif>
+                                <input type="checkbox" id="adult_allowance" name="adult"
+                                       @if(old('adult')) checked @endif>
                             </label>
                             </div>
                         </div>
