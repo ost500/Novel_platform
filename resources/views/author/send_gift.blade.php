@@ -52,13 +52,17 @@
                                 <div class="col-lg-11" style="padding-top: 6px;" v-for="user_name in user_names"
                                      v-if="user_name.id !='{{Auth::user()->id}}'"
                                      style=" display:block;">
-                                    <span class="user-name">@{{ user_name.nickname }}</span>
+                                    <span class="user-name">@{{ user_name.nickname }} (@{{ user_name.name }})</span>
                                     {{-- <button type="button" class="delete-btn">삭제</button> --}}
                                     <label class="form-radio form-normal form-primary form-text">
                                         <input type="radio" name="user_id"
                                                v-on:click="fillName(user_name.nickname,user_name.id )">
                                         <span></span>
                                     </label>
+
+                                </div>
+                                <div class="result-item" v-if="user_names.length==0" style="border:0 solid;padding:10px;">
+                                    <span class="user-name">검색 결과가 없습니다.</span>
                                 </div>
                                 <br>
 

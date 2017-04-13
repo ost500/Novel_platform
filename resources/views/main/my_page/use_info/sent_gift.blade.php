@@ -221,14 +221,7 @@
                             .then(function (response) {
 
                                 this.user_names = response.data['user_names'];
-                                if (this.user_names) {
-                                  //  console.log( this.user_names.length);
-                                    this.display = true;
-                                  //  $('#first').css('margin-bottom', '0px');
-                                } else {
-                                    this.display = false;
-                                  //  $('#first').css('margin-bottom', '15px');
-                                }
+                                (this.user_names) ? this.display = true:this.display = false;
 
                             })
                             .catch(function (response, status, request) {
