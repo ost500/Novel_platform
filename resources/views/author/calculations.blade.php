@@ -28,40 +28,48 @@
 
                             <div class="table-responsive" style="min-height:500px">
 
-                                <div id="manage_apply">
+                                <div id="calculations">
                                     <div class="fixed-table margin-bottom-10">
                                         <form action="{{route('calculation')}}" menthod="post">
-                                            <div class="form-group">
-                                                <div class="col-md-2" style="margin:0 55px 10px 0;">
+                                            <div class="form-group" style="margin:10px;">
+                                                {{--<div class="col-md-2" style="margin:0 55px 10px 0;">
                                                     <select class="form-control" name="nickname_id">
                                                         <option value="">필명선택</option>
                                                         @foreach($nicknames as $nickname)
                                                             <option value="{{$nickname}}">{{$nickname->nickname}}</option>
                                                         @endforeach
                                                     </select>
-                                                </div>
+                                                </div>--}}
                                                 <div class="col-md-2" style="margin:0 55px 10px 0;">
-                                                    <select class="form-control" name="title">
-                                                        <option value="">필명선택</option>
+                                                    <select class="form-control" name="title"
+                                                            v-model="search_info.novel_group_id">
+                                                        <option value="">소설</option>
                                                         @foreach($allNovelGroups as $novel_group)
-                                                            <option value="{{$novel_group->id}}}">{{$novel_group->title}}</option>
+                                                            <option value="{{$novel_group->id}}">{{$novel_group->title}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
                                                 <div class="col-md-2" style="margin:0 55px 10px 0;">
-                                                    <select class="form-control" name="year">
-                                                        <option value="">필명선택</option>
+                                                    <select class="form-control" name="year" v-model="search_info.year">
+                                                        <option value="">년</option>
+                                                        @for($y=2017;$y<=$current_year;$y++)
+                                                            <option value="{{$y}}">{{$y}}</option>
+                                                        @endfor
                                                     </select>
                                                 </div>
                                                 <div class="col-md-2" style="margin:0 55px 10px 0;">
-                                                    <select class="form-control" name="month">
+                                                    <select class="form-control" name="month"
+                                                            v-model="search_info.month">
+                                                        <option value="">월</option>
                                                         @for( $i=1;$i<=12;$i++)
                                                             <option value="{{$i}}">{{$i}}</option>
                                                         @endfor
                                                     </select>
                                                 </div>
-                                                <div class="" style="margin:0 55px 10px 0;">
-                                                    <button type="submit" class="btn btn-info">Search</button>
+                                                <div class="" style="margin:0 55px 10px 12px;">
+                                                    <button type="button" v-on:click="search()" class="btn btn-info">
+                                                        검색
+                                                    </button>
                                                 </div>
                                             </div>
                                         </form>
@@ -84,6 +92,13 @@
                                         </tr>
                                         </thead>
                                         <tbody>
+                                        @if($myNovelGroups->isEmpty())
+                                            <tr>
+                                                <td colspan="4" class=" text-center">퍼블리싱 내역이 없습니다</td>
+                                            </tr>
+                                        @endif
+
+
                                         @foreach($myNovelGroups as $novelGroup)
 
                                             <tr>
@@ -129,5 +144,31 @@
 
 
     </div>
+    <script>
+        var app_cal = new Vue({
+            el: '#calculations',
+            data: {
+                search_info: {novel_group_id: '{{$novel_group_id}}', year: '{{$year}}', month: '{{$month}}'}
 
+            },
+            methods: {
+                search: function () {
+                    if(this.search_info.month && this.search_info.year==""){
+                        bootbox.alert("년을 입력하세요", function () {
+                            /* $.niftyNoty({
+                             type: 'danger',
+                             icon: 'fa fa-danger',
+                             message: '월을 입력하세요.',
+                            // container: 'floating',
+                             timer: 3000
+                             });*/
+                        });
+                        return;
+                    }
+                   location.assign('{{ route('author.calculations')}}' + '?novel_group_id=' + this.search_info.novel_group_id + '&year=' + this.search_info.year + '&month=' + this.search_info.month);
+                }
+
+            }
+        });
+    </script>
 @endsection

@@ -396,15 +396,33 @@ class AuthorPageController extends Controller
 
     }
 
-    public function calculations()
+    public function calculations(Request $request)
     {
-        $nicknames = User::select('nickname')->get();
-        $allNovelGroups = NovelGroup::select(['id', 'title'])->get();
-        $myNovelGroups = NovelGroup::where('user_id', Auth::user()->id)->withCount('calculation_eaches')->paginate(config('define.pagination_long'));
+        $novel_group_id = $request->novel_group_id;
+        $year = $request->year;
+        $month = $request->month;
 
-        // dd( date("F", mktime(0, 0, 0, 2, 1)));
+        $myNovelGroups = NovelGroup::where('user_id', Auth::user()->id)->withCount('calculation_eaches');
+
+        //Search Filters
+        if ($novel_group_id) {
+            $myNovelGroups = $myNovelGroups->where('id', $novel_group_id);
+        }
+        if ($year) {
+            $myNovelGroups = $myNovelGroups->whereYear('created_at', $year);
+            if ($month) {
+                $myNovelGroups = $myNovelGroups->whereMonth('created_at', $month);
+            }
+        }
+
+
+        $myNovelGroups = $myNovelGroups->paginate(config('define.pagination_long'));
 //        return response()->json($myNovelGroups);
-        return view('author.calculations', compact('myNovelGroups', 'nicknames', 'allNovelGroups'));
+        //For drop downs
+        $nicknames = User::select('nickname')->get();
+        $allNovelGroups = NovelGroup::select(['id', 'title'])->where('user_id', Auth::user()->id)->get();
+        $current_year = Carbon::now()->year;
+        return view('author.calculations', compact('myNovelGroups', 'nicknames', 'allNovelGroups', 'current_year', 'novel_group_id', 'year', 'month'));
     }
 
     public function calculations_detail($code_num)
