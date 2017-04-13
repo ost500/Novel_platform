@@ -108,14 +108,17 @@
                                             <div class="result-item" v-for="user_name in user_names"
                                                  v-if="user_name.id !='{{Auth::user()->id}}'"
                                                  style="padding-right:0;display:block;">
-                                                <span class="user-name">@{{ user_name.name }}
-                                                    (@{{ user_name.email }})</span>
+                                                <span class="user-name">@{{ user_name.nickname }}
+                                                    (@{{ user_name.name }})</span>
                                                 {{-- <button type="button" class="delete-btn">삭제</button> --}}
                                                 <label class="checkbox2">
                                                     <input type="radio" name="user_id"
-                                                           v-on:click="fillName(user_name.name,user_name.id )">
+                                                           v-on:click="fillName(user_name.nickname,user_name.id )">
                                                     <span></span>
                                                 </label>
+                                            </div>
+                                            <div class="result-item" v-if="user_names.length==0" style="border:0 solid">
+                                                <span class="user-name">검색 결과가 없습니다.</span>
                                             </div>
                                             <br>
 
@@ -218,7 +221,15 @@
                             .then(function (response) {
 
                                 this.user_names = response.data['user_names'];
-                                this.display = true;
+                                if (this.user_names) {
+                                  //  console.log( this.user_names.length);
+                                    this.display = true;
+                                  //  $('#first').css('margin-bottom', '0px');
+                                } else {
+                                    this.display = false;
+                                  //  $('#first').css('margin-bottom', '15px');
+                                }
+
                             })
                             .catch(function (response, status, request) {
 
@@ -241,8 +252,8 @@
                 },
 
                 //Fill the selected user name in the input box
-                fillName: function (name, user_id) {
-                    app_gift.search_info.name = name;
+                fillName: function (nickname, user_id) {
+                    app_gift.search_info.name = nickname;
                     app_gift.gift_info.user_id = user_id;
 
                 }
