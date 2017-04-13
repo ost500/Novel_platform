@@ -41,6 +41,8 @@ Route::put('novelgroup/secret/{id}', ['as' => 'novelgroup.secret', 'uses' => 'No
 Route::put('novelgroup/non_secret/{id}', ['as' => 'novelgroup.non_secret', 'uses' => 'NovelGroupController@non_secret']);
 Route::post('novelgroup/clone_for_publish/{id}', ['as' => 'novelgroup.clone_for_publish', 'uses' => 'NovelGroupController@clone_for_publish']);
 Route::resource('novels', 'NovelController');
+
+Route::delete('novel_group_notifications/{id}', ['as' => 'novel_group_notifications.destroy', 'uses' => 'NovelGroupNotificationController@destroy']);
 Route::put('novels/make_closed/{id}', ['as' => 'novels.make_closed', 'uses' => 'NovelController@make_closed']);
 Route::put('novels/cancel_closed/{id}', ['as' => 'novels.cancel_closed', 'uses' => 'NovelController@cancel_closed']);
 Route::put('novels/secret/{id}', ['as' => 'novels.secret', 'uses' => 'NovelController@secret']);

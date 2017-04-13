@@ -371,7 +371,7 @@ class NovelController extends Controller
         if ($open_novels_count == 1) {
             //Find users who have made authors novel group favorite
             $favorite_users = Favorite::select(['favorites.user_id'])->join('novel_groups', 'novel_groups.id', '=', 'favorites.novel_group_id')
-                ->where('novel_groups.user_id', Auth::User()->id)->distinct('user_id')->get();
+                ->where(['novel_groups.user_id' => Auth::User()->id, 'favorites.novel_group_id' => $novel->novel_group_id])->distinct('user_id')->get();
             //Store the new novel group notification
             foreach ($favorite_users as $favorite_user) {
                 NovelGroupNotification::create([
