@@ -629,7 +629,7 @@
                             @endif
                         </div>
                         <div class="field">
-                            <input id="password" type="text" class="text2" title="비밀번호" name="password" required
+                            <input id="password_real" type="password" class="text2" title="비밀번호" name="password" required
                                    placeholder="비밀번호(4~16자리)" autocomplete="off"
                                    style="text-security:disc; -webkit-text-security:disc; -mox-text-security:disc;"/>
 
@@ -801,6 +801,26 @@
 
 
 <script type="text/javascript">
+
+    $(function () {
+        $("#password_real").keyup(function (e) {
+
+            // Our regex
+            // a-z => allow all lowercase alphabets
+            // A-Z => allow all uppercase alphabets
+            // 0-9 => allow all numbers
+            // @ => allow @ symbol
+            var regex = /^[a-zA-Z0-9@]+$/;
+            // This is will test the value against the regex
+            // Will return True if regex satisfied
+            if (regex.test(this.value) !== true)
+            //alert if not true
+            //alert("Invalid Input");
+
+            // You can replace the invalid characters by:
+                this.value = this.value.replace(/[^a-zA-Z0-9@]+/, '');
+        });
+    });
 
 
     var search_form_small = new Vue({
