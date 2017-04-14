@@ -39,7 +39,7 @@
                                 <div class="input">
                                     @if($user)
                                         <input type="text" class="text2" name="to" id="to" v-model="search_info.name"
-                                               value="{{$user->email}}" v-on:keyup="searchByName()">
+                                               value="" v-on:keyup="searchByName()">
                                     @else
                                         <input type="text" class="text2" name="to" id="to" v-model="search_info.name"
                                                value="{{old('to')}}" v-on:keyup="searchByName()">
@@ -130,7 +130,7 @@
                 },
                 alert_msg: '',
                 gift_info: {user_id: '', content: '', numbers: ''},
-                search_info: {name: '{{$user->email}}'},
+                search_info: {name: '@if($user){{$user->email}}@endif'},
                 user_names: [],
                 errors: {},
                 display: false
