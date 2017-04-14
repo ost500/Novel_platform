@@ -45,7 +45,7 @@
                                                    value="{{$received_mail->id}}"><span></span></label>
                                     </td>
                                     <td class="col-name">{{$received_mail->mailboxs->users->nickname}}</td>
-                                    <td class="col-thumb"><img src="/front/imgs/thumb/memo2.png" alt=""></td>
+                                    <td class="col-thumb"><img src="{{$received_mail->mailboxs->icon_path}}" alt=""></td>
                                     <td class="col-subject">
                                         <a href="{{ route('mails.detail', ['id' => $received_mail->id]) }}">{{$received_mail->mailboxs->subject}}</a>
                                     </td>

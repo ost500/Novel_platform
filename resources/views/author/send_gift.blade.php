@@ -122,7 +122,6 @@
         </div>
     </div>
 
-    //
     <script type="text/javascript">
         var app_gift = new Vue({
             el: '#sent_gifts',

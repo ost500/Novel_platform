@@ -29,13 +29,14 @@
 
     <script src="/plugins/bootstrap-timepicker/bootstrap-timepicker.js"></script>
     <script src="/plugins/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
     {{--jquery-ui css--}}
     <link href="/css/jquery-ui/jquery-ui.min.css" rel="stylesheet">
     <link href="/css/jquery-ui/jquery-ui.structure.min.css" rel="stylesheet">
     <link href="/css/jquery-ui/jquery-ui.theme.min.css" rel="stylesheet">
     <link href="/css/jquery-ui/jquery-ui.theme.min.css" rel="stylesheet">
     <link href="/plugins/bootstrap-timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
-
+    <link href="/plugins/jquery-contextMenu/jquery.contextMenu.css" rel="stylesheet">
     <script>
         window.Laravel = <?php echo json_encode([
                 'csrfToken' => csrf_token(),
@@ -501,9 +502,9 @@
 
 
 {{--laravel 기본 스크립트--}}
-<script src="/js/app.js"></script>
+{{--<script src="/js/app.js"></script>--}}
 {{--<script src="/js/bootstrap.min.js"></script>--}}
-
+<script src="/js/common.js"></script>
 <script src="/js/nifty.min.js"></script>
 <script src="/plugins/bootstrap-select/bootstrap-select.min.js"></script>
 <script src="/plugins/bootbox/bootbox.min.js"></script>
@@ -516,6 +517,8 @@
 {{--jquery UI--}}
 <script src="/js/jquery-ui/jquery-ui.min.js"></script>
 
+<script src="/plugins/jquery-contextMenu/jquery.contextMenu.js"></script>
+<script src="/plugins/jquery-contextMenu/jquery.ui.position.js"></script>
 
 </body>
 </html>
