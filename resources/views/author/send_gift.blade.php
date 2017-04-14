@@ -35,7 +35,7 @@
 
                             <div class="col-lg-11">
                                 <input type="text" name="name" id="name" v-model="search_info.name" class="form-control"
-                                       placeholder="닉네임을 검색하세요" v-on:keyup="searchByName()">
+                                       placeholder="닉네임을 검색하세요" autocomplete="off" v-on:keyup="searchByName()">
 
                                 {{-- <span v-if="errors['name']" class="error text-danger"> @{{ errors['name'] }}</span>--}}
                             </div>

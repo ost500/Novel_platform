@@ -321,7 +321,14 @@ class UserController extends Controller
     public function search_by_name(Request $request)
     {
         if ($request->get('name') != "") {
-            $user_names = User::select('id', 'name', 'email', 'nickname')->where('nickname', 'like', $request->get('name') . '%')->orWhere('name', 'like', $request->get('name') . '%')->get();
+            $user_names = User::select('id', 'name', 'email', 'nickname')
+                ->where(function ($q) use($request) {
+                    $q->where('nickname', 'like', $request->get('name') . '%')
+                        ->orWhere('name', 'like', $request->get('name') . '%');
+                }
+                )
+                ->where('id', '<>', Auth::user()->id)
+                ->get();
         } else {
             $user_names = "";
         }

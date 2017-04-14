@@ -95,7 +95,7 @@
                                     <div class="input input--user-search">
                                         <div class="search-input">
                                             <input type="text" name="name" id="name" v-model="search_info.name"
-                                                   class="text1"
+                                                   class="text1" autocomplete="off"
                                                    placeholder="아이디나 닉네임을 검색하세요." v-on:keyup="searchByName()">
                                             <span class="input-desc" style="color:#b3383c;"
                                                   v-if="errors['user_id']">@{{ errors.user_id.toString() }}</span>
