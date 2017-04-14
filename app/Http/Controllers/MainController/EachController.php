@@ -72,13 +72,20 @@ class EachController extends Controller
     public function novel_group_inning(Request $request, $novel_id)
     {
 
-        $increment = true;
-        $page = $request->page;
 
-        //Get the session data and Check if session has data i.e viewed novels
-        $viewed_novels = Session::get('viewed_novels');
         $novel = Novel::where('id', $novel_id)->first();
 
+        //redirect to login if inning is greater than 2 and user is not logged in
+        if (!Auth::check()) {
+            if ($novel->inning > 2) {
+                return redirect()->guest('login');
+            }
+        }
+
+        $increment = true;
+        $page = $request->page;
+        //Get the session data and Check if session has data i.e viewed novels
+        $viewed_novels = Session::get('viewed_novels');
         if ($viewed_novels) {
             //if novel id exist in the session already viewed set increment to false
             foreach ($viewed_novels as $viewed_novel) {

@@ -342,7 +342,7 @@
                 <div class="search-form-basic">
                     <strong class="search-form-title">일반검색</strong>
                     <span class="selectbox">
-                        <span class="show-arrow"></span>
+                        <span class=""></span>
                         <select title="검색옵션" name="search_type" id="search_type">
                             <option value="전체">전체</option>
                             <option value="소설">소설</option>
@@ -680,7 +680,7 @@
                 <div class="search-form-basic">
                     <strong class="search-form-title">일반검색</strong>
                     <span class="selectbox">
-                        <span class="show-arrow"></span>
+                        <span class=""></span>
                         <select title="검색옵션" name="search_type" id="search_type">
                             <option value="전체">전체</option>
                             <option value="소설">소설</option>
