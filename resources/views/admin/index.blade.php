@@ -608,21 +608,25 @@
                 commentsDisplay_after_commenting: function (id) {
 
 
-                    var comments_url = '/comments/' + id;
-
+                    console.log("ididididididid" + this.comment_show.id);
+                    var comments_url = '/comments/' + this.comment_show.id + '?page=' + this.comment_page.current_page;
+                    var novel_group_id = this.comment_show.id;
 
                     if (this.commentsCountData[id] != 0) {
                         this.$http.get(comments_url)
                                 .then(function (response) {
                                     // document.getElementById('response').setAttribute('id','response'+id)
+                                    console.log("GOOD");
+                                    console.log("GOOD" + '#response' + this.comment_show.id);
 
-                                    $('#response' + id).html(response.data);
+                                    $('#response' + this.comment_show.id).html(response.data);
+
                                 });
                         this.review_show.TF = false;
                         this.review_show.id = 0;
 
                         this.comment_show.TF = true;
-                        this.comment_show.id = id;
+
                     } else {
                         commonAlertBox("comment");
                     }

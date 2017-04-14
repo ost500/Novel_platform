@@ -66,10 +66,10 @@ class MainController extends Controller
 
         $recommendations = NovelGroup::selectRaw('novel_group_id, novel_groups.*, sum(week_count) as sum, max(non_free_agreement) as non_free, max(novels.open) as novel_open')
             ->join('novels', 'novels.novel_group_id', '=', 'novel_groups.id')
-            ->groupBy('novel_group_id')->where('secret', null)->orderBy('sum', 'desc')
+            ->groupBy('novel_group_id')->where('secret', null)
             ->havingRaw('max(non_free_agreement) > 0')
             ->havingRaw('novel_open > 0')
-            ->with('nicknames')->take(8)->get();
+            ->with('nicknames')->orderByRaw("RAND()")->take(8)->get();
 
         $notification_popups = Notification::where('popup', true)->latest()->get();
 
@@ -78,7 +78,7 @@ class MainController extends Controller
         $loginView = $request->loginView;
 
 
-//        return response()->json($reader_reviews);
+//        return response()->json($recommendations);
         //Detect mobile
         if ($this->agent->isMobile()) {
             return view('mobile.index', compact('recommends', 'non_free_today_bests', 'free_today_bests', 'latests', 'reader_reviews', 'recommendations', 'login', 'loginView', 'notification_popups'));
