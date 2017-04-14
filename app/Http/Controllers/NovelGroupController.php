@@ -184,7 +184,7 @@ class NovelGroupController extends Controller
         $new_novel_group->description = $request->description;
         $new_novel_group->cover_photo = $request->cover_photo;
         $new_novel_group->cover_photo2 = $request->cover_photo2;
-        $new_novel_group->secret = Carbon::now();
+        $new_novel_group->secret = null;
         $new_novel_group->save();
 
 
@@ -247,7 +247,7 @@ class NovelGroupController extends Controller
         flash("생성을 성공했습니다");
         //  return redirect()->route('author_novel_group', ['id' => $new_novel_group->id]);
 
-        event(new NewSpeedEvent("new_novel_group", "작가 " . $new_novel_group->nicknames->nickname . "의 신작 " . $new_novel_group->title . " 이(가) 신규 등록 되었습니다.", route('each_novel.novel_group', ['id' => $new_novel_group->id]), "/img/novel_covers/" . $new_novel_group->cover_photo, $new_novel_group->id));
+        
 
         if ($request->ajax()) {
             return "OK";

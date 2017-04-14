@@ -102,7 +102,7 @@
                 <ul class="novel-list novel-list--best">
                     @foreach($novel_groups as $novel_group)
                         <li>
-                            <div class="rank">{{(10 * ($page-1)) + $loop->index + 1}}</div>
+                            <div class="rank">{{(20 * ($page-1)) + $loop->index + 1}}</div>
                             <div class="thumb">
                                 <span><a href="{{ route('each_novel.novel_group',['id'=>$novel_group->id]) }}"><img
                                                 src="/img/novel_covers/{{$novel_group->cover_photo}}"

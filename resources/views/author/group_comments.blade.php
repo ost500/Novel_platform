@@ -3,17 +3,7 @@
         <div class="padding-top-10">
             <h4>댓글 {{ $comments_count }}</h4></div>
 
-
         <div class="novel-review">
-            {{--<div class="review-write pad-all">--}}
-            {{--<textarea id="demo-textarea-input" rows="4" class="form-control inline"--}}
-            {{--style="width:50%" placeholder="댓글"></textarea>--}}
-            {{--<button class="btn btn-primary inline"--}}
-            {{--style="width:100px;height:83px; vertical-align:top;">등록--}}
-            {{--</button>--}}
-
-            {{--</div>--}}
-
 
             @foreach($groups_comments as $comment)
 
@@ -21,7 +11,7 @@
                 <div class="review">
 
                     <div>
-                        <span class="nick">{{ $comment->users->name }}</span> {{ $comment->created_at }}
+                        <span class="nick">{{ $comment->users->nickname }}</span> {{ $comment->created_at }}
 
                         {{--<button class="btn  btn-xs btn-danger" id="comment_destroy{{$comment->id}}"--}}
                         {{--onclick="destroyComment({{$comment->id}})">X--}}
@@ -41,7 +31,7 @@
                 @foreach($comment['children'] as $child)
                     <div class="review reply">
                         <div>
-                            <span class="nick">{{ $child->users->name }}</span> {{ $child->created_at }}
+                            <span class="nick">{{ $child->users->nickname }}</span> {{ $child->created_at }}
                             <button class="btn  btn-xs btn-danger" id="comment_destroy{{$child->id}}"
                                     onclick="destroyComment({{$child->id}})">X
                             </button>

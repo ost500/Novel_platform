@@ -92,6 +92,7 @@ class CommentController extends Controller
         $new_comment->comment_secret = $request->comment_secret;
         $new_comment->user_id = Auth::user()->id;
         $new_comment->save();
+
         return response()->json(['error' => 0, 'status' => 'ok']);
 
 
@@ -112,14 +113,13 @@ class CommentController extends Controller
 
         $groups_comments = Comment::join('novels', 'novels.id', '=', 'comments.novel_id')
             ->selectRaw('comments.created_at, comments.*, novels.novel_group_id')
-            ->where('novel_group_id', $id)->where('parent_id', 0)
+            ->where('novel_group_id', $id)->where('parent_id', 0)->orWhere('parent_id', null)
             ->latest()
             ->with('children')->with('users')->with('novels')
             ->paginate(5);
 
 
         $comments_count = $groups_comments->total();
-        
 
 
 //        $groups_comments = $groups_comments->sortByDesc('created_at');

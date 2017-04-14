@@ -150,7 +150,6 @@ class NovelController extends Controller
 
         flash("회차 저장을 성공했습니다");
 
-        event(new NewSpeedEvent("novel", "소설 '" . $new_novel->novel_groups->title . "'의 " . $new_novel->inning . "회 신규 회차가 등록 되었습니다.", "link", $new_novel->novel_groups->cover_photo, $new_novel->novel_groups->id));
 
     }
 
@@ -369,9 +368,10 @@ class NovelController extends Controller
         $open_novels_count = Novel::where(['novel_group_id' => $novel->novel_group_id, 'open' => '1'])->count();
         //If only one novel is open send the novel group opened notification to all users who this novel_group
         if ($open_novels_count == 1) {
+
             //Find users who have made authors novel group favorite
             $favorite_users = Favorite::select(['favorites.user_id'])->join('novel_groups', 'novel_groups.id', '=', 'favorites.novel_group_id')
-                ->where(['novel_groups.user_id' => Auth::User()->id, 'favorites.novel_group_id' => $novel->novel_group_id])->distinct('user_id')->get();
+                ->where(['novel_groups.user_id' => Auth::User()->id])->distinct('user_id')->get();
             //Store the new novel group notification
             foreach ($favorite_users as $favorite_user) {
                 NovelGroupNotification::create([
@@ -379,6 +379,15 @@ class NovelController extends Controller
                     'novel_group_id' => $novel->novel_group_id,
                 ]);
             }
+
+            echo "here";
+            echo $novel->novel_groups->secret == null;
+            // if the novel group is not secret
+            if ($novel->novel_groups->secret == null) {
+                echo "event!!";
+                event(new NewSpeedEvent("novel", "소설 '" . $novel->novel_groups->title . "'의 " . $novel->inning . "회 신규 회차가 등록 되었습니다.", route('each_novel.novel_group_inning', ['id' => $novel->id]), "/img/novel_covers/" . $novel->novel_groups->cover_photo, $novel->novel_groups->id));
+            }
+
         }
 
     }

@@ -300,7 +300,7 @@
                                             $.niftyNoty({
                                                 type: 'warning',
                                                 icon: 'fa fa-check',
-                                                message: "비밀이 되었습니다.",
+                                                message: "공개 되었습니다.",
                                                 container: 'page',
                                                 timer: 4000
                                             });
