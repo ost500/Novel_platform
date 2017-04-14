@@ -11,7 +11,7 @@
                 <div class="review">
 
                     <div>
-                        <span class="nick">{{ $comment->users->name }}</span> {{ $comment->created_at }}
+                        <span class="nick">{{ $comment->users->nickname }}</span> {{ $comment->created_at }}
 
                         {{--<button class="btn  btn-xs btn-danger" id="comment_destroy{{$comment->id}}"--}}
                         {{--onclick="destroyComment({{$comment->id}})">X--}}
@@ -31,7 +31,7 @@
                 @foreach($comment['children'] as $child)
                     <div class="review reply">
                         <div>
-                            <span class="nick">{{ $child->users->name }}</span> {{ $child->created_at }}
+                            <span class="nick">{{ $child->users->nickname }}</span> {{ $child->created_at }}
                             <button class="btn  btn-xs btn-danger" id="comment_destroy{{$child->id}}"
                                     onclick="destroyComment({{$child->id}})">X
                             </button>
