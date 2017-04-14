@@ -86,14 +86,14 @@ class MailboxController extends Controller
 
         //dd($request->all());
         Validator::make($request->all(), [
-            'to' => 'required|email',
+            'to' => 'required',
             'subject' => 'required|max:255',
             'body' => 'required',
             'attachment' => 'mimes:jpeg,png,gif|max:5024',
         ],
             [
                 'to.required' => '작품선택 필수 입니다.',
-                'to.email' => '이메일 형식이 유효하지 않습니다.',
+               // 'to.email' => '이메일 형식이 유효하지 않습니다.',
                 'subject.required' => '제목은 필수 입니다.',
                 'subject.max' => '제목은 반드시 255 자리보다 작아야 합니다.',
                 'body.required' => '내용은 필수 입니다.',
@@ -110,7 +110,7 @@ class MailboxController extends Controller
         }
 
         $input = $request->all();
-        $check_user_exist = User::where('email', '=', $request->get('to'))->first();
+        $check_user_exist = User::where('nickname', '=', $request->get('to'))->first();
         //if email does not exist return with an error
         if ($check_user_exist == null) {
             $errors = '해당 이메일 주소의 사용자를 찾을 수 없습니다.';
@@ -137,7 +137,7 @@ class MailboxController extends Controller
         }
         $new_mail->save();
 
-        $user = User::where('email', $request->to)->pluck('id');
+        $user = User::where('nickname', $request->to)->pluck('id');
 
 
         $new_mail_log = new MailLog();
