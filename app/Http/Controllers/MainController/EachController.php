@@ -87,15 +87,17 @@ class EachController extends Controller
         //Get the session data and Check if session has data i.e viewed novels
         $viewed_novels = Session::get('viewed_novels');
         if ($viewed_novels) {
+
             //if novel id exist in the session already viewed set increment to false
             foreach ($viewed_novels as $viewed_novel) {
-                if ($viewed_novel == $novel_id) {
+                if ($viewed_novel == $novel_id or $novel->user_id == Auth::user()->id) {
 
                     $increment = false;
                 }
             }
-        } else if (Auth::check() && $novel->user_id == Auth::user()->id) {
-            $increment = false;
+        } else if (Auth::check()) {
+
+            ($novel->user_id == Auth::user()->id) ? $increment = false : $viewed_novels = array();
         } else {
             $viewed_novels = array();
         }
