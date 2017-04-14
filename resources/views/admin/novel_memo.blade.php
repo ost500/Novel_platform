@@ -93,6 +93,7 @@
                     selector: '#demo{{$novel_mail_message->id}}',
                     trigger: "left",
                     callback: function (key, options) {
+
                         var m = "clicked: " + key;
                         console.log(this);
 
@@ -103,8 +104,9 @@
                     },
                     items: {
                         "mail": {name: "쪽지 보내기", icon: "mail"},
-                        "cut": {name: "소설 보기", icon: "cut"},
+                      //  "cut": {name: "소설 보기", icon: "cut"},
                     }
+
                 });
             });
             @endforeach

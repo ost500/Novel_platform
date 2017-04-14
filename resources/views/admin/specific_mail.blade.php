@@ -38,7 +38,7 @@
                             <div class="col-lg-11">
                                 @if($user)
                                 <input type="text" name="to" id="to" class="form-control"
-                                       placeholder="이메일" value="{{ $user->email}}">
+                                       placeholder="이메일" value="{{ $user->nickname}}">
                                 @else
                                     <input type="text" name="to" id="to" class="form-control"
                                            placeholder="이메일" value="{{old('to')}}">
