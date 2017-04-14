@@ -185,7 +185,7 @@
                     </div>
                 </div>
                 <!-- //연재회차,작가다른작품,해시태그 -->
-
+                <input type="hidden" id="refresh" value="no">
             </div>
             <!-- //서브컨텐츠 -->
             <!-- 따라다니는퀵메뉴 -->
@@ -266,6 +266,12 @@
 
     });
 
+    //To refresh the page on clicking back button
+   $(document).ready(function(e) {
+        var $input = $('#refresh');
+
+        $input.val() == 'yes' ? location.reload(true) : $input.val('yes');
+    });
 
 </script>
 
