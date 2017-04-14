@@ -151,7 +151,6 @@ class NovelController extends Controller
         flash("회차 저장을 성공했습니다");
 
 
-
     }
 
     /**
@@ -372,7 +371,7 @@ class NovelController extends Controller
 
             //Find users who have made authors novel group favorite
             $favorite_users = Favorite::select(['favorites.user_id'])->join('novel_groups', 'novel_groups.id', '=', 'favorites.novel_group_id')
-                ->where(['novel_groups.user_id' => Auth::User()->id, 'favorites.novel_group_id' => $novel->novel_group_id])->distinct('user_id')->get();
+                ->where(['novel_groups.user_id' => Auth::User()->id])->distinct('user_id')->get();
             //Store the new novel group notification
             foreach ($favorite_users as $favorite_user) {
                 NovelGroupNotification::create([
@@ -381,7 +380,14 @@ class NovelController extends Controller
                 ]);
             }
 
-            event(new NewSpeedEvent("novel", "소설 '" . $novel->novel_groups->title . "'의 " . $novel->inning . "회 신규 회차가 등록 되었습니다.", "link", $novel->novel_groups->cover_photo, $novel->novel_groups->id));
+            echo "here";
+            echo $novel->novel_groups->secret == null;
+            // if the novel group is not secret
+            if ($novel->novel_groups->secret == null) {
+                echo "event!!";
+                event(new NewSpeedEvent("novel", "소설 '" . $novel->novel_groups->title . "'의 " . $novel->inning . "회 신규 회차가 등록 되었습니다.", route('each_novel.novel_group_inning', ['id' => $novel->id]), "/img/novel_covers/" . $novel->novel_groups->cover_photo, $novel->novel_groups->id));
+            }
+
         }
 
     }
