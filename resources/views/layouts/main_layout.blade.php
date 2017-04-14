@@ -188,7 +188,7 @@
 
             <!-- 검색버튼 -->
             <div class="search-area">
-                <a  data-modal-id="search_form" class="userbtn userbtn--search">검색</a>
+                <a data-modal-id="search_form" class="userbtn userbtn--search">검색</a>
                 <a href="{{ route('my_page.favorites') }}" class="userbtn userbtn--scrap-active">선호작</a>
             </div>
         </div>
@@ -290,7 +290,8 @@
                             @endif
                         </div>
                         <div class="field">
-                            <input id="password" type="text" class="text2" title="비밀번호" name="password" required
+                            <input id="password" pattern="[A-Za-z0-9]" type="text" class="text2" title="비밀번호"
+                                   name="password" required
                                    placeholder="비밀번호(4~16자리)" autocomplete="off"
                                    style="text-security:disc; -webkit-text-security:disc; -mox-text-security:disc;"/>
 
@@ -376,7 +377,7 @@
         </form>
     </div>
 
-<!-- //통합검색모달 -->
+    <!-- //통합검색모달 -->
 </header>
 <!-- //헤더 -->
 <!-- small 헤더 -->
@@ -628,7 +629,7 @@
                             @endif
                         </div>
                         <div class="field">
-                            <input id="password" type="text" class="text2" title="비밀번호" name="password" required
+                            <input id="password_real" type="password" class="text2" title="비밀번호" name="password" required
                                    placeholder="비밀번호(4~16자리)" autocomplete="off"
                                    style="text-security:disc; -webkit-text-security:disc; -mox-text-security:disc;"/>
 
@@ -800,6 +801,26 @@
 
 
 <script type="text/javascript">
+
+    $(function () {
+        $("#password_real").keyup(function (e) {
+
+            // Our regex
+            // a-z => allow all lowercase alphabets
+            // A-Z => allow all uppercase alphabets
+            // 0-9 => allow all numbers
+            // @ => allow @ symbol
+            var regex = /^[a-zA-Z0-9@]+$/;
+            // This is will test the value against the regex
+            // Will return True if regex satisfied
+            if (regex.test(this.value) !== true)
+            //alert if not true
+            //alert("Invalid Input");
+
+            // You can replace the invalid characters by:
+                this.value = this.value.replace(/[^a-zA-Z0-9@]+/, '');
+        });
+    });
 
 
     var search_form_small = new Vue({
@@ -991,7 +1012,13 @@
      $('#search_type').trigger('click');
      });
      */
-
+    $('#more_btns_open1').on('click', function () {
+        if (!$(this).hasClass('is-active')) {
+            $('#more_btns_open1').addClass('is-active');
+        } else {
+            $('#more_btns_open1').removeClass('is-active');
+        }
+    });
     $(window).scroll(function () {
 
 
@@ -1000,8 +1027,7 @@
             //fix the main header
 
 
-
-        //function to fix header
+            //function to fix header
 
             if ($(this).scrollTop() > 100) {
 
@@ -1022,13 +1048,6 @@
         /**
          * 사용자버튼 더보기
          */
-        $('#more_btns_open1').on('click', function () {
-            if (!$(this).hasClass('is-active')) {
-                $('#more_btns_open1').addClass('is-active');
-            } else {
-                $('#more_btns_open1').removeClass('is-active');
-            }
-        });
 
         //On small header when click on search icon scroll back to top and show the search box
 //        $('#back_to_top').on('click', function (e) {
@@ -1131,6 +1150,7 @@
 //
 //            }, 1000);
 //        });
+
 
         function close_modal(el) {
             hide_modal_bg();
