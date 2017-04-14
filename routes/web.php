@@ -210,6 +210,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::put('/calculation/{id}', ['as' => 'calculation.update', 'uses' => 'CalculationController@update']);
     Route::get('/calculations', ['as' => 'calculation', 'uses' => 'PageController\AdminPageController@calculations']);
     Route::get('/all_calculations', ['as' => 'calculation.all', 'uses' => 'PageController\AdminPageController@all_calculations']);
+    Route::get('/total_calculations', ['as' => 'calculation.total', 'uses' => 'PageController\AdminPageController@total_calculations']);
     Route::get('/calculations/code_num', ['as' => 'code_num', 'uses' => 'PageController\AdminPageController@code_num']);
     Route::get('/calculations/{id}', ['as' => 'calculation.eaches', 'uses' => 'PageController\AdminPageController@calculation_eaches']);
     Route::get('/calculations/{id}/run', ['as' => 'calculation.eaches.run', 'uses' => 'CalculationController@run']);

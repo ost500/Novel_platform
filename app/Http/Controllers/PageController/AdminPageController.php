@@ -14,6 +14,7 @@ use App\Http\Controllers\Controller;
 use App\Keyword;
 use App\MailLog;
 use App\PublishNovel;
+use App\PurchasedNovel;
 use DateTime;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
@@ -526,10 +527,46 @@ class AdminPageController extends Controller
         $myNovelGroups = $myNovelGroups->paginate(config('define.pagination_long'));
 //        return response()->json($myNovelGroups);
         //For drop downs
-        $nicknames = NickName::select('id','nickname')->get();
+        $nicknames = NickName::select('id', 'nickname')->get();
         $allNovelGroups = NovelGroup::select(['id', 'title'])->get();
         $current_year = Carbon::now()->year;
-        return view('admin.calculation.all_calculations', compact('myNovelGroups', 'nicknames', 'allNovelGroups', 'current_year','nickname_id', 'novel_group_id', 'year', 'month'));
+        return view('admin.calculation.all_calculations', compact('myNovelGroups', 'nicknames', 'allNovelGroups', 'current_year', 'nickname_id', 'novel_group_id', 'year', 'month'));
+    }
+
+    public function total_calculations(Request $request)
+    {
+
+        $year = $request->year;
+        $month = $request->month;
+
+        $commission = Configuration::where('config_name', 'commission')->first();
+
+        //Fetch all month wise data greater than previous_year with purchased novels count and purchased novel_group count
+        /*     $totalPurchasedNovel = PurchasedNovel::selectRaw('month(purchased_novels.created_at) as month, year(purchased_novels.created_at) as year,count(novel_id) as purchased_novel_count, count(distinct(novels.novel_group_id)) as novel_group_count')
+                 ->groupBy('month', 'year'); */
+        $total_calculations = PurchasedNovel::join('novels', 'novels.id', '=', 'purchased_novels.novel_id')
+            ->join('users', 'users.id', '=', 'purchased_novels.user_id')
+            ->join('novel_groups', 'novels.novel_group_id', '=', 'novel_groups.id')
+            ->where('method', '구슬');
+
+
+        if ($year) {
+            $total_calculations = $total_calculations->whereYear('purchased_novels.created_at', $year);
+            if ($month) {
+                $total_calculations = $total_calculations->whereMonth('purchased_novels.created_at', $month);
+            }
+        }
+
+
+        $total_calculations = $total_calculations->get();
+
+
+        // return response()->json($total_calculations);
+        //For drop downs
+        $current_year = Carbon::now()->year;
+
+
+        return view('admin.calculation.total_calculations', compact('total_calculations', 'current_year', 'year', 'month', 'commission'));
     }
 
 

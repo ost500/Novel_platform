@@ -52,7 +52,8 @@
 
             <div class="navbar-header">
                 <a href="{{ route('root') }}" class="navbar-brand">
-                    <img style="margin-left:10px; margin-right:-8px" src="/front/imgs/common/foxgarden_author_logo.png" alt="Nifty Logo" class="brand-icon">
+                    <img style="margin-left:10px; margin-right:-8px" src="/front/imgs/common/foxgarden_author_logo.png"
+                         alt="Nifty Logo" class="brand-icon">
 
                     <div class="brand-title">
                         <img src="/front/imgs/common/foxgarden_author_logo2.png" alt="Nifty Logo">
@@ -78,9 +79,9 @@
                     <!--Messages Dropdown-->
                     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                     <li class="dropdown">
-                       {{-- <a href="#">
-                            <i class="fa fa-lg"></i>
-                        </a>--}}
+                        {{-- <a href="#">
+                             <i class="fa fa-lg"></i>
+                         </a>--}}
                     </li>
                     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                     <!--End message dropdown-->
@@ -94,6 +95,7 @@
                                                      document.getElementById('logout-form').submit();">
                                 <button class="btn btn-danger">로그아웃</button>
                             </a>
+
                             <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
                                 {{ csrf_field() }}
                             </form>
@@ -149,12 +151,12 @@
                                 <li class="list-divider"></li>
 
                                 {{--<li class="{{ (Request::is('admin/sales'))?"active-link":"" }}">--}}
-                                    {{--<a href="{{ route('admin.sales') }}">--}}
-                                        {{--<i class="fa fa-book"></i>--}}
-                                        {{--<span class="menu-title">--}}
-                                            {{--<strong>매출관리</strong>--}}
-                                        {{--</span>--}}
-                                    {{--</a>--}}
+                                {{--<a href="{{ route('admin.sales') }}">--}}
+                                {{--<i class="fa fa-book"></i>--}}
+                                {{--<span class="menu-title">--}}
+                                {{--<strong>매출관리</strong>--}}
+                                {{--</span>--}}
+                                {{--</a>--}}
                                 {{--</li>--}}
 
                                 {{--<li class="list-divider"></li>--}}
@@ -176,7 +178,7 @@
 
                                 <li class="list-divider"></li>
 
-                                <li class="{{(Request::is('admin/calculations')||Request::is('admin/calculations/*')||Request::is('admin/calculation/*'))?"active-link":"" }}">
+                                <li class="{{(Request::is('admin/calculations')||Request::is('admin/calculations/*')||Request::is('admin/calculation/*')||Request::is('admin/total_calculations'))?"active-link":"" }}">
                                     <a href="widgets.html">
                                         <i class="fa fa-money"></i>
                                         <span class="menu-title">
@@ -185,12 +187,13 @@
                                         <i class="arrow"></i>
                                     </a>
 
-                                    <ul class="collapse {{ (Request::is('admin/calculations')||Request::is('admin/calculation/*')||Request::is('admin/calculations/*') ||Request::is('admin/all_calculations') ||Request::is('admin/all_calculations/*'))?"in":"" }}">
+                                    <ul class="collapse {{ (Request::is('admin/calculations')||Request::is('admin/calculation/*')||Request::is('admin/calculations/*') ||Request::is('admin/all_calculations') ||Request::is('admin/all_calculations/*')||Request::is('admin/total_calculations'))?"in":"" }}">
                                         <li><a href="{{ route('code_num')  }}">작품 코드번호 입력</a></li>
                                         <li><a href="{{route('calculation.create')}}">정산 등록</a></li>
                                         {{--<li><a href="{{route('calculation')}}">정산 내역</a></li>--}}
                                         <li><a href="{{route('calculation')}}">퍼블리싱 정산 내역</a></li>
                                         <li><a href="{{route('calculation.all')}}">여우정원 정산 내역</a></li>
+                                        <li><a href="{{route('calculation.total')}}">전체 수익 관리</a></li>
                                     </ul>
                                 </li>
 
@@ -375,11 +378,13 @@
             <!--Modal body-->
             <div class="modal-body">
                 <h4 class="text-thin">Bootstrap Modal Vertical Alignment Center</h4>
+
                 <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
                     laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
                     ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
                 <hr>
                 <h4 class="text-thin">Popover in a modal</h4>
+
                 <p>This
                     <button class="btn btn-sm btn-warning demo-modal-popover add-popover" data-toggle="popover"
                             data-trigger="focus"
@@ -390,6 +395,7 @@
                 </p>
                 <hr>
                 <h4 class="text-thin">Tooltips in a modal</h4>
+
                 <p>
                     <a class="btn-link add-tooltip" href="#" data-original-title="Tooltip">This link</a> and
                     <a class="btn-link add-tooltip" href="#" data-original-title="Tooltip">that link</a> should have
@@ -428,12 +434,14 @@
             <!--Modal body-->
             <div class="modal-body">
                 <h4 class="text-thin">Bootstrap Modal Vertical Alignment Center</h4>
+
                 <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
                     laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
                     ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
 
                 <hr>
                 <h4 class="text-thin">Popover in a modal</h4>
+
                 <p>This
                     <button class="btn btn-sm btn-warning demo-modal-popover add-popover" data-toggle="popover"
                             data-trigger="focus"
@@ -446,6 +454,7 @@
                 <hr>
 
                 <h4 class="text-thin">Tooltips in a modal</h4>
+
                 <p><a class="btn-link add-tooltip" href="#" data-original-title="Tooltip">This link</a> and <a
                             class="btn-link add-tooltip" data-toggle="tooltip" href="#" data-original-title="Tooltip"
                             title="">that link</a> should have tooltips on hover.</p>
