@@ -232,7 +232,7 @@ class MainController extends Controller
         $page = isset($request->page) ? $request->page : '1';
 //        $novel_groups = $novel_groups->toSql();
 //        echo $novel_groups;
-        $novel_groups = $novel_groups->with('nicknames')->with('keywords')->withCount('novels')->paginate(config('define.pagination_long'));
+        $novel_groups = $novel_groups->with('nicknames')->with('keywords')->withCount('novels')->paginate(20);
 
 //        echo $keyword_id[0]->id;
 //        return response()->json($novel_groups);
