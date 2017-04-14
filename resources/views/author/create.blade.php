@@ -127,7 +127,7 @@
                                 <div class="col-md-9">
 
                                     <select id="demo-cs-multiselect" name="hash_tags[]"
-                                            data-placeholder="Choose a HashTag" multiple tabindex="4">
+                                            data-placeholder="해시태그를 입력하세요" multiple tabindex="4">
                                         <option value="">필명선택</option>
                                         @foreach($hash_tags as $hash_tag)
                                             <option value="{{$hash_tag->name}}" {{old("hash_tags") == $hash_tag->id ? "selected":"" }}>{{$hash_tag->name}}</option>
@@ -157,7 +157,7 @@
                                 <div class="col-md-9">
                                     <input type="file" name="cover_photo" id="demo-password-input" class="form-control"
                                            value="{{old('cover_photo')}}">
-                                    <small class="has-warning">사이즈 : 1080*1620 / 최대용량 : 1M / 업로드 가능 확장자 : JPG, PNG 파일
+                                    <small class="has-warning">사이즈 : 1080*1620 / 최대용량 : 2M / 업로드 가능 확장자 : JPG, PNG 파일 / 여우정원에서 사용되는 표지입니다.
                                     </small>
                                 </div>
                             </div>
@@ -169,7 +169,7 @@
                                 <div class="col-md-9">
                                     <input type="file" name="cover_photo2" id="demo-password-input"
                                            class="form-control" value="{{old('cover_photo2')}}">
-                                    <small class="has-warning">사이즈 : 1080*1080 / 최대용량 : 1M / 업로드 가능 확장자 : JPG, PNG 파일
+                                    <small class="has-warning">사이즈 : 1080*1080 / 최대용량 : 2M / 업로드 가능 확장자 : JPG, PNG 파일 / 일부 제휴사에 제휴 연재 신청시 필요한 사이즈 입니다. 길이가 비교적 짧습니다.
                                     </small>
                                 </div>
                             </div>
