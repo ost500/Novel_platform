@@ -151,8 +151,8 @@ class NovelGroupController extends Controller
              'keyword5' => 'required',
              'keyword6' => 'required',
              'keyword7' => 'required',*/
-            'cover_photo' => 'mimes:jpeg,png|image|max:1024|dimensions:max_width=1080,max_height=1620',
-            'cover_photo2' => 'mimes:jpeg,png|image|max:1024|dimensions:max_width=1080,max_height=1080',
+            'cover_photo' => 'mimes:jpeg,png|image|max:2048|dimensions:max_width=1080,max_height=1620',
+            'cover_photo2' => 'mimes:jpeg,png|image|max:2048|dimensions:max_width=1080,max_height=1260',
 
         ], [
             'nickname_id.required' => '필명은 필수 입니다.',
@@ -247,7 +247,7 @@ class NovelGroupController extends Controller
         flash("생성을 성공했습니다");
         //  return redirect()->route('author_novel_group', ['id' => $new_novel_group->id]);
 
-        
+
 
         if ($request->ajax()) {
             return "OK";

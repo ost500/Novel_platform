@@ -25,7 +25,7 @@
                                     <div>
                                         <div class="col-md-10 pad-no padding-bottom-5">
                                             <a href="{{ route('author.novel_group_create') }}">
-                                                <button type="button" class="btn btn-primary">작품추가</button>
+                                                <button type="button" class="btn btn-primary">작품등록</button>
                                             </a>
 
                                             {{--  <button type="button" class="btn btn-primary novel-agree">연재약관</button>--}}
