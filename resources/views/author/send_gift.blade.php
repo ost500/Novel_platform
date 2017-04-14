@@ -86,7 +86,7 @@
                             <div class="col-lg-2">
                                 <input type="text" name="numbers" id="gift_marble" v-model="gift_info.numbers"
                                        class="form-control" placeholder="선물할 구슬 갯수를 적어주세요">
-                                <span class="text">구매한 구슬만 선물이 가능합니다.</span><br>
+                                <span class="text">내가 가진 구슬 내에서 선물이 가능합니다.</span><br>
                                 {{--<span v-if="errors['numbers']" class="error text-danger">@{{ errors['numbers'] }}</span>--}}
                             </div>
                         </div>

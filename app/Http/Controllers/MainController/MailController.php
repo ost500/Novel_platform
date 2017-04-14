@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use App\Mailbox;
 use App\User;
 use Jenssegers\Agent\Agent;
+
 class MailController extends Controller
 {
 
@@ -23,7 +24,11 @@ class MailController extends Controller
     public function create($id = null)
     {
 
-        $user = User::where('id', $id)->first();
+        if ($id != null) {
+            $user = User::where('id', $id)->first();
+        } else {
+            $user = null;
+        }
         //Detect mobile
         if ($this->agent->isMobile()) {
             return view('mobile.mails.create', compact('user'));
