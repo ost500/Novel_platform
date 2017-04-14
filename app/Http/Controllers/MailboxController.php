@@ -12,9 +12,11 @@ use Auth;
 
 use Illuminate\Http\Request;
 use Jenssegers\Agent\Agent;
+
 class MailboxController extends Controller
 {
     var $agent;
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -58,6 +60,15 @@ class MailboxController extends Controller
             $destinationPath = public_path('/img/mail_attachments/');
             $attachment->move($destinationPath, $filename);
         }
+        //icon path
+        if (Auth::user()->isAdmin()) {
+            $icon_path = "/front/imgs/thumb/alarm2.png";
+        } else if (Auth::user()->name == "Soulaim" or Auth::user()->name == "soulaim" ) {
+            $icon_path = "/front/imgs/thumb/memo4.png";
+        } else {
+            $icon_path = "/front/imgs/thumb/memo3.png";
+        }
+        $new_mail->icon_path = $icon_path;
         $new_mail->save();
 
         $favorites = Favorite::where('novel_group_id', $request->novel_group_id)->pluck('user_id');
@@ -75,7 +86,7 @@ class MailboxController extends Controller
         flash("쪽지가 보내졌습니다");
 
         if (Auth::user()->name == "Admin") {
-            return redirect()->route('admin.memo');
+            return redirect()->route('admin.novel_memo_send');
         }
 
         return redirect()->route('author.mailbox_send_message', ['id' => $new_mail->id]);
@@ -93,7 +104,7 @@ class MailboxController extends Controller
         ],
             [
                 'to.required' => '작품선택 필수 입니다.',
-               // 'to.email' => '이메일 형식이 유효하지 않습니다.',
+                // 'to.email' => '이메일 형식이 유효하지 않습니다.',
                 'subject.required' => '제목은 필수 입니다.',
                 'subject.max' => '제목은 반드시 255 자리보다 작아야 합니다.',
                 'body.required' => '내용은 필수 입니다.',
@@ -104,7 +115,7 @@ class MailboxController extends Controller
 
         //if mail sending is blocked then redirect back
         if (Auth::user()->isMailBlocked()) {
-            $errors= '쪽지 보내기 기능이 관리자에 의해 금지 됐습니다';
+            $errors = '쪽지 보내기 기능이 관리자에 의해 금지 됐습니다';
 
             return redirect()->route('mails.create')->withErrors($errors);
         }
@@ -135,6 +146,17 @@ class MailboxController extends Controller
             $destinationPath = public_path('/img/mail_attachments/');
             $attachment->move($destinationPath, $filename);
         }
+
+        //icon path
+        if (Auth::user()->isAdmin()) {
+            $icon_path = "/front/imgs/thumb/alarm2.png";
+        } else if (Auth::user()->name == 'Soulaim' or Auth::user()->name == "soulaim") {
+            $icon_path = "/front/imgs/thumb/memo4.png";
+        } else {
+            $icon_path = "/front/imgs/thumb/memo3.png";
+        }
+
+        $new_mail->icon_path = $icon_path;
         $new_mail->save();
 
         $user = User::where('nickname', $request->to)->pluck('id');
@@ -151,10 +173,10 @@ class MailboxController extends Controller
 
         if (Auth::user()->name == "Admin") {
 
-            if($this->agent->isMobile()){
+            if ($this->agent->isMobile()) {
                 return redirect()->route('mails.sent');
             }
-            return redirect()->route('admin.memo');
+            return redirect()->route('admin.novel_memo_send');
         }
 
         //
