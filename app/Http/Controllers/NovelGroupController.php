@@ -10,6 +10,7 @@ use App\MailLog;
 use App\Novel;
 use App\NovelGroupHashTag;
 use App\NovelGroupKeyword;
+use App\NovelGroupNotification;
 use App\User;
 use Auth;
 use Carbon\Carbon;
@@ -48,8 +49,8 @@ class NovelGroupController extends Controller
                 $novel_groups = NovelGroup::with('novels')->orderBy('recommend_order', 'asc')->latest()->paginate(10);
 
                 //make recommend_order to null when recommend_order > 5 [max valid order is 5]
-                foreach( $novel_groups as  $novel_group){
-                    if($novel_group->recommend_order > 5) $novel_group->recommend_order = null;
+                foreach ($novel_groups as $novel_group) {
+                    if ($novel_group->recommend_order > 5) $novel_group->recommend_order = null;
                 }
             }
 
@@ -134,6 +135,8 @@ class NovelGroupController extends Controller
     public function store(Request $request)
     {
 
+
+        // return response()->json($favorite_users);
         //   dd($request->all());
 
 
@@ -148,8 +151,8 @@ class NovelGroupController extends Controller
              'keyword5' => 'required',
              'keyword6' => 'required',
              'keyword7' => 'required',*/
-            'cover_photo' => 'mimes:jpeg,png|image|max:1024|dimensions:max_width=1080,max_height=1620',
-            'cover_photo2' => 'mimes:jpeg,png|image|max:1024|dimensions:max_width=1080,max_height=1080',
+            'cover_photo' => 'mimes:jpeg,png|image|max:2048|dimensions:max_width=1080,max_height=1620',
+            'cover_photo2' => 'mimes:jpeg,png|image|max:2048|dimensions:max_width=1080,max_height=1260',
 
         ], [
             'nickname_id.required' => '필명은 필수 입니다.',
@@ -181,6 +184,7 @@ class NovelGroupController extends Controller
         $new_novel_group->description = $request->description;
         $new_novel_group->cover_photo = $request->cover_photo;
         $new_novel_group->cover_photo2 = $request->cover_photo2;
+        $new_novel_group->secret = null;
         $new_novel_group->save();
 
 
@@ -240,11 +244,10 @@ class NovelGroupController extends Controller
             $new_novel_group->save();
         }
 
-
         flash("생성을 성공했습니다");
         //  return redirect()->route('author_novel_group', ['id' => $new_novel_group->id]);
 
-        event(new NewSpeedEvent("new_novel_group", "작가 " . $new_novel_group->nicknames->nickname . "의 신작 " . $new_novel_group->title . " 이(가) 신규 등록 되었습니다.", route('each_novel.novel_group', ['id' => $new_novel_group->id]), "/img/novel_covers/" . $new_novel_group->cover_photo, $new_novel_group->id));
+
 
         if ($request->ajax()) {
             return "OK";
@@ -268,8 +271,8 @@ class NovelGroupController extends Controller
 
     public function show_novel($id)
     {
-        //
-        $novel_group = NovelGroup::find($id)->novels->sortByDesc('inning')->values();
+        $novel_group_model = NovelGroup::find($id);
+        $novel_group = $novel_group_model->novels->sortByDesc('inning')->values();
         return \Response::json($novel_group);
     }
 
@@ -528,7 +531,7 @@ class NovelGroupController extends Controller
             // novel_group to clone
             $new_novel_group = $cloning_novel_group->replicate();
             $new_novel_group->secret = Carbon::now();
-            $new_novel_group->title = $new_novel_group->title . "[클린 버젼]";
+            $new_novel_group->title = $new_novel_group->title . " (클린버전)";
             $new_novel_group->push();
             // novel_group cloned
 
@@ -538,6 +541,8 @@ class NovelGroupController extends Controller
                     break;
                 }
                 $new_novel = $cloning_novel->replicate();
+                $new_novel->non_free_agreement = false;
+                $new_novel->open = false;
                 $new_novel->novel_group_id = $new_novel_group->id;
                 $new_novel->push();
             }
@@ -564,7 +569,7 @@ class NovelGroupController extends Controller
 
         foreach ($request->all() as $item) {
             //999 used for sorting  asc in index method for admin
-            if($item['recommend_order'] ==null) $item['recommend_order']=999;
+            if ($item['recommend_order'] == null) $item['recommend_order'] = 999;
 
             $novel_group_recommend_order = NovelGroup::findOrFail($item['id']);
             $novel_group_recommend_order->recommend_order = $item['recommend_order'];

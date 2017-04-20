@@ -5,13 +5,14 @@
         <div id="content-container">
 
             <div id="page-title">
-                <h1 class="page-header text-overflow">제휴연재신청</h1>
+                <h1 class="page-header text-overflow">연재신청</h1>
             </div>
 
 
             <ol class="breadcrumb">
                 <li><a href="#">작가홈</a></li>
-                <li class="active"><a href="#">제휴연재신청</a></li>
+                <li><a href="#">제휴연재신청</a></li>
+                <li class="active">연재신청</li>
             </ol>
 
 
@@ -112,15 +113,15 @@
                                 <div class="col-lg-11 text-center">
 
 
-                                    <div class="col-sm-2" v-for="company in companies">
+                                    <div class="col-sm-2" style="height:450px" v-for="company in companies">
                                         <div>
-                                            <img src="http://211.110.165.137/img/novel_covers/default_.jpg"
-                                                 width="150" v-if="company.company_picture == ''">
-                                            <img :src="'/img/company_pictures/'+company.company_picture" width="150"
-                                                 class="index_img" v-else>
+                                            <img src="/img/novel_covers/default_.jpg"
+                                                 class="index_img" width="150" v-if="company.company_picture == ''">
+                                            <img :src="'/img/company_pictures/'+company.company_picture"
+                                                 class="index_img" width="150" v-else>
                                         </div>
 
-                                        <div class="padding-top-10">
+                                        <div class="padding-top-10" >
                                             <label class="form-checkbox form-icon form-text">
                                                 <input type="checkbox" :name="'company'+company.id"
                                                        value="true" v-on:change="company_check(company)"
@@ -129,7 +130,7 @@
                                         <div class="padding-top-10">초기연재 @{{company.initial_inning}}편</div>
                                         <div class="padding-top-10" v-if="company.adult==1">19금 불가</div>
                                         <div class="padding-top-10"  v-if="company.adult==0" style="margin-bottom:7%"></div>
-                                        <div class="padding-top-10" >@{{company.description}}</div>
+                                        <div class="padding-top-10 description_for_apply" style="word-break:break-word;" >@{{company.description}}</div>
                                     </div>
 
 
@@ -138,20 +139,20 @@
                             <div id="adult_confirm">
                                 <hr>
 
-                                <div class="form-group pad-ver" v-if="adult_publish===true">
+                                <div class="form-group pad-ver" {{--v-if="adult_publish===true"--}}>
                                     <label class="col-lg-1 control-label text-left" for="inputSubject">19금 연재</label>
 
                                     <div class="col-lg-11">
                                         <div class="padding-top-10">
-                                            해당 제휴 업체는 19금 소설 연재가 불가능한 업체입니다. 추후 성인 회차를 추가할 계획이 있으십니까?
+                                            청소년 이용 불가 작품입니까?
 
                                             <label style="margin-left:20px"
                                                    class="form-radio form-icon active form-text">
-                                                <input type="radio" name="ico-w-label" checked="">
+                                                <input type="radio" name="publish_adult" value="1" checked>
                                                 예</label>
 
                                             <label class="form-radio form-icon form-text">
-                                                <input id="adult_checkbox" type="radio" name="ico-w-label"> 아니오</label>
+                                                <input id="adult_checkbox" type="radio" name="publish_adult" value="0"> 아니오</label>
 
                                         </div>
                                     </div>
@@ -230,10 +231,8 @@
 
                     this.companies.some(function (element) {
 
-                        console.log(element);
+                         if (element.selected == true && element.adult == 1) {
 
-                        if (element.selected == true && element.adult == 1) {
-                            console.log(element + "v2");
                             apply.adult_publish = true;
 
                             return (element.selected == true);
@@ -241,14 +240,11 @@
                         apply.adult_publish = false;
                     });
 
-                    console.log(this.adult_publish);
-
-
                 },
 
                 novel_group_checked: function () {
-                    console.log('hi');
-                    console.log(this.clicked_novel_group);
+
+                 //   console.log(this.clicked_novel_group);
                     this.$http.get('{{ route('author.partner_apply.proper_company')."?novel_group="}}' + this.clicked_novel_group)
                             .then(function (response) {
                                 console.log(response);
@@ -276,8 +272,8 @@
 
 
                     bootbox.dialog({
-                        message: "본인의 작품이 네이버 타임딜, 카카오페이지, 기다리면 무료 등,<br> 각 제휴처의 이벤트에 참여하는지 체크해 주세요",
-                        title: "이벤트 참여 여부 확인",
+                        message: "만약 각 제휴사의 할인 및 무료 대여 이벤트 등이 제공된다면 참여하시겠습니까?<br> (최대 할인율 50%) 이벤트는 반드시 진행되는 것은 아니며 해당 제휴사의 심사에 의해 결정 됩니다.",
+                        title: "",
                         buttons: {
                             success: {
                                 label: "이벤트 수락",
@@ -285,7 +281,7 @@
                                 callback: function () {
 
                                     var form = $("#form_data");
-                                    console.log(form);
+                                  // console.log(form.serialize());
                                     $.ajax({
                                         type: 'POST',
                                         url: '{{ route('publishnovelgroups.store') }}/?event=1',
@@ -294,14 +290,11 @@
                                         },
                                         data: form.serialize(),
                                         success: function (response) {
-                                            console.log(response);
-
                                             window.location.assign('{{route('author.partner_apply_list')}}');
                                         },
                                         error: function (data2) {
                                             $("#errors").show();
                                             apply.errors = data2.responseJSON;
-                                            console.log(apply.errors);
                                             apply.formErrors = true;
                                             $("#errors").focus();
                                         }

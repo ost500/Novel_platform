@@ -10,7 +10,8 @@
 
         <ol class="breadcrumb">
             <li><a href="#">작가홈</a></li>
-            <li class="active"><a href="#">쪽지함</a></li>
+            <li><a href="#">쪽지함</a></li>
+            <li class="active">보낸 쪽지</li>
         </ol>
 
 
@@ -97,7 +98,7 @@
                                 <tr>
 
                                     <td class="from"><a
-                                                href="#">@if($maillog->users) {{$maillog->users->name}} @endif</a>
+                                                href="#">@if($maillog->users) {{$maillog->users->nickname}} @endif</a>
                                     </td>
                                     <td class="content"><a
                                                 href="#">@if($men_to_men_request->novel_groups){{$men_to_men_request->novel_groups->title}}@endif</a>

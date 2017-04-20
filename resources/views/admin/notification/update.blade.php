@@ -9,6 +9,7 @@
 
 
         <ol class="breadcrumb">
+            <li><a href="#">어드민</a></li>
             <li><a href="#">공지사항 관리</a></li>
             <li class="active"><a href="#">공지사항 수정</a></li>
 

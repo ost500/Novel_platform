@@ -10,6 +10,7 @@
 
         <ol class="breadcrumb">
             <li><a href="#">작가홈</a></li>
+            <li><a href="#">쪽지함</a></li>
             <li class="active"><a href="#">받은 쪽지</a></li>
         </ol>
 
@@ -27,7 +28,7 @@
                             <div class="media">
                                 <div class="media-body">
                                     <div class="text-bold request-subject">{{ $men_to_men_request->mailboxs->subject }}</div>
-                                    <h4>{{ $men_to_men_request->mailboxs->users->name }}</h4>
+                                    <h4>{{ $men_to_men_request->mailboxs->users->nickname }}</h4>
                                 </div>
                             </div>
                         </div>
@@ -93,7 +94,7 @@
                                 {{--</div>@else class="btn btn-xs btn-success">대기</button>--}}
                                 {{--</div>@endif--}}
                                 <div class="mail-from">
-                                    <a>{{ $request->mailboxs->users->name }}</a>
+                                    <a>{{ $request->mailboxs->users->nickname }}</a>
                                     {{--<button class="btn btn-xs btn-success">대기</button>--}}
                                 </div>
 

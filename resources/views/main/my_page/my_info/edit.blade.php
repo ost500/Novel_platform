@@ -28,7 +28,7 @@
                         <div class="item-cols">
                             <div class="label">아이디</div>
                             <div class="input input--data">
-                                <span class="info">{{ $me->email }}</span>
+                                <span class="info">{{ $me->name }}</span>
 
                                 <div class="input-side-btns">
                                     <form method="get"
@@ -87,7 +87,7 @@
                             <div class="item-cols">
                                 <div class="label">이름</div>
                                 <div class="input input--data">
-                                    <span class="info">{{ $me->name }}</span>
+                                    <span class="info">{{ $me->user_name }}</span>
 
                                     <div class="input-desc-box"><span class="alert"><i class="alert-icon"></i>성인(실명)인증이 되지 않았습니다.</span>
                                     </div>

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends(Auth::user()->name == "Admin" ? 'layouts.admin_layout' : 'layouts.app')
 
 @section('content')
     <div id="content-container" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
@@ -34,31 +34,49 @@
                                 <table class="table table-bordered" id="novel_group">
                                     <tbody>
 
-                                    <tr v-for="novel in novels">
-                                        <td class="text-center col-md-1">@{{ novel.inning }}회</td>
-                                        <td class="col-md-8"><a href="# "
-                                                                v-on:click="go_to_novel(novel.id)">@{{ novel.title }}</a>
+                                    <tr v-for="(novel,index) in novels">
+                                        <td class="text-center col-md-1">@{{ novel.inning }}화</td>
+                                        <td class="col-md-8"><a href="#"
+                                                                v-on:click="go_to_update(novel.id)">@{{ novel.title }}</a>
                                             <button v-if="novel.adult != 0" class="btn btn-xs btn-danger btn-circle">
                                                 19금
                                             </button>
+
                                         </td>
-                                        <td class="text-center">
-                                            <button type="button" class="btn btn-primary"
-                                                    v-if="novel.non_free_agreement==0"
+                                        <td class="text-center col-md-1">@{{ novel.total_count }}</td>
+                                        <td class="text-center col-md-3">
+
+                                            <button type="button" id="non_free" class="btn btn-default"
+                                                    v-if="novel.non_free_agreement==0 && index < novels.length-2"
                                                     v-on:click="show_nonFreeAgreement(novel.id)">유료화
                                             </button>
-                                            <button class="btn btn-info">공개</button>
-                                            {{--<a href="/author/update_inning/"@{{ novel.id }}>--}}
-                                            <a v-on:click="go_to_update(novel.id)">
-                                                <button class="btn btn-success">수정</button>
-                                            </a>
-                                            <button class="btn btn-warning" v-on:click="destroy(novel.id)">삭제</button>
-                                            <button v-if="novel.adult==0" class="btn btn-danger"
+                                            <button type="button" id="non_free" class="btn btn-mint"
+                                                    v-else-if="novel.non_free_agreement!=0 && index < novels.length-2"
+                                                    >유료화
+                                            </button>
+
+                                            </button>
+                                            <button class="btn btn-mint" v-if="novel.open ==1">공개
+                                            </button>
+                                            <button class="btn btn-default" v-if="novel.open ==0"
+                                                    v-on:click="make_open(novel.id)">공개
+                                            </button>
+
+                                            <button class="btn btn-default" v-if="novel.novel_secret ==0  "
+                                                    v-on:click="make_secret(novel.id,novel.non_free_agreement)">비밀
+                                            </button>
+                                            <button class="btn btn-info" v-if="novel.novel_secret ==1"
+                                                    v-on:click="non_secret(novel.id)">비밀
+                                            </button>
+
+
+                                            <button class="btn btn-default" v-on:click="destroy(novel.id)">삭제</button>
+                                            {{--<button v-if="novel.adult==0" class="btn btn-danger"
                                                     v-on:click="make_adult(novel.id)">19금
                                             </button>
                                             <button v-else class="btn btn-danger" v-on:click="cancel_adult(novel.id)">
                                                 19금 취소
-                                            </button>
+                                            </button>--}}
                                         </td>
                                     </tr>
 
@@ -83,7 +101,17 @@
             el: '#novel_group',
             data: {
                 novels: [],
-                formErrors: {}
+                formErrors: {},
+                makeClosed: false,
+                cancelClosed: false,
+                novel_group_secret: ""
+            },
+            computed: {
+                classObjectMake: {
+                    'btn-info': this.makeClosed
+                }, classObjectCancel: {
+                    'btn-mint': this.cancelClosed
+                }
             },
             mounted: function () {
                 this.reload();
@@ -162,8 +190,7 @@
                             if (result) {
 
 
-
-                                app_novel.$http.put("{{ url('/novels/make_adult') }}/" + e, "",{headers: {'X-CSRF-TOKEN': '{!! csrf_token() !!}'}})
+                                app_novel.$http.put("{{ url('/novels/make_adult') }}/" + e, "", {headers: {'X-CSRF-TOKEN': '{!! csrf_token() !!}'}})
                                         .then(function (response) {
                                             this.reload();
                                             $.niftyNoty({
@@ -209,8 +236,7 @@
                             if (result) {
 
 
-
-                                app_novel.$http.put("{{ url('/novels/cancel_adult') }}/" + e, "",{headers: {'X-CSRF-TOKEN': '{!! csrf_token() !!}'}})
+                                app_novel.$http.put("{{ url('/novels/cancel_adult') }}/" + e, "", {headers: {'X-CSRF-TOKEN': '{!! csrf_token() !!}'}})
                                         .then(function (response) {
                                             this.reload();
                                             $.niftyNoty({
@@ -240,6 +266,8 @@
                             .then(function (response) {
 
                                 this.novels = response.data;
+                                // this.novel_group_secret = response.data[1];
+                                // console.log(this.novels);
                             });
                 },
 
@@ -249,6 +277,172 @@
                 go_to_novel: function (e) {
                     window.location.assign('{{ url('/author/management/show_novel/') }}' + "/" + e);
                 },
+                make_open: function (e) {
+                    bootbox.confirm({
+                        message: "공개로 전환 하시겠습니까?",
+
+                        buttons: {
+                            confirm: {
+                                label: "확인"
+                            },
+                            cancel: {
+                                label: '취소'
+                            }
+                        },
+
+                        callback: function (result) {
+
+                            if (result) {
+                                Vue.http.headers.common['X-CSRF-TOKEN'] = "{!! csrf_token() !!}";
+                                app_novel.$http.put("{{ url('novels/make_open/') }}/" + e, "", {headers: {'X-CSRF-TOKEN': '{!! csrf_token() !!}'}})
+                                        .then(function (response) {
+                                            app_novel.reload();
+                                            $.niftyNoty({
+                                                type: 'warning',
+                                                icon: 'fa fa-check',
+                                                message: "공개 되었습니다.",
+                                                container: 'page',
+                                                timer: 4000
+                                            });
+
+                                        })
+                                        .catch(function (data, status, request) {
+                                            var errors = data.data;
+                                            this.formErrors = errors;
+                                        });
+                            }
+                        }
+                    });
+                },
+                cancel_open: function (e) {
+                    bootbox.confirm({
+                        message: "공개로 전환 하시겠습니까?",
+
+                        buttons: {
+                            confirm: {
+                                label: "확인"
+                            },
+                            cancel: {
+                                label: '취소'
+                            }
+                        },
+
+                        callback: function (result) {
+
+                            if (result) {
+                                Vue.http.headers.common['X-CSRF-TOKEN'] = "{!! csrf_token() !!}";
+                                app_novel.$http.put("{{ url('novels/cancel_open/') }}/" + e, "", {headers: {'X-CSRF-TOKEN': '{!! csrf_token() !!}'}})
+                                        .then(function (response) {
+                                            app_novel.reload();
+
+                                            $.niftyNoty({
+                                                type: 'warning',
+                                                icon: 'fa fa-check',
+                                                message: "비밀이 해제 되었습니다.",
+                                                container: 'page',
+                                                timer: 4000
+                                            });
+
+                                        })
+                                        .catch(function (data, status, request) {
+                                            var errors = data.data;
+                                            this.formErrors = errors;
+                                        });
+
+                            }
+
+                        }
+                    });
+                },
+
+                make_secret: function (e, non_free_agreement) {
+
+                    if (non_free_agreement) {
+
+                        bootbox.alert({
+                            message: "유료 소설은 비밀로 변경할 수 없습니다."
+
+                        });
+                        return;
+                    }
+
+
+                    bootbox.confirm({
+                        message: "비밀로 전환 하시겠습니까?",
+
+                        buttons: {
+                            confirm: {
+                                label: "확인"
+                            },
+                            cancel: {
+                                label: '취소'
+                            }
+                        },
+
+                        callback: function (result) {
+
+                            if (result) {
+                                Vue.http.headers.common['X-CSRF-TOKEN'] = "{!! csrf_token() !!}";
+                                app_novel.$http.put("{{ url('novels/secret/') }}/" + e, "", {headers: {'X-CSRF-TOKEN': '{!! csrf_token() !!}'}})
+                                        .then(function (response) {
+                                            app_novel.reload();
+                                            $.niftyNoty({
+                                                type: 'warning',
+                                                icon: 'fa fa-check',
+                                                message: "비밀이 되었습니다.",
+                                                container: 'page',
+                                                timer: 4000
+                                            });
+
+                                        })
+                                        .catch(function (data, status, request) {
+                                            var errors = data.data;
+                                            this.formErrors = errors;
+                                        });
+                            }
+                        }
+                    });
+                },
+                non_secret: function (e) {
+                    bootbox.confirm({
+                        message: "비밀 상태를 해제 하시겠습니까?",
+
+                        buttons: {
+                            confirm: {
+                                label: "확인"
+                            },
+                            cancel: {
+                                label: '취소'
+                            }
+                        },
+
+                        callback: function (result) {
+
+                            if (result) {
+                                Vue.http.headers.common['X-CSRF-TOKEN'] = "{!! csrf_token() !!}";
+                                app_novel.$http.put("{{ url('novels/non_secret/') }}/" + e, "", {headers: {'X-CSRF-TOKEN': '{!! csrf_token() !!}'}})
+                                        .then(function (response) {
+                                            app_novel.reload();
+
+                                            $.niftyNoty({
+                                                type: 'warning',
+                                                icon: 'fa fa-check',
+                                                message: "비밀이 해제 되었습니다.",
+                                                container: 'page',
+                                                timer: 4000
+                                            });
+
+                                        })
+                                        .catch(function (data, status, request) {
+                                            var errors = data.data;
+                                            this.formErrors = errors;
+                                        });
+
+                            }
+
+                        }
+                    });
+                }
             }
 
         });

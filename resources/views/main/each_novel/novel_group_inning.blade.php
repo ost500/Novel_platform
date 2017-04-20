@@ -13,11 +13,11 @@
                         <header class="episode-header">
                             <div class="titles">
                                 <h1 class="series-title"><a
-                                            href="{{ route('each_novel.novel_group', ['id' => $novel_group_inning->novel_groups->id]) }}">{{ $novel_group_inning->novel_groups->title }}</a>
+                                            href="{{ route('each_novel.novel_group', ['id' => $novel_group_inning->novel_groups->id]) }}">{{ str_limit($novel_group_inning->novel_groups->title,45) }}</a>
                                 </h1>
 
                                 <p class="episode-title">
-                                    <a href="{{ route('each_novel.novel_group', ['id' => $novel_group_inning->novel_groups->id]) }}"> {{ $novel_group_inning->title }}</a>
+                                    <a href="{{ route('each_novel.novel_group', ['id' => $novel_group_inning->novel_groups->id]) }}"> {{ str_limit($novel_group_inning->title,15) }}</a>
                                 </p>
                             </div>
                             <div class="controls">
@@ -45,7 +45,7 @@
 
                         <!-- 연재상세내용 -->
                         <div class="episode-content">
-                            <p>
+                            <p id="content_paragraph">
                                 <?php echo nl2br($novel_group_inning->content, false); ?>
                             </p>
 
@@ -95,15 +95,19 @@
                             </div>
                         </div>
                         <!-- 이전다음버튼 -->
+
                         <div class="prev-next-episode">
-                            @if($prev_inning_id)
-                                <a href="{{ route('each_novel.novel_group_inning', ['id' => $prev_inning_id]) }}"
-                                   class="prev-btn"><i class="prev-episode-icon">이전회</i></a>
-                            @endif
-                            @if($next_inning_id)
-                                <a href="{{ route('each_novel.novel_group_inning', ['id' => $next_inning_id]) }}"
-                                   class="next-btn"><i class="next-episode-icon">다음회</i></a>
-                            @endif
+                            <div class="fixed-wrapper">
+
+                                @if($prev_inning_id)
+                                    <a href="{{ route('each_novel.novel_group_inning', ['id' => $prev_inning_id]) }}"
+                                       class="prev-btn"><i class="prev-episode-icon">이전회</i></a>
+                                @endif
+                                @if($next_inning_id)
+                                    <a href="{{ route('each_novel.novel_group_inning', ['id' => $next_inning_id]) }}"
+                                       class="next-btn"><i class="next-episode-icon">다음회</i></a>
+                                @endif
+                            </div>
                         </div>
                         <!-- //이전다음버튼 -->
                     </div>
@@ -149,7 +153,7 @@
                     <!-- //댓글쓰기 -->
 
                     <!-- 댓글목록 -->
-                    <section class="episode-comment">
+                    <section id="comment_section" class="episode-comment">
                         <div class="comments">
                             <div class="comment-list-header">
                                 <h2 class="title">댓글</h2>
@@ -172,16 +176,18 @@
                                 <!-- //댓글정렬 -->
                             </div>
                             <ul class="comment-list">
+
                                 @if(count($novel_group_inning_comments) >0)
+
                                     @foreach($novel_group_inning_comments as $novel_group_inning_comment)
-                                        {{--  @if( ($novel_group_inning_comment[0]->comment_secret ==true && $novel_group_inning_comment[0]->user_id != Auth::user()->id) and ($novel_group_inning_comment[0]->comment_secret ==true && $novel_group_inning->user_id != Auth::user()->id))
-                                              비밀글 입니다
-                                              @continue;
-                                          @endif--}}
+                                        @if( ($novel_group_inning_comment[0]->comment_secret ==true && $novel_group_inning_comment[0]->user_id != Auth::user()->id) and ($novel_group_inning_comment[0]->comment_secret ==true && $novel_group_inning->user_id != Auth::user()->id))
+                                            비밀글 입니다
+                                            @continue;
+                                        @endif
                                         <li>
                                             <div class="comment-wrap">
                                                 <div class="comment-info"><span
-                                                            class="writer @if(Auth::user()->id ==$novel_group_inning_comment[0]->users->id) is-author @endif">{{$novel_group_inning_comment[0]->users->nickname}}</span><span
+                                                            class="writer @if($novel_group_inning_comment[0]->user_id ==$novel_group_inning->user_id) is-author @endif">{{$novel_group_inning_comment[0]->users->nickname}}</span><span
                                                             class="datetime"
                                                             style="padding-right:1px;">{{$novel_group_inning_comment[0]->created_at}}</span>
                                                     @if($novel_group_inning_comment[0]->comment_secret ==true)
@@ -296,12 +302,12 @@
 
                                             </div>
                                         </li>
-                                        @foreach($novel_group_inning_comments[$loop->index]['children'] as $novel_group_inning_comment_reply)
+                                        @foreach($novel_group_inning_comment['children'] as $novel_group_inning_comment_reply)
 
                                             <li>
                                                 <div class="comment-wrap is-reply">
                                                     <div class="comment-info"><span
-                                                                class="writer @if(Auth::user()->id ==$novel_group_inning_comment_reply->users->id) is-author @endif">{{$novel_group_inning_comment_reply->users->nickname}}</span><span
+                                                                class="writer @if($novel_group_inning_comment_reply->user_id == $novel_group_inning->user_id) is-author @endif">{{$novel_group_inning_comment_reply->users->nickname}}</span><span
                                                                 class="datetime"
                                                                 style="padding-right:1px;">{{$novel_group_inning_comment_reply->created_at}}</span>
                                                         @if($novel_group_inning_comment_reply->comment_secret ==true)
@@ -376,6 +382,7 @@
                                         @endforeach
 
                                     @endforeach
+
                                 @else
                                     <li>
                                         <div class="comment-wrap">
@@ -387,10 +394,16 @@
                                     </li>
                                 @endif
 
+
                             </ul>
                             <!-- TOP버튼 -->
-                            <a href="#original" class="gotop-btn"><i class="gotop-icon"></i>Top</a>
+                            <div class="gotop-btn">
+                                <a href="#original" id="gotop"><i class="gotop-icon"></i>Top</a>
+                            </div>
                         </div>
+                        {{--페이징--}}
+                        @include('pagination_front', ['collection' => $novel_group_inning_comments, 'url' => route('each_novel.novel_group_inning',['id'=>$novel_group_inning->id])."?"])
+                        {{--페이징--}}
                     </section>
                     <!-- //댓글목록 -->
 
@@ -400,206 +413,256 @@
             <!-- //서브컨텐츠 -->
             <!-- //서브컨텐츠 -->
             <!-- 따라다니는퀵메뉴 -->
-            @include('main.quick_menu')
-                    <!-- //따라다니는퀵메뉴 -->
+        @include('main.quick_menu')
+        <!-- //따라다니는퀵메뉴 -->
         </div>
     </div>
     <!-- //컨테이너 -->
     <!-- 푸터 -->
     <!-- Social Share-->
-    @section('header')
+@section('header')
     @include('social_share', ['url' =>route('each_novel.novel_group_inning', $novel_group_inning->id),'title'=>$novel_group_inning->title,'thumbnail'=>''])
-    @endsection
-            <!--Social Share -->
-    <script type="text/javascript">
-        var app = new Vue({
-            el: '#inning',
-            data: {
-                info: {comment: '', novel_id: '{{$novel_group_inning->id}}', comment_secret: ''},
-                sub_info: {comment: '', novel_id: '{{$novel_group_inning->id}}', comment_secret: '', parent_id: ''},
-                favorites_info: {novel_group_id: ''},
-                update_info: {comment: '', comment_secret: ''},
-                errorsInfo: {},
-                display: {id: '', status: false},
-                new_box_display: {id: '', status: false},
-                other_novels: {}
-            },
-            methods: {
-
-                update_box_show: function (comment_id) {
-                    if (this.display.id == comment_id && this.display.status == true) {
-                        //Hide update comment box if already shown
-                        this.display.status = false;
-                        this.display.id = 0;
-                    } else {
-
-                        //Show update comment box
-                        this.display.id = comment_id;
-                        this.display.status = true;
-
-                        //hide new comment box when clicked on update
-                        this.new_box_display.status = false;
-
-                    }
+@endsection
+<!--Social Share -->
+<script type="text/javascript">
+    $('.other-novels').css('top', $('.episode-header').position().top + $('.episode-header').height() + 50);
 
 
-                },
+    var app = new Vue({
+        el: '#inning',
+        data: {
+            info: {comment: '', novel_id: '{{$novel_group_inning->id}}', comment_secret: ''},
+            sub_info: {comment: '', novel_id: '{{$novel_group_inning->id}}', comment_secret: '', parent_id: ''},
+            favorites_info: {novel_group_id: ''},
+            update_info: {comment: '', comment_secret: ''},
+            errorsInfo: {},
+            display: {id: '', status: false},
+            new_box_display: {id: '', status: false},
+            other_novels: {}
+        },
+        methods: {
 
-                new_box_show: function (comment_id) {
+            update_box_show: function (comment_id) {
+                if (this.display.id == comment_id && this.display.status == true) {
+                    //Hide update comment box if already shown
+                    this.display.status = false;
+                    this.display.id = 0;
+                } else {
 
-                    if (this.new_box_display.id == comment_id && this.new_box_display.status == true) {
-                        //Hide new comment box if already shown
-                        this.new_box_display.status = false;
-                        this.new_box_display.id = 0;
-                    } else {
-                        //Show new comment box
-                        this.new_box_display.id = comment_id;
-                        this.new_box_display.status = true;
-                        //hide update comment box when clicked on comment
-                        this.display.status = false;
+                    //Show update comment box
+                    this.display.id = comment_id;
+                    this.display.status = true;
 
-                    }
+                    //hide new comment box when clicked on update
+                    this.new_box_display.status = false;
 
-
-                },
-
-                commentStore: function () {
-                    console.log(this.info);
-                    if (this.info.comment_secret == '') {
-                        this.info.comment_secret = false;
-                    }
-                    app.$http.post('{{ route('comments.store') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
-                            .then(function (response) {
-                                location.reload();
-
-                            }).catch(function (errors) {
-                                this.errorsInfo = errors.data;
-                                if (this.errorsInfo.error) {
-                                    window.location.assign('/login?loginView=true');
-                                    exit();
-                                }
-
-                                $('#validateError').show();
-                            });
-                },
-
-                subCommentStore: function (comment_id) {
-                    app.sub_info.parent_id = $('#parent_id' + comment_id).val();
-                    app.sub_info.comment_secret = $('#comment_secret' + comment_id).is(':checked');
-                    app.$http.post('{{ route('comments.store') }}', app.sub_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
-                            .then(function (response) {
-                                location.reload();
-
-                            }).catch(function (errors) {
-                                this.errorsInfo = errors.data;
-                                if (this.errorsInfo.error) {
-                                    window.location.assign('/login?loginView=true');
-                                    exit();
-                                }
-                                $("#error" + comment_id).text(errors.data['comment']);
-                                //  $('#validateError').show();
-                            });
-                },
-
-                commentUpdate: function (comment_id) {
-                    app.update_info.comment = $('#comment' + comment_id).val();
-                    app.update_info.comment_secret = $('#comment_secret' + comment_id).is(':checked');
-
-                    app.$http.put('{{ url('comments') }}/' + comment_id, app.update_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
-                            .then(function (response) {
-                                console.log(response);
-                                location.reload();
-                            })
-                            .catch(function (errors) {
-                                this.errorsInfo = errors.data;
-                                // $('#validateError').show();
-                                $("#error" + comment_id).text(errors.data['comment']);
-                                /*     $("#error"+comment_id).delay(5000).slideUp(200, function () {
-                                 $(this).alert('close');
-                                 });*/
-
-                            });
-                },
-
-                commentDelete: function (comment_id) {
-                    if (confirm('삭제 하시겠습니까?')) {
-                        app.$http.delete('{{ url('comments') }}/' + comment_id, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
-                                .then(function (response) {
-                                    location.reload();
-                                })
-                                .catch(function (errors) {
-
-                                    window.location.assign('/login?loginView=true');
-                                });
-                    }
-                },
-
-                addToFavorite: function (novel_group_id) {
-                    app.favorites_info.novel_group_id = novel_group_id;
-                    app.$http.post('{{ route('favorites.store') }}', app.favorites_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
-                            .then(function (response) {
-                                $('#add_favorite').hide();
-                                $('#remove_favorite').show();
-                                //  location.reload();
-                            })
-                            .catch(function (errors) {
-                                window.location.assign('/login?loginView=true');
-                            });
-                },
-                removeFromFavorite: function () {
-                    app.$http.delete('{{ route('favorites.destroy',['id'=>$novel_group_inning->novel_group_id]) }}', {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
-                            .then(function (response) {
-                                $('#add_favorite').show();
-                                $('#remove_favorite').hide();
-                                //location.reload();
-                            })
-                            .catch(function (errors) {
-
-                                window.location.assign('/login?loginView=true');
-                            });
-                },
-                getOtherNovels: function () {
-
-
-                    app.$http.get('{{ route('novelgroup.novel',['id'=>$novel_group_inning->novel_group_id]) }}')
-                            .then(function (response) {
-                                this.other_novels = response.data;
-                                $('#other_novels').show();
-                            })
-                            .catch(function (errors) {
-                                // window.location.assign('/login?loginView=true');
-                            });
-                },
-                goto_novel_inning: function (id) {
-                    window.location.assign('{{url('novel_group_inning')}}/' + id);
                 }
+
+
+            },
+
+            new_box_show: function (comment_id) {
+
+                if (this.new_box_display.id == comment_id && this.new_box_display.status == true) {
+                    //Hide new comment box if already shown
+                    this.new_box_display.status = false;
+                    this.new_box_display.id = 0;
+                } else {
+                    //Show new comment box
+                    this.new_box_display.id = comment_id;
+                    this.new_box_display.status = true;
+                    //hide update comment box when clicked on comment
+                    this.display.status = false;
+
+                }
+
+
+            },
+
+            commentStore: function () {
+                console.log(this.info);
+                if (this.info.comment_secret == '') {
+                    this.info.comment_secret = false;
+                }
+                app.$http.post('{{ route('comments.store') }}', this.info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                        .then(function (response) {
+                            location.reload();
+
+                        }).catch(function (errors) {
+                    this.errorsInfo = errors.data;
+                    if (this.errorsInfo.error) {
+                        window.location.assign('/login?loginView=true');
+                        exit();
+                    }
+
+                    $('#validateError').show();
+                });
+            },
+
+            subCommentStore: function (comment_id) {
+                app.sub_info.parent_id = $('#parent_id' + comment_id).val();
+                app.sub_info.comment_secret = $('#comment_secret' + comment_id).is(':checked');
+                app.$http.post('{{ route('comments.store') }}', app.sub_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                        .then(function (response) {
+                            location.reload();
+
+                        }).catch(function (errors) {
+                    this.errorsInfo = errors.data;
+                    if (this.errorsInfo.error) {
+                        window.location.assign('/login?loginView=true');
+                        exit();
+                    }
+                    $("#error" + comment_id).text(errors.data['comment']);
+                    //  $('#validateError').show();
+                });
+            },
+
+            commentUpdate: function (comment_id) {
+                app.update_info.comment = $('#comment' + comment_id).val();
+                app.update_info.comment_secret = $('#comment_secret' + comment_id).is(':checked');
+
+                app.$http.put('{{ url('comments') }}/' + comment_id, app.update_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                        .then(function (response) {
+                            console.log(response);
+                            location.reload();
+                        })
+                        .catch(function (errors) {
+                            this.errorsInfo = errors.data;
+                            // $('#validateError').show();
+                            $("#error" + comment_id).text(errors.data['comment']);
+                            /*     $("#error"+comment_id).delay(5000).slideUp(200, function () {
+                             $(this).alert('close');
+                             });*/
+
+                        });
+            },
+
+            commentDelete: function (comment_id) {
+                if (confirm('삭제 하시겠습니까?')) {
+                    app.$http.delete('{{ url('comments') }}/' + comment_id, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                            .then(function (response) {
+                                location.reload();
+                            })
+                            .catch(function (errors) {
+
+                                window.location.assign('/login?loginView=true');
+                            });
+                }
+            },
+
+            addToFavorite: function (novel_group_id) {
+                app.favorites_info.novel_group_id = novel_group_id;
+                app.$http.post('{{ route('favorites.store') }}', app.favorites_info, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                        .then(function (response) {
+                            $('#add_favorite').hide();
+                            $('#remove_favorite').show();
+                            //  location.reload();
+                        })
+                        .catch(function (errors) {
+                            window.location.assign('/login?loginView=true');
+                        });
+            },
+            removeFromFavorite: function () {
+                app.$http.delete('{{ route('favorites.destroy',['id'=>$novel_group_inning->novel_group_id]) }}', {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
+                        .then(function (response) {
+                            $('#add_favorite').show();
+                            $('#remove_favorite').hide();
+                            //location.reload();
+                        })
+                        .catch(function (errors) {
+
+                            window.location.assign('/login?loginView=true');
+                        });
+            },
+            getOtherNovels: function () {
+
+
+                app.$http.get('{{ route('novelgroup.novel',['id'=>$novel_group_inning->novel_group_id]) }}')
+                        .then(function (response) {
+                            this.other_novels = response.data;
+                            $('#other_novels').show();
+                        })
+                        .catch(function (errors) {
+                            // window.location.assign('/login?loginView=true');
+                        });
+            },
+            goto_novel_inning: function (id) {
+                window.location.assign('{{url('novel_group_inning')}}/' + id);
             }
+        }
+    });
+
+    // If an event gets to the body
+    $("body").click(function () {
+        $('#other_novels').hide();
+
+    });
+    $('#other_novels').click(function (e) {
+        e.stopPropagation();
+    });
+
+
+    $(".alert").delay(5000).slideUp(200, function () {
+        $(this).alert('close');
+    });
+    $(function () {
+        @if($page)
+            $('html,body').animate({
+            scrollTop: $("#comment_section").offset().top
         });
-
-        // If an event gets to the body
-        $("body").click(function () {
-            $('#other_novels').hide();
-
-        });
-        $('#other_novels').click(function (e) {
-            e.stopPropagation();
-        });
+        @endif
 
 
-        $(".alert").delay(5000).slideUp(200, function () {
-            $(this).alert('close');
-        });
+    });
 
-        //Scroll and fix the inning  head
-        $(window).scroll(function () {
-            //Fix the novels list popup
-            if ($(this).scrollTop() > 265) $('.other-novels').addClass('novels-fixed');
-            else   $('.other-novels').removeClass('novels-fixed');
 
-            //Fix the inning pre and next
-            if ($(this).scrollTop() > 300 && $(this).scrollTop() < 1350)   $('.prev-next-episode').addClass('pre-next-fixed');
-            else  $('.prev-next-episode').removeClass('pre-next-fixed');
-        });
+    //Scroll and fix the inning  head
+    $(window).scroll(function () {
 
-    </script>
+        //Fix the novels list popup
+        if ($(this).scrollTop() > 265) $('.other-novels').addClass('novels-fixed');
+        else   $('.other-novels').removeClass('novels-fixed');
+
+        //Fix the inning pre and next
+        if ($(this).scrollTop() > 188 && $(this).scrollTop() < ($(".datetime").position().top - 40)) {
+            $('.fixed-wrapper').css('display', 'block');
+            $('.fixed-wrapper').addClass('pre-next-fixed');
+        }
+
+        else if ($(this).scrollTop() > ($(".datetime").position().top - 40)) {
+            $('.fixed-wrapper').css('display', 'none');
+        }
+        else  $('.fixed-wrapper').removeClass('pre-next-fixed');
+
+        /* if($(window).scrollTop() + $(window).height() == $(document).height()) {
+         alert("bottom!");
+         }s*/
+
+        if ($(this).scrollTop() > $('.comments').position().top - 325) {
+            $('#gotop').addClass('gotop-btn-fixed');
+            $('.gotop-btn').css('padding', '0px');
+            $('.gotop-btn').css('text-align', 'left');
+            $('.gotop-btn').css('border', '0px');
+
+            // for small screen if scroll >  comment bottom
+            /*  console.log( $('.comments').position().top + $('.comments').height() );*/
+
+            if ($(this).scrollTop() > $('.comments').position().top + $('.comments').height() - 379) {
+                console.log($(this).scrollTop());
+                $('#gotop').css('position', 'absolute');
+                $('#gotop').css('top', $('.comments').height() - 56 + 'px');
+            } else {
+                $('#gotop').css('position', '');
+                $('#gotop').css('top', '');
+            }
+        }
+        else {
+            $('#gotop').removeClass('gotop-btn-fixed');
+            $('.gotop-btn').css('padding', '');
+            $('.gotop-btn').css('text-align', '');
+            $('.gotop-btn').css('border', '');
+        }
+    });
+
+</script>
 @endsection

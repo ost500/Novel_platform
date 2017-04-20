@@ -4,14 +4,14 @@
     <div id="content-container">
 
         <div id="page-title">
-            <h1 class="page-header text-overflow">등록 자주 묻는 질문 (FAQ)</h1>
+            <h1 class="page-header text-overflow">FAQ 등록</h1>
         </div>
 
 
         <ol class="breadcrumb">
-            <li><a href="#">작가홈</a></li>
-            <li><a href="#">작품관리</a></li>
-            <li class="active">등록 자주 묻는 질문</li>
+            <li><a href="#">어드민</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li class="active">FAQ 등록</li>
         </ol>
 
 
@@ -65,7 +65,7 @@
                             <div class="form-group">
                                 <div class="col-md-12 text-center">
                                     <button type="submit" class="btn btn-lg btn-primary">작품저장</button>
-                                    <button class="btn btn-lg btn-danger">취소</button>
+                                    <button type="button" class="btn btn-lg btn-danger" onclick="window.location.href='{{route('admin.faqs')}}'">취소</button>
                                 </div>
                             </div>
                         </form>

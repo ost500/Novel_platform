@@ -54,7 +54,11 @@ class NewSpeedEvent
 
         if ($this->type == "novel") {
 
-            $this->toWhom = Favorite::where('novel_group_id', $this->novel_group_id)->get();
+            $this->toWhom = Favorite::select(['favorites.user_id'])
+                ->join('novel_groups', 'novel_groups.id', '=', 'favorites.novel_group_id')
+                ->where(['novel_groups.user_id' => Auth::User()->id])
+                ->distinct('user_id')->get();
+
 
         } elseif ($this->type == "noti") {
 

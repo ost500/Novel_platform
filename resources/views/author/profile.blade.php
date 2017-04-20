@@ -55,7 +55,8 @@
 													</span>
                                                 </div>
                                                 <div class="media-body va-middle">
-                                                    <p class="alert-title ">정확한 정산을 위해 은행, 예금주, 계좌번호를 정확히 입력해주세요.</p>
+                                                    <p class="alert-title ">정보를 정확히 입력하지 않으면 제대로 정산되지 않으며, 여우정원은 그에 따른
+                                                        책임을 지지 않습니다. 반드시 정확하게 입력 후 확인해 주십시오.</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -67,7 +68,7 @@
                                         <div class="col-md-9">
                                             <input type="text" name="name" id="demo-email-input" class="form-control"
 
-                                                   placeholder="작가 이름을 입력해 주세요." v-model="profile.name">
+                                                   placeholder="작가 이름을 입력해 주세요." v-model="profile.user_name">
                                         </div>
 
                                     </div>

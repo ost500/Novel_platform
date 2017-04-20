@@ -68,7 +68,8 @@ class RegisterController extends Controller
 
         //Mail send
         Mail::to(Auth::user())->send(new VerifyEmail(Auth::user()));
-
+        
+        Auth::logout();
         return "OK";
 
 
@@ -84,10 +85,10 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => 'required|max:15|min:2|unique:users',
-            'user_name' => 'required|max:15|min:2',
+            'user_name' => 'required|max:255|min:2',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
-            'nickname' => 'required|max:15',
+            'nickname' => 'required|max:15|regex:/^\S*$/u|unique:users',
             'birth' => 'required|digits:4',
             'gender' => 'required'
         ], [
@@ -96,8 +97,8 @@ class RegisterController extends Controller
             'name.max' => '이름은 15자 이하만 가능합니다',
             'name.min' => '이름은 6자 이상만 가능 합니다',
             'user_name.required' => '이름을 입력하세요',
-            'user_name.max' => '이름은 15자 이하만 가능합니다',
-            'user_name.min' => '이름은 6자 이상만 가능 합니다',
+            'user_name.max' => '이름은 255자 이하만 가능합니다',
+            'user_name.min' => '이름은 2자 이상만 가능 합니다',
             'email.required' => '이메일을 입력하세요',
             'email.email' => '이메일 형식이 아닙니다',
             'email.max' => '이메일이 너무 깁니다',
@@ -106,7 +107,9 @@ class RegisterController extends Controller
             'password.min' => '비밀번호가 너무 짧습니다',
             'password.confirmed' => '비밀번호가 일치하지 않습니다',
             'nickname.required' => '닉네임을 입력하세요',
-            'nickname.max' => '닉네임 길이가 너무 깁니다'
+            'nickname.max' => '닉네임 길이가 너무 깁니다',
+            'nickname.regex' => '닉네임에 공백이 들어갈 수 없습니다',
+            'nickname.unique' => '해당 닉네임이 이미 존재합니다'
         ]);
     }
 

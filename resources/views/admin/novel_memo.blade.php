@@ -4,13 +4,14 @@
     <div id="content-container">
 
         <div id="page-title">
-            <h1 class="page-header text-overflow">쪽지함</h1>
+            <h1 class="page-header text-overflow">받은 쪽지함</h1>
         </div>
 
 
         <ol class="breadcrumb">
-            <li><a href="#">작가홈</a></li>
-            <li class="active"><a href="#">쪽지함</a></li>
+            <li><a href="#">어드민</a></li>
+            <li><a href="#">쪽지함</a></li>
+            <li class="active">받은 쪽지함</li>
         </ol>
 
 
@@ -92,6 +93,7 @@
                     selector: '#demo{{$novel_mail_message->id}}',
                     trigger: "left",
                     callback: function (key, options) {
+
                         var m = "clicked: " + key;
                         console.log(this);
 
@@ -102,8 +104,9 @@
                     },
                     items: {
                         "mail": {name: "쪽지 보내기", icon: "mail"},
-                        "cut": {name: "소설 보기", icon: "cut"},
+                      //  "cut": {name: "소설 보기", icon: "cut"},
                     }
+
                 });
             });
             @endforeach

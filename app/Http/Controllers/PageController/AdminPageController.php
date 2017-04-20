@@ -5,6 +5,8 @@ namespace App\Http\Controllers\PageController;
 use App\Accusation;
 use App\Calculation;
 use App\CalculationEach;
+use App\Configuration;
+use App\NickName;
 use App\Notification;
 use App\NovelGroupPublishCompany;
 use App\Company;
@@ -12,6 +14,7 @@ use App\Http\Controllers\Controller;
 use App\Keyword;
 use App\MailLog;
 use App\PublishNovel;
+use App\PurchasedNovel;
 use DateTime;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
@@ -53,8 +56,8 @@ class AdminPageController extends Controller
 
     public function recommendations()
     {
-        $recommends = NovelGroup::where([['secret','=', null],['recommend_order','<>',null]])->with('nicknames')->orderBy('recommend_order','asc')->take(5)->get();
-        return view('admin.recommendations',compact('recommends'));
+        $recommends = NovelGroup::where([['secret', '=', null], ['recommend_order', '<>', null]])->with('nicknames')->orderBy('recommend_order', 'asc')->take(5)->get();
+        return view('admin.recommendations', compact('recommends'));
     }
 
     public function novel(Request $request)
@@ -131,7 +134,7 @@ class AdminPageController extends Controller
     public function users()
     {
         $users = User::paginate(config('define.pagination_long'));
-        return view('admin.users', compact('users', 'users'));
+        return view('admin.users', compact('users'));
     }
 
     public function profile()
@@ -482,12 +485,12 @@ class AdminPageController extends Controller
         return view('admin.calculation.create');
     }
 
-    public function calculation_edit( $id)
+    public function calculation_edit($id)
     {
-        $calculation = Calculation::where('id',$id)->first();
+        $calculation = Calculation::where('id', $id)->first();
 //dd($calculation);
 //dd($calculation);
-        return view('admin.calculation.edit',compact('calculation'));
+        return view('admin.calculation.edit', compact('calculation'));
     }
 
     public function calculations()
@@ -495,6 +498,75 @@ class AdminPageController extends Controller
         $cals = Calculation::paginate(config('define.pagination_long'));
 
         return view('admin.calculation.calculations', compact('cals'));
+    }
+
+    public function all_calculations(Request $request)
+    {
+        $nickname_id = $request->nickname_id;
+        $novel_group_id = $request->novel_group_id;
+        $year = $request->year;
+        $month = $request->month;
+
+        $myNovelGroups = NovelGroup::withCount('calculation_eaches');
+
+        //Search Filters
+        if ($nickname_id) {
+            $myNovelGroups = $myNovelGroups->where('nickname_id', $nickname_id);
+        }
+        if ($novel_group_id) {
+            $myNovelGroups = $myNovelGroups->where('id', $novel_group_id);
+        }
+        if ($year) {
+            $myNovelGroups = $myNovelGroups->whereYear('created_at', $year);
+            if ($month) {
+                $myNovelGroups = $myNovelGroups->whereMonth('created_at', $month);
+            }
+        }
+
+
+        $myNovelGroups = $myNovelGroups->paginate(config('define.pagination_long'));
+//        return response()->json($myNovelGroups);
+        //For drop downs
+        $nicknames = NickName::select('id', 'nickname')->get();
+        $allNovelGroups = NovelGroup::select(['id', 'title'])->get();
+        $current_year = Carbon::now()->year;
+        return view('admin.calculation.all_calculations', compact('myNovelGroups', 'nicknames', 'allNovelGroups', 'current_year', 'nickname_id', 'novel_group_id', 'year', 'month'));
+    }
+
+    public function total_calculations(Request $request)
+    {
+
+        $year = $request->year;
+        $month = $request->month;
+
+        $commission = Configuration::where('config_name', 'commission')->first();
+
+        //Fetch all month wise data greater than previous_year with purchased novels count and purchased novel_group count
+        /*     $totalPurchasedNovel = PurchasedNovel::selectRaw('month(purchased_novels.created_at) as month, year(purchased_novels.created_at) as year,count(novel_id) as purchased_novel_count, count(distinct(novels.novel_group_id)) as novel_group_count')
+                 ->groupBy('month', 'year'); */
+        $total_calculations = PurchasedNovel::join('novels', 'novels.id', '=', 'purchased_novels.novel_id')
+            ->join('users', 'users.id', '=', 'purchased_novels.user_id')
+            ->join('novel_groups', 'novels.novel_group_id', '=', 'novel_groups.id')
+            ->where('method', '구슬');
+
+
+        if ($year) {
+            $total_calculations = $total_calculations->whereYear('purchased_novels.created_at', $year);
+            if ($month) {
+                $total_calculations = $total_calculations->whereMonth('purchased_novels.created_at', $month);
+            }
+        }
+
+
+        $total_calculations = $total_calculations->get();
+
+
+        // return response()->json($total_calculations);
+        //For drop downs
+        $current_year = Carbon::now()->year;
+
+
+        return view('admin.calculation.total_calculations', compact('total_calculations', 'current_year', 'year', 'month', 'commission'));
     }
 
 
@@ -609,6 +681,13 @@ class AdminPageController extends Controller
         })->get();
 
 
+    }
+
+    public function commissions()
+    {
+        $users = User::orderBy('commission', 'desc')->paginate(config('define.pagination_long'));
+        $commission_default = Configuration::where('config_name', 'commission')->first()->config_value;
+        return view('admin.commissions', compact('users', 'commission_default'));
     }
 
 }

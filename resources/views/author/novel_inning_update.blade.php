@@ -3,7 +3,7 @@
 @section('content')
 
     {{--<div class="boxed" > --}}
-    <div id="content-container">
+    <div id="content-container" xmlns:v-on="http://www.w3.org/1999/xhtml">
 
         <div id="page-title">
             <h1 class="page-header text-overflow">작품회차등록</h1>
@@ -64,7 +64,8 @@
                                 <div class="col-md-9">
                                     <div class="checkbox">
                                         <label class="form-checkbox form-normal form-primary active">
-                                            <input name="adult" type="checkbox" @if($novel->adult == 1) checked="checked" @endif >
+                                            <input name="adult" type="checkbox"
+                                                   @if($novel->adult == 1) checked="checked" @endif >
 
                                             19세 미만
                                             관람불가입니다.</label>
@@ -80,7 +81,8 @@
                                     <div class="checkbox inline">
                                         <label class="form-checkbox form-normal form-primary active">
                                             <input name="publish_reservation" type="checkbox" id="publish_check"
-                                                   class=" margin-left-10"  @if($novel->publish_reservation != null) checked="checked" @endif>
+                                                   class=" margin-left-10"
+                                                   @if($novel->publish_reservation != null) checked="checked" @endif>
                                             예약등록</label>
                                     </div>
 
@@ -92,7 +94,8 @@
 
 
                                         <input readonly style="width:100px;" type="text"
-                                               name="reser_time" id="demo-tp-com" value=" @if($novel->reser_time !=null) {{$novel->reser_time}} @endif"
+                                               name="reser_time" id="demo-tp-com"
+                                               value=" @if($novel->reser_time !=null) {{$novel->reser_time}} @endif"
                                                class="timepicker form-control inline" placeholder="예약시간">
 
 
@@ -108,7 +111,15 @@
 
                                 <div class="col-md-9">
                                         <textarea rows="20" name="content" id="demo-textarea-input" class="form-control"
-                                                  placeholder="작품 소개를 입력해 주세요"> {{$novel->content}} </textarea>
+                                                  placeholder="공백 포함 3천 자 미만은 등록되지 않습니다.
+
+다음의 내용을 포함하고 있는 글은 통보 없이 삭제될 수 있으며, 만약 유료로 판매되었을 경우 독자에게 전액 환불 처리되니 유의하여 주시기 바랍니다.
+-로맨스 소설의 범주를 벗어난 비상식적인 성적 표현 및 외설적인 내용
+-공서양속을 해치는 내용
+-타인의 권리나 인격을 침해하는 내용
+-분란을 조장하는 내용
+-해당 소설과 관련 없는 내용
+-그 밖에 약관의 규정을 어기는 내용"> {{$novel->content}} </textarea>
                                 </div>
                             </div>
 
@@ -153,7 +164,9 @@
                             <div class="form-group">
                                 <div class="col-md-12 text-center">
                                     <button type="submit" class="btn btn-lg btn-primary">회차저장</button>
-                                    <button type="button" class="btn btn-lg btn-danger back">취소</button>
+                                    <button type="button" class="btn btn-lg btn-danger"
+                                            v-on:click.prevent="confirm_back()">취소
+                                    </button>
                                 </div>
                             </div>
                         </form>
@@ -170,50 +183,36 @@
 
 
     <script>
+        var app123 = new Vue({
+            el: '#novel_submit',
+            data: {},
+            methods: {
+
+                confirm_back: function () {
+                    bootbox.confirm({
+                        message: "취소 하시겠습니까?",
+
+                        buttons: {
+                            confirm: {
+                                label: "예"
+                            },
+                            cancel: {
+                                label: '아니오'
+                            }
+                        },
+
+                        callback: function (result) {
+
+                            if (result) {
+                                location.assign('{{route('author_novel_group',['id'=>$novel_group->id])}}');
+                            }
+                        }
+                    });
+                }
 
 
-        /*      var app123 = new Vue({
-         el: '#novel_submit',
-         data: {
-
-         formErrors: {},
-         novel_group:[],
-         novel:[],
-
-         },
-
-
-
-         mounted: function () {
-
-         this.reload();
-
-
-         },
-         methods: {
-         adultStatus: function(){
-
-         if(response.data['novel']['adult'] == 1) {
-         //this.novel.adult = true;
-         console.log("abc");
-         return "checked";
-         }
-
-         },
-
-         reload: function () {
-         this.$http.get('{{-- route('novels.edit',['id'=>$id]) --}}')
-         .then(function (response) {
-         this.novel_group = response.data['novel_group'];
-         this.novel = response.data['novel'];
-
-         });
-
-         },
-
-
-         }
-         });*/
+            }
+        });
 
 
         $(function () {

@@ -95,7 +95,7 @@
                                     <div class="input input--user-search">
                                         <div class="search-input">
                                             <input type="text" name="name" id="name" v-model="search_info.name"
-                                                   class="text1"
+                                                   class="text1" autocomplete="off"
                                                    placeholder="아이디나 닉네임을 검색하세요." v-on:keyup="searchByName()">
                                             <span class="input-desc" style="color:#b3383c;"
                                                   v-if="errors['user_id']">@{{ errors.user_id.toString() }}</span>
@@ -108,14 +108,17 @@
                                             <div class="result-item" v-for="user_name in user_names"
                                                  v-if="user_name.id !='{{Auth::user()->id}}'"
                                                  style="padding-right:0;display:block;">
-                                                <span class="user-name">@{{ user_name.name }}
-                                                    (@{{ user_name.email }})</span>
+                                                <span class="user-name">@{{ user_name.nickname }}
+                                                    (@{{ user_name.name }})</span>
                                                 {{-- <button type="button" class="delete-btn">삭제</button> --}}
                                                 <label class="checkbox2">
                                                     <input type="radio" name="user_id"
-                                                           v-on:click="fillName(user_name.name,user_name.id )">
+                                                           v-on:click="fillName(user_name.nickname,user_name.id )">
                                                     <span></span>
                                                 </label>
+                                            </div>
+                                            <div class="result-item" v-if="user_names.length==0" style="border:0 solid">
+                                                <span class="user-name">검색 결과가 없습니다.</span>
                                             </div>
                                             <br>
 
@@ -140,7 +143,7 @@
                                     <div class="input">
                                         <input type="text" name="numbers" id="gift_marble" class="text2" size="25"
                                                v-model="gift_info.numbers">
-                                        <span class="input-desc">구매한 구슬만 선물이 가능합니다.</span><br>
+                                        <span class="input-desc">내가 가진 구슬 내에서 선물이 가능합니다.</span><br>
                                         <span class="input-desc" style="color:#b3383c;"
                                               v-if="errors['numbers']">@{{errors.numbers.toString() }}</span>
                                     </div>
@@ -218,7 +221,8 @@
                             .then(function (response) {
 
                                 this.user_names = response.data['user_names'];
-                                this.display = true;
+                                (this.user_names) ? this.display = true:this.display = false;
+
                             })
                             .catch(function (response, status, request) {
 
@@ -241,8 +245,8 @@
                 },
 
                 //Fill the selected user name in the input box
-                fillName: function (name, user_id) {
-                    app_gift.search_info.name = name;
+                fillName: function (nickname, user_id) {
+                    app_gift.search_info.name = nickname;
                     app_gift.gift_info.user_id = user_id;
 
                 }

@@ -29,7 +29,13 @@
                     @foreach ($pays as $pay)
                         <tr>
                             <td class="col-datetime2">{{ $pay->created_at }}</td>
-                            <td class="col-subject">{{ $pay->numbers."개를 ". $pay->content }}</td>
+                            @if($pay->piece_numbers == 0)
+                                <td class="col-subject">구슬 {{ $pay->numbers."개를 " }} 구입하였습니다</td>
+                            @else
+                                <td class="col-subject">구슬 {{ $pay->numbers."개를 " }} 구입하고 조각 {{$pay->piece_numbers}}개를
+                                    받았습니다.
+                                </td>
+                            @endif
                             <td class="col-payment">{{ $pay->method }}</td>
                         </tr>
                     @endforeach
@@ -39,7 +45,7 @@
 
                 <!-- 페이징 -->
             @include('pagination_front', ['collection' => $pays, 'url' => route('my_info.charge_list')."?"])
-                <!-- //페이징 -->
+            <!-- //페이징 -->
             </div>
             <!-- //서브컨텐츠 -->
             <!-- 따라다니는퀵메뉴 -->

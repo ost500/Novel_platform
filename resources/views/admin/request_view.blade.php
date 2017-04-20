@@ -10,6 +10,7 @@
 
         <ol class="breadcrumb">
             <li><a href="#">어드민</a></li>
+            <li><a href="#">1:1문의</a></li>
             <li class="active"><a href="#">1:1문의내역</a></li>
         </ol>
 

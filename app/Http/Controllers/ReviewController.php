@@ -7,6 +7,8 @@ use App\Review;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Validator;
+use Auth;
+
 class ReviewController extends Controller
 {
     /**
@@ -48,6 +50,13 @@ class ReviewController extends Controller
 
         ])->validate();
 
+
+        //if posting is blocked then redirect back with error
+        if (Auth::user()->isPostingBlocked()) {
+            $error = '글쓰기가 관리자에 의해 차단 됐습니다';
+            return redirect()->back()->withErrors($error);
+        }
+
         $request->user()->reviews()->create($request->all());
         flash('독자추천 글이 성공적으로 등록 되었습니다');
 
@@ -64,7 +73,7 @@ class ReviewController extends Controller
     {
 
 
-        $groups_reviews = Review::where('novel_group_id', $id)->with('users')->with('novel_groups')->get();
+        $groups_reviews = Review::where('novel_group_id', $id)->with('users')->with('novel_groups')->paginate(5);
 
 
 //        return response()->json($groups_reviews);
@@ -118,6 +127,14 @@ class ReviewController extends Controller
     public function destroy($id)
     {
         Review::destroy($id);
+        return response()->json(['status' => 'ok']);
+    }
+
+    public function destroy_group(Request $request)
+    {
+        $ids = $request->get('ids');
+        Review::destroy($ids);
+        flash('삭제 되었습니다.');
         return response()->json(['status' => 'ok']);
     }
 }

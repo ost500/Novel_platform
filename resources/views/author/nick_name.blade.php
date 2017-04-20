@@ -29,33 +29,33 @@
 
                             <div class="panel-body">
                                 <div class="table-responsive">
-                                    <div class="padding-bottom-5">
+                                  {{--  <div class="padding-bottom-5">
                                         <button class="btn btn-primary" id="novels-user-nick-form">필명추가</button>
-                                    </div>
-                                    <table class="table table-bordered" id="nickname">
+                                    </div>--}}
+                                    <table class="table table-bordered" id="nickname" style="width: 50%;">
                                         <tbody>
-                                        <tr v-for="nick in nicks" :key="nick.id">
+                                        <tr v-for="nick in nicks" :key="nick.id"  >
 
 
-                                            <td class="col-md-9">@{{ nick.nickname }}
+                                            <td class="col-md-6">@{{ nick.nickname }}
                                                 <button v-if="nick.main"
                                                         class="btn btn-xs btn-danger btn-circle">메인
                                                 </button>
                                             </td>
 
-                                            <td class="text-center">
+                                            <td class="text-center col-md-2">
 
-                                                <button v-if="nick.main == false"
+                                              {{--  <button v-if="nick.main == false"
                                                         class="btn btn-primary" v-on:click="main(nick.id)">메인전환
 
-                                                </button>
+                                                </button>--}}
 
 
                                                 <button class="btn btn-success novels-user-nick-form"
                                                         v-on:click="update(nick.id, nick.nickname)">수정
                                                 </button>
-                                                <button class="btn btn-warning" v-on:click="destroy(nick.id)">삭제
-                                                </button>
+                                               {{-- <button class="btn btn-warning" v-on:click="destroy(nick.id)">삭제
+                                                </button>--}}
                                             </td>
 
                                         </tr>
@@ -116,6 +116,7 @@
                         '<label class="col-md-4 control-label" for="name">필명</label> ' +
                         '<div class="col-md-4"> ' +
                         '<input value="' + nickname + '" id="name" name="nickname" type="text" placeholder="필명을 입력해주세요." class="form-control input-md"> ' +
+                       '<span class="error" id="error_warn">'+ '</span>'+
                         '</div> ' +
                         '</div> ' + '</form> </div> </div>',
                         buttons: {
@@ -127,24 +128,35 @@
                                 callback: function () {
                                     var name = $('#name').val();
 
-                                    console.log(name);
+                                   // console.log(name);
 
                                     Vue.http.headers.common['X-CSRF-TOKEN'] = "{!! csrf_token() !!}";
                                     app_nickname.$http.put("/nickname/" + id, {'nickname': name}, {headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken}})
                                             .then(function (response) {
-                                                console.log(response);
-                                                app_nickname.reload();
-                                                $.niftyNoty({
-                                                    type: 'purple',
-                                                    icon: 'fa fa-check',
-                                                    //message : "Hello " + name + ".<br> You've chosen <strong>" + answer + "</strong>",
-                                                    message: "필명 " + name + "이 저장 되었습니다.",
-                                                    //container : 'floating',
-                                                    container: 'page',
-                                                    timer: 4000
-                                                });
+                                               // console.log(response);
+                                                if(response.data.error==1){
+                                                    // $("#error_warn").html(response.data.message);
+                                                    $.niftyNoty({
+                                                        type: 'warning',
+                                                        icon: 'fa fa-exclamation-triangle',
+                                                        message: response.data.message,
+                                                        container: 'page',
+                                                        timer: 5000
+                                                    });
+                                                }else {
+                                                    app_nickname.reload();
+                                                    $.niftyNoty({
+                                                        type: 'purple',
+                                                        icon: 'fa fa-check',
+                                                        //message : "Hello " + name + ".<br> You've chosen <strong>" + answer + "</strong>",
+                                                        message: "필명 " + name + "이 저장 되었습니다.",
+                                                        //container : 'floating',
+                                                        container: 'page',
+                                                        timer: 4000
+                                                    });
 
-                                                $("#error_warning").html("");
+
+                                                }
                                             })
                                             .catch(function (data, status, request) {
                                                 var errors = data.data;
@@ -204,12 +216,12 @@
                     })
                 },
                 reload: function () {
-                    console.log('reloaded');
+                  //  console.log('reloaded');
                     this.$http.get('{{ route('nickname.index') }}')
                             .then(function (response) {
                                 this.nicks = response.data;
                             });
-                },
+                }
             }
 
         });
@@ -220,6 +232,7 @@
 
 
     <script>
+
         //필명 추가
         $('#novels-user-nick-form').on('click', function () {
             function boot() {
@@ -247,7 +260,7 @@
                             callback: function (event) {
                                 var name = $('#name').val();
                                 var answer = $("input[name='main']:checked").val();
-                                console.log(name);
+                             //   console.log(name);
 
                                 var app_nick_create = new Vue({
                                     data: {
@@ -260,32 +273,45 @@
 
                                             this.$http.post("/nickname", this.nickname)
                                                     .then(function (response) {
-                                                        console.log(response);
-                                                        app_nickname.reload();
-                                                        $.niftyNoty({
-                                                            type: 'purple',
-                                                            icon: 'fa fa-check',
-                                                            //message : "Hello " + name + ".<br> You've chosen <strong>" + answer + "</strong>",
-                                                            message: "필명 " + name + "이 저장 되었습니다.",
-                                                            //container : 'floating',
-                                                            container: 'page',
-                                                            timer: 4000
-                                                        });
-                                                        $("#error_warning").html("");
+                                                    //    console.log(response.data.error);
+                                                       // app_nickname.reload();
+                                                        if(response.data.error==1){
+                                                           // $("#error_warning").html(response.data.message);
+                                                            $.niftyNoty({
+                                                                type: 'warning',
+                                                                icon: 'fa fa-exclamation-triangle',
+                                                                message: response.data.message,
+                                                                container: 'page',
+                                                                timer: 5000
+                                                            });
+                                                        }else {
+                                                            app_nickname.reload();
+                                                            $.niftyNoty({
+                                                                type: 'purple',
+                                                                icon: 'fa fa-check',
+                                                                //message : "Hello " + name + ".<br> You've chosen <strong>" + answer + "</strong>",
+                                                                message: "필명 " + name + "이 저장 되었습니다.",
+                                                                //container : 'floating',
+                                                                container: 'page',
+                                                                timer: 4000
+                                                            });
+                                                        }
+
 
                                                         //if successed, validation true
                                                     })
                                                     .catch(function (data, status, request) {
 
                                                         var errors = data.data;
-                                                        console.log(errors);
+                                                    //    console.log(errors);
 
 
-                                                        error_show = '<div class="alert alert-danger"><ul><li> ' +
+                                                        error_show = '<div class="alert alert-danger" data-dismiss="alert"><ul><li> ' +
                                                                 errors.nickname[0]
                                                                 +'</li></ul></div>';
 
                                                         $("#error_warning").html(error_show);
+
                                                     });
 
 
@@ -307,7 +333,13 @@
             boot();
 
             $(".demo-modal-radio").niftyCheck();
+
+
         });
+        $(".alert").delay(4000).slideUp(200, function () {
+            $(this).alert('close');
+        });
+
     </script>
 
 

@@ -3,13 +3,14 @@
 			<div id="content-container">
 				
 				<div id="page-title">
-					<h1 class="page-header text-overflow">제휴업체관리</h1>
+					<h1 class="page-header text-overflow">연재업체관리</h1>
 				</div>
 
 
 				<ol class="breadcrumb">
-					<li><a href="#">작가홈</a></li>
-					<li class="active">제휴업체관리</li>
+					<li><a href="#">어드민</a></li>
+					<li><a href="#">제휴업체관리</a></li>
+					<li class="active">연재업체관리</li>
 				</ol>
 
 
@@ -52,7 +53,7 @@
 													</td>
 													<td class="text-center" style="word-wrap: break-word;width:20%" ><?php echo nl2br($company->description, false); ?></td>
 													<td class="text-center">{{$company->initial_inning}} </td>
-													<td class="text-center">@if($company->adult_allowance)  Yes @else No  @endif </td>
+													<td class="text-center">@if($company->adult)  예 @else 아니오  @endif </td>
 													<td class="text-center">
 														<a href="{{route('admin.partner_edit_company',['id'=>$company->id])}}"><button class="btn btn-success">수정</button></a>
 														<button class="btn btn-warning"  onclick="destroy({{$company->id}})" >삭제</button>

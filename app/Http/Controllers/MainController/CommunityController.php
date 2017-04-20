@@ -21,6 +21,7 @@ class CommunityController extends Controller
     public function __construct()
     {
         $this->agent = new Agent();
+        $this->middleware('auth')->only('free_board_detail_auth');
     }
 
     public function free_board(Request $request)
@@ -32,6 +33,10 @@ class CommunityController extends Controller
             $articles = $articles->where('title', 'like', '%' . $search_text . '%');
         } else if ($search_option == 'content') {
             $articles = $articles->where('content', 'like', '%' . $search_text . '%');
+        } else if ($search_option == 'nickname') {
+            $articles = $articles->whereHas('users', function ($q) use ($search_text) {
+                $q->where('nickname', 'like', '%' . $search_text . '%');
+            });
         }
 
         $articles = $articles->latest()->with('users')->withCount('comments')->paginate(config('define.pagination_long'));
@@ -48,6 +53,11 @@ class CommunityController extends Controller
 
         }
         return view('main.community.free_board', compact('articles', 'weekly_best', 'search_option', 'search_text', 'page'));
+    }
+
+    public function free_board_detail_auth($id)
+    {
+        return redirect()->route('free_board.detail', ['id' => $id]);
     }
 
     public function free_board_detail(Request $request, $id)
@@ -133,20 +143,22 @@ class CommunityController extends Controller
         $novel_group_id = $request->novel_group;
         $review_user_id = $request->review_user;
         if ($request->novel_group) {
+            //이 소설의 다른 추천 보기
             $reviews = Review::selectRaw('reviews.*, novel_groups.*, reviews.title as review_title, sum(total_count) as total_count, reviews.id,reviews.user_id')
                 ->join('novel_groups', 'novel_groups.id', '=', 'reviews.novel_group_id')
                 ->join('novels', 'novel_groups.id', '=', 'novels.novel_group_id')
                 ->join('novel_group_keywords', 'novel_group_keywords.novel_group_id', '=', 'novel_groups.id')
-                ->groupBy('reviews.id','reviews.user_id')->where(['novel_groups.secret' => null, 'reviews.novel_group_id' => $novel_group_id])->orderBy('reviews.created_at', 'desc')
+                ->groupBy('reviews.id', 'reviews.user_id')->where(['novel_groups.secret' => null, 'reviews.novel_group_id' => $novel_group_id])->orderBy('reviews.created_at', 'desc')
                 ->with('users');
 
         } elseif ($request->review_user) {
+            // 작성자의 다른 추천 보기
             $reviews = Review::selectRaw('reviews.*, novel_groups.*, reviews.title as review_title, users.name as user_name, sum(total_count) as total_count, reviews.id,reviews.user_id')
                 ->join('novel_groups', 'novel_groups.id', '=', 'reviews.novel_group_id')
                 ->join('novels', 'novel_groups.id', '=', 'novels.novel_group_id')
                 ->join('users', 'users.id', '=', 'reviews.user_id')
                 ->join('novel_group_keywords', 'novel_group_keywords.novel_group_id', '=', 'novel_groups.id')
-                ->groupBy('reviews.id','reviews.user_id')->where(['novel_groups.secret' => null, 'reviews.user_id' => $review_user_id])->orderBy('reviews.created_at', 'desc')
+                ->groupBy('reviews.id', 'reviews.user_id')->where(['novel_groups.secret' => null, 'reviews.user_id' => $review_user_id])->orderBy('reviews.created_at', 'desc')
                 ->with('users');
         } else {
 
@@ -154,7 +166,7 @@ class CommunityController extends Controller
                 ->join('novel_groups', 'novel_groups.id', '=', 'reviews.novel_group_id')
                 ->join('novels', 'novel_groups.id', '=', 'novels.novel_group_id')
                 ->join('novel_group_keywords', 'novel_group_keywords.novel_group_id', '=', 'novel_groups.id')
-                ->groupBy('reviews.id','reviews.user_id')->where('novel_groups.secret', null)->orderBy('reviews.created_at', 'desc')
+                ->groupBy('reviews.id', 'reviews.user_id')->where('novel_groups.secret', null)->orderBy('reviews.created_at', 'desc')
                 ->with('users');
         }
 
@@ -166,7 +178,7 @@ class CommunityController extends Controller
             $reviews = $reviews->where('reviews.title', 'like', '%' . $search_text . '%');
         } else if ($search_option == 'content') {
             $reviews = $reviews->where('review', 'like', '%' . $search_text . '%');
-        }else if ($search_option == 'nickname') {
+        } else if ($search_option == 'nickname') {
             $reviews = $reviews->whereHas('users', function ($q) use ($search_text) {
                 $q->where('nickname', 'like', '%' . $search_text . '%');
             });
@@ -176,14 +188,14 @@ class CommunityController extends Controller
         //genre
         $genre = isset($request->genre) ? $request->genre : "%";
 
-        if ($genre == "현대로맨스" or $genre == "시대로맨스" or $genre == "서양역사") {
+        if ($genre == "현대로맨스" or $genre == "시대로맨스" or $genre == "로맨스판타지") {
 
             $genreArr = "";
             if ($genre == "현대로맨스") {
                 $genreArr = ['현대', '현대판타지'];
             } else if ($genre == "시대로맨스") {
                 $genreArr = ['시대', '사극', '동양판타지'];
-            } else if ($genre == "서양역사") {
+            } else if ($genre == "로맨스판타지") {
                 $genreArr = ['서양역사', '로맨스판타지'];
             }
 
@@ -230,10 +242,10 @@ class CommunityController extends Controller
         }, 'comments.users'])
             ->join('novel_groups', 'novel_groups.id', '=', 'reviews.novel_group_id')
             ->join('novels', 'novel_groups.id', '=', 'novels.novel_group_id')
-            ->join('favorites', 'novel_groups.id', '=', 'favorites.novel_group_id')
+//            ->join('favorites', 'novel_groups.id', '=', 'favorites.novel_group_id')
             ->selectRaw('reviews.id as review_id, reviews.*, reviews.title as review_title, sum(total_count) as total_count, reviews.id')
             ->where('reviews.id', $id)
-            ->groupBy('reviews.id')->get()[0];
+            ->groupBy('reviews.id')->first();
 
         $next_review_id = Review::where('id', '>', $review->review_id)->min('id');
         $next_review = Review::with('users')->find($next_review_id);

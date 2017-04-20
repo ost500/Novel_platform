@@ -6,11 +6,16 @@ use App\Comment;
 use App\Events\NewSpeedEvent;
 use App\Novel;
 use App\NovelGroup;
+use App\NovelGroupNotification;
+use App\RecentlyVisitedNovel;
 use App\User;
 use Auth;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Validator;
+use App\Mailbox;
+use App\MailLog;
+use App\Favorite;
 
 class NovelController extends Controller
 {
@@ -104,14 +109,13 @@ class NovelController extends Controller
 
         Validator::make($request->all(), [
             'title' => 'required|max:255',
-            'novel_content' => 'required',
-            'author_comment' => 'required',
+            'novel_content' => 'required|min:3000',
         ],
             [
                 'title.required' => '제목은 필수 입니다.',
                 'title.max' => '제목은 반드시 255 자리보다 작아야 합니다.',
                 'novel_content.required' => '내용은 필수 입니다.',
-                'author_comment.required' => '작가의 말은 필수 입니다.',
+                'novel_content.min' => '3000자 이상 입력해야 합니다.',
             ]
         )->validate();
 
@@ -144,10 +148,8 @@ class NovelController extends Controller
 
 //        $this->inning_order($new_novel->novel_groups->id);
 
-
         flash("회차 저장을 성공했습니다");
 
-        event(new NewSpeedEvent("novel", "소설 '" . $new_novel->novel_groups->title . "'의 " . $new_novel->inning . "회 신규 회차가 등록 되었습니다.", "link", $new_novel->novel_groups->cover_photo, $new_novel->novel_groups->id));
 
     }
 
@@ -206,14 +208,13 @@ class NovelController extends Controller
 
         Validator::make($request->all(), [
             'title' => 'required|max:255',
-            'content' => 'required',
-            'author_comment' => 'required',
+            'content' => 'required|min:3000',
         ],
             [
                 'title.required' => '제목은 필수 입니다.',
                 'title.max' => '제목은 반드시 255 자리보다 작아야 합니다.',
                 'content.required' => '내용은 필수 입니다.',
-                'author_comment.required' => '작가의 말은 필수 입니다.',
+                'content.min' => '3000자 이상 입력해야 합니다.',
             ]
         )->validate();
 
@@ -282,6 +283,8 @@ class NovelController extends Controller
         //
         $novel = Novel::find($id);
         $novel->delete();
+
+        RecentlyVisitedNovel::where('novel_id', $id)->delete();
 
         $this->inning_order($novel->novel_groups->id);
 
@@ -352,6 +355,67 @@ class NovelController extends Controller
         $novel->adult = 0;
         $novel->save();
 
+    }
+
+
+    public function make_open($id)
+    {
+        $novel = Novel::findOrFail($id);
+        $novel->open = 1;
+        $novel->save();
+
+        //Find open novels count
+        $open_novels_count = Novel::where(['novel_group_id' => $novel->novel_group_id, 'open' => '1'])->count();
+        //If only one novel is open send the novel group opened notification to all users who this novel_group
+        if ($open_novels_count == 1) {
+
+            //Find users who have made authors novel group favorite
+            $favorite_users = Favorite::select(['favorites.user_id'])->join('novel_groups', 'novel_groups.id', '=', 'favorites.novel_group_id')
+                ->where(['novel_groups.user_id' => Auth::User()->id])->distinct('user_id')->get();
+            //Store the new novel group notification
+            foreach ($favorite_users as $favorite_user) {
+                NovelGroupNotification::create([
+                    'user_id' => $favorite_user->user_id,
+                    'novel_group_id' => $novel->novel_group_id,
+                ]);
+            }
+
+            echo "here";
+            echo $novel->novel_groups->secret == null;
+            // if the novel group is not secret
+            if ($novel->novel_groups->secret == null) {
+                echo "event!!";
+                event(new NewSpeedEvent("novel", "소설 '" . $novel->novel_groups->title . "'의 " . $novel->inning . "회 신규 회차가 등록 되었습니다.", route('each_novel.novel_group_inning', ['id' => $novel->id]), "/img/novel_covers/" . $novel->novel_groups->cover_photo, $novel->novel_groups->id));
+            }
+
+        }
+
+    }
+
+    public function cancel_open($id)
+    {
+
+        $novel = Novel::findOrFail($id);
+        $novel->open = 0;
+        $novel->save();
+
+    }
+
+    //Make novel secret
+    public function secret($id)
+    {
+        $novel = Novel::findOrFail($id);
+        $novel->novel_secret = 1;
+        $novel->save();
+
+    }
+
+    //Make novel non-secret
+    public function non_secret($id)
+    {
+        $novel = Novel::findOrFail($id);
+        $novel->novel_secret = 0;
+        $novel->save();
     }
 
 }

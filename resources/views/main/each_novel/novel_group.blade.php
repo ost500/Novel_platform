@@ -12,7 +12,7 @@
 
                         <div class="post">
                             <div class="post-header">
-                                <h2 class="title">{{str_limit($novel_group->title, 35)}}</h2>
+                                <h2 class="title">{{$novel_group->title}}</h2>
 
                                 <p class="writer">{{$novel_group->nicknames->nickname }} <a
                                             href="{{ route('mails.create', ['id' => $novel_group->users->id]) }}"><i
@@ -20,7 +20,7 @@
 
                                 <p class="post-info">
                                     <span>@if(count($novel_group->keywords) >0) {{$novel_group->keywords[0]->name }} @endif</span>
-                                    <span>총{{$novel_group->max_inning}}화</span>
+                                    <span>총 {{$novel_group->novels->count()}}화</span>
                                     <span>조회수{{ $novel_group->getNovelGroupViewCount($novel_group->id)}}</span>
                                     <span>선호작 {{$novel_group->getNovelGroupFavoriteCount($novel_group->id)}} 명</span>
                                 </p>
@@ -28,12 +28,13 @@
                             <div class="post-content">
                                 <p>
                                     <?php echo nl2br(substr($novel_group->description, 0, 200))  ?>
-                                    @if(substr($novel_group->description, 150) )
+                                    @if(substr($novel_group->description, 200) )
                                         <button id="hide_button" class="more-btn hidden-content-view">더보기</button>
                                         <span id="hidden_content"
                                               class="hidden-content"> <?php echo nl2br(substr($novel_group->description, 200))  ?>
                                             <button v-on:click="description_hide()"
-                                                    class="less-btn show-content-view">줄여보기</button>
+                                                    class="less-btn show-content-view">줄여보기
+                                            </button>
                                         </span>
                                     @endif
 
@@ -42,8 +43,7 @@
                         </div>
                     </div>
                     <div class="novel-view">
-                        <a href="{{route('each_novel.novel_group.review',['id'=>$novel_group->id])}}"
-                           class="btn btn--special" style="width:140px;">독자추천 글쓰기</a>
+
                         @if($novel_group->novels->count() > 0)
                             <a href="{{route('each_novel.novel_group_inning',['id'=>$novel_group->novels[0]->id])}}"
                                class="btn btn--special">첫화보기</a>
@@ -57,7 +57,9 @@
                            v-show="add_favorite_disp"><i class="scrap-icon"></i>선호작추가</a>
                         <a href="#" class="is-active" v-on:click="removeFromFavorite()" id="remove_favorite"
                            v-show="remove_favorite_disp" display="none"><i class="scrap-active-icon"></i>선호작추가</a>
-                        <a href="#share_form" data-modal-id="share_form"><i class="share-icon"></i>공유하기</a>
+                        <a href="#" data-modal-id="share_form"><i class="share-icon"></i>공유하기</a>
+                        <a href="{{route('each_novel.novel_group.review',['id'=>$novel_group->id])}}"><i
+                                    class="recommendation-icon"></i>추천글쓰기</a>
                     </div>
                 </section>
                 <!-- //연재소개 -->
@@ -74,9 +76,10 @@
                                             <span class="no">{{ $recently_visited_novel->novels->inning }}화</span>
                                             <span class="datetime">{{$recently_visited_novel->novels->created_at->format('Y-m-d')}}</span>
                                         </div>
-                                        <div class="col-title"><a
+                                        <div class="col-title"> @if($recently_visited_novel->novels->novel_secret)<span
+                                                    style="color: #aaa4a1;"> 비밀글 입니다 </span>@else<a
                                                     href="{{route('each_novel.novel_group_inning',['id'=>$recently_visited_novel->novel_id])}}">{{str_limit($recently_visited_novel->novels->title,60)}}
-                                                <i class="up-icon">Up</i></a></div>
+                                                <i class="up-icon">Up</i></a>@endif</div>
                                         <div class="col-charge"><span class="open">열림</span></div>
                                     </li>
                                 </ul>
@@ -95,9 +98,9 @@
                                             <span class="no">{{$novel->inning}} 화</span>
                                             <span class="datetime">{{$novel->created_at->format('Y-m-d')}}</span>
                                         </div>
-                                        <div class="col-title"><a
-                                                    href="{{route('each_novel.novel_group_inning',['id'=>$novel->id])}}">{{str_limit($novel->title, 60)}}{{--<i
-                                                        class="up-icon">Up</i>--}}</a></div>
+                                        <div class="col-title"> @if($novel->novel_secret)<span style="color: #aaa4a1;"> 비밀글 입니다</span> @else
+                                                <a href="{{route('each_novel.novel_group_inning',['id'=>$novel->id])}}">{{str_limit($novel->title, 60)}}{{--<i
+                                                        class="up-icon">Up</i>--}}</a>   @endif</div>
                                         <div class="col-charge">@if($novel->non_free_agreement > 0) 유료 @else <span
                                                     class="free">무료</span> @endif {{-- <span class="open">열림</span>--}}
                                         </div>
@@ -170,7 +173,9 @@
                                 <h2 class="hash-tag-title">해시태그</h2>
                                 <ul class="hash-tag-list">
                                     @foreach($novel_group->hash_tags as $hash_tag)
-                                        <li><a href="#mode_nav">{{$hash_tag->tag}}</a></li>
+                                        <li>
+                                            <a href="{{ route('search')."?keyword_name=".$hash_tag->tag }}">{{$hash_tag->tag}}</a>
+                                        </li>
                                     @endforeach
 
                                 </ul>
@@ -180,7 +185,7 @@
                     </div>
                 </div>
                 <!-- //연재회차,작가다른작품,해시태그 -->
-
+                <input type="hidden" id="refresh" value="no">
             </div>
             <!-- //서브컨텐츠 -->
             <!-- 따라다니는퀵메뉴 -->
@@ -214,9 +219,9 @@
             this.checkFavorite();
         },
         methods: {
-            description_hide : function(){
-                $("#hidden_content").css('display','none');
-                $("#hide_button").css('display','inline');
+            description_hide: function () {
+                $("#hidden_content").css('display', 'none');
+                $("#hide_button").css('display', 'inline');
             },
 
             checkFavorite: function () {
@@ -261,6 +266,12 @@
 
     });
 
+    //To refresh the page on clicking back button
+   $(document).ready(function(e) {
+        var $input = $('#refresh');
+
+        $input.val() == 'yes' ? location.reload(true) : $input.val('yes');
+    });
 
 </script>
 

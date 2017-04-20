@@ -60,6 +60,7 @@ class PublishNovelGroupController extends Controller
             $new_publish_novel_group = new PublishNovelGroup();
             $new_publish_novel_group->novel_group_id = $request->novel_group;
             $new_publish_novel_group->user_id = Auth::user()->id;
+            $new_publish_novel_group->publish_adult = $request->publish_adult;
 
             $new_publish_novel_group->save();
         } else {

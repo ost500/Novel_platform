@@ -3,13 +3,14 @@
     <div id="content-container">
 
         <div id="page-title">
-            <h1 class="page-header text-overflow">제휴업체관리</h1>
+            <h1 class="page-header text-overflow">업체추가</h1>
         </div>
 
 
         <ol class="breadcrumb">
             <li><a href="#">어드민</a></li>
-            <li class="active"><a href="#">제휴업체관리</a></li>
+            <li><a href="#">제휴업체관리</a></li>
+            <li class="active"><a href="#">업체추가</a></li>
         </ol>
 
 
@@ -76,8 +77,8 @@
 
                             <div class="col-lg-11">
                             <label class="form-checkbox form-icon">
-                                <input type="checkbox" id="adult_allowance" name="adult_allowance"
-                                       @if(old('adult_allowance')) checked @endif>
+                                <input type="checkbox" id="adult_allowance" name="adult"
+                                       @if(old('adult')) checked @endif>
                             </label>
                             </div>
                         </div>

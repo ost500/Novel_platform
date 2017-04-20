@@ -148,21 +148,34 @@ class UserController extends Controller
             }
         }
 
+        $nickname = trim($request->nickname);
+        if ($user->nickname != $nickname) {
 
-        if ($user->nickname != $request->nickname) {
             Validator::make($request->all(), [
-                'nickname' => 'min:1|max:8',
+                'nickname' => 'required|min:1|max:8|regex:/^\S*$/u',
             ], [
+                'nickname.required' => '입력하세요',
                 'nickname.min' => '닉네임은 1자리 이상만 가능합니다',
                 'nickname.max' => '닉네임은 8자리 이하만 가능합니다',
+                'nickname.regex' => '닉네임에 공백이 들어갈 수 없습니다',
             ])->validate();
 
-
+            //check if nickname already exist or not
+            $nickname_already_exist = NickName::where('nickname', $nickname)->first();
+            if ($nickname_already_exist) {
+                $error = ['nickname' => $nickname . " 닉네임이 이미 존재 합니다."];
+                return redirect()->back()->withErrors($error);
+            }
             // if nickname refreshed
             if ($user->nickname_at > Carbon::now()->addMonth(1) || $user->nickname_at == null) {
+
+                //update in the nickname table also
+                NickName::where('nickname', $user->nickname)->update(['nickname' => $nickname]);
+
                 // if nickname edited time took more than 1 month || nickname first changed
-                $user->nickname = $request->nickname;
+                $user->nickname = $nickname;
                 $user->nickname_at = Carbon::now();
+
             } else {
                 // else editing now allowed
                 $error = ['nickname' => "닉네임은 2회부터 30일에 한번만 변경 가능합니다"];
@@ -243,10 +256,12 @@ class UserController extends Controller
             $user->auth_email = 1;
             $user->auth_mail_code = null;
             $user->save();
-            flash('이메일 인증에 성공했습니다. 로그인해 주세요');
+
             if (Auth::check()) {
+                flash('이메일 인증에 성공했습니다.');
                 return redirect()->route('my_info.edit');
             } else {
+                flash('이메일 인증에 성공했습니다. 로그인해 주세요');
                 return redirect()->route('root', ['login' => $user->name]);
             }
 
@@ -305,8 +320,36 @@ class UserController extends Controller
 
     public function search_by_name(Request $request)
     {
+        if ($request->get('name') != "") {
+            $user_names = User::select('id', 'name', 'email', 'nickname')
+                ->where(function ($q) use($request) {
+                    $q->where('nickname', 'like', $request->get('name') . '%')
+                        ->orWhere('name', 'like', $request->get('name') . '%');
+                }
+                )
+                ->where('id', '<>', Auth::user()->id)
+                ->get();
+        } else {
+            $user_names = "";
+        }
 
-        $user_names = User::select('id', 'name', 'email', 'nickname')->where('name', 'like', $request->get('name') . '%')->orWhere('email', 'like', $request->get('name') . '%')->get();
         return response()->json(['user_names' => $user_names, 'message' => 'ok']);
+    }
+
+    public function commissions_each(Request $request)
+    {
+
+        foreach ($request->all() as $item) {
+            $commission_user = User::find($item['id']);
+            if ($item['val'] == "") {
+                $commission_user->commission = null;
+            } else {
+                $commission_user->commission = (int)$item['val'];
+            }
+
+            $commission_user->save();
+        }
+
+        return $request->all();
     }
 }

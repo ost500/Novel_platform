@@ -5,13 +5,14 @@
     <div id="content-container" xmlns:v-on="http://www.w3.org/1999/xhtml">
 
         <div id="page-title">
-            <h1 class="page-header text-overflow">공지사항</h1>
+            <h1 class="page-header text-overflow">신고 리스트</h1>
         </div>
 
 
         <ol class="breadcrumb">
             <li><a href="#">어드민</a></li>
-            <li class="active">공지사항</li>
+            <li><a href="#">신고 관리</a></li>
+            <li class="active">신고 리스트</li>
         </ol>
 
 

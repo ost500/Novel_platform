@@ -4,13 +4,14 @@
     <div id="content-container">
 
         <div id="page-title">
-            <h1 class="page-header text-overflow">쪽지함</h1>
+            <h1 class="page-header text-overflow">보낸쪽지함</h1>
         </div>
 
 
         <ol class="breadcrumb">
             <li><a href="#">작가홈</a></li>
-            <li class="active"><a href="#">쪽지함</a></li>
+            <li><a href="#">쪽지함</a></li>
+            <li class="active" ><a href="#">보낸쪽지함</a></li>
         </ol>
 
 
@@ -43,7 +44,6 @@
                                 <th>제목</th>
                                 <th class="send">보낸시간</th>
 
-                                <th class="read">읽은시간</th>
                             </tr>
                             @foreach($novel_mail_messages as $novel_mail_message)
                                 <tr>
@@ -54,7 +54,7 @@
                                         </button>
                                     </td>
                                     <td class="from"><a
-                                                href="#">@if($novel_mail_message->users) {{$novel_mail_message->users->name}} @endif</a>
+                                                href="#">@if($novel_mail_message->users) {{$novel_mail_message->users->nickname}} @endif</a>
                                     </td>
                                     <td class="from"><a
                                                 href="#">@if($novel_mail_message->novel_groups){{$novel_mail_message->novel_groups->title}}@endif</a>
@@ -63,7 +63,6 @@
                                                 href="{{route('author.mailbox_send_message',['id'=> $novel_mail_message->id ])}}/?page={{$page}}">{{$novel_mail_message->subject}} </a>
                                     </td>
                                     <td class="send">{{$novel_mail_message->created_at}}</td>
-                                    <td class="read">읽은시간</td>
                                 </tr>
                             @endforeach
                             </tbody>

@@ -22,7 +22,7 @@
                         <th>구매일</th>
                         <th>작품명</th>
                         <th>구매내역</th>
-                        {{--<th>상태</th>--}}
+                        <th>상태</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -30,10 +30,15 @@
                         <tr>
                             <td class="col-datetime2">{{ $purchasedNovel->created_at }}</td>
                             <td class="col-subject"><a
-                                        href="{{ route('each_novel.novel_group_inning', ['id' => $purchasedNovel->novel_id]) }}">{{ $purchasedNovel->novels->title }}</a>
+                                        href="{{ route('each_novel.novel_group_inning', ['id' => $purchasedNovel->novel_id]) }}">{{ $purchasedNovel->novels->novel_groups->title }} {{$purchasedNovel->novels->inning}}
+                                    회차</a>
                             </td>
                             <td class="col-detail">1{{ $purchasedNovel->method }}</td>
-                            {{--<td class="col-state"><span class="is-cancel">취소</span></td>--}}
+                            @if($purchasedNovel->status)
+                                <td class="col-state"><span class="">승인</span></td>
+                            @else
+                                <td class="col-state"><span class="is-cancel">취소</span></td>
+                            @endif
                         </tr>
                     @endforeach
                     </tbody>

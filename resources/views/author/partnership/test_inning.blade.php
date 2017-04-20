@@ -6,13 +6,14 @@
          xmlns:v-on.enter="http://www.w3.org/1999/xhtml">
 
         <div id="page-title">
-            <h1 class="page-header text-overflow">연재신청내역</h1>
+            <h1 class="page-header text-overflow">회차별 심사</h1>
         </div>
 
 
         <ol class="breadcrumb">
-            <li><a href="#">어드민</a></li>
-            <li class="active">연재신청내역</li>
+            <li><a href="#">작가홈</a></li>
+            <li><a href="#">제휴연재신청</a></li>
+            <li class="active">회차별 심사</li>
         </ol>
 
 
@@ -140,7 +141,7 @@
 
                                                 </tr>
                                                 <tr>
-                                                    <td v-if="{{$apply_request->id }} == novel_show.id && novel_show.TF"> {{$apply_request->days.' 일 - '.$apply_request->novels_per_days.' 회차'  }}</td>
+                                                    <td v-if="{{$apply_request->id }} == novel_show.id && novel_show.TF"> {{$apply_request->days.' 일 마다 - '.$apply_request->novels_per_days.' 편씩 연재합니다.'  }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="3"

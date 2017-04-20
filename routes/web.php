@@ -41,22 +41,29 @@ Route::put('novelgroup/secret/{id}', ['as' => 'novelgroup.secret', 'uses' => 'No
 Route::put('novelgroup/non_secret/{id}', ['as' => 'novelgroup.non_secret', 'uses' => 'NovelGroupController@non_secret']);
 Route::post('novelgroup/clone_for_publish/{id}', ['as' => 'novelgroup.clone_for_publish', 'uses' => 'NovelGroupController@clone_for_publish']);
 Route::resource('novels', 'NovelController');
+
+Route::delete('novel_group_notifications/{id}', ['as' => 'novel_group_notifications.destroy', 'uses' => 'NovelGroupNotificationController@destroy']);
+Route::put('novels/make_open/{id}', ['as' => 'novels.make_open', 'uses' => 'NovelController@make_open']);
+Route::put('novels/cancel_open/{id}', ['as' => 'novels.cancel_open', 'uses' => 'NovelController@cancel_open']);
+Route::put('novels/secret/{id}', ['as' => 'novels.secret', 'uses' => 'NovelController@secret']);
+Route::put('novels/non_secret/{id}', ['as' => 'novels.non_secret', 'uses' => 'NovelController@non_secret']);
 Route::put('novels/update_agreement/{id}', ['as' => 'novels.update_agreement', 'uses' => 'NovelController@update_agreement']);
 Route::put('novels/make_adult/{id}', ['as' => 'novels.make_adult', 'uses' => 'NovelController@make_adult']);
 Route::put('novels/cancel_adult/{id}', ['as' => 'novels.cancel_adult', 'uses' => 'NovelController@cancel_adult']);
 Route::resource('reviews', 'ReviewController');
+Route::post('reviews/destroy_group', ['as' => 'reviews.destroy_group', 'uses' => 'ReviewController@destroy_group']);
 Route::resource('comments', 'CommentController');
 Route::resource('mentomen', 'MenToMenQuestionAnswerController');
 Route::resource('faqs', 'FaqController');
 Route::resource('favorites', 'FavoriteController', ['only' => ['store', 'destroy']]);
 Route::get('/favorites_login', ['as' => 'favorite.login', 'uses' => 'FavoriteController@login_auth']);
 
-Route::resource('free_board_likes', 'FreeBoardLikeController', ['only' => ['store', 'destroy']]);
+Route::resource('free_board_likes', 'FreeBoardLikeController');
 Route::resource('keywords', 'KeywordController');
 Route::get('popular_keywords', ['as' => 'popular_keywords', 'uses' => 'KeywordController@popular_keywords']);
 Route::resource('companies', 'CompanyController');
 Route::resource('publish_companies', 'NovelGroupPublishCompanyController', ['only' => ['update']]);
-Route::resource('presents', 'PresentController', ['only' => ['store','update']]);
+Route::resource('presents', 'PresentController', ['only' => ['store', 'update']]);
 Route::resource('pieces', 'PieceController', ['only' => ['store']]);
 
 Route::delete('maillogs/{id}', ['as' => 'maillog.destroy', 'uses' => 'MailLogController@destroy']);
@@ -110,9 +117,7 @@ Route::group(['prefix' => 'author'], function () {
     Route::get('calculations', ['as' => 'author.calculations', 'uses' => 'PageController\AuthorPageController@calculations']);
     Route::get('calculations/benefit', ['as' => 'author.benefit', 'uses' => 'PageController\AuthorPageController@benefit']);
     Route::get('calculations/{code_num}', ['as' => 'author.calculations_detail', 'uses' => 'PageController\AuthorPageController@calculations_detail']);
-
-
-
+    Route::get('calculations/benefit/{month}', ['as' => 'author.benefit.monthly', 'uses' => 'PageController\AuthorPageController@benefit_monthly']);
 
 
     Route::get('/management/create_novel/{id}', ['as' => 'author.inning', 'uses' => 'PageController\AuthorPageController@create_inning']);
@@ -204,6 +209,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/calculation/{id}/edit', ['as' => 'calculation.edit', 'uses' => 'PageController\AdminPageController@calculation_edit']);
     Route::put('/calculation/{id}', ['as' => 'calculation.update', 'uses' => 'CalculationController@update']);
     Route::get('/calculations', ['as' => 'calculation', 'uses' => 'PageController\AdminPageController@calculations']);
+    Route::get('/all_calculations', ['as' => 'calculation.all', 'uses' => 'PageController\AdminPageController@all_calculations']);
+    Route::get('/total_calculations', ['as' => 'calculation.total', 'uses' => 'PageController\AdminPageController@total_calculations']);
     Route::get('/calculations/code_num', ['as' => 'code_num', 'uses' => 'PageController\AdminPageController@code_num']);
     Route::get('/calculations/{id}', ['as' => 'calculation.eaches', 'uses' => 'PageController\AdminPageController@calculation_eaches']);
     Route::get('/calculations/{id}/run', ['as' => 'calculation.eaches.run', 'uses' => 'CalculationController@run']);
@@ -214,6 +221,10 @@ Route::group(['prefix' => 'admin'], function () {
     Route::put('/calculations/{id}/update_column_names', ['as' => 'calculation.update_column_names', 'uses' => 'CalculationController@updateColumnNames']);
     Route::get('calculations/download/{id}', ['as' => 'calculations_down', 'uses' => 'CalculationController@excel_down']);
     Route::get('/recommendations', ['as' => 'admin.recommendations', 'uses' => 'PageController\AdminPageController@recommendations']);
+    
+    Route::get('/commissions', ['as' => 'admin.commissions', 'uses' => 'PageController\AdminPageController@commissions']);
+    Route::post('/commissions_default', ['as' => 'admin.commissions_default', 'uses' => 'ConfigurationController@commissions_default']);
+    Route::post('/commissions_eaches', ['as' => 'admin.commissions_each', 'uses' => 'UserController@commissions_each']);
 
 });
 
@@ -232,6 +243,7 @@ Route::get('/footer_noti', ['as' => 'footer_noti', 'uses' => 'NotificationContro
 Route::group(['prefix' => 'community'], function () {
     Route::get('freeboard', ['as' => 'free_board', 'uses' => 'MainController\CommunityController@free_board']);
     Route::get('freeboard/{id}', ['as' => 'free_board.detail', 'uses' => 'MainController\CommunityController@free_board_detail']);
+    Route::get('freeboard_auth/{id}', ['as' => 'free_board_auth.detail', 'uses' => 'MainController\CommunityController@free_board_detail_auth']);
     // same url diffrent request for the redirection after login
 
     Route::get('freeboard_write', ['middleware' => 'auth', 'as' => 'free_board.write', 'uses' => 'MainController\CommunityController@free_board_write']);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\MainController;
 
 use App\Faq;
 use App\MenToMenQuestionAnswer;
+use Auth;
 use Illuminate\Http\Request;
 use App\Notification;
 use App\Http\Controllers\Controller;
@@ -17,7 +18,7 @@ class AskController extends Controller
     public function __construct()
     {
         $this->agent = new Agent();
-        $this->middleware('auth')->only('ask_question');
+        $this->middleware('auth')->only(['ask_question', 'questions']);
     }
 
     public function faqs(Request $request)
@@ -56,7 +57,7 @@ class AskController extends Controller
 
     public function questions()
     {
-        $questions = MenToMenQuestionAnswer::orderBy('created_at', 'desc')->paginate(config('define.pagination_long'));
+        $questions = MenToMenQuestionAnswer::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->paginate(config('define.pagination_long'));
         //Detect mobile
         if ($this->agent->isMobile()) {
             return view('mobile.ask.questions', compact('questions'));

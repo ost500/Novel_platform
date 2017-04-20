@@ -61,7 +61,8 @@
                                             <span class="writer">{{$comment->user_name}}</span></div>
                                         <div class="comment-btns">
                                             <a href="#mode_nav" v-on:click="comment_box_show({{$comment->id}})">수정</a>
-                                            <a href="#mode_nav" @if($comment->review_id) v-on:click="remove_comment('{{$comment->id}}','review')"
+                                            <a href="#mode_nav"
+                                               @if($comment->review_id) v-on:click="remove_comment('{{$comment->id}}','review')"
                                                @else v-on:click="remove_comment('{{$comment->id}}','free_board')" @endif >
                                                 삭제 </a>
                                         </div>
@@ -70,17 +71,24 @@
                                         </div>
                                         <div class="comment-content " id="comment_box{{$comment->id}}"
                                              v-if="display.id =={{$comment->id}} && display.status">
+                                            <div class="comment-form-wrap">
                                     <textarea name="comment" id="comment{{$comment->id}}" rows="3"
-                                              style="width:65%;">{{$comment->comment}}</textarea>
-
-                                            <button name="edit" id="edit{{$comment->id}}" @if($comment->review_id)
-                                            v-on:click="update_comment('{{$comment->id}}','review')"
-                                                    @else    v-on:click="update_comment('{{$comment->id}}','free_board')"
+                                              style="width:100%;">{{$comment->comment}}</textarea>
+                                                <div class="comment-form-btns">
+                                            <span class="submit">
+                                            <button name="edit" id="edit{{$comment->id}}"
+                                                    @if($comment->review_id)
+                                                    v-on:click="update_comment('{{$comment->id}}','review')"
+                                                    @else
+                                                    v-on:click="update_comment('{{$comment->id}}','free_board')"
                                                     @endif
-                                                    class="btn btn-primary inline"
-                                                    style="width:100px;height:51px;vertical-align: top;">
+                                                    class="btn"
+                                            >
                                                 수정
                                             </button>
+                                                </span>
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <div class="comment-etc-info">@if(!isset($filter) or $filter =='free_board_comments' )
@@ -138,7 +146,7 @@
                                 .then(function (response) {
                                     location.reload();
                                 }).catch(function (errors) {
-                           // console.log(errors);
+                            // console.log(errors);
                         });
                     }
                 },

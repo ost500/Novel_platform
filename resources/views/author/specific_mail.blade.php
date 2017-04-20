@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends(Auth::user()->name == "Admin" ? 'layouts.admin_layout' : 'layouts.app')
 @section('content')
 
     <div id="content-container">
@@ -10,6 +10,7 @@
 
         <ol class="breadcrumb">
             <li><a href="#">작가홈</a></li>
+            <li><a href="#">쪽지함</a></li>
             <li class="active"><a href="#">쪽지보내기</a></li>
         </ol>
 
@@ -38,7 +39,7 @@
                             <div class="col-lg-11">
                                 @if($user)
                                 <input type="text" name="to" id="to" class="form-control"
-                                       placeholder="제목" value="{{ $user->email}}">
+                                       placeholder="제목" value="{{ $user->nickname}}">
                                 @else
                                     <input type="text" name="to" id="to" class="form-control"
                                            placeholder="제목" value="{{old('to')}}">

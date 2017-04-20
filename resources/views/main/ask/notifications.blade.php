@@ -31,7 +31,7 @@
                             <td class="col-subject">
                                 <a href="{{route('ask.notification_detail',['id'=>$notification->id])}}">{{$notification->title}}</a>
                             </td>
-                            <td class="col-datetime">{{$notification->created_at}}</td>
+                            <td class="col-datetime">{{$notification->created_at->format('Y-m-d')}}</td>
                         </tr>
                     @endforeach
 

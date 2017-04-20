@@ -92,7 +92,7 @@
 
 /* ASIDE NAV */
 .aside-nav {
-   /* z-index: 2;*/
+    /* z-index: 2;*/
     position: absolute;
     right: -54px;
     top: 30px;
@@ -115,8 +115,8 @@ width: 0;
 .aside-nav.is-fixed .aside-menu {
     position: fixed;
     top: 118px;
-/*  width: 144px;
-    width: 132px;*/
+    /*  width: 144px;
+        width: 132px;*/
     width: 0;
 }
 
@@ -780,6 +780,8 @@ width: 0;
     color: #707070;
     font-size: 14px;
     line-height: 1.35em;
+    word-break: break-all;
+    max-height: 50px;
 }
 
 .novel-list .post .post-info {
@@ -1916,24 +1918,55 @@ width: 0;
     background: none;
 }
 
+.above_gotop-btn {
+
+
+
+
+
+}
+
 .episode-comment .gotop-btn {
-    box-sizing: border-box;
     position: absolute;
-    bottom: 0;
+   /* bottom: 0;*/
+    top:-1px;
     right: 0;
-    display: inline-block;
-    width: 60px;
     margin-right: -60px;
     margin-bottom: -1px;
-    padding: 15px;
-    border: 1px solid #e2d8d6;
-    background: #fff;
+    width: 60px;
+
+    display: inline-block;
+    box-sizing: border-box;
+
     color: #949494;
     font-family: 'ng';
     font-size: 15px;
     text-align: center;
     vertical-align: middle;
     text-transform: uppercase;
+
+    border: 1px solid #e2d8d6;
+    background: #fff;
+    padding: 15px;
+    /*top:342px;*/
+}
+
+.gototop_fixed_add {
+    /*position: fixed;*/
+}
+.gototop_fixed {
+
+    position: fixed;
+}
+.gotop-btn-fixed{
+    position: fixed;
+    top: 590px;
+    border: 1px solid #e2d8d6;
+    background: #fff;
+    /* width:87px;*/
+    padding: 15px;
+    text-align: center;
+
 }
 
 .episode-comment .gotop-btn .gotop-icon {
@@ -1993,6 +2026,7 @@ width: 0;
 }
 
 .novel-detail .post .post-header > .title {
+    width: 60%;
     color: #685f59;
     font-size: 32px;
     font-weight: 400;
@@ -2106,9 +2140,15 @@ width: 0;
     color: #ffcc00;
 }
 
+.novel-detail .scrap-btns a.recommendation-custom-icon {
+    color: #ffcc00;
+}
+
 .novel-detail .scrap-btns .scrap-icon,
 .novel-detail .scrap-btns .scrap-active-icon,
-.novel-detail .scrap-btns .share-icon {
+.novel-detail .scrap-btns .share-icon,
+.novel-detail .scrap-btns .recommendation-icon
+{
     position: relative;
     display: block;
     width: auto;
@@ -2117,9 +2157,12 @@ width: 0;
     vertical-align: middle;
 }
 
+
 .novel-detail .scrap-btns .scrap-icon:before,
 .novel-detail .scrap-btns .scrap-active-icon:before,
-.novel-detail .scrap-btns .share-icon:before {
+.novel-detail .scrap-btns .share-icon:before,
+.novel-detail .scrap-btns .recommendation-icon:before
+{
     margin: 0 auto;
 }
 
@@ -2653,7 +2696,7 @@ width: 0;
 }
 
 .bbs-list--payment .col-datetime2 {
-    width: 140px;
+    width: 150px;
     padding-left: 20px;
     font-size: 12px;
     text-align: left;
@@ -3417,6 +3460,7 @@ width: 0;
     z-index: 2;
     animation: smoothScroll 1s forwards;
 }
+
 @keyframes smoothScroll {
     0% {
         transform: translateY(-40px);
@@ -3449,12 +3493,16 @@ width: 0;
 
 .pre-next-fixed {
     position: fixed;
-    top: 217px;
-    width: 50%;
-    background-color: #fff;
+    top: 300px;
+    width: 952px;
     z-index: 2;
-    left: 476px;
+
 }
+
+.fixed-wrapper {
+}
+
+
 
 .other-novels {
     display: none;
@@ -3493,6 +3541,7 @@ width: 0;
     z-index: 2;
     background-color: #fff;
 }
+
 .fa.fa-heart {
     color: red;
 }

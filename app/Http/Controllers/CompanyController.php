@@ -57,10 +57,12 @@ class CompanyController extends Controller
 
         $input = $request->all();
         if ($request->adult == "on") {
-            $input['adult'] = true;
+            $input['adult'] = 1;
         } else {
-            $input['adult'] = false;
+            $input['adult'] = 0;
         }
+
+//        return response()->json($input);
 
         //if validation is passed then insert the record
         $company = Company::create($input);

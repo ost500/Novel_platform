@@ -9,6 +9,7 @@ use Auth;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Validator;
 
@@ -17,8 +18,9 @@ class CommentController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth')->only('store','update','destroy');
+        $this->middleware('auth')->only('store', 'update', 'destroy');
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -77,10 +79,10 @@ class CommentController extends Controller
         ])->validate();
 
 
-       //if commenting is blocked then redirect
+        //if commenting is blocked then redirect
         if (Auth::user()->isCommentBlocked()) {
-           flash('댓글 기능이 관리자에 의해 금지 됐습니다','danger');
-            return response()->json(['error'=>1,'message' => '댓글 기능이 관리자에 의해 금지 됐습니다']);
+            flash('댓글 기능이 관리자에 의해 금지 됐습니다', 'danger');
+            return response()->json(['error' => 1, 'message' => '댓글 기능이 관리자에 의해 금지 됐습니다']);
         }
 
         $new_comment = new Comment();
@@ -90,7 +92,8 @@ class CommentController extends Controller
         $new_comment->comment_secret = $request->comment_secret;
         $new_comment->user_id = Auth::user()->id;
         $new_comment->save();
-        return response()->json(['error'=>0,'status' => 'ok']);
+
+        return response()->json(['error' => 0, 'status' => 'ok']);
 
 
     }
@@ -101,32 +104,29 @@ class CommentController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $group_novel = NovelGroup::find($id)->novels;
 
         $groups_comments = new Collection();
 
-        $comments_count = 0;
 
-        foreach ($group_novel as $novel) {
-            foreach ($novel->comments as $comment) {
-                if ($comment->parent_id == 0) {
-                    $comments_count++;
-                    //부모가 없는 댓글들만 불러온다
-                    $single_comment = $comment->myself;
-                    $single_comment->put('children', $comment->children);
-                    $comments_count += $comment->children->count();
-                    //자식들을 달아준다
-                    $groups_comments->push($single_comment);
-                    //콜렉션에 넣어준다
-                }
-            }
-        }
-//        $groups_comments = new Paginator($groups_comments, 2);
+        $groups_comments = Comment::join('novels', 'novels.id', '=', 'comments.novel_id')
+            ->selectRaw('comments.created_at, comments.*, novels.novel_group_id')
+            ->where('novel_group_id', $id)->where('parent_id', 0)->orWhere('parent_id', null)
+            ->latest()
+            ->with('children')->with('users')->with('novels')
+            ->paginate(5);
 
 
-//        return response()->json($groups_comments);
+        $comments_count = $groups_comments->total();
+
+
+//        $groups_comments = $groups_comments->sortByDesc('created_at');
+
+//        $groups_comments = new LengthAwarePaginator($groups_comments->forPage($request->page, 2), $comments_count, 2, $request->page);
+
+//        return response()->json([$comments_count, $groups_comments]);
         return view('author.group_comments', compact('groups_comments', 'comments_count'));
     }
 
@@ -160,10 +160,8 @@ class CommentController extends Controller
 
         Comment::where('id', $id)->update([
             'comment' => $request->get('comment'),
-            'comment_secret' => $request->get('comment_secret'),
-
         ]);
-        flash('댓글이 수정 되었습니다.','success');
+        flash('댓글이 수정 되었습니다.', 'success');
         return response()->json(['status' => 'ok']);
     }
 

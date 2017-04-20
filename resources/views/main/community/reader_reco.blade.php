@@ -27,9 +27,9 @@
                            @if(($genre == '시대로맨스'))class="is-active lnb-depth1-2"
                            @else class="lnb-depth1-2"@endif>시대로맨스</a>
 
-                        <a href="{{route('reader_reco')}}?genre=서양역사"
-                           @if(($genre=='서양역사'))class="is-active lnb-depth1-2"
-                           @else class="lnb-depth1-2"@endif>서양역사</a>
+                        <a href="{{route('reader_reco')}}?genre=로맨스판타지"
+                           @if(($genre=='로맨스판타지'))class="is-active lnb-depth1-2"
+                           @else class="lnb-depth1-2"@endif>로맨스판타지</a>
                     </li>
 
 
@@ -47,15 +47,7 @@
                 </div>
                 @endif
                         <!-- 작품목록 -->
-                <div class="sort-nav sort-nav--novel">
-                    <div style="float:left;margin-left: 10px;">
-                        @if($novel_group_id){{$reviews[0]->title}}의 다른 리뷰들 @endif
-                        @if($review_user_id){{$reviews[0]->user_name}}님의 리뷰들@endif
-                    </div>
-                    <div style="float:right;margin-right: 10px;">
-                        {{--  {{$reviews->Total()}}개의 결과물--}}
-                    </div>
-                </div>
+
                 <ul class="novel-list">
                     @foreach ($reviews as $review)
                         <li>
@@ -70,7 +62,7 @@
                                                 href="{{ route('reader_reco.detail', ['id' => $review->id]) }}">{{$review->review_title}}</a></strong>
                                     <span class="writer">{{$review->users->nickname}}</span>
                                 </div>
-                                <p class="post-content">{{ $review->review }}</p>
+                                <p class="post-content">{{ str_limit($review->review, 260) }}</p>
 
                                 <p class="post-info">
                                     @foreach ($review->novel_groups->keywords as $keyword)

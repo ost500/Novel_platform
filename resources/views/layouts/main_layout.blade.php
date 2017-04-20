@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/front/css/font/nanum_barun_gothic.css" type="text/css">
     <link rel="stylesheet" href="/front/css/font/nanum_gothic.css" type="text/css">
     <link rel="stylesheet" href="/front/css/font/nanum_myeongjo.css" type="text/css">
-    <link rel="stylesheet" href="/front/css/icons.css" type="text/css">
+    <link rel="stylesheet" href="/front/css/icons.css?v=6" type="text/css">
     <link rel="stylesheet" href="/front/css/style.css?v={{time()}}" type="text/css">
     <link rel="stylesheet" href="/front/css/sub.css?v={{time()}}" type="text/css">
     <link rel="stylesheet" href="/front/css/main.css?v={{time()}}" type="text/css">
@@ -43,7 +43,7 @@
     </ul>
 </div>
 <!-- //모드 -->
-<!-- 헤더 -->
+<!-- small 헤더 -->
 <header style="z-index: 10;display:none" id="small_header" class="header fixed">
 
     <div class="header-top wrap header-top-scroll" id="header1">
@@ -68,18 +68,26 @@
                                     <ul class="myinfo-nav clr">
                                         <li class="link1"
                                             onclick="location.href = '{{ route('my_info.charge_bead') }}';">
-                                            <a href="{{ route('my_info.charge_bead') }}">
+                                            <a style="color:#998878" href="{{ route('my_info.charge_bead') }}">
                                                 보유구슬<br>
+                                            </a>
+                                            <a href="{{ route('my_info.charge_bead') }}">
                                                 {{ Auth::user()->bead }}개</a>
                                         </li>
                                         <li class="link2" onclick="location.href = '{{ route('my_page.favorites') }}';">
 
+                                            <a style="color:#998878" href="{{ route('my_page.favorites') }}">
+                                                선호작<br>
+                                            </a>
                                             <a href="{{ route('my_page.favorites') }}">
-                                                선호작<br>@{{ user1.favorites_count }}작품</a>
+                                                @{{ user1.favorites_count }}작품</a>
                                         </li>
                                         <li class="link3" onclick="location.href = '{{ route('my_page.index') }}';">
 
-                                            <a href="{{route('my_page.index')}}">MY정보<br>관리하기</a>
+                                            <a style="color:#998878" href="{{route('my_page.index')}}">MY정보<br>
+                                            </a>
+                                            <a href="{{ route('my_page.index') }}">
+                                                관리하기</a>
                                         </li>
                                     </ul>
                                     <div class="logout-btn"><a href="{{url('/logout')}}" onclick="event.preventDefault();
@@ -171,8 +179,8 @@
                 @else
                 <!-- 방문자버튼 -->
 
-                    <a href="#mode_nav" class="userbtn userbtn--login" data-modal-id="login_form1"
-                       @if($errors->has('name') || $errors->has('password') || isset($login) || isset($loginView) || session('login')) data-modal-start @endif >로그인</a>
+                    <a href="#mode_nav" class="userbtn userbtn--login" data-modal-id="login_form"
+                    >로그인</a>
 
                 @endif
             </div>
@@ -180,7 +188,7 @@
 
             <!-- 검색버튼 -->
             <div class="search-area">
-                <a href="#" id="back_to_top" class="userbtn userbtn--search">검색</a>
+                <a data-modal-id="search_form" class="userbtn userbtn--search">검색</a>
                 <a href="{{ route('my_page.favorites') }}" class="userbtn userbtn--scrap-active">선호작</a>
             </div>
         </div>
@@ -282,7 +290,8 @@
                             @endif
                         </div>
                         <div class="field">
-                            <input id="password" type="text" class="text2" title="비밀번호" name="password" required
+                            <input id="password" pattern="[A-Za-z0-9]" type="text" class="text2" title="비밀번호"
+                                   name="password" required
                                    placeholder="비밀번호(4~16자리)" autocomplete="off"
                                    style="text-security:disc; -webkit-text-security:disc; -mox-text-security:disc;"/>
 
@@ -333,7 +342,7 @@
                 <div class="search-form-basic">
                     <strong class="search-form-title">일반검색</strong>
                     <span class="selectbox">
-                        <span class="show-arrow"></span>
+                        <span class=""></span>
                         <select title="검색옵션" name="search_type" id="search_type">
                             <option value="전체">전체</option>
                             <option value="소설">소설</option>
@@ -367,11 +376,11 @@
             </fieldset>
         </form>
     </div>
-@yield('header')
-<!-- //통합검색모달 -->
+
+    <!-- //통합검색모달 -->
 </header>
 <!-- //헤더 -->
-<!-- 헤더 -->
+<!-- small 헤더 -->
 <header class="header">
 
     <div class="header-top wrap" id="header">
@@ -392,22 +401,31 @@
                             <!-- 마이페이지팝업 -->
                             <section class="layer-popup layer-popup--myinfo">
                                 <div class="inner">
-                                    <h2 class="myinfo-user-name">@{{ user.name.toString() }}</h2>
+                                    <h2 class="myinfo-user-name">@{{ user.nickname.toString() }}</h2>
                                     <ul class="myinfo-nav clr">
                                         <li class="link1"
                                             onclick="location.href = '{{ route('my_info.charge_bead') }}';">
-                                            <a href="{{ route('my_info.charge_bead') }}">
+                                            <a style="color:#998878" href="{{ route('my_info.charge_bead') }}">
                                                 보유구슬<br>
+                                            </a>
+                                            <a href="{{ route('my_info.charge_bead') }}">
                                                 {{ Auth::user()->bead }}개</a>
                                         </li>
                                         <li class="link2" onclick="location.href = '{{ route('my_page.favorites') }}';">
 
+                                            <a style="color:#998878" href="{{ route('my_page.favorites') }}">
+                                                선호작<br>
+                                            </a>
                                             <a href="{{ route('my_page.favorites') }}">
-                                                선호작<br>@{{ user.favorites_count }}작품</a>
+                                                @{{ user.favorites_count }}작품</a>
                                         </li>
                                         <li class="link3" onclick="location.href = '{{ route('my_page.index') }}';">
 
-                                            <a href="{{route('my_page.index')}}">MY정보<br>관리하기</a>
+                                            <a style="color:#998878" href="{{route('my_page.index')}}">MY정보<br>
+                                            </a>
+                                            <a href="{{ route('my_page.index') }}">
+                                                관리하기
+                                            </a>
                                         </li>
                                     </ul>
                                     <div class="logout-btn"><a href="{{url('/logout')}}" onclick="event.preventDefault();
@@ -611,7 +629,7 @@
                             @endif
                         </div>
                         <div class="field">
-                            <input id="password" type="text" class="text2" title="비밀번호" name="password" required
+                            <input id="password_real" type="password" class="text2" title="비밀번호" name="password" required
                                    placeholder="비밀번호(4~16자리)" autocomplete="off"
                                    style="text-security:disc; -webkit-text-security:disc; -mox-text-security:disc;"/>
 
@@ -662,7 +680,7 @@
                 <div class="search-form-basic">
                     <strong class="search-form-title">일반검색</strong>
                     <span class="selectbox">
-                        <span class="show-arrow"></span>
+                        <span class=""></span>
                         <select title="검색옵션" name="search_type" id="search_type">
                             <option value="전체">전체</option>
                             <option value="소설">소설</option>
@@ -729,10 +747,9 @@
             <p>
                 여우정원의 모든 글은 작성자의 허락없이 타사이트에 게시할 수 없습니다.<br>
                 소설을 파일로 변환하여 공유, 또는 전송행위는 저작권법에 의거 고발될 수 있습니다.<br>
-                ㈜여우정원 / 대표 고광택 / 사업자 등록번호 123-45-78901 / 통신판매업 제 2016-서울강남-123호<br>
-                서울시 강남구 역삼동 123-4 여우빌딩 5층<br>
-                개인정보관리책임자 security@foxygarden.com<br>
-                Copyright ⓒ foxygarden co.,Ltd. All Rights Reserved.
+                주식회사 소울에임 | 대표이사 : 고광택 | 주소 : 대구 수성구 지범로 196, 3동<br>
+                사업자등록번호 : 881-86-00572 | 통신판매업 신고번호 : 제 2016-대구수성구-0655 호 <br>
+                Copyright Soulaim inc. All rights reserved
             </p>
         </div>
         <!-- //푸터사이트정보 -->
@@ -784,6 +801,8 @@
 
 
 <script type="text/javascript">
+
+
 
 
     var search_form_small = new Vue({
@@ -876,7 +895,7 @@
 
         data: {
             user: {
-                "name": "@if(Auth::check()){{ Auth::user()->name }}@endif",
+                "nickname": "@if(Auth::check()){{ Auth::user()->nickname }}@endif",
                 "favorites_count": "@if(Auth::check()){{ Auth::user()->favorites->count() }}@endif"
             },
             new_speeds: "",
@@ -975,153 +994,145 @@
      $('#search_type').trigger('click');
      });
      */
-
+    $('#more_btns_open1').on('click', function () {
+        if (!$(this).hasClass('is-active')) {
+            $('#more_btns_open1').addClass('is-active');
+        } else {
+            $('#more_btns_open1').removeClass('is-active');
+        }
+    });
     $(window).scroll(function () {
 
 
         if ('{{ !Request::is('novel_group_inning/*')}}' || '{{Request::is('novel_group_inning/*/purchase')}}') {
 
             //fix the main header
-            fix_header();
-        }
-
-        //function to fix header
-        function fix_header() {
-            if ($(this).scrollTop() > 10 && $('#main_search').hasClass('is-active')) {
-                var modal_bg = $('#modal_bg');
-                var modal = $('#search_form');
-                modal_bg.fadeTo(250, 0, function () {
-                    $(this).hide();
-                    $('html').removeClass('is-modal');
-                });
-                modal.removeClass('modal-popup').add(this).removeClass('is-active');
-                $('#main_search').removeClass('is-active');
 
 
-            }
+            //function to fix header
+
             if ($(this).scrollTop() > 100) {
 
                 $("#small_header").show();
+                $('.login-modal').css('top', '125px');
+                $('.search-modal').css('top', '125px');
+                $('.share-modal').css('top', 89 + $(this).scrollTop());
 
             }
             else {
                 $("#small_header").hide();
-
+                $('.login-modal').css('top', '');
+                $('.search-modal').css('top', '');
+                $('.share-modal').css('top', '');
             }
         }
 
         /**
          * 사용자버튼 더보기
          */
-        $('#more_btns_open1').on('click', function () {
-            if (!$(this).hasClass('is-active')) {
-                $('#more_btns_open1').addClass('is-active');
-            } else {
-                $('#more_btns_open1').removeClass('is-active');
-            }
-        });
 
         //On small header when click on search icon scroll back to top and show the search box
-        $('#back_to_top').on('click', function (e) {
-            e.preventDefault();
-            //scroll up
-            $("html, body").animate({scrollTop: 0}, 500, function () {
+//        $('#back_to_top').on('click', function (e) {
+//            e.preventDefault();
+//            //scroll up
+//            $("html, body").animate({scrollTop: 0}, 500, function () {
+//
+//            });
+//
+//            $("html, body").on("scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove", function () {
+//                $("html, body").stop();
+//
+//            });
+//
+//            //Wait a second and show search box
+//            setTimeout(function x() {
+//                //Change the seach icon to cross icon
+//                $('#main_search').addClass('is-active');
+//                //Show the modal
+//                var is_fullsize_modal = false;
+//                // var modal = $( '#'+$(this).data('modal-id') );
+//                var modal = $('#search_form');
+//                if ($(this).is('[data-modal-fullsize]')) {
+//                    is_fullsize_modal = true;
+//                } else {
+//                    is_fullsize_modal = false;
+//                }
+//
+//                if (!$('html').hasClass('is-modal')) {
+//                    show_modal_bg();
+//                    modal.addClass('modal-popup').add(this).addClass('is-active');
+//                    if (is_fullsize_modal) {
+//                        modal.fadeTo(500, 1, 'easeOutCubic');
+//                    } else {
+//                        modal.height(modal.children().height());
+//                    }
+//                    modal_tab(e);
+//                }
+//
+//                // 닫기버튼
+//                /*  $('[data-modal-close]').on('click', function(e) {
+//                 e.preventDefault();
+//                 var opener_id = $(this).closest('.modal-popup').attr('id');
+//                 close_modal($('[data-modal-id="'+opener_id+'"]'));
+//                 });*/
+//                // 팝업 자동열기
+//                // $('[data-modal-start]').trigger('click');
+//
+//                // 모달닫기
+//                function hide_modal_bg() {
+//                    var modal_bg = $('#modal_bg');
+//                    modal_bg.fadeTo(250, 0, function () {
+//                        $(this).hide();
+//                        $('html').removeClass('is-modal');
+//                    });
+//                }
+//
+//                // 모달열기
+//                function show_modal_bg() {
+//                    if ($('#modal_bg').length == 0) {
+//                        $('<div id="modal_bg" class="modal-bg"><span></span></div>').appendTo('body');
+//                    }
+//
+//                    var modal_bg = $('#modal_bg');
+//                    // fullsize modal
+//                    if (is_fullsize_modal == true) {
+//                        modal_bg.addClass('modal-bg--fullsize');
+//                    } else {
+//                        modal_bg.removeClass('modal-bg--fullsize');
+//                    }
+//                    $('html').addClass('is-modal');
+//                    modal_bg.stop().show().fadeTo(400, 1, 'easeOutCubic');
+//                }
+//
+//                // 팝업닫기
+//                function close_modal(el) {
+//                    hide_modal_bg();
+//                    // fullsize modal
+//                    if (is_fullsize_modal == true) {
+//                        $('.modal-popup.is-active').stop().clearQueue().fadeTo(500, 0, 'easeOutCubic', function () {
+//                            $(this).hide()
+//                        });
+//                    }
+//                    $('.modal-popup.is-active').add('[data-modal-id].is-active').removeClass('is-active');
+//
+//                    if (typeof(el) != 'undefined' && typeof(el.trigger) != 'undefined') {
+//                        el.trigger('focus');
+//                    }
+//                }
+//
+//                // 모달 탭이동관리
+//                function modal_tab(e) {
+//                    $(document).one('focusin', function (e) {
+//                        if (!$(e.target).closest('.modal-popup.is-active').length) {
+//                            $('.modal-popup.is-active').trigger('focus');
+//                        }
+//                    });
+//                }
+//
+//
+//            }, 1000);
+//        });
 
-            });
-
-            $("html, body").on("scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove", function(){
-                $("html, body").stop();
-
-            });
-
-            //Wait a second and show search box
-            setTimeout(function x() {
-                //Change the seach icon to cross icon
-                $('#main_search').addClass('is-active');
-                //Show the modal
-                var is_fullsize_modal = false;
-                // var modal = $( '#'+$(this).data('modal-id') );
-                var modal = $('#search_form');
-                if ($(this).is('[data-modal-fullsize]')) {
-                    is_fullsize_modal = true;
-                } else {
-                    is_fullsize_modal = false;
-                }
-
-                if (!$('html').hasClass('is-modal')) {
-                    show_modal_bg();
-                    modal.addClass('modal-popup').add(this).addClass('is-active');
-                    if (is_fullsize_modal) {
-                        modal.fadeTo(500, 1, 'easeOutCubic');
-                    } else {
-                        modal.height(modal.children().height());
-                    }
-                    modal_tab(e);
-                }
-
-            // 닫기버튼
-            /*  $('[data-modal-close]').on('click', function(e) {
-             e.preventDefault();
-             var opener_id = $(this).closest('.modal-popup').attr('id');
-             close_modal($('[data-modal-id="'+opener_id+'"]'));
-             });*/
-            // 팝업 자동열기
-            // $('[data-modal-start]').trigger('click');
-
-            // 모달닫기
-            function hide_modal_bg() {
-                var modal_bg = $('#modal_bg');
-                modal_bg.fadeTo(250, 0, function () {
-                    $(this).hide();
-                    $('html').removeClass('is-modal');
-                });
-            }
-
-            // 모달열기
-            function show_modal_bg() {
-                if ($('#modal_bg').length == 0) {
-                    $('<div id="modal_bg" class="modal-bg"><span></span></div>').appendTo('body');
-                }
-
-                var modal_bg = $('#modal_bg');
-                // fullsize modal
-                if (is_fullsize_modal == true) {
-                    modal_bg.addClass('modal-bg--fullsize');
-                } else {
-                    modal_bg.removeClass('modal-bg--fullsize');
-                }
-                $('html').addClass('is-modal');
-                modal_bg.stop().show().fadeTo(400, 1, 'easeOutCubic');
-            }
-
-            // 팝업닫기
-            function close_modal(el) {
-                hide_modal_bg();
-                // fullsize modal
-                if (is_fullsize_modal == true) {
-                    $('.modal-popup.is-active').stop().clearQueue().fadeTo(500, 0, 'easeOutCubic', function () {
-                        $(this).hide()
-                    });
-                }
-                $('.modal-popup.is-active').add('[data-modal-id].is-active').removeClass('is-active');
-
-                if (typeof(el) != 'undefined' && typeof(el.trigger) != 'undefined') {
-                    el.trigger('focus');
-                }
-            }
-
-            // 모달 탭이동관리
-            function modal_tab(e) {
-                $(document).one('focusin', function (e) {
-                    if (!$(e.target).closest('.modal-popup.is-active').length) {
-                        $('.modal-popup.is-active').trigger('focus');
-                    }
-                });
-            }
-
-
-        }, 1000);
-        });
 
         function close_modal(el) {
             hide_modal_bg();

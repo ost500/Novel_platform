@@ -9,8 +9,9 @@
 
 
         <ol class="breadcrumb">
+            <li><a href="#">어드민</a></li>
             <li><a href="#">신고 관리</a></li>
-            <li class="active"><a href="#">신고</a></li>
+            <li class="active">신고 관리</li>
         </ol>
 
 
@@ -68,9 +69,7 @@
                             </tr>
 
                             <tr>
-                                <td class="text-center col-md-2"><a
-                                            href="user/{{ $user->id }}">{{ $user->name }}</a>
-                                </td>
+                                <td class="text-center col-md-2">{{ $user->name }} </td>
                                 <td class="text-center">{{ $user->email }}</td>
                                 <td class="text-center">{{ $user->phone_num }}</td>
                                 <td class="text-center">{{ $user->created_at }}</td>

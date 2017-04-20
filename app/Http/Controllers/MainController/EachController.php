@@ -13,6 +13,7 @@ use App\NovelGroup;
 use App\Novel;
 use Auth;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Routing\Redirector;
 use Session;
 use Jenssegers\Agent\Agent;
@@ -30,12 +31,13 @@ class EachController extends Controller
     {
 
         $novel_group = NovelGroup::where('id', $id)->with('users')->with('keywords')->with('hash_tags')->with(['novels' => function ($query) {
-            $query->orderBy('inning', 'desc');
+            $query->where('open', true)->orderBy('inning', 'desc');
         }])->with('nicknames')->first();
         //if user is logged in then get his recently visited novel
         if (Auth::check()) {
             //$favorite_display=$novel_group->checkUserFavourite($novel_group->id);
-            $recently_visited_novel = RecentlyVisitedNovel::where(['user_id' => Auth::user()->id, 'novel_group_id' => $novel_group->id])->with('novels')->first();
+            $recently_visited_novel = RecentlyVisitedNovel::where(['recently_visited_novels.user_id' => Auth::user()->id, 'recently_visited_novels.novel_group_id' => $novel_group->id])
+                ->join('novels', 'novels.id', '=', 'recently_visited_novels.novel_id')->where('open', true)->with('novels')->first();
         } else {
             //$favorite_display=false;
             $recently_visited_novel = '';
@@ -70,19 +72,32 @@ class EachController extends Controller
     public function novel_group_inning(Request $request, $novel_id)
     {
 
-        $increment = true;
 
+        $novel = Novel::where('id', $novel_id)->first();
+
+        //redirect to login if inning is greater than 2 and user is not logged in
+        if (!Auth::check()) {
+            if ($novel->inning > 2) {
+                return redirect()->guest('login');
+            }
+        }
+
+        $increment = true;
+        $page = $request->page;
         //Get the session data and Check if session has data i.e viewed novels
         $viewed_novels = Session::get('viewed_novels');
-
         if ($viewed_novels) {
+
             //if novel id exist in the session already viewed set increment to false
             foreach ($viewed_novels as $viewed_novel) {
-                if ($viewed_novel == $novel_id) {
+                if ($viewed_novel == $novel_id or $novel->user_id == Auth::user()->id) {
 
                     $increment = false;
                 }
             }
+        } else if (Auth::check()) {
+
+            ($novel->user_id == Auth::user()->id) ? $increment = false : $viewed_novels = array();
         } else {
             $viewed_novels = array();
         }
@@ -90,7 +105,7 @@ class EachController extends Controller
         if ($increment) {
 
             //increase the view counts
-            $novel = Novel::where('id', $novel_id)->first();
+
             $today_count = $novel->today_count = $novel->today_count + 1;
             $this_week_count = $novel->week_count = $novel->week_count + 1;
             $this_month_count = $novel->month_count = $novel->month_count + 1;
@@ -174,7 +189,10 @@ class EachController extends Controller
 
             }
         }
+        // 한 페이지당 댓글 길이를 바꾸려면 forPage메서드 안에 두번째 파라미터 숫자와 Length.. 3번째 파라미터 숫자를 동시에 바꿔야 한다
+        $novel_group_inning_comments = new LengthAwarePaginator($novel_group_inning_comments->forPage($request->page, 10), $novel_group_inning_comments->count(), 10, $request->page);
 
+//        return response()->json([$novel_group_inning_comments->count(), $novel_group_inning_comments]);
 // dd($novel_group_inning_comments);
 //Social Share
         $share = new Share();
@@ -203,10 +221,10 @@ class EachController extends Controller
 
         //Detect mobile
         if ($this->agent->isMobile()) {
-            return view('mobile.each_novel.novel_group_inning', compact('novel_group_inning', 'novel_group_inning_comments', 'show_favorite', 'share', 'next_inning_id', 'prev_inning_id', 'order'));
+            return view('mobile.each_novel.novel_group_inning', compact('novel_group_inning', 'novel_group_inning_comments', 'show_favorite', 'share', 'next_inning_id', 'prev_inning_id', 'order', 'page'));
         }
 
-        return view('main.each_novel.novel_group_inning', compact('novel_group_inning', 'novel_group_inning_comments', 'show_favorite', 'share', 'next_inning_id', 'prev_inning_id', 'order'));
+        return view('main.each_novel.novel_group_inning', compact('novel_group_inning', 'novel_group_inning_comments', 'show_favorite', 'share', 'next_inning_id', 'prev_inning_id', 'order', 'page'));
     }
 
     public function novel_group_review($novel_group_id)

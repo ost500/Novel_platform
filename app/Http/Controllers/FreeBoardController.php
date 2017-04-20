@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\FreeBoard;
 use Illuminate\Http\Request;
 use Validator;
-
+use Auth;
 class FreeBoardController extends Controller
 {
     public function __construct()
@@ -31,6 +31,13 @@ class FreeBoardController extends Controller
             'content.required' => '내용은 필수 입니다.',
 
         ])->validate();
+
+
+        //if posting is blocked then redirect back with error
+        if (Auth::user()->isPostingBlocked()) {
+            $error='글쓰기가 관리자에 의해 차단 됐습니다';
+            return redirect()->back()->withErrors($error);
+        }
 
         $request->user()->free_boards()->create($request->all());
         flash('자유게시판 글이 성공적으로 등록 되었습니다');

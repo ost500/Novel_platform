@@ -10,6 +10,7 @@
 
         <ol class="breadcrumb">
             <li><a href="#">작가홈</a></li>
+            <li><a href="#">선물</a></li>
             <li class="active"><a href="#">보낸 선물 내역</a></li>
         </ol>
 
@@ -38,9 +39,8 @@
                             <tbody>
                             <tr>
                                 <th class="send">보낸 날짜</th>
-                                <th class="from">보낸사람</th>
-                                <th class="from">보낸 선물</th>
-                                <th>상태</th>
+                                <th class="from">받는 사람</th>
+                                <th>보낸 갯수</th>
                             </tr>
                             @if($presents->count() == 0)
                                 <tr>
@@ -48,11 +48,11 @@
                                 </tr>
                             @endif
                             @foreach ($presents as $present)
-                               <tr>
+                                <tr>
 
                                     <td class="from">{{ $present->created_at }}</td>
-                                    <td class="from">{{ $present->content }}</td>
                                     <td class="from">{{ $present->users->name }}</td>
+
                                     <td class="from">{{ $present->numbers }}</td>
                                 </tr>
                             @endforeach
